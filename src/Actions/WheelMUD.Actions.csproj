@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A2A4F82C-F885-4E71-82A8-8BFFAA771105}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WheelMUD.Actions</RootNamespace>
+    <AssemblyName>WheelMUD.Actions</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>..\..\binDebug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\..\binRelease\</OutputPath>
+    <Optimize>True</Optimize>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Management" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Activities\Emote.cs" />
+    <Compile Include="Activities\Quit.cs" />
+    <Compile Include="Activities\Rest.cs" />
+    <Compile Include="Activities\RollDie.cs" />
+    <Compile Include="Activities\Sleep.cs" />
+    <Compile Include="Activities\StandUp.cs" />
+    <Compile Include="Activities\WakeUp.cs" />
+    <Compile Include="Admin\Announce.cs" />
+    <Compile Include="Admin\Ban.cs" />
+    <Compile Include="Admin\Boot.cs" />
+    <Compile Include="Admin\Clone.cs" />
+    <Compile Include="Admin\GoTo.cs" />
+    <Compile Include="Admin\Jail.cs" />
+    <Compile Include="Admin\Control.cs" />
+    <Compile Include="Admin\Locate.cs" />
+    <Compile Include="Admin\Mute.cs" />
+    <Compile Include="Admin\Relinquish.cs" />
+    <Compile Include="Admin\RoleGrant.cs" />
+    <Compile Include="Admin\RoleRevoke.cs" />
+    <Compile Include="Admin\Spawn.cs" />
+    <Compile Include="Admin\Unmute.cs" />
+    <Compile Include="Commercial\Account.cs" />
+    <Compile Include="Commercial\ShopBuy.cs" />
+    <Compile Include="Commercial\ShopList.cs" />
+    <Compile Include="Commercial\ShopSell.cs" />
+    <Compile Include="Communicate\Reply.cs" />
+    <Compile Include="Communicate\Retell.cs" />
+    <Compile Include="Communicate\Say.cs" />
+    <Compile Include="Communicate\Tell.cs" />
+    <Compile Include="Communicate\Typo.cs" />
+    <Compile Include="Communicate\Yell.cs" />
+    <Compile Include="Configure\AFK.cs" />
+    <Compile Include="Configure\AliasAdd.cs" />
+    <Compile Include="Configure\AliasRemove.cs" />
+    <Compile Include="Configure\Buffer.cs" />
+    <Compile Include="Configure\Description.cs" />
+    <Compile Include="Configure\Password.cs" />
+    <Compile Include="Configure\Pretitle.cs" />
+    <Compile Include="Configure\Save.cs" />
+    <Compile Include="Configure\Set.cs" />
+    <Compile Include="Configure\Settings.cs" />
+    <Compile Include="Configure\Title.cs" />
+    <Compile Include="Inform\Attributes.cs" />
+    <Compile Include="Inform\CharacterSheet.cs" />
+    <Compile Include="Inform\Commands.cs" />
+    <Compile Include="Inform\All.cs" />
+    <Compile Include="Inform\Repeat.cs" />
+    <Compile Include="Inform\Previous.cs" />
+    <Compile Include="Inform\Credits.cs" />
+    <Compile Include="Inform\Date.cs" />
+    <Compile Include="Inform\Effects.cs" />
+    <Compile Include="Inform\Examine.cs" />
+    <Compile Include="Inform\Glance.cs" />
+    <Compile Include="Inform\Help.cs" />
+    <Compile Include="Inform\Look.cs" />
+    <Compile Include="Inform\More.cs" />
+    <Compile Include="Inform\ServerStatus.cs" />
+    <Compile Include="Inform\Time.cs" />
+    <Compile Include="Item\Activate.cs" />
+    <Compile Include="Item\Drink.cs" />
+    <Compile Include="Item\Drop.cs" />
+    <Compile Include="Item\DualWield.cs" />
+    <Compile Include="Item\Empty.cs" />
+    <Compile Include="Item\Equip.cs" />
+    <Compile Include="Item\Fill.cs" />
+    <Compile Include="Item\Get.cs" />
+    <Compile Include="Item\Give.cs" />
+    <Compile Include="Item\Hold.cs" />
+    <Compile Include="Item\Install.cs" />
+    <Compile Include="Item\Inventory.cs" />
+    <Compile Include="Item\Put.cs" />
+    <Compile Include="Item\Remove.cs" />
+    <Compile Include="Item\Uninstall.cs" />
+    <Compile Include="Item\Wear.cs" />
+    <Compile Include="Player\Finger.cs" />
+    <Compile Include="Player\Friends.cs" />
+    <Compile Include="Player\Who.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Temporary\Blind.cs" />
+    <Compile Include="Admin\Buff.cs" />
+    <Compile Include="Temporary\Chop.cs" />
+    <Compile Include="Temporary\CreateConsumable.cs" />
+    <Compile Include="Temporary\CreateCurrency.cs" />
+    <Compile Include="Temporary\CreatePortal.cs" />
+    <Compile Include="Temporary\CreatePotion.cs" />
+    <Compile Include="Temporary\IncreaseStat.cs" />
+    <Compile Include="Temporary\Jump.cs" />
+    <Compile Include="Temporary\Punch.cs" />
+    <Compile Include="Temporary\Struggle.cs" />
+    <Compile Include="Temporary\ThunderClap.cs" />
+    <Compile Include="Temporary\Visuals.cs" />
+    <Compile Include="Temporary\Web.cs" />
+    <Compile Include="Travel\Enter.cs" />
+    <Compile Include="Travel\Follow.cs" />
+    <Compile Include="Travel\Knock.cs" />
+    <Compile Include="Travel\Lock.cs" />
+    <Compile Include="Travel\Move.cs" />
+    <Compile Include="Travel\Unfollow.cs" />
+    <Compile Include="Travel\Unlock.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\WheelMUD.Core.csproj">
+      <Project>{DC4BD540-7DB4-41C9-8634-C2780F4C1590}</Project>
+      <Name>WheelMUD.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data\WheelMUD.Data.csproj">
+      <Project>{3772CFD7-5EA1-442C-9CD8-8AA3F7E608F8}</Project>
+      <Name>WheelMUD.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Effects\WheelMUD.Effects.csproj">
+      <Project>{4ED3B614-F28E-4CDD-9E25-57E68416BF2F}</Project>
+      <Name>WheelMUD.Effects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\WheelMUD.Interfaces.csproj">
+      <Project>{3A5996F8-AFE7-411E-8CFD-09F72CC6C417}</Project>
+      <Name>WheelMUD.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Universe\WheelMUD.Universe.csproj">
+      <Project>{164575A3-FE8C-4785-8604-A7660160BC5B}</Project>
+      <Name>WheelMUD.Universe</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj">
+      <Project>{03849491-18F6-4AB2-8E8C-2B0ACE8EC035}</Project>
+      <Name>WheelMUD.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Combat\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

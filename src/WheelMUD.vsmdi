@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestLists xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestList name="All Tests" id="6b71bfdf-ea2f-4536-bd5e-722c25eee384" parentListId="8c43106b-9dc1-4907-a29f-aa66a61bf5b6" />
+  <TestList name="Lists of Tests" id="8c43106b-9dc1-4907-a29f-aa66a61bf5b6" />
+  <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+    <TestLinks>
+      <TestLink id="4f112788-b87c-4632-9de6-18153d4cdbb8" name="ProcessCombatActionsTest" storage="..\bindebug\warriorroguemage.tests.dll" enabled="false" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="f79b0f36-480d-1cea-0b3b-630e83120fdf" name="ProcessCombatRoundTest" storage="..\bindebug\warriorroguemage.tests.dll" enabled="false" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="0c4fc372-9430-ddd6-a565-0b35f3b28c38" name="GetCombatantInitiativeTest" storage="..\bindebug\warriorroguemage.tests.dll" enabled="false" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="07652eee-41f4-0fff-e127-cd5314d71877" name="CreateCombatOrderTest" storage="..\bindebug\warriorroguemage.tests.dll" enabled="false" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="0642d268-c002-ac0d-8798-204741ae0fe0" name="ProcessCombatantRoundActionsTest" storage="..\bindebug\warriorroguemage.tests.dll" enabled="false" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    </TestLinks>
+  </TestList>
+</TestLists>

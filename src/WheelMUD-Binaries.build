@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<project name="WheelMUD-Binaries" xmlns="http://nant.sf.net/release/0.92/nant.xsd" default="build">
+
+  <echo message="Creating WheelMUD binary distribution..." />
+  
+  <property name="project.config" value="build" />
+  <property name="bin.folder" value="..\binDebug"/>
+  <property name="deploy.folder" value="X:\Builds"/>
+  <property name="temp.folder" value="C:\Temp\WheelMUD-Builds"/>
+
+  <script language="C#" prefix="wheelmud">
+    <references>
+      <include name="Microsoft.VisualBasic.dll" />
+    </references>
+    <imports>
+      <import namespace="Microsoft.VisualBasic" />
+    </imports>
+    <code>
+      <![CDATA[
+            [Function("filenamefromdate")]
+        public static string Test()
+        {            	
+          string strResult;
+
+              strResult = Microsoft.VisualBasic.Strings.Format(DateTime.Now, "yyyyMMddHHmmss");
+
+          return strResult;
+            }
+    ]]>
+    </code>
+  </script>
+
+  <property name="datename" value="${wheelmud::filenamefromdate()}" />
+  <property name="binaryname" value="wheelmud_binaries_${datename}.zip" />
+
+  <target name="init">
+    <call target="${project.config}" />
+  </target>
+
+  <target name="build">
+
+    <!--<delete dir="${bin.folder}" />-->
+    
+    <!--<solution configuration="debug" solutionfile="WheelMUD.sln">
+      <excludeprojects>
+        <include name="Tests\Core\WheelMUD.Core.Tests.csproj" />
+        <include name="Tests\WarriorRogueMage\WarriorRogueMage.Tests\WarriorRogueMage.Tests.csproj" />
+        <include name="ServerAdministration\WindowsService\WheelMUD.WindowsService.csproj" />
+      </excludeprojects>
+    </solution>-->
+
+    <echo message="Gathering files..." />
+
+    <delete dir="${temp.folder}\Files" />
+    <delete dir="${temp.folder}" />
+
+    <copy todir="${temp.folder}">
+      <fileset basedir=".">
+        <include name="LICENSE.txt"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${temp.folder}">
+      <fileset basedir="..\documentation">
+        <include name="_Binaries Setup.txt"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${temp.folder}">
+      <fileset basedir="..\systemdata" />
+    </copy>
+    
+    <delete dir="${temp.folder}\SQL" />
+
+    <copy todir="${temp.folder}">
+      <fileset basedir="${bin.folder}">
+        <include name="*.*"/>
+      </fileset>
+    </copy>
+
+    <echo message="Creating zip file..." />
+    
+    <zip zipfile="${binaryname}">
+      <fileset basedir="${temp.folder}">
+        <include name="**/*" />
+      </fileset>
+    </zip>
+
+    <!--<echo message="Moving zip file to distribution storage..." />
+	
+	<sleep seconds="10" />
+    
+    <move todir="${deploy.folder}">
+      <fileset>
+        <include name="${binaryname}" />
+      </fileset>
+    </move>-->
+    
+  </target>
+
+</project>

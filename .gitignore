@@ -1,0 +1,8 @@
+/binDebug
+/binRelease
+bin
+obj
+TestResults
+*.Cache
+*.user
+*.suo

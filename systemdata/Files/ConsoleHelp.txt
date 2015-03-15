@@ -1,0 +1,22 @@
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+-=  $MudAttributes.MudName Server Console Help       =-
+-=  Copyright (C) 2008-2014 $MudAttributes.Website    =-
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+Welcome to the $MudAttributes.Version release of $MudAttributes.MudName
+
+$MudAttributes.MudName is a framework to help you build
+your own (Multi User Dungeon) MUD games.
+
+This application acts as the game server, and
+so is not very interactive. To do anything
+useful you need to connect to the game using
+a telnet client. From this machine you can
+connect to ip address 127.0.0.1 and port $MudAttributes.TelnetPort
+
+Extra help is available on our website at
+$MudAttributes.Website or http://wheelmud.codeplex.com
+
+Commands Available:
+    SHUTDOWN - Closes the server
+    HELP - Displays this text

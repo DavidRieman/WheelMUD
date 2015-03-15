@@ -1,0 +1,16 @@
+﻿# Comments are any line that starts with a '#'.
+w|10|.*>.*
+send|crashdummy
+w|10|.*>.*
+send|password
+w|10|.*>.*
+send|say hello!
+w|10|.*>.*
+send|say Crashdummy is running an automated test.
+w|10|.*>.*
+send|say good-bye!
+w|10|.*>.*
+send|look
+w|45|.*>.*
+send|quit
+w|10|.*bye.*

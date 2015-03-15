@@ -1,0 +1,9 @@
+<Project ToolsVersion="4.0" DefaultTargets="FindDuplicateCode" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Target Name="FindDuplicateCode" >
+            <RemoveDir Directories="$(SimianArtifactPath)" />
+            <MakeDir Directories="$(SimianArtifactPath)" />
+            <Message Text="Using Simian to perform code duplication analysis..." />
+            <Exec Command="$(SimianPathExe) -failOnDuplication- -formatter=xml:../../../$(SimianArtifactPath)/$(SimianAnalysis) ../../../$(SrcBasePath)/**/*.cs"
+                    WorkingDirectory="$(SimianPath)"/>
+    </Target>
+</Project>

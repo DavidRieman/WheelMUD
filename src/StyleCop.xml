@@ -1,0 +1,13 @@
+<MSBuild.ExtensionPack.CodeQuality.StyleCop
+     TaskAction="Scan"
+      ShowOutput="true"
+      ForceFullAnalysis="true"
+      CacheResults="false"
+      SourceFiles="@(SourceFiles)"
+      SettingsFile="$(SourceAnalysisSettingsFile)"
+      ContinueOnError="false">
+             <Output TaskParameter="Succeeded" PropertyName="AllPassed"/>
+             <Output TaskParameter="ViolationCount" PropertyName="Violations"/>
+             <Output TaskParameter="FailedFiles" ItemName="Failures"/>
+
+</MSBuild.ExtensionPack.CodeQuality.StyleCop>

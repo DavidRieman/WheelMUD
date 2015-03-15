@@ -1,0 +1,21 @@
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+-=  $MudAttributes.MudName Server Console $MudAttributes.Version
+-=  Copyright (C) 2008-2014 $MudAttributes.Website
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ 
+Welcome to the $MudAttributes.Version release of $MudAttributes.MudName
+
+$MudAttributes.MudName is an open source framework
+designed to help you build your own (Multi
+User Dungeon) MUD games.
+
+If you have any comments/questions/feedback
+then please let us know at either
+$MudAttributes.Website or http://wheelmud.codeplex.com
+
+We are always on the lookout for new people
+to help with the coding/testing. If you feel
+you can help then tell us at either of
+the above sites
+

@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1EDAA5FD-C255-4D5D-8E15-E717F60E55CF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConnectionStates</RootNamespace>
+    <AssemblyName>WheelMUD.ConnectionStates</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>..\..\binDebug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\binRelease\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>True</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="CharacterCreation\CharacterCreationStateMachine.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationStateMachineManager.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationSubState.cs" />
+    <Compile Include="CharacterCreation\ConfirmCreationEntryState.cs" />
+    <Compile Include="CharacterCreation\ConfirmPasswordState.cs" />
+    <Compile Include="CharacterCreation\DefaultCharacterCreationStateMachine.cs" />
+    <Compile Include="CharacterCreation\ExportCharacterCreationStateMachineAttribute.cs" />
+    <Compile Include="CharacterCreation\GetDescriptionState.cs" />
+    <Compile Include="CharacterCreation\GetNameState.cs" />
+    <Compile Include="CharacterCreation\GetPasswordState.cs" />
+    <Compile Include="CharacterCreation\StepStatusEnum.cs" />
+    <Compile Include="CombatState.cs" />
+    <Compile Include="ConnectedState.cs" />
+    <Compile Include="CreationState.cs" />
+    <Compile Include="LoginState.cs" />
+    <Compile Include="PlayingState.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\WheelMUD.Core.csproj">
+      <Project>{DC4BD540-7DB4-41C9-8634-C2780F4C1590}</Project>
+      <Name>WheelMUD.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data.RavenDb\WheelMUD.Data.RavenDb.csproj">
+      <Project>{193A9077-B5F0-4EEF-AE98-D88C9CEF9B85}</Project>
+      <Name>WheelMUD.Data.RavenDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data\WheelMUD.Data.csproj">
+      <Project>{3772CFD7-5EA1-442C-9CD8-8AA3F7E608F8}</Project>
+      <Name>WheelMUD.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\WheelMUD.Interfaces.csproj">
+      <Project>{3A5996F8-AFE7-411E-8CFD-09F72CC6C417}</Project>
+      <Name>WheelMUD.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj">
+      <Project>{03849491-18F6-4AB2-8E8C-2B0ACE8EC035}</Project>
+      <Name>WheelMUD.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Universe\WheelMUD.Universe.csproj">
+      <Project>{164575A3-FE8C-4785-8604-A7660160BC5B}</Project>
+      <Name>WheelMUD.Universe</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,27 @@
+<%green%><%b%>${Room.Name}, ${Room.RoomTypeID}   (${Room.ID})<%n%>
+<%nl%>    ${Room.Description}
+<%nl%>
+<%nl%>
+<%nl%>
+#if (${Exits.Keys.Count} == 0)
+	You can't see any exits.
+#else
+	[<%magenta%>Exits:
+	#foreach( $key in ${Exits.Keys} )
+		<%white%> $key<%n%>
+	#end
+	]
+	<%nl%>
+	<%nl%>
+#end
+#if ($Entities.Count != 0)
+	#foreach( $entity in $Entities )
+		${entity.Name} is here.<%n%>
+		<%nl%>
+	#end
+#end
+#if (${Items.Count} != 0)
+	#foreach( $item in $Items )
+		${item.Name} is here.<%nl%>
+	#end
+#end

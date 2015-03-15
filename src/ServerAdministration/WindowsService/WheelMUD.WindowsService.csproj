@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AFF7C047-E13F-49A0-B7DD-1EFD905A470F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WheelMUD.Administration.WindowsService</RootNamespace>
+    <AssemblyName>WheelMUDWindowsService</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>WheelMUD.Administration.WindowsService.Program</StartupObject>
+    <ApplicationIcon>wheelmud.ico</ApplicationIcon>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <OutputPath>..\..\..\binDebug\</OutputPath>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DebugType>none</DebugType>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\..\binRelease\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>..\..\..\binDebug\WheelMUDWindowsService.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;E:\Programs\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;E:\Programs\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="..\..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceController.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServiceController.designer.cs">
+      <DependentUpon>ServiceController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WheelMUDService.cs">
+    </Compile>
+    <Compile Include="WheelMUDService.Designer.cs">
+      <DependentUpon>WheelMUDService.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ServiceController.resx">
+      <DependentUpon>ServiceController.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Actions\WheelMUD.Actions.csproj">
+      <Project>{A2A4F82C-F885-4E71-82A8-8BFFAA771105}</Project>
+      <Name>WheelMUD.Actions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\WheelMUD.Core.csproj">
+      <Project>{DC4BD540-7DB4-41C9-8634-C2780F4C1590}</Project>
+      <Name>WheelMUD.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Interfaces\WheelMUD.Interfaces.csproj">
+      <Project>{3A5996F8-AFE7-411E-8CFD-09F72CC6C417}</Project>
+      <Name>WheelMUD.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Main\WheelMUD.Main.csproj">
+      <Project>{C1BF3C19-B5F8-4F23-A175-00F0AFDD8682}</Project>
+      <Name>WheelMUD.Main</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HoytSoft\HoytSoft.Common.Services\HoytSoft.Common.Services.csproj">
+      <Project>{F752A16F-B7B7-488A-87DD-E55035A5AC3F}</Project>
+      <Name>HoytSoft.Common.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HoytSoft\HoytSoft.Common.UAC.Run\HoytSoft.Common.UAC.Run.csproj">
+      <Project>{10C5679F-75FD-43E8-8EAB-8F036803B915}</Project>
+      <Name>HoytSoft.Common.UAC.Run</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>$(ProjectDir)CopyToAppData.exe "$(SolutionDir)..\systemdata\Files"
+FOR %25%25i IN (System.Data.SQLite.DLL) DO xcopy "$(SolutionDir)..\_references\%25%25i" "$(ProjectDir)$(OutDir)" /S /Y
+xcopy "$(SolutionDir)..\_references\Castle.Core.*" "$(ProjectDir)$(OutDir)" /S /Y
+xcopy "$(SolutionDir)..\_references\Castle.DynamicProxy2.*" "$(ProjectDir)$(OutDir)" /S /Y
+xcopy "$(SolutionDir)..\_references\NHibernate.ByteCode.Castle.*" "$(ProjectDir)$(OutDir)" /S /Y</PostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="mud.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="wheelmud.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+</Project>

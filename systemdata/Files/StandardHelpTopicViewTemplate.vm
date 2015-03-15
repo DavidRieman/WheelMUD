@@ -1,0 +1,20 @@
+<%red%><%b%>Help for ${HelpTopic.Topic}<%n%>
+#if (${HelpTopic.Description})
+	<%nl%>${HelpTopic.Description}
+#end
+<%nl%>
+#if (${HelpTopic.Usage})
+	<%nl%><%cyan%>Usage<%n%>
+	<%nl%>${HelpTopic.Usage}
+	<%nl%>
+#end
+#if (${HelpTopic.Example})
+	<%nl%><%cyan%>Example<%n%>
+	<%nl%>${HelpTopic.Example}
+	<%nl%>
+#end
+#if (${HelpTopic.SeeAlso})
+	<%nl%><%cyan%>See Also<%n%>
+	<%nl%>${HelpTopic.SeeAlso}
+	<%nl%>
+#end

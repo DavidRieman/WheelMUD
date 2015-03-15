@@ -1,0 +1,55 @@
+<%red%><%b%>${Room.Name}<%n%>
+<%nl%>${Room.Description}
+
+#if (${Items.Count} != 0)
+	<%nl%>You see the following items:
+	#foreach( $item in $Items )
+		<%magenta%> ${item.Name}<%n%>
+		#if (${velocityCount} != ${Items.Count}),#end
+	#end
+#end
+<%nl%>
+
+#if (${Exits.Keys.Count} == 0)
+	You can't see any exits.
+#else
+	The following exits are visible:
+	#foreach( $key in $Exits )	
+		#set( $exit = $key )
+		#set( $door = '')
+
+		#if ($exit)
+			#set( $door = $exit.Door )
+			
+			#if ($door)					
+				#if ($door.OpenState == "Open")
+					<%yellow%> $key - an open door<%n%>
+				#elseif ($door.OpenState == "Closed")
+					<%yellow%> $key - a closed door<%n%>
+				#elseif ($door.OpenState == "Ajar")
+					<%yellow%> $key - a door which is ajar<%n%>
+				#else
+					<%yellow%> $key<%n%>				
+				#end
+			#else
+				<%yellow%>Door is null<%n%>				
+			#end
+		#else
+			<%yellow%>Exit is null<%n%>				
+		#end	
+		
+		#if (${velocityCount} != ${Exits.Count})
+			,
+		#end
+	#end
+#end
+
+#if ($Entities.Count != 0)
+	<%nl%>The following people are here:
+	#foreach( $entity in $Entities )
+		<%magenta%><%b%> ${entity.Name}<%n%>
+		#if (${velocityCount} != ${Entities.Count})
+			,
+		#end
+	#end
+#end

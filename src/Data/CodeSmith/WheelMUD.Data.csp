@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<codeSmith xmlns="http://www.codesmithtools.com/schema/csp.xsd">
+  <variables>
+    <add key="ConnectionString1" value="Data Source=C:\Source\Projects\WheelMUDORMLite\systemdata\SQL\SQLite\WheelMud.net.db;Version=3;" />
+  </variables>
+</codeSmith>

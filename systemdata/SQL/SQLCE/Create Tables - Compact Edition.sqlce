@@ -1,0 +1,485 @@
+DROP TABLE "PlayerRoles"
+GO
+
+CREATE TABLE "PlayerRoles" (
+	"PlayerRoleID" int IDENTITY (1,1) NOT NULL,
+	"PlayerID" int NOT NULL,
+	"RoleID" int NOT NULL,
+ CONSTRAINT "PK_PlayerRoles" PRIMARY KEY
+(
+	"PlayerRoleID"
+)
+)
+
+GO
+
+DROP TABLE "ANSI"
+GO
+
+CREATE TABLE "ANSI" (
+	"ID" int IDENTITY (1,1) NOT NULL,
+	"EscapeCode" nvarchar(50) NULL,
+	"Tag" nvarchar(25) NULL,
+ CONSTRAINT "PK_ANSI" PRIMARY KEY
+(
+	"ID"
+)
+)
+
+GO
+
+DROP TABLE "IAC"
+GO
+
+CREATE TABLE "IAC" (
+	"ID" int IDENTITY (1,1) NOT NULL,
+	"Name" nvarchar(50) NULL,
+	"OptionCode" int NULL,
+	"NegotiateAtConnect" bit NOT NULL,
+	"RequiresSubNegotiation" bit NOT NULL,
+	"SubNegAssembly" nvarchar(50) NULL,
+	"NegotiationStartValue" nvarchar(50) NULL,
+ CONSTRAINT "PK_IAC" PRIMARY KEY
+(
+	"ID"
+)
+)
+
+GO
+
+DROP TABLE "Aliases"
+GO
+
+CREATE TABLE "Aliases" (
+	"AliasID" int IDENTITY (1,1) NOT NULL,
+	"CommandID" int NOT NULL,
+	"Alias" nvarchar(45) NOT NULL,
+ CONSTRAINT "PK_Aliases" PRIMARY KEY
+(
+	"AliasID"
+)
+)
+
+GO
+
+DROP TABLE "MXP"
+GO
+
+CREATE TABLE "MXP" (
+	"ID" int IDENTITY (1,1) NOT NULL,
+	"ElementName" nvarchar(50) NULL,
+	"ElementDefinition" nvarchar(50) NULL,
+ CONSTRAINT "PK_MXP" PRIMARY KEY
+(
+	"ID"
+)
+)
+
+GO
+
+DROP TABLE "Rooms"
+GO
+
+CREATE TABLE "Rooms" (
+	"RoomID" int IDENTITY (1,1) NOT NULL,
+	"AreaID" int NOT NULL,
+	"Name" nvarchar(45) NULL,
+	"Description" nvarchar(1000) NULL,
+ CONSTRAINT "PK_Rooms" PRIMARY KEY
+(
+	"RoomID"
+)
+)
+
+GO
+
+DROP TABLE "Areas"
+GO
+
+CREATE TABLE "Areas" (
+	"AreaID" int IDENTITY (1,1) NOT NULL,
+	"Name" nvarchar(45) NULL,
+ CONSTRAINT "PK_Areas" PRIMARY KEY
+(
+	"AreaID"
+)
+)
+
+GO
+
+DROP TABLE "Commands"
+GO
+
+CREATE TABLE "Commands" (
+	"CommandID" int IDENTITY (1,1) NOT NULL,
+	"Name" nvarchar(45) NULL,
+	"Controller" nvarchar(45) NULL,
+ CONSTRAINT "PK_Commands" PRIMARY KEY
+(
+	"CommandID"
+)
+)
+
+GO
+
+DROP TABLE "Exits"
+GO
+
+CREATE TABLE "Exits" (
+	"ExitID" int IDENTITY (1,1) NOT NULL,
+	"ExitRoomAID" int NOT NULL,
+	"DirectionA" nvarchar(50) NULL,
+	"ExitRoomBID" int NOT NULL,
+	"DirectionB" nvarchar(50) NULL,
+ CONSTRAINT "PK_Exits" PRIMARY KEY
+(
+	"ExitID"
+)
+)
+
+GO
+
+DROP TABLE "Help"
+GO
+
+CREATE TABLE "Help" (
+	"HelpID" int IDENTITY (1,1) NOT NULL,
+	"Name" nvarchar(50) NOT NULL,
+	"Content" nvarchar(4000) NULL,
+ CONSTRAINT "PK_Help" PRIMARY KEY
+(
+	"HelpID"
+)
+)
+
+GO
+
+DROP TABLE "Races"
+GO
+
+CREATE TABLE "Races" (
+	"RaceID" int IDENTITY (1,1) NOT NULL,
+	"Name" nvarchar(50) NULL,
+	"Description" nvarchar(4000) NULL,
+ CONSTRAINT "PK_Races" PRIMARY KEY
+(
+	"RaceID"
+)
+)
+
+GO
+
+DROP TABLE "Stats"
+GO
+
+CREATE TABLE "Stats" (
+	"StatsID" int IDENTITY (1,1) NOT NULL,
+	"Name" nvarchar(45) NULL,
+ CONSTRAINT "PK_Stats" PRIMARY KEY
+(
+	"StatsID"
+)
+)
+
+GO
+
+DROP TABLE "PlayerIPAddress"
+GO
+
+CREATE TABLE "PlayerIPAddress" (
+	"PlayerIPAddressID" int IDENTITY (1,1) NOT NULL,
+	"PlayerID" int NOT NULL,
+	"IPAddress" nvarchar(50) NOT NULL,
+ CONSTRAINT "PK_PlayerIPAddress" PRIMARY KEY
+(
+	"PlayerIPAddressID"
+)
+)
+
+GO
+
+DROP TABLE "PlayerTells"
+GO
+
+CREATE TABLE "PlayerTells" (
+	"PlayerTellID" int IDENTITY (1,1) NOT NULL,
+	"PlayerID" int NOT NULL,
+	"Tell" nvarchar NULL,
+	"DestinationPlayerID" int NULL,
+ CONSTRAINT "PK_PlayerTells" PRIMARY KEY
+(
+	"PlayerTellID"
+)
+)
+
+GO
+
+DROP TABLE "Religions"
+GO
+
+CREATE TABLE "Religions" (
+	"ReligionID" int IDENTITY (1,1) NOT NULL,
+	"Name" nvarchar(50) NOT NULL,
+	"Description" nvarchar(4000) NULL,
+ CONSTRAINT "PK_Religions" PRIMARY KEY
+(
+	"ReligionID"
+)
+)
+
+GO
+
+DROP TABLE "Clans"
+GO
+
+CREATE TABLE "Clans" (
+	"ClanID" int IDENTITY (1,1) NOT NULL,
+	"Name" nvarchar(50) NOT NULL,
+	"Description" nvarchar(4000) NULL,
+ CONSTRAINT "PK_Clans" PRIMARY KEY
+(
+	"ClanID"
+)
+)
+
+GO
+
+DROP TABLE "Roles"
+GO
+
+CREATE TABLE "Roles" (
+	"RoleID" int IDENTITY (1,1) NOT NULL,
+	"Name" nvarchar(50) NOT NULL,
+ CONSTRAINT "PK_Roles" PRIMARY KEY
+(
+	"RoleID"
+)
+)
+
+GO
+
+DROP TABLE "InstantMessangerTypes"
+GO
+
+CREATE TABLE "InstantMessangerTypes" (
+	"IMTypeID" int IDENTITY (1,1) NOT NULL,
+	"Name" nvarchar(50) NOT NULL,
+ CONSTRAINT "PK_InstantMessangerTypes" PRIMARY KEY
+(
+	"IMTypeID"
+)
+)
+
+GO
+
+DROP TABLE "PlayerInstantMessengerAccounts"
+GO
+
+CREATE TABLE "PlayerInstantMessengerAccounts" (
+	"PlayerIMID" int IDENTITY (1,1) NOT NULL,
+	"PlayerID" int NOT NULL,
+	"IMTypeID" int NOT NULL,
+	"UserName" nvarchar(50) NOT NULL,
+ CONSTRAINT "PK_PlayerInstantMessengerAccounts" PRIMARY KEY
+(
+	"PlayerIMID"
+)
+)
+
+GO
+
+DROP TABLE "SystemLog"
+GO
+
+CREATE TABLE "SystemLog" (
+	"Id" int IDENTITY (1,1) NOT NULL,
+	"Date" datetime NOT NULL,
+	"Thread" nvarchar(255) NOT NULL,
+	"Level" nvarchar(50) NOT NULL,
+	"Logger" nvarchar(255) NOT NULL,
+	"Message" nvarchar(4000) NOT NULL,
+	"Exception" nvarchar(2000) NULL,
+ CONSTRAINT "PK_SystemLog" PRIMARY KEY
+(
+	"Id"
+)
+)
+
+GO
+
+DROP TABLE "Players"
+GO
+
+CREATE TABLE "Players" (
+	"PlayerID" int IDENTITY (1,1) NOT NULL,
+	"CreateDate" nvarchar(50) NULL,
+	"Name" nvarchar(45) NULL,
+	"Pword" nvarchar(45) NULL,
+	"Suffix" nvarchar(45) NULL,
+	"Prefix" nvarchar(45) NULL,
+	"Title" nvarchar(50) NULL,
+	"Description" nvarchar(250) NULL,
+	"Age" int NULL,
+	"GenderID" tinyint NULL,
+	"RaceID" int NULL,
+	"CurrentRoomID" int NULL,
+	"Prompt" nvarchar(50) NULL,
+	"WantAnsi" bit NULL,
+	"WantMXP" bit NULL,
+	"WantMCCP" bit NULL,
+	"LastLogin" nvarchar(50) NULL,
+	"LastLogout" nvarchar(50) NULL,
+	"Online" bit NOT NULL,
+	"LastIPAddress" nvarchar(50) NULL,
+	"Email" nvarchar(100) NULL,
+	"HomePage" nvarchar(4000) NULL,
+	"PlanText" nvarchar NULL,
+	"SpouseID" int NULL,
+	"ClanID" int NULL,
+	"ProfessionID" int NULL,
+ CONSTRAINT "PK_Players" PRIMARY KEY
+(
+	"PlayerID"
+)
+)
+
+GO
+
+DROP TABLE "Items"
+GO
+
+CREATE TABLE "Items" (
+	"ItemID" int IDENTITY (1,1)NOT NULL,
+	"Name" nvarchar(45) NOT NULL,
+	"Description" nvarchar(255) NOT NULL,
+	"Controller" nvarchar(255) NOT NULL,
+	"CurrentRoomID" int NOT NULL,
+ CONSTRAINT "PK_Items" PRIMARY KEY
+(
+	"ItemID"
+)
+)
+
+GO
+
+DROP TABLE "Genders"
+GO
+
+CREATE TABLE "Genders" (
+	"GenderID" int IDENTITY (1,1) NOT NULL,
+	"Name" nvarchar(50) NOT NULL,
+ CONSTRAINT "PK_Genders" PRIMARY KEY
+(
+	"GenderID"
+)
+)
+
+GO
+
+DROP TABLE "CommandRoles"
+GO
+
+CREATE TABLE "CommandRoles" (
+	"CommandRoleID" int IDENTITY (1,1) NOT NULL,
+	"CommandID" int NOT NULL,
+	"RoleID" int NOT NULL,
+ CONSTRAINT "PK_CommandRoles" PRIMARY KEY
+(
+	"CommandRoleID"
+)
+)
+
+GO
+
+DROP TABLE "Professions"
+GO
+
+CREATE TABLE "Professions" (
+	"ProfessionID" int IDENTITY (1,1) NOT NULL,
+	"Name" nvarchar(50) NOT NULL,
+	"Description" nvarchar(4000) NULL,
+ CONSTRAINT "PK_Professions" PRIMARY KEY
+(
+	"ProfessionID"
+)
+)
+
+GO
+
+DROP TABLE "Skills"
+GO
+
+CREATE TABLE "Skills" (
+	"SkillID" int IDENTITY (1,1)NOT NULL,
+	"Name" nvarchar(50) NOT NULL,
+	"Description" nvarchar(4000) NULL,
+ CONSTRAINT "PK_Skills" PRIMARY KEY
+(
+	"SkillID"
+)
+)
+
+GO
+
+DROP TABLE "PlayerSkills"
+GO
+
+CREATE TABLE "PlayerSkills" (
+	"PlayerSkillID" int IDENTITY (1,1) NOT NULL,
+	"PlayerID" int NOT NULL,
+	"SkillID" int NOT NULL,
+ CONSTRAINT "PK_PlayerSkills" PRIMARY KEY
+(
+	"PlayerSkillID"
+)
+)
+
+GO
+
+DROP TABLE "Effects"
+GO
+
+CREATE TABLE "Effects" (
+	"EffectID" int IDENTITY (1,1)NOT NULL,
+	"Name" nvarchar(50) NOT NULL,
+	"Description" nvarchar(4000) NULL,
+ CONSTRAINT "PK_Effects" PRIMARY KEY
+(
+	"EffectID"
+)
+)
+
+GO
+
+DROP TABLE "PlayerEffects"
+GO
+
+CREATE TABLE "PlayerEffects" (
+	"PlayerEffectID" int IDENTITY (1,1) NOT NULL,
+	"PlayerID" int NOT NULL,
+	"EffectID" int NOT NULL,
+ CONSTRAINT "PK_PlayerEffects" PRIMARY KEY
+(
+	"PlayerEffectID"
+)
+)
+
+GO
+
+DROP TABLE "PlayerStats"
+GO
+
+CREATE TABLE "PlayerStats" (
+	"PlayerStatsID" int IDENTITY (1,1) NOT NULL,
+	"StatsID" int NOT NULL,
+	"PlayerID" int NOT NULL,
+	"Value" nvarchar(45) NULL,
+ CONSTRAINT "PK_PlayerStats" PRIMARY KEY
+(
+	"PlayerStatsID"
+)
+)
+
+GO
+
+

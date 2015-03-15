@@ -1,0 +1,11 @@
+<%nl%>
+${Target.Description}
+<%nl%>
+<%nl%>
+${Target.Name} is holding:<%nl%><%nl%>
+#if (${Target.Children.Count} != 0)
+	#foreach( $tem in $Target.Children )
+		${Item.Name}.<%nl%>
+		<%nl%>
+	#end
+#end

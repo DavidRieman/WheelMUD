@@ -1,0 +1,44 @@
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+; If you have contributed to the project, please feel free to add yourself to 
+; these credits. Contributors may list: names, aliases, a short quote, a
+; comment, or any combination therein which fits reasonably on a single line.
+; Please keep all entries professional and family-friendly.
+; 
+; Members of the WheelMUD Development Team include the following people:
+
+ACTIVE CHAMPION:
+* David Rieman (Karak)
+
+ACTIVE DEVELOPERS:
+* Duane King (honestduane / Feverdream)
+
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+; We sincerely give our thanks to all members of the WheelMUD Development Team
+; who have moved on to other things, including at least the following people:
+
+RETIRED CHAMPION:
+* Hector Sosa, Jr (Fastalanasa) - fastalanasa@wheelmud.net
+
+RETIRED DEVELOPERS:
+* Joseph Roberts (Pure)
+* Jason F. (JFed)
+* James McNamus (James)
+* David Ray (IRay)
+* Daren Fox (Foxedup)
+* Chad Jessup (Shabubu)
+* Brian Nelson (bengecko)
+* Bill Lewis, Jr (Tek)
+* Jesse Miller (Taliesen)
+* Dan Rose (Nostradamus)
+* Tim Bateson (Saquivor)
+* Ted Johansson (Dremni)
+* Justin LeCheminant (jlechem)
+* Aaron Rich (aaronjrich)
+
+RETIRED BUILDERS (STOCK AREAS):
+* Daren Fox (Foxedup)
+
+RETIRED CONTRIBUTORS:
+* Troy Fisher (Ashon)
+* Alincor
+* JT Bowlin (SlowReflex)

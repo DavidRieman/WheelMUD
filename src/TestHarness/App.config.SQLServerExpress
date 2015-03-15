@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<configuration>
+    <configSections>
+        <section name="SubSonicService" type="SubSonic.SubSonicSection, SubSonic" requirePermission="false"/>
+    </configSections>
+  <appSettings>
+    <add key="ServerPort" value="4000"/>
+    <add key="EventReactionsDll" value="%app.path%\WheelMUD.EventReactions.DLL"/>
+    <add key="ActionsDll" value="%app.path%\WheelMUD.Actions.DLL"/>
+    <add key="DBConn" value="Data Source=localhost\SQLEXPRESS;Initial Catalog=WheelMUD;Integrated Security=SSPI;"/>
+  </appSettings>
+    <connectionStrings>
+        <clear/>
+        <add name="NorthwindConnection" connectionString="Data Source=localhost\SQLEXPRESS; Database=Northwind; Integrated Security=true;"/>
+        <add name="LocalSqlServer" connectionString="Data Source=localhost\SQLEXPRESS; Database=WheelMUD; Integrated Security=true;" providerName="System.Data.SqlClient"/>
+    </connectionStrings>
+    <SubSonicService defaultProvider="SqlDataProvider" spClassName="StoredProcs" generatedNamespace="WheelMUD.DataLayer" fixPluralClassNames="true">
+        <providers>
+            <clear/>
+            <add name="SqlDataProvider" type="SubSonic.SqlDataProvider, SubSonic" connectionStringName="LocalSqlServer"/>
+        </providers>
+    </SubSonicService>
+</configuration>

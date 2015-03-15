@@ -1,0 +1,99 @@
+﻿<%@ Template Language="C#" OutputType="None" TargetLanguage="C#" Description="Master template for the WheelMUD.Data namespace." %>
+
+<%@ Property Name="SourceDatabase" Type="SchemaExplorer.DatabaseSchema" Category="DataSource" Optional="False" %>
+<%@ Property Name="CreateRepositories" Type="System.Boolean" Category="Operations" Optional="False" Default="True"%>
+<%@ Property Name="CreateDTOs" Type="System.Boolean" Category="Operations" Optional="False" Default="True"%>
+<%@ Property Name="CreateRepositoryInterfaces" Type="System.Boolean" Category="Operations" Optional="False" Default="True"%>
+<%@ Property Name="CreateEntityRecords" Type="System.Boolean" Category="Operations" Optional="False" Default="True"%>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="WheelMUD.CodeSmith.Utilities" %>
+
+<%@ Import Namespace="System" %>
+<%@ Import Namespace="System.IO" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="CodeSmith.Core.Extensions" %>
+<%@ Import Namespace="WheelMUD.CodeSmith.Utilities" %>
+
+<%@ Register Name="Repository" Template="Repository.cst" %>
+<%@ Register Name="DTO" Template="DataTransferObject.cst" %>
+<%@ Register Name="RepoInterface" Template="RepositoryInterface.cst" %>
+<%@ Register Name="EntityRecord" Template="EntityRecord.cst" %>
+
+<script runat="template">
+
+public override void Render(TextWriter writer)
+{
+    foreach(TableSchema table in SourceDatabase.Tables)
+    {
+        if(CreateRepositories)
+        {
+            CreateRepository(table);
+        }
+        
+        if(CreateDTOs)
+        {
+            CreateDTO(table);
+        }
+        
+        if(CreateRepositoryInterfaces)
+        {
+            CreateRepoInterface(table);
+        }
+        
+        if(CreateEntityRecords)
+        {
+            CreateEntityRecord(table);
+        }
+    }
+}
+
+public void CreateRepository(TableSchema table)
+{
+    Repository repository = this.Create<Repository>();
+    repository.SourceTable = table;
+    
+    string fileName = String.Format("{0}/{1}Repository.cs", "..\\Repositories", Inflector.ToTitleCase(Inflector.MakeSingular(table.Name))).Replace(" ","");
+    
+    OutputFile outputFile = new OutputFile(fileName);
+    
+    repository.RenderToFile(outputFile, true);
+}
+
+public void CreateDTO(TableSchema table)
+{
+    DTO dto = this.Create<DTO>();
+    dto.SourceTable = table;
+    
+    string fileName = String.Format("{0}/{1}Dto.cs", "..\\DataTransferObjects", Inflector.ToTitleCase(Inflector.MakeSingular(table.Name))).Replace(" ","");
+    
+    OutputFile outputFile = new OutputFile(fileName);
+    
+    dto.RenderToFile(outputFile, true);
+}
+
+public void CreateRepoInterface(TableSchema table)
+{
+    RepoInterface repo = this.Create<RepoInterface>();
+    repo.SourceTable = table;
+    
+    string fileName = String.Format("{0}/I{1}Repository.cs", "..\\RepositoryInterfaces", Inflector.ToTitleCase(Inflector.MakeSingular(table.Name))).Replace(" ","");
+    
+    OutputFile outputFile = new OutputFile(fileName);
+    
+    repo.RenderToFile(outputFile, true);
+}
+
+public void CreateEntityRecord(TableSchema table)
+{
+    EntityRecord rec = this.Create<EntityRecord>();
+    rec.SourceTable = table;
+    
+    string fileName = String.Format("{0}/{1}Record.cs", "..\\Entities", Inflector.ToTitleCase(Inflector.MakeSingular(table.Name))).Replace(" ","");
+    
+    OutputFile outputFile = new OutputFile(fileName);
+    
+    rec.RenderToFile(outputFile, true);
+}
+
+</script>

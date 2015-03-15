@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<configuration>
+    <configSections>
+        <section name="SubSonicService" type="SubSonic.SubSonicSection, SubSonic" requirePermission="false"/>
+    </configSections>
+  <appSettings>
+    <add key="ServerPort" value="4000"/>
+    <add key="EventReactionsDll" value="%app.path%\WheelMUD.EventReactions.DLL"/>
+    <add key="ActionsDll" value="%app.path%\WheelMUD.Actions.DLL"/>
+    <add key="DBConn" value="Data Source =C:\Dev\Source\WMtng\SQL\WheelMUD.sdf"/>
+  </appSettings>
+    <connectionStrings>
+        <clear/>
+		<add name="WheelMUDCE" connectionString="Data Source =C:\Dev\Source\WMtng\SQL\WheelMUD.sdf" />
+    </connectionStrings>
+    <SubSonicService defaultProvider="WheelMUDCE">
+        <providers>
+            <clear/>
+			<add name="WheelMUDCE" type="SubSonic.SqlCEProvider, SubSonic" connectionStringName="WheelMUDCE" generatedNamespace="WheelMUD.DataLayer"/>
+        </providers>
+    </SubSonicService>
+</configuration>

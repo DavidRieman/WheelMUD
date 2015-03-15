@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3772CFD7-5EA1-442C-9CD8-8AA3F7E608F8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WheelMUD.Data</RootNamespace>
+    <AssemblyName>WheelMUD.Data</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>..\..\binDebug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\..\binRelease\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>True</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ServiceStack, Version=3.9.70.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ServiceStack.3.9.70\lib\net35\ServiceStack.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common, Version=3.9.70.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ServiceStack.Common.3.9.70\lib\net35\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ServiceStack.Common.3.9.70\lib\net35\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.OrmLite, Version=3.9.70.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ServiceStack.OrmLite.SqlServer.3.9.70\lib\net35\ServiceStack.OrmLite.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.OrmLite.SqlServer, Version=3.9.70.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ServiceStack.OrmLite.SqlServer.3.9.70\lib\net35\ServiceStack.OrmLite.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Redis, Version=3.9.70.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ServiceStack.Redis.3.9.70\lib\net35\ServiceStack.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.ServiceInterface, Version=3.9.70.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ServiceStack.3.9.70\lib\net35\ServiceStack.ServiceInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=3.9.70.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ServiceStack.Text.3.9.70\lib\net35\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Entities\AnsiRecord.cs" />
+    <Compile Include="Entities\AreaRecord.cs" />
+    <Compile Include="Entities\AreaRecord.NoGen.cs" />
+    <Compile Include="Entities\BannedIpAddressRecord.cs" />
+    <Compile Include="Entities\DayNameRecord.cs" />
+    <Compile Include="Entities\DoorRecord.cs" />
+    <Compile Include="Entities\DoorSideRecord.cs" />
+    <Compile Include="Entities\ExitRecord.cs" />
+    <Compile Include="Entities\HelpTopicAliasRecord.cs" />
+    <Compile Include="Entities\HelpTopicRecord.cs" />
+    <Compile Include="Entities\IacRecord.cs" />
+    <Compile Include="Entities\MobRecord.cs" />
+    <Compile Include="Entities\MobRecord.NoGen.cs" />
+    <Compile Include="Entities\MobTypeRecord.cs" />
+    <Compile Include="Entities\MonthNameRecord.cs" />
+    <Compile Include="Entities\MudChannelRecord.cs" />
+    <Compile Include="Entities\MudChannelRoleRecord.cs" />
+    <Compile Include="Entities\MxpRecord.cs" />
+    <Compile Include="Entities\PlayerChannelRecord.cs" />
+    <Compile Include="Entities\PlayerIpAddressRecord.cs" />
+    <Compile Include="Entities\PlayerRecord.cs" />
+    <Compile Include="Entities\PlayerRoleRecord.cs" />
+    <Compile Include="Entities\PortalExitRecord.cs" />
+    <Compile Include="Entities\RoleRecord.cs" />
+    <Compile Include="Entities\RoomRecord.cs" />
+    <Compile Include="Entities\RoomRecord.NoGen.cs" />
+    <Compile Include="Entities\RoomTypeRecord.cs" />
+    <Compile Include="Entities\RoomVisualRecord.cs" />
+    <Compile Include="Entities\TypoRecord.cs" />
+    <Compile Include="HelperConfigInfo.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="IWheelMudDbProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ProviderCache.cs" />
+    <Compile Include="Repositories\AnsiRepository.cs" />
+    <Compile Include="Repositories\AreaRepository.cs" />
+    <Compile Include="Repositories\AreaRepository.NoGen.cs" />
+    <Compile Include="Repositories\BannedIpAddressRepository.cs" />
+    <Compile Include="Repositories\DayNameRepository.cs" />
+    <Compile Include="Repositories\DoorRepository.cs" />
+    <Compile Include="Repositories\DoorSideRepository.cs" />
+    <Compile Include="Repositories\ExitRepository.cs" />
+    <Compile Include="Repositories\HelpTopicAliasRepository.cs" />
+    <Compile Include="Repositories\HelpTopicRepository.cs" />
+    <Compile Include="Repositories\HelpTopicRepository.NoGen.cs" />
+    <Compile Include="Repositories\IacRepository.cs" />
+    <Compile Include="Repositories\MobRepository.cs" />
+    <Compile Include="Repositories\MobRepository.NoGen.cs" />
+    <Compile Include="Repositories\MobTypeRepository.cs" />
+    <Compile Include="Repositories\MonthNameRepository.cs" />
+    <Compile Include="Repositories\MudChannelRepository.cs" />
+    <Compile Include="Repositories\MudChannelRoleRepository.cs" />
+    <Compile Include="Repositories\MxpRepository.cs" />
+    <Compile Include="Repositories\PlayerChannelRepository.cs" />
+    <Compile Include="Repositories\PlayerIpAddressRepository.cs" />
+    <Compile Include="Repositories\PlayerRepository.cs" />
+    <Compile Include="Repositories\PlayerRepository.NoGen.cs" />
+    <Compile Include="Repositories\PlayerRoleRepository.cs" />
+    <Compile Include="Repositories\PlayerRoleRepository.NoGen.cs" />
+    <Compile Include="Repositories\PortalExitRepository.cs" />
+    <Compile Include="Repositories\RoleRepository.cs" />
+    <Compile Include="Repositories\RoleRepository.NoGen.cs" />
+    <Compile Include="Repositories\RoomRepository.cs" />
+    <Compile Include="Repositories\RoomRepository.NoGen.cs" />
+    <Compile Include="Repositories\RoomTypeRepository.cs" />
+    <Compile Include="Repositories\RoomVisualRepository.cs" />
+    <Compile Include="Repositories\TypoRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IAnsiRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IAreaRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IBannedIpAddressRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IDayNameRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IDoorRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IDoorSideRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IExitRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IHelpTopicAliasRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IHelpTopicRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IIacRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IMobRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IMobTypeRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IMonthNameRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IMudChannelRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IMudChannelRoleRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IMxpRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IPlayerChannelRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IPlayerIpAddressRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IPlayerRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IPlayerRoleRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IPortalExitRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IRoleRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IRoomRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IRoomTypeRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IRoomVisualRepository.cs" />
+    <Compile Include="RepositoryInterfaces\ITypoRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="CodeSmith\DataTransferObject.cst" />
+    <None Include="CodeSmith\EntityRecord.cst" />
+    <None Include="CodeSmith\MasterData.cst" />
+    <None Include="CodeSmith\Repository.cst" />
+    <None Include="CodeSmith\RepositoryCreator.cst" />
+    <None Include="CodeSmith\RepositoryInterface.cst" />
+    <None Include="CodeSmith\SqlServer-CSharpAlias.csmap" />
+    <None Include="CodeSmith\System-CSharpAlias.csmap" />
+    <Generate Include="CodeSmith\WheelMUD.Data.csp" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj">
+      <Project>{03849491-18F6-4AB2-8E8C-2B0ACE8EC035}</Project>
+      <Name>WheelMUD.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CodeSmith\WheelMUD.CodeSmith.Utilities.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\CodeSmith\CodeSmith.targets" Condition="Exists('$(MSBuildExtensionsPath)\CodeSmith\CodeSmith.targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

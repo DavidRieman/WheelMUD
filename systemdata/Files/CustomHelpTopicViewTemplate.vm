@@ -1,0 +1,5 @@
+<%red%><%b%>Help for ${HelpTopic.Topic}
+#if (${HelpTopic.Description})
+	<%nl%>${HelpTopic.Description}
+#end
+<%n%>

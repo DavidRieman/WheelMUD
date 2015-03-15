@@ -1,0 +1,12 @@
+<%nl%>
+/ / /\ \ \| |__    ___   ___ | |  /\/\   /\ /\    /   \<%nl%>
+\ \/  \/ /| '_ \  / _ \ / _ \| | /    \ / / \ \  / /\ /<%nl%>
+ \  /\  / | | | ||  __/|  __/| |/ /\/\ \\ \_/ / / /_// <%nl%>
+  \/  \/  |_| |_| \___| \___||_|\/    \/ \___/ /___,'  <%nl%>
+<%n%><%nl%>
+<%nl%>
+Copyright (C) 2008-2014 www.wheelmud.net<%nl%>
+<%nl%>
+Welcome to $MudAttributes.MudName $MudAttributes.Version<%nl%>
+<%nl%>
+<%nl%>
