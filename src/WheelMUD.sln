@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Administration", "Administration", "{CB6B6D73-2961-4927-829B-80101C6870F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WheelMUD.WindowsService", "ServerAdministration\WindowsService\WheelMUD.WindowsService.csproj", "{AFF7C047-E13F-49A0-B7DD-1EFD905A470F}"
@@ -22,8 +24,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WheelMUD.Effects", "Effects\WheelMUD.Effects.csproj", "{4ED3B614-F28E-4CDD-9E25-57E68416BF2F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WheelMUD.Main", "Main\WheelMUD.Main.csproj", "{C1BF3C19-B5F8-4F23-A175-00F0AFDD8682}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WheelMUD.MobAI", "MobAI\WheelMUD.MobAI.csproj", "{1B65C6F4-8DEE-404E-9B1B-40B6A3346A9F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WheelMUD.Server", "Server\WheelMUD.Server.csproj", "{67EE47DE-70D5-466A-BFF0-83BF1BB9C5A7}"
 EndProject
@@ -95,9 +95,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CDE998
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = WheelMUD.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
@@ -139,10 +136,6 @@ Global
 		{C1BF3C19-B5F8-4F23-A175-00F0AFDD8682}.Debug|x86.Build.0 = Debug|x86
 		{C1BF3C19-B5F8-4F23-A175-00F0AFDD8682}.Release|x86.ActiveCfg = Release|x86
 		{C1BF3C19-B5F8-4F23-A175-00F0AFDD8682}.Release|x86.Build.0 = Release|x86
-		{1B65C6F4-8DEE-404E-9B1B-40B6A3346A9F}.Debug|x86.ActiveCfg = Debug|x86
-		{1B65C6F4-8DEE-404E-9B1B-40B6A3346A9F}.Debug|x86.Build.0 = Debug|x86
-		{1B65C6F4-8DEE-404E-9B1B-40B6A3346A9F}.Release|x86.ActiveCfg = Release|x86
-		{1B65C6F4-8DEE-404E-9B1B-40B6A3346A9F}.Release|x86.Build.0 = Release|x86
 		{67EE47DE-70D5-466A-BFF0-83BF1BB9C5A7}.Debug|x86.ActiveCfg = Debug|x86
 		{67EE47DE-70D5-466A-BFF0-83BF1BB9C5A7}.Debug|x86.Build.0 = Debug|x86
 		{67EE47DE-70D5-466A-BFF0-83BF1BB9C5A7}.Release|x86.ActiveCfg = Release|x86
@@ -221,7 +214,6 @@ Global
 		{DC4BD540-7DB4-41C9-8634-C2780F4C1590} = {70B47C52-9264-4B57-BA38-D1A5BAECC660}
 		{4ED3B614-F28E-4CDD-9E25-57E68416BF2F} = {70B47C52-9264-4B57-BA38-D1A5BAECC660}
 		{C1BF3C19-B5F8-4F23-A175-00F0AFDD8682} = {70B47C52-9264-4B57-BA38-D1A5BAECC660}
-		{1B65C6F4-8DEE-404E-9B1B-40B6A3346A9F} = {70B47C52-9264-4B57-BA38-D1A5BAECC660}
 		{67EE47DE-70D5-466A-BFF0-83BF1BB9C5A7} = {70B47C52-9264-4B57-BA38-D1A5BAECC660}
 		{164575A3-FE8C-4785-8604-A7660160BC5B} = {70B47C52-9264-4B57-BA38-D1A5BAECC660}
 		{C755E05B-F375-43CE-A37A-82B5468F4CD1} = {70B47C52-9264-4B57-BA38-D1A5BAECC660}
@@ -237,6 +229,9 @@ Global
 		{F9235B03-F19E-494D-A6BF-87750A821B1D} = {6132C745-3F4C-496A-A904-C7C7CE363085}
 		{3BFE4F46-3B33-4449-AA58-B2B2F6E0A464} = {D051C5A7-F170-427F-A8C8-DEBC246CA934}
 		{2C0AABE2-0B83-4F32-82C5-A0AF066AB34A} = {219394ED-676D-46B8-8AEE-FC6A2084F90F}
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = WheelMUD.vsmdi
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = TestHarness\TestHarness.csproj
