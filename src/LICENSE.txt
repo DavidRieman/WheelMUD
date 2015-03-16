@@ -1,9 +1,9 @@
 WheelMUD
-http://www.wheelmud.net
-http://www.codeplex.com/wheelmud
-Copyright (c) 2007-2014 WheelMUD Development Team
+https://github.com/DavidRieman/WheelMUD (Formerly http://www.wheelmud.net or http://www.codeplex.com/wheelmud)
 
-Microsoft Public License (Ms-PL)
+Copyright (c) 2007-2015 WheelMUD Development Team
+
+Microsoft Public License (MS-PL)
 
 This license governs use of the accompanying software. If you use the software, you accept this license. If you do not accept the license, do not use the software.
 
