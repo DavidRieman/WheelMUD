@@ -84,10 +84,6 @@
       <Project>{3A5996F8-AFE7-411E-8CFD-09F72CC6C417}</Project>
       <Name>WheelMUD.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MobAI\WheelMUD.MobAI.csproj">
-      <Project>{1B65C6F4-8DEE-404E-9B1B-40B6A3346A9F}</Project>
-      <Name>WheelMUD.MobAI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Server\WheelMUD.Server.csproj">
       <Project>{67EE47DE-70D5-466A-BFF0-83BF1BB9C5A7}</Project>
       <Name>WheelMUD.Server</Name>

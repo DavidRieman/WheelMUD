@@ -95,10 +95,6 @@
       <Project>{3A5996F8-AFE7-411E-8CFD-09F72CC6C417}</Project>
       <Name>WheelMUD.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MobAI\WheelMUD.MobAI.csproj">
-      <Project>{1B65C6F4-8DEE-404E-9B1B-40B6A3346A9F}</Project>
-      <Name>WheelMUD.MobAI</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
