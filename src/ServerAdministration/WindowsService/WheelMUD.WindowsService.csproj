@@ -6,7 +6,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{AFF7C047-E13F-49A0-B7DD-1EFD905A470F}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WheelMUD.Administration.WindowsService</RootNamespace>
     <AssemblyName>WheelMUDWindowsService</AssemblyName>
@@ -17,6 +17,9 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -29,7 +32,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -86,8 +88,13 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="Topshelf">
+      <HintPath>..\..\packages\Topshelf.3.1.4\lib\net40-full\Topshelf.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ServiceController.resx">
@@ -112,14 +119,6 @@
       <Project>{C1BF3C19-B5F8-4F23-A175-00F0AFDD8682}</Project>
       <Name>WheelMUD.Main</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HoytSoft\HoytSoft.Common.Services\HoytSoft.Common.Services.csproj">
-      <Project>{F752A16F-B7B7-488A-87DD-E55035A5AC3F}</Project>
-      <Name>HoytSoft.Common.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HoytSoft\HoytSoft.Common.UAC.Run\HoytSoft.Common.UAC.Run.csproj">
-      <Project>{10C5679F-75FD-43E8-8EAB-8F036803B915}</Project>
-      <Name>HoytSoft.Common.UAC.Run</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <PostBuildEvent>$(ProjectDir)CopyToAppData.exe "$(SolutionDir)..\systemdata\Files"
@@ -135,6 +134,7 @@ xcopy "$(SolutionDir)..\_references\NHibernate.ByteCode.Castle.*" "$(ProjectDir)
     <None Include="mud.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="wheelmud.ico" />
@@ -156,4 +156,11 @@ xcopy "$(SolutionDir)..\_references\NHibernate.ByteCode.Castle.*" "$(ProjectDir)
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
 </Project>

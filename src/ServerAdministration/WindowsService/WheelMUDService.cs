@@ -8,60 +8,37 @@
 // </summary>
 //-----------------------------------------------------------------------------
 
+using Topshelf;
+using System;
+using WheelMUD.Main;
+
 namespace WheelMUD.Administration.WindowsService
 {
-    using System;
-    using HoytSoft.Common.Services;
-    using WheelMUD.Main;
-
-    /// <summary>The WheelMUD Windows service.</summary>
-    [Service(
-        "WheelMUDWindowsService",
-        "WheelMUD Server Windows Service",
-        "Allows the WheelMUD MUD Server to run as a Windows Service.",
-        AutoInstall = true,
-        ServiceType = ServiceType.OwnProcess,
-        ServiceStartType = ServiceStartType.AutoStart,
-        ServiceControls = ServiceControls.StartAndStop | ServiceControls.Shutdown,
-        LogName = "WheelMUDWindowsService")
-    ]
-    public partial class WheelMUDService : ServiceBase
+    public partial class WheelMudService : ServiceControl
     {
         /// <summary>The application.</summary>
-        private readonly Application application;
+        private readonly Application _application;
 
         /// <summary>Initializes a new instance of the WheelMUDService class.</summary>
-        public WheelMUDService()
+        public WheelMudService()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            this.application = Application.Instance;
+            _application = Application.Instance;
         }
 
-        /// <summary>Starts the service.</summary>
-        public void StartService()
+        public bool Start(HostControl hostControl)
         {
-            this.Start();
+            _application.Start();
+
+            return true;
         }
 
-        /// <summary>Stops the service.</summary>
-        public void StopService()
+        public bool Stop(HostControl hostControl)
         {
-            this.Stop();
-        }
+            _application.Stop();
 
-        /// <summary>This method is called when the service starts.</summary>
-        protected override void Start()
-        {
-            this.application.Start();
-            base.Start();
-        }
-
-        /// <summary>This method is called when the service stops.</summary>
-        protected override void Stop()
-        {
-            this.application.Stop();
-            base.Stop();
+            return true;
         }
     }
 }

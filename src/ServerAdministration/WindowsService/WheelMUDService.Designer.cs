@@ -13,7 +13,7 @@ namespace WheelMUD.Administration.WindowsService
     /// <summary>
     /// The WheelMUD service (continued for design aspects).
     /// </summary>
-    public partial class WheelMUDService
+    public partial class WheelMudService
     {
         /// <summary> 
         /// Required designer variable.

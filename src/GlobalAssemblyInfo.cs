@@ -17,7 +17,7 @@ using System.Reflection;
 
 [assembly: AssemblyCompany("WheelMUD Development Team")]
 
-[assembly: AssemblyCopyright("Copyright © WheelMUD Development Team 1998-2014")]
+[assembly: AssemblyCopyright("Copyright © WheelMUD Development Team 1998-2015")]
 
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
