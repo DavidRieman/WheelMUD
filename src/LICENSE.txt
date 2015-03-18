@@ -1,5 +1,5 @@
 WheelMUD
-https://github.com/DavidRieman/WheelMUD (Formerly http://www.wheelmud.net or http://www.codeplex.com/wheelmud)
+https://github.com/WheelMud/WheelMUD (Formerly http://www.wheelmud.net or http://www.codeplex.com/wheelmud)
 
 Copyright (c) 2007-2015 WheelMUD Development Team
 
