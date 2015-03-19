@@ -19,7 +19,7 @@ namespace TestHarness
     public class MultiUpdater : ISuperSystemSubscriber
     {
         /// <summary>All notifiers utilized by this MultiUpdater.</summary>
-        private List<ISuperSystemSubscriber> notifiers = new List<ISuperSystemSubscriber>();
+        private List<ISuperSystemSubscriber> _notifiers = new List<ISuperSystemSubscriber>();
 
         /// <summary>
         /// Initializes a new instance of the MultiUpdater class.
@@ -27,7 +27,7 @@ namespace TestHarness
         /// <param name="notifiers">All the notifiers that this MultiUpdater will utilize.</param>
         public MultiUpdater(params ISuperSystemSubscriber[] notifiers)
         {
-            this.notifiers.AddRange(notifiers);
+            _notifiers.AddRange(notifiers);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace TestHarness
         /// </summary>
         ~MultiUpdater()
         {
-            this.Dispose();
+            Dispose();
         }
 
         /// <summary>
@@ -43,15 +43,17 @@ namespace TestHarness
         /// </summary>
         public void Dispose()
         {
-            if (this.notifiers != null)
+            if (_notifiers == null)
             {
-                foreach (var notifier in this.notifiers)
-                {
-                    notifier.Dispose();
-                }
-
-                this.notifiers = null;
+                return;
             }
+
+            foreach (var notifier in _notifiers)
+            {
+                notifier.Dispose();
+            }
+
+            _notifiers = null;
         }
 
         /// <summary>
@@ -60,12 +62,14 @@ namespace TestHarness
         /// <param name="message">The message to pass along.</param>
         public void Notify(string message)
         {
-            if (this.notifiers != null)
+            if (_notifiers == null)
             {
-                foreach (var notifier in this.notifiers)
-                {
-                    notifier.Notify(message);
-                }
+                return;
+            }
+
+            foreach (var notifier in _notifiers)
+            {
+                notifier.Notify(message);
             }
         }
     }

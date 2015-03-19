@@ -61,13 +61,13 @@ namespace WheelMUD.Server
         }
 
         /// <summary>The 'client disconnected' event handler.</summary>
-        public event ClientDisconnectedEventHandler ClientDisconnected;
+        public event EventHandler<ConnectionArgs> ClientDisconnected;
 
         /// <summary>The 'data received' event handler.</summary>
-        public event DataReceivedEventHandler DataReceived;
+        public event EventHandler<ConnectionArgs> DataReceived;
 
         /// <summary>The 'data sent' event handler.</summary>
-        public event DataSentEventHandler DataSent;
+        public event EventHandler<ConnectionArgs> DataSent;
 
         /// <summary>Gets the Terminal Options of this connection.</summary>
         public ITerminal Terminal { get; private set; }

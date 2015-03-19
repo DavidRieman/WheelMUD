@@ -8,19 +8,17 @@
 // </summary>
 //-----------------------------------------------------------------------------
 
+using Topshelf;
+
 namespace WheelMUD.Administration.WindowsService
 {
     using System;
-    using System.Windows.Forms;
-    using HoytSoft.Common.Services;
 
     /// <summary>
     /// The main entry point for the service
     /// </summary>
     public class Program
     {
-        private static string[] arguments;
-
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -28,71 +26,30 @@ namespace WheelMUD.Administration.WindowsService
         [STAThread]
         public static void Main(string[] args)
         {
-            arguments = args;
-            ProcessSwitches(args);
-        }
-
-        /// <summary>
-        /// Loop through the command line arguments passed into the application, and parse each switch
-        /// </summary>
-        /// <param name="args">String array of command line switches to parse</param>
-        private static void ProcessSwitches(string[] args)
-        {
-            if (args.Length > 0)
+            HostFactory.Run(x =>
             {
-                // If command line arguments are specified, then loop through them and parse them.
-                for (int i = 0; i < args.Length; i++)
+                x.DependsOnEventLog();
+                x.StartAutomatically();
+                x.RunAsLocalService();
+                x.Service<WheelMudService>(s =>
                 {
-                    ParseSwitch(args[i]);
-                }
-            }
-            else
-            {
-                // If no command line arguments are passed, parse null to just run the service.
-                ParseSwitch(string.Empty);
-            }
-        }
+                    s.ConstructUsing(name => new WheelMudService());
+                    s.WhenStarted(service => service.Start(null));
+                    s.WhenStopped(service => service.Stop(null));
+                });
 
-        /// <summary>
-        /// Parse the command line switch and execute the appropriate method based on the switch
-        /// </summary>
-        /// <param name="cmdSwitch">The command line switch to parse</param>
-        private static void ParseSwitch(string cmdSwitch)
-        {
-            switch (cmdSwitch.ToLower())
-            {
-                // Run in interactive mode
-                case "-interactive":
+
+                x.SetDescription("Allows the WheelMUD MUD Server to run as a Windows Service.");
+                x.SetDisplayName("WheelMUD Server Windows Service");
+                x.SetServiceName("WheelMUDWindowsService");
+
+                x.AddCommandLineSwitch("-interactive", flag => {
+                    if (flag)
                     {
-                        RunInteractive();
-                        break;
+                        // todo 
                     }
-
-                // Just run the service
-                default:
-                    {
-                        // More than one user Service may run within the same process. To add
-                        // another service to this process, change the following line to
-                        // create a second service object. For example,
-                        //   ServicesToRun = new ServiceBase[] {new Service1(), new MySecondUserService()};
-                        ////var servicesToRun = new ServiceBase[] { new WheelMUDService() };
-                        ServiceBase.RunService(arguments, typeof(WheelMUDService));
-                        break;
-                    }
-            }
-        }
-
-        /// <summary>
-        /// Run the program in interactive mode.
-        /// </summary>
-        private static void RunInteractive()
-        {
-            Application.EnableVisualStyles();
-
-            var service = new WheelMUDService();
-            var debugForm = new ServiceController { Service = service };
-
-            Application.Run(debugForm);
+                } );
+            });
         }
     }
 }

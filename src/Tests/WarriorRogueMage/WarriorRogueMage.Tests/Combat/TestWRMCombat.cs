@@ -5,6 +5,7 @@
 // </copyright>
 // <summary>
 //   Created: January 2012 by Fastalanasa.
+//   Edited by Duane King as needed.
 // </summary>
 //-----------------------------------------------------------------------------
 
@@ -110,18 +111,6 @@ namespace WheelMUD.Tests.WRMCombat
         }
 
         /// <summary>
-        /// A test for CreateCombatOrder
-        /// </summary>
-        [TestMethod]
-        [Test]
-        [NUnit.Framework.Ignore]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.Ignore]
-        public void CreateCombatOrderTest()
-        {
-            //Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
-
-        /// <summary>
         /// A test for DoInititiveRoll
         /// </summary>
         [TestMethod]
@@ -135,57 +124,6 @@ namespace WheelMUD.Tests.WRMCombat
             Verify.AreNotSame(roll, 0);
         }
 
-        /// <summary>
-        /// A test for GetCombatantInitiative
-        /// </summary>
-        [TestMethod]
-        [Test]
-        [NUnit.Framework.Ignore]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.Ignore]
-        [DeploymentItem("WarriorRogueMage.dll")]
-        public void GetCombatantInitiativeTest()
-        {
-            //Die combatDie = null; // TODO: Initialize to an appropriate value
-            //int expected = 0; // TODO: Initialize to an appropriate value
-
-            //Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        /// A test for ProcessCombatActions
-        /// </summary>
-        [TestMethod]
-        [Test]
-        [NUnit.Framework.Ignore]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.Ignore]
-        public void ProcessCombatActionsTest()
-        {
-            //Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
-
-        /// <summary>
-        /// A test for ProcessCombatRound
-        /// </summary>
-        [TestMethod]
-        [NUnit.Framework.Ignore]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.Ignore]
-        public void ProcessCombatRoundTest()
-        {
-            //Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
-
-        /// <summary>
-        /// A test for ProcessCombatantRoundActions
-        /// </summary>
-        [TestMethod]
-        [Test]
-        [NUnit.Framework.Ignore]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.Ignore]
-        public void ProcessCombatantRoundActionsTest()
-        {
-            //Thing combatant = null; // TODO: Initialize to an appropriate value
-            //Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        }
 
         /// <summary>
         /// A test for Instance
