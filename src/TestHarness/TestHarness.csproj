@@ -81,7 +81,11 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Commands\HelpCommand.cs" />
+    <Compile Include="Commands\RunTestsCommand.cs" />
+    <Compile Include="Commands\UpdateActionsCommand.cs" />
     <Compile Include="ConsoleUpdater.cs" />
+    <Compile Include="ITestHarnessCommand.cs" />
     <Compile Include="MultiUpdater.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
