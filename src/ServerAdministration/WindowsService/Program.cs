@@ -13,7 +13,6 @@ using Topshelf;
 namespace WheelMUD.Administration.WindowsService
 {
     using System;
-    using System.Windows.Forms;
 
     /// <summary>
     /// The main entry point for the service
@@ -44,10 +43,10 @@ namespace WheelMUD.Administration.WindowsService
                 x.SetDisplayName("WheelMUD Server Windows Service");
                 x.SetServiceName("WheelMUDWindowsService");
 
-                x.AddCommandLineSwitch("-interactive", (flag) => {
+                x.AddCommandLineSwitch("-interactive", flag => {
                     if (flag)
                     {
-
+                        // todo 
                     }
                 } );
             });

@@ -74,12 +74,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceController.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ServiceController.designer.cs">
-      <DependentUpon>ServiceController.cs</DependentUpon>
-    </Compile>
     <Compile Include="WheelMUDService.cs">
     </Compile>
     <Compile Include="WheelMUDService.Designer.cs">
@@ -95,12 +89,6 @@
     <Reference Include="Topshelf">
       <HintPath>..\..\packages\Topshelf.3.1.4\lib\net40-full\Topshelf.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ServiceController.resx">
-      <DependentUpon>ServiceController.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Actions\WheelMUD.Actions.csproj">
