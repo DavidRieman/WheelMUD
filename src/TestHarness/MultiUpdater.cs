@@ -13,34 +13,26 @@ namespace TestHarness
     using System.Collections.Generic;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// Multiple notifications updater.
-    /// </summary>
+    /// <summary>Multiple notifications updater.</summary>
     public class MultiUpdater : ISuperSystemSubscriber
     {
         /// <summary>All notifiers utilized by this MultiUpdater.</summary>
         private List<ISuperSystemSubscriber> _notifiers = new List<ISuperSystemSubscriber>();
 
-        /// <summary>
-        /// Initializes a new instance of the MultiUpdater class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the MultiUpdater class.</summary>
         /// <param name="notifiers">All the notifiers that this MultiUpdater will utilize.</param>
         public MultiUpdater(params ISuperSystemSubscriber[] notifiers)
         {
             _notifiers.AddRange(notifiers);
         }
 
-        /// <summary>
-        /// Finalizes an instance of the MultiUpdater class.
-        /// </summary>
+        /// <summary>Finalizes an instance of the MultiUpdater class.</summary>
         ~MultiUpdater()
         {
             Dispose();
         }
 
-        /// <summary>
-        /// Dispose of all resources utilized by this MultiUpdater.
-        /// </summary>
+        /// <summary>Dispose of all resources utilized by this MultiUpdater.</summary>
         public void Dispose()
         {
             if (_notifiers == null)
@@ -56,9 +48,7 @@ namespace TestHarness
             _notifiers = null;
         }
 
-        /// <summary>
-        /// Notify user of the specified message via logging to a text file.
-        /// </summary>
+        /// <summary>Notify user of the specified message via logging to a text file.</summary>
         /// <param name="message">The message to pass along.</param>
         public void Notify(string message)
         {
