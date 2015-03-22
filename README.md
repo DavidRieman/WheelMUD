@@ -44,4 +44,4 @@ WheelMUD version 0.5 will include:
 For a long term view, you can review our High Level Road Map from the [TODO Documentation].
 
 ## License
-Microsoft Public License (MS-PL). See: https://github.com/WheelMud/WheelMUD/blob/master/src/LICENSE.txt
+Microsoft Public License (MS-PL). [Read Here](../master/src/LICENSE.txt).
