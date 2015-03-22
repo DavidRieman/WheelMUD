@@ -23,19 +23,17 @@ namespace WheelMUD.Main
     using WheelMUD.Interfaces;
     using WheelMUD.Utilities;
 
-    /// <summary>
-    /// The core application, which can be housed in a console, service, etc.
-    /// </summary>
+    /// <summary>The core application, which can be housed in a console, service, etc.</summary>
     public class Application : ISuperSystem, ISuperSystemSubscriber
     {
         /// <summary>The synchronization locking object for singleton instantiation.</summary>
-        private static readonly object instanceLockObject = new object();
-
-        /// <summary>A list of subscribers of this super system.</summary>
-        private readonly List<ISuperSystemSubscriber> subscribers = new List<ISuperSystemSubscriber>();
+        private static readonly object InstanceLockObject = new object();
 
         /// <summary>The singleton instance of this class.</summary>
         private static Application instance;
+
+        /// <summary>A list of subscribers of this super system.</summary>
+        private readonly List<ISuperSystemSubscriber> subscribers = new List<ISuperSystemSubscriber>();
 
         /// <summary>The view engine.</summary>
         private ViewEngine viewEngine;
@@ -57,7 +55,7 @@ namespace WheelMUD.Main
         {
             get
             {
-                lock (instanceLockObject)
+                lock (InstanceLockObject)
                 {
                     if (instance == null)
                     {
@@ -69,25 +67,17 @@ namespace WheelMUD.Main
             }
         }
 
-        /// <summary>
-        /// Gets or sets the available systems.
-        /// </summary>
-        /// <value>
-        /// The available systems.
-        /// </value>
+        /// <summary>Gets or sets the available systems.</summary>
+        /// <value>The available systems.</value>
         [ImportMany]
         private List<SystemExporter> AvailableSystems { get; set; }
 
-        /// <summary>
-        /// Dispose of any resources consumed by Application.
-        /// </summary>
+        /// <summary>Dispose of any resources consumed by Application.</summary>
         public void Dispose()
         { 
         }
 
-        /// <summary>
-        /// Subscribe to the specified super system subscriber.
-        /// </summary>
+        /// <summary>Subscribe to the specified super system subscriber.</summary>
         /// <param name="sender">The subscribing system; generally use 'this'.</param>
         public void SubscribeToSystem(ISuperSystemSubscriber sender)
         {
@@ -99,9 +89,7 @@ namespace WheelMUD.Main
             this.subscribers.Add(sender);
         }
 
-        /// <summary>
-        /// Unsubscribe from the specified super system subscriber.
-        /// </summary>
+        /// <summary>Unsubscribe from the specified super system subscriber.</summary>
         /// <param name="sender">The unsubscribing system; generally use 'this'.</param>
         public void UnSubscribeFromSystem(ISuperSystemSubscriber sender)
         {
@@ -129,9 +117,7 @@ namespace WheelMUD.Main
             this.Notify("Server is now Stopped");
         }
 
-        /// <summary>
-        /// Send an update to the system host.
-        /// </summary>
+        /// <summary>Send an update to the system host.</summary>
         /// <param name="sender">The sending system.</param>
         /// <param name="msg">The message to be sent.</param>
         public void UpdateSystemHost(ISystem sender, string msg)
@@ -243,6 +229,8 @@ namespace WheelMUD.Main
             this.Notify("All services are started. Server is fully operational.");
         }
 
+        /// <summary>Gets the latest versions of each of our composed systems.</summary>
+        /// <returns>A list of SystemExporters as used to instantiate our systems.</returns>
         private List<SystemExporter> GetLatestSystems()
         {
             DefaultComposer.Container.ComposeParts(this);

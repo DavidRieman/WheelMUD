@@ -50,16 +50,21 @@ namespace TestHarness
 
             var input = string.Empty;
 
-            while (input.ToUpper() != "SHUTDOWN")
+            while (true)
             {
                 input = Console.ReadLine();
                 if (input != null)
                 {
+                    // TODO: Console.ReadLine probably never includes newlines; this code is probably not doing what was intended!
                     string[] words = input.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
                     if (words.Length == 0)
                     {
                         continue;
+                    }
+                    else if ("shutdown".Equals(input, StringComparison.OrdinalIgnoreCase))
+                    {
+                        break;
                     }
 
                     var cmd = words[0];
