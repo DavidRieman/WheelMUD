@@ -11,8 +11,8 @@ March 2015:
 * Archived Discussions have migrated to [muds.gamedev.com](http://muds.gamedev.com). Please use that site for public discussions which are not issue-related or pull-request-related.
 
 ## Project Information
-There is lots of information about WheelMUD, and [Documentation](../master/Documentation/README.md) for WheelMUD, available right here in the source tree.
-Get started at the [Documentation](../master/Documentation/README.md) root, where you will find things ranging from the [Project Goals](../master/Documentation/ProjectGoals.md) to [Development](../master/Documentation/Development/README.md)-oriented information.
+There is lots of information about WheelMUD, and [Documentation](Documentation/README.md) for WheelMUD, available right here in the source tree.
+Get started at the [Documentation](Documentation/README.md) root, where you will find things ranging from the [Project Goals](Documentation/ProjectGoals.md) to [Development](Documentation/Development/README.md)-oriented information.
 
 ## Super Quick Start
 For those who know git, code, and telnet already and want to jump right in.
@@ -21,7 +21,7 @@ For those who know git, code, and telnet already and want to jump right in.
 * Open the solution, preferably in Visual Studio 2013.
 * Build and Launch.
 * Once the server is ready, telnet localhost 4000.
-The [Documentation](../master/Documentation/README.md) also includes a far more detailed [Getting Started](../master/Documentation/GettingStarted.md) section.
+The [Documentation](Documentation/README.md) also includes a far more detailed [Getting Started](Documentation/GettingStarted.md) section.
 
 ## License
-Microsoft Public License (MS-PL). [Read Here](../master/src/LICENSE.txt).
+Microsoft Public License (MS-PL). [Read Here](src/LICENSE.txt).
