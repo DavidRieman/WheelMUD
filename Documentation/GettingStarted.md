@@ -35,7 +35,7 @@ For example, if you just have the standard Telnet.exe, Run (Windows+R) Telnet.ex
 You should be greeted with a WheelMUD welcome screen, and the TestHarness console will print that a connection has been accepted.
 
 ## Optional Tools
-* [TortoiseGIT](https://code.google.com/p/tortoisegit/) can help a lot, if you are not interested in being a git command-line guru.
-* [GitHub for Windows](https://windows.github.com/).
-* [RavenDB](https://ravendb.net/) is used for most world/character data.
+* [TortoiseGIT](https://code.google.com/p/tortoisegit) can help a lot, if you are not interested in being a git command-line guru.
+* [GitHub for Windows](https://windows.github.com).
+* [RavenDB](http://ravendb.net) is used for most world/character data.
 * NuGet can be used to manage dependency versions as found in src/packages. (We do commit those packages to ensure they will be present even if their on-line presences are down, as has occurred sometimes in the past.)
