@@ -8,40 +8,20 @@ WheelMUD is a framework for creating Multiple-User Dimensions (MUDs) using the .
 ## Big News
 March 2015:
 * This site (github) is becoming the new primary site for WheelMUD source, documentation, and issue tracking (for now; may consider applying for free Jira Cloud services).
-* Archived Discussions are migrating to http://muds.gamedev.com; please use that site for further public discussions.
+* Archived Discussions have migrated to [muds.gamedev.com](http://muds.gamedev.com). Please use that site for public discussions which are not issue-related or pull-request-related.
 
-## Implemented Features
-WheelMUD version 0.4 includes:
-* Telnet server with command buffering.
-* Auto-negotiated ANSI support. 
-* Auto-negotiated MCCP support (MUD Client Compression Protocol). 
-* Auto-negotiated MXP support (MUD eXtension Protocol). 
-* Character creation system.
-* Behaviors system. (Object extensibility though composition of highly self-sufficient Behaviors and Effects.)
-* Full persistence between resets.
-* Self-sufficient persistence tree. (IE player save, makes inventory save, makes items save, makes behaviors save...)
-* Movement, including rooms, exits, and doors.
-* Basic items and inventory management.
-* Basic moving AI entities. 
-* Sensory system. (Handling for character blindness, deafness, and so on.) 
-* Extensible command and scripting system. 
-* Eventing and reaction system. (Events can be propagated throughout the world, and everything has an opportunity to react to events.) 
-* Container support. 
-* Offline Editor (may need significant rework to accommodate new document DB model).
-* Some skills support.
-* Plug-and-play rule sets support, with a basic "Warrior, Rogue, and Mage" rule set started.
-* Self-sufficient service for deployments. (If the game crashes, the service restarts.)
-* Easy set up and one-key debugging. (F5 to launch TestHarness. No arcane manual steps required.)
-* Significant StyleCop code compliance for consistent code.
-For more information on topics such as our Project Goals and Getting Started, check out the [TODO Documentation].
+## Project Information
+There is lots of information about WheelMUD, and [Documentation](../master/Documentation/README.md) for WheelMUD, available right here in the source tree.
+Get started at the [Documentation](../master/Documentation/README.md) root, where you will find things ranging from the [Project Goals](../master/Documentation/ProjectGoals.md) to [Development](../master/Documentation/Development/README.md)-oriented information.
 
-## In the Pipeline
-WheelMUD version 0.5 will include:
-* Basic reference rule set implementation (Warrior Rogue and Mage). 
-* Simple Combat. 
-* Reference Skills and Spells. 
-* Reasonable mob AI. 
-For a long term view, you can review our High Level Road Map from the [TODO Documentation].
+## Super Quick Start
+For those who know git, code, and telnet already and want to jump right in.
+* Fork the repository.
+* Download the code (IE https://github.com/WheelMud/WheelMUD.git).
+* Open the solution, preferably in Visual Studio 2013.
+* Build and Launch.
+* Once the server is ready, telnet localhost 4000.
+The [Documentation](../master/Documentation/README.md) also includes a far more detailed [Getting Started](../master/Documentation/GettingStarted.md) section.
 
 ## License
 Microsoft Public License (MS-PL). [Read Here](../master/src/LICENSE.txt).
