@@ -3,6 +3,7 @@
 We have tried to organized the code into logical groupings, in solution folders and projects. The current solution structure looks like this:
 ![SolutionExplorer](img/WMSolutionExplorer.gif)
 Here's a brief explanation of each solution folder: 
+
 | Folder          | Description |
 | --------------- | ----------- |
 | Administration  | This is where anything related to editing the server contents or configuration goes. |

@@ -6,6 +6,7 @@ Contributors are welcome to work on features that are not in the next upcoming v
 However, focusing on the nearest upcoming features is a way to help ensure we're all ready to think about those features, and reduces the chance of needing to significant rework.
 The GitHub Issues can be filtered by "milestone" which map to our planned "release version" here.
 Our road map may change over time. Most likely a few features that are less common in MUDs will be punted to the 1.1+ version as we approach and re-evaluate them.
+
 | Version | Description |
 | ------- | ----------- |
 | 0.1     | Done: (History unknown.) |

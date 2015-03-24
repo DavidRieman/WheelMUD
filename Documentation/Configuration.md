@@ -3,6 +3,7 @@
 ## Server Data
 When building and running the server for the first time, a bunch of files are copied over to the server's "program data" location where it can persist and evolve (such as when new characters are saved to the database).
 This program data location depends on your version of Windows. For example, by default:
+
 | OS                     | Folder                                                                     |
 | ---------------------- | -------------------------------------------------------------------------- |
 | Windows XP Pro SP3     | C:\Documents and Settings\All Users\Application Data\WheelMUD\WheelMUD.net |
