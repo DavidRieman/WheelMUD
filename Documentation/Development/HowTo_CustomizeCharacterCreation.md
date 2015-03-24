@@ -5,9 +5,11 @@ Customizing the character creation process needs a bit of knowledge of C#. Howev
 This walk-through is verified accurate against WheelMUD v0.4.
 
 First, locate the WheelMUD.ConnectionStates project.
+
 ![ConnectionStates](img/ConnectionStatesProject.png)
 
 Next locate the DefaultCharacterCreatingStateMachine.cs file.
+
 ![DefaultCharacterCreatingStateMachine](img/DefaultCharacterCreatingStateMachine.png)
 
 This class will serve as your template for your customization. It will also be the starting point for your coding. This class will tell your character creation system what step to run, and which one is next. Let's walk through the different methods, what they are for, and how they should be used. 
@@ -91,9 +93,11 @@ private CharacterCreationSubState RegressState(CharacterCreationSubState current
 So that's it for this class. Let's go create a new custom step. But first, lets setup a new project to house our custom stuff. Lets call our new system, "OneHitWonder".
 
 Navigate to the Gaming solution folder.
+
 ![GamingFolder](img/GamingFolder.png)
 
 Once there, create a new project called OneHitWonder. Make sure that you create it as a Class Library project.
+
 ![OneHitWonderProject](img/OneHitWonderProject.png)
 
 Copy the contents of DefaultCharacterCreationStateMachine.cs into OneHitWonderCharacterCreationStateMachine.cs. First lets change the namespace to OneHitWonder.CharacterCreation. Then lets change the class header like this: 
