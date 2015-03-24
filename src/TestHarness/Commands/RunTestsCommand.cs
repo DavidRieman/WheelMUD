@@ -27,7 +27,7 @@ namespace TestHarness.Commands
             foreach (string file in files)
             {
                 string[] lines = File.ReadAllLines(file);
-                var tsc = new Program.TestScriptClient();
+                var tsc = new TestScriptClient();
 
                 if (!tsc.Connect(display))
                 {
