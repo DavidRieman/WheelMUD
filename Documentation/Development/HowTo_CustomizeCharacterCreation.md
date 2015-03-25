@@ -1,8 +1,9 @@
 # How To: Customize Character Creation in WheelMUD
 
 ## Customizing Character Creation
-Customizing the character creation process needs a bit of knowledge of C#. However Karak had done a great job of simplifying the process for us.
-This walk-through is verified accurate against WheelMUD v0.4.
+Customizing the character creation process needs a bit of knowledge of C#.
+However the WheelMUD team has done a great job of simplifying the process for us.
+(This walk-through is verified accurate against WheelMUD v0.4.)
 
 First, locate the WheelMUD.ConnectionStates project.
 
