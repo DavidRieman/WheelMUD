@@ -14,9 +14,9 @@ For more details, check the [Basic Prerequisites](BasicPrerequisites.md) page.
  * Telnet.exe: Built into all supported versions of Windows, but the Telnet Client feature generally starts disabled. Open up the "Turn Windows features on and off" control panel, scroll down and ensure "Telnet Client" gets selected.
 
 ## Getting the Source Code
-It is preferred to fork the code from [WheelMud/WheelMUD](https://github.com/WheelMud/WheelMUD).
-On the right side of github you will see the "HTTPS clone URL" which you can use with git to pull down a local repository.
-If you don't know how to work with git and github, you will want to follow a few tutorials on those tools first.
+It is preferred to create a GitHub fork the code from the [WheelMud/WheelMUD](https://github.com/WheelMud/WheelMUD) repository.
+On the right side of GitHub you will see the "HTTPS clone URL" which you can use with git to pull down a local repository.
+If you don't know how to work with git and GitHub, you will want to follow a few tutorials on those tools first.
 
 ## Building and Launching the Server
 We take pride in keeping the initial set-up process as painless as possible.
