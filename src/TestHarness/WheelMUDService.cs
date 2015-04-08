@@ -12,7 +12,7 @@ using Topshelf;
 using System;
 using WheelMUD.Main;
 
-namespace WheelMUD.Administration.WindowsService
+namespace TestHarness
 {
     public partial class WheelMudService : ServiceControl
     {

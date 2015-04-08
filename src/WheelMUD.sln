@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Administration", "Administration", "{CB6B6D73-2961-4927-829B-80101C6870F0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WheelMUD.WindowsService", "ServerAdministration\WindowsService\WheelMUD.WindowsService.csproj", "{AFF7C047-E13F-49A0-B7DD-1EFD905A470F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MudFramework", "MudFramework", "{70B47C52-9264-4B57-BA38-D1A5BAECC660}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WheelMUD.ConnectionStates", "ConnectionStates\WheelMUD.ConnectionStates.csproj", "{1EDAA5FD-C255-4D5D-8E15-E717F60E55CF}"
@@ -90,10 +86,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AFF7C047-E13F-49A0-B7DD-1EFD905A470F}.Debug|x86.ActiveCfg = Debug|x86
-		{AFF7C047-E13F-49A0-B7DD-1EFD905A470F}.Debug|x86.Build.0 = Debug|x86
-		{AFF7C047-E13F-49A0-B7DD-1EFD905A470F}.Release|x86.ActiveCfg = Release|x86
-		{AFF7C047-E13F-49A0-B7DD-1EFD905A470F}.Release|x86.Build.0 = Release|x86
 		{1EDAA5FD-C255-4D5D-8E15-E717F60E55CF}.Debug|x86.ActiveCfg = Debug|x86
 		{1EDAA5FD-C255-4D5D-8E15-E717F60E55CF}.Debug|x86.Build.0 = Debug|x86
 		{1EDAA5FD-C255-4D5D-8E15-E717F60E55CF}.Release|x86.ActiveCfg = Release|x86
@@ -175,7 +167,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{AFF7C047-E13F-49A0-B7DD-1EFD905A470F} = {CB6B6D73-2961-4927-829B-80101C6870F0}
 		{1EDAA5FD-C255-4D5D-8E15-E717F60E55CF} = {70B47C52-9264-4B57-BA38-D1A5BAECC660}
 		{A2A4F82C-F885-4E71-82A8-8BFFAA771105} = {70B47C52-9264-4B57-BA38-D1A5BAECC660}
 		{DC4BD540-7DB4-41C9-8634-C2780F4C1590} = {70B47C52-9264-4B57-BA38-D1A5BAECC660}
