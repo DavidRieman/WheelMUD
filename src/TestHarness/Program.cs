@@ -5,8 +5,6 @@
 // </copyright>
 // <summary>
 //   Main entry point for the application.
-//   Created: August 2006 by Foxedup.
-//   Modified: June 13, 2010 by Feverdream.
 // </summary>
 //-----------------------------------------------------------------------------
 
@@ -14,6 +12,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using TestHarness.Commands;
+using Topshelf;
 using WheelMUD.Main;
 
 namespace TestHarness
@@ -22,7 +21,50 @@ namespace TestHarness
     public class Program
     {
         /// <summary>Main entry point into the test harness.</summary>
-        public static void Main()
+        public static void Main(string[] args)
+        {
+            if (args.Length > 0)
+            {
+                // Auto-starting Windows services will always have commandline arguments.  Or, if a user wants to do
+                // something specific (even requesting help output) then we should go through the normal operation
+                // via Topshelf, for Topshelf to handle those arguments.  Some examples may be "install --sudo" to
+                // ask Topshelf to install WheelMUD as a Windows service, "start" to start said service, "stop" and
+                // "uninstall --sudo" to ask Topshelf to stop and uninstall the service, etc.
+                // http://docs.topshelf-project.com/en/latest/overview/commandline.html
+                RunWithTopshelf();
+            }
+            else
+            {
+                // If we had no commandline arguments, such as when F5 launching inside a development environment
+                // for debugging:  Launch in the interactive console mode where we can type server commands, start
+                // integration tests, see server logs directly, and so on.
+                RunWithTestHarness();
+            }
+        }
+
+        /// <summary>Execute WheelMUD program via Topshelf.</summary>
+        public static void RunWithTopshelf()
+        {
+            HostFactory.Run(x =>
+            {
+                x.DependsOnEventLog();
+                x.StartAutomatically();
+                x.RunAsLocalService();
+                x.Service<WheelMudService>(s =>
+                {
+                    s.ConstructUsing(name => new WheelMudService());
+                    s.WhenStarted(service => service.Start(null));
+                    s.WhenStopped(service => service.Stop(null));
+                });
+
+                x.SetDescription("Allows the WheelMUD MUD Server to run as a Windows Service.");
+                x.SetDisplayName("WheelMUD Server");
+                x.SetServiceName("WheelMUDWindowsService");
+            });
+        }
+
+        /// <summary>Execute WheelMUD program via our own TestHarness.</summary>
+        public static void RunWithTestHarness()
         {
             string logFileName = "Log_" + DateTime.Now.ToShortDateString() + ".txt";
             logFileName = logFileName.Replace('\\', '_').Replace('/', '_');
@@ -31,9 +73,7 @@ namespace TestHarness
             var display = new MultiUpdater(consoleDisplay, textLogWriter);
 
             var app = Application.Instance;
-
             app.SubscribeToSystem(display);
-
             app.Start();
 
             // TODO: Consider reflecting implementers of ITestHarnessCommand to keep this automatically up to date?

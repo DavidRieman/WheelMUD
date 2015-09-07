@@ -8,7 +8,7 @@
 // </summary>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Administration.WindowsService
+namespace TestHarness
 {
     /// <summary>
     /// The WheelMUD service (continued for design aspects).
