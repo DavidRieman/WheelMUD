@@ -11,6 +11,7 @@
 
 namespace WheelMUD.Data
 {
+    using System;
     using System.Configuration;
     using System.IO;
 
@@ -79,7 +80,6 @@ namespace WheelMUD.Data
         /// </summary>
         private void GetConfigSettings()
         {
-            string connectionStringExe = Configuration.GetConnectionStringExePath();
             string configFile = Configuration.GetConnectionStringConfigFilePath();
             string defaultName = ConfigurationManager.AppSettings["DefaultConnectionStringName"];
 
@@ -87,18 +87,14 @@ namespace WheelMUD.Data
             {
                 defaultName = "WheelMUDSQLite";
             }
-
-            if (!File.Exists(connectionStringExe))
-            {
-                this.CreateDummyExe(connectionStringExe);
-            }
-
             if (!File.Exists(configFile))
             {
                 this.CreateConfigFile();
             }
 
-            System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(connectionStringExe);
+            ExeConfigurationFileMap configMap = new ExeConfigurationFileMap();
+            configMap.ExeConfigFilename = configFile;
+            System.Configuration.Configuration config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
 
             this.ConnectionStringName = config.ConnectionStrings.ConnectionStrings[defaultName].Name;
             this.ConnectionString = config.ConnectionStrings.ConnectionStrings[defaultName].ConnectionString;
@@ -106,30 +102,28 @@ namespace WheelMUD.Data
 
             if (this.ConnectionString.Contains("Files\\WheelMud.net.db"))
             {
-                string path = Path.GetDirectoryName(connectionStringExe);
+                string path = Path.GetDirectoryName(configFile);
                 string fullPath = Path.Combine(path, "WheelMud.net.db");
 
                 this.ConnectionString = this.ConnectionString.Replace("Files\\WheelMud.net.db", fullPath);
             }
         }
 
-        private void CreateDummyExe(string path)
-        {
-            File.Create(path);
-        }
-
         private void CreateConfigFile()
         {
-            string file = Configuration.GetConnectionStringFilePath();
 
-            StreamReader stream = File.OpenText(file);
 
-            string contents = stream.ReadToEnd();
-            stream.Close();
+            string file = Configuration.GetConnectionStringConfigFilePath();
+
+            var dirPath = Path.GetDirectoryName(file);
+            Directory.CreateDirectory(dirPath);
 
             StreamWriter writer = File.CreateText(Configuration.GetConnectionStringConfigFilePath());
             writer.WriteLine("<configuration>");
-            writer.WriteLine(contents);
+            writer.WriteLine("<connectionStrings>");
+            writer.WriteLine("  <clear/>");
+            writer.WriteLine("  <add name=\"WheelMUDSQLite\" providerName=\"System.Data.SQLite\" connectionString=\"Data Source = Files\\WheelMud.net.db; Version = 3; \"/>");
+            writer.WriteLine("</connectionStrings>");
             writer.WriteLine("</configuration>");
             writer.Flush();
             writer.Close();
