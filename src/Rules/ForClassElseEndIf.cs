@@ -31,6 +31,14 @@ namespace WheelMUD.Rules
             _conditionalInvoker = conditionalInvoker;
         }
 
+        public Expression<Func<T, T>> Expression
+        {
+            get
+            {
+                return Utilities.ReturnSelf<T>();
+            }
+        }
+
         public SetupClassElseEndIf<T, R, ENDIF> Setup<R>(Expression<Func<T, R>> expression)
         {
             return new SetupClassElseEndIf<T, R, ENDIF>(this.rulesRulesEngine, this, expression);
@@ -42,6 +50,7 @@ namespace WheelMUD.Rules
             this.rulesRulesEngine.RegisterRule<T, T>(rule, expression, expression);
             return this;
         }
+
         public ForClassElseEndIf<T, ForClassElseEndIf<T, ENDIF>> If(Expression<Func<T, bool>> conditionalExpression)
         {
             var invoker = this.rulesRulesEngine.RegisterCondition(conditionalExpression);
@@ -58,14 +67,6 @@ namespace WheelMUD.Rules
             return _parent;
         }
 
-        public Expression<Func<T, T>> Expression
-        {
-            get
-            {
-                return Utilities.ReturnSelf<T>();
-            }
-        }
-
         /// <summary>
         /// Gets RulesEngine
         /// </summary>
@@ -73,8 +74,7 @@ namespace WheelMUD.Rules
         {
             get { return this.rulesRulesEngine; }
         }
-
-
+        
         public ForClassElseEndIf<T, ENDIF> GetSelf()
         {
             return this;
