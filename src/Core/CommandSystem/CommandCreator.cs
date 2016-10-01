@@ -89,7 +89,6 @@ namespace WheelMUD.CommandSystem
             // Track the execute and guards delegates of this instance for calling soon, with the user's input.
             var executeDelegate = new CommandScriptExecuteDelegate(commandScript.Execute);
             var guardsDelegate = new CommandScriptGuardsDelegate(commandScript.Guards);
-            object[] args = new object[] { actionInput.Controller, actionInput };
 
             return new ScriptingCommand(command.Name, executeDelegate, guardsDelegate, command.SecurityRole, actionInput);
         }
