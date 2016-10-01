@@ -74,7 +74,7 @@ namespace WheelMUD.Main
 
         /// <summary>Dispose of any resources consumed by Application.</summary>
         public void Dispose()
-        { 
+        {
         }
 
         /// <summary>Subscribe to the specified super system subscriber.</summary>
@@ -100,10 +100,90 @@ namespace WheelMUD.Main
         public void Start()
         {
 #if DEBUG
+            EnsureFilesArePresent();
             EnsureDataIsPresent();
 #endif
 
             this.InitializeSystems();
+        }
+
+        private void EnsureFilesArePresent()
+        {
+            string appPath = Assembly.GetExecutingAssembly().Location;
+            var appFile = new FileInfo(appPath);
+
+            if (appFile.Directory == null || string.IsNullOrEmpty(appFile.Directory.FullName))
+            {
+                throw new DirectoryNotFoundException("Could not find the application directory.");
+            }
+
+            string appDir = appFile.Directory.FullName;
+            string destDir = Configuration.GetDataStoragePath();
+
+            if (!Directory.Exists(destDir))
+            {
+                // If the database file doesn't exist, try to copy the original source.
+                string sourcePath = null;
+                int i = appDir.IndexOf("\\systemdata\\", System.StringComparison.Ordinal);
+                if (i > 0)
+                {
+                    sourcePath = appDir.Substring(0, i) + "\\systemdata\\Files\\";
+                }
+                else
+                {
+                    sourcePath = Path.GetDirectoryName(appDir);
+                    sourcePath = Path.Combine(sourcePath + "\\systemdata\\Files\\");
+                }
+                DirectoryCopy(sourcePath, destDir,true);
+            }
+        }
+        private static void DirectoryCopy(
+        string sourceDirName, string destDirName, bool copySubDirs)
+        {
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            // If the source directory does not exist, throw an exception.
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + sourceDirName);
+            }
+
+            // If the destination directory does not exist, create it.
+            if (!Directory.Exists(destDirName))
+            {
+                Directory.CreateDirectory(destDirName);
+            }
+
+
+            // Get the file contents of the directory to copy.
+            FileInfo[] files = dir.GetFiles();
+
+            foreach (FileInfo file in files)
+            {
+                // Create the path to the new copy of the file.
+                string temppath = Path.Combine(destDirName, file.Name);
+
+                // Copy the file.
+                file.CopyTo(temppath, false);
+            }
+
+            // If copySubDirs is true, copy the subdirectories.
+            if (copySubDirs)
+            {
+
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    // Create the subdirectory.
+                    string temppath = Path.Combine(destDirName, subdir.Name);
+
+                    // Copy the subdirectories.
+                    DirectoryCopy(subdir.FullName, temppath, copySubDirs);
+                }
+            }
+
         }
 
         /// <summary>Stop the application.</summary>
@@ -200,6 +280,8 @@ namespace WheelMUD.Main
                 }
             }
         }
+
+
 
         /// <summary>
         /// Initializes the systems of this application.

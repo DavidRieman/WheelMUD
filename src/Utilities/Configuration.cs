@@ -36,27 +36,6 @@ namespace WheelMUD.Utilities
             return fullPath;
         }
 
-        /// <summary>
-        /// Gets the connection string exe path.
-        /// </summary>
-        /// <returns>A string containing the path to the connectionstrings.exe file.</returns>
-        public static string GetConnectionStringExePath()
-        {
-            string root = GetDataStoragePath();
-
-            return Path.Combine(root, "connectionstrings.exe");
-        }
-
-        /// <summary>
-        /// Gets the connection string file path.
-        /// </summary>
-        /// <returns>A string containing the path to the connectionstrings.exe.config file.</returns>
-        public static string GetConnectionStringFilePath()
-        {
-            string root = GetDataStoragePath();
-
-            return Path.Combine(root, "connectionstrings.config");
-        }
 
         /// <summary>
         /// Gets the connection string configuration file path.
@@ -66,7 +45,7 @@ namespace WheelMUD.Utilities
         {
             string root = GetDataStoragePath();
 
-            return Path.Combine(root, "connectionstrings.exe.config");
+            return Path.Combine(root, "connectionstrings.cfg");
         }
 
         private static string GetMudName()
