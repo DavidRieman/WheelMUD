@@ -43,7 +43,8 @@ namespace WheelMUD.Tests
                 // The test is running in NUnit or ReSharper; rig up to the NUnit assert methods.
                 WireNUnitAsserts();
             }
-            else if (processName.StartsWith("QTAgent", StringComparison.CurrentCultureIgnoreCase))
+            else if (processName.StartsWith("QTAgent", StringComparison.CurrentCultureIgnoreCase) ||
+                     processName.StartsWith("TE.ProcessHost.Managed", StringComparison.CurrentCultureIgnoreCase))
             {
                 // The test is running in the MS unit testing framework; rig up those assert methods.
                 WireMSTestAsserts();
