@@ -51,9 +51,7 @@ namespace WheelMUD.Core
         /// <summary>The unique ID of this thing.</summary>
         private string id;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Thing"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="Thing"/> class.</summary>
         /// <param name="behaviors">The behaviors.</param>
         public Thing(params Behavior[] behaviors)
         {
@@ -82,6 +80,7 @@ namespace WheelMUD.Core
             }
         }
 
+        /// <summary>Finalizes an instance of the <see cref="Thing"/> class.</summary>
         ~Thing()
         {
             this.Dispose();
@@ -237,7 +236,7 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the children of this Thing.</summary>
         public List<Thing> Children { get; set; }
 
-        /// <summary>Gets or sets the ID this item is templated from.</summary>
+        /// <summary>Gets or sets the ID of the template this Thing is based on.</summary>
         /// <remarks>@@@ TODO: 'set' should be private once the Builders are finished being extracted!</remarks>
         public string TemplateId { get; set; }
 
@@ -370,7 +369,7 @@ namespace WheelMUD.Core
 
         /// <summary>
         /// De-serialize the next object in the stream and re-create the current one in its image.
-        /// Uses the internal CloneProperties() for ease of maintenance by we mere mortal devs..
+        /// Uses the internal CloneProperties() for ease of maintenance by developers.
         /// </summary>
         /// <param name="r">The stream to read from.</param>
         /// <returns>True on success, false on error.</returns>
@@ -476,10 +475,8 @@ namespace WheelMUD.Core
             }
 
             Thing foundThing = this.FindChild(searchString);
-
             if (foundThing == null)
             {
-                string s = searchString.ToLower();
                 foundThing = this.Parent.FindChild(searchString);
             }
 
@@ -608,31 +605,23 @@ namespace WheelMUD.Core
             return attribute;
         }
 
-        /// <summary>
-        /// Finds a specific game skill.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <summary>Finds a specific game skill.</summary>
+        /// <typeparam name="T">The type of the GameSkill.</typeparam>
+        /// <returns>The GameSkill, if found, or null.</returns>
         public GameSkill FindGameSkill<T>() where T : GameSkill
         {
             var skillList = new List<GameSkill>(this.Skills.Values);
-
             T skill = skillList.OfType<T>().FirstOrDefault();
-
             return skill;
         }
 
-        /// <summary>
-        /// Finds a specific game skill.
-        /// </summary>
+        /// <summary>Finds a specific game skill.</summary>
         /// <param name="skillName">Name of the skill.</param>
-        /// <returns></returns>
+        /// <returns>The GameSkill, if found, or null.</returns>
         public GameSkill FindGameSkill(string skillName)
         {
             GameSkill skill;
-
             this.Skills.TryGetValue(skillName, out skill);
-
             return skill;
         }
 
