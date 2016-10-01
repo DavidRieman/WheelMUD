@@ -142,12 +142,14 @@ namespace WheelMUD.Core
                 // able to continue through such situations.)
                 // Start gathering info, but carefully to avoid causing potential further exceptions here.
                 IController controller = actionInput.Controller;
+#if DEBUG
                 Thing thing = controller != null ? controller.Thing : null;
                 string thingName = thing != null ? thing.Name : "[null]";
                 string thingID = thing != null ? thing.ID.ToString() : "[null]";
                 string fullCommand = actionInput != null ? actionInput.FullText : "[null]";
                 string format = "Exception encountered for command: {1}{0}From thing: {2} (ID: {3}){0}{4}";
                 string message = string.Format(format, Environment.NewLine, fullCommand, thingName, thingID, ex.ToDeepString());
+#endif
 
                 // If the debugger is attached, we probably want to break now in order to better debug 
                 // the issue closer to where it occurred; if your debugger broke here you may want to 
