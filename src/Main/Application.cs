@@ -26,11 +26,8 @@ namespace WheelMUD.Main
     /// <summary>The core application, which can be housed in a console, service, etc.</summary>
     public class Application : ISuperSystem, ISuperSystemSubscriber
     {
-        /// <summary>The synchronization locking object for singleton instantiation.</summary>
-        private static readonly object InstanceLockObject = new object();
-
         /// <summary>The singleton instance of this class.</summary>
-        private static Application instance;
+        private static Application instance = new Application();
 
         /// <summary>A list of subscribers of this super system.</summary>
         private readonly List<ISuperSystemSubscriber> subscribers = new List<ISuperSystemSubscriber>();
@@ -50,21 +47,10 @@ namespace WheelMUD.Main
             this.unhandledExceptionHandler = new UnhandledExceptionHandler(notifier);
         }
 
-        /// <summary>Gets the singleton instance of this Application.</summary>
+        /// <summary>Gets the singleton instance of this <see cref="Application"/>.</summary>
         public static Application Instance
         {
-            get
-            {
-                lock (InstanceLockObject)
-                {
-                    if (instance == null)
-                    {
-                        instance = new Application();
-                    }
-                }
-
-                return instance;
-            }
+            get { return instance; }
         }
 
         /// <summary>Gets or sets the available systems.</summary>

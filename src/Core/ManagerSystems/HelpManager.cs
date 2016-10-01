@@ -17,76 +17,29 @@ namespace WheelMUD.Core
     using System.IO;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// High level manager that provides maintains help information.
-    /// </summary>
+    /// <summary>High level manager that provides maintains help information.</summary>
     public class HelpManager : ManagerSystem
     {
-        [ExportSystem]
-        public class HelpManagerExporter : SystemExporter
-        {
-            /// <summary>
-            /// Gets the singleton system instance.
-            /// </summary>
-            /// <value></value>
-            /// <returns>A new instance of the singleton system.</returns>
-            public override ISystem Instance
-            {
-                get { return HelpManager.Instance; }
-            }
-
-            public override Type SystemType
-            {
-                get { return typeof(HelpManager); }
-            }
-        }
-
-        /// <summary>The singleton instance synchronization locking object.</summary>
-        private static readonly object instanceLockObject = new object();
-
         /// <summary>The singleton instance of this class.</summary>
-        private static HelpManager instance;
+        private static HelpManager instance = new HelpManager();
 
-        /// <summary>
-        /// Prevents a default instance of the <see cref="HelpManager"/> class from being created.
-        /// </summary>
+        /// <summary>Prevents a default instance of the <see cref="HelpManager"/> class from being created.</summary>
         private HelpManager()
         {
             this.HelpTopics = new List<HelpTopic>();
         }
 
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
-        /// <value>The instance.</value>
+        /// <summary>Gets the singleton instance of HelpManager.</summary>
+        /// <value>The HelpManager instance.</value>
         public static HelpManager Instance
         {
-            get
-            {
-                // Using if-lock-if pattern to avoid locks for most cases yet create only once instance in early init.
-                if (instance == null)
-                {
-                    lock (instanceLockObject)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new HelpManager();
-                        }
-                    }
-                }
-
-                return instance;
-            }
+            get { return instance; }
         }
 
-        /// <summary>
-        /// Gets the complete list of HelpTopics that are loaded into memory.
-        /// </summary>
+        /// <summary>Gets the complete list of HelpTopics that are loaded into memory.</summary>
         public List<HelpTopic> HelpTopics { get; private set; }
 
-        /// <summary>
-        /// Starts the manager and loads all help records into memory
-        /// </summary>
+        /// <summary>Starts the manager and loads all help records into memory</summary>
         public override void Start()
         {
             this.SystemHost.UpdateSystemHost(this, "Starting...");
@@ -111,9 +64,7 @@ namespace WheelMUD.Core
             this.SystemHost.UpdateSystemHost(this, "Started");
         }
 
-        /// <summary>
-        /// Stops the manager and unloads all help records from memory
-        /// </summary>
+        /// <summary>Stops the manager and unloads all help records from memory.</summary>
         public override void Stop()
         {
             this.SystemHost.UpdateSystemHost(this, "Stopping...");
@@ -126,14 +77,31 @@ namespace WheelMUD.Core
             this.SystemHost.UpdateSystemHost(this, "Stopped");
         }
 
-        /// <summary>
-        /// Find a HelpTopic via the help topic alias.
-        /// </summary>
+        /// <summary>Find a HelpTopic via the help topic alias.</summary>
         /// <param name="helpTopic">The help topic alias to look up.</param>
         /// <returns>The help topic, if found.</returns>
         public HelpTopic FindHelpTopic(string helpTopic)
         {
-            return this.HelpTopics.Find(delegate(HelpTopic h) { return h.Aliases.Contains(helpTopic); });
+            Predicate<HelpTopic> finder = (HelpTopic h) => { return h.Aliases.Contains(helpTopic); };
+            return this.HelpTopics.Find(finder);
+        }
+
+        /// <summary>Registers the <see cref="HelpManager"/> system for export.</summary>
+        /// <remarks>Assists with non-rebooting updates of the <see cref="HelpManager"/> system through MEF.</remarks>
+        [ExportSystem]
+        public class HelpManagerExporter : SystemExporter
+        {
+            /// <summary>Gets the singleton system instance.</summary>
+            public override ISystem Instance
+            {
+                get { return HelpManager.Instance; }
+            }
+
+            /// <summary>Gets the Type of this system.</summary>
+            public override Type SystemType
+            {
+                get { return typeof(HelpManager); }
+            }
         }
     }
 }

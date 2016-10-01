@@ -15,7 +15,6 @@ namespace WheelMUD.Core
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Linq;
-    using System.Timers;
     using WheelMUD.Actions;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
@@ -25,125 +24,105 @@ namespace WheelMUD.Core
     /// </summary>
     public class CommandManager : ManagerSystem, IRecomposable
     {
+        /// <summary>The singleton instance of this class.</summary>
+        private static CommandManager instance = new CommandManager();
+
         /// <summary>The master command list contains all aliases of all commands.</summary>
-        private readonly Dictionary<string, Command> masterCommandList = new Dictionary<string, Command>();
+        private Dictionary<string, Command> masterCommandList = new Dictionary<string, Command>();
 
         /// <summary>The master primary command list contains only the primary aliases of commands.</summary>
-        private readonly Dictionary<string, Command> primaryCommandList = new Dictionary<string, Command>();
-
-        /// <summary>The dictionary of delayed commands.</summary>
-        private readonly Dictionary<Timer, ScriptingCommand> waitingCommands = new Dictionary<Timer, ScriptingCommand>();
-
-        /// <summary>The singleton instance synchronization locking object.</summary>
-        private static readonly object instanceLockObject = new object();
-
-        /// <summary>The synchronization locking object for waiting commands.</summary>
-        private static readonly object waitingCommandsLockObject = new object();
-
-        /// <summary>The singleton instance of this class.</summary>
-        private static CommandManager instance;
+        private Dictionary<string, Command> primaryCommandList = new Dictionary<string, Command>();
 
         /// <summary>The queue of actions yet to be processed.</summary>
         private Queue<ActionInput> actionQueue = new Queue<ActionInput>();
 
+        /// <summary>The list of CommandProcessor workers.</summary>
         private List<CommandProcessor> commandProcessors = new List<CommandProcessor>();
-
-        private List<Type> commandTypes = new List<Type>();
-
-        /// <summary>
-        /// Prevents a default instance of the <see cref="CommandManager"/> class from being created.
-        /// </summary>
+        
+        /// <summary>Prevents a default instance of the <see cref="CommandManager"/> class from being created.</summary>
         private CommandManager()
         {
+            this.Recompose();
         }
 
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
-        /// <value>The instance.</value>
+        /// <summary>Gets the singleton instance of the <see cref="CommandManager"/> class.</summary>
         public static CommandManager Instance
         {
-            get
-            {
-                // Using if-lock-if pattern to avoid locks for most cases yet create only once instance in early init.
-                if (instance == null)
-                {
-                    lock (instanceLockObject)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new CommandManager();
-                            instance.Recompose();
-                        }
-                    }
-                }
-
-                return instance;
-            }
+            get { return instance; }
         }
 
+        /// <summary>Gets the master command list.</summary>
         public Dictionary<string, Command> MasterCommandList
         {
             get { return this.masterCommandList; }
         }
 
+        /// <summary>Gets or sets, through MEF composition, the available GameAction classes.</summary>
         [ImportMany]
         private List<GameAction> Commands { get; set; }
 
-        /// <summary>
-        /// Recompose the subcomponents of this CommandManager
-        /// </summary>
+        /// <summary>Recompose the <see cref="CommandManager"/> system.</summary>
         public void Recompose()
         {
             DefaultComposer.Container.ComposeParts(this);
 
-            lock (this.commandTypes)
+            // During non-reboot updates (recomposition): To minimize impact to the running application and players, the
+            // existing command lists will remain intact until preparing the new commands list is complete. Then all the
+            // commands will switch over by replacing the command list references. Thus, the old code will continue to
+            // be used until all new commands are ready, at which point all processed commands start using the new code.
+            // Old MasterCommandList references and old command objects themselves should garbage collect eventually, so
+            // long as nothing is holding references to them incorrectly.
+            var newPrimaryCommandList = new Dictionary<string, Command>();
+            var newMasterCommandList = new Dictionary<string, Command>();
+
+            var actionTypes = from c in this.Commands select c.GetType();
+            foreach (Type type in actionTypes)
             {
-                this.commandTypes.Clear();
+                // Find the description of this command.
+                object[] descripts = type.GetCustomAttributes(typeof(ActionDescriptionAttribute), false);
+                object[] examples = type.GetCustomAttributes(typeof(ActionExampleAttribute), false);
+                string descript = (from d in descripts select (d as ActionDescriptionAttribute).Description).FirstOrDefault();
+                string example = (from e in examples select (e as ActionExampleAttribute).Example).FirstOrDefault();
 
-                var actionTypes = from c in this.Commands select c.GetType();
-                foreach (Type type in actionTypes)
+                // All alias variations are going to reference the same, single command.
+                // The command defaults to let nobody run it, unless we find an attribute for it.
+                var command = new Command(type, descript, example, SecurityRole.none);
+
+                // Find out what security roles are associated with that action.
+                // By default, the securityRole will be 'none' so if no security attribute 
+                // was specified, then nobody will be able to execute it.
+                object[] roles = type.GetCustomAttributes(typeof(ActionSecurityAttribute), false);
+                command.SecurityRole = (from r in roles select (r as ActionSecurityAttribute).Role).FirstOrDefault();
+
+                foreach (object obj in type.GetCustomAttributes(typeof(ActionPrimaryAliasAttribute), false))
                 {
-                    // Find the description of this command.
-                    object[] descripts = type.GetCustomAttributes(typeof(ActionDescriptionAttribute), false);
-                    object[] examples = type.GetCustomAttributes(typeof(ActionExampleAttribute), false);
-                    string descript = (from d in descripts select ((ActionDescriptionAttribute)d).Description).FirstOrDefault();
-                    string example = (from e in examples select ((ActionExampleAttribute)e).Example).FirstOrDefault();
+                    var attr = obj as ActionPrimaryAliasAttribute;
+                    var alias = attr.Alias;
+                    command.Category = attr.Category;
+                    command.PrimaryAlias = true;
+                    newPrimaryCommandList.Add(alias, command);
+                    newMasterCommandList.Add(alias, command);
+                }
 
-                    // All alias variations are going to reference the same, single command.
-                    // The command defaults to let nobody run it, unless we find an attribute for it.
-                    Command command = new Command(type, descript, example, SecurityRole.none);
-
-                    // Find out what security roles are associated with that action.
-                    // By default, the securityRole will be 'none' so if no security attribute 
-                    // was specified, then nobody will be able to execute it.
-                    object[] roles = type.GetCustomAttributes(typeof(ActionSecurityAttribute), false);
-                    command.SecurityRole = (from r in roles select ((ActionSecurityAttribute)r).Role).FirstOrDefault();
-
-                    foreach (object obj in type.GetCustomAttributes(typeof(ActionPrimaryAliasAttribute), false))
+                // For every alias associated with that action, store a reference to the Command 
+                // that represents the action and allows the user to invoke an instance.
+                // If using ActionAliasAttribute that means this is not considered a PrimaryAlias...find the primary
+                // and add it to this.  While we're at it, add this to the primary.
+                foreach (object obj in type.GetCustomAttributes(typeof(ActionAliasAttribute), false))
+                {
+                    var attr = obj as ActionAliasAttribute;
+                    var alias = attr.Alias;
+                    var secondaryCommand = new Command(type, command.SecurityRole)
                     {
-                        string alias = ((ActionPrimaryAliasAttribute)obj).Alias;
-                        command.PrimaryAlias = true;
-                        command.Category = ((ActionPrimaryAliasAttribute)obj).Category;
-
-                        this.primaryCommandList.Add(alias, command);
-                        this.masterCommandList.Add(alias, command);
-                    }
-
-                    // For every alias associated with that action, store a reference to the Command 
-                    // that represents the action and allows the user to invoke an instance.
-                    // If using ActionAliasAttribute that means this is not considered a PrimaryAlias...find the primary
-                    // and add it to this.  While we're at it, add this to the primary.
-                    foreach (object obj in type.GetCustomAttributes(typeof(ActionAliasAttribute), false))
-                    {
-                        string alias = ((ActionAliasAttribute)obj).Alias;
-                        Command secondaryCommand = new Command(type, command.SecurityRole);
-                        secondaryCommand.PrimaryAlias = false;
-                        secondaryCommand.Category = ((ActionAliasAttribute)obj).Category;
-                        this.masterCommandList.Add(alias, secondaryCommand);
-                    }
+                        Category = attr.Category,
+                        PrimaryAlias = false
+                    };
+                    newMasterCommandList.Add(alias, secondaryCommand);
                 }
             }
+
+            this.primaryCommandList = newPrimaryCommandList;
+            this.masterCommandList = newMasterCommandList;
         }
 
         /// <summary>Starts this system.</summary>
@@ -208,9 +187,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Removes an action from the queue for execution. Should only be used by CommandProcessors.
-        /// </summary>
+        /// <summary>Removes an action from the queue for execution. Should only be used by CommandProcessors.</summary>
         /// <returns>The next action from the queue.</returns>
         internal ActionInput DequeueAction()
         {
@@ -225,14 +202,18 @@ namespace WheelMUD.Core
             }
         }
 
+        /// <summary>Registers the <see cref="CommandManager"/> system for export.</summary>
+        /// <remarks>Assists with non-rebooting updates of the <see cref="CommandManager"/> system through MEF.</remarks>
         [ExportSystem]
         public class CommandManagerExporter : SystemExporter
         {
+            /// <summary>Gets the singleton system instance.</summary>
             public override ISystem Instance
             {
                 get { return CommandManager.Instance; }
             }
 
+            /// <summary>Gets the Type of this system.</summary>
             public override Type SystemType
             {
                 get { return typeof(CommandManager); }

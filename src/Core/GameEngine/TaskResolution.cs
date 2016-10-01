@@ -10,7 +10,9 @@
 //               using skills, talents, and other things.
 // </summary>
 //-----------------------------------------------------------------------------
-
+/* Disabled for now: Seems unused, and raised errors:
+     TaskResolution.cs(24,23): error CS0414: Warning as Error: The private field `WheelMUD.Core.TaskResolution.contestantA' is assigned but its value is never used
+     TaskResolution.cs(26,23): error CS0414: Warning as Error: The private field `WheelMUD.Core.TaskResolution.contestantB' is assigned but its value is never used
 namespace WheelMUD.Core
 {
     using System.Collections.Generic;
@@ -80,4 +82,4 @@ namespace WheelMUD.Core
             return null;
         }
     }
-}
+}*/

@@ -13,7 +13,6 @@
 namespace WheelMUD.Core
 {
     using System;
-
     using WheelMUD.Interfaces;
     using WheelMUD.Utilities;
 
@@ -22,25 +21,8 @@ namespace WheelMUD.Core
     /// </summary>
     public class PlacesManager : ManagerSystem
     {
-        [ExportSystem]
-        public class PlacesManagerExporter : SystemExporter
-        {
-            public override ISystem Instance
-            {
-                get { return PlacesManager.Instance; }
-            }
-
-            public override Type SystemType
-            {
-                get { return typeof(PlacesManager); }
-            }
-        }
-
-        /// <summary>The singleton instance synchronization locking object.</summary>
-        private static readonly object instanceLockObject = new object();
-
         /// <summary>The singleton instance of this class.</summary>
-        private static PlacesManager instance;
+        private static PlacesManager instance = new PlacesManager();
 
         /// <summary>
         /// Prevents a default instance of the <see cref="PlacesManager"/> class from being created. 
@@ -56,44 +38,23 @@ namespace WheelMUD.Core
             };
         }
 
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
+        /// <summary>Gets the singleton instance of the <see cref="PlacesManager"/> system.</summary>
         public static PlacesManager Instance
         {
-            get
-            {
-                // Using if-lock-if pattern to avoid locks for most cases yet create only once instance in early initialization.
-                if (instance == null)
-                {
-                    lock (instanceLockObject)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new PlacesManager();
-                        }
-                    }
-                }
-
-                return instance;
-            }
+            get { return instance; }
         }
 
         /// <summary>Gets the world.</summary>
         public Thing World { get; private set; }
 
-        /// <summary>
-        /// Gets the world behavior.
-        /// </summary>
+        /// <summary>Gets the world behavior.</summary>
         public WorldBehavior WorldBehavior { get; private set; }
 
         /// <summary>Starts this system's individual components.</summary>
         public override void Start()
         {
             this.SystemHost.UpdateSystemHost(this, "Starting...");
-
             this.WorldBehavior.Load();
-
             this.SystemHost.UpdateSystemHost(this, "Started");
         }
 
@@ -101,10 +62,26 @@ namespace WheelMUD.Core
         public override void Stop()
         {
             this.SystemHost.UpdateSystemHost(this, "Stopping...");
-
-            //@@@this.WorldBehavior.Areas.Clear();
-
+            ////@@@this.WorldBehavior.Areas.Clear();
             this.SystemHost.UpdateSystemHost(this, "Stopped");
+        }
+
+        /// <summary>Registers the <see cref="PlacesManager"/> system for export.</summary>
+        /// <remarks>Assists with non-rebooting updates of the <see cref="PlacesManager"/> system through MEF.</remarks>
+        [ExportSystem]
+        public class PlacesManagerExporter : SystemExporter
+        {
+            /// <summary>Gets the singleton system instance.</summary>
+            public override ISystem Instance
+            {
+                get { return PlacesManager.Instance; }
+            }
+
+            /// <summary>Gets the Type of this system.</summary>
+            public override Type SystemType
+            {
+                get { return typeof(PlacesManager); }
+            }
         }
     }
 }

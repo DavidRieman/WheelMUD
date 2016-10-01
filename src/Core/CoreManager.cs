@@ -22,50 +22,31 @@ namespace WheelMUD.Core
     /// </summary>
     public class CoreManager : ISuperSystem
     {
-        /// <summary>The singleton instance synchronization locking object.</summary>
-        private static readonly object instanceLockObject = new object();
-
         /// <summary>The singleton instance of this class.</summary>
-        private static CoreManager instance;
+        private static CoreManager instance = new CoreManager();
 
         /// <summary>The list of super system subscribers.</summary>
         private readonly List<ISuperSystemSubscriber> subscribers = new List<ISuperSystemSubscriber>();
 
-        [ImportMany(typeof(ISystemPlugIn))]
-        public List<ISystemPlugIn> SystemPlugIns { get; set; }
-
-        /// <summary>
-        /// Prevents a default instance of the CoreManager class from being created.
-        /// </summary>
+        /// <summary>Prevents a default instance of the CoreManager class from being created.</summary>
         private CoreManager()
         {
         }
 
-        /// <summary>
-        /// Gets the CoreManager singleton instance.
-        /// </summary>
+        /// <summary>Gets the CoreManager singleton instance.</summary>
         public static CoreManager Instance
         {
-            get
-            {
-                if (CoreManager.instance == null)
-                {
-                    lock (instanceLockObject)
-                    {
-                        if (CoreManager.instance == null)
-                        {
-                            CoreManager.instance = new CoreManager();
-                        }
-                    }
-                }
-
-                return CoreManager.instance;
-            }
+            get { return CoreManager.instance; }
         }
 
-        /// <summary>
-        /// Subscribe to the specified super system subscriber.
-        /// </summary>
+        /// <summary>Gets or sets a list of system plug-ins.</summary>
+        [ImportMany(typeof(ISystemPlugIn))]
+        public List<ISystemPlugIn> SystemPlugIns { get; set; }
+
+        /// <summary>Gets or sets a set of sub-systems.</summary>
+        public List<ISystem> SubSystems { get; set; }
+
+        /// <summary>Subscribe to the specified super system subscriber.</summary>
         /// <param name="sender">The subscribing system; generally use 'this'.</param>
         public void SubscribeToSystem(ISuperSystemSubscriber sender)
         {
@@ -77,16 +58,12 @@ namespace WheelMUD.Core
             this.subscribers.Add(sender);
         }
 
-        /// <summary>
-        /// Unsubscribe from the specified super system subscriber.
-        /// </summary>
+        /// <summary>Unsubscribe from the specified super system subscriber.</summary>
         /// <param name="sender">The unsubscribing system; generally use 'this'.</param>
         public void UnSubscribeFromSystem(ISuperSystemSubscriber sender)
         {
             this.subscribers.Remove(sender);
         }
-
-        public List<ISystem> SubSystems { get; set; }
 
         /// <summary>Start the CoreManager.</summary>
         public void Start()
@@ -140,9 +117,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Send an update to the system host.
-        /// </summary>
+        /// <summary>Send an update to the system host.</summary>
         /// <param name="sender">The sending system.</param>
         /// <param name="msg">The message to be sent.</param>
         public void UpdateSystemHost(ISystem sender, string msg)
@@ -150,9 +125,7 @@ namespace WheelMUD.Core
             this.NotifySubscribers(sender + " - " + msg);
         }
 
-        /// <summary>
-        /// Notify subscribers of the supplied message.
-        /// </summary>
+        /// <summary>Notify subscribers of the supplied message.</summary>
         /// <param name="message">The message to pass along.</param>
         private void NotifySubscribers(string message)
         {
@@ -162,9 +135,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Subscribe to notifications from the various systems.
-        /// </summary>
+        /// <summary>Subscribe to notifications from the various systems.</summary>
         private void SubscribeToSystems()
         {
             // Subscribe each system to the supersystem.
