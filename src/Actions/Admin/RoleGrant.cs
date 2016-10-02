@@ -15,8 +15,6 @@ namespace WheelMUD.Actions
     using System.Linq;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
-    using WheelMUD.Data.Entities;
-    using WheelMUD.Data.Repositories;
     using WheelMUD.Interfaces;
 
     /// <summary>An administrative action which gives a role to a player.</summary>
@@ -39,7 +37,6 @@ namespace WheelMUD.Actions
         {
             IController sender = actionInput.Controller;
             string[] normalizedParams = this.NormalizeParameters(sender);
-            string role = normalizedParams[0];
             string playerName = normalizedParams[1];
 
             Thing player = GameAction.GetPlayerOrMobile(playerName);
@@ -50,7 +47,7 @@ namespace WheelMUD.Actions
             }
             
             var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
-            var existingRole = (from r in userControlledBehavior.Roles where r.Name == role select r).FirstOrDefault();
+            var existingRole = userControlledBehavior.FindRole(normalizedParams[0]);
             if (existingRole == null)
             {
                 ////var roleRepository = new RoleRepository();

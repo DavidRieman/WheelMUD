@@ -11,25 +11,19 @@
 namespace WheelMUD.Core
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Raven.Imports.Newtonsoft.Json;
-    using WheelMUD.Data.Entities;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A security role.
-    /// </summary>
+    /// <summary>A security role.</summary>
     public class Role
     {
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
+        /// <summary>Gets or sets the name.</summary>
         /// <value>The name.</value>
         public string Name { get; set; }
     }
 
-    /// <summary>
-    /// Sets this Thing to be directly user-controlled.
-    /// </summary>
+    /// <summary>Sets this Thing to be directly user-controlled.</summary>
     /// <remarks>
     /// Usually this will be accompanied by a PlayerBehavior, but @@@ this behavior may also be used
     /// for things like a player controlling a mobile directly, an admin is controlling a PC, etc.
@@ -41,17 +35,13 @@ namespace WheelMUD.Core
     /// </remarks>
     public class UserControlledBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserControlledBehavior"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="UserControlledBehavior"/> class.</summary>
         public UserControlledBehavior()
             : this(0, null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the UserControlledBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="UserControlledBehavior"/> class.</summary>
         /// <param name="instanceId">ID of the behavior instance.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public UserControlledBehavior(long instanceId, Dictionary<string, object> instanceProperties)
@@ -71,33 +61,31 @@ namespace WheelMUD.Core
         ///// <summary>Gets the current list of <see cref="RoleRecord"/> associated with this player.</summary>
         ////public List<RoleRecord> RoleRecords { get; private set; }
 
-        /// <summary>
-        /// Gets the current list of <see cref="Role"/> names associated with this user.
-        /// </summary>
+        /// <summary>Gets the current list of <see cref="Role"/> names associated with this user.</summary>
         [JsonIgnore]
         public List<Role> Roles { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the controller of the Thing.
-        /// </summary>
+        /// <summary>Gets or sets the controller of the Thing.</summary>
         [JsonIgnore]
         public IController Controller { get; set; }
         
-        /// <summary>
-        /// Gets or sets the number of rows this user's client can handle displaying as a single "page".
-        /// </summary>
+        /// <summary>Gets or sets the number of rows this user's client can handle displaying as a single "page".</summary>
         public int PagingRowLimit { get; set; }
 
-        /// <summary>
-        /// Gets the view engine.
-        /// </summary>
+        /// <summary>Gets the view engine.</summary>
         /// <value>The view engine.</value>
         [JsonIgnore]
         public ViewEngine ViewEngine { get; private set; }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Gets the role of the specified name, if present.</summary>
+        /// <param name="roleName">The name of the role to search for.</param>
+        /// <returns>The Role, if this user has it, else null.</returns>
+        public Role FindRole(string roleName)
+        {
+            return (from r in this.Roles where r.Name == roleName select r).FirstOrDefault();
+        }
+
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.Controller = null;
