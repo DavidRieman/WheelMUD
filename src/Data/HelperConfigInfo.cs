@@ -24,7 +24,7 @@ namespace WheelMUD.Data
     public class HelperConfigInfo
     {
         /// <summary>The HelperConfigInfo singleton instance.</summary>
-        private static HelperConfigInfo instance = new HelperConfigInfo();
+        private static readonly HelperConfigInfo SingletonInstance = new HelperConfigInfo();
 
         /// <summary>Prevents a default instance of the <see cref="HelperConfigInfo"/> class from being created.</summary>
         private HelperConfigInfo()
@@ -35,7 +35,7 @@ namespace WheelMUD.Data
         /// <summary>Gets the singleton instance of the <see cref="HelperConfigInfo"/> class.</summary>
         public static HelperConfigInfo Instance
         {
-            get { return instance; }
+            get { return SingletonInstance; }
         }
 
         /// <summary>Gets or sets the name of the connection string.</summary>

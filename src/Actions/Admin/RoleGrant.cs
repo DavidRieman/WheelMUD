@@ -48,7 +48,7 @@ namespace WheelMUD.Actions
             if (player == null)
             {
                 // If the player is not online, then load the player from the database
-                //player = PlayerBehavior.Load(playerName);
+                ////player = PlayerBehavior.Load(playerName);
             }
             
             var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
@@ -58,9 +58,9 @@ namespace WheelMUD.Actions
                 var roleRepository = new RoleRepository();
 
                 // @@@ TODO: The role.ToUpper is a hack. Need to create a case insensitive method for the RoleRepository.NoGen.cs class.
-                RoleRecord record = roleRepository.GetByName(role.ToUpper());
-                //userControlledBehavior.RoleRecords.Add(record);
-                //userControlledBehavior.UpdateRoles();
+                ////RoleRecord record = roleRepository.GetByName(role.ToUpper());
+                ////userControlledBehavior.RoleRecords.Add(record);
+                ////userControlledBehavior.UpdateRoles();
                 player.Save();
 
                 sender.Write(player.Name + " has been granted the " + role + " role.", true);
@@ -86,7 +86,7 @@ namespace WheelMUD.Actions
             if (player == null)
             {
                 // If the player is not online, then load the player from the database
-                //player = PlayerBehavior.Load(playerName);
+                ////player = PlayerBehavior.Load(playerName);
             }
 
             // Rule: Does the player exist in our Universe?
