@@ -82,7 +82,9 @@ namespace WheelMUD.Core
         /// <returns>The Role, if this user has it, else null.</returns>
         public Role FindRole(string roleName)
         {
-            return (from r in this.Roles where r.Name == roleName select r).FirstOrDefault();
+            return (from r in this.Roles
+                    where string.Equals(r.Name, roleName, System.StringComparison.CurrentCultureIgnoreCase)
+                    select r).FirstOrDefault();
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>

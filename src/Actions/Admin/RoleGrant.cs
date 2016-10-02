@@ -37,28 +37,26 @@ namespace WheelMUD.Actions
         {
             IController sender = actionInput.Controller;
             string[] normalizedParams = this.NormalizeParameters(sender);
+            string roleName = normalizedParams[0];
             string playerName = normalizedParams[1];
 
             Thing player = GameAction.GetPlayerOrMobile(playerName);
             if (player == null)
             {
-                // If the player is not online, then load the player from the database
+                // If the player is not online, then try to load the player from the database.
                 ////player = PlayerBehavior.Load(playerName);
             }
-            
+
             var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
-            var existingRole = userControlledBehavior.FindRole(normalizedParams[0]);
+            var existingRole = userControlledBehavior.FindRole(roleName);
             if (existingRole == null)
             {
-                ////var roleRepository = new RoleRepository();
-
-                // @@@ TODO: The role.ToUpper is a hack. Need to create a case insensitive method for the RoleRepository.NoGen.cs class.
-                ////RoleRecord record = roleRepository.GetByName(role.ToUpper());
-                ////userControlledBehavior.RoleRecords.Add(record);
-                ////userControlledBehavior.UpdateRoles();
+                userControlledBehavior.Roles.Add(new Role()
+                {
+                    Name = roleName
+                });
                 player.Save();
-
-                ////sender.Write(player.Name + " has been granted the " + role + " role.", true);
+                sender.Write(player.Name + " has been granted the " + roleName + " role.", true);
             }
         }
 
@@ -74,7 +72,7 @@ namespace WheelMUD.Actions
             }
 
             string[] normalizedParams = this.NormalizeParameters(actionInput.Controller);
-            ////string role = normalizedParams[0];
+            string roleName = normalizedParams[0];
             string playerName = normalizedParams[1];
 
             Thing player = GameAction.GetPlayerOrMobile(playerName);
@@ -83,17 +81,21 @@ namespace WheelMUD.Actions
                 // If the player is not online, then load the player from the database
                 ////player = PlayerBehavior.Load(playerName);
             }
-
-            // Rule: Does the player exist in our Universe?
-            // @@@ TODO: Add code to make sure the player exists.
-
-            // Rule: Does player already have role?
-            /* @@@ FIX
-            if (Contains(player.Roles, role))
+            
+            // Rule: The targeted player must exist.
+            if (player == null)
             {
-                return player.Name + " already has the " + role + " role.";
-            }*/
+                return string.Format("The player {0} does not exist.", playerName);
+            }
 
+            // Rule: The player cannot already have the role.
+            var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
+            var existingRole = userControlledBehavior.FindRole(roleName);
+            if (existingRole != null)
+            {
+                return string.Format("{0} already has the {1} role.", player.Name, roleName);
+            }
+            
             return null;
         }
 

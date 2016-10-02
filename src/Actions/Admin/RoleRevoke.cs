@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// An action to grant a role to a player.
-    /// </summary>
+    /// <summary>An action to grant a role to a player.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("role revoke", CommandCategory.Admin)]
     [ActionAlias("rolerevoke", CommandCategory.Admin)]
@@ -39,43 +37,24 @@ namespace WheelMUD.Actions
         {
             IController sender = actionInput.Controller;
             string[] normalizedParams = this.NormalizeParameters(sender);
-            string role = normalizedParams[0];
+            string roleName = normalizedParams[0];
             string playerName = normalizedParams[1];
 
             Thing player = GameAction.GetPlayerOrMobile(playerName);
             if (player == null)
             {
-                // If the player is not online, then load the player from the database
-                //player = PlayerBehavior.Load(playerName);
+                // If the player is not online, then try to load the player from the database.
+                ////player = PlayerBehavior.Load(playerName);
             }
 
-            // Rule: Does the player exist in our Universe?
-            // @@@ TODO: Add code to make sure the player exists.
-
-            /* @@@ FIX
-            if (Extensions.Contains(player.Roles, role))
+            var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
+            var existingRole = userControlledBehavior.FindRole(roleName);
+            if (existingRole != null)
             {
-                var roleRepository = new RoleRepository();
-
-                // @@@ TODO: The role.ToUpper is a hack. Need to create a case insensitive method for the RoleRepository.NoGen.cs class.
-                RoleRecord record = roleRepository.GetByName(role.ToUpper());
-                RoleRecord toDelete = null;
-
-                foreach (var currRole in player.RoleRecords)
-                {
-                    if (currRole.Name == record.Name)
-                    {
-                        toDelete = currRole;
-                    }
-                }
-
-                player.RoleRecords.Remove(toDelete);
-                player.RoleRecords.TrimExcess();
-                player.UpdateRoles();
+                userControlledBehavior.Roles.Remove(existingRole);
                 player.Save();
-
-                sender.Write(string.Format("{0} had the {1} role revoked.", player.Name, role), true);
-            }*/
+                sender.Write(string.Format("{0} had the {1} role revoked.", player.Name, existingRole.Name), true);
+            }
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -90,30 +69,28 @@ namespace WheelMUD.Actions
             }
 
             string[] normalizedParams = this.NormalizeParameters(actionInput.Controller);
-            string role = normalizedParams[0];
+            string roleName = normalizedParams[0];
             string playerName = normalizedParams[1];
 
             Thing player = GameAction.GetPlayerOrMobile(playerName);
             if (player == null)
             {
                 // If the player is not online, then load the player from the database.
-                //player = PlayerBehavior.Load(playerName);
+                ////player = PlayerBehavior.Load(playerName);
             }
 
             // Rule: The targeted player must exist.
             if (player == null)
             {
-                return "The player " + playerName + " does not exist.";
+                return string.Format("The player {0} does not exist.", playerName);
             }
-
-            // Rule: The 
-
-            // Rule: Does player already have role?
+            
+            // Rule: The player cannot already have the role.
             var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
-            var existingRole = (from r in userControlledBehavior.Roles where r.Name == role select r).FirstOrDefault();
+            var existingRole = userControlledBehavior.FindRole(roleName);
             if (existingRole == null)
             {
-                return player.Name + " does not have the " + role + " role.";
+                return string.Format("{0} does not have the {1} role.", player.Name, roleName);
             }
 
             return null;
