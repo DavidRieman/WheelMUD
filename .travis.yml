@@ -1,2 +1,2 @@
 language: csharp
-solution: src/WheelMUD.sln
+solution: src/WheelMUD_MonoDevelop.sln
