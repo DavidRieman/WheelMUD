@@ -36,7 +36,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string[] normalizedParams = this.NormalizeParameters(sender);
+            string[] normalizedParams = NormalizeParameters(sender);
             string roleName = normalizedParams[0];
             string playerName = normalizedParams[1];
 
@@ -68,7 +68,7 @@ namespace WheelMUD.Actions
                 return commonFailure;
             }
 
-            string[] normalizedParams = this.NormalizeParameters(actionInput.Controller);
+            string[] normalizedParams = NormalizeParameters(actionInput.Controller);
             string roleName = normalizedParams[0];
             string playerName = normalizedParams[1];
 
@@ -96,16 +96,13 @@ namespace WheelMUD.Actions
             return null;
         }
 
-        /// <summary>
-        /// Cleans up the parameters, so that it is easier to work with.
-        /// </summary>
+        /// <summary>Cleans up the parameters, so that it is easier to work with.</summary>
         /// <param name="sender">The IController that has the MUD command parameters that will be cleaned up.</param>
         /// <returns>Returns a string array that has been pasteurized.</returns>
-        private string[] NormalizeParameters(IController sender)
+        private static string[] NormalizeParameters(IController sender)
         {
             string normalizedInput = sender.LastActionInput.Tail.Replace("revoke", string.Empty).Trim();
             string[] normalizedParams = normalizedInput.Split(' ');
-
             return normalizedParams;
         }
     }

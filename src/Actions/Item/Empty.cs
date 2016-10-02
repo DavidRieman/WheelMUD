@@ -72,7 +72,7 @@ namespace WheelMUD.Actions
                 }
             }
 
-            string commaSeparatedList = this.BuildCommaSeparatedList(movedThingNames);
+            string commaSeparatedList = BuildCommaSeparatedList(movedThingNames);
             var contextMessage = new ContextualString(sender.Thing, this.destinationParent)
             {
                 ToOriginator = string.Format("You move {0} from {1} into {2}", commaSeparatedList, this.sourceContainer.Name, this.destinationParent.Name),
@@ -167,7 +167,7 @@ namespace WheelMUD.Actions
         }
 
         // @@@ Test and move to a string utilities class or extension method of some sort?
-        private string BuildCommaSeparatedList(IEnumerable<string> things)
+        private static string BuildCommaSeparatedList(IEnumerable<string> things)
         {
             string result = string.Empty;
             int countLeft = things.Count();

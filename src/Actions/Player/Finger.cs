@@ -55,16 +55,15 @@ namespace WheelMUD.Actions
             PlayerBehavior playerBehavior = this.target.Behaviors.FindFirst<PlayerBehavior>();
             if (playerBehavior != null)
             {
-                string sessionId = playerBehavior.SessionId;
-
                 // @@@ TODO: Mine this data in a less invasive/dangerous way; maybe the PlayerBehavior
                 //     gets properties assigned for their last IP address upon connecting, etc..
-                //IConnection connection = bridge.ServerManager.GetConnection(sessionId);
-                //if (connection != null)
-                //{
-                //    isOnline = true;
-                //    addressIP = connection.CurrentIPAddress;
-                //}
+                ////string sessionId = playerBehavior.SessionId;
+                ////IConnection connection = bridge.ServerManager.GetConnection(sessionId);
+                ////if (connection != null)
+                ////{
+                ////    isOnline = true;
+                ////    addressIP = connection.CurrentIPAddress;
+                ////}
 
                 sb.AppendLine("<%yellow%><%b%>Name: " + this.target.Name + " Title: " + this.target.Title + "<%n%>");
                 sb.AppendLine("Description: " + this.target.Description);

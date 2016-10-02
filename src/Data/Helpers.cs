@@ -78,12 +78,10 @@ namespace WheelMUD.Data
             {
                 return SessionFactory.CreateCommand();
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException)
             {
                 // This usually means that the connection string to the database is not correct.
                 // Please fix the connection string in the *.config file and run the server again.
-                string msg = ex.Message;
-
                 throw;
             }
         }

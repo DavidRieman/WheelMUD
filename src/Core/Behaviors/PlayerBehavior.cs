@@ -21,9 +21,7 @@ namespace WheelMUD.Core
     using WheelMUD.Data.Repositories;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// The behavior for players.
-    /// </summary>
+    /// <summary>The behavior for players.</summary>
     public class PlayerBehavior : Behavior
     {
         private readonly object friendsLock = new object();
@@ -31,39 +29,25 @@ namespace WheelMUD.Core
         /// <summary> Gets the friends of this player. </summary>
         private List<string> friends = new List<string>(); 
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PlayerBehavior"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="PlayerBehavior"/> class.</summary>
         public PlayerBehavior()
             : base(null)
         {
             this.PlayerData = new PlayerRecord();
         }
 
-        /// <summary>
-        /// Initializes a new instance of the PlayerBehavior class.
-        /// </summary>
-        /// <param name="sensesBehavior">
-        /// The senses Behavior.
-        /// </param>
-        /// <param name="userControlledBehavior">
-        /// The user Controlled Behavior.
-        /// </param>
+        /// <summary>Initializes a new instance of the PlayerBehavior class.</summary>
+        /// <param name="sensesBehavior">The senses Behavior.</param>
+        /// <param name="userControlledBehavior">The user Controlled Behavior.</param>
         public PlayerBehavior(SensesBehavior sensesBehavior, UserControlledBehavior userControlledBehavior)
             : this()
         {
             this.EventProcessor = new PlayerEventProcessor(this, sensesBehavior, userControlledBehavior);
         }
 
-        /// <summary>
-        /// Initializes a new instance of the PlayerBehavior class.
-        /// </summary>
-        /// <param name="instanceId">
-        /// The instance ID.
-        /// </param>
-        /// <param name="instanceProperties">
-        /// The dictionary of propertyNames-propertyValues for this behavior instance.
-        /// </param>
+        /// <summary>Initializes a new instance of the PlayerBehavior class.</summary>
+        /// <param name="instanceId">The instance ID.</param>
+        /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public PlayerBehavior(long instanceId, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
@@ -71,12 +55,8 @@ namespace WheelMUD.Core
             this.ID = instanceId;
         }
 
-        /// <summary>
-        /// Gets or sets the player's name.
-        /// </summary>
-        /// <value>
-        /// The name of the player.
-        /// </value>
+        /// <summary>Gets or sets the player's name.</summary>
+        /// <value>The name of the player.</value>
         /// <remarks>
         /// This is used to make it easier on external systems that need to set this. 
         /// For example the character creation system is one of those systems.
@@ -88,12 +68,8 @@ namespace WheelMUD.Core
             set { this.PlayerData.DisplayName = value; }
         }
 
-        /// <summary>
-        /// Gets or sets the current room id.
-        /// </summary>
-        /// <value>
-        /// The current room id.
-        /// </value>
+        /// <summary>Gets or sets the current room id.</summary>
+        /// <value>The current room id.</value>
         /// <remarks>
         /// This is used to make it easier on external systems that need to set this. 
         /// For example the character creation system is one of those systems.
@@ -101,9 +77,8 @@ namespace WheelMUD.Core
         [JsonIgnore]
         public int CurrentRoomId { get; set; }
 
-        /// <summary>
-        /// Gets the player's password. @@@ TODO: Gets the player's encrypted password.
-        /// </summary>
+        /// <summary>Gets the player's password.</summary>
+        /// <remarks>@@@ TODO: Gets the player's encrypted password.</remarks>
         [JsonIgnore]
         public string Password
         {
@@ -131,50 +106,28 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the date/time when the player when AFK.</summary>
         public DateTime? WhenWentAFK { get; set; }
 
-        /// <summary>
-        /// Gets or sets the player specific data.
-        /// </summary>
+        /// <summary>Gets or sets the player specific data.</summary>
         [JsonIgnore]
         public PlayerRecord PlayerData { get; set; }
 
-        /// <summary>
-        /// Gets or sets the roles for this player.
-        /// </summary>
-        /// <value>
-        /// The role data.
-        /// </value>
+        /// <summary>Gets or sets the roles for this player.</summary>
         [JsonIgnore]
         public List<PlayerRoleRecord> RoleData { get; set; }
 
-        /// <summary>
-        /// Gets the friends.
-        /// </summary>
-        /// <value>The friends.</value>
+        /// <summary>Gets the friends of this player.</summary>
         [JsonIgnore]
         public ReadOnlyCollection<string> Friends
         {
             get { return this.friends.AsReadOnly(); }
         }
 
-        /// <summary>
-        /// Gets or sets the player's race.
-        /// </summary>
-        /// <value>
-        /// The race.
-        /// </value>
+        /// <summary>Gets or sets the player's race.</summary>
         public GameRace Race { get; set; }
 
-        /// <summary>
-        /// Gets or sets the player's gender.
-        /// </summary>
-        /// <value>
-        /// The gender.
-        /// </value>
+        /// <summary>Gets or sets the player's gender.</summary>
         public GameGender Gender { get; set; }
 
-        /// <summary>
-        /// Loads the specified player by their id.
-        /// </summary>
+        /// <summary>Loads the specified player by their id.</summary>
         /// <param name="playerId">The player's id.</param>
         public void Load(int playerId)
         {
@@ -182,9 +135,7 @@ namespace WheelMUD.Core
             this.PlayerData = repository.GetById(playerId);
         }
 
-        /// <summary>
-        /// Loads a player based on name
-        /// </summary>
+        /// <summary>Loads a player by name.</summary>
         /// <param name="playerName">Name of the player</param>
         public void Load(string playerName)
         {
@@ -244,9 +195,7 @@ namespace WheelMUD.Core
             // @@@ TODO: Need to do this with all the other custom lists and collections, like friends and inventory.
         }
 
-        /// <summary>
-        /// Save the whole player Thing (not just this PlayerBehavior).
-        /// </summary>
+        /// <summary>Save the whole player Thing (not just this PlayerBehavior).</summary>
         public void SaveWholePlayer()
         {
             var player = this.Parent;
@@ -311,9 +260,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Creates the missing player document in the NoSQL (RavenDb) data store.
-        /// </summary>
+        /// <summary>Creates the missing player document in the NoSQL (RavenDb) data store.</summary>
         /// <remarks>
         /// This is usually called in the case where a test character was created in the
         /// relational store, but no player document was created in the NoSQL (RavenDb) data store 
@@ -324,9 +271,7 @@ namespace WheelMUD.Core
             this.SaveWholePlayer();
         }
 
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
+        /// <summary>Releases unmanaged and, optionally, managed resources.</summary>
         public void Dispose()
         {
             PlayerManager.GlobalPlayerLogInEvent -= this.ProcessPlayerLogInEvent;
@@ -338,9 +283,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Adds the friend.
-        /// </summary>
+        /// <summary>Adds the friend.</summary>
         /// <param name="friendName">Name of the friend.</param>
         public void AddFriend(string friendName)
         {
@@ -353,9 +296,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Removes the friend.
-        /// </summary>
+        /// <summary>Removes the friend.</summary>
         /// <param name="friendName">Name of the friend.</param>
         public void RemoveFriend(string friendName)
         {
@@ -368,13 +309,9 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Try to log this player into the game.
-        /// </summary>
+        /// <summary>Try to log this player into the game.</summary>
         /// <param name="session">The session.</param>
-        /// <returns>
-        /// True if the player successfully logged in.
-        /// </returns>
+        /// <returns>True if the player successfully logged in.</returns>
         public bool LogIn(Session session)
         {
             var player = this.Parent;
@@ -425,9 +362,7 @@ namespace WheelMUD.Core
             return "> ";
         }
 
-        /// <summary>
-        /// Try to log this player out of the game.
-        /// </summary>
+        /// <summary>Try to log this player out of the game.</summary>
         /// <returns>Indicates whether the logout was successful or not.</returns>
         public bool LogOut()
         {
@@ -466,9 +401,7 @@ namespace WheelMUD.Core
             return false;
         }
 
-        /// <summary>
-        /// Sets the players password to the new value specified
-        /// </summary>
+        /// <summary>Sets the players password to the new value specified.</summary>
         /// <param name="newPassword">The new password.</param>
         public void SetPassword(string newPassword)
         {
@@ -477,9 +410,7 @@ namespace WheelMUD.Core
             this.Password = newPassword;
         }
 
-        /// <summary>
-        /// Check if the password matches.
-        /// </summary>
+        /// <summary>Check if the password matches.</summary>
         /// <param name="passwordAttempt">The password attempt.</param>
         /// <returns>Whether or not the passwords match.</returns>
         public bool PasswordMatches(string passwordAttempt)
@@ -488,17 +419,13 @@ namespace WheelMUD.Core
             return this.Password == passwordAttempt;
         }
 
-        /// <summary>
-        /// Called when a parent has just been assigned to this behavior. (Refer to this.Parent)
-        /// </summary>
+        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
         public override void OnAddBehavior()
         {
             this.EventProcessor.AttachEvents();
         }
 
-        /// <summary>
-        /// Initializes a PlayerEventProcessor for this player.
-        /// </summary>
+        /// <summary>Initializes a PlayerEventProcessor for this player.</summary>
         /// <param name="sensesBehavior">A valid SensesBehavior which has already been created for this player.</param>
         /// <param name="userControlledBehavior">A valid UserControlledBehavior which has already been created for this player.</param>
         internal void InitEventProcessor(SensesBehavior sensesBehavior, UserControlledBehavior userControlledBehavior)
@@ -506,9 +433,7 @@ namespace WheelMUD.Core
             this.EventProcessor = new PlayerEventProcessor(this, sensesBehavior, userControlledBehavior);
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.SessionId = null;
