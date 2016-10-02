@@ -8,36 +8,33 @@
 // </summary>
 //-----------------------------------------------------------------------------
 
-using Topshelf;
-using System;
-using WheelMUD.Main;
-
 namespace TestHarness
 {
-    public partial class WheelMudService : ServiceControl
+    using System;
+    using Topshelf;
+    using WheelMUD.Main;
+
+    public class WheelMudService : ServiceControl
     {
         /// <summary>The application.</summary>
-        private readonly Application _application;
+        private readonly Application application;
 
         /// <summary>Initializes a new instance of the WheelMUDService class.</summary>
         public WheelMudService()
         {
-            InitializeComponent();
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            _application = Application.Instance;
+            this.application = Application.Instance;
         }
 
         public bool Start(HostControl hostControl)
         {
-            _application.Start();
-
+            this.application.Start();
             return true;
         }
 
         public bool Stop(HostControl hostControl)
         {
-            _application.Stop();
-
+            this.application.Stop();
             return true;
         }
     }
