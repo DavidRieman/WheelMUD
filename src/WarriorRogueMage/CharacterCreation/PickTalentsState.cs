@@ -196,9 +196,9 @@ namespace WarriorRogueMage.CharacterCreation
                             text.AppendFormat("{0}" + Environment.NewLine, talentcolumn1);
                             break;
                         case 2:
-                            string tk = WrmChargenCommon.FormatToColumn(this.longestTalentName, talentQueue.Dequeue().Name);
                             string tk1 = WrmChargenCommon.FormatToColumn(this.longestTalentName, talentQueue.Dequeue().Name);
-                            text.AppendFormat("{0}  {1}" + Environment.NewLine, tk, tk);
+                            string tk2 = WrmChargenCommon.FormatToColumn(this.longestTalentName, talentQueue.Dequeue().Name);
+                            text.AppendFormat("{0}  {1}" + Environment.NewLine, tk1, tk2);
                             break;
                         case 3:
                             string tkl1 = WrmChargenCommon.FormatToColumn(this.longestTalentName, talentQueue.Dequeue().Name);

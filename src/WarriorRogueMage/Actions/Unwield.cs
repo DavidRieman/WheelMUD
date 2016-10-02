@@ -78,7 +78,6 @@ namespace WarriorRogueMage.Actions
         {
             IController sender = actionInput.Controller;
             Thing wielder = sender.Thing;
-            Thing room = wielder.Parent;
 
             string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
