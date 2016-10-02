@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command to set a player's title.
-    /// </summary>
+    /// <summary>A command to set a player's title.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("pretitle", CommandCategory.Player)]
     [ActionAlias("set pretitle", CommandCategory.Player)]
@@ -34,8 +32,6 @@ namespace WheelMUD.Actions
         };
 
         private Thing player;
-
-        private PlayerBehavior playerBehavior;
 
         private string oldPretitle;
 
@@ -74,12 +70,12 @@ namespace WheelMUD.Actions
 
             // The comon guards already guarantees the sender is a player, hence no null checks here.
             this.player = sender.Thing;
-            this.playerBehavior = sender.Thing.Behaviors.FindFirst<PlayerBehavior>();
 
             // Rule: The new pretitle must be empty or meet the length requirements.
             this.oldPretitle = this.player.SingularPrefix;
 
-            if (!string.IsNullOrEmpty(actionInput.Tail)) {
+            if (!string.IsNullOrEmpty(actionInput.Tail))
+            {
                 this.newPretitle = actionInput.Tail;
 
                 if (this.newPretitle.Length < 2 || this.newPretitle.Length > 15)
