@@ -24,13 +24,17 @@ namespace WheelMUD.Tests
         /// <summary>Framework-specific actions for verifying a boolean value.</summary>
         private static Action<bool, string, object[]> isTrue;
 
+        /// <summary>Framework-specific action for verifying a null value.</summary>
         private static Action<object, string> isNull;
 
+        /// <summary>Framework-specific action for verifying a non-null value.</summary>
         private static Action<object, string> notNull;
 
+        /// <summary>Framework-specific action for verifying equivalence.</summary>
         private static Action<object, object, string> areEqual;
 
-        private static Action<object, object> areNotEqual;
+        /// <summary>Framework-specific action for verifying non-equivalence.</summary>
+        private static Action<object, object, string> areNotEqual;
 
         /// <summary>Initializes static members of the Verify class.</summary>
         static Verify()
@@ -91,10 +95,9 @@ namespace WheelMUD.Tests
             isTrue(condition, message, parameters);
         }
 
-        /// <summary>
-        /// Determines whether the specified test object is null.
-        /// </summary>
+        /// <summary>Determines whether the specified test object is null.</summary>
         /// <param name="testObject">The test object.</param>
+        /// <param name="errorMessage">If provided, the custom error message for failed assertions.</param>
         public static void IsNull(object testObject, string errorMessage = null)
         {
             isNull(testObject, errorMessage);
@@ -117,14 +120,13 @@ namespace WheelMUD.Tests
             areEqual(first, second, errorMessage);
         }
 
-        /// <summary>
-        /// Determines whether the two value type objects are not equal.
-        /// </summary>
+        /// <summary>Determines whether the two value type objects are not equal.</summary>
         /// <param name="first">The first object.</param>
         /// <param name="second">The second object.</param>
-        public static void AreNotEqual(object first, object second)
+        /// <param name="errorMessage">If provided, the custom error message for failed assertions.</param>
+        public static void AreNotEqual(object first, object second, string errorMessage = null)
         {
-            areNotEqual(first, second);
+            areNotEqual(first, second, errorMessage);
         }
 
         /// <summary>

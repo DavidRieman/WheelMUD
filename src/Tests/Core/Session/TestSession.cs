@@ -28,6 +28,15 @@ namespace WheelMUD.Tests.Session
         {
         }
 
+        /// <summary>Test that automatic recomposition during singleton instantiation establishes at least one SessionState object.</summary>
+        [TestMethod]
+        [Test]
+        public void TestRecompositionFindsSessionStates()
+        {
+            var sessionStates = SessionStateManager.Instance.SessionStates;
+            Verify.IsTrue(sessionStates.Length > 0, "Singleton instantiation should establish at least one SessionState.");
+        }
+
         [TestMethod]
         [Test]
         public void TestInitialConnectionStateIsNotDefaultState()
