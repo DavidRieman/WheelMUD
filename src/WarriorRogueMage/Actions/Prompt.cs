@@ -21,9 +21,7 @@ namespace WarriorRogueMage.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to get or set your command prompt display.
-    /// </summary>
+    /// <summary>An action to get or set your command prompt display.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("prompt", CommandCategory.Configure)]
     [ActionDescription("Sets your prompt display.  Enter an empty value for further options.")]
@@ -49,7 +47,7 @@ namespace WarriorRogueMage.Actions
                 // Save tail as player's new prompt
                 try
                 {
-                    sender.Thing.FindBehavior<PlayerBehavior>().Prompt = actionInput.Tail;
+                    this.playerBehavior.Prompt = actionInput.Tail;
                     sender.Thing.Save();
                     sender.Write("New prompt saved.");
                 }
@@ -63,14 +61,13 @@ namespace WarriorRogueMage.Actions
 
             // No new prompt supplied, so we display help and current values to the player
             var output = new StringBuilder();
-            var player = sender.Thing.FindBehavior<PlayerBehavior>();
 
             // Create an array of values available to the player
             output.AppendFormat("{0}{1}{2}\n", "Token".PadRight(15), "Current Value".PadRight(15), "Description".PadRight(40));
             output.AppendFormat("{0}{1}{2}\n", "-----".PadRight(15), "-------------".PadRight(15), "-----------".PadRight(40));
-            
+
             // Discover all methods with the promptable attribute in the adapter
-            foreach (var m in player.GetType().GetMethods())
+            foreach (var m in this.playerBehavior.GetType().GetMethods())
             {
                 var promptAttr = m.GetCustomAttributes(typeof(PlayerPromptableAttribute), false);
                 if (promptAttr.Length > 0)
@@ -78,14 +75,14 @@ namespace WarriorRogueMage.Actions
                     var tokenInfo = (PlayerPromptableAttribute)promptAttr[0];
 
                     // Invoke the method to get current values
-                    var currentValue = (string)m.Invoke(player, new object[] { });
+                    var currentValue = (string)m.Invoke(this.playerBehavior, new object[] { });
 
                     output.AppendFormat("{0}{1}{2}\n", tokenInfo.Token.PadRight(15), currentValue.PadRight(15), tokenInfo.Description.PadRight(40));
                 }
             }
 
-            output.AppendFormat("\nCurrent prompt is '{0}'\n", player.Prompt);
-            output.AppendFormat("Parsed prompt is '{0}'\n", player.BuildPrompt());
+            output.AppendFormat("\nCurrent prompt is '{0}'\n", this.playerBehavior.Prompt);
+            output.AppendFormat("Parsed prompt is '{0}'\n", this.playerBehavior.BuildPrompt());
             sender.Write(output.ToString());
         }
 
