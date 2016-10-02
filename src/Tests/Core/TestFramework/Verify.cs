@@ -28,7 +28,7 @@ namespace WheelMUD.Tests
 
         private static Action<object, string> notNull;
 
-        private static Action<object, object> areEqual;
+        private static Action<object, object, string> areEqual;
 
         private static Action<object, object> areNotEqual;
 
@@ -100,23 +100,21 @@ namespace WheelMUD.Tests
             isNull(testObject, errorMessage);
         }
 
-        /// <summary>
-        /// Determines whether [is not null] [the specified test object].
-        /// </summary>
+        /// <summary>Determines whether [is not null] [the specified test object].</summary>
         /// <param name="testObject">The test object.</param>
+        /// <param name="errorMessage">If provided, the custom error message for failed assertions.</param>
         public static void IsNotNull(object testObject, string errorMessage = null)
         {
             notNull(testObject, errorMessage);
         }
 
-        /// <summary>
-        /// Determines whether the two value type objects are equal.
-        /// </summary>
+        /// <summary>Determines whether the two value type objects are equal.</summary>
         /// <param name="first">The first object.</param>
         /// <param name="second">The second object.</param>
-        public static void AreEqual(object first, object second)
+        /// <param name="errorMessage">If provided, the custom error message for failed assertions.</param>
+        public static void AreEqual(object first, object second, string errorMessage = null)
         {
-            areEqual(first, second);
+            areEqual(first, second, errorMessage);
         }
 
         /// <summary>

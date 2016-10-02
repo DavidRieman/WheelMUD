@@ -45,10 +45,10 @@ namespace WheelMUD.Core
 
             // Prepare to handle receiving all relevant sensory events (not requests) which have 
             // happened within the player's perception, and relay the sensory message to the player.
-            player.Eventing.CombatEvent += new GameEventHandler(this.ProcessEvent);
-            player.Eventing.MovementEvent += new GameEventHandler(this.ProcessEvent);
-            player.Eventing.CommunicationEvent += new GameEventHandler(this.ProcessEvent);
-            player.Eventing.MiscellaneousEvent += new GameEventHandler(this.ProcessEvent);
+            player.Eventing.CombatEvent += this.ProcessEvent;
+            player.Eventing.MovementEvent += this.ProcessEvent;
+            player.Eventing.CommunicationEvent += this.ProcessEvent;
+            player.Eventing.MiscellaneousEvent += this.ProcessEvent;
         }
 
         /// <summary>

@@ -36,8 +36,8 @@ namespace WheelMUD.Tests.Session
             var connection = new FakeConnection();
             var session = new Session(connection);
 
-            Verify.IsTrue(session.State is SessionState);
-            Verify.IsTrue(!(session.State is DefaultState), "The default session state should have been ConnectedState.");
+            var typeName = session.State.GetType().Name ?? "(null)";
+            Verify.AreEqual(typeName, "ConnectedState");
         }
 
         /// <summary>Tests that the initial connection receives appropriate login prompts.</summary>

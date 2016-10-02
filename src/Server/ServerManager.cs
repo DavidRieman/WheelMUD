@@ -52,7 +52,7 @@ namespace WheelMUD.Server
             this.inputParser.InputReceived += this.CommandServer_OnInputReceived;
 
             // Set up to respond to player log out events by closing those connections.
-            PlayerManager.GlobalPlayerLogOutEvent += new GameEventHandler(this.PlayerManager_GlobalPlayerLogOutEvent);
+            PlayerManager.GlobalPlayerLogOutEvent += this.PlayerManager_GlobalPlayerLogOutEvent;
         }
 
         /// <summary>Gets the singleton instance of this ServerManager.</summary>

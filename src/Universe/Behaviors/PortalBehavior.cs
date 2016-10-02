@@ -27,7 +27,7 @@ namespace WheelMUD.Universe
         public PortalBehavior()
             : base(null)
         {
-            this.Parent.Eventing.MovementRequest += new CancellableGameEventHandler(this.Parent_MovementRequest);
+            this.Parent.Eventing.MovementRequest += this.Parent_MovementRequest;
         }
 
         /// <summary>Initializes a new instance of the PortalBehavior class.</summary>
@@ -42,9 +42,7 @@ namespace WheelMUD.Universe
         /// <summary>Gets or sets the destination room ID for this portal.</summary>
         public string DestinationThingID { get; set; }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.DestinationThingID = null;

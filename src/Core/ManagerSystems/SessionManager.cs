@@ -74,7 +74,7 @@ namespace WheelMUD.Core
         /// <param name="session">The authenticated session.</param>
         public void OnSessionAuthenticated(Session session)
         {
-            session.ActionReceived += new ActionReceivedEventHandler(this.Controller_ActionReceived);
+            session.ActionReceived += this.Controller_ActionReceived;
 
             this.SystemHost.UpdateSystemHost(this, session.ID + " - Session Authenticated");
 
