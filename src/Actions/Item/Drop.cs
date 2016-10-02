@@ -38,13 +38,16 @@ namespace WheelMUD.Actions
         };
 
         /// <summary>The thing that we are to 'drop'.</summary>
-        private Thing thing = null;
+        private Thing thingToDrop = null;
+
+        /// <summary>The movable behavior of the thing we are to 'drop'.</summary>
+        private MovableBehavior movableBehavior;
 
         /// <summary>The quantity of the item that we are to 'drop'.</summary>
         private int numberToDrop = 0;
 
         /// <summary>The current place that the player is within.</summary>
-        private Thing parent = null;
+        private Thing dropLocation = null;
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
@@ -52,27 +55,20 @@ namespace WheelMUD.Actions
         {
             // Generate an item changed owner event.
             IController sender = actionInput.Controller;
-            ContextualStringBuilder csb = new ContextualStringBuilder(sender.Thing, this.parent);
-            csb.Append(@"$ActiveThing.Name drops $Thing.Name.", ContextualStringUsage.WhenNotBeingPassedToOriginator);
-            csb.Append(@"You drop $Thing.Name.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
-            SensoryMessage message = new SensoryMessage(SensoryType.Sight, 100, csb);
-            var changeOwnerEvent = new ChangeOwnerEvent(sender.Thing, message, sender.Thing, this.parent, this.thing);
 
-            // Broadcast as a request and see if anything wants to prevent the event.
-            this.parent.Eventing.OnMovementRequest(changeOwnerEvent, EventScope.ParentsDown);
-            if (!changeOwnerEvent.IsCancelled)
+            var contextMessage = new ContextualString(sender.Thing, this.thingToDrop.Parent)
             {
-                // Always have to remove an item before adding it because of the event observer system.
-                // @@@ TODO: Test, this may be broken now...
-                this.thing.Parent.Remove(this.thing);
-                this.parent.Add(this.thing);
+                ToOriginator = "You drop up $Thing.Name.",
+                ToReceiver = "$ActiveThing.Name drops $Thing.Name in you.",
+                ToOthers = "$ActiveThing.Name drops $Thing.Name.",
+            };
+            var dropMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
-                //// @@@ BUG: Saving currently throws a NotImplementedException. Disabled for now...
-                this.thing.Save();
-                this.parent.Save();
-
-                // Broadcast the event.
-                this.parent.Eventing.OnMovementEvent(changeOwnerEvent, EventScope.ParentsDown);
+            var actor = actionInput.Controller.Thing;
+            if (this.movableBehavior.Move(this.dropLocation, actor, null, dropMessage))
+            {
+                actor.Save();
+                this.dropLocation.Save();
             }
         }
 
@@ -111,13 +107,20 @@ namespace WheelMUD.Actions
                 return "What did you want to drop?";
             }
 
-            this.parent = sender.Thing.Parent;
+            this.dropLocation = sender.Thing.Parent;
 
             // Rule: Is the target an item in the entity's inventory?
-            this.thing = sender.Thing.Children.Find(t => t.Name.Equals(targetName, StringComparison.CurrentCultureIgnoreCase));
-            if (this.thing == null)
+            this.thingToDrop = sender.Thing.Children.Find(t => t.Name.Equals(targetName, StringComparison.CurrentCultureIgnoreCase));
+            if (this.thingToDrop == null)
             {
                 return "You do not hold " + targetName + ".";
+            }
+
+            // Rule: The target thing must be movable.
+            this.movableBehavior = this.thingToDrop.Behaviors.FindFirst<MovableBehavior>();
+            if (this.movableBehavior == null)
+            {
+                return this.thingToDrop.Name + " does not appear to be movable.";
             }
 
             return null;
