@@ -343,8 +343,7 @@ namespace WarriorRogueMage
         /// </summary>
         public override void OnActivateTalent()
         {
-            new RollDieRule("1d6").Execute(this.PlayerThing, "Initiative", 4);
-
+            ////new RollDieRule("1d6").Execute(this.PlayerThing, "Initiative", 4);
             base.OnActivateTalent();
         }
     }

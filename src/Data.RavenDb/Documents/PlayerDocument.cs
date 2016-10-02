@@ -20,76 +20,31 @@ namespace WheelMUD.Data.RavenDb
     /// </summary>
     public class PlayerDocument
     {
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
+        /// <summary>Gets or sets the name.</summary>
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the database id.
-        /// </summary>
-        /// <value>
-        /// The database id.
-        /// </value>
+        /// <summary>Gets or sets the database id.</summary>
         public long DatabaseId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the last updated date.
-        /// </summary>
-        /// <value>
-        /// The last updated date.
-        /// </value>
+        /// <summary>Gets or sets the last updated date.</summary>
         public string LastUpdatedDate { get; set; }
 
-        /// <summary>
-        /// Gets or sets the player prompt.
-        /// </summary>
-        /// <value>
-        /// The player prompt.
-        /// </value>
+        /// <summary>Gets or sets the player prompt.</summary>
         public string PlayerPrompt { get; set; }
 
-        /// <summary>
-        /// Gets or sets the behaviors.
-        /// </summary>
-        /// <value>
-        /// The behaviors.
-        /// </value>
+        /// <summary>Gets or sets the behaviors.</summary>
         public List<IPersistsWithPlayer> Behaviors { get; set; }
 
-        /// <summary>
-        /// Gets or sets the stats.
-        /// </summary>
-        /// <value>
-        /// The stats.
-        /// </value>
+        /// <summary>Gets or sets the stats.</summary>
         public Dictionary<string, IPersistsWithPlayer> Stats { get; set; }
 
-        /// <summary>
-        /// Gets or sets the secondary stats.
-        /// </summary>
-        /// <value>
-        /// The game attributes.
-        /// </value>
+        /// <summary>Gets or sets the secondary stats.</summary>
         public Dictionary<string, IPersistsWithPlayer> SecondaryStats { get; set; }
 
-        /// <summary>
-        /// Gets or sets the skills.
-        /// </summary>
-        /// <value>
-        /// The skills.
-        /// </value>
+        /// <summary>Gets or sets the skills.</summary>
         public Dictionary<string, IPersistsWithPlayer> Skills { get; set; }
 
-        /// <summary>
-        /// Gets or sets the children.
-        /// </summary>
-        /// <value>
-        /// The children.
-        /// </value>
+        /// <summary>Gets or sets the children.</summary>
         /// <remarks>
         /// @@@ TODO: This should be "Children" to match Thing's "Children" property, but needs a DB update to match...
         /// </remarks>

@@ -55,13 +55,20 @@ namespace WheelMUD.Actions
             HelpTopic helpTopic = HelpManager.Instance.FindHelpTopic(commandTail);
             if (helpTopic != null)
             {
-                StringBuilder sb = new StringBuilder();
-                foreach (string line in helpTopic.Contents.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
+                if (useMXP)
                 {
-                    sb.AppendLine("<%mxpopenline%>" + line);
-                }
+                    var sb = new StringBuilder();
+                    foreach (string line in helpTopic.Contents.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
+                    {
+                        sb.AppendLine("<%mxpopenline%>" + line);
+                    }
 
-                sender.Write("<%mxpsecureline%><!element see '<send href=\"help &cref;\">' att='cref' open>" + sb.ToString().Trim(Environment.NewLine.ToCharArray()));
+                    sender.Write("<%mxpsecureline%><!element see '<send href=\"help &cref;\">' att='cref' open>" + sb.ToString().Trim(Environment.NewLine.ToCharArray()));
+                }
+                else
+                {
+                    // @@@ TODO: Output without MXP syntax!
+                }
             }
             else
             {

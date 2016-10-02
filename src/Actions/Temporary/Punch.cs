@@ -138,9 +138,7 @@ namespace WheelMUD.Actions
             return null;
         }
 
-        /// <summary>
-        /// Choose sensory messaging based on whether or not the hit landed.
-        /// </summary>
+        /// <summary>Choose sensory messaging based on whether or not the hit landed.</summary>
         /// <param name="attacker">The Thing performing the attack.</param>
         /// <param name="target">The Thing being attacked.</param>
         /// <param name="attackRoll">Die roll for the attack.</param>
@@ -169,10 +167,8 @@ namespace WheelMUD.Actions
                     ToOthers = @"$Aggressor.Name attempts to punch $ActiveThing.Name, but misses.",
                 };
             }
-
-            var sm = new SensoryMessage(SensoryType.Sight, 100, message, new Hashtable { { "Damage", damage } });
-
-            return sm;
+            
+            return new SensoryMessage(SensoryType.Sight, 100, message, new Hashtable { { "Damage", damage } });
         }
     }
 }

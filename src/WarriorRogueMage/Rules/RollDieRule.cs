@@ -10,6 +10,8 @@
 // </summary>
 //-----------------------------------------------------------------------------
 
+/* Disabling: Generates unused variable warnings-as-errors which show that this rule is not in use,
+   as there is not actual execution behavior here.
 namespace WarriorRogueMage.Rules
 {
     using WheelMUD.Core;
@@ -48,4 +50,4 @@ namespace WarriorRogueMage.Rules
             parentThing = (Thing)playerThing;
         }
     }
-}
+}*/

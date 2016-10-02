@@ -34,17 +34,11 @@ namespace WheelMUD.Main
 
         /// <summary>The view engine.</summary>
         private ViewEngine viewEngine;
-
-        /// <summary>The unhandled exception handler for this application.</summary>
-        private UnhandledExceptionHandler unhandledExceptionHandler;
-
-        /// <summary>
-        /// Prevents a default instance of the <see cref="Application"/> class from being created. 
-        /// </summary>
+        
+        /// <summary>Prevents a default instance of the <see cref="Application"/> class from being created.</summary>
         private Application()
         {
-            Action<string> notifier = this.Notify;
-            this.unhandledExceptionHandler = new UnhandledExceptionHandler(notifier);
+            UnhandledExceptionHandler.Register(this.Notify);
         }
 
         /// <summary>Gets the singleton instance of this <see cref="Application"/>.</summary>
@@ -143,7 +137,7 @@ namespace WheelMUD.Main
             {
                 Directory.CreateDirectory(destDirName);
             }
-            
+
             // Get the file contents of the directory to copy.
             FileInfo[] files = dir.GetFiles();
 
@@ -199,9 +193,7 @@ namespace WheelMUD.Main
             this.Notify(this.viewEngine.RenderView(help));
         }
 
-        /// <summary>
-        /// Notify subscribers of the specified message.
-        /// </summary>
+        /// <summary>Notify subscribers of the specified message.</summary>
         /// <param name="message">The message to pass along.</param>
         public void Notify(string message)
         {
@@ -211,9 +203,7 @@ namespace WheelMUD.Main
             }
         }
 
-        /// <summary>
-        /// Ensures that the database and such are present; copies the default if not.
-        /// </summary>
+        /// <summary>Ensures that the database and such are present; copies the default if not.</summary>
         private static void EnsureDataIsPresent()
         {
             string currentProviderName = Helpers.GetCurrentProviderName();
@@ -262,10 +252,8 @@ namespace WheelMUD.Main
                 }
             }
         }
-        
-        /// <summary>
-        /// Initializes the systems of this application.
-        /// </summary>
+
+        /// <summary>Initializes the systems of this application.</summary>
         private void InitializeSystems()
         {
             this.viewEngine = new ViewEngine { ReplaceNewLine = false };
@@ -305,7 +293,7 @@ namespace WheelMUD.Main
             foreach (string systemTypeName in distinctTypeNames)
             {
                 // Add only the single most-recent version of this type (if there were more than one found).
-                SystemExporter systemToAdd = (from s in this.AvailableSystems 
+                SystemExporter systemToAdd = (from s in this.AvailableSystems
                                               where s.SystemType.FullName == systemTypeName
                                               orderby s.SystemType.Assembly.GetName().Version.Major descending,
                                                       s.SystemType.Assembly.GetName().Version.Minor descending,

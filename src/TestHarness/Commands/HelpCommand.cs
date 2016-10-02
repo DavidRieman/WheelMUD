@@ -8,10 +8,11 @@
 // </summary>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Main;
-
 namespace TestHarness.Commands
 {
+    using System.Collections.Generic;
+    using WheelMUD.Main;
+
     /// <summary>
     /// Handle the 'help' command as specified by the administrator from the console.
     /// </summary>
@@ -21,7 +22,7 @@ namespace TestHarness.Commands
         private readonly string[] _names = { "?", "HELP", "help", "h" };
 
         /// <summary>Gets the recognized names for this command.</summary>
-        public string[] Names
+        public IEnumerable<string> Names
         {
             get { return _names; }
         }

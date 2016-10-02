@@ -23,9 +23,7 @@ namespace WarriorRogueMage.CharacterCreation
     using WheelMUD.ConnectionStates;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// The character creation step where the player will pick their skills.
-    /// </summary>
+    /// <summary>The character creation step where the player will pick their skills.</summary>
     public class PickSkillsState : CharacterCreationSubState
     {
         private string skillOne;
@@ -36,34 +34,22 @@ namespace WarriorRogueMage.CharacterCreation
         private int skillCount;
         private List<GameSkill> gameSkills;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PickSkillsState"/> class.
-        /// </summary>
-        /// <param name="session">
-        /// The session.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="PickSkillsState"/> class.</summary>
+        /// <param name="session">The session.</param>
         public PickSkillsState(Session session)
             : base(session)
         {
             this.Session.Write("You will now pick your character's starting skills.");
-
             this.gameSkills = GameSystemController.Instance.GameSkills;
-
             this.FormatSkillText();
-
             this.RefreshScreen(false);
         }
 
-        /// <summary>
-        /// Processes the text that the player sends while in this state.
-        /// </summary>
-        /// <param name="command">
-        /// The command that the player just sent.
-        /// </param>
+        /// <summary>Processes the text that the player sends while in this state.</summary>
+        /// <param name="command">The command that the player just sent.</param>
         public override void ProcessInput(string command)
         {
             string currentCommand = command.ToLower().Trim();
-
             switch (currentCommand)
             {
                 case "clear":
@@ -292,9 +278,9 @@ namespace WarriorRogueMage.CharacterCreation
                             text.AppendFormat("{0}" + Environment.NewLine, skillcolumn1);
                             break;
                         case 2:
-                            string sk = WrmChargenCommon.FormatToColumn(this.longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                             string sk1 = WrmChargenCommon.FormatToColumn(this.longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                            text.AppendFormat("{0}  {1}" + Environment.NewLine, sk, sk);
+                            string sk2 = WrmChargenCommon.FormatToColumn(this.longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
+                            text.AppendFormat("{0}  {1}" + Environment.NewLine, sk1, sk2);
                             break;
                         case 3:
                             string skl1 = WrmChargenCommon.FormatToColumn(this.longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);

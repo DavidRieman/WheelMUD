@@ -43,6 +43,7 @@ namespace WheelMUD.Actions
         /// <summary>The thing that we wish to 'get'.</summary>
         private Thing thingToGet;
 
+        /// <summary>The movable behavior of the thing we are to 'get'.</summary>
         private MovableBehavior movableBehavior;
 
         /// <summary>The quantity of the item that we wish to 'get'.</summary>
@@ -55,7 +56,7 @@ namespace WheelMUD.Actions
             // Remove the item from its current container.
             // We have to do this before we attempt to add it because of the event subscriptions.
             // @@@ TODO: Test, this may be broken now...
-            IController sender = actionInput.Controller;
+            var actor = actionInput.Controller.Thing;
             if (this.numberToGet <= 0)
             {
                 this.numberToGet = 1;
@@ -63,7 +64,7 @@ namespace WheelMUD.Actions
 
             // @@@ TODO: Prevent item duplication from specifying large numbers, or races for same item, etc.
             // @@@ TODO: Fix Implementation of numberToGet
-            var contextMessage = new ContextualString(sender.Thing, this.thingToGet.Parent)
+            var contextMessage = new ContextualString(actor, this.thingToGet.Parent)
             {
                 ToOriginator = "You pick up $Thing.Name.",
                 ToReceiver = "$ActiveThing.Name takes $Thing.Name from you.",
@@ -71,14 +72,11 @@ namespace WheelMUD.Actions
             };
             var getMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
-            var getEvent = new ChangeOwnerEvent(
-                    sender.Thing,
-                    getMessage,
-                    this.thingToGet.Parent,
-                    sender.Thing,
-                    this.thingToGet);
-
-            this.movableBehavior.Move(sender.Thing, sender.Thing, getMessage, null);
+            if (this.movableBehavior.Move(actor, actor, getMessage, null))
+            {
+                actor.Save();
+                actor.Parent.Save();
+            }
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>
@@ -189,9 +187,7 @@ namespace WheelMUD.Actions
             {
                 return this.thingToGet.Name + " does not appear to be movable.";
             }
-
-            // @@@ TODO: Rule: Is the thing allowed to be picked up? (CannotPickUpBehavior or needs CarryableBehavior or whatnot? hmm)
-
+            
             return null;
         }
     }

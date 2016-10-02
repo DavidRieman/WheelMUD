@@ -1,13 +1,24 @@
-﻿using WheelMUD.Core;
-using WheelMUD.Main;
+﻿//-----------------------------------------------------------------------------
+// <copyright file="UpdateActionsCommand.cs" company="WheelMUD Development Team">
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   subject to the Microsoft Public License.  All other rights reserved.
+// </copyright>
+// <summary>
+//   Command to recompose (reload and update) the CommandManager Actions.
+// </summary>
+//-----------------------------------------------------------------------------
 
 namespace TestHarness.Commands
 {
+    using System.Collections.Generic;
+    using WheelMUD.Core;
+    using WheelMUD.Main;
+
     public class UpdateActionsCommand : ITestHarnessCommand
     {
         private readonly string[] _names = { "UPDATE-ACTIONS", "UPDATE", "update", "u" };
 
-        public string[] Names { get{ return _names; } }
+        public IEnumerable<string> Names { get { return _names; } }
 
         public void Execute(Application app, MultiUpdater display, string[] words)
         {

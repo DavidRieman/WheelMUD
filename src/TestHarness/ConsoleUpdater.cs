@@ -18,9 +18,7 @@ namespace TestHarness
     /// </summary>
     public class ConsoleUpdater : ISuperSystemSubscriber
     {
-        /// <summary>
-        /// Notify user of the specified message.
-        /// </summary>
+        /// <summary>Notify user of the specified message.</summary>
         /// <param name="message">The message to pass along.</param>
         public void Notify(string message)
         {
@@ -28,9 +26,7 @@ namespace TestHarness
             Console.Write("> ");
         }
 
-        /// <summary>
-        /// Dispose of any resources used by this ConsoleUpdater.
-        /// </summary>
+        /// <summary>Dispose of any resources used by this ConsoleUpdater.</summary>
         public void Dispose()
         {
         }

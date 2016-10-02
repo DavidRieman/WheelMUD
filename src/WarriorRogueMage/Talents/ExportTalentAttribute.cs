@@ -14,7 +14,6 @@ namespace WarriorRogueMage
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
-
     using WheelMUD.Utilities;
 
     [MetadataAttribute]

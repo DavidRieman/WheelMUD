@@ -93,12 +93,12 @@ namespace WarriorRogueMage
             }
 
             // Sort the bin dictionary
-            var sortedBin = (from entry in bin orderby entry.Value ascending select entry).ToDictionary(pair => pair.Key, pair => pair.Value);
+            ////var sortedBin = (from entry in bin orderby entry.Value ascending select entry).ToDictionary(pair => pair.Key, pair => pair.Value);
 
-            foreach (var ent in sortedBin)
-            {
-                ////Thing combatant = this.CombatSession.Combatants.Values
-            }
+            ////foreach (var ent in sortedBin)
+            ////{
+            ////    Thing combatant = this.CombatSession.Combatants.Values
+            ////}
         }
 
         /// <summary>Processes the combatant round actions.</summary>

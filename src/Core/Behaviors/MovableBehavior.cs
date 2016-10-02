@@ -40,9 +40,7 @@ namespace WheelMUD.Core
         // @@@ OpensClosesBehavior needs to listen for movement events and set e.Cancel if the transition object
         //     is closed at the time.
 
-        /// <summary>
-        /// Move the entity to the specified room.
-        /// </summary>
+        /// <summary>Move the entity to the specified destination.</summary>
         /// <param name="destination">
         /// @@@ TODO: The destination to move the entity to; if the destination has an ExitBehavior then this Thing is
         /// automatically moved to the other destination of the exit (IE an adjacent room, portal destination,

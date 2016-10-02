@@ -42,8 +42,6 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-
             // Remove all instances of MutedEffect (in case there are more than one).
             MutedEffect effect;
             while ((effect = this.playerToUnmute.Behaviors.FindFirst<MutedEffect>()) != null)

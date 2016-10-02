@@ -10,6 +10,10 @@
 // </summary>
 //-----------------------------------------------------------------------------
 
+/* Disabled: Create Consumable shouldn't be a specific command. Instead, we want to have a templating system that
+             allows item creation based on arbitrary templates, of which "consumable" could be one which might
+             automatically come prepared with a ConsumableBehavior attached. The same templating system could be 
+             used to create doors, keys, containers, exits, mobs, weapons, armor, portals, spawners, and so on.
 namespace WheelMUD.Actions
 {
     using System;
@@ -31,7 +35,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -116,4 +120,4 @@ namespace WheelMUD.Actions
             return null;
         }
     }
-}
+}*/

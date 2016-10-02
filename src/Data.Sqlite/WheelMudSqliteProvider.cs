@@ -16,16 +16,14 @@ namespace WheelMUD.Data.Sqlite
     using System.ComponentModel.Composition;
     using System.Data;
     using System.IO;
-
     using ServiceStack.OrmLite;
     using ServiceStack.OrmLite.Sqlite;
 
-    /// <summary>
-    /// ORMLite Sqlite provider for WheelMUD
-    /// </summary>
+    /// <summary>ORMLite Sqlite provider for WheelMUD.</summary>
     [Export(typeof(IWheelMudDbProvider))]
     public class WheelMudSqliteProvider : IWheelMudDbProvider
     {
+        /// <summary>Initializes a new instance of the <see cref="WheelMudSqliteProvider"/> class.</summary>
         public WheelMudSqliteProvider()
         {
         }
@@ -56,17 +54,11 @@ namespace WheelMUD.Data.Sqlite
         public IDbConnection CreateDatabaseSession()
         {
             VerifyValidSqLiteFile(this.ConnectionString);
-
             var connectionFactory = new OrmLiteConnectionFactory(this.ConnectionString, false, SqliteOrmLiteDialectProvider.Instance);
-
-            IDbConnection connection = connectionFactory.OpenDbConnection();
-
-            return connection;
+            return connectionFactory.OpenDbConnection();
         }
 
-        /// <summary>
-        /// Verifies that the SQLite DB file specified in a connection string is somewhat valid.
-        /// </summary>
+        /// <summary>Verifies that the SQLite DB file specified in a connection string is somewhat valid.</summary>
         /// <param name="connectionStringForSqlite">The SQLite connection string containing the file name.</param>
         private static void VerifyValidSqLiteFile(string connectionStringForSqlite)
         {
@@ -81,11 +73,11 @@ namespace WheelMUD.Data.Sqlite
             var fileInfo = new FileInfo(fileName);
             if (!fileInfo.Exists)
             {
-                throw new Exception(string.Format("SQLite file is missing: {0}", fileName));
+                throw new FileNotFoundException(string.Format("SQLite file is missing: {0}", fileName));
             }
             else if (fileInfo.Length <= 0)
             {
-                throw new Exception(string.Format("SQLite file is unexpectedly empty: {0}", fileName));
+                throw new FileLoadException(string.Format("SQLite file is unexpectedly empty: {0}", fileName));
             }
         }
     }

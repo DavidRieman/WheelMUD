@@ -101,9 +101,6 @@
     <Compile Include="TestScriptClient.cs" />
     <Compile Include="TextLogUpdater.cs" />
     <Compile Include="WheelMUDService.cs" />
-    <Compile Include="WheelMUDService.Designer.cs">
-      <DependentUpon>WheelMUDService.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Actions\WheelMUD.Actions.csproj">
