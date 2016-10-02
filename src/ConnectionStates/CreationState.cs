@@ -12,22 +12,17 @@ namespace WheelMUD.ConnectionStates
 {
     using System;
     using System.Linq;
-
     using WheelMUD.Core;
     using WheelMUD.Data.Entities;
     using WheelMUD.Utilities;
 
-    /// <summary>
-    /// The 'character creation' session state.
-    /// </summary>
+    /// <summary>The 'character creation' session state.</summary>
     public class CreationState : SessionState
     {
         /// <summary>The character creation handler.</summary>
         private readonly CharacterCreationStateMachine subStateHandler;
 
-        /// <summary>
-        /// Initializes a new instance of the CreationState class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the CreationState class.</summary>
         /// <param name="session">The session entering this state.</param>
         public CreationState(Session session)
             : base(session)
@@ -38,9 +33,7 @@ namespace WheelMUD.ConnectionStates
             this.subStateHandler.CharacterCreationCompleted += this.SubState_CharacterCreationCompleted;
         }
 
-        /// <summary>
-        /// Process the specified input.
-        /// </summary>
+        /// <summary>Process the specified input.</summary>
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {
@@ -58,9 +51,7 @@ namespace WheelMUD.ConnectionStates
             return "> ";
         }
 
-        /// <summary>
-        /// Called upon the completion of character creation.
-        /// </summary>
+        /// <summary>Called upon the completion of character creation.</summary>
         /// <param name="newCharacter">
         /// The new Character.
         /// </param>
@@ -75,16 +66,16 @@ namespace WheelMUD.ConnectionStates
             var playerBehavior = newCharacter.FindBehavior<PlayerBehavior>();
             playerBehavior.PlayerData = new PlayerRecord
             {
-                UserName = newCharacter.Name, 
-                Password = playerBehavior.Password, 
-                DisplayName = newCharacter.Name, 
-                Description = newCharacter.Description, 
-                CurrentRoomID = MudEngineAttributes.Instance.DefaultRoomID, 
-                LastLogin = currentTime, 
-                CreateDate = currentTime, 
-                LastIPAddress = this.Session.Connection.CurrentIPAddress.ToString(), 
-                WantAnsi = true, 
-                WantMCCP = false, 
+                UserName = newCharacter.Name,
+                Password = playerBehavior.Password,
+                DisplayName = newCharacter.Name,
+                Description = newCharacter.Description,
+                CurrentRoomID = MudEngineAttributes.Instance.DefaultRoomID,
+                LastLogin = currentTime,
+                CreateDate = currentTime,
+                LastIPAddress = this.Session.Connection.CurrentIPAddress.ToString(),
+                WantAnsi = true,
+                WantMCCP = false,
                 WantMXP = true
             };
 
@@ -105,9 +96,7 @@ namespace WheelMUD.ConnectionStates
             this.Session.AuthenticateSession();
         }
 
-        /// <summary>
-        /// Place the specified character in the "default" room.
-        /// </summary>
+        /// <summary>Place the specified character in the "default" room.</summary>
         /// <param name="character">The character to place.</param>
         private void PlaceCharacterInDefaultRoom(Thing character)
         {
@@ -120,9 +109,7 @@ namespace WheelMUD.ConnectionStates
             }
         }
 
-        /// <summary>
-        /// Called upon the abortion of character creation.
-        /// </summary>
+        /// <summary>Called upon the abortion of character creation.</summary>
         private void SubState_CharacterCreationAborted()
         {
             this.Session.State = new ConnectedState(this.Session);

@@ -9,14 +9,10 @@ namespace WheelMUD.ConnectionStates
 {
     using WheelMUD.Core;
 
-    /// <summary>
-    /// The central coordinator for Character Creation is a state machine.
-    /// </summary>
+    /// <summary>The central coordinator for Character Creation is a state machine.</summary>
     public abstract class CharacterCreationStateMachine
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CharacterCreationStateMachine"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="CharacterCreationStateMachine"/> class.</summary>
         /// <param name="session">The session.</param>
         public CharacterCreationStateMachine(Session session)
         {
@@ -45,17 +41,13 @@ namespace WheelMUD.ConnectionStates
         /// <summary>Gets or sets the character creation state.</summary>
         internal CharacterCreationSubState CurrentStep { get; set; }
 
-        /// <summary>
-        /// Gets the next step.
-        /// </summary>
+        /// <summary>Gets the next step.</summary>
         /// <param name="current">The current.</param>
         /// <param name="previousStatus">The previous status.</param>
         /// <returns></returns>
         public abstract CharacterCreationSubState GetNextStep(CharacterCreationSubState current, StepStatus previousStatus);
 
-        /// <summary>
-        /// ProcessInput is used to receive the user input during this state.
-        /// </summary>
+        /// <summary>ProcessInput is used to receive the user input during this state.</summary>
         /// <param name="command">The command text to be processed.</param>
         public void ProcessInput(string command)
         {
@@ -66,10 +58,7 @@ namespace WheelMUD.ConnectionStates
             }
         }
 
-        /// <summary>
-        /// Processes the next step in the character creation chain, or completes
-        /// the process if there are no more steps.
-        /// </summary>
+        /// <summary>Processes the next step in the character creation chain, or completes the process if there are no more steps.</summary>
         /// <param name="step">The current step</param>
         /// <param name="result">The result of the current step</param>
         public void HandleNextStep(CharacterCreationSubState step, StepStatus result)
@@ -87,9 +76,7 @@ namespace WheelMUD.ConnectionStates
             this.Session.WritePrompt();
         }
 
-        /// <summary>
-        /// Signals abortion of character creation.
-        /// </summary>
+        /// <summary>Signals abortion of character creation.</summary>
         internal void AbortCreation()
         {
             if (this.CharacterCreationAborted != null)
@@ -98,9 +85,7 @@ namespace WheelMUD.ConnectionStates
             }
         }
 
-        /// <summary>
-        /// Signals completion of character creation.
-        /// </summary>
+        /// <summary>Signals completion of character creation.</summary>
         internal void OnCreationComplete()
         {
             if (this.CharacterCreationCompleted != null)

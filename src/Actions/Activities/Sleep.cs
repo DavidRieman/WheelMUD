@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action for going to sleep.
-    /// </summary>
+    /// <summary>An action for going to sleep.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("sleep", CommandCategory.Activities)]
     [ActionDescription("Go to sleep.")]

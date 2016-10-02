@@ -15,22 +15,16 @@ namespace WheelMUD.ConnectionStates
 {
     using WheelMUD.Core;
 
-    /// <summary>
-    /// The player state for handling combat.
-    /// </summary>
+    /// <summary>The player state for handling combat.</summary>
     public class CombatState : SessionState
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CombatState"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="CombatState"/> class.</summary>
         /// <param name="session">The session entering this state.</param>
         public CombatState(Session session) : base(session)
         {
         }
 
-        /// <summary>
-        /// Process the specified input.
-        /// </summary>
+        /// <summary>Process the specified input.</summary>
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {

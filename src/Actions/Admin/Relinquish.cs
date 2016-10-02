@@ -18,9 +18,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to relinquish control of a mobile or player.
-    /// </summary>
+    /// <summary>An action to relinquish control of a mobile or player.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("relinquish", CommandCategory.Admin)]
     [ActionAlias("relinquish control", CommandCategory.Admin)]

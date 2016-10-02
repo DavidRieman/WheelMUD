@@ -13,23 +13,17 @@ namespace WheelMUD.ConnectionStates
     using System.Text;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// Character creation state used to confirm a password for the new character.
-    /// </summary>
+    /// <summary>Character creation state used to confirm a password for the new character.</summary>
     public class ConfirmPasswordState : CharacterCreationSubState
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConfirmPasswordState"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ConfirmPasswordState"/> class.</summary>
         /// <param name="session">The session.</param>
         public ConfirmPasswordState(Session session)
             : base(session)
         {
         }
 
-        /// <summary>
-        /// ProcessInput is used to receive the user input during this state.
-        /// </summary>
+        /// <summary>ProcessInput is used to receive the user input during this state.</summary>
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {
@@ -65,9 +59,7 @@ namespace WheelMUD.ConnectionStates
             return "Please retype your password.\n> ";
         }
 
-        /// <summary>
-        /// Add this character to the database.
-        /// </summary>
+        /// <summary>Add this character to the database.</summary>
         /// <param name="session">The session for the player being created.</param>
         /// <returns>True if successful, else false.</returns>
         private bool AddCharacterToDatabase(Session session)
@@ -99,9 +91,7 @@ namespace WheelMUD.ConnectionStates
             //}
         }
 
-        /// <summary>
-        /// Fills up the player record with some default data.
-        /// </summary>
+        /// <summary>Fills up the player record with some default data.</summary>
         /// <param name="playerRecord">The <see cref="PlayerRecord"/> that need default data.</param>
         //private void ConfigurePlayer(ref PlayerRecord playerRecord)
         //{

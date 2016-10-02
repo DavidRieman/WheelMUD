@@ -12,23 +12,17 @@ namespace WheelMUD.ConnectionStates
 {
     using WheelMUD.Core;
 
-    /// <summary>
-    /// Character creation state used to request a password from the new character.
-    /// </summary>
+    /// <summary>Character creation state used to request a password from the new character.</summary>
     public class GetPasswordState : CharacterCreationSubState
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GetPasswordState"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="GetPasswordState"/> class.</summary>
         /// <param name="session">The session.</param>
         public GetPasswordState(Session session)
             : base(session)
         {
         }
 
-        /// <summary>
-        /// ProcessInput is used to receive the user input during this state.
-        /// </summary>
+        /// <summary>ProcessInput is used to receive the user input during this state.</summary>
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {

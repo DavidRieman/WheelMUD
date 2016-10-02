@@ -24,9 +24,7 @@ namespace WarriorRogueMage.Behaviors
     /// </summary>
     public class SkillsBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the SkillsBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the SkillsBehavior class.</summary>
         /// <param name="instanceProperties">Dictionary of properties to spawn this behavior instance with, if any.</param>
         public SkillsBehavior(Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
@@ -34,17 +32,11 @@ namespace WarriorRogueMage.Behaviors
             ManagedSkills = new List<WRMSkill>();
         }
 
-        /// <summary>
-        /// Gets or sets the list of active skills.
-        /// </summary>
-        /// <value>
-        /// The active skills.
-        /// </value>
+        /// <summary>Gets or sets the list of active skills.</summary>
+        /// <value>The active skills.</value>
         public List<WRMSkill> ManagedSkills { get; set; }
 
-        /// <summary>
-        /// Called when a parent has just been assigned to this behavior. (Refer to this.Parent)
-        /// </summary>
+        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
         public override void OnAddBehavior()
         {
             // When adding this behavior to a Thing, register relevant movement events so we can cancel
@@ -64,9 +56,7 @@ namespace WarriorRogueMage.Behaviors
             base.OnAddBehavior();
         }
 
-        /// <summary>
-        /// Called when the current parent of this behavior is about to be removed. (Refer to this.Parent)
-        /// </summary>
+        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent)</summary>
         public override void OnRemoveBehavior()
         {
             var parent = this.Parent;
@@ -81,9 +71,7 @@ namespace WarriorRogueMage.Behaviors
             base.OnRemoveBehavior();
         }
 
-        /// <summary>
-        /// Find the first instance of a skill of the specified type.
-        /// </summary>
+        /// <summary>Find the first instance of a skill of the specified type.</summary>
         /// <typeparam name="U">The type of skill to locate.</typeparam>
         /// <returns>The first managed skill of the specified type, if found, else null.</returns>
         public U FindFirst<U>() where U : WRMSkill
@@ -91,9 +79,7 @@ namespace WarriorRogueMage.Behaviors
             return this.ManagedSkills.OfType<U>().FirstOrDefault();
         }
 
-        /// <summary>
-        /// Add a new skill to the list of managed talents.
-        /// </summary>
+        /// <summary>Add a new skill to the list of managed talents.</summary>
         /// <param name="newTalent">The new skill to add.</param>
         public void Add(WRMSkill newTalent)
         {
@@ -108,9 +94,7 @@ namespace WarriorRogueMage.Behaviors
             }
         }
 
-        /// <summary>
-        /// Removes the specified skill.
-        /// </summary>
+        /// <summary>Removes the specified skill.</summary>
         /// <param name="talent">The skill to remove.</param>
         public void Remove(WRMSkill talent)
         {
@@ -125,9 +109,7 @@ namespace WarriorRogueMage.Behaviors
             }
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             // Nothing to do here.

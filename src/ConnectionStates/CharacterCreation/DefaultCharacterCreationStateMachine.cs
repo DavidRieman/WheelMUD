@@ -12,32 +12,24 @@ namespace WheelMUD.ConnectionStates
     using System;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// Default state machine for creating a new character
-    /// </summary>
+    /// <summary>Default state machine for creating a new character.</summary>
     [ExportCharacterCreationStateMachine(100)]
     public class DefaultCharacterCreationStateMachine : CharacterCreationStateMachine
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultCharacterCreationStateMachine"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="DefaultCharacterCreationStateMachine"/> class.</summary>
         /// <param name="session">The session.</param>
         public DefaultCharacterCreationStateMachine(Session session) 
             : base(session)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultCharacterCreationStateMachine"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="DefaultCharacterCreationStateMachine"/> class.</summary>
         public DefaultCharacterCreationStateMachine()
             : this(null)
         {
         }
 
-        /// <summary>
-        /// Gets the next step in the creation process.
-        /// </summary>
+        /// <summary>Gets the next step in the creation process.</summary>
         /// <param name="current">The current (just executed step)</param>
         /// <param name="previousStatus">Whether the current step passed or failed</param>
         /// <returns>The next step in the character creation process, or null if it is finished</returns>

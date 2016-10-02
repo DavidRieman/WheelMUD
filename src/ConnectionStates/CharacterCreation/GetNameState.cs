@@ -10,14 +10,10 @@ namespace WheelMUD.ConnectionStates
     using WheelMUD.Core;
     using WheelMUD.Data.Repositories;
 
-    /// <summary>
-    /// This is the state for new character name entry as supplied by a player. 
-    /// </summary>
+    /// <summary>This is the state for new character name entry as supplied by a player.</summary>
     public class GetNameState : CharacterCreationSubState
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GetNameState"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="GetNameState"/> class.</summary>
         /// <param name="session">The session.</param>
         public GetNameState(Session session)
             : base(session)
@@ -30,9 +26,7 @@ namespace WheelMUD.ConnectionStates
         /// <summary>The maximum allowed length for a new character's name.</summary>
         private const int MaximumNameLength = 20;
 
-        /// <summary>
-        /// ProcessInput is used to receive the user input during this state.
-        /// </summary>
+        /// <summary>ProcessInput is used to receive the user input during this state.</summary>
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {

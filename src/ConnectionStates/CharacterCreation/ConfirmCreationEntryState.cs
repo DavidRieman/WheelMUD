@@ -13,23 +13,17 @@ namespace WheelMUD.ConnectionStates
     using System;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// Character creation state used to confirm creation and entry into the game.
-    /// </summary>
+    /// <summary>Character creation state used to confirm creation and entry into the game.</summary>
     public class ConfirmCreationEntryState : CharacterCreationSubState
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConfirmCreationEntryState"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ConfirmCreationEntryState"/> class.</summary>
         /// <param name="session">The session.</param>
         public ConfirmCreationEntryState(Session session)
             : base(session)
         {
         }
 
-        /// <summary>
-        /// ProcessInput is used to receive the user input during this state.
-        /// </summary>
+        /// <summary>ProcessInput is used to receive the user input during this state.</summary>
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {

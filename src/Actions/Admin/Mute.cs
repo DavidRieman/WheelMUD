@@ -19,9 +19,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Effects;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// An action to prevent a player from communicating.
-    /// </summary>
+    /// <summary>An action to prevent a player from communicating.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("mute", CommandCategory.Admin)]
     [ActionAlias("silence", CommandCategory.Admin)]
@@ -35,14 +33,10 @@ namespace WheelMUD.Actions
             CommonGuards.RequiresAtLeastOneArgument,
         };
 
-        /// <summary>
-        /// The player to mute.
-        /// </summary>
+        /// <summary>The player to mute.</summary>
         private Thing playerToMute;
 
-        /// <summary>
-        /// How long the mute effect should last.
-        /// </summary>
+        /// <summary>How long the mute effect should last.</summary>
         private TimeSpan muteDuration;
 
         /// <summary>Executes the command.</summary>

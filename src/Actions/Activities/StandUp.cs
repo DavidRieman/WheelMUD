@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action for standing up.
-    /// </summary>
+    /// <summary>An action for standing up.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("stand up", CommandCategory.Activities)]
     [ActionAlias("stand", CommandCategory.Activities)]

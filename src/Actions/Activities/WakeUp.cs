@@ -16,9 +16,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to awaken and stand up.
-    /// </summary>
+    /// <summary>An action to awaken and stand up.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("wake up", CommandCategory.Activities)]
     [ActionAlias("wake", CommandCategory.Activities)]

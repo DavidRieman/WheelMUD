@@ -178,9 +178,7 @@ namespace WheelMUD.Core
             return destination != null ? destination.ExitCommand : null;
         }
 
-        /// <summary>
-        /// Called when a parent has just been assigned to this behavior. (Refer to this.Parent)
-        /// </summary>
+        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
         public override void OnAddBehavior()
         {
             // @@@ TODO: Greatly simplify: use shared logic with ParentMovementEvent! React to OnRemoveBehavior too!
@@ -206,9 +204,7 @@ namespace WheelMUD.Core
             base.OnAddBehavior();
         }
 
-        /// <summary>
-        /// Called when the current parent of this behavior is about to be removed. (Refer to this.Parent)
-        /// </summary>
+        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent)</summary>
         public override void OnRemoveBehavior()
         {
             // When removing this behavior from a thing, we need to unrig any context commands we added to it.
@@ -221,17 +217,13 @@ namespace WheelMUD.Core
             base.OnRemoveBehavior();
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.destinations = new List<DestinationInfo>();
         }
 
-        /// <summary>
-        /// Handle the events of our parent moving; need to adjust our exit context commands and such.
-        /// </summary>
+        /// <summary>Handle the events of our parent moving; need to adjust our exit context commands and such.</summary>
         /// <param name="root">The event sender.</param>
         /// <param name="e">The event args.</param>
         private void ParentMovementEventHandler(Thing root, Events.GameEvent e)
@@ -258,9 +250,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Add the appropriate exit context command(s) to the specified location.
-        /// </summary>
+        /// <summary>Add the appropriate exit context command(s) to the specified location.</summary>
         /// <param name="location">The location to add exit context command(s) to.</param>
         private void AddExitContextCommands(Thing location)
         {
@@ -277,9 +267,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Get up to one common secondary exit alias for a full exit command.
-        /// </summary>
+        /// <summary>Get up to one common secondary exit alias for a full exit command.</summary>
         /// <param name="primaryExitCommand">The primary exit command to get an alias for.</param>
         /// <returns>A common secondary exit alias for the primary exit command, if one exists.</returns>
         private string GetSecondaryExitAlias(string primaryExitCommand)
@@ -301,9 +289,7 @@ namespace WheelMUD.Core
             return null;
         }
 
-        /// <summary>
-        /// Get the DestinationInfo for the destination, as if going through this exit from the specified ID.
-        /// </summary>
+        /// <summary>Get the DestinationInfo for the destination, as if going through this exit from the specified ID.</summary>
         /// <param name="originID">The origin ID to find a destination for.</param>
         /// <returns>A destination for the specified origin Thing ID.</returns>
         private DestinationInfo GetDestinationFrom(string originID)
@@ -311,9 +297,7 @@ namespace WheelMUD.Core
             return (from d in this.destinations where originID != d.TargetID select d).FirstOrDefault();
         }
 
-        /// <summary>
-        /// A command handler for this exit's context commands.
-        /// </summary>
+        /// <summary>A command handler for this exit's context commands.</summary>
         private class ExitBehaviorCommands : GameAction
         {
             /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
@@ -328,9 +312,7 @@ namespace WheelMUD.Core
             /// <summary>The ExitBehavior this class belongs to.</summary>
             private ExitBehavior exitBehavior;
 
-            /// <summary>
-            /// Initializes a new instance of the ExitBehaviorCommands class.
-            /// </summary>
+            /// <summary>Initializes a new instance of the ExitBehaviorCommands class.</summary>
             /// <param name="exitBehavior">The ExitBehavior this class belongs to.</param>
             public ExitBehaviorCommands(ExitBehavior exitBehavior)
                 : base()
@@ -338,9 +320,7 @@ namespace WheelMUD.Core
                 this.exitBehavior = exitBehavior;
             }
 
-            /// <summary>
-            /// Execute the action.
-            /// </summary>
+            /// <summary>Execute the action.</summary>
             /// <param name="actionInput">The full input specified for executing the command.</param>
             public override void Execute(ActionInput actionInput)
             {
@@ -368,14 +348,10 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Information about an exit's destination.
-        /// </summary>
+        /// <summary>Information about an exit's destination.</summary>
         private class DestinationInfo
         {
-            /// <summary>
-            /// Initializes a new instance of the DestinationInfo class.
-            /// </summary>
+            /// <summary>Initializes a new instance of the DestinationInfo class.</summary>
             /// <param name="command">The command which is used to reach the target destination.</param>
             /// <param name="targetID">The ID of the target destination.</param>
             public DestinationInfo(string command, string targetID)

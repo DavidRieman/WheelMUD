@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to ban a player or IP address range for a time.
-    /// </summary>
+    /// <summary>An action to ban a player or IP address range for a time.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("ban", CommandCategory.Admin)]
     [ActionAlias("banish", CommandCategory.Admin)]

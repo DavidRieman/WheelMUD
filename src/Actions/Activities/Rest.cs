@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to sit down and rest.
-    /// </summary>
+    /// <summary>An action to sit down and rest.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("rest", CommandCategory.Activities)]
     [ActionAlias("sit", CommandCategory.Activities)]

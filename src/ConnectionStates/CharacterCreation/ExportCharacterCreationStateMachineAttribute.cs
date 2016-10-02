@@ -16,16 +16,12 @@ namespace WheelMUD.ConnectionStates
     using System.ComponentModel.Composition;
     using WheelMUD.Utilities;
 
-    /// <summary>
-    /// Class that exports attributes for the <see cref="CharacterCreationStateMachine"/> class.
-    /// </summary>
+    /// <summary>Class that exports attributes for the <see cref="CharacterCreationStateMachine"/> class.</summary>
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ExportCharacterCreationStateMachineAttribute : ExportAttribute
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ExportCharacterCreationStateMachineAttribute"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ExportCharacterCreationStateMachineAttribute"/> class.</summary>
         /// <param name="stateMachinePriority">The state machine priority.</param>
         public ExportCharacterCreationStateMachineAttribute(int stateMachinePriority)
             : base(typeof(CharacterCreationStateMachine))
@@ -33,9 +29,7 @@ namespace WheelMUD.ConnectionStates
             this.StateMachinePriority = stateMachinePriority;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ExportCharacterCreationStateMachineAttribute"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ExportCharacterCreationStateMachineAttribute"/> class.</summary>
         /// <param name="metadata">The metadata.</param>
         public ExportCharacterCreationStateMachineAttribute(IDictionary<string, object> metadata)
         {

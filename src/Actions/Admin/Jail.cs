@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to send a player to jail.
-    /// </summary>
+    /// <summary>An action to send a player to jail.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("jail", CommandCategory.Admin)]
     [ActionDescription("Send a player to jail.")]

@@ -16,9 +16,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// An action to disconnect a player from the game.
-    /// </summary>
+    /// <summary>An action to disconnect a player from the game.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("boot", CommandCategory.Admin)]
     [ActionDescription("Disconnect a player from the game.")]

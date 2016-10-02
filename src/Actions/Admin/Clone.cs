@@ -16,9 +16,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command that allows an admin to clone an item.
-    /// </summary>
+    /// <summary>A command that allows an admin to clone an item.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("clone", CommandCategory.Admin)]
     [ActionDescription("Clones an object.")]

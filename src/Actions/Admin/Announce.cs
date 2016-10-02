@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to set the login announcement message.
-    /// </summary>
+    /// <summary>An action to set the login announcement message.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("announce", CommandCategory.Admin)]
     [ActionAlias("MOTD", CommandCategory.Admin)]

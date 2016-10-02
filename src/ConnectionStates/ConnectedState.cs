@@ -13,9 +13,7 @@ namespace WheelMUD.ConnectionStates
     using System;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// The 'connected' session state.
-    /// </summary>
+    /// <summary>The 'connected' session state.</summary>
     [ExportSessionState(100)]
     public class ConnectedState : SessionState
     {

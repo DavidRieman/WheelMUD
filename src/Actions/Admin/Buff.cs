@@ -13,17 +13,13 @@ namespace WheelMUD.Actions
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
     using WheelMUD.Effects;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// Allows changing the current value of an attribute, but not min, max, etc.
-    /// </summary>
+    /// <summary>Allows changing the current value of an attribute, but not min, max, etc.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("buff", CommandCategory.Admin)]
     [ActionDescription("Usage: buff (target) (stat) (value/min/max) (amount) [minutes]\r\nExample: buff fred HP max 10 5 [increase fred's max HP by 10 for 5 minutes]")]
@@ -50,11 +46,11 @@ namespace WheelMUD.Actions
             "max"
         };
 
-        /// <summary>
-        /// Executes the command.
+        /// <summary>Executes the command.</summary>
+        /// <remarks>
         /// TODO: Optionally allow the admin to create a new attribute if the target didn't
         /// already have the attribute available to modify.
-        /// </summary>
+        /// </remarks>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {

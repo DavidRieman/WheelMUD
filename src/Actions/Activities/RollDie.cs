@@ -16,9 +16,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// @@@ Temporary script to test the dice system.
-    /// </summary>
+    /// <summary>@@@ Temporary script to test the dice system.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("roll", CommandCategory.Activities)]
     [ActionDescription("Roll a die or dice.")]

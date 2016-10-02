@@ -13,14 +13,10 @@ namespace WheelMUD.ConnectionStates
     using WheelMUD.Core;
     using WheelMUD.Data.Repositories;
 
-    /// <summary>
-    /// The 'login' session state.
-    /// </summary>
+    /// <summary>The 'login' session state.</summary>
     public class LoginState : SessionState
     {
-        /// <summary>
-        /// Initializes a new instance of the LoginState class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the LoginState class.</summary>
         /// <param name="session">The session entering this state.</param>
         public LoginState(Session session)
             : base(session)
@@ -28,9 +24,7 @@ namespace WheelMUD.ConnectionStates
             session.Write("Please enter your password:");
         }
 
-        /// <summary>
-        /// Process the specified input.
-        /// </summary>
+        /// <summary>Process the specified input.</summary>
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {
@@ -59,9 +53,7 @@ namespace WheelMUD.ConnectionStates
             return "> ";
         }
 
-        /// <summary>
-        /// Authenticate the user name and password supplied.
-        /// </summary>
+        /// <summary>Authenticate the user name and password supplied.</summary>
         /// <returns>True if authenticated, else false.</returns>
         private bool Authenticate()
         {

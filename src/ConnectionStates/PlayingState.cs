@@ -14,16 +14,12 @@ namespace WheelMUD.ConnectionStates
     using WheelMUD.Core;
     using WheelMUD.Utilities;
 
-    /// <summary>
-    /// The 'playing' session state.
-    /// </summary>
+    /// <summary>The 'playing' session state.</summary>
     public class PlayingState : SessionState
     {
         private WeakReference<PlayerBehavior> playerBehavior;
 
-        /// <summary>
-        /// Initializes a new instance of the PlayingState class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the PlayingState class.</summary>
         /// <param name="session">The session entering this state.</param>
         public PlayingState(Session session)
             : base(session)
@@ -39,9 +35,7 @@ namespace WheelMUD.ConnectionStates
             session.Write(string.Format("{0}Welcome, {1}.{0}{0}", nl, this.Session.UserName), false);
         }
 
-        /// <summary>
-        /// Process the specified input.
-        /// </summary>
+        /// <summary>Process the specified input.</summary>
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {

@@ -16,9 +16,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to take control of a mobile or player.
-    /// </summary>
+    /// <summary>An action to take control of a mobile or player.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("control", CommandCategory.Admin)]
     [ActionAlias("possess", CommandCategory.Admin)]

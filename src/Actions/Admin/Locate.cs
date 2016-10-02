@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command that allows an admin to locate an entity.
-    /// </summary>
+    /// <summary>A command that allows an admin to locate an entity.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("locate", CommandCategory.Admin)]
     [ActionAlias("whereis", CommandCategory.Admin)]

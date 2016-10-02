@@ -10,10 +10,8 @@
 
 namespace WheelMUD.ConnectionStates
 {
-    /// <summary>
-    /// Enumeration of possible step statuses. This type is passed to the
-    /// character creation state machine to decide on the course of action
-    /// </summary>
+    /// <summary>Enumeration of possible step statuses.</summary>
+    /// <remarks>This type is passed to the character creation state machine to decide on the course of action.</remarks>
     public enum StepStatus
     {
         /// <summary>The step was a success.</summary>

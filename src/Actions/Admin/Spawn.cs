@@ -20,9 +20,7 @@ namespace WheelMUD.Actions.Admin
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// Command to spawn a mobile NPC for testing.
-    /// </summary>
+    /// <summary>Command to spawn a mobile NPC for testing.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("spawn", CommandCategory.Admin)]
     [ActionDescription("Spawns a mobile NPC for testing.\r\nUsage: spawn (name)")]
