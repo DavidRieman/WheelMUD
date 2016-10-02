@@ -17,9 +17,7 @@ namespace WheelMUD.Core
     using System.Linq;
     using System.Reflection;
 
-    /// <summary>
-    /// A class for simplifying common composition tasks.
-    /// </summary>
+    /// <summary>A class for simplifying common composition tasks.</summary>
     public static class DefaultComposer
     {
         /// <summary>

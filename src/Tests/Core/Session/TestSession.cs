@@ -9,16 +9,17 @@ namespace WheelMUD.Tests.Session
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using System.ComponentModel.Composition.Hosting;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Reflection;
     using System.Text;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NUnit.Framework;
     using WheelMUD.Core;
     using WheelMUD.Interfaces;
-    using System.Reflection;
-    using System.IO;
-    using System.ComponentModel.Composition.Hosting;
-    using System.Diagnostics;/// <summary>Tests the Session class.</summary>
+
+    /// <summary>Tests the Session class.</summary>
     [TestFixture]
     [TestClass]
     public class TestSession
@@ -30,32 +31,16 @@ namespace WheelMUD.Tests.Session
         {
         }
 
-        [TestMethod][Test]
-        public void TemporaryAppVeyorInfoTest()
-        {
-            // Try to learn why MEF composition isn't working right in AppVeyor.
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            string rootPath = Path.GetDirectoryName(assembly.Location);
-            var asmCatalog = new AssemblyCatalog(assembly);
-            var dirCatalog = new DirectoryCatalog(rootPath);
-            var aggregateCatalog = new AggregateCatalog(asmCatalog, dirCatalog);
-            var container = new CompositionContainer(aggregateCatalog);
-
-            var processName = Process.GetCurrentProcess().ProcessName;
-
-            string allInfo = string.Format("rootPath: {0} -- dirCatalog: {1} -- processName: {2}", rootPath, dirCatalog.FullPath, processName);
-            Verify.AreEqual(allInfo, "!!");
-        }
-
-        /// <summary>Test that automatic recomposition during singleton instantiation establishes at least one SessionState object.</summary>
+        /// <summary>Test that automatic composition during singleton instantiation establishes at least one SessionState object.</summary>
         [TestMethod]
         [Test]
-        public void TestRecompositionFindsSessionStates()
+        public void TestCompositionFindsSessionStates()
         {
             var sessionStates = SessionStateManager.Instance.SessionStates;
             Verify.IsTrue(sessionStates.Length > 0, "Singleton instantiation should establish at least one SessionState.");
         }
 
+        /// <summary>Test that the initial SessionState, upon establishing a fake connection, is FakeSessionState.</summary>
         [TestMethod]
         [Test]
         public void TestInitialConnectionStateIsNotDefaultState()
@@ -63,9 +48,7 @@ namespace WheelMUD.Tests.Session
             string endl = Environment.NewLine;
             var connection = new FakeConnection();
             var session = new Session(connection);
-
-            var typeName = session.State.GetType().Name ?? "(null)";
-            Verify.AreEqual(typeName, "ConnectedState");
+            Verify.AreEqual(session.State.GetType(), typeof(FakeSessionState));
         }
 
         /// <summary>Tests that the initial connection receives appropriate login prompts.</summary>
@@ -101,6 +84,36 @@ namespace WheelMUD.Tests.Session
             Verify.AreEqual(2, connection.FakeMessagesSent.Count);
             Verify.AreEqual("test 3a" + endl + prompt, connection.FakeMessagesSent[0]);
             Verify.AreEqual(endl + "test 3b" + endl + prompt, connection.FakeMessagesSent[1]);
+        }
+
+        /// <summary>A faked ConnectionState for testing purposes.</summary>
+        /// <remarks>During tests (IE when test DLLs are present), use the FakeSessionState as the default state, with highest priority.</remarks>
+        [ExportSessionState(int.MaxValue)]
+        private class FakeSessionState : SessionState
+        {
+            /// <summary>Initializes a new instance of the <see cref="FakeSessionState"/> class.</summary>
+            /// <param name="session">The session entering this state.</param>
+            public FakeSessionState(Session session) : base(session)
+            {
+            }
+
+            /// <summary>Initializes a new instance of the ConnectedState class.</summary>
+            /// <remarks>This constructor is required to support MEF discovery as our default connection state.</remarks>
+            public FakeSessionState() : this(null)
+            {
+            }
+
+            public static string LastProcessedInput { get; private set; }
+
+            public override string BuildPrompt()
+            {
+                return "FakePrompt>";
+            }
+
+            public override void ProcessInput(string command)
+            {
+                LastProcessedInput = command;
+            }
         }
 
         private class FakeConnection : IConnection

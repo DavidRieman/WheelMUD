@@ -44,7 +44,7 @@ namespace WheelMUD.ConnectionStates
         /// <summary>Gets the next step.</summary>
         /// <param name="current">The current.</param>
         /// <param name="previousStatus">The previous status.</param>
-        /// <returns></returns>
+        /// <returns>The next character creation state.</returns>
         public abstract CharacterCreationSubState GetNextStep(CharacterCreationSubState current, StepStatus previousStatus);
 
         /// <summary>ProcessInput is used to receive the user input during this state.</summary>
