@@ -1,17 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Threading;
-using WheelMUD.Main;
+﻿//-----------------------------------------------------------------------------
+// <copyright file="RunTestsCommand.cs" company="WheelMUD Development Team">
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   subject to the Microsoft Public License.  All other rights reserved.
+// </copyright>
+// <summary>
+//   Command to run integration tests.
+// </summary>
+//-----------------------------------------------------------------------------
 
 namespace TestHarness.Commands
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text.RegularExpressions;
+    using System.Threading;
+    using WheelMUD.Main;
+
     public class RunTestsCommand : ITestHarnessCommand
     {
         private readonly string[] _names = { "RUN", "RUN-TESTS", "run", "Run", "r" };
 
-        public string[] Names { get { return _names; } }
+        public IEnumerable<string> Names { get { return _names; } }
 
         public void Execute(Application app, MultiUpdater display, string[] words)
         {
@@ -26,7 +36,7 @@ namespace TestHarness.Commands
 
             foreach (string file in files)
             {
-                string[] lines = File.ReadAllLines(file);
+                var lines = File.ReadAllLines(file);
                 var tsc = new TestScriptClient();
 
                 if (!tsc.Connect(display))
@@ -106,7 +116,7 @@ namespace TestHarness.Commands
                     {
                         failed.Add(ex.Message);
                     }
-                } // End foreach line
+                }
 
                 if (!tsc.Connected)
                 {
