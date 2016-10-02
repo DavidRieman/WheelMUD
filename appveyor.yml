@@ -1,4 +1,6 @@
-solution_name: src/WheelMUD.sln
+environment:
+  matrix:
+  - solution_name: src/WheelMUD.sln
 
 platform:
   - x86
