@@ -19,9 +19,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Data.Repositories;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// An action to give a role to a player.
-    /// </summary>
+    /// <summary>An administrative action which gives a role to a player.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("role grant", CommandCategory.Admin)]
     [ActionAlias("rolegrant", CommandCategory.Admin)]
