@@ -1,5 +1,4 @@
-solution:
-  - src/WheelMUD.sln
+solution_name: src/WheelMUD.sln
 
 platform:
   - x86
