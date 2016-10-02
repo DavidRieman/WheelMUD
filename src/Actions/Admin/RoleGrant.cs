@@ -41,7 +41,7 @@ namespace WheelMUD.Actions
         {
             IController sender = actionInput.Controller;
             string[] normalizedParams = this.NormalizeParameters(sender);
-            string role = normalizedParams[0];
+            ////string role = normalizedParams[0];
             string playerName = normalizedParams[1];
 
             Thing player = GameAction.GetPlayerOrMobile(playerName);
