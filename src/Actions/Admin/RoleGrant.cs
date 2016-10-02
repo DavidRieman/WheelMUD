@@ -55,7 +55,7 @@ namespace WheelMUD.Actions
             var existingRole = (from r in userControlledBehavior.Roles where r.Name == role select r).FirstOrDefault();
             if (existingRole == null)
             {
-                var roleRepository = new RoleRepository();
+                ////var roleRepository = new RoleRepository();
 
                 // @@@ TODO: The role.ToUpper is a hack. Need to create a case insensitive method for the RoleRepository.NoGen.cs class.
                 ////RoleRecord record = roleRepository.GetByName(role.ToUpper());
@@ -63,7 +63,7 @@ namespace WheelMUD.Actions
                 ////userControlledBehavior.UpdateRoles();
                 player.Save();
 
-                sender.Write(player.Name + " has been granted the " + role + " role.", true);
+                ////sender.Write(player.Name + " has been granted the " + role + " role.", true);
             }
         }
 
