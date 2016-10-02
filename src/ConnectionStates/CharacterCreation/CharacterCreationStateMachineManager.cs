@@ -18,68 +18,42 @@ namespace WheelMUD.ConnectionStates
     using WheelMUD.Data.Entities;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A delegate for the completion of character creation.
-    /// </summary>
+    /// <summary>A delegate for the completion of character creation.</summary>
     /// <param name="data">The player data structure.</param>
     public delegate void CharacterCreationCompleted(Thing data);
 
-    /// <summary>
-    /// A delegate for the abortion of character creation.
-    /// </summary>
+    /// <summary>A delegate for the abortion of character creation.</summary>
     public delegate void CharacterCreationAborted();
 
-    /// <summary>
-    /// A delegate for the prompt change of character creation.
-    /// </summary>
+    /// <summary>A delegate for the prompt change of character creation.</summary>
     /// <param name="prompt">The new prompt.</param>
     public delegate void CharacterCreationChangePrompt(string prompt);
 
-    /// <summary>
-    /// The character creation handler.
-    /// </summary>
+    /// <summary>The character creation handler.</summary>
     public class CharacterCreationStateMachineManager : IRecomposable
     {
         /// <summary>The synchronization locking object.</summary>
         private static readonly object LockObject = new object();
 
         /// <summary>The SessionStateManager singleton instance.</summary>
-        private static readonly CharacterCreationStateMachineManager instance = new CharacterCreationStateMachineManager();
-
-        /// <summary>The session for this user connection.</summary>
-        private readonly Session session;
-
-        /// <summary>The player data structure.</summary>
-        private readonly PlayerRecord data = new PlayerRecord();
-
+        private static readonly CharacterCreationStateMachineManager SingletonInstance = new CharacterCreationStateMachineManager();
+        
+        /// <summary>The default character creation state machine constructor, as identified during composition.</summary>
         private ConstructorInfo defaultCharacterCreationStateMachineConstructor;
 
-        /// <summary>
-        /// Prevents a default instance of the <see cref="CharacterCreationStateMachineManager"/> class from being created.
-        /// </summary>
+        /// <summary>Prevents a default instance of the <see cref="CharacterCreationStateMachineManager"/> class from being created.</summary>
         private CharacterCreationStateMachineManager()
         {
             this.Recompose();
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CharacterCreationStateMachineManager"/> class.
-        /// </summary>
-        /// <param name="session">The session for this user connection.</param>
-        private CharacterCreationStateMachineManager(Session session)
-        {
-            this.session = session;
-        }
-
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
+        
+        /// <summary>Gets the singleton instance of the <see cref="CharacterCreationStateMachineManager"/> class.</summary>
         public static CharacterCreationStateMachineManager Instance
         {
-            get { return instance; }
+            get { return SingletonInstance; }
         }
 
-        /// <summary>Gets an enumerable collection of available state machines.</summary>
+        /// <summary>Gets, via MEF composition, an enumerable collection of available state machine classes.</summary>
         [ImportMany]
         public Lazy<CharacterCreationStateMachine, ExportCharacterCreationStateMachineAttribute>[] CharacterCreationStateMachines 
         {
@@ -87,9 +61,7 @@ namespace WheelMUD.ConnectionStates
             private set;
         }
 
-        /// <summary>
-        /// Creates the default character creation state machine.
-        /// </summary>
+        /// <summary>Creates the default character creation state machine.</summary>
         /// <param name="session">The session.</param>
         /// <returns>The CharacterCreationStateMachine</returns>
         public CharacterCreationStateMachine CreateDefaultCharacterCreationStateMachine(Session session)
@@ -102,9 +74,7 @@ namespace WheelMUD.ConnectionStates
             }
         }
 
-        /// <summary>
-        /// Recompose the subcomponents of this CharacterCreationStateMachineManager.
-        /// </summary>
+        /// <summary>Recompose the subcomponents of this CharacterCreationStateMachineManager.</summary>
         public void Recompose()
         {
             lock (LockObject)

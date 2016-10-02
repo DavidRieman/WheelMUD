@@ -21,10 +21,8 @@ namespace WheelMUD.Core.Events
     {
         /// <summary>The owner Thing of this instance.</summary>
         private Thing owner;
-        
-        /// <summary>
-        /// Initializes a new instance of the ThingEventing class.
-        /// </summary>
+
+        /// <summary>Initializes a new instance of the ThingEventing class.</summary>
         /// <param name="owner">The owner of this ThingEventing class.</param>
         internal ThingEventing(Thing owner)
         {
@@ -56,9 +54,7 @@ namespace WheelMUD.Core.Events
         /// <summary>A cancellable request which does not fit in the other request categories.</summary>
         public event CancellableGameEventHandler MiscellaneousRequest;
 
-        /// <summary>
-        /// Raises the <see cref="CombatRequest"/> event.
-        /// </summary>
+        /// <summary>Raises the <see cref="CombatRequest"/> event.</summary>
         /// <param name="e">The <see cref="WheelMUD.Core.Events.CancellableGameEvent"/> instance containing the event data.</param>
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnCombatRequest(CancellableGameEvent e, EventScope eventScope)
@@ -67,9 +63,7 @@ namespace WheelMUD.Core.Events
             this.OnRequest(handlerSelector, e, eventScope);
         }
 
-        /// <summary>
-        /// Raises the <see cref="MovementRequest"/> event.
-        /// </summary>
+        /// <summary>Raises the <see cref="MovementRequest"/> event.</summary>
         /// <param name="e">The <see cref="WheelMUD.Core.Events.CancellableGameEvent"/> instance containing the event data.</param>
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnMovementRequest(CancellableGameEvent e, EventScope eventScope)
@@ -78,9 +72,7 @@ namespace WheelMUD.Core.Events
             this.OnRequest(handlerSelector, e, eventScope);
         }
 
-        /// <summary>
-        /// Raises the <see cref="CommunicationRequest"/> event.
-        /// </summary>
+        /// <summary>Raises the <see cref="CommunicationRequest"/> event.</summary>
         /// <param name="e">The <see cref="WheelMUD.Core.Events.CancellableGameEvent"/> instance containing the event data.</param>
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnCommunicationRequest(CancellableGameEvent e, EventScope eventScope)
@@ -89,9 +81,7 @@ namespace WheelMUD.Core.Events
             this.OnRequest(handlerSelector, e, eventScope);
         }
 
-        /// <summary>
-        /// Raises the <see cref="MiscellaneousRequest"/> event.
-        /// </summary>
+        /// <summary>Raises the <see cref="MiscellaneousRequest"/> event.</summary>
         /// <param name="e">The <see cref="WheelMUD.Core.Events.CancellableGameEvent"/> instance containing the event data.</param>
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnMiscellaneousRequest(CancellableGameEvent e, EventScope eventScope)
@@ -100,9 +90,7 @@ namespace WheelMUD.Core.Events
             this.OnRequest(handlerSelector, e, eventScope);
         }
 
-        /// <summary>
-        /// Raises the <see cref="CombatEvent"/> event.
-        /// </summary>
+        /// <summary>Raises the <see cref="CombatEvent"/> event.</summary>
         /// <param name="e">The <see cref="WheelMUD.Core.Events.GameEvent"/> instance containing the event data.</param>
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnCombatEvent(GameEvent e, EventScope eventScope)
@@ -111,9 +99,7 @@ namespace WheelMUD.Core.Events
             this.OnEvent(handlerSelector, e, eventScope);
         }
 
-        /// <summary>
-        /// Raises the <see cref="MovementEvent"/> event.
-        /// </summary>
+        /// <summary>Raises the <see cref="MovementEvent"/> event.</summary>
         /// <param name="e">The <see cref="WheelMUD.Core.Events.GameEvent"/> instance containing the event data.</param>
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnMovementEvent(GameEvent e, EventScope eventScope)
@@ -122,9 +108,7 @@ namespace WheelMUD.Core.Events
             this.OnEvent(handlerSelector, e, eventScope);
         }
 
-        /// <summary>
-        /// Raises the <see cref="CommunicationEvent"/> event.
-        /// </summary>
+        /// <summary>Raises the <see cref="CommunicationEvent"/> event.</summary>
         /// <param name="e">The <see cref="WheelMUD.Core.Events.GameEvent"/> instance containing the event data.</param>
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnCommunicationEvent(GameEvent e, EventScope eventScope)
@@ -133,9 +117,7 @@ namespace WheelMUD.Core.Events
             this.OnEvent(handlerSelector, e, eventScope);
         }
 
-        /// <summary>
-        /// Raises the <see cref="MiscellaneousEvent"/> event.
-        /// </summary>
+        /// <summary>Raises the <see cref="MiscellaneousEvent"/> event.</summary>
         /// <param name="e">The <see cref="WheelMUD.Core.Events.GameEvent"/> instance containing the event data.</param>
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnMiscellaneousEvent(GameEvent e, EventScope eventScope)
@@ -189,9 +171,7 @@ namespace WheelMUD.Core.Events
             }
         }
 
-        /// <summary>
-        /// Shared code for request handling.
-        /// </summary>
+        /// <summary>Shared code for request handling.</summary>
         /// <param name="handlerSelector">A function which returns the appropriate Handler for a given Thing.</param>
         /// <param name="e">The game event args to pass through.</param>
         private void OnRequest(Func<ThingEventing, CancellableGameEventHandler> handlerSelector, CancellableGameEvent e)
@@ -209,7 +189,7 @@ namespace WheelMUD.Core.Events
                 if (handler != null)
                 {
                     handler(currentRequestTarget, e);
-                    
+
                     // If the event has been cancelled by the handler, we no longer need to look for further permission.
                     if (e.IsCancelled)
                     {

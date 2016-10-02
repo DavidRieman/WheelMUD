@@ -21,8 +21,6 @@ namespace WheelMUD.Rules
     /// </summary>
     public class GameRule : IRule
     {
-        #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GameRule"/> class.
         /// </summary>
@@ -30,12 +28,8 @@ namespace WheelMUD.Rules
         {
             //RuleFailureCondition = RuleConditions.None;
             //RuleSuccessCondition = RuleConditions.None;
-        } 
-
-        #endregion
-
-        //#region Properties
-
+        }
+        
         ///// <summary>
         ///// Gets or sets the name.
         ///// </summary>
@@ -76,11 +70,7 @@ namespace WheelMUD.Rules
         ///// </summary>
         ///// <value>The rule failure critical formula.</value>
         //public string RuleFailureCritialFormula { get; set; }
-
-        //#endregion
-
-        #region Implementation of IRule
-
+        
         /// <summary>
         /// Gets the kind of the rule.
         /// </summary>
@@ -94,8 +84,6 @@ namespace WheelMUD.Rules
                 return "Game Rule";
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Executes the specified player thing.
@@ -116,8 +104,6 @@ namespace WheelMUD.Rules
     /// <typeparam name="R">Second type</typeparam>
     public class GameRule<T, R> : IRule<T>
     {
-        #region Implementation of IRule
-
         /// <summary>
         /// Gets the kind of the rule.
         /// </summary>
@@ -141,8 +127,6 @@ namespace WheelMUD.Rules
         {
             throw new NotImplementedException();
         }
-
-        #endregion
 
         /// <summary>
         /// Executes this instance.

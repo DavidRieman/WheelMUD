@@ -48,22 +48,22 @@ namespace WheelMUD.Actions
             if (player == null)
             {
                 // If the player is not online, then load the player from the database
-                //player = PlayerBehavior.Load(playerName);
+                ////player = PlayerBehavior.Load(playerName);
             }
             
             var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
             var existingRole = (from r in userControlledBehavior.Roles where r.Name == role select r).FirstOrDefault();
             if (existingRole == null)
             {
-                var roleRepository = new RoleRepository();
+                ////var roleRepository = new RoleRepository();
 
                 // @@@ TODO: The role.ToUpper is a hack. Need to create a case insensitive method for the RoleRepository.NoGen.cs class.
-                RoleRecord record = roleRepository.GetByName(role.ToUpper());
-                //userControlledBehavior.RoleRecords.Add(record);
-                //userControlledBehavior.UpdateRoles();
+                ////RoleRecord record = roleRepository.GetByName(role.ToUpper());
+                ////userControlledBehavior.RoleRecords.Add(record);
+                ////userControlledBehavior.UpdateRoles();
                 player.Save();
 
-                sender.Write(player.Name + " has been granted the " + role + " role.", true);
+                ////sender.Write(player.Name + " has been granted the " + role + " role.", true);
             }
         }
 
@@ -79,14 +79,14 @@ namespace WheelMUD.Actions
             }
 
             string[] normalizedParams = this.NormalizeParameters(actionInput.Controller);
-            string role = normalizedParams[0];
+            ////string role = normalizedParams[0];
             string playerName = normalizedParams[1];
 
             Thing player = GameAction.GetPlayerOrMobile(playerName);
             if (player == null)
             {
                 // If the player is not online, then load the player from the database
-                //player = PlayerBehavior.Load(playerName);
+                ////player = PlayerBehavior.Load(playerName);
             }
 
             // Rule: Does the player exist in our Universe?
@@ -102,30 +102,24 @@ namespace WheelMUD.Actions
             return null;
         }
 
-        /// <summary>
-        /// Custom Contains function for a generic list, since the .NET framework doesn't have one
-        /// for generic lists.
-        /// </summary>
+        /// <summary>Custom Contains function for a generic list.</summary>
+        /// <remarks>Added since the .NET framework doesn't have one for generic lists.</remarks>
         /// <param name="list">The list to process.</param>
         /// <param name="value">The string value to search for.</param>
         /// <returns>True if the list contains the value, false if it doesn't.</returns>
         private static bool Contains(List<string> list, string value)
         {
-            bool contains = null != list.Find(str => str.ToLower().Equals(value.ToLower()));
-
-            return contains;
+            var v = value.ToLower();
+            return null != list.Find(str => str.ToLower().Equals(v));
         }
  
-        /// <summary>
-        /// Cleans up the parameters, so that it is easier to work with.
-        /// </summary>
+        /// <summary>Cleans up the parameters, so that it is easier to work with.</summary>
         /// <param name="sender">The IController that has the MUD command parameters that will be cleaned up.</param>
         /// <returns>Returns a string array that has been pasteurized.</returns>
         private string[] NormalizeParameters(IController sender)
         {
             string normalizedInput = sender.LastActionInput.Tail.Replace("grant", string.Empty).Trim();
             string[] normalizedParams = normalizedInput.Split(' ');
-
             return normalizedParams;
         }
     }

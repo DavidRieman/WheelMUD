@@ -18,56 +18,26 @@ namespace WheelMUD.Core
     /// The mobiles manager class.
     /// </summary>
     /// <remarks>
-    /// @@@ TODO: Provide searchability of registered 'mobiles' through LINQ rather than, 
+    /// @@@ TODO: Provide search ability of registered 'mobiles' through LINQ rather than, 
     /// or in addition to, specific-purpose search methods.
     /// </remarks>
     public class MobileManager : ManagerSystem
     {
-        [ExportSystem]
-        public class MobileManagerExporter : SystemExporter
-        {
-            public override ISystem Instance
-            {
-                get { return MobileManager.Instance; }
-            }
-
-            public override Type SystemType
-            {
-                get { return typeof(MobileManager); }
-            }
-        }
-
-        /// <summary>The singleton instance synchronization locking object.</summary>
-        private static readonly object instanceLockObject = new object();
-
         /// <summary>The singleton instance of this class.</summary>
-        private static MobileManager instance;
+        private static MobileManager instance = new MobileManager();
 
         /// <summary>The list of managed mobiles.</summary>
         private readonly List<Thing> mobiles = new List<Thing>();
 
+        /// <summary>Prevents a default instance of the <see cref="MobileManager"/> class from being created.</summary>
         private MobileManager()
         {
         }
 
+        /// <summary>Gets the singleton instance of the MobileManager class.</summary>
         public static MobileManager Instance
         {
-            get
-            {
-                // Using if-lock-if pattern to avoid locks for most cases yet create only once instance in early init.
-                if (instance == null)
-                {
-                    lock (instanceLockObject)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new MobileManager();
-                        }
-                    }
-                }
-
-                return instance;
-            }
+            get { return instance; }
         }
 
         /// <summary>
@@ -184,5 +154,23 @@ namespace WheelMUD.Core
         {
             CoreManager.Instance.CommandManager.Enqueue(actionInput);
         }*/
+
+        /// <summary>Registers the <see cref="MobileManager"/> system for export.</summary>
+        /// <remarks>Assists with non-rebooting updates of the <see cref="MobileManager"/> system through MEF.</remarks>
+        [ExportSystem]
+        public class MobileManagerExporter : SystemExporter
+        {
+            /// <summary>Gets the singleton system instance.</summary>
+            public override ISystem Instance
+            {
+                get { return MobileManager.Instance; }
+            }
+
+            /// <summary>Gets the Type of this system.</summary>
+            public override Type SystemType
+            {
+                get { return typeof(MobileManager); }
+            }
+        }
     }
 }

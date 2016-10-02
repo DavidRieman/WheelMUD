@@ -26,11 +26,8 @@ namespace WheelMUD.Main
     /// <summary>The core application, which can be housed in a console, service, etc.</summary>
     public class Application : ISuperSystem, ISuperSystemSubscriber
     {
-        /// <summary>The synchronization locking object for singleton instantiation.</summary>
-        private static readonly object InstanceLockObject = new object();
-
         /// <summary>The singleton instance of this class.</summary>
-        private static Application instance;
+        private static Application instance = new Application();
 
         /// <summary>A list of subscribers of this super system.</summary>
         private readonly List<ISuperSystemSubscriber> subscribers = new List<ISuperSystemSubscriber>();
@@ -50,21 +47,10 @@ namespace WheelMUD.Main
             this.unhandledExceptionHandler = new UnhandledExceptionHandler(notifier);
         }
 
-        /// <summary>Gets the singleton instance of this Application.</summary>
+        /// <summary>Gets the singleton instance of this <see cref="Application"/>.</summary>
         public static Application Instance
         {
-            get
-            {
-                lock (InstanceLockObject)
-                {
-                    if (instance == null)
-                    {
-                        instance = new Application();
-                    }
-                }
-
-                return instance;
-            }
+            get { return instance; }
         }
 
         /// <summary>Gets or sets the available systems.</summary>
@@ -134,11 +120,12 @@ namespace WheelMUD.Main
                     sourcePath = Path.GetDirectoryName(appDir);
                     sourcePath = Path.Combine(sourcePath + "\\systemdata\\Files\\");
                 }
-                DirectoryCopy(sourcePath, destDir,true);
+
+                DirectoryCopy(sourcePath, destDir, true);
             }
         }
-        private static void DirectoryCopy(
-        string sourceDirName, string destDirName, bool copySubDirs)
+
+        private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
         {
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
             DirectoryInfo[] dirs = dir.GetDirectories();
@@ -156,8 +143,7 @@ namespace WheelMUD.Main
             {
                 Directory.CreateDirectory(destDirName);
             }
-
-
+            
             // Get the file contents of the directory to copy.
             FileInfo[] files = dir.GetFiles();
 
@@ -173,7 +159,6 @@ namespace WheelMUD.Main
             // If copySubDirs is true, copy the subdirectories.
             if (copySubDirs)
             {
-
                 foreach (DirectoryInfo subdir in dirs)
                 {
                     // Create the subdirectory.
@@ -183,7 +168,6 @@ namespace WheelMUD.Main
                     DirectoryCopy(subdir.FullName, temppath, copySubDirs);
                 }
             }
-
         }
 
         /// <summary>Stop the application.</summary>
@@ -210,11 +194,9 @@ namespace WheelMUD.Main
         /// </summary>
         public void DisplayHelp()
         {
-            string path = Configuration.GetDataStoragePath();
-
-            var sr = new StreamReader(Path.Combine(path, "ConsoleHelp.txt"));
-            string splash = sr.ReadToEnd();
-            this.Notify(this.viewEngine.RenderView(splash));
+            var path = Path.Combine(Configuration.GetDataStoragePath(), "ConsoleHelp.txt");
+            var help = File.ReadAllText(path);
+            this.Notify(this.viewEngine.RenderView(help));
         }
 
         /// <summary>
@@ -280,9 +262,7 @@ namespace WheelMUD.Main
                 }
             }
         }
-
-
-
+        
         /// <summary>
         /// Initializes the systems of this application.
         /// </summary>
@@ -338,14 +318,12 @@ namespace WheelMUD.Main
             return systems;
         }
 
-        /// <summary>
-        /// Display startup texts.
-        /// </summary>
+        /// <summary>Display startup texts.</summary>
         /// <returns>The startup splash screen text.</returns>
         private string DisplayStartup()
         {
-            var sr = new StreamReader(Path.Combine(Configuration.GetDataStoragePath(), "ConsoleOpen.txt"));
-            string splash = sr.ReadToEnd();
+            var filePath = Path.Combine(Configuration.GetDataStoragePath(), "ConsoleOpen.txt");
+            var splash = File.ReadAllText(filePath);
             return this.viewEngine.RenderView(splash);
         }
     }

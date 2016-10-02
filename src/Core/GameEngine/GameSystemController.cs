@@ -26,9 +26,6 @@ namespace WheelMUD.Core
     /// </summary>
     public class GameSystemController : ISystem, IRecomposable
     {
-        /// <summary>The singleton instance synchronization locking object.</summary>
-        private static readonly object instanceLockObject = new object();
-
         /// <summary>The singleton instance of this class.</summary>
         private static GameSystemController instance = new GameSystemController();
 
