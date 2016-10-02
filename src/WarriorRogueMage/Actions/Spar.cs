@@ -24,9 +24,7 @@ namespace WarriorRogueMage.Actions
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// Initiates non-lethal combat.
-    /// </summary>
+    /// <summary>Initiates non-lethal combat.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("spar", CommandCategory.Combat)]
     [ActionDescription("Initiates a bout of non-lethal combat.")]
@@ -41,9 +39,7 @@ namespace WarriorRogueMage.Actions
             CommonGuards.InitiatorMustBeMobile
         };
 
-        /// <summary>
-        /// Executes the command.
-        /// </summary>
+        /// <summary>Executes the command.</summary>
         /// <remarks>Verify that the Guards pass first.</remarks>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
@@ -57,13 +53,11 @@ namespace WarriorRogueMage.Actions
             };
 
             var sm = new SensoryMessage(SensoryType.Debug, 100, contextMessage);
-
             var senseEvent = new SensoryEvent(sender.Thing, sm);
+            sender.Thing.Eventing.OnMiscellaneousEvent(senseEvent, EventScope.ParentsDown);
         }
 
-        /// <summary>
-        /// Guards the command against incorrect usage.
-        /// </summary>
+        /// <summary>Guards the command against incorrect usage.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         /// <returns>An error message describing the failure for the user, or null if all guards pass.</returns>
         public override string Guards(ActionInput actionInput)
