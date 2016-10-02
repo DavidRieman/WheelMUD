@@ -15,8 +15,10 @@ namespace WheelMUD.Tests.Session
     using NUnit.Framework;
     using WheelMUD.Core;
     using WheelMUD.Interfaces;
-
-    /// <summary>Tests the Session class.</summary>
+    using System.Reflection;
+    using System.IO;
+    using System.ComponentModel.Composition.Hosting;
+    using System.Diagnostics;/// <summary>Tests the Session class.</summary>
     [TestFixture]
     [TestClass]
     public class TestSession
@@ -26,6 +28,23 @@ namespace WheelMUD.Tests.Session
         [SetUp]
         public void Init()
         {
+        }
+
+        [TestMethod][Test]
+        public void TemporaryAppVeyorInfoTest()
+        {
+            // Try to learn why MEF composition isn't working right in AppVeyor.
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string rootPath = Path.GetDirectoryName(assembly.Location);
+            var asmCatalog = new AssemblyCatalog(assembly);
+            var dirCatalog = new DirectoryCatalog(rootPath);
+            var aggregateCatalog = new AggregateCatalog(asmCatalog, dirCatalog);
+            var container = new CompositionContainer(aggregateCatalog);
+
+            var processName = Process.GetCurrentProcess().ProcessName;
+
+            string allInfo = string.Format("rootPath: {0} -- dirCatalog: {1} -- processName: {2}", rootPath, dirCatalog.FullPath, processName);
+            Verify.AreEqual(allInfo, "!!");
         }
 
         /// <summary>Test that automatic recomposition during singleton instantiation establishes at least one SessionState object.</summary>
