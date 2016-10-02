@@ -1,0 +1,9 @@
+solution:
+  - src/WheelMUD.sln
+
+platform:
+  - x86
+
+configuration:
+  - Debug
+  - Release
