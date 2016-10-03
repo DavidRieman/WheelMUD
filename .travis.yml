@@ -1,2 +1,8 @@
 language: csharp
-solution: src/WheelMUD_MonoDevelop.sln
+
+env:
+  - CONFIG=Release
+  - CONFIG=Debug
+
+script:
+  - xbuild /p:Configuration=$CONFIG src/WheelMUD_MonoDevelop.sln
