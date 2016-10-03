@@ -58,10 +58,10 @@ namespace WheelMUD.Core
             // happened within the player's perception, and relay the sensory message to the player.
             if (this.Parent != null)
             {
-                this.Parent.Eventing.CombatEvent += new GameEventHandler(this.Receive);
-                this.Parent.Eventing.MovementEvent += new GameEventHandler(this.Receive);
-                this.Parent.Eventing.CommunicationEvent += new GameEventHandler(this.Receive);
-                this.Parent.Eventing.MiscellaneousEvent += new GameEventHandler(this.Receive);
+                this.Parent.Eventing.CombatEvent += this.Receive;
+                this.Parent.Eventing.MovementEvent += this.Receive;
+                this.Parent.Eventing.CommunicationEvent += this.Receive;
+                this.Parent.Eventing.MiscellaneousEvent += this.Receive;
             }
         }
 

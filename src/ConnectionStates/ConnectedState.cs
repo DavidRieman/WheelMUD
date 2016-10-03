@@ -17,14 +17,14 @@ namespace WheelMUD.ConnectionStates
     [ExportSessionState(100)]
     public class ConnectedState : SessionState
     {
-        /// <summary>Initializes a new instance of the ConnectedState class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="ConnectedState"/> class.</summary>
         /// <param name="session">The session entering this state.</param>
         public ConnectedState(Session session)
             : base(session)
         {
         }
 
-        /// <summary>Initializes a new instance of the ConnectedState class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="ConnectedState"/> class.</summary>
         /// <remarks>This constructor is required to support MEF discovery as our default connection state.</remarks>
         public ConnectedState()
             : this(null)
@@ -57,6 +57,8 @@ namespace WheelMUD.ConnectionStates
             }
         }
 
+        /// <summary>Builds the current prompt for this state.</summary>
+        /// <returns>The current prompt.</returns>
         public override string BuildPrompt()
         {
             return string.Format("Enter your character name or type NEW to create a new one.{0}> ", Environment.NewLine);

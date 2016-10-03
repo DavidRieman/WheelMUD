@@ -9,7 +9,8 @@ namespace WheelMUD.Tests.Session
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using System.ComponentModel.Composition;
+    using System.ComponentModel.Composition.Hosting;
     using System.Text;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NUnit.Framework;
@@ -26,8 +27,11 @@ namespace WheelMUD.Tests.Session
         [SetUp]
         public void Init()
         {
+            DefaultComposer.Container = new CompositionContainer();
+            DefaultComposer.Container.ComposeExportedValue<SessionState>(new FakeSessionState());
         }
-
+        
+        /// <summary>Test that the initial SessionState, upon establishing a fake connection, is FakeSessionState.</summary>
         [TestMethod]
         [Test]
         public void TestInitialConnectionStateIsNotDefaultState()
@@ -35,9 +39,7 @@ namespace WheelMUD.Tests.Session
             string endl = Environment.NewLine;
             var connection = new FakeConnection();
             var session = new Session(connection);
-
-            Verify.IsTrue(session.State is SessionState);
-            Verify.IsTrue(!(session.State is DefaultState), "The default session state should have been ConnectedState.");
+            Verify.AreEqual(session.State.GetType(), typeof(FakeSessionState));
         }
 
         /// <summary>Tests that the initial connection receives appropriate login prompts.</summary>
@@ -75,7 +77,38 @@ namespace WheelMUD.Tests.Session
             Verify.AreEqual(endl + "test 3b" + endl + prompt, connection.FakeMessagesSent[1]);
         }
 
-        private class FakeConnection : IConnection
+        /// <summary>A fake ConnectionState for testing purposes.</summary>
+        /// <remarks>TODO: Consider which mocking framework we should use to create such things in a better way.</remarks>
+        public class FakeSessionState : SessionState
+        {
+            /// <summary>Initializes a new instance of the <see cref="FakeSessionState"/> class.</summary>
+            /// <param name="session">The session entering this state.</param>
+            public FakeSessionState(Session session) : base(session)
+            {
+            }
+
+            /// <summary>Initializes a new instance of the ConnectedState class.</summary>
+            /// <remarks>This constructor is required to support MEF discovery as our default connection state.</remarks>
+            public FakeSessionState() : this(null)
+            {
+            }
+
+            public static string LastProcessedInput { get; private set; }
+
+            public override string BuildPrompt()
+            {
+                return "FakePrompt>";
+            }
+
+            public override void ProcessInput(string command)
+            {
+                LastProcessedInput = command;
+            }
+        }
+
+        /// <summary>A fake Connection for testing purposes.</summary>
+        /// <remarks>TODO: Consider which mocking framework we should use to create such things in a better way.</remarks>
+        public class FakeConnection : IConnection
         {
             public FakeConnection()
             {

@@ -1,0 +1,9 @@
+platform:
+  - x86
+
+configuration:
+  - Debug
+  - Release
+
+build_script:
+  - msbuild src/WheelMUD.sln

@@ -17,14 +17,10 @@ namespace WheelMUD.Core
     using System.Linq;
     using System.Reflection;
 
-    /// <summary>
-    /// A class for simplifying common composition tasks.
-    /// </summary>
+    /// <summary>A class for simplifying common composition tasks.</summary>
     public static class DefaultComposer
     {
-        /// <summary>
-        /// Initializes static members of the DefaultComposer class.
-        /// </summary>
+        /// <summary>Initializes static members of the DefaultComposer class.</summary>
         static DefaultComposer()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -35,8 +31,9 @@ namespace WheelMUD.Core
             Container = new CompositionContainer(aggregateCatalog);
         }
 
-        /// <summary>Gets the default composition container.</summary>
-        public static CompositionContainer Container { get; private set; }
+        /// <summary>Gets or sets the default composition container.</summary>
+        /// <remarks>This should only be set by the static constructor, or changed by tests, in order to mock composition results.</remarks>
+        public static CompositionContainer Container { get; set; }
 
         /// <summary>
         /// Get just the latest distinct list of type instances from the set of freshly-imported types.

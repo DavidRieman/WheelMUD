@@ -10,19 +10,12 @@
 
 namespace WheelMUD.Actions
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
     using WheelMUD.Effects;
-    using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// Removes the mute effect from someone prior to its normal expiration.
-    /// </summary>
+    /// <summary>Removes the mute effect from someone prior to its normal expiration.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("unmute", CommandCategory.Admin)]
     [ActionDescription("Removes the mute effect from someone prior to its normal expiration.")]
