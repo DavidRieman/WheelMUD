@@ -37,7 +37,7 @@ namespace WheelMUD.Universe
             this.ID = instanceID;
         }
 
-        /// <summary>Gets or sets a value indicating whether the item is consumed when ignited. </summary>
+        /// <summary>Gets or sets a value indicating whether the item is consumed when ignited.</summary>
         public bool IsConsumed { get; set; }
 
         /// <summary>Gets or sets the damage formula for the fire from the item.</summary>

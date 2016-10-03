@@ -21,25 +21,19 @@ namespace WheelMUD.Server
     /// </summary>
     public class ServerManager : ManagerSystem
     {
-        /// <summary>The singleton instance synchronization locking object.</summary>
-        private static readonly object InstanceLockObject = new object();
+        /// <summary>The singleton instance of this class.</summary>
+        private static readonly ServerManager SingletonInstance = new ServerManager();
 
         /// <summary>The base server.</summary>
         private readonly BaseServer baseServer = new BaseServer();
-        
+
         /// <summary>The telnet server.</summary>
         private readonly TelnetServer telnetServer = new TelnetServer();
-        
+
         /// <summary>The input parser.</summary>
         private readonly InputParser inputParser = new InputParser();
 
-        /// <summary>The singleton instance of this class.</summary>
-        private static ServerManager instance;
-
-        /// <summary>
-        /// Prevents a default instance of the <see cref="ServerManager"/> class from being created. 
-        /// Initializes a new instance of the ServerManager class.
-        /// </summary>
+        /// <summary>Prevents a default instance of the <see cref="ServerManager"/> class from being created.</summary>
         private ServerManager()
         {
             // Set up our event handlers for the base server.
@@ -58,28 +52,10 @@ namespace WheelMUD.Server
         /// <summary>Gets the singleton instance of this ServerManager.</summary>
         public static ServerManager Instance
         {
-            get
-            {
-                // The if-lock-if pattern avoids an expensive lock in most cases, except early app 
-                // init, and yet still avoids double-creating the instance.
-                if (instance == null)
-                {
-                    lock (InstanceLockObject)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new ServerManager();
-                        }
-                    }
-                }
-
-                return instance;
-            }
+            get { return SingletonInstance; }
         }
 
-        /// <summary>
-        /// Gets the start time.
-        /// </summary>
+        /// <summary>Gets the start time.</summary>
         public DateTime StartTime { get; private set; }
 
         /// <summary>Starts this system's individual components.</summary>
@@ -108,62 +84,50 @@ namespace WheelMUD.Server
             this.SystemHost.UpdateSystemHost(this, "Stopped");
         }
 
-        /// <summary>
-        /// Closes the specified connection.
-        /// </summary>
+        /// <summary>Closes the specified connection.</summary>
         /// <param name="connectionId">The connection ID to be closed.</param>
         public void CloseConnection(string connectionId)
         {
             this.baseServer.CloseConnection(connectionId);
         }
 
-        /// <summary>
-        /// Closes the specified connection.
-        /// </summary>
+        /// <summary>Closes the specified connection.</summary>
         /// <param name="connection">The connection to be closed.</param>
         public void CloseConnection(IConnection connection)
         {
             this.baseServer.CloseConnection(connection);
         }
 
-        /// <summary>
-        /// Gets the specified connection.
-        /// </summary>
+        /// <summary>Gets the specified connection.</summary>
         /// <param name="connectionId">The connection ID to get.</param>
-        /// <returns> The get connection. </returns>
+        /// <returns> The get connection.</returns>
         public IConnection GetConnection(string connectionId)
         {
             return this.baseServer.GetConnection(connectionId);
         }
 
-        /// <summary>
-        /// This is called when the base server sent data.
-        /// </summary>
+        /// <summary>This is called when the base server sent data.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
         private static void BaseServer_OnDataSent(object sender, ConnectionArgs args)
         {
         }
 
-        /// <summary>
-        /// Sends the incoming data up the server chain for processing
-        /// </summary>
+        /// <summary>Sends the incoming data up the server chain for processing.</summary>
         /// <param name="sender">The connection sending the data</param>
         /// <param name="data">The data being sent</param>
         private void ProcessIncomingData(IConnection sender, byte[] data)
         {
             byte[] bytes = this.telnetServer.OnDataReceived(sender, data);
-            
+
             // All bytes might have been stripped out so check for that.
             if (bytes.Length > 0)
             {
-                this.inputParser.OnDataReceived(sender, bytes);    
+                this.inputParser.OnDataReceived(sender, bytes);
             }
         }
 
-        /// <summary>
-        /// This is called when we receive input on a connection.
-        /// </summary>
+        /// <summary>This is called when we receive input on a connection.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
         /// <param name="input">The input received.</param>
@@ -173,9 +137,7 @@ namespace WheelMUD.Server
             SessionManager.Instance.OnInputReceived(args.Connection, input);
         }
 
-        /// <summary>
-        /// This is called when a client connects to the base server.
-        /// </summary>
+        /// <summary>This is called when a client connects to the base server.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
         private void BaseServer_OnClientConnect(object sender, ConnectionArgs args)
@@ -185,9 +147,7 @@ namespace WheelMUD.Server
             SessionManager.Instance.OnSessionConnected(args.Connection);
         }
 
-        /// <summary>
-        /// This is called when a client disconnects from the base server.
-        /// </summary>
+        /// <summary>This is called when a client disconnects from the base server.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
         private void BaseServer_OnClientDisconnected(object sender, ConnectionArgs args)
@@ -197,9 +157,7 @@ namespace WheelMUD.Server
             this.UpdateSubSystemHost((ISubSystem)sender, args.Connection.ID + " - Disconnected");
         }
 
-        /// <summary>
-        /// This is called when the base server receives data.
-        /// </summary>
+        /// <summary>This is called when the base server receives data.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
         private void BaseServer_OnDataReceived(object sender, ConnectionArgs args)
@@ -207,9 +165,7 @@ namespace WheelMUD.Server
             this.ProcessIncomingData(args.Connection, args.Connection.Data);
         }
 
-        /// <summary>
-        /// Processes the player log out events from the player manager; disconnects logged out characters.
-        /// </summary>
+        /// <summary>Processes the player log out events from the player manager; disconnects logged out characters.</summary>
         /// <param name="root">The root location where the log out event originated.</param>
         /// <param name="e">The event arguments.</param>
         private void PlayerManager_GlobalPlayerLogOutEvent(Thing root, GameEvent e)
@@ -226,24 +182,18 @@ namespace WheelMUD.Server
             }
         }
 
-        /// <summary>
-        /// MEF exporter for ServerManager.
-        /// </summary>
+        /// <summary>MEF exporter for ServerManager.</summary>
         [ExportSystem]
         public class ServerManagerExporter : SystemExporter
         {
-            /// <summary>
-            /// Gets the singleton system instance.
-            /// </summary>
+            /// <summary>Gets the singleton system instance.</summary>
             /// <returns>A new instance of the singleton system.</returns>
             public override ISystem Instance
             {
                 get { return ServerManager.Instance; }
             }
 
-            /// <summary>
-            /// Gets the Type of the singleton system, without instantiating it.
-            /// </summary>
+            /// <summary>Gets the Type of the singleton system, without instantiating it.</summary>
             /// <returns>The Type of the singleton system.</returns>
             public override Type SystemType
             {

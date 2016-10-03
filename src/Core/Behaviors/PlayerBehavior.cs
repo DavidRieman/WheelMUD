@@ -26,7 +26,7 @@ namespace WheelMUD.Core
     {
         private readonly object friendsLock = new object();
 
-        /// <summary> Gets the friends of this player. </summary>
+        /// <summary>Gets the friends of this player.</summary>
         private List<string> friends = new List<string>(); 
 
         /// <summary>Initializes a new instance of the <see cref="PlayerBehavior"/> class.</summary>

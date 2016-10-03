@@ -22,10 +22,10 @@ namespace WheelMUD.Core.Enums
     /// </remarks>
     public enum ParentRelationshipType
     {
-        /// <summary> The child is contained within the parent object. </summary>
+        /// <summary>The child is contained within the parent object.</summary>
         Containment = 1,
 
-        /// <summary> The child adorns the parent object. </summary>
+        /// <summary>The child adorns the parent object.</summary>
         Adornment = 2,
     }
 }
