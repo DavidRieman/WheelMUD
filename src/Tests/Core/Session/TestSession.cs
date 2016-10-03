@@ -9,10 +9,8 @@ namespace WheelMUD.Tests.Session
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
     using System.ComponentModel.Composition.Hosting;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Reflection;
     using System.Text;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NUnit.Framework;
@@ -29,17 +27,10 @@ namespace WheelMUD.Tests.Session
         [SetUp]
         public void Init()
         {
+            DefaultComposer.Container = new CompositionContainer();
+            DefaultComposer.Container.ComposeExportedValue<SessionState>(new FakeSessionState());
         }
-
-        /// <summary>Test that automatic composition during singleton instantiation establishes at least one SessionState object.</summary>
-        [TestMethod]
-        [Test]
-        public void TestCompositionFindsSessionStates()
-        {
-            var sessionStates = SessionStateManager.Instance.SessionStates;
-            Verify.IsTrue(sessionStates.Length > 0, "Singleton instantiation should establish at least one SessionState.");
-        }
-
+        
         /// <summary>Test that the initial SessionState, upon establishing a fake connection, is FakeSessionState.</summary>
         [TestMethod]
         [Test]
@@ -86,10 +77,9 @@ namespace WheelMUD.Tests.Session
             Verify.AreEqual(endl + "test 3b" + endl + prompt, connection.FakeMessagesSent[1]);
         }
 
-        /// <summary>A faked ConnectionState for testing purposes.</summary>
-        /// <remarks>During tests (IE when test DLLs are present), use the FakeSessionState as the default state, with highest priority.</remarks>
-        [ExportSessionState(int.MaxValue)]
-        private class FakeSessionState : SessionState
+        /// <summary>A fake ConnectionState for testing purposes.</summary>
+        /// <remarks>TODO: Consider which mocking framework we should use to create such things in a better way.</remarks>
+        public class FakeSessionState : SessionState
         {
             /// <summary>Initializes a new instance of the <see cref="FakeSessionState"/> class.</summary>
             /// <param name="session">The session entering this state.</param>
@@ -116,7 +106,9 @@ namespace WheelMUD.Tests.Session
             }
         }
 
-        private class FakeConnection : IConnection
+        /// <summary>A fake Connection for testing purposes.</summary>
+        /// <remarks>TODO: Consider which mocking framework we should use to create such things in a better way.</remarks>
+        public class FakeConnection : IConnection
         {
             public FakeConnection()
             {

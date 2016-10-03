@@ -8,6 +8,8 @@
 namespace WheelMUD.Tests.Session
 {
     using System;
+    using System.ComponentModel.Composition;
+    using System.ComponentModel.Composition.Hosting;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NUnit.Framework;
     using WheelMUD.Core;
@@ -22,6 +24,8 @@ namespace WheelMUD.Tests.Session
         [SetUp]
         public void Init()
         {
+            DefaultComposer.Container = new CompositionContainer();
+            DefaultComposer.Container.ComposeExportedValue<SessionState>(new TestSession.FakeSessionState());
         }
         
         /// <summary>Test that automatic composition during singleton instantiation establishes at least one SessionState object.</summary>

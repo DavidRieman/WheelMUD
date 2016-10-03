@@ -11,9 +11,10 @@ namespace WheelMUD.Core
     using System.ComponentModel.Composition;
     using System.Linq;
     using System.Reflection;
+    using WheelMUD.Interfaces;
 
     /// <summary>Manages session states.</summary>
-    public class SessionStateManager
+    public class SessionStateManager : IRecomposable
     {
         /// <summary>The synchronization locking object.</summary>
         private static readonly object LockObject = new object();
