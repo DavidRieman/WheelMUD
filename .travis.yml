@@ -4,12 +4,5 @@ env:
   - CONFIG=Release
   - CONFIG=Debug
 
-matrix:
-  include:
-    - dotnet: 1.0.0-preview2-003121
-      mono: none
-      env: DOTNETCORE=1
-    - mono: latest
-
 script:
-  - xbuild /p:Configuration=%CONFIG% src/WheelMUD_MonoDevelop.sln
+  - xbuild /p:Configuration=$CONFIG src/WheelMUD_MonoDevelop.sln
