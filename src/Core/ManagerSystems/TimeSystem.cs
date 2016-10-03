@@ -28,38 +28,29 @@ namespace WheelMUD.Core
     using WheelMUD.Interfaces;
 
     /// <summary>
-    ///   <para>
-    ///     Provides a world time system to the mud. Actions can be scheduled to
-    ///     occur at various times, with 1-second resolution, without spawning
-    ///     new timers for each event. Necessary because there could be thousands
-    ///     of temporary effects, delayed commands, and so on.
-    ///   </para>
+    /// Provides a world time system to the mud. Actions can be scheduled to occur at various times, with
+    /// a rounded off resolution, without spawning new timers for each event. Grouped processing like this
+    /// is necessary because there could be thousands of temporary effects, delayed commands, and so on.
     /// </summary>
     public class TimeSystem : ManagerSystem
     {
-        /// <summary>
-        /// The singleton instance of this class.
-        /// </summary>
-        private static readonly Lazy<TimeSystem> instance = new Lazy<TimeSystem>(() => new TimeSystem());
+        /// <summary>The singleton instance of this class.</summary>
+        private static readonly Lazy<TimeSystem> SingletonInstance = new Lazy<TimeSystem>(() => new TimeSystem());
 
+        /// <summary>The callback queue.</summary>
         private TimerQueue callbackQueue = new TimerQueue();
 
-        /// <summary>
-        /// The timer provides a "heartbeat".
-        /// </summary>
+        /// <summary>The timer provides a "heartbeat".</summary>
         private Timer timer;
 
-        /// <summary>
-        /// The interval between ticks of the timer, in milliseconds.
-        /// </summary>
-        private int interval = 1000;
+        /// <summary>The interval between ticks of the shared timer, in milliseconds.</summary>
+        /// <remarks>TODO: Test and tweak the default for this value based on typical gameplay timer loads.</remarks>
+        private int interval = 250;
 
-        /// <summary>
-        /// Gets the singleton instance of this class.
-        /// </summary>
+        /// <summary>Gets the singleton instance of this class.</summary>
         public static TimeSystem Instance
         {
-            get { return instance.Value; }
+            get { return SingletonInstance.Value; }
         }
 
         /// <summary>Start the time system.</summary>
@@ -86,9 +77,7 @@ namespace WheelMUD.Core
             this.SystemHost.UpdateSystemHost(this, "Stopped");
         }
 
-        /// <summary>
-        /// Schedules an action according to the supplied <see cref="WheelMUD.Core.TimeEvent"/>.
-        /// </summary>
+        /// <summary>Schedules an action according to the supplied <see cref="WheelMUD.Core.TimeEvent"/>.</summary>
         /// <param name="timeEventArgs">The <see cref="WheelMUD.Core.TimeEvent"/> instance containing the event data.</param>
         public void ScheduleEvent(TimeEvent timeEventArgs)
         {
@@ -103,9 +92,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Calls any callbacks that have become due.
-        /// </summary>
+        /// <summary>Calls any callbacks that have become due.</summary>
         /// <param name="state">Currently unused.</param>
         private void DoCallbacks(object state)
         {
@@ -131,24 +118,18 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// A class for exporting/importing system singleton through MEF.
-        /// </summary>
+        /// <summary>A class for exporting/importing system singleton through MEF.</summary>
         [ExportSystem]
         public class TimeSystemExporter : SystemExporter
         {
-            /// <summary>
-            /// Gets the singleton system instance.
-            /// </summary>
+            /// <summary>Gets the singleton system instance.</summary>
             /// <returns>A new instance of the singleton system.</returns>
             public override ISystem Instance
             {
                 get { return TimeSystem.Instance; }
             }
 
-            /// <summary>
-            /// Gets the Type of the singleton system, without instantiating it.
-            /// </summary>
+            /// <summary>Gets the Type of the singleton system, without instantiating it.</summary>
             /// <returns>The Type of the singleton system.</returns>
             public override Type SystemType
             {
@@ -163,14 +144,10 @@ namespace WheelMUD.Core
         /// </summary>
         private class TimerQueue
         {
-            /// <summary>
-            /// Collection to store heapified tree.
-            /// </summary>
+            /// <summary>Collection to store the timed events.</summary>
             private List<TimeEvent> heap = new List<TimeEvent>();
 
-            /// <summary>
-            /// Enqueues the specified element and the associated expiration DateTime.
-            /// </summary>
+            /// <summary>Enqueues the specified element and the associated expiration DateTime.</summary>
             /// <param name="timeEventArgs">The <see cref="WheelMUD.Core.TimeEvent"/> instance containing the event data.</param>
             public void Enqueue(TimeEvent timeEventArgs)
             {
@@ -181,9 +158,7 @@ namespace WheelMUD.Core
                 }
             }
 
-            /// <summary>
-            /// Returns the highest-priority <see cref="WheelMUD.Core.TimeEvent"/> item without removing it from the heap.
-            /// </summary>
+            /// <summary>Returns the highest-priority <see cref="WheelMUD.Core.TimeEvent"/> item without removing it from the heap.</summary>
             /// <returns>The highest-priority <see cref="WheelMUD.Core.TimeEvent"/> item.</returns>
             public TimeEvent Peek()
             {
@@ -193,9 +168,7 @@ namespace WheelMUD.Core
                 }
             }
 
-            /// <summary>
-            /// Returns the highest-priority <see cref="WheelMUD.Core.TimeEvent"/> item and removes it from the heap.
-            /// </summary>
+            /// <summary>Returns the highest-priority <see cref="WheelMUD.Core.TimeEvent"/> item and removes it from the heap.</summary>
             /// <returns>The highest-priority <see cref="WheelMUD.Core.TimeEvent"/> item.</returns>
             public TimeEvent Dequeue()
             {
@@ -214,9 +187,7 @@ namespace WheelMUD.Core
                 }
             }
 
-            /// <summary>
-            /// Adjusts the heap for the case where a new item was added.
-            /// </summary>
+            /// <summary>Adjusts the heap for the case where a new item was added.</summary>
             private void UpHeap()
             {
                 if (this.heap.Count < 2)
@@ -243,9 +214,7 @@ namespace WheelMUD.Core
                 this.heap[child] = newest;
             }
 
-            /// <summary>
-            /// Adjusts the heap for the case where the highest-priority item was removed.
-            /// </summary>
+            /// <summary>Adjusts the heap for the case where the highest-priority item was removed.</summary>
             private void DownHeap()
             {
                 if (this.heap.Count < 2)
