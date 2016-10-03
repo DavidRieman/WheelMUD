@@ -103,10 +103,10 @@ namespace WheelMUD.Interfaces
         /// <summary>Gets the session ID.</summary>
         string SessionID { get; }
 
-        /// <summary> Gets the friends of this player.</summary>
+        /// <summary>Gets the friends of this player.</summary>
         List<string> Friends { get; }
 
-        /// <summary> Allows a player's password to be changed.</summary>
+        /// <summary>Allows a player's password to be changed.</summary>
         /// <param name="newPassword"> The new Password.</param>
         void SetPassword(string newPassword);
     }
@@ -1810,10 +1810,10 @@ namespace WheelMUD.Universe.Things.Locks
     /// </summary>
     public enum DialDirection
     {
-        /// <summary> Dial is spun to the left (Counter Clockwise) </summary>
+        /// <summary>Dial is spun to the left (Counter Clockwise).</summary>
         Left = 0,
 
-        /// <summary> Dial is spun to the right (Clockwise) </summary>
+        /// <summary>Dial is spun to the right (Clockwise).</summary>
         Right = 1
     }
 
@@ -2279,7 +2279,7 @@ public interface IEventObserver
                 }
             }
         }
-        /// <summary> Items that are separate, but act as part of the parent.</summary>
+        /// <summary>Items that are separate, but act as part of the parent.</summary>
         private List<IThingAdornment> adornments = new List<IThingAdornment>();
         /// <summary>
         /// Gets or sets a value indicating whether this item is an adornment.
