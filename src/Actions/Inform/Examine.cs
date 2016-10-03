@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command that allows a player to look at something.
-    /// </summary>
+    /// <summary>A command that allows a player to look at something.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("examine", CommandCategory.Inform)]
     [ActionAlias("ex", CommandCategory.Inform)]

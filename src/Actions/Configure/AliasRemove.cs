@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to unset an alias for a command.
-    /// </summary>
+    /// <summary>An action to unset an alias for a command.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("alias remove", CommandCategory.Player)]
     [ActionDescription("Unset an alias for a command.")]

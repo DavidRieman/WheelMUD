@@ -33,9 +33,7 @@ namespace WheelMUD.CommandSystem
         /// <summary>The response given for a player's attempted but unrecognized command.</summary>
         private static string unknownCommandResponse = "Huh?";
 
-        /// <summary>
-        /// Prevents a default instance of the CommandCreator class from being created.
-        /// </summary>
+        /// <summary>Prevents a default instance of the CommandCreator class from being created.</summary>
         private CommandCreator()
         {
         }
@@ -46,9 +44,7 @@ namespace WheelMUD.CommandSystem
             get { return instance; }
         }
 
-        /// <summary>
-        /// Creates a scripting command from action input.
-        /// </summary>
+        /// <summary>Creates a scripting command from action input.</summary>
         /// <param name="actionInput">The action input to transform into a ScriptingCommand instance.</param>
         /// <returns>A new ScriptingCommand instance for the specified input, if found, else null.</returns>
         public ScriptingCommand Create(ActionInput actionInput)
@@ -150,9 +146,7 @@ namespace WheelMUD.CommandSystem
             return new ScriptingCommand(contextCommand.CommandKey, executeDelegate, guardsDelegate, SecurityRole.all, actionInput);
         }
 
-        /// <summary>
-        /// Get a potential command alias from the actionInput and up to lastKeywordIndex additional keywords.
-        /// </summary>
+        /// <summary>Get a potential command alias from the actionInput and up to lastKeywordIndex additional keywords.</summary>
         /// <param name="actionInput">The action input provided by a user issuing a command.</param>
         /// <param name="lastKeywordIndex">The last keyword to append as a potential part of a command alias.</param>
         /// <returns>The potential command alias, if there were enough keywords provided to test an alias this size.</returns>

@@ -12,9 +12,7 @@ namespace WheelMUD.Core
 {
     using System.Collections.Generic;
 
-    /// <summary>
-    /// EnterableExitableBehavior provides the ability for the parent Thing to be entered.
-    /// </summary>
+    /// <summary>EnterableExitableBehavior provides the ability for the parent Thing to be entered.</summary>
     /// <remarks>
     /// Entering/exiting simply reuses the MovableBehavior to move an actor. 
     /// @@@ TODO: Consider removing as the new flexible ExitBehavior probably completely covers this 
@@ -22,17 +20,13 @@ namespace WheelMUD.Core
     /// </remarks>
     public class EnterableExitableBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the EnterableExitableBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the EnterableExitableBehavior class.</summary>
         public EnterableExitableBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnterableExitableBehavior"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="EnterableExitableBehavior"/> class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public EnterableExitableBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -41,29 +35,21 @@ namespace WheelMUD.Core
             this.ID = instanceID;
         }
 
-        /// <summary>
-        /// Gets the exit command.
-        /// @@@ TODO: Should these be customizable and register context commands?
-        /// </summary>
-        /// <value>The exit command.</value>
+        /// <summary>Gets the exit command.</summary>
+        /// <remarks>@@@ TODO: Should these be customizable and register context commands?</remarks>
         public string ExitCommand
         {
             get { return "exit"; }
         }
 
-        /// <summary>
-        /// Gets the enter command.
-        /// @@@ TODO: Should these be customizable and register context commands?
-        /// </summary>
-        /// <value>The enter command.</value>
+        /// <summary>Gets the enter command.</summary>
+        /// <remarks>@@@ TODO: Should these be customizable and register context commands?</remarks>
         public string EnterCommand
         {
             get { return "enter"; }
         }
 
-        /// <summary>
-        /// Process an entry by the specified actor.
-        /// </summary>
+        /// <summary>Process an entry by the specified actor.</summary>
         /// <param name="actor">The actor.</param>
         public void Enter(Thing actor)
         {
@@ -89,9 +75,7 @@ namespace WheelMUD.Core
             movableBehavior.Move(this.Parent, this.Parent, message, message);
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
         }

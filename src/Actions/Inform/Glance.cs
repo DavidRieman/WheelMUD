@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// An action to have a quick look at your surroundings.
-    /// </summary>
+    /// <summary>An action to have a quick look at your surroundings.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("glance", CommandCategory.Inform)]
     [ActionAlias("quick look", CommandCategory.Inform)]
@@ -77,9 +75,7 @@ namespace WheelMUD.Actions
             return null;
         }
 
-        /// <summary>
-        /// @@@ DESCRIBE
-        /// </summary>
+        /// <summary></summary>
         /// <param name="sender">The sender of the glance command.</param>
         /// <returns>A fully generated glance of the room.</returns>
         private ContextualStringBuilder BuildGlance(Thing sender)

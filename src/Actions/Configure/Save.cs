@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to save your game.
-    /// </summary>
+    /// <summary>An action to save your game.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("save", CommandCategory.Configure)]
     [ActionDescription("Save your game.")]

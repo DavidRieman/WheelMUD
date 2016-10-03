@@ -13,23 +13,17 @@ namespace WheelMUD.Core
     using System.Collections.Generic;
     using System.Linq;
 
-    /// <summary>
-    /// Allows the attached Thing to have multiple parents; that is, to 'be in multiple places' at once.
-    /// Particularly useful for things like 'two-way exits' which are accessible/interactable in both locations.
-    /// </summary>
+    /// <summary>Allows the attached Thing to have multiple parents; that is, to 'be in multiple places' at once.</summary>
+    /// <remarks>Particularly useful for things like 'two-way exits' which are accessible/interactable in both locations.</remarks>
     public class MultipleParentsBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the MultipleParentsBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the MultipleParentsBehavior class.</summary>
         public MultipleParentsBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MultipleParentsBehavior"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="MultipleParentsBehavior"/> class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public MultipleParentsBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -38,15 +32,11 @@ namespace WheelMUD.Core
             this.ID = instanceID;
         }
 
-        /// <summary>
-        /// Gets the secondary parents.
-        /// </summary>
+        /// <summary>Gets the secondary parents.</summary>
         /// <value>The secondary parents.</value>
         public List<Thing> SecondaryParents { get; private set; }
 
-        /// <summary>
-        /// Adds a new parent.
-        /// </summary>
+        /// <summary>Adds a new parent.</summary>
         /// <param name="newParent">The new parent.</param>
         public void AddParent(Thing newParent)
         {
@@ -73,9 +63,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Removes the specified parent.
-        /// </summary>
+        /// <summary>Removes the specified parent.</summary>
         /// <param name="oldParent">The old parent.</param>
         public void RemoveParent(Thing oldParent)
         {
@@ -97,9 +85,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.SecondaryParents = new List<Thing>();

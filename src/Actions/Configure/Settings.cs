@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to see the values of your current settings.
-    /// </summary>
+    /// <summary>An action to see the values of your current settings.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("settings", CommandCategory.Configure)]
     [ActionAlias("set list", CommandCategory.Configure)]

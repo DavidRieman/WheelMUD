@@ -13,22 +13,16 @@ namespace WheelMUD.Universe
     using System.Collections.Generic;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// LiquidSourceBehavior addes the ability to act like a liquid source (River, fountain, faucet, etc).
-    /// </summary>
+    /// <summary>LiquidSourceBehavior adds the ability to act like a liquid source (River, fountain, faucet, etc).</summary>
     public class LiquidSourceBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the LiquidSourceBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the LiquidSourceBehavior class.</summary>
         public LiquidSourceBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the LiquidSourceBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the LiquidSourceBehavior class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">Dictionary of properties to spawn this behavior instance with, if any.</param>
         public LiquidSourceBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -46,12 +40,10 @@ namespace WheelMUD.Universe
         /// <summary>Gets or sets the sound that the liquid makes when flowing.</summary>
         public string FlowingSound { get; set; }
 
-        /// <summary>
-        /// Creates a new item of the type of liquid defined in this behavior.
-        /// </summary>
-        /// <param name="quantity">the amount of the liquid to create</param>
+        /// <summary>Creates a new item of the type of liquid defined in this behavior.</summary>
+        /// <param name="quantity">The amount of the liquid to create.</param>
         /// <param name="units">Units for the quantity.</param>
-        /// <returns>a new Liquid item</returns>
+        /// <returns>A new Liquid item.</returns>
         public Thing GenerateLiquid(double quantity, string units)
         {
             // @@@ TODO: Remove LiquidSourceBehavior and implement appropriate Spawners and
@@ -60,9 +52,7 @@ namespace WheelMUD.Universe
             return null;
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.LiquidName = "water";

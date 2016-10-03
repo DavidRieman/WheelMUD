@@ -13,14 +13,10 @@ namespace WheelMUD.Core
     using System;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// The connection args.
-    /// </summary>
+    /// <summary>The connection args.</summary>
     public class ConnectionArgs : EventArgs
     {
-        /// <summary>
-        /// Initializes a new instance of the ConnectionArgs class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ConnectionArgs class.</summary>
         /// <param name="connection">The connection.</param>
         public ConnectionArgs(IConnection connection)
         {

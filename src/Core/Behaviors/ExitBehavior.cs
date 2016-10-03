@@ -36,18 +36,14 @@ namespace WheelMUD.Core
         /// <summary>The context command handler for this exit.</summary>
         private ExitBehaviorCommands commands;
 
-        /// <summary>
-        /// Initializes a new instance of the ExitBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ExitBehavior class.</summary>
         public ExitBehavior()
             : base(null)
         {
             this.commands = new ExitBehaviorCommands(this);
         }
 
-        /// <summary>
-        /// Initializes a new instance of the ExitBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ExitBehavior class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public ExitBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -57,9 +53,7 @@ namespace WheelMUD.Core
             this.ID = instanceID;
         }
 
-        /// <summary>
-        /// Adds the destination.
-        /// </summary>
+        /// <summary>Adds the destination.</summary>
         /// <param name="movementCommand">The movement command.</param>
         /// <param name="destinationID">The destination ID.</param>
         public void AddDestination(string movementCommand, string destinationID)
@@ -71,9 +65,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Gets the destination.
-        /// </summary>
+        /// <summary>Gets the destination.</summary>
         /// <param name="fromLocation">From location.</param>
         /// <returns>Returns a Thing object.</returns>
         public Thing GetDestination(Thing fromLocation)
@@ -110,9 +102,7 @@ namespace WheelMUD.Core
             return null;
         }
 
-        /// <summary>
-        /// Moves the Thing through.
-        /// </summary>
+        /// <summary>Moves the Thing through.</summary>
         /// <param name="thingToMove">The thing to move.</param>
         /// <returns>Returns true if the move was successful, false if not.</returns>
         public bool MoveThrough(Thing thingToMove)
@@ -167,9 +157,7 @@ namespace WheelMUD.Core
             return movableBehavior.Move(destination, this.Parent, leaveMessage, arriveMessage);
         }
 
-        /// <summary>
-        /// Gets the exit command from.
-        /// </summary>
+        /// <summary>Gets the exit command from.</summary>
         /// <param name="fromLocation">From location.</param>
         /// <returns>Returns the exit direction.</returns>
         public string GetExitCommandFrom(Thing fromLocation)

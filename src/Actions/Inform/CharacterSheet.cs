@@ -21,9 +21,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Effects;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command to list the player's character sheet.
-    /// </summary>
+    /// <summary>A command to list the player's character sheet.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("character sheet", CommandCategory.Inform)]
     [ActionAlias("charactersheet", CommandCategory.Inform)]

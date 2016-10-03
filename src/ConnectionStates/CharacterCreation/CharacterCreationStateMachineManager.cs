@@ -63,7 +63,7 @@ namespace WheelMUD.ConnectionStates
 
         /// <summary>Creates the default character creation state machine.</summary>
         /// <param name="session">The session.</param>
-        /// <returns>The CharacterCreationStateMachine</returns>
+        /// <returns>The CharacterCreationStateMachine.</returns>
         public CharacterCreationStateMachine CreateDefaultCharacterCreationStateMachine(Session session)
         {
             // Lock to prevent using the defaultSessionStateConstructor while it is being recomposed, etc.

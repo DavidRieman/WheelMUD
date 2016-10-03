@@ -18,9 +18,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// A command to display the server status information.
-    /// </summary>
+    /// <summary>A command to display the server status information.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("serverstatus", CommandCategory.Inform)]
     [ActionAlias("server status", CommandCategory.Inform)]

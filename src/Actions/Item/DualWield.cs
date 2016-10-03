@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to wield a weapon in your second hand.
-    /// </summary>
+    /// <summary>An action to wield a weapon in your second hand.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("dual wield", CommandCategory.Item)]
     [ActionAlias("dualwield", CommandCategory.Item)]

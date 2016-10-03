@@ -10,19 +10,15 @@
 
 namespace WheelMUD.Actions.Travel
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Behaviors;
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// An action to start following another player or mobile whenever they move.
-    /// </summary>
+    /// <summary>An action to start following another player or mobile whenever they move.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("unfollow", CommandCategory.Travel)]
     [ActionDescription("Stop following a friend or foe whenever they move.")]

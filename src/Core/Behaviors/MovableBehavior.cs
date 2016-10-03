@@ -13,22 +13,16 @@ namespace WheelMUD.Core
     using System.Collections.Generic;
     using WheelMUD.Core.Events;
 
-    /// <summary>
-    /// Behavior applied to objects that can move or be moved.
-    /// </summary>
+    /// <summary>Behavior applied to objects that can move or be moved.</summary>
     public class MovableBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the MovableBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the MovableBehavior class.</summary>
         public MovableBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the MovableBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the MovableBehavior class.</summary>
         /// <param name="instanceId">ID of the behavior instance.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public MovableBehavior(long instanceId, Dictionary<string, object> instanceProperties)
@@ -81,9 +75,7 @@ namespace WheelMUD.Core
         }
 
         /*
-        /// <summary>
-        /// Move the entity in the specified direction.
-        /// </summary>
+        /// <summary>Move the entity in the specified direction.</summary>
         /// <param name="direction">The direction to move the entity in.</param>
         /// <returns>True if the entity sucessfully moved, else false.</returns>
         public virtual bool MoveInDirection(string direction)
@@ -102,9 +94,7 @@ namespace WheelMUD.Core
         }
         */
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
         }

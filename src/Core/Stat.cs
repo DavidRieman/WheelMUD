@@ -32,9 +32,7 @@ namespace WheelMUD.Core
         /// <summary>The minimum value this stat can have.</summary>
         private int minValue;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseStat"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="BaseStat"/> class.</summary>
         /// <param name="controller">The controller.</param>
         /// <param name="name">The stat name.</param>
         /// <param name="abbreviation">The ID that will be used to allow the gaming system to recognize this stat.</param>
@@ -56,9 +54,7 @@ namespace WheelMUD.Core
             this.Visible = visible;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseStat"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="BaseStat"/> class.</summary>
         /// <param name="controller">The parent controlling object.</param>
         /// <param name="name">The human readable name for this stat.</param>
         /// <param name="abbreviation">The ID that will be used to allow the gaming system to recognize this stat.</param>
@@ -83,16 +79,10 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Gets the ID that will be used in formulas for 
-        /// calculating stuff in the different gaming systems.
-        /// </summary>
+        /// <summary>Gets the ID that will be used in formulas for calculating stuff in the different gaming systems.</summary>
         public string Abbreviation { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the formula that will be used to determine the value
-        /// of this stat.
-        /// </summary>
+        /// <summary>Gets or sets the formula that will be used to determine the value of this stat.</summary>
         public string Formula { get; set; }
 
         /// <summary>Gets or sets the maximum value of this stat.</summary>

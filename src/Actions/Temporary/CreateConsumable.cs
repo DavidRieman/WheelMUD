@@ -23,9 +23,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Enums;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command that allows an admin to create a consumable.
-    /// </summary>
+    /// <summary>A command that allows an admin to create a consumable.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("create consumable", CommandCategory.Admin)]
     [ActionDescription("@@@ Temp command.")]

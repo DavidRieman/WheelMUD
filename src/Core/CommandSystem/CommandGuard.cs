@@ -13,9 +13,7 @@ namespace WheelMUD.CommandSystem
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// Command guard helper methods.
-    /// </summary>
+    /// <summary>Command guard helper methods.</summary>
     public static class CommandGuardHelpers
     {
         /// <summary>Verifies that the proposed command can be performed by the acting entity.</summary>

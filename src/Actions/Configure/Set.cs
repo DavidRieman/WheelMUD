@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to set the value of one of your settings.
-    /// </summary>
+    /// <summary>An action to set the value of one of your settings.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("set", CommandCategory.Configure)]
     [ActionDescription("Set the value of one of your settings.")]

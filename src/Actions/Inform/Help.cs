@@ -21,9 +21,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command to look up help information from the help system.
-    /// </summary>
+    /// <summary>A command to look up help information from the help system.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("help", CommandCategory.Inform)]
     [ActionDescription("Display help text for a command or topic.")]

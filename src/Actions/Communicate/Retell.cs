@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to repeat the last several tells you received.
-    /// </summary>
+    /// <summary>An action to repeat the last several tells you received.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("retell", CommandCategory.Communicate)]
     [ActionAlias("replay tells", CommandCategory.Communicate)]

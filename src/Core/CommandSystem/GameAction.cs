@@ -15,14 +15,10 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A base class that represents an instance of an Action.
-    /// </summary>
+    /// <summary>A base class that represents an instance of an Action.</summary>
     public abstract class GameAction
     {
-        /// <summary>
-        /// Common guards for various commands.
-        /// </summary>
+        /// <summary>Common guards for various commands.</summary>
         protected enum CommonGuards
         {
             /// <summary>The initiator of the action must be alive.</summary>
@@ -52,23 +48,17 @@ namespace WheelMUD.Actions
             RequiresAtLeastTwoArguments
         }
 
-        /// <summary>
-        /// Executes the command.
-        /// </summary>
+        /// <summary>Executes the command.</summary>
         /// <remarks>Verify that the Guards pass first.</remarks>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public abstract void Execute(ActionInput actionInput);
 
-        /// <summary>
-        /// Guards the command against incorrect usage.
-        /// </summary>
+        /// <summary>Guards the command against incorrect usage.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         /// <returns>An error message describing the failure for the user, or null if all guards pass.</returns>
         public abstract string Guards(ActionInput actionInput);
 
-        /// <summary>
-        /// Verify that a set of common guards are all passed.
-        /// </summary>
+        /// <summary>Verify that a set of common guards are all passed.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         /// <param name="guards">The list of CommonGuards that all need to pass.</param>
         /// <returns>An error message describing the failure for the user, or null if all guards pass.</returns>

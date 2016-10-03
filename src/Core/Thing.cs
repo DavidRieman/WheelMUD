@@ -16,15 +16,11 @@ namespace WheelMUD.Core
     using System.IO;
     using System.Linq;
     using System.Xml.Serialization;
-
     using Raven.Imports.Newtonsoft.Json;
-
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A base class that pretty much any interactive thing within the game world is based on.
-    /// </summary>
+    /// <summary>A base class that pretty much any interactive thing within the game world is based on.</summary>
     /// <remarks>
     /// NOTE: This class is sealed since the changing of a Thing's behaviors should occur by the
     /// addition/removal/tweaking of the Thing's attached Behaviors.  For instance, a "player" is
@@ -84,7 +80,7 @@ namespace WheelMUD.Core
         ~Thing()
         {
             this.Dispose();
-        } 
+        }
 
         public ThingEventing Eventing { get; private set; }
 
@@ -144,7 +140,7 @@ namespace WheelMUD.Core
             get
             {
                 var parents = new List<Thing>();
-                
+
                 var mainParent = this.Parent;
                 if (mainParent != null)
                 {
@@ -252,29 +248,23 @@ namespace WheelMUD.Core
         public string SingularPrefix { get; set; }
 
         /// <summary>Gets or sets the string that is appended to the name.</summary>
-        public string PluralSuffix { get; set; } 
+        public string PluralSuffix { get; set; }
 
-        /// <summary>
-        /// Get a string representation of this Thing instance.
-        /// </summary>
+        /// <summary>Get a string representation of this Thing instance.</summary>
         /// <returns>A string representation of this Thing instance.</returns>
         public override string ToString()
         {
             return string.Format("{0} (ID: {1})", this.FullName, this.ID);
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
+        /// <summary>Performs tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
         {
             // @@@ TODO: Unregister from all things we subscribed to (just the current parent, individual behaviors may differ).
             // @@@ TODO: Dispose all our Children and Behaviors too (things should not be disposed lightly).
         }
 
-        /// <summary>
-        /// Saves the thing.
-        /// </summary>
+        /// <summary>Saves this Thing.</summary>
         public void Save()
         {
             // If this thing is a player, use the player saving code instead of the generic
@@ -299,9 +289,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Allows a caller to determine whether this thing can be detected by something's senses
-        /// </summary>
+        /// <summary>Allows a caller to determine whether this thing can be detected by something's senses.</summary>
         /// <param name="senses">The sense manager.</param>
         /// <returns>True if detectable by sense, else false.</returns>
         public bool IsDetectableBySense(SenseManager senses)
@@ -309,9 +297,7 @@ namespace WheelMUD.Core
             return senses.Contains(SensoryType.Sight) && senses[SensoryType.Sight].Enabled;
         }
 
-        /// <summary>
-        /// Determine whether this Thing can stack with the specified Thing.
-        /// </summary>
+        /// <summary>Determine whether this Thing can stack with the specified Thing.</summary>
         /// <param name="thing">The thing to check for stacking ability.</param>
         /// <returns>True if the Things can become a single stack, else false.</returns>
         public bool CanStack(Thing thing)
@@ -328,9 +314,7 @@ namespace WheelMUD.Core
             return false;
         }
 
-        /// <summary>
-        /// Clone a new instance of this Thing and its properties, but with a new ID.
-        /// </summary>
+        /// <summary>Clone a new instance of this Thing and its properties, but with a new ID.</summary>
         /// <returns>A new, largely identical instance of the thing.</returns>
         public Thing Clone()
         {
@@ -339,10 +323,7 @@ namespace WheelMUD.Core
             return newThing;
         }
 
-        /// <summary>
-        /// Save the item to the path.
-        /// Useful for debugging, as well as later for DB persistence.
-        /// </summary>
+        /// <summary>Save the item to the path. Useful for debugging, as well as later for DB persistence.</summary>
         /// <param name="w">The stream that support writing that you should serialize to.</param>
         /// <returns>true on success, false otherwise.</returns>
         public bool SaveAsXml(Stream w)
@@ -389,9 +370,7 @@ namespace WheelMUD.Core
             return true;
         }
 
-        /// <summary>
-        /// Clone the properties of the specified existing thing.
-        /// </summary>
+        /// <summary>Clone the properties of the specified existing thing.</summary>
         /// <param name="existingThing">The existing thing.</param>
         public void CloneProperties(Thing existingThing)
         {
@@ -416,9 +395,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Finds a child using the predicate passed.
-        /// </summary>
+        /// <summary>Finds a child using the predicate passed.</summary>
         /// <param name="predicate">The predicate to match.</param>
         /// <returns>The Item found.</returns>
         public Thing FindChild(Predicate<Thing> predicate)
@@ -429,9 +406,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Finds an item by a full or partial ID or name.
-        /// </summary>
+        /// <summary>Finds an item by a full or partial ID or name.</summary>
         /// <param name="searchString">The ID or name to search for.</param>
         /// <returns>The Item found.</returns>
         public Thing FindChild(string searchString)
@@ -458,9 +433,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Try to find a thing that is relatively 'local' to this thing.
-        /// </summary>
+        /// <summary>Try to find a thing that is relatively 'local' to this thing.</summary>
         /// <remarks>
         /// IE for a player who is trying to interact with an item or mobile, we want to search 
         /// that player's sub-things (inventory and such) and the player's parent thing's (IE room)
@@ -483,9 +456,7 @@ namespace WheelMUD.Core
             return foundThing;
         }
 
-        /// <summary>
-        /// Finds all child Things that match the predicate.
-        /// </summary>
+        /// <summary>Finds all child Things that match the predicate.</summary>
         /// <param name="predicate">The predicate to match.</param>
         /// <returns>List of Items.</returns>
         public List<Thing> FindAllChildren(Predicate<Thing> predicate)
@@ -501,11 +472,9 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Finds all behaviors of the given type amongst our children.
-        /// </summary>
-        /// <typeparam name="T">Behavior type</typeparam>
-        /// <returns>List of behaviors</returns>
+        /// <summary>Finds all behaviors of the given type amongst our children.</summary>
+        /// <typeparam name="T">Behavior type.</typeparam>
+        /// <returns>List of behaviors.</returns>
         public List<T> FindAllChildrenBehaviors<T>() where T : Behavior
         {
             lock (this.lockObject)
@@ -526,9 +495,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Finds the behavior in the behavior manager.
-        /// </summary>
+        /// <summary>Finds the behavior in the behavior manager.</summary>
         /// <typeparam name="T">Any <see cref="Behavior"/> type.</typeparam>
         /// <returns>A behavior if one is found, otherwise null.</returns>
         public T FindBehavior<T>() where T : Behavior
@@ -538,49 +505,36 @@ namespace WheelMUD.Core
             return behavior;
         }
 
-        /// <summary>
-        /// Asks the behavior manager whether this thing has the behavior specified in the type parameter.
-        /// </summary>
+        /// <summary>Asks the behavior manager whether this thing has the behavior specified in the type parameter.</summary>
         /// <typeparam name="T">Any <see cref="Behavior"/> type.</typeparam>
         /// <returns>True if the behavior was found, otherwise false.</returns>
         public bool HasBehavior<T>() where T : Behavior
         {
             T behavior = this.Behaviors.FindFirst<T>();
-
             return behavior != null;
         }
 
-        /// <summary>
-        /// Finds the stat.
-        /// </summary>
+        /// <summary>Finds the stat.</summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public GameStat FindStat<T>() where T : GameStat
         {
             var statList = new List<GameStat>(this.Stats.Values);
-
             T stat = statList.OfType<T>().FirstOrDefault();
-
             return stat;
         }
 
-        /// <summary>
-        /// Finds the game stat.
-        /// </summary>
+        /// <summary>Finds the game stat.</summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
         public GameStat FindGameStat(string name)
         {
             GameStat stat;
-
             this.Stats.TryGetValue(name, out stat);
-
             return stat;
         }
 
-        /// <summary>
-        /// Finds the behavior in the behavior manager.
-        /// </summary>
+        /// <summary>Finds the behavior in the behavior manager.</summary>
         /// <returns>A behavior if one is found, otherwise null.</returns>
         public GameAttribute FindGameAttribute(string name)
         {
@@ -591,9 +545,7 @@ namespace WheelMUD.Core
             return attribute;
         }
 
-        /// <summary>
-        /// Finds the game attribute.
-        /// </summary>
+        /// <summary>Finds the game attribute.</summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public T FindGameAttribute<T>() where T : GameAttribute
@@ -674,9 +626,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Removes the specified thing.
-        /// </summary>
+        /// <summary>Removes the specified thing.</summary>
         /// <param name="thing">The thing.</param>
         /// <returns>True if the thing has successfully been removed, else false.</returns>
         public bool Remove(Thing thing)
@@ -699,21 +649,15 @@ namespace WheelMUD.Core
             return false;
         }
 
-        /// <summary>
-        /// Adds the item to a container.
-        /// </summary>
-        /// <param name="parent">The parent.</param>
-        /// <returns>
-        /// True if the item was added to the container.
-        /// </returns>
+        /// <summary>Adds this Thing to a parent.</summary>
+        /// <param name="parent">The new parent.</param>
+        /// <returns>True if the item was added to the container.</returns>
         public bool AddTo(Thing parent)
         {
             return parent.Add(this);
         }
 
-        /// <summary>
-        /// Removes an item from a container.
-        /// </summary>
+        /// <summary>Removes a Thing from the applicable parent(s).</summary>
         public void RemoveFromParents()
         {
             foreach (var parent in this.Parents)
@@ -722,9 +666,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Adds the given attribute to this <see cref="Thing"/>.
-        /// </summary>
+        /// <summary>Adds the given attribute to this <see cref="Thing"/>.</summary>
         /// <param name="gameAttribute">The attribute to be added.</param>
         public void AddAttribute(GameAttribute gameAttribute)
         {
@@ -735,9 +677,7 @@ namespace WheelMUD.Core
             gameAttribute.OnAdd();
         }
 
-        /// <summary>
-        /// Removes the given attribute from this <see cref="Thing"/>.
-        /// </summary>
+        /// <summary>Removes the given attribute from this <see cref="Thing"/>.</summary>
         /// <param name="gameAttribute">The attribute to be removed.</param>
         public void RemoveAttribute(GameAttribute gameAttribute)
         {
@@ -751,22 +691,16 @@ namespace WheelMUD.Core
             gameAttribute.OnRemove();
         }
 
-        /// <summary>
-        /// Adds the game stat to this <see cref="Thing"/>.
-        /// </summary>
+        /// <summary>Adds the game stat to this <see cref="Thing"/>.</summary>
         /// <param name="gameStat">The game stat to be added.</param>
         public void AddStat(GameStat gameStat)
         {
             gameStat.Parent = this;
-
             this.Stats.Add(gameStat.Name, gameStat);
-
             gameStat.OnAdd();
         }
 
-        /// <summary>
-        /// Removes the game stat from this <see cref="Thing"/>.
-        /// </summary>
+        /// <summary>Removes the game stat from this <see cref="Thing"/>.</summary>
         /// <param name="gameStat">The game stat to be removed.</param>
         public void RemoveStat(GameStat gameStat)
         {
@@ -780,9 +714,7 @@ namespace WheelMUD.Core
             gameStat.OnRemove();
         }
 
-        /// <summary>
-        /// Combines one (stack of) thing with another (stack of) thing.
-        /// </summary>
+        /// <summary>Combines one (stack of) thing with another (stack of) thing.</summary>
         /// <param name="thing">The thing to add to this (stack).</param>
         /// <returns>The remainder (stack of) Thing if this stack couldn't combine all of the other, else null.</returns>
         private Thing Combine(Thing thing)
@@ -825,9 +757,7 @@ namespace WheelMUD.Core
             return addChildEvent;
         }
 
-        /// <summary>
-        /// Perform removal of the specified thing from our Children.
-        /// </summary>
+        /// <summary>Perform removal of the specified thing from our Children.</summary>
         /// <param name="thingToRemove">The thing to remove from our Children.</param>
         /// <param name="removalEvent">The removal event to work with; must have previously been sent as the request.</param>
         /// <returns>True if the thing has been successfully removed, else false.</returns>

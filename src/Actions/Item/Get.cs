@@ -15,14 +15,10 @@ namespace WheelMUD.Actions
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
     using WheelMUD.Universe;
 
-    /// <summary>
-    /// Allows the caller to attempt to pick something up from the room, or move something
-    /// from a container within their inventory directly into their inventory.
-    /// </summary>
+    /// <summary>Action to pick something up from the room, or move something from a container within their inventory to their inventory.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("get", CommandCategory.Item)]
     [ActionAlias("take", CommandCategory.Item)]

@@ -184,7 +184,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Finds the player by their ID.</summary>
-        /// <param name="id">Identifier for the player</param>
+        /// <param name="id">Identifier for the player.</param>
         /// <returns>Player object</returns>
         public Thing FindPlayerById(string id)
         {

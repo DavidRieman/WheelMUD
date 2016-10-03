@@ -13,15 +13,11 @@ namespace WheelMUD.Core.Attributes
 {
     using System;
 
-    /// <summary>
-    /// Action example attribute.
-    /// </summary>
+    /// <summary>Action example attribute.</summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ActionExampleAttribute : Attribute
     {
-        /// <summary>
-        /// Initializes a new instance of the ActionExampleAttribute class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ActionExampleAttribute class.</summary>
         /// <param name="example">The example of the action.</param>
         public ActionExampleAttribute(string example)
         {

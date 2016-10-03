@@ -13,9 +13,7 @@ namespace WheelMUD.Core.Enums
 {
     using System;
 
-    /// <summary>
-    /// Consumable types.
-    /// </summary>
+    /// <summary>Consumable types.</summary>
     [Flags]
     public enum ConsumableType
     {

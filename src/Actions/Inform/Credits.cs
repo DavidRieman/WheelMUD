@@ -18,9 +18,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// Action description here.
-    /// </summary>
+    /// <summary>Action description here.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("credits", CommandCategory.Inform)]
     [ActionAlias("immlist", CommandCategory.Inform)]

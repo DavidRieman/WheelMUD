@@ -16,9 +16,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// An action to set your status as 'inactive' to other players.
-    /// </summary>
+    /// <summary>An action to set your status as 'inactive' to other players.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("password", CommandCategory.Configure)]
     [ActionDescription("Change's your password. Usage: password Value ConfirmValue")]
@@ -32,9 +30,7 @@ namespace WheelMUD.Actions
             CommonGuards.InitiatorMustBeAPlayer,
         };
 
-        /// <summary>
-        /// Gets or sets the new password that will be used
-        /// </summary>
+        /// <summary>Gets or sets the new password that will be used.</summary>
         private string NewPassword { get; set; }
 
         /// <summary>Executes the command.</summary>

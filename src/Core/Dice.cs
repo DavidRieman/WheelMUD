@@ -13,9 +13,7 @@ namespace WheelMUD.Core
 {
     using System;
 
-    /// <summary>
-    /// DiceService provides a dice system (random number generator) to the world.
-    /// </summary>
+    /// <summary>DiceService provides a dice system (random number generator) to the world.</summary>
     public class DiceService
     {
         /// <summary>The synchronization locking object.</summary>
@@ -27,9 +25,7 @@ namespace WheelMUD.Core
         /// <summary>The random number generator.</summary>
         private static Random rand;
 
-        /// <summary>
-        /// Prevents a default instance of the DiceService class from being created.
-        /// </summary>
+        /// <summary>Prevents a default instance of the DiceService class from being created.</summary>
         private DiceService()
         {
         }
@@ -52,9 +48,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Creates a new die.
-        /// </summary>
+        /// <summary>Creates a new die.</summary>
         /// <param name="numSides">The number of sides the die has.</param>
         /// <returns>A new die object.</returns>
         public Die GetDie(int numSides)

@@ -18,9 +18,7 @@ namespace WheelMUD.Core
     /// <summary>A manager for behaviors.</summary>
     public class BehaviorManager : ICloneable
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BehaviorManager"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="BehaviorManager"/> class.</summary>
         /// <param name="parent">The parent.</param>
         public BehaviorManager(Thing parent)
         {
@@ -48,9 +46,7 @@ namespace WheelMUD.Core
         /// <remarks>This list is private in order to enforce property locking thread safety, disallowing simultaneous iteration and edits.</remarks>
         private List<Behavior> ManagedBehaviors { get; set; }
 
-        /// <summary>
-        /// Clone this BehaviorManager.
-        /// </summary>
+        /// <summary>Clone this BehaviorManager.</summary>
         /// <remarks>Override Clone for all derived BehaviorManagers!</remarks>
         /// <returns>Throws an exception; derived managers should not call base.Clone.</returns>
         public virtual object Clone()
@@ -58,21 +54,15 @@ namespace WheelMUD.Core
             throw new Exception("Each manager derived from BehaviorManager needs to implement its own Clone!");
         }
 
-        /// <summary>
-        /// Saves all behaviors in the manager
-        /// </summary>
+        /// <summary>Saves all behaviors in the manager.</summary>
         public virtual void Save()
         {
             throw new Exception("Each manager derived from BehaviorManager needs to implement its own save!");
         }
 
-        /// <summary>
-        /// Determines whether this instance houses items that can be stacked with items in the other behavior manager.
-        /// </summary>
+        /// <summary>Determines whether this instance houses items that can be stacked with items in the other behavior manager.</summary>
         /// <param name="otherBehaviorManager">The other behavior manager.</param>
-        /// <returns>
-        ///     <c>true</c> if items in this instance can stack with items from the specified other behavior manager; otherwise, <c>false</c>.
-        /// </returns>
+        /// <returns>true if items in this instance can stack with items from the specified other behavior manager; otherwise, false.</returns>
         public bool CanStack(BehaviorManager otherBehaviorManager)
         {
             // @@@ TODO: Determine whether these BehaviorManagers house item-stackably-identical behavior instances.
@@ -81,9 +71,7 @@ namespace WheelMUD.Core
             return false;
         }
 
-        /// <summary>
-        /// Find the first instance of a behavior of the specified type.
-        /// </summary>
+        /// <summary>Find the first instance of a behavior of the specified type.</summary>
         /// <typeparam name="U">The type of behavior to locate.</typeparam>
         /// <returns>The first managed behavior of the specified type, if found, else null.</returns>
         public U FindFirst<U>() where U : Behavior
@@ -105,9 +93,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Add a new behavior to the list of managed behaviors.
-        /// </summary>
+        /// <summary>Add a new behavior to the list of managed behaviors.</summary>
         /// <param name="newBehavior">The new behavior to add.</param>
         public void Add(Behavior newBehavior)
         {
@@ -122,9 +108,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Removes the specified behavior.
-        /// </summary>
+        /// <summary>Removes the specified behavior.</summary>
         /// <param name="behavior">The behavior to remove.</param>
         public void Remove(Behavior behavior)
         {
@@ -139,9 +123,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Clone all the behaviors being managed by the specified manager.
-        /// </summary>
+        /// <summary>Clone all the behaviors being managed by the specified manager.</summary>
         /// <param name="existingManager">The manager whose behaviors we are to clone.</param>
         protected void CloneBehaviors(BehaviorManager existingManager)
         {

@@ -34,17 +34,13 @@ namespace WheelMUD.Core.Behaviors
     {
         private WeakReference<Thing> target;
 
-        /// <summary>
-        /// Initializes a new instance of the FollowingBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the FollowingBehavior class.</summary>
         public FollowingBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the FollowingBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the FollowingBehavior class.</summary>
         /// <param name="instanceID">The instance ID.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public FollowingBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -53,9 +49,7 @@ namespace WheelMUD.Core.Behaviors
             this.ID = instanceID;
         }
 
-        /// <summary>
-        /// Gets or sets the target being followed.
-        /// </summary>
+        /// <summary>Gets or sets the target being followed.</summary>
         [JsonIgnore]
         public virtual Thing Target
         {
@@ -93,9 +87,7 @@ namespace WheelMUD.Core.Behaviors
             }
         }
 
-        /// <summary>
-        /// Called when the current parent of this behavior is about to be removed. (Refer to this.Parent)
-        /// </summary>
+        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent.)</summary>
         public override void OnRemoveBehavior()
         {
             // Setting Target to null ensures the MovementEvent handler is removed.
@@ -103,16 +95,12 @@ namespace WheelMUD.Core.Behaviors
             base.OnRemoveBehavior();
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
         }
 
-        /// <summary>
-        /// Processes the movement event.
-        /// </summary>
+        /// <summary>Processes the movement event.</summary>
         /// <param name="root">The root.</param>
         /// <param name="e">The e.</param>
         private void ProcessMovementEvent(Thing root, GameEvent e)
@@ -131,10 +119,8 @@ namespace WheelMUD.Core.Behaviors
             }
         }
 
-        /// <summary>
-        /// Adds the new target.
-        /// Precondition: this.target is null, newTarget is non-null
-        /// </summary>
+        /// <summary>Adds the new target.</summary>
+        /// <remarks>Precondition: this.target is null, newTarget is non-null.</remarks>
         /// <param name="newTarget">The new target.</param>
         private void AddTarget(Thing newTarget)
         {
@@ -168,10 +154,8 @@ namespace WheelMUD.Core.Behaviors
             this.AddTarget(newTarget);
         }
 
-        /// <summary>
-        /// Stops following the current target.
-        /// Precondition: this.target is non-null.
-        /// </summary>
+        /// <summary>Stops following the current target.</summary>
+        /// <remarks>Precondition: this.target is non-null.</remarks>
         private void RemoveTarget()
         {
             var self = this.Parent;

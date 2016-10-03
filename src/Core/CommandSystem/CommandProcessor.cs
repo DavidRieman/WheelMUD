@@ -17,9 +17,7 @@ namespace WheelMUD.Core
     using WheelMUD.CommandSystem;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command processor, which houses a thread to process commands.
-    /// </summary>
+    /// <summary>A command processor, which houses a thread to process commands.</summary>
     public class CommandProcessor : ISubSystem
     {
         /// <summary>The worker thread.</summary>
@@ -28,18 +26,14 @@ namespace WheelMUD.Core
         /// <summary>The host of this SubSystem.</summary>
         private ISubSystemHost host;
 
-        /// <summary>
-        /// Initializes a new instance of the CommandProcessor class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the CommandProcessor class.</summary>
         /// <param name="host">The host of this CommandProcessor SubSystem.</param>
         public CommandProcessor(ISubSystemHost host)
         {
             this.host = host;
         }
 
-        /// <summary>
-        /// Start this CommandProcessor SubSystem.
-        /// </summary>
+        /// <summary>Start this CommandProcessor SubSystem.</summary>
         public void Start()
         {
             this.host.UpdateSubSystemHost(this, "Starting...");
@@ -47,9 +41,7 @@ namespace WheelMUD.Core
             this.workerThread.Start();
         }
 
-        /// <summary>
-        /// Stop this CommandProcessor SubSystem.
-        /// </summary>
+        /// <summary>Stop this CommandProcessor SubSystem.</summary>
         public void Stop()
         {
             this.host.UpdateSubSystemHost(this, "Stopping...");
@@ -58,18 +50,14 @@ namespace WheelMUD.Core
             this.workerThread = null;
         }
 
-        /// <summary>
-        /// Subscribe to receive system updates from this system.
-        /// </summary>
+        /// <summary>Subscribe to receive system updates from this system.</summary>
         /// <param name="sender">The subscribing system; generally use 'this'.</param>
         public void SubscribeToSystem(ISubSystemHost sender)
         {
             this.host = sender;
         }
 
-        /// <summary>
-        /// Inform subscribed system(s) of the specified update.
-        /// </summary>
+        /// <summary>Inform subscribed system(s) of the specified update.</summary>
         /// <param name="msg">The message to be sent to subscribed system(s).</param>
         public void InformSubscribedSystem(string msg)
         {
@@ -93,9 +81,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Try to execute the specified action input as a command.
-        /// </summary>
+        /// <summary>Try to execute the specified action input as a command.</summary>
         /// <param name="actionInput">The action input to try to execute.</param>
         private void TryExecuteAction(ActionInput actionInput)
         {

@@ -13,9 +13,7 @@
  *       be something like an "AdornmentBehavior" instead.  I'm leaning towards the latter. -Karak
 namespace WheelMUD.Core.Enums
 {
-    /// <summary>
-    /// The types of parents that exits in WheelMUD.
-    /// </summary>
+    /// <summary>The types of parents that exits in WheelMUD.</summary>
     /// <remarks>
     /// @@@ For now this should mirror the ParentUsage[s] table, until such a time as 
     ///     types are detected/loaded automatically and this enum becomes irrelevant.

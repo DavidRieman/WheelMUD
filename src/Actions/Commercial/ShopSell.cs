@@ -16,9 +16,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to sell an item to a shop.
-    /// </summary>
+    /// <summary>An action to sell an item to a shop.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("shop sell", CommandCategory.Commercial)]
     [ActionDescription("Sell an item to a shop.")]

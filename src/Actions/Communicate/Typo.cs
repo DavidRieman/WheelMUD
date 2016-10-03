@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
     using WheelMUD.Universe.Information;
 
-    /// <summary>
-    /// A command to report a simple typographical error.
-    /// </summary>
+    /// <summary>A command to report a simple typographical error.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("typo", CommandCategory.Communicate)]
     [ActionDescription("Report a bug in the descriptions in or near a room.")]

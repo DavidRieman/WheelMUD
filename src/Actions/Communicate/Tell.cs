@@ -12,16 +12,12 @@
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
-
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
-    using WheelMUD.Utilities;
 
-    /// <summary>
-    /// A command to send a message directly to one entity.
-    /// </summary>
+    /// <summary>A command to send a message directly to one entity.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("tell", CommandCategory.Communicate)]
     [ActionAlias("t", CommandCategory.Communicate)]
@@ -38,14 +34,12 @@ namespace WheelMUD.Actions
         /// <summary>The found target object.</summary>
         private Thing target = null;
 
-        /// <summary>Sentence to tell to player, stored globally so as to not build twice</summary>
+        /// <summary>Sentence to tell to player, stored globally so as to not build twice.</summary>
         private string sentence;
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
-        /// <remarks>
-        /// TODO: ability to block via ear muffs, send tell to NPC? Also remote rtell via @
-        /// </remarks>
+        /// <remarks>TODO: ability to block via ear muffs, send tell to NPC? Also remote rtell via @</remarks>
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
@@ -118,10 +112,8 @@ namespace WheelMUD.Actions
             return null;
         }
 
-        /// <summary>
-        /// Builds the message the sender sees on the screen.  Deals with AFK stuff...
-        /// </summary>
-        /// <param name="fixedSentence">base fixed sentence</param>
+        /// <summary>Builds the message the sender sees on the screen, and deals with AFK stuff.</summary>
+        /// <param name="fixedSentence">The base fixed sentence.</param>
         /// <returns>The final string the sender of the tell will see.</returns>
         private string BuildOriginatorMessage(string fixedSentence)
         {

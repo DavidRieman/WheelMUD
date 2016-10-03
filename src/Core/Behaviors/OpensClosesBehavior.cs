@@ -16,9 +16,7 @@ namespace WheelMUD.Core
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Events;
 
-    /// <summary>
-    /// OpensClosesBehavior adds the ability to open and close a thing.
-    /// </summary>
+    /// <summary>OpensClosesBehavior adds the ability to open and close a thing.</summary>
     public class OpensClosesBehavior : Behavior
     {
         /// <summary>The reused open and close strings.</summary>
@@ -27,17 +25,13 @@ namespace WheelMUD.Core
         /// <summary>The contextual commands for this behavior instance.</summary>
         private OpensClosesBehaviorCommands commands;
 
-        /// <summary>
-        /// Initializes a new instance of the OpensClosesBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the OpensClosesBehavior class.</summary>
         public OpensClosesBehavior()
             : this(0, null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the OpensClosesBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the OpensClosesBehavior class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public OpensClosesBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -50,9 +44,7 @@ namespace WheelMUD.Core
         /// <summary>Gets a value indicating whether our state is currently "open".</summary>
         public bool IsOpen { get; private set; }
 
-        /// <summary>
-        /// Called when a parent has just been assigned to this behavior. (Refer to this.Parent)
-        /// </summary>
+        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent.)</summary>
         public override void OnAddBehavior()
         {
             // When adding this behavior to a Thing, register relevant movement events so we can cancel
@@ -74,9 +66,7 @@ namespace WheelMUD.Core
             base.OnAddBehavior();
         }
 
-        /// <summary>
-        /// Called when the current parent of this behavior is about to be removed. (Refer to this.Parent)
-        /// </summary>
+        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent.)</summary>
         public override void OnRemoveBehavior()
         {
             var parent = this.Parent;
@@ -90,35 +80,27 @@ namespace WheelMUD.Core
             base.OnRemoveBehavior();
         }
 
-        /// <summary>
-        /// Attempt to open this behavior's parent, via the specified opener.
-        /// </summary>
+        /// <summary>Attempt to open this behavior's parent, via the specified opener.</summary>
         /// <param name="opener">The actor doing the opening.</param>
         public void Open(Thing opener)
         {
             this.OpenOrClose(opener, OpenString, true);
         }
 
-        /// <summary>
-        /// Attempt to close this behavior's parent, via the specified closer.
-        /// </summary>
+        /// <summary>Attempt to close this behavior's parent, via the specified closer.</summary>
         /// <param name="closer">The actor doing the closing.</param>
         public void Close(Thing closer)
         {
             this.OpenOrClose(closer, CloseString, false);
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.IsOpen = false;
         }
 
-        /// <summary>
-        /// Handle any movement requests.
-        /// </summary>
+        /// <summary>Handle any movement requests.</summary>
         /// <param name="root">The root Thing where this event broadcast started.</param>
         /// <param name="e">The cancellable event/request arguments.</param>
         private void MovementRequestHandler(Thing root, CancellableGameEvent e)
@@ -142,9 +124,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Open or close this behavior's parent, via the specified actor.
-        /// </summary>
+        /// <summary>Open or close this behavior's parent, via the specified actor.</summary>
         /// <param name="actor">The actor doing the opening or closing.</param>
         /// <param name="verb">Whether this is an "open" or "close" action.</param>
         /// <param name="newOpenedState">The new IsOpen state to be set, if the request is not cancelled.</param>
@@ -183,9 +163,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Contextual commands for the OpensClosesBehavior.
-        /// </summary>
+        /// <summary>Contextual commands for the OpensClosesBehavior.</summary>
         private class OpensClosesBehaviorCommands : GameAction
         {
             /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
@@ -200,9 +178,7 @@ namespace WheelMUD.Core
             /// <summary>The OpensClosesBehavior this class belongs to.</summary>
             private OpensClosesBehavior opensClosesBehavior;
 
-            /// <summary>
-            /// Initializes a new instance of the OpensClosesBehaviorCommands class.
-            /// </summary>
+            /// <summary>Initializes a new instance of the OpensClosesBehaviorCommands class.</summary>
             /// <param name="opensClosesBehavior">The OpensClosesBehavior this class belongs to.</param>
             public OpensClosesBehaviorCommands(OpensClosesBehavior opensClosesBehavior)
                 : base()
@@ -210,9 +186,7 @@ namespace WheelMUD.Core
                 this.opensClosesBehavior = opensClosesBehavior;
             }
 
-            /// <summary>
-            /// Execute the action.
-            /// </summary>
+            /// <summary>Execute the action.</summary>
             /// <param name="actionInput">The full input specified for executing the command.</param>
             public override void Execute(ActionInput actionInput)
             {

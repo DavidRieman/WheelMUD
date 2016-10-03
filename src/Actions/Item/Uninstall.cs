@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// Uninstalls a Thing Adornment
-    /// </summary>
+    /// <summary>Uninstalls a Thing Adornment.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("Uninstall", CommandCategory.Item)]
     [ActionDescription("Removes an subassembly from a larger item.  Like removing the lock from a door.")]

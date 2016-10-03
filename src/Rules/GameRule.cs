@@ -13,81 +13,53 @@
 namespace WheelMUD.Rules
 {
     using System;
-
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// This is the code representation of a rule in a gaming system.
-    /// </summary>
+    /// <summary>This is the code representation of a rule in a gaming system.</summary>
     public class GameRule : IRule
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GameRule"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="GameRule"/> class.</summary>
         public GameRule()
         {
             //RuleFailureCondition = RuleConditions.None;
             //RuleSuccessCondition = RuleConditions.None;
         }
         
-        ///// <summary>
-        ///// Gets or sets the name.
-        ///// </summary>
+        ///// <summary>Gets or sets the name.</summary>
         ///// <value>The name of this game rule.</value>
         //public string Name { get; set; }
 
-        ///// <summary>
-        ///// Gets or sets the source formula.
-        ///// </summary>
+        ///// <summary>Gets or sets the source formula.</summary>
         ///// <value>The source formula.</value>
         //public string Formula { get; set; }
 
-        ///// <summary>
-        ///// Gets or sets the action that this rule will perform.
-        ///// </summary>
+        ///// <summary>Gets or sets the action that this rule will perform.</summary>
         //public RuleAction ActionToPerform { get; set; }
 
-        ///// <summary>
-        ///// Gets or sets the rule success condition.
-        ///// </summary>
+        ///// <summary>Gets or sets the rule success condition.</summary>
         ///// <value>The rule success condition.</value>
         //public RuleConditions RuleSuccessCondition { get; set; }
 
-        ///// <summary>
-        ///// Gets or sets the rule success critical formula.
-        ///// </summary>
+        ///// <summary>Gets or sets the rule success critical formula.</summary>
         ///// <value>The rule success critical formula.</value>
         //public string RuleSuccessCritialFormula { get; set; }
 
-        ///// <summary>
-        ///// Gets or sets the rule failure condition.
-        ///// </summary>
+        ///// <summary>Gets or sets the rule failure condition.</summary>
         ///// <value>The rule failure condition.</value>
         //public RuleConditions RuleFailureCondition { get; set; }
 
-        ///// <summary>
-        ///// Gets or sets the rule failure critical formula.
-        ///// </summary>
+        ///// <summary>Gets or sets the rule failure critical formula.</summary>
         ///// <value>The rule failure critical formula.</value>
         //public string RuleFailureCritialFormula { get; set; }
         
-        /// <summary>
-        /// Gets the kind of the rule.
-        /// </summary>
-        /// <value>
-        /// The kind of the rule.
-        /// </value>
+        /// <summary>Gets the kind of the rule.</summary>
+        /// <value>The kind of the rule.</value>
         public virtual string RuleKind
         {
-            get
-            {
-                return "Game Rule";
-            }
+            get { return "Game Rule"; }
         }
 
-        /// <summary>
-        /// Executes the specified player thing.
-        /// </summary>
+        /// <summary>Executes the specified player thing.</summary>
         /// <param name="playerThing">The player thing.</param>
         /// <param name="value1">The value1.</param>
         /// <param name="value2">The value2.</param>
@@ -97,30 +69,19 @@ namespace WheelMUD.Rules
         }
     }
 
-    /// <summary>
-    /// Basic game rule using generics.
-    /// </summary>
-    /// <typeparam name="T">First type</typeparam>
-    /// <typeparam name="R">Second type</typeparam>
+    /// <summary>Basic game rule using generics.</summary>
+    /// <typeparam name="T">First type.</typeparam>
+    /// <typeparam name="R">Second type.</typeparam>
     public class GameRule<T, R> : IRule<T>
     {
-        /// <summary>
-        /// Gets the kind of the rule.
-        /// </summary>
-        /// <value>
-        /// The kind of the rule.
-        /// </value>
+        /// <summary>Gets the kind of the rule.</summary>
+        /// <value>The kind of the rule.</value>
         public virtual string RuleKind
         {
-            get
-            {
-                return "Game Rule";
-            }
+            get { return "Game Rule"; }
         }
 
-        /// <summary>
-        /// Validates the specified value.
-        /// </summary>
+        /// <summary>Validates the specified value.</summary>
         /// <param name="value">The value.</param>
         /// <returns>A validation result enum.</returns>
         public virtual ValidationResult Validate(T value)
@@ -128,17 +89,13 @@ namespace WheelMUD.Rules
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Executes this instance.
-        /// </summary>
+        /// <summary>Executes this instance.</summary>
         public virtual void Execute()
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Executes the specified player thing.
-        /// </summary>
+        /// <summary>Executes the specified player thing.</summary>
         /// <param name="playerThing">The player thing.</param>
         /// <param name="value1">The value1.</param>
         /// <param name="value2">The value2.</param>

@@ -12,15 +12,11 @@ namespace WheelMUD.Core.Attributes
 {
     using System;
 
-    /// <summary>
-    /// An action alias attribute.
-    /// </summary>
+    /// <summary>An action alias attribute.</summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class ActionAliasAttribute : Attribute
     {
-        /// <summary>
-        /// Initializes a new instance of the ActionAliasAttribute class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ActionAliasAttribute class.</summary>
         /// <param name="alias">An alias for the action.</param>
         /// <param name="category">Category that this action is part of.</param>
         public ActionAliasAttribute(string alias, CommandCategory category)

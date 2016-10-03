@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
     using WheelMUD.Universe;
 
-    /// <summary>
-    /// An action to fill a liquid container from a large source of liquid.
-    /// </summary>
+    /// <summary>An action to fill a liquid container from a large source of liquid.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("fill", CommandCategory.Item)]
     [ActionDescription("Fill a liquid container from a large source of liquid.")]

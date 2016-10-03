@@ -5,9 +5,7 @@
 
 // Extracted from Things.cs:
 /* @@@ TODO: Replace with a ProvidesConsumableBehavior
-/// <summary>
-/// An interface defining a ConsumableProvider.
-/// </summary>
+/// <summary>An interface defining a ConsumableProvider.</summary>
 public interface IConsumableProvider : IItem
 {
     /// <summary>Gets the resource type.</summary>
@@ -25,14 +23,10 @@ public interface IConsumableProvider : IItem
 /*
 namespace WheelMUD.Interfaces
 {
-    /// <summary>
-    /// An interface defining a World.
-    /// </summary>
+    /// <summary>An interface defining a World.</summary>
     public interface IWorld
     {
-        /// <summary>
-        /// The event reaction event handler.
-        /// </summary>
+        /// <summary>The event reaction event handler.</summary>
         event EventReactionEventHandler OnReactionEvent;
 
         /// <summary>Gets a reference to the MUDS ItemManager which contains a global list of all items.</summary>
@@ -44,14 +38,10 @@ namespace WheelMUD.Interfaces
         /// <summary>Gets the ares contained within the world.</summary>
         Dictionary<long, Thing> Areas { get; }
 
-        /// <summary>
-        /// Load the whole world.
-        /// </summary>
+        /// <summary>Load the whole world.</summary>
         void Load();
 
-        /// <summary>
-        /// Searches areas for a given room and returns it if found.
-        /// </summary>
+        /// <summary>Searches areas for a given room and returns it if found.</summary>
         /// <param name="roomId">The room ID to search for.</param>
         /// <returns>The Room with that ID.</returns>
         Thing FindRoom(long roomId);
@@ -62,9 +52,7 @@ namespace WheelMUD.Interfaces
 /*
 namespace WheelMUD.Interfaces
 {
-    /// <summary>
-    /// An interface defining a TimeSystem.
-    /// </summary>
+    /// <summary>An interface defining a TimeSystem.</summary>
     public interface ITimeSystem : ISystem
     {
         /// <summary>Gets the current time.</summary>
@@ -89,9 +77,7 @@ namespace WheelMUD.Interfaces
 /*
 namespace WheelMUD.Interfaces
 {
-    /// <summary>
-    /// An interface that describes a Player.
-    /// </summary>
+    /// <summary>An interface that describes a Player.</summary>
     public interface IPlayer : IEntity
     {
         /// <summary>Gets or sets the player's suffix.</summary>
@@ -116,15 +102,10 @@ namespace WheelMUD.Interfaces
 /*
 namespace WheelMUD.Universe.Beings
 {
-    /// <summary>
-    /// The Player class, represents a player within the World.
-    /// </summary>
+    /// <summary>The Player class, represents a player within the World.</summary>
     public class Player
     {
-
-        /// <summary>
-        /// Determine whether or not the specified action is valid for this player.
-        /// </summary>
+        /// <summary>Determine whether or not the specified action is valid for this player.</summary>
         /// <param name="actionInput">The action input to check for validity.</param>
         /// <returns>True if the action is valid, else false.</returns>
         public override bool IsActionValid(ActionInput actionInput)
@@ -141,9 +122,7 @@ namespace WheelMUD.Universe.Beings
             return false;
         }
 
-        /// <summary>
-        /// Updates the list that contains the role names.
-        /// </summary>
+        /// <summary>Updates the list that contains the role names.</summary>
         public void UpdateRoles()
         {
             this.Roles.Clear();
@@ -154,10 +133,8 @@ namespace WheelMUD.Universe.Beings
             }
         }
 
-        /// <summary>
-        /// Load this player.
-@@@ TODO: This should all happen at the base Thing and Behavior (for PlayerBehavior or whatnot)
-        /// </summary>
+        /// <summary>Load this player.</summary>
+        /// <remarks>@@@ TODO: This should all happen at the base Thing and Behavior (for PlayerBehavior or whatnot)</remarks>
         /// <param name="repository"> The player repository.</param>
         private void LoadChildObjects(PlayerRepository repository)
         {
@@ -221,9 +198,7 @@ namespace WheelMUD.Universe.Beings
             }
         }
 
-        /// <summary>
-        /// Finds a player role record in the supplied collection by roleid
-        /// </summary>
+        /// <summary>Finds a player role record in the supplied collection by roleid.</summary>
         /// <param name="roleIdToFind">RoleID to find</param>
         /// <param name="roleRecords">Collection of role records</param>
         /// <returns>Found PlayerRoleRecord</returns>
@@ -246,9 +221,7 @@ namespace WheelMUD.Universe.Beings
 /*
 namespace WheelMUD.Universe.Places
 {
-    /// <summary>
-    /// Representation of the world.
-    /// </summary>
+    /// <summary>Representation of the world.</summary>
     public class OLD_World : Thing
     {
         /// <summary>The dictionary of all exits in the world.</summary>
@@ -257,9 +230,7 @@ namespace WheelMUD.Universe.Places
         /// <summary>The time system.</summary>
         //private TimeSystem timeSystem;
 
-        /// <summary>
-        /// Initializes a new instance of the World class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the World class.</summary>
         /// <param name="itemManager">The item manager.</param>
         public OLD_World(ItemManager itemManager)
         {
@@ -285,9 +256,7 @@ namespace WheelMUD.Universe.Places
         /// <summary>Gets the dictionary of all areas within the world.</summary>
         public Dictionary<long, Thing> Areas { get; private set; }
 
-        /// <summary>
-        /// Loads the world
-        /// </summary>
+        /// <summary>Loads the world.</summary>
         /// <param name="itemManager"> The item Manager.</param>
         /// <returns> A loaded world object </returns>
         public static Thing Load(ItemManager itemManager)
@@ -355,9 +324,7 @@ namespace WheelMUD.Universe.Places
             //this.timeSystem.Start();
         }
 
-        /// <summary>
-        /// Area reaction event handler.
-        /// </summary>
+        /// <summary>Area reaction event handler.</summary>
         /// <param name="command">The scripting command being reacted to.</param>
         private void Area_OnReactionEvent(ScriptingCommand command)
         {
@@ -373,18 +340,13 @@ namespace WheelMUD.Universe.Places
 /*
 namespace WheelMUD.Effects
 {
-    /// <summary>
-    /// Effect base class.
-    /// </summary>
+    /// <summary>Effect base class.</summary>
     public abstract class EffectBase : IEffect
     {
         /// <summary>The time the effect completes.</summary>
         private DateTime completesAt;
 
-        /// <summary>
-        /// The event that is raised to signal back that the effect has expired and
-        /// needs to be removed from the collection.
-        /// </summary>
+        /// <summary>The event that is raised to signal back that the effect has expired and needs to be removed from the collection.</summary>
         public event EffectElapsedEventHandler EffectElapsed;
 
         /// <summary>Gets or sets the host that this effect is going to apply to.</summary>
@@ -407,9 +369,7 @@ namespace WheelMUD.Effects
             }
         }
 
-        /// <summary>
-        /// Gets or sets the duration.
-        /// </summary>
+        /// <summary>Gets or sets the duration.</summary>
         /// <value>The duration.</value>
         protected Timer Duration { get; set; }
 
@@ -426,11 +386,8 @@ namespace WheelMUD.Effects
             return true;
         }
 
-        /// <summary>
-        /// Begins this effect's effect.
-        /// This can be used to increase stats or whatever.
-        /// Always call the base when overriding.
-        /// </summary>
+        /// <summary>Begins this effect's effect.</summary>
+        /// <remarks>This can be used to increase stats or whatever. Always call the base when overriding.</remarks>
         /// <param name="duration">The duration for the effect.</param>
         public virtual void Apply(TimeSpan duration)
         {
@@ -438,21 +395,15 @@ namespace WheelMUD.Effects
             this.completesAt = DateTime.Now.Add(duration);
         }
 
-        /// <summary>
-        /// The method that is called when an effect is to be removed.
-        /// It is effectively the cleanup operation IE reduce stats to normal level.
-        /// </summary>
+        /// <summary>The method that is called when an effect is to be removed.</summary>
+        /// <remarks>It is effectively the cleanup operation IE reduce stats to normal level.</remarks>
         public abstract void Remove();
 
-        /// <summary>
-        /// Called when the effect expires.
-        /// </summary>
+        /// <summary>Called when the effect expires.</summary>
         /// <param name="state">@@@ What is this?</param>
         protected abstract void TickElapsed(object state);
 
-        /// <summary>
-        /// Raises the Effect Elapsed event
-        /// </summary>
+        /// <summary>Raises the Effect Elapsed event.</summary>
         protected void RaiseEffectElapsed()
         {
             this.Duration.Change(Timeout.Infinite, Timeout.Infinite);
@@ -469,9 +420,7 @@ namespace WheelMUD.Effects
 /*
 namespace WheelMUD.Effects
 {
-    /// <summary>
-    /// The effects manager manages the effects that a "thing" can currently have influencing them.
-    /// </summary>
+    /// <summary>The effects manager manages the effects that a "thing" can currently have influencing them.</summary>
     public class EffectsManager
     {
         /// <summary>The host that this effects manager is attached to.</summary>
@@ -486,39 +435,28 @@ namespace WheelMUD.Effects
         /// <summary>The synchronization locking object.</summary>
         private readonly object lockObject = new object();
 
-        /// <summary>
-        /// Initializes static members of the EffectsManager class.
-        /// </summary>
+        /// <summary>Initializes static members of the EffectsManager class.</summary>
         static EffectsManager()
         {
             GatherEffects();
         }
 
-        /// <summary>
-        /// Initializes a new instance of the EffectsManager class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the EffectsManager class.</summary>
         /// <param name="thing">The host of the effects manager.</param>
         public EffectsManager(Thing thing)
         {
             this.host = thing;
         }
 
-        /// <summary>
-        /// Gets the count of the number of effects effecting this Thing.
-        /// </summary>
+        /// <summary>Gets the count of the number of effects effecting this Thing.</summary>
         /// <returns>The number of effects in the effects manager.</returns>
         public int Count
         {
             get { return this.effects.Count; }
         }
 
-        /// <summary>
-        /// Tries to create a new effect and add it to the collection of effects applied to this thing.
-        /// </summary>
-        /// <remarks>
-        /// Modeled after the .NET framework pattern for methods that may fail, e.g. int.TryParse and 
-        /// Dictionary.TryGetValue
-        /// </remarks>
+        /// <summary>Tries to create a new effect and add it to the collection of effects applied to this thing.</summary>
+        /// <remarks>Modeled after the .NET framework pattern for methods that may fail, e.g. int.TryParse and Dictionary.TryGetValue.</remarks>
         /// <typeparam name="T">The type of the effect to be created.</typeparam>
         /// <param name="creator">The creator of the effect.</param>
         /// <param name="effect">An instance of the requested effect or null, if the effect is not allowed.</param>
@@ -556,9 +494,7 @@ namespace WheelMUD.Effects
             throw new Exception("The requested effect is not available");
         }
 
-        /// <summary>
-        /// Gathers the different effects in the project into a collection so we can use them.
-        /// </summary>
+        /// <summary>Gathers the different effects in the project into a collection so we can use them.</summary>
         private static void GatherEffects()
         {
             Assembly effectsDll = Assembly.GetAssembly(typeof(EffectsManager));
@@ -574,19 +510,15 @@ namespace WheelMUD.Effects
             }
         }
 
-        /// <summary>
-        /// Removes an effect when it has elapsed
-        /// </summary>
-        /// <param name="effect">The effect to remove</param>
+        /// <summary>Removes an effect when it has elapsed</summary>
+        /// <param name="effect">The effect to remove.</param>
         private void EffectElapsed(IEffect effect)
         {
             this.CancelEffect(effect);
         }
 
-        /// <summary>
-        /// Cancels an effect
-        /// </summary>
-        /// <param name="effect">The effect to cancel</param>
+        /// <summary>Cancels an effect.</summary>
+        /// <param name="effect">The effect to cancel.</param>
         private void CancelEffect(IEffect effect)
         {
             lock (this.lockObject)
@@ -602,15 +534,10 @@ namespace WheelMUD.Effects
  * http://www.wheelmud.net/Forums/tabid/59/aff/14/aft/604/afv/topic/afpgj/1/Default.aspx
 namespace WheelMUD.EventReactions
 {
-    /// <summary>
-    /// Example of a reaction script, this sucks the player that
-    /// opened a door out of the room and through the exit.
-    /// </summary>
+    /// <summary>Example of a reaction script, this sucks the player that opened a door out of the room and through the exit.</summary>
     public class DoorOpenReaction : IEventReaction
     {
-        /// <summary>
-        /// The main execution point for reacting to an event.
-        /// </summary>
+        /// <summary>The main execution point for reacting to an event.</summary>
         /// <param name="theEvent">The event to react to</param>
         /// <param name="sender">The thing executing this reaction</param>
         public void Execute(IEvent theEvent, Thing sender)
@@ -662,12 +589,10 @@ namespace WheelMUD.EventReactions
             ////}
         }
 
-        /// <summary>
-        /// Gets the direction of the exit passed in relation to the player
-        /// </summary>
-        /// <param name="player">The player we are checking</param>
-        /// <param name="exit">The exit we are checking</param>
-        /// <returns>A string containing the direction of the exit</returns>
+        /// <summary>Gets the direction of the exit passed in relation to the player.</summary>
+        /// <param name="player">The player we are checking.</param>
+        /// <param name="exit">The exit we are checking.</param>
+        /// <returns>A string containing the direction of the exit.</returns>
         private static string GetDirectionOfExit(Thing player, Thing exit)
         {
             // @@@ FIX?
@@ -686,268 +611,16 @@ namespace WheelMUD.EventReactions
 */
 
 // Removed ShortGuid.cs:
-/*
-namespace WheelMUD.Utilities
-{
-    /// <summary>
-    /// Represents a globally unique identifier (GUID) with a 
-    /// shorter string value.
-    /// Original source code found here:
-    /// http://www.singular.co.nz/blog/archive/2007/12/20/shortguid-a-shorter-and-url-friendly-guid-in-c-sharp.aspx 
-    /// </summary>
-    public struct ShortGuid
-    {
-        /// <summary>
-        /// A read-only instance of the ShortGuid class whose value 
-        /// is guaranteed to be all zeroes. 
-        /// </summary>
-        public static readonly ShortGuid Empty = new ShortGuid(Guid.Empty);
-
-        /// <summary>The generic universal ID.</summary>
-        private Guid guid;
-        
-        /// <summary>The value.</summary>
-        private string value;
-
-        /// <summary>
-        /// Initializes a new instance of the ShortGuid struct from a base64 encoded string
-        /// </summary>
-        /// <param name="value">The encoded guid as a base64 string</param>
-        public ShortGuid(string value)
-        {
-            this.value = value;
-            this.guid = Decode(value);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the ShortGuid struct from a Guid.
-        /// </summary>
-        /// <param name="guid">The Guid to encode</param>
-        public ShortGuid(Guid guid)
-        {
-            this.value = Encode(guid);
-            this.guid = guid;
-        }
-
-        /// <summary>
-        /// Gets or sets the underlying Guid
-        /// </summary>
-        public Guid Guid
-        {
-            get
-            {
-                return this.guid;
-            }
-            
-            set
-            {
-                if (value != this.guid)
-                {
-                    this.guid = value;
-                    this.value = Encode(value);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the underlying base64 encoded string
-        /// </summary>
-        public string Value
-        {
-            get
-            {
-                return this.value;
-            }
-            
-            set
-            {
-                if (value != this.value)
-                {
-                    this.value = value;
-                    this.guid = Decode(value);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Initialises a new instance of the ShortGuid class
-        /// </summary>
-        /// <returns>A new ShortGuid.</returns>
-        public static ShortGuid NewGuid()
-        {
-            return new ShortGuid(Guid.NewGuid());
-        }
-
-        /// <summary>
-        /// Creates a new instance of a Guid using the string value, 
-        /// then returns the base64 encoded version of the Guid.
-        /// </summary>
-        /// <param name="value">An actual Guid string (i.e. not a ShortGuid)</param>
-        /// <returns>The encoded GUID.</returns>
-        public static string Encode(string value)
-        {
-            Guid guid = new Guid(value);
-            return Encode(guid);
-        }
-
-        /// <summary>
-        /// Encodes the given Guid as a base64 string that is 22 
-        /// characters long.
-        /// </summary>
-        /// <param name="guid">The Guid to encode</param>
-        /// <returns>The encoded Guid.</returns>
-        public static string Encode(Guid guid)
-        {
-            string encoded = Convert.ToBase64String(guid.ToByteArray());
-            encoded = encoded
-                .Replace("/", "_")
-                .Replace("+", "-");
-            return encoded.Substring(0, 22);
-        }
-
-        /// <summary>
-        /// Decodes the given base64 string
-        /// </summary>
-        /// <param name="value">The base64 encoded string of a Guid</param>
-        /// <returns>A new Guid</returns>
-        public static Guid Decode(string value)
-        {
-            value = value
-                .Replace("_", "/")
-                .Replace("-", "+");
-            byte[] buffer = Convert.FromBase64String(value + "==");
-            return new Guid(buffer);
-        }
-
-        /// <summary>
-        /// Determines if both ShortGuids have the same underlying 
-        /// Guid value.
-        /// </summary>
-        /// <param name="x">One ShortGuid.</param>
-        /// <param name="y">Another ShortGuid.</param>
-        /// <returns>True if x == y, else false.</returns>
-        public static bool operator ==(ShortGuid x, ShortGuid y)
-        {
-            if ((object)x == null)
-            {
-                return (object)y == null;
-            }
-            
-            return x.guid == y.guid;
-        }
-
-        /// <summary>
-        /// Determines if both ShortGuids do not have the 
-        /// same underlying Guid value.
-        /// </summary>
-        /// <param name="x">One ShortGuid.</param>
-        /// <param name="y">Another ShortGuid.</param>
-        /// <returns>True if x != y, else false.</returns>
-        public static bool operator !=(ShortGuid x, ShortGuid y)
-        {
-            return !(x == y);
-        }
-
-        /// <summary>
-        /// Implicitly converts the ShortGuid to it's string equivilent
-        /// </summary>
-        /// <param name="shortGuid">The short generic universal ID.</param>
-        /// <returns></returns>
-        public static implicit operator string(ShortGuid shortGuid)
-        {
-            return shortGuid.value;
-        }
-
-        /// <summary>
-        /// Implicitly converts the ShortGuid to it's Guid equivilent
-        /// </summary>
-        /// <param name="shortGuid">The short generic universal ID.</param>
-        /// <returns></returns>
-        public static implicit operator Guid(ShortGuid shortGuid)
-        {
-            return shortGuid.guid;
-        }
-
-        /// <summary>
-        /// Implicitly converts the string to a ShortGuid
-        /// </summary>
-        /// <param name="shortGuid">The short generic universal ID.</param>
-        /// <returns></returns>
-        public static implicit operator ShortGuid(string shortGuid)
-        {
-            return new ShortGuid(shortGuid);
-        }
-
-        /// <summary>
-        /// Implicitly converts the Guid to a ShortGuid 
-        /// </summary>
-        /// <param name="guid">The generic universal ID.</param>
-        /// <returns>A new ShortGuid based on the Guid.</returns>
-        public static implicit operator ShortGuid(Guid guid)
-        {
-            return new ShortGuid(guid);
-        }
-
-        /// <summary>
-        /// Returns the base64 encoded guid as a string
-        /// </summary>
-        /// <returns>The value as a string.</returns>
-        public override string ToString()
-        {
-            return this.value;
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether this instance and a 
-        /// specified Object represent the same type and value.
-        /// </summary>
-        /// <param name="obj">The object to compare</param>
-        /// <returns>True if they are equal, else false.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is ShortGuid)
-            {
-                return this.guid.Equals(((ShortGuid)obj).guid);
-            }
-            
-            if (obj is Guid)
-            {
-                return this.guid.Equals((Guid)obj);
-            }
-            
-            if (obj is string)
-            {
-                return this.guid.Equals(((ShortGuid)obj).guid);
-            }
-            
-            return false;
-        }
-
-        /// <summary>
-        /// Returns the HashCode for underlying Guid.
-        /// </summary>
-        /// <returns>The HashCode for underlying Guid.</returns>
-        public override int GetHashCode()
-        {
-            return this.guid.GetHashCode();
-        }
-    }
-}
-*/
+//   Original source: http://www.singular.co.nz/blog/archive/2007/12/20/shortguid-a-shorter-and-url-friendly-guid-in-c-sharp.aspx
 
 // Removed Item.cs:
 /*
 namespace WheelMUD.Universe
 {
-    /// <summary>
-    /// The base class for an item, an item can inherit from this object rather than
-    /// implement Item and then override bits.
-    /// </summary>
+    /// <summary>The base class for an item, an item can inherit from this object rather than implement Item and then override bits.</summary>
     public class Item : Thing
     {
-        /// <summary>
-        /// Initializes a new instance of the Item class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the Item class.</summary>
         public Item()
             : base()
         {
@@ -960,9 +633,7 @@ namespace WheelMUD.Universe
             this.PluralSuffix = "s";
         }
 
-        /// <summary>
-        /// Initializes a new instance of the Item class, based on the specified item template.
-        /// </summary>
+        /// <summary>Initializes a new instance of the Item class, based on the specified item template.</summary>
         /// <param name="itemTemplateID">The item template whose data we are to base the item upon.</param>
         protected Item(long itemTemplateID)
             : this()
@@ -979,9 +650,7 @@ namespace WheelMUD.Universe
         }
 
         /* @@@ TODO Make base thing save then extract this example
-        /// <summary>
-        /// Saves the item record.  Written this way to make sure it isn't called directly.
-        /// </summary>
+        /// <summary>Saves the item record.  Written this way to make sure it isn't called directly.</summary>
         public override void Save()
         {
             ItemRepository itemRepository = new ItemRepository();
@@ -1012,17 +681,12 @@ namespace WheelMUD.Universe
 /* @@@ Build a RelaySenseBehavior or whatnot...
 namespace WheelMUD.EventReactions
 {
-    /// <summary>
-    /// Example of a reaction script, that simply broadcasts to entities in the room
-    /// that it has detected an event.
-    /// </summary>
+    /// <summary>Example of a reaction script, that simply broadcasts to entities in the room that it has detected an event.</summary>
     public class RelayEvent : IEventReaction
     {
-        /// <summary>
-        /// The main execution point for reacting to an event.
-        /// </summary>
-        /// <param name="theEvent">The event to react to</param>
-        /// <param name="sender">The thing executing this reaction</param>
+        /// <summary>The main execution point for reacting to an event.</summary>
+        /// <param name="theEvent">The event to react to.</param>
+        /// <param name="sender">The thing executing this reaction.</param>
         public void Execute(IEvent theEvent, Thing sender)
         {
             ////IListeningDevice device = (IListeningDevice)sender;
@@ -1053,9 +717,7 @@ namespace WheelMUD.EventReactions
 /*
 namespace WheelMUD.Universe.Things
 {
-    /// <summary>
-    /// @@@ A temporary example of an item that responds to world events.
-    /// </summary>
+    /// <summary>@@@ A temporary example of an item that responds to world events.</summary>
      @@@ TODO: Implement as a more generic RelaysSenseBehavior or whatnot...
     public class ListeningDevice : Item
     {
@@ -1065,9 +727,7 @@ namespace WheelMUD.Universe.Things
             this.OwnerName = string.Empty;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the ListeningDevice class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ListeningDevice class.</summary>
         internal ListeningDevice()
             : base(new ItemRecord()
             {
@@ -1092,9 +752,7 @@ namespace WheelMUD.Universe.Things
 /*
 namespace WheelMUD.Universe.Things
 {
-    /// <summary>
-    /// Base clasee for Stackable items.
-    /// </summary>
+    /// <summary>Base class for Stackable items.</summary>
     public abstract class StackableItem : Item, IStackableItem
     {
         /// <summary>Gets the full name of the stack of items.</summary>
@@ -1149,9 +807,7 @@ namespace WheelMUD.Universe.Things
             }
         }
 
-        /// <summary>
-        /// Determine if the specified stackable item can stack with this stackable item.
-        /// </summary>
+        /// <summary>Determine if the specified stackable item can stack with this stackable item.</summary>
         /// <param name="stackableItem">The stackable item to check for stackability.</param>
         /// <returns>True if the items can be combined/stacked, else false.</returns>
         public bool CanStack(IStackableItem stackableItem)
@@ -1165,9 +821,7 @@ namespace WheelMUD.Universe.Things
         }
 
 
-        /// <summary>
-        /// Remove an amount of items from this stack, when removing from a container.
-        /// </summary>
+        /// <summary>Remove an amount of items from this stack, when removing from a container.</summary>
         /// <param name="numberToRemove">The quantity of item to remove.</param>
         /// <returns>True if successful, else false.</returns>
         /// <remarks>ATM, if numberToRemove is greater than Count, we remove the whole stack and return success.
@@ -1190,9 +844,7 @@ namespace WheelMUD.Universe.Things
         // RemoveFromContainer() is not overrided because if no count is specified,
         // then the whole item (stack) is to be removed anyway.
 
-        /// <summary>
-        /// Splits the stack into two stacks; creating a new stack and removing part from the original.
-        /// </summary>
+        /// <summary>Splits the stack into two stacks; creating a new stack and removing part from the original.</summary>
         /// <param name="numberToSplitOff">How many items to split into the new stack.</param>
         /// <returns>The new stack of items.</returns>
         private IStackableItem SplitStack(long numberToSplitOff)
@@ -1227,17 +879,13 @@ namespace WheelMUD.Universe.Things
 /*
 namespace WheelMUD.Universe.Things
 {
-    /// <summary>
-    /// A potion item which creates effects when sipped/quaffed.
-    /// </summary>
+    /// <summary>A potion item which creates effects when sipped/quaffed.</summary>
     public class Potion : Item, ICloneableItem
     {
         /// <summary>A reference to the potion item behavior for this item.</summary>
         private PotionItemBehavior potionBehavior;
         
-        /// <summary>
-        /// Initializes a new instance of the Potion class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the Potion class.</summary>
         /// <param name="ids">The item data structure to base the new item upon.</param>
         public Potion(ItemRecord ids)
             : base(ids)
@@ -1275,9 +923,7 @@ namespace WheelMUD.Universe.Things
 /*
 namespace WheelMUD.Universe.Things
 {
-    /// <summary>
-    /// @@@ DESCRIBE
-    /// </summary>
+    /// <summary>@@@ DESCRIBE</summary>
     public class Furniture : Thing //AbstractContainer
     {
         /// <summary>Gets or sets the description of the item</summary>
@@ -1427,9 +1073,7 @@ namespace WheelMUD.Universe.Things
             }
         }
 
-        /// <summary>
-        /// Subscribe to the specified broadcaster.
-        /// </summary>
+        /// <summary>Subscribe to the specified broadcaster.</summary>
         /// <param name="broadcaster">The broadcaster to be subscribed to.</param>
         public override void Subscribe(IEventBroadcaster broadcaster)
         {
@@ -1442,9 +1086,7 @@ namespace WheelMUD.Universe.Things
             }
         }
 
-        /// <summary>
-        /// Unsubscribe from the specified broadcaster.
-        /// </summary>
+        /// <summary>Unsubscribe from the specified broadcaster.</summary>
         /// <param name="broadcaster">The broadcaster to be unsubscribed from.</param>
         public override void UnSubscribe(IEventBroadcaster broadcaster)
         {
@@ -1466,15 +1108,11 @@ namespace WheelMUD.Universe.Things
     /// <summary>A base item that can be used for bags and such.</summary>
     public class AbstractContainer : Item
     {
-        /// <summary>
-        /// Private container item behavior object
-        /// </summary>
+        /// <summary>Private container item behavior object</summary>
         private ContainerBehavior containerBehavior;
 
-        /// <summary>
-        /// Initializes a new instance of the AbstractContainer class.
-        /// </summary>
-        /// <param name="ids">Item Data Structure</param>
+        /// <summary>Initializes a new instance of the AbstractContainer class.</summary>
+        /// <param name="ids">Item Data Structure.</param>
         internal AbstractContainer(IItemDataStructure ids) :
             base(ids)
         {
@@ -1496,10 +1134,8 @@ namespace WheelMUD.Universe.Things
             }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the AbstractContainer class.
-        /// </summary>
-        /// <param name="ids">Item Data Structure</param>
+        /// <summary>Initializes a new instance of the AbstractContainer class.</summary>
+        /// <param name="ids">Item Data Structure.</param>
         internal AbstractContainer(ItemRecord ids) :
             base(ids)
         {
@@ -1581,19 +1217,14 @@ namespace WheelMUD.Universe.Things
             }
         }
 
-        /// <summary>
-        /// Returns an item from the collection
-        /// </summary>
+        /// <summary>Returns an item from the collection.</summary>
         /// <param name="index">Index of the item that is requested.</param>
-        /// <returns></returns>
         public Item this[int index]
         {
             get { return this.container[index]; }
         }
 
-        /// <summary>
-        /// Subscribe to the specified broadcaster.
-        /// </summary>
+        /// <summary>Subscribe to the specified broadcaster.</summary>
         /// <param name="broadcaster">The broadcaster to be subscribed to.</param>
         public override void Subscribe(IEventBroadcaster broadcaster)
         {
@@ -1606,9 +1237,7 @@ namespace WheelMUD.Universe.Things
             }
         }
 
-        /// <summary>
-        /// Unsubscribe from the specified broadcaster.
-        /// </summary>
+        /// <summary>Unsubscribe from the specified broadcaster.</summary>
         /// <param name="broadcaster">The broadcaster to be unsubscribed from.</param>
         public override void UnSubscribe(IEventBroadcaster broadcaster)
         {
@@ -1628,25 +1257,19 @@ namespace WheelMUD.Universe.Things
 /*
 namespace WheelMUD.Universe.Things
 {
-    /// <summary>
-    /// A consumable. @@@ TODO: Replace with Items which merely have a ConsumableBehavior.
-    /// </summary>
+    /// <summary>A consumable. @@@ TODO: Replace with Items which merely have a ConsumableBehavior.</summary>
     public class Consumable : Thing
     {
         /// <summary>The type of consumable this Thing is.</summary>
         private ConsumableType consumableType;
 
-        /// <summary>
-        /// Initializes a new instance of the Consumable class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the Consumable class.</summary>
         public Consumable()
             : base()
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the Consumable class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the Consumable class.</summary>
         /// <param name="consumableType">@@@ DESCRIBE</param>
         public Consumable(ConsumableType consumableType)
             : base()
@@ -1666,14 +1289,10 @@ namespace WheelMUD.Universe.Things
 /*
 namespace WheelMUD.Universe.Things
 {
-    /// <summary>
-    /// A tree that can be chopped for resources.
-    /// </summary>
+    /// <summary>A tree that can be chopped for resources.</summary>
     public class Tree : Thing
     {
-        /// <summary>
-        /// Initializes a new instance of the Tree class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the Tree class.</summary>
         /// <param name="numberResources">Number of resources for the tree to start with.</param>
         public Tree(int numberResources)
             : base()
@@ -1682,9 +1301,7 @@ namespace WheelMUD.Universe.Things
             this.ResourceType = string.Empty;
         }
 
-        /// <summary>
-        /// Prevents a default instance of the Tree class from being created.
-        /// </summary>
+        /// <summary>Prevents a default instance of the Tree class from being created.</summary>
         private Tree()
             : base()
         {
@@ -1705,9 +1322,7 @@ namespace WheelMUD.Universe.Things
         /// <summary>Gets the number of resources left in this tree.</summary>
         public int NumberOfResources { get; private set; }
 
-        /// <summary>
-        /// Override to stop you from picking a tree up.
-        /// </summary>
+        /// <summary>Override to stop you from picking a tree up.</summary>
         /// <returns>False to indicate you can't get this object.</returns>
         //@@@ Instead, a Tree should be given a CannotPickUpBehavior or whatnot (by default), as it 
         //    should be possible to have a potted baby Tree or whatnot that you CAN pick up.  Maybe
@@ -1717,9 +1332,7 @@ namespace WheelMUD.Universe.Things
         //    return false;
         //}
 
-        /// <summary>
-        /// Chop at the tree to extract a Consumable from it.
-        /// </summary>
+        /// <summary>Chop at the tree to extract a Consumable from it.</summary>
         /// <returns>A new instance of a Consumable that came from the tree.</returns>
         public Thing Chop()
         {
@@ -1739,14 +1352,10 @@ namespace WheelMUD.Universe.Things
 /*
 namespace WheelMUD.Universe.Things
 {
-    /// <summary>
-    /// An exit's endpoint.
-    /// </summary>
+    /// <summary>An exit's endpoint.</summary>
     public class ExitEnd : Thing
     {
-        /// <summary>
-        /// Initializes a new instance of the ExitEnd class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ExitEnd class.</summary>
         /// <param name="room">The room of thie ExitEnd.</param>
         /// <param name="direction">The direction of the ExitEnd.</param>
         public ExitEnd(Thing room, string direction)
@@ -1768,19 +1377,13 @@ namespace WheelMUD.Universe.Things
 /*
 namespace WheelMUD.Universe.Things.Locks
 {
-    /// <summary>
-    /// Single dial combination lock (like on a safe)
-    /// </summary>
+    /// <summary>Single dial combination lock (like on a safe)</summary>
     public class SingleDialCombinationLock : AbstractLock
     {
-        /// <summary>
-        /// Gets or sets the combination of Combination Entries required to unlock this lock.
-        /// </summary>
+        /// <summary>Gets or sets the combination of Combination Entries required to unlock this lock.</summary>
         public List<SingleDialCombinationEntry> Combination { get; set; }
 
-        /// <summary>
-        /// Attempt to unlock the single dial combination lock.
-        /// </summary>
+        /// <summary>Attempt to unlock the single dial combination lock.</summary>
         /// <param name="key">A string that contains the values of the dials</param>
         /// <returns>Returns true for succesful unlock, false for failure.</returns>
         public override bool AttemptUnlock(string key)
@@ -1788,9 +1391,7 @@ namespace WheelMUD.Universe.Things.Locks
             throw new System.NotImplementedException();
         }
 
-        /// <summary>
-        /// Attempt to lock the single dial combination lock.
-        /// </summary>
+        /// <summary>Attempt to lock the single dial combination lock.</summary>
         /// <param name="key">pass in the value to set the lock to as a string.</param>
         /// <returns>Returns true for success and false for failure.</returns>
         public override bool AttemptLock(string key)
@@ -1805,9 +1406,7 @@ namespace WheelMUD.Universe.Things.Locks
 /*
 namespace WheelMUD.Universe.Things.Locks
 {
-    /// <summary>
-    /// Direction to spin the dial
-    /// </summary>
+    /// <summary>Direction to spin the dial.</summary>
     public enum DialDirection
     {
         /// <summary>Dial is spun to the left (Counter Clockwise).</summary>
@@ -1817,19 +1416,13 @@ namespace WheelMUD.Universe.Things.Locks
         Right = 1
     }
 
-    /// <summary>
-    /// Single Combination value
-    /// </summary>
+    /// <summary>Single Combination value.</summary>
     public class SingleDialCombinationEntry
     {
-        /// <summary>
-        /// Gets or sets the direction to spin the dial 
-        /// </summary>
+        /// <summary>Gets or sets the direction to spin the dial.</summary>
         public DialDirection DialDirection { get; set; }
 
-        /// <summary>
-        /// Gets or sets the value that the combination must be stopped on.
-        /// </summary>
+        /// <summary>Gets or sets the value that the combination must be stopped on.</summary>
         public string CombinationValue { get; set; }
     }
 }
@@ -1839,20 +1432,13 @@ namespace WheelMUD.Universe.Things.Locks
 /*
 namespace WheelMUD.Universe.Things.Locks
 {
-    /// <summary>
-    /// A single dial in a multi dial combination lock
-    /// </summary>
+    /// <summary>A single dial in a multi dial combination lock.</summary>
     public class MultiDialDisc
     {
-        /// <summary>
-        /// Gets or sets the possible values for the dial.  Each dial can have a different
-        /// list of values.
-        /// </summary>
+        /// <summary>Gets or sets the possible values for the dial.  Each dial can have a different list of values.</summary>
         public List<string> Values { get; set; }
 
-        /// <summary>
-        /// Gets or sets the value required to unlock this dial in a multi dial combination
-        /// </summary>
+        /// <summary>Gets or sets the value required to unlock this dial in a multi dial combination.</summary>
         public string CombinationEntry { get; set; }
     }
 }
@@ -1862,19 +1448,13 @@ namespace WheelMUD.Universe.Things.Locks
 /*
 namespace WheelMUD.Universe.Things.Locks
 {
-    /// <summary>
-    /// A multiple dial combination lock like a cryptext.
-    /// </summary>
+    /// <summary>A multiple dial combination lock like a cryptext.</summary>
     public class MultiDialCombinationLock : AbstractLock
     {
-        /// <summary>
-        /// Gets or sets the collection of dials that make up the lock
-        /// </summary>
+        /// <summary>Gets or sets the collection of dials that make up the lock.</summary>
         public List<MultiDialDisc> Dials { get; set; }
 
-        /// <summary>
-        /// Attempt to unlock the multi dial combination lock.
-        /// </summary>
+        /// <summary>Attempt to unlock the multi dial combination lock.</summary>
         /// <param name="key">A string that contains the values of the dials</param>
         /// <returns>Returns true for succesful unlock, false for failure.</returns>
         public override bool AttemptUnlock(string key)
@@ -1882,9 +1462,7 @@ namespace WheelMUD.Universe.Things.Locks
             throw new System.NotImplementedException();
         }
 
-        /// <summary>
-        /// Attempt to lock the multi dial combination lock.
-        /// </summary>
+        /// <summary>Attempt to lock the multi dial combination lock.</summary>
         /// <param name="key">pass in the value to set the lock to as a string.</param>
         /// <returns>Returns true for success and false for failure.</returns>
         public override bool AttemptLock(string key)
@@ -1899,19 +1477,13 @@ namespace WheelMUD.Universe.Things.Locks
 /*
 namespace WheelMUD.Universe.Things.Locks
 {
-    /// <summary>
-    /// Typical lock where a key is insert to act on the lock.
-    /// </summary>
+    /// <summary>Typical lock where a key is insert to act on the lock.</summary>
     public class KeyLock : AbstractLock
     {
-        /// <summary>
-        /// Gets or sets the identifier for the key that goes with this lock.
-        /// </summary>
+        /// <summary>Gets or sets the identifier for the key that goes with this lock.</summary>
         public long KeyItemId { get; set; }
 
-        /// <summary>
-        /// Attempt to unlock the multi dial combination lock.
-        /// </summary>
+        /// <summary>Attempt to unlock the multi dial combination lock.</summary>
         /// <param name="key">A string that contains the values of the dials</param>
         /// <returns>Returns true for succesful unlock, false for failure.</returns>
         public override bool AttemptUnlock(string key)
@@ -1919,9 +1491,7 @@ namespace WheelMUD.Universe.Things.Locks
             throw new System.NotImplementedException();
         }
 
-        /// <summary>
-        /// Attempt to lock the multi dial combination lock.
-        /// </summary>
+        /// <summary>Attempt to lock the multi dial combination lock.</summary>
         /// <param name="key">pass in the value to set the lock to as a string.</param>
         /// <returns>Returns true for success and false for failure.</returns>
         public override bool AttemptLock(string key)
@@ -1935,14 +1505,10 @@ namespace WheelMUD.Universe.Things.Locks
 /*
 namespace WheelMUD.Universe.Things.Locks
 {
-    /// <summary>
-    /// An openable and closable door.
-    /// </summary>
+    /// <summary>An openable and closable door.</summary>
     public class Key
     {
-        /// <summary>
-        /// Gets or sets the Lock ID that this key goes with.
-        /// </summary>
+        /// <summary>Gets or sets the Lock ID that this key goes with.</summary>
         public long KeyLockItemId { get; set; }
     }
 }*/
@@ -1951,28 +1517,20 @@ namespace WheelMUD.Universe.Things.Locks
 /*
 namespace WheelMUD.Universe.Things.Locks
 {
-    /// <summary>
-    /// Base class for locks
-    /// </summary>
+    /// <summary>Base class for locks.</summary>
     /// <typeparam name="T"> Type of key </typeparam>
     /// @@@ TODO: Replace with LocksUnlocksBehavior which can attach to any Thing we wish to be lockable...
     public abstract class AbstractLock : Thing, IThingAdornment
     {
-        /// <summary>
-        /// Gets or sets a value indicating whether the lock is open or closed.
-        /// </summary>
+        /// <summary>Gets or sets a value indicating whether the lock is open or closed.</summary>
         public bool IsLocked { get; set; }
 
-        /// <summary>
-        /// Method to try to open the lock.
-        /// </summary>
+        /// <summary>Method to try to open the lock.</summary>
         /// <param name="key">Object that is to be used as a key.</param>
         /// <returns>Returns the success or failure of the attempt.</returns>
         public abstract bool AttemptUnlock(string key);
 
-        /// <summary>
-        /// Method to try to close the lock.
-        /// </summary>
+        /// <summary>Method to try to close the lock.</summary>
         /// <param name="key">Object that is to be used as a key.</param>
         /// <returns>Returns the success or failure of the attempt.</returns>
         public abstract bool AttemptLock(string key);
@@ -1984,9 +1542,7 @@ namespace WheelMUD.Universe.Things.Locks
 /* @@@ REMOVE - Enter.cs instead should suffice
 namespace WheelMUD.Actions
 {
-    /// <summary>
-    /// A command that allows a player to enter a portal item.
-    /// </summary>
+    /// <summary>A command that allows a player to enter a portal item.</summary>
     [ActionPrimaryAlias("enter portal", CommandCategory.Travel)]
     [ActionDescription("Enter a portal.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
@@ -2054,14 +1610,9 @@ namespace WheelMUD.Actions
 /* @@@ Re-implement as an AlterSenseEffect : EffectBase : Behavior w/duration
 namespace WheelMUD.Effects
 {
-    /// <summary>
-    /// Replace this with this class summary
-    /// </summary>
     public class DeafEffect : EffectBase
     {
-        /// <summary>
-        /// Applies the effect.
-        /// </summary>
+        /// <summary>Applies the effect.</summary>
         /// <param name="duration">duration of the effect</param>
         public override void Apply(TimeSpan duration)
         {
@@ -2073,17 +1624,13 @@ namespace WheelMUD.Effects
             base.Apply(duration);
         }
 
-        /// <summary>
-        /// When effect is removed, cleanup.
-        /// </summary>
+        /// <summary>When effect is removed, cleanup.</summary>
         public override void Remove()
         {
             this.RestoreHearing();
         }
 
-        /// <summary>
-        /// What occurs when timer wears off
-        /// </summary>
+        /// <summary>What occurs when timer wears off.</summary>
         /// <param name="state">Not sure what this is.</param>
         protected override void TickElapsed(object state)
         {
@@ -2091,9 +1638,7 @@ namespace WheelMUD.Effects
             RaiseEffectElapsed();
         }
 
-        /// <summary>
-        /// Turn off the changes that the effect caused.
-        /// </summary>
+        /// <summary>Turn off the changes that the effect caused.</summary>
         private void RestoreHearing()
         {
             if (this.Host.Senses.Contains(SensoryType.Hearing))
@@ -2109,9 +1654,7 @@ namespace WheelMUD.Effects
 /* @@@ Extract the useful bits...
 namespace WheelMUD.Universe.MobileBuilders
 {
-    /// <summary>
-    /// The basic guardian builder.
-    /// </summary>
+    /// <summary>The basic guardian builder.</summary>
     public class BasicGuardianBuilder : IMobileBuilder
     {
         /// <summary>The mobile data structure.</summary>
@@ -2123,19 +1666,14 @@ namespace WheelMUD.Universe.MobileBuilders
         /// <summary>The instanciated mobile.</summary>
         private Mobile mob;
 
-        /// <summary>
-        /// Initializes a new instance of the BasicGuardianBuilder class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the BasicGuardianBuilder class.</summary>
         /// <param name="mob">The mobile data structure.</param>
         public BasicGuardianBuilder(MobRecord mob)
         {
             this.mds = mob;
         }
 
-        /// <summary>
-        /// Use the Mobile constructor to create a mobile.
-        /// @@@ This seems awkward...
-        /// </summary>
+        /// <summary>Use the Mobile constructor to create a mobile. @@@ This seems awkward...</summary>
         /// <param name="args">@@@ Unused?</param>
         public void UseMobileConstructor(Dictionary<string, object> args)
         {
@@ -2143,9 +1681,7 @@ namespace WheelMUD.Universe.MobileBuilders
             this.brain.Entity = this.mob;
         }
 
-        /// <summary>
-        /// Configures the Mobile.
-        /// </summary>
+        /// <summary>Configures the Mobile.</summary>
         public void ConfigureMobile()
         {
             this.mob.Name = this.mds.Name;
@@ -2156,9 +1692,7 @@ namespace WheelMUD.Universe.MobileBuilders
             this.brain.Start();
         }
 
-        /// <summary>
-        /// Creates an instanciated Mobile.
-        /// </summary>
+        /// <summary>Creates an instanciated Mobile.</summary>
         /// <returns>The instanciated Mobile.</returns>
         public IMobile GetInstanciatedMobile()
         {
@@ -2172,14 +1706,10 @@ namespace WheelMUD.Universe.MobileBuilders
 /*
 namespace WheelMUD.Universe.MobileBuilders
 {
-    /// <summary>
-    /// A mobile director.
-    /// </summary>
+    /// <summary>A mobile director.</summary>
     public class MobileDirector
     {
-        /// <summary>
-        /// Constructs a mobile.
-        /// </summary>
+        /// <summary>Constructs a mobile.</summary>
         /// <param name="builder">The mobile builder.</param>
         /// <param name="args">The arguments.</param>
         public void Construct(IMobileBuilder builder, Dictionary<string, object> args)
@@ -2194,14 +1724,10 @@ namespace WheelMUD.Universe.MobileBuilders
 /*
 namespace WheelMUD.Universe.MobileBuilders
 {
-    /// <summary>
-    /// The mobile builder controller class.
-    /// </summary>
+    /// <summary>The mobile builder controller class.</summary>
     public class MobileBuilderController
     {
-        /// <summary>
-        /// Creates a collection of mobs for the specified room.
-        /// </summary>
+        /// <summary>Creates a collection of mobs for the specified room.</summary>
         /// <param name="roomId">The room ID.</param>
         /// <returns>An entity collection of mobiles.</returns>
         public EntityCollection GetMobsForRoom(long roomId)
@@ -2213,9 +1739,7 @@ namespace WheelMUD.Universe.MobileBuilders
             return mobiles;
         }
 
-        /// <summary>
-        /// Processes an enumerable list of mobile data structures.
-        /// </summary>
+        /// <summary>Processes an enumerable list of mobile data structures.</summary>
         /// <param name="mobs">The enumerable list of mobiles.</param>
         /// <param name="mobList">The entity container of mobiles.</param>
         private static void ProcessMobList(IEnumerable<MobRecord> mobs, IEntityContainer mobList)
@@ -2242,30 +1766,22 @@ namespace WheelMUD.Universe.MobileBuilders
 /* REMOVED FROM IEventObserver.cs:
 public interface IEventObserver
 {
-    /// <summary>
-    /// Subscribes the observer to a broadcaster
-    /// </summary>
+    /// <summary>Subscribes the observer to a broadcaster.</summary>
     /// <param name="broadcaster">The broadcaster to subscribe to</param>
     void Subscribe(IEventBroadcaster broadcaster);
 
-    /// <summary>
-    /// Unsubscribes the observer from a broadcaster
-    /// </summary>
+    /// <summary>Unsubscribes the observer from a broadcaster.</summary>
     /// <param name="broadcaster">The broadcaster to unsubscribe from</param>
     void UnSubscribe(IEventBroadcaster broadcaster);
 
-    /// <summary>
-    /// The entry point for a broadcaster to update this observer with an event
-    /// </summary>
-    /// <param name="theEvent">The event to pass to the observer</param>
+    /// <summary>The entry point for a broadcaster to update this observer with an event.</summary>
+    /// <param name="theEvent">The event to pass to the observer.</param>
     void Receive(IEvent theEvent);
 }*/
 
 /* REMOVED FROM Thing.cs: Need to re-implement Adornments through something like AdornmentBehavior
  *                        which has a Thing sub-property or whatnot.
-        /// <summary>
-        /// Method that will go through all adornments and save them.
-        /// </summary>
+        /// <summary>Method that will go through all adornments and save them.</summary>
         protected void SaveAdornments()
         {
             foreach (IThingAdornment adornment in this.adornments)
@@ -2281,16 +1797,12 @@ public interface IEventObserver
         }
         /// <summary>Items that are separate, but act as part of the parent.</summary>
         private List<IThingAdornment> adornments = new List<IThingAdornment>();
-        /// <summary>
-        /// Gets or sets a value indicating whether this item is an adornment.
-        /// </summary>
+        /// <summary>Gets or sets a value indicating whether this item is an adornment.</summary>
         public bool IsAdornment { get; set; }
 */
 
 /* REMOVED FROM Mobile.cs:
-    /// <summary>
-    /// A mobile entity.
-    /// </summary>
+    /// <summary>A mobile entity.</summary>
     public class Mobile : Entity
     {
         /// <summary>The synchronization locking object.</summary>
@@ -2299,9 +1811,7 @@ public interface IEventObserver
         /// <summary>The data record for this mobile.</summary>
         private readonly MobRecord DataRecord = new MobRecord();
 
-        /// <summary>
-        /// Initializes a new instance of the Mobile class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the Mobile class.</summary>
         /// <param name="controller">The controller of the mobile.</param>
         /// <param name="world">Representation of the world.</param>
         /// <param name="mobDataRecord">The mob attributes loaded from the database.</param>
@@ -2317,9 +1827,7 @@ public interface IEventObserver
 */
 
 /* REMOVED FROM ItemBehaviorManager.cs:
-        /// <summary>
-        /// Saves the item behaviors
-        /// </summary>
+        /// <summary>Saves the item behaviors</summary>
         public override void Save()
         {
             // Save the Item Behaviors

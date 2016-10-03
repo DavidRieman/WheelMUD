@@ -25,9 +25,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Effects;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// @@@ A temporary command to attempt some combat.
-    /// </summary>
+    /// <summary>@@@ A temporary command to attempt some combat.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("punch", CommandCategory.Temporary)]
     [ActionDescription("@@@ Temp command.")]

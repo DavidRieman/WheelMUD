@@ -14,9 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to lock a door or unlock a container.
-    /// </summary>
+    /// <summary>An action to lock a door or unlock a container.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("lock", CommandCategory.Travel | CommandCategory.Item)]
     [ActionDescription("Lock a door or unlock a container.")]

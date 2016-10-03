@@ -27,7 +27,7 @@ namespace WheelMUD.Core.Output
         /// if it is then it splits the text and returns the first portion. The rest of the
         /// text is passed back to the calling code in the out parameter BufferedText
         /// </summary>
-        /// <param name="originalText">The text to parse</param>
+        /// <param name="originalText">The text to parse.</param>
         /// <returns>Text that conforms to the buffer specified.</returns>
         public static string[] Parse(string originalText)
         {
@@ -41,7 +41,7 @@ namespace WheelMUD.Core.Output
         /// if it is then it splits the text and returns the first portion. The rest of the
         /// text is passed back to the calling code in the out parameter BufferedText
         /// </summary>
-        /// <param name="bufferLines">The text to parse</param>
+        /// <param name="bufferLines">The text to parse.</param>
         /// <param name="appendLastLineFeed">Indicates if the last line should be appended with crlf.</param>
         /// <param name="appendOverflowIndicator">Indicates if the last line should be appended with the more indicator.</param>
         /// <param name="currentPosition">Current position in the list.</param>

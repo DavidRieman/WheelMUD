@@ -18,37 +18,25 @@ namespace WheelMUD.Core
     using WheelMUD.Data.Entities;
     using WheelMUD.Data.Repositories;
 
-    /// <summary>
-    /// Represents a room in the MUD.
-    /// </summary>
+    /// <summary>Represents a room in the MUD.</summary>
     public class RoomBehavior : Behavior
     {
         /// <summary>Info on exits which still need to be rigged to a secondary room/Thing, once said Thing is loaded.</summary>
         private static List<PendingExitRigging> pendingExitRiggings = new List<PendingExitRigging>();
 
-        /// <summary>
-        /// Collection of room visuals.
-        /// Keys are the visual item names, and values are the descriptions shown to players when they look at the visuals.
-        /// </summary>
+        /// <summary>Collection of room visuals.</summary>
+        /// <remarks>Keys are the visual item names, and values are the descriptions shown to players when they look at the visuals.</remarks>
         private Dictionary<string, string> visuals = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-        /// <summary>
-        /// Initializes a new instance of the RoomBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the RoomBehavior class.</summary>
         public RoomBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the RoomBehavior class.
-        /// </summary>
-        /// <param name="instanceId">
-        /// The instance ID.
-        /// </param>
-        /// <param name="instanceProperties">
-        /// The dictionary of propertyNames-propertyValues for this behavior instance.
-        /// </param>
+        /// <summary>Initializes a new instance of the RoomBehavior class.</summary>
+        /// <param name="instanceId">The instance ID.</param>
+        /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public RoomBehavior(long instanceId, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
@@ -81,9 +69,7 @@ namespace WheelMUD.Core
             return matches.FirstOrDefault();
         }
 
-        /// <summary>
-        /// Loads the exits for this room behavior.
-        /// </summary>
+        /// <summary>Loads the exits for this room behavior.</summary>
         public void Load()
         {
             var roomRepository = new RoomRepository();
@@ -150,16 +136,12 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
         }
 
-        /// <summary>
-        /// Find pending exit riggings which are meant to be added to the specified unique Thing ID.
-        /// </summary>
+        /// <summary>Find pending exit riggings which are meant to be added to the specified unique Thing ID.</summary>
         /// <param name="matchID">The unique thing ID looking for matches.</param>
         /// <returns>All matching pending exit riggings intended for the specified unique ID.</returns>
         private IEnumerable<PendingExitRigging> FindMatchedPendingExitRiggings(string matchID)
@@ -169,9 +151,7 @@ namespace WheelMUD.Core
                     select r).ToList();
         }
 
-        /// <summary>
-        /// Information about an Exit which still needs to be rigged to an additional room/Thing.
-        /// </summary>
+        /// <summary>Information about an Exit which still needs to be rigged to an additional room/Thing.</summary>
         private class PendingExitRigging
         {
             /// <summary>Gets or sets the Thing which needs to be rigged up to another room (or other Thing).</summary>

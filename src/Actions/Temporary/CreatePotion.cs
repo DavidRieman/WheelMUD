@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
     using WheelMUD.Universe;
 
-    /// <summary>
-    /// A command that allows an admin to create a potion.
-    /// </summary>
+    /// <summary>A command that allows an admin to create a potion.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("create potion", CommandCategory.Admin)]
     [ActionDescription("@@@ Temp command.")]

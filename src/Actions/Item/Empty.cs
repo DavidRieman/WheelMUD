@@ -21,9 +21,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
     using WheelMUD.Universe;
 
-    /// <summary>
-    /// An action to empty a liquid container.
-    /// </summary>
+    /// <summary>An action to empty a liquid container.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("empty", CommandCategory.Item)]
     [ActionAlias("pour out", CommandCategory.Item)]

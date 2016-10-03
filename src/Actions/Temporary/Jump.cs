@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// Action description here.
-    /// </summary>
+    /// <summary>Action for the actor to jump.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("jump", CommandCategory.Temporary)]
     [ActionDescription("@@@ Temp command.")]

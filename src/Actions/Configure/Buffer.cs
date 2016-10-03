@@ -12,14 +12,11 @@
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
-    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// An action to get or set your command prompt display.
-    /// </summary>
+    /// <summary>An action to get or set your command prompt display.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("buffer", CommandCategory.Configure)]
     [ActionDescription("Sets the maximum number of lines to send before pausing.")]
@@ -33,32 +30,20 @@ namespace WheelMUD.Actions
             CommonGuards.InitiatorMustBeAPlayer
         };
 
-        /// <summary>
-        /// Sender of the command.
-        /// </summary>
+        /// <summary>Sender of the command.</summary>
         private IController sender;
 
-        /// <summary>
-        /// Sender of the command, in the form of a Session object.
-        /// </summary>
+        /// <summary>Sender of the command, in the form of a Session object.</summary>
         private Session session;
 
-        /// <summary>
-        /// Behavior associated with connected users.
-        /// </summary>
+        /// <summary>Behavior associated with connected users.</summary>
         private UserControlledBehavior userControlledBehavior;
 
-        /// <summary>
-        /// The new buffer length, if one was provided by the sender.
-        /// Defaults to 0, and can be 0 if parsing failed, so be sure to
-        /// check whether <see cref="parseSucceeded"/>.
-        /// </summary>
+        /// <summary>The new buffer length, if one was provided by the sender.</summary>
+        /// <remarks>Defaults to 0, and can be 0 if parsing failed; be sure to check whether <see cref="parseSucceeded"/>.</remarks>
         private int parsedBufferLength;
 
-        /// <summary>
-        /// This will be true if the submitted buffer length was the string "auto" or
-        /// was successfully parsed as an integer. 
-        /// </summary>
+        /// <summary>This will be true if the submitted buffer length was the string "auto" or was successfully parsed as an integer.</summary>
         private bool parseSucceeded;
 
         /// <summary>Executes the command.</summary>
@@ -113,10 +98,8 @@ namespace WheelMUD.Actions
             return null;
         }
 
-        /// <summary>
-        /// Pre-process the important bits of input and store in private fields, so they
-        /// will be available for validation and the main execute method.
-        /// </summary>
+        /// <summary>Pre-process the important bits of input and store in private fields.</summary>
+        /// <remarks>This allows the input to be available for validation and the main execute method.</remarks>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         private void PreprocessInput(ActionInput actionInput)
         {
@@ -173,10 +156,7 @@ namespace WheelMUD.Actions
             return int.TryParse(str, out bufferLength);
         }
 
-        /// <summary>
-        /// Displays the current buffer length to the user, handling the special case of
-        /// "auto" instead of -1.
-        /// </summary>
+        /// <summary>Displays the current buffer length to the user, handling the special case of "auto" instead of -1.</summary>
         private void ShowCurrentBuffer()
         {
             if (this.userControlledBehavior.PagingRowLimit == -1)

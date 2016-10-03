@@ -15,14 +15,10 @@ namespace WheelMUD.Core
     using System.Reflection;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// Base object representing a command that can be executed by the command executor.
-    /// </summary>
+    /// <summary>Base object representing a command that can be executed by the command executor.</summary>
     public class Command
     {
-        /// <summary>
-        /// Initializes a new instance of the Command class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the Command class.</summary>
         /// <param name="type">The type of the command.</param>
         /// <param name="description">The description of the command.</param>
         /// <param name="example">An usage example for this command.</param>
@@ -40,9 +36,7 @@ namespace WheelMUD.Core
             this.SecurityRole = securityRole;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the Command class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the Command class.</summary>
         /// <param name="type">The type of the command.</param>
         /// <param name="securityRole">The security role of this command.</param>
         public Command(Type type, SecurityRole securityRole)

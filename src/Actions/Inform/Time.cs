@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command to see the current in-game and server times.
-    /// </summary>
+    /// <summary>A command to see the current in-game and server times.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("time", CommandCategory.Inform)]
     [ActionAlias("clock", CommandCategory.Inform)]

@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// An action to knock on a door.
-    /// </summary>
+    /// <summary>An action to knock on a door.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("knock", CommandCategory.Travel)]
     [ActionDescription("Knock on a door.")]

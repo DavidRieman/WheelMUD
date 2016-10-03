@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to remove a worn, wielded, or held item.
-    /// </summary>
+    /// <summary>An action to remove a worn, wielded, or held item.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("remove", CommandCategory.Item)]
     [ActionAlias("take off", CommandCategory.Item)]

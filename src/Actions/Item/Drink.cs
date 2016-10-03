@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
     using WheelMUD.Universe;
 
-    /// <summary>
-    /// A command script to allow the drinking of "drinkable" items.
-    /// </summary>
+    /// <summary>A command script to allow the drinking of "drinkable" items.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("drink", CommandCategory.Item)]
     [ActionAlias("sip", CommandCategory.Item)]

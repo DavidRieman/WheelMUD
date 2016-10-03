@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Effects;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// @@@ Temporary script to test the stat effects.
-    /// </summary>
+    /// <summary>@@@ Temporary script to test the stat effects.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("increase stat", CommandCategory.Admin)]
     [ActionAlias("increasestat", CommandCategory.Admin)]

@@ -9,18 +9,14 @@
 
 namespace WheelMUD.Actions.Travel
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Behaviors;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// An action to start following another player or mobile whenever they move.
-    /// </summary>
+    /// <summary>An action to start following another player or mobile whenever they move.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("follow", CommandCategory.Travel)]
     [ActionDescription("Begin following a friend or foe whenever they move.")]
@@ -30,7 +26,7 @@ namespace WheelMUD.Actions.Travel
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile
@@ -143,10 +139,8 @@ namespace WheelMUD.Actions.Travel
             return null;
         }
 
-        /// <summary>
-        /// Shows who is currently following the player, and who the player is following.
-        /// TODO: Replace the sender.Write() calls with something more general, e.g. an event.
-        /// </summary>
+        /// <summary>Shows who is currently following the player, and who the player is following.</summary>
+        /// <remarks>TODO: Replace the sender.Write() calls with something more general, e.g. an event.</remarks>
         /// <param name="actionInput">The action input.</param>
         private void ShowStatus(ActionInput actionInput)
         {

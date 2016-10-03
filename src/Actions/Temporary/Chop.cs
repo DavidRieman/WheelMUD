@@ -27,9 +27,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// A command to chop at a tree.
-    /// </summary>
+    /// <summary>A command to chop at a tree.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("chop", CommandCategory.Temporary)]
     [ActionDescription("@@@ Temp command.")]

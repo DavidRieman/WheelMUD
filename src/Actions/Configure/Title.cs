@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command to set a player's title.
-    /// </summary>
+    /// <summary>A command to set a player's title.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("title", CommandCategory.Player)]
     [ActionAlias("set title", CommandCategory.Player)]

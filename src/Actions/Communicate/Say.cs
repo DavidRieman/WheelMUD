@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// Communicate with others in the same location.
-    /// </summary>
+    /// <summary>Communicate with others in the same location.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("say", CommandCategory.Communicate)]
     [ActionAlias("'", CommandCategory.Communicate)]

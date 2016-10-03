@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// Installs a Thing Adornment
-    /// </summary>
+    /// <summary>Installs a Thing Adornment.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("Install", CommandCategory.Item)]
     [ActionDescription("Installs an subassembly into a larger item.  Like removing the lock from a door.  Usage: install key lock in door")]

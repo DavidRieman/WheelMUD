@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to equip yourself with a specific item.
-    /// </summary>
+    /// <summary>An action to equip yourself with a specific item.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("equip", CommandCategory.Item)]
     [ActionDescription("Equip yourself with a specific item.")]

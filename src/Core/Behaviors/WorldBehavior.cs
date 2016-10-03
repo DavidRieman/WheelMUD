@@ -16,9 +16,7 @@ namespace WheelMUD.Core
     using WheelMUD.Data.Entities;
     using WheelMUD.Data.Repositories;
 
-    /// <summary>
-    /// Represents a world in the MUD.
-    /// </summary>
+    /// <summary>Represents a world in the MUD.</summary>
     public class WorldBehavior : Behavior
     {
         // @@@ TODO: Register to static RoomBehavior.RoomCreated events or something to keep updated?
@@ -27,17 +25,13 @@ namespace WheelMUD.Core
         // @@@ Also, consider whether such caches should use WeakReferences instead of references.
         ////private readonly Dictionary<long, RoomBehavior> roomsCache;
 
-        /// <summary>
-        /// Initializes a new instance of the WorldBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the WorldBehavior class.</summary>
         public WorldBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the WorldBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the WorldBehavior class.</summary>
         /// <param name="instanceID">The instance ID.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public WorldBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -46,9 +40,7 @@ namespace WheelMUD.Core
             this.ID = instanceID;
         }
 
-        /// <summary>
-        /// Loads areas into the world.
-        /// </summary>
+        /// <summary>Loads areas into the world.</summary>
         public void Load()
         {
             var areaRepository = new AreaRepository();
@@ -72,15 +64,9 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Searches for a given room and returns it if found.
-        /// </summary>
-        /// <param name="roomId">
-        /// The room ID.
-        /// </param>
-        /// <returns>
-        /// The Room found.
-        /// </returns>
+        /// <summary>Searches for a given room and returns it if found.</summary>
+        /// <param name="roomId">The room ID.</param>
+        /// <returns>The Room found.</returns>
         public Thing FindRoom(long roomId)
         {
             ////foreach (KeyValuePair<long, Thing> kvp in this.Areas)
@@ -102,9 +88,7 @@ namespace WheelMUD.Core
             return roomBehavior.Parent;
         }
 
-        /// <summary>
-        /// Called when a parent has just been assigned to this behavior. (Refer to this.Parent)
-        /// </summary>
+        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent.)</summary>
         public override void OnAddBehavior()
         {
             // Once our WorldBehavior is attached to a thing, ensure that thing isn't currently a
@@ -113,16 +97,12 @@ namespace WheelMUD.Core
             this.Parent.Eventing.MovementRequest += this.DenyWorldParentChanges;
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
         }
 
-        /// <summary>
-        /// Event handler for denying the changing of the parent of a Thing which has a WorldBehavior since World should be highest.
-        /// </summary>
+        /// <summary>Event handler for denying the changing of the parent of a Thing which has a WorldBehavior since World should be highest.</summary>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="e">The event arguments.</param>
         private void DenyWorldParentChanges(Thing sender, CancellableGameEvent e)

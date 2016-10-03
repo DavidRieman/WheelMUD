@@ -13,22 +13,16 @@ namespace WheelMUD.Core
     using System.Collections.Generic;
     using WheelMUD.Core.Events;
 
-    /// <summary>
-    /// @@@ Might be better renamed to AIBrainBehavior or something...?
-    /// </summary>
+    /// <summary>@@@ Might be better renamed to AIBrainBehavior or something...?</summary>
     public class MobileBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the MobileBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the MobileBehavior class.</summary>
         public MobileBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the MobileBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the MobileBehavior class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public MobileBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -37,9 +31,7 @@ namespace WheelMUD.Core
             this.ID = instanceID;
         }
 
-        /// <summary>
-        /// Receives an event.
-        /// </summary>
+        /// <summary>Receives an event.</summary>
         /// <param name="root">The root.</param>
         /// <param name="theEvent">The event to be received.</param>
         public void Receive(Thing root, GameEvent theEvent)
@@ -47,9 +39,7 @@ namespace WheelMUD.Core
             ////this.brain.ProcessStimulus(theEvent);
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             // @@@ For now, rigging MobileBehavior back up to all events like Mobile used to; I don't

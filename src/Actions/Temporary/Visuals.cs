@@ -38,44 +38,28 @@ namespace WheelMUD.Actions.Temporary
         {
         };
 
-        /// <summary>
-        /// Origin of the action.
-        /// </summary>
+        /// <summary>Origin of the action.</summary>
         private IController sender;
 
-        /// <summary>
-        /// Number of arguments supplied to the action.
-        /// </summary>
+        /// <summary>Number of arguments supplied to the action.</summary>
         private int argCount;
 
-        /// <summary>
-        /// The room where the sender is located.
-        /// </summary>
+        /// <summary>The room where the sender is located.</summary>
         private RoomBehavior room;
 
-        /// <summary>
-        /// Name of the room where the sender is located. Cached for convenience.
-        /// </summary>
+        /// <summary>Name of the room where the sender is located. Cached for convenience.</summary>
         private string roomName;
 
-        /// <summary>
-        /// ID of the room where the sender is located. Cached for convenience.
-        /// </summary>
+        /// <summary>ID of the room where the sender is located. Cached for convenience.</summary>
         private string roomId;
 
-        /// <summary>
-        /// The visuals command, i.e. "add", "remove", or "show".
-        /// </summary>
+        /// <summary>The visuals command, i.e. "add", "remove", or "show".</summary>
         private string command;
 
-        /// <summary>
-        /// Name of the visual being modified.
-        /// </summary>
+        /// <summary>Name of the visual being modified.</summary>
         private string visualName;
 
-        /// <summary>
-        /// Description of the visual, if one is being added.
-        /// </summary>
+        /// <summary>Description of the visual, if one is being added.</summary>
         private string visualDescription;
 
         /// <summary>Executes the command.</summary>
@@ -179,9 +163,7 @@ namespace WheelMUD.Actions.Temporary
             }
         }
 
-        /// <summary>
-        /// Populate the private fields used by the Guards() and Execute() methods.
-        /// </summary>
+        /// <summary>Populate the private fields used by the Guards() and Execute() methods.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         private void PreprocessInput(ActionInput actionInput)
         {

@@ -18,77 +18,56 @@ namespace WheelMUD.Core
     using NVelocity.App;
     using WheelMUD.Utilities;
 
-    /// <summary>
-    /// The view engine.
-    /// </summary>
+    /// <summary>The view engine.</summary>
     public class ViewEngine
     {
-        /// <summary>
-        /// A cache of the loaded templates.
-        /// </summary>
+        /// <summary>A cache of the loaded templates.</summary>
         private static readonly Dictionary<string, string> CachedTemplates;
 
-        /// <summary>
-        /// Object to protect the access to the Cached Templates
-        /// </summary>
+        /// <summary>Object to protect the access to the Cached Templates.</summary>
         private static readonly object LockObject = new object();
 
-        /// <summary>
-        /// The velocity context.
-        /// </summary>
+        /// <summary>The velocity context.</summary>
         private readonly VelocityContext velocityContext = new VelocityContext();
 
-        /// <summary>
-        /// Initializes static members of the ViewEngine class.
-        /// </summary>
+        /// <summary>Initializes static members of the ViewEngine class.</summary>
         static ViewEngine()
         {
             Velocity.Init();
             CachedTemplates = new Dictionary<string, string>();
         }
 
-        /// <summary>
-        /// Initializes a new instance of the ViewEngine class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ViewEngine class.</summary>
         public ViewEngine()
         {
             this.ReplaceNewLine = true;
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the engine should replace any new 
-        /// lines found in the text it is rendering.
-        /// </summary>
+        /// <summary>Gets or sets a value indicating whether the engine replaces any new lines found in the text it is rendering.</summary>
         /// <remarks>This is used in the word wrapping bits. Default is true.</remarks>
         public bool ReplaceNewLine { get; set; }
 
-        /// <summary>
-        /// Adds data to the context to allow it to be evaluated at runtime
-        /// </summary>
+        /// <summary>Adds data to the context to allow it to be evaluated at runtime.</summary>
         /// <remarks>This data is available for the lifetime of the object
         /// so be careful what you put in here. ie dont put stuff that is
         /// going to change a lot such as room or inventory info.
         /// For transient context use the RenderView overload with a context list</remarks>
-        /// <param name="key">The key to refer to the object as in the view</param>
-        /// <param name="context">The object you want evaluating</param>
+        /// <param name="key">The key to refer to the object as in the view.</param>
+        /// <param name="context">The object you want evaluating.</param>
         public void AddContext(string key, object context)
         {
             this.velocityContext.Put(key, context);
         }
 
-        /// <summary>
-        /// Renders the description of a thing.
-        /// </summary>
-        /// <param name="thing">The thing to render a view of</param>
-        /// <returns>A string representing the rendered view of the things description</returns>
+        /// <summary>Renders the description of a thing.</summary>
+        /// <param name="thing">The thing to render a view of.</param>
+        /// <returns>A string representing the rendered view of the things description.</returns>
         public string RenderView(Thing thing)
         {
             return this.RenderView(thing.Description);
         }
 
-        /// <summary>
-        /// Renders a string.
-        /// </summary>
+        /// <summary>Renders a string.</summary>
         /// <param name="textToRender">The string to render.</param>
         /// <returns>A rendered string.</returns>
         public string RenderView(string textToRender)
@@ -146,11 +125,9 @@ namespace WheelMUD.Core
             return this.RenderView(textToRender, context);
         }
 
-        /// <summary>
-        /// Gets a template from the cache or loads it directly and adds it to the cache.
-        /// </summary>
+        /// <summary>Gets a template from the cache or loads it directly and adds it to the cache.</summary>
         /// <param name="templateName">Name of the template to get.</param>
-        /// <returns>The contents of the template file</returns>
+        /// <returns>The contents of the template file.</returns>
         private static string GetTemplate(string templateName)
         {
             lock (LockObject)
@@ -170,10 +147,8 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Loads a template from disk
-        /// </summary>
-        /// <param name="templateName">The name of the template to load</param>
+        /// <summary>Loads a template from disk.</summary>
+        /// <param name="templateName">The name of the template to load.</param>
         /// <returns>the contents of the template file.</returns>
         private static string LoadTemplate(string templateName)
         {

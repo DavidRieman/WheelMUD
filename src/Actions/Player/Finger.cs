@@ -20,9 +20,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Utilities;
 
-    /// <summary>
-    /// A command that gathers various information about an entity.
-    /// </summary>
+    /// <summary>A command that gathers various information about an entity.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("finger", CommandCategory.Player)]
     [ActionAlias("whois", CommandCategory.Player)]

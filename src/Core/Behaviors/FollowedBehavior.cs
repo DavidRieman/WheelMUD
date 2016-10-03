@@ -13,7 +13,6 @@
 
 namespace WheelMUD.Core.Behaviors
 {
-    using System;
     using System.Collections.Generic;
     using Raven.Imports.Newtonsoft.Json;
 
@@ -27,21 +26,17 @@ namespace WheelMUD.Core.Behaviors
     /// FollowedBehavior exposes a list of followers, so that evasive or retaliatory actions
     /// may be taken.
     /// </para>
-    /// TODO: Change this class to use WeakReference for the Followers collection
     /// </summary>
+    /// <remarks>TODO: Change this class to use WeakReference for the Followers collection.</remarks>
     public class FollowedBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the FollowedBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the FollowedBehavior class.</summary>
         public FollowedBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the FollowedBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the FollowedBehavior class.</summary>
         /// <param name="instanceID">The instance ID.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public FollowedBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -50,15 +45,11 @@ namespace WheelMUD.Core.Behaviors
             this.ID = instanceID;
         }
 
-        /// <summary>
-        /// Gets the list of followers.
-        /// </summary>
+        /// <summary>Gets the list of followers.</summary>
         [JsonIgnore]
         public virtual HashSet<Thing> Followers { get; private set; }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.Followers = new HashSet<Thing>();

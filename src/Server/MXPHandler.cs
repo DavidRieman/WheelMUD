@@ -20,12 +20,9 @@ namespace WheelMUD.Server
     /// <summary>The MUD Extension Protocol (MXP) handler.</summary>
     internal static class MXPHandler
     {
-        /// <summary>
-        /// Parses incoming data for the MXP version tag if we are expecting it and returns
-        /// an array of bytes.
-        /// </summary>
+        /// <summary>Parses incoming data for the MXP version tag if we are expecting it and returns an array of bytes.</summary>
         /// <param name="sender">The connection requesting the data be parsed</param>
-        /// <param name="data">The data to parse</param>
+        /// <param name="data">The data to parse.</param>
         /// <returns>an array of bytes with the version tag stripped</returns>
         internal static byte[] ParseIncomingData(IConnection sender, byte[] data)
         {
@@ -119,11 +116,9 @@ namespace WheelMUD.Server
             return data;
         }
 
-        /// <summary>
-        /// Processes the version response and fills their terminal class with info
-        /// </summary>
-        /// <param name="sender">The connection this relates to</param>
-        /// <param name="mxpOption">The option we are processing</param>
+        /// <summary>Processes the version response and fills their terminal class with info.</summary>
+        /// <param name="sender">The connection this relates to.</param>
+        /// <param name="mxpOption">The option we are processing.</param>
         private static void ProcessBuffer(IConnection sender, TelnetOptionMXP mxpOption)
         {
             string[] words = mxpOption.VersionResponseBuffer.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);

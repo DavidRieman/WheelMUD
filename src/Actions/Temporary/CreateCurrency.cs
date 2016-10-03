@@ -19,9 +19,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Universe;
     using WheelMUD.Universe.Behaviors;
 
-    /// <summary>
-    /// A command that allows an admin to create currency.
-    /// </summary>
+    /// <summary>A command that allows an admin to create currency.</summary>
     [ActionPrimaryAlias("create currency", CommandCategory.Admin)]
     [ActionAlias("create money", CommandCategory.Admin)]
     [ActionAlias("create gold", CommandCategory.Admin)]

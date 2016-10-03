@@ -14,14 +14,11 @@ namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using System.Text;
-
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Utilities;
 
-    /// <summary>
-    /// A command to list the characters who are currently in-game.
-    /// </summary>
+    /// <summary>A command to list the characters who are currently in-game.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("who", CommandCategory.Player)]
     [ActionDescription("See or query who is online.")]
@@ -55,7 +52,7 @@ namespace WheelMUD.Actions
             // TODO: Version, Sort and add by guild/class
             // div = "<%b%><%green%>" + string.Empty.PadLeft(sender.Entity.Terminal.Width, '~') + "<%n%>";
             div = "<%b%><%green%>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<%n%>";
-            mudNameLine += mudName; 
+            mudNameLine += mudName;
             sb.AppendLine();
             sb.AppendLine(div);
             sb.AppendLine(mudNameLine);
@@ -67,12 +64,12 @@ namespace WheelMUD.Actions
                 // TODO: I used string literal to handle "" issue is there a neater approach?
                 sb.AppendFormat(@"<%mxpsecureline%><send ""finger {0}|tell {0}"" ""|finger|tell"">{0}</send>", player.Parent.Name);
                 sb.AppendFormat(" - {0}", player.Parent.Name);
-                
+
                 // Add in AFK message
                 if (player.IsAFK)
                 {
                     sb.Append(" (afk");
-                    
+
                     if (!string.IsNullOrEmpty(player.AFKReason))
                     {
                         sb.AppendFormat(": {0}", player.AFKReason);
@@ -80,11 +77,11 @@ namespace WheelMUD.Actions
 
                     sb.Append(")");
                 }
-                
+
                 // End with a newline char
                 sb.Append("<%nl%>");
             }
-            
+
             sb.AppendLine();
             sb.AppendLine(div);
             sb.AppendFormat("Counted {0} player{1} online.", PlayerManager.Instance.Players.Count, plural);

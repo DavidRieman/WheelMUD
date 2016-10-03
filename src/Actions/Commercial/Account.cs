@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to count the total value of your coin wealth.
-    /// </summary>
+    /// <summary>An action to count the total value of your coin wealth.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("account", CommandCategory.Commercial)]
     [ActionAlias("gold", CommandCategory.Commercial)]

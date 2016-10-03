@@ -10,9 +10,7 @@
 
 namespace WheelMUD.Core.Events
 {
-    /// <summary>
-    /// The applicable scope for an event.
-    /// </summary>
+    /// <summary>The applicable scope for an event.</summary>
     public enum EventScope
     {
         /// <summary>The event is to be broadcast from the current thing's parent(s) and down through all children.</summary>

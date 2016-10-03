@@ -16,9 +16,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// @@@ Temporary script to demonstrate a web effect.
-    /// </summary>
+    /// <summary>@@@ Temporary script to demonstrate a web effect.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("web", CommandCategory.Temporary)]
     [ActionDescription("@@@ Temp command.")]

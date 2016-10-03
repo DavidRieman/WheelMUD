@@ -10,14 +10,10 @@
 
 namespace WheelMUD.Core.Events
 {
-    /// <summary>
-    /// A death event.
-    /// </summary>
+    /// <summary>A death event.</summary>
     public class DeathEvent : CancellableGameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the DeathEvent class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the DeathEvent class.</summary>
         /// <param name="activeThing">The active thing.</param>
         /// <param name="senseMessage">The sensory message.</param>
         /// <param name="killer">The thing that caused the death.</param>

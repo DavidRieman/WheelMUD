@@ -173,7 +173,7 @@ namespace WheelMUD.Core
         /// Checks the Items, Entities and Exits for the thing passed
         /// </summary>
         /// <param name="thing">The thing to test.</param>
-        /// <returns>true if the thing can be perceived; otherwise false</returns>
+        /// <returns>true if the thing can be perceived; otherwise false.</returns>
         public bool CanPerceiveThing(Thing thing)
         {
             // @@@ Doesn't seem like this should be bound only by this entity's location?

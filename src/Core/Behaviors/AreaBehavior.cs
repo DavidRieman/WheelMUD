@@ -14,23 +14,20 @@ namespace WheelMUD.Core
     using WheelMUD.Data.Entities;
     using WheelMUD.Data.Repositories;
 
-    /// <summary>
-    /// @@@ ATM an Area doesn't do anything special. Later it can be used for area-based builder permissions, 
-    ///     maybe some respawn/instancing rules specific to the area, etc. 
-    /// </summary>
+    /// <summary>Behavior which defines a game area.</summary>
+    /// <remarks>
+    /// @@@ ATM an Area doesn't do anything special. Later it can be used for area-based builder 
+    /// permissions,maybe some respawn/instancing rules specific to the area, etc.
+    /// </remarks>
     public class AreaBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the AreaBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the AreaBehavior class.</summary>
         public AreaBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Loads this instance.
-        /// </summary>
+        /// <summary>Loads this instance.</summary>
         public void Load()
         {
             var areaRepository = new AreaRepository();
@@ -60,9 +57,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
         }

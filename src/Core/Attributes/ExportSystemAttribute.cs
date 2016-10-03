@@ -14,16 +14,12 @@ namespace WheelMUD.Core
     using System;
     using System.ComponentModel.Composition;
 
-    /// <summary>
-    /// An attribute to export SystemExporters with.
-    /// </summary>
+    /// <summary>An attribute to export SystemExporters with.</summary>
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ExportSystemAttribute : ExportAttribute
     {
-        /// <summary>
-        /// Initializes a new instance of the ExportSystemAttribute class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ExportSystemAttribute class.</summary>
         public ExportSystemAttribute()
             : base(typeof(SystemExporter))
         {

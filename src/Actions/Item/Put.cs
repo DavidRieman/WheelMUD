@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
     using WheelMUD.Universe;
 
-    /// <summary>
-    /// A command for moving items from an inventory to a container.
-    /// </summary>
+    /// <summary>A command for moving items from an inventory to a container.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("put", CommandCategory.Item)]
     [ActionDescription("Put an object into a container.")]

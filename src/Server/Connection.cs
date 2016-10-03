@@ -26,21 +26,19 @@ namespace WheelMUD.Server
     /// <summary>Represents a connection to a client.</summary>
     public class Connection : IConnection
     {
+        /// <summary>The threshold, in characters, beyond which MCCP should be used.</summary>
+        private const int MCCPThreshold = 100;
+
         /// <summary>The socket upon which this connection is based.</summary>
         private readonly Socket socket;
-
-        /// <summary>The threshold, in characters, beyond which MCCP should be used.</summary>
-        private const int mccpThreshold = 100;
-
-        /// <summary>How many rows of text the client can handle as a single display page.</summary>
-        private int pagingRowLimit;
 
         /// <summary>The hosting system of this connection.</summary>
         private readonly ISubSystem connectionHost;
 
-        /// <summary>
-        /// Initializes a new instance of the Connection class.
-        /// </summary>
+        /// <summary>How many rows of text the client can handle as a single display page.</summary>
+        private int pagingRowLimit;
+
+        /// <summary>Initializes a new instance of the <see cref="Connection"/> class.</summary>
         /// <param name="socket">The socket upon which this connection is to be based.</param>
         /// <param name="connectionHost">The system hosting this connection.</param>
         public Connection(Socket socket, ISubSystem connectionHost)
@@ -54,6 +52,7 @@ namespace WheelMUD.Server
             this.CurrentIPAddress = remoteEndPoint.Address;
             this.ID = Guid.NewGuid().ToString();
             this.TelnetCodeHandler = new TelnetCodeHandler(this);
+
             // @@@ TODO: Paging row size should be dynamic; this WAS called BufferLength in
             //     discussion: http://www.wheelmud.net/Forums/tabid/59/aft/1600/Default.aspx
             this.PagingRowLimit = 40;
@@ -110,17 +109,13 @@ namespace WheelMUD.Server
         /// <summary>Gets or sets the buffer still waiting to be sent to the connection.</summary>
         public OutputBuffer OutputBuffer { get; set; }
 
-        /// <summary>
-        /// Disconnects the connection
-        /// </summary>
+        /// <summary>Disconnects the connection.</summary>
         public void Disconnect()
         {
             this.OnConnectionDisconnect();
         }
 
-        /// <summary>
-        /// Sends raw bytes to the connection.
-        /// </summary>
+        /// <summary>Sends raw bytes to the connection.</summary>
         /// <param name="data">The data to send to the connection.</param>
         public void Send(byte[] data)
         {
@@ -138,33 +133,25 @@ namespace WheelMUD.Server
             }
         }
 
-        /// <summary>
-        /// Sends string data to the connection, the data passes through 
-        /// the handlers to be formatted for display.
-        /// </summary>
+        /// <summary>Sends string data to the connection.</summary>
+        /// <remarks>The data passes through the handlers to be formatted for display.</remarks>
         /// <param name="data">The data to send</param>
         public void Send(string data)
         {
             this.Send(data, false);
         }
 
-        /// <summary>
-        /// Sends string data to the connection with the option of bypassing the 
-        /// data formatters which results in a quicker send.
-        /// </summary>
-        /// <param name="data">The data to send</param>
-        /// <param name="bypassDataFormatter">true to bypass the filter</param>
+        /// <summary>Sends string data to the connection.</summary>
+        /// <param name="data">The data to send.</param>
+        /// <param name="bypassDataFormatter">Indicates whether the data formatter should be bypassed (for a quicker send).</param>
         public void Send(string data, bool bypassDataFormatter)
         {
             this.Send(data, bypassDataFormatter, false);
         }
 
-        /// <summary>
-        /// Sends string data to the connection with the option of bypassing the 
-        /// data formatters which results in a quicker send.
-        /// </summary>
+        /// <summary>Sends string data to the connection</summary>
         /// <param name="data">data to send.</param>
-        /// <param name="bypassDataFormatter">indicates if the formatter should be bypassed</param>
+        /// <param name="bypassDataFormatter">Indicates whether the data formatter should be bypassed (for a quicker send).</param>
         /// <param name="sendAllData">Indicates if paging should be allowed</param>
         public void Send(string data, bool bypassDataFormatter, bool sendAllData)
         {
@@ -176,7 +163,7 @@ namespace WheelMUD.Server
             byte[] bytes;
 
             // Check for MCCP (its not worth using for short strings as the overhead is quite high).
-            if (this.Terminal.UseMCCP && data.Length > mccpThreshold)
+            if (this.Terminal.UseMCCP && data.Length > MCCPThreshold)
             {
                 // Compress the data
                 bytes = MCCPHandler.Compress(data);
@@ -198,9 +185,7 @@ namespace WheelMUD.Server
             this.Send(bytes);
         }
 
-        /// <summary>
-        /// Sends data from the output buffer to the client.
-        /// </summary>
+        /// <summary>Sends data from the output buffer to the client.</summary>
         /// <param name="bufferDirection">Direction to move in the buffer.</param>
         public void ProcessBuffer(BufferDirection bufferDirection)
         {
@@ -220,9 +205,7 @@ namespace WheelMUD.Server
             }
         }
 
-        /// <summary>
-        /// Asynchronously listens for any incoming data.
-        /// </summary>
+        /// <summary>Asynchronously listens for any incoming data.</summary>
         public void ListenForData()
         {
             try
@@ -243,9 +226,7 @@ namespace WheelMUD.Server
             }
         }
 
-        /// <summary>
-        /// Asynchronous callback when a send completes successfully.
-        /// </summary>
+        /// <summary>Asynchronous callback when a send completes successfully.</summary>
         /// <param name="asyncResult">The asynchronous result.</param>
         private void OnSendComplete(IAsyncResult asyncResult)
         {
@@ -265,10 +246,7 @@ namespace WheelMUD.Server
             }
         }
 
-        /// <summary>
-        /// The callback function which will be invoked when the socket
-        /// detects any client writing of data on the stream
-        /// </summary>
+        /// <summary>The callback function invoked when the socket detects any client data was received.</summary>
         /// <param name="asyncResult">The asynchronous result.</param>
         private void OnDataReceived(IAsyncResult asyncResult)
         {
@@ -334,9 +312,7 @@ namespace WheelMUD.Server
             }
         }
 
-        /// <summary>
-        /// Disconnects the sockets and raises the disconnected event
-        /// </summary>
+        /// <summary>Disconnects the sockets and raises the disconnected event.</summary>
         private void OnConnectionDisconnect()
         {
             if (this.socket.Connected)

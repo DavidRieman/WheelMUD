@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to see what a shop has for sale.
-    /// </summary>
+    /// <summary>An action to see what a shop has for sale.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("shop list", CommandCategory.Commercial)]
     [ActionAlias("shop browse", CommandCategory.Commercial)]

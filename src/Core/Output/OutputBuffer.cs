@@ -15,54 +15,38 @@ namespace WheelMUD.Core.Output
     using System.Collections.Generic;
     using WheelMUD.Core.Enums;
 
-    /// <summary>
-    /// Output buffer
-    /// </summary>
+    /// <summary>Output buffer.</summary>
     public class OutputBuffer
     {
-        /// <summary> Current location in the buffer </summary>
+        /// <summary>Current location in the buffer.</summary>
         private readonly object lockObject = new object();
 
-        /// <summary> List of output rows </summary>
+        /// <summary>List of output rows.</summary>
         private List<string> outputBuffer;
 
-        /// <summary> Current location in the buffer </summary>
+        /// <summary>Current location in the buffer.</summary>
         private int currentLocation;
 
-        /// <summary>
-        /// Initializes a new instance of the OutputBuffer class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="OutputBuffer"/> class.</summary>
         public OutputBuffer()
         {
             this.outputBuffer = new List<string>();
             this.currentLocation = 0;
         }
 
-        /// <summary>
-        /// Gets the total length of the output buffer.
-        /// </summary>
+        /// <summary>Gets the total length of the output buffer.</summary>
         public int Length
         {
-            get
-            {
-                return this.outputBuffer.Count;
-            }
+            get { return this.outputBuffer.Count; }
         }
 
-        /// <summary>
-        /// Gets the current location in the output buffer
-        /// </summary>
+        /// <summary>Gets the current location in the output buffer.</summary>
         public int CurrentLocation
         {
-            get
-            {
-                return this.currentLocation;
-            }
+            get { return this.currentLocation; }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether there is more data available.
-        /// </summary>
+        /// <summary>Gets a value indicating whether there is more data available.</summary>
         public bool HasMoreData
         {
             get
@@ -81,10 +65,8 @@ namespace WheelMUD.Core.Output
             }
         }
 
-        /// <summary>
-        /// Add a row to the buffer
-        /// </summary>
-        /// <param name="outputRow">Single row to add to the buffer</param>
+        /// <summary>Add a row to the buffer.</summary>
+        /// <param name="outputRow">Single row to add to the buffer.</param>
         public void Append(string outputRow)
         {
             lock (this.lockObject)
@@ -93,10 +75,8 @@ namespace WheelMUD.Core.Output
             }
         }
 
-        /// <summary>
-        /// Add an array of rows to the buffer
-        /// </summary>
-        /// <param name="outputRows">Rows to add to the buffer</param>
+        /// <summary>Add an array of rows to the buffer.</summary>
+        /// <param name="outputRows">Rows to add to the buffer.</param>
         public void Append(string[] outputRows)
         {
             lock (this.lockObject)
@@ -108,9 +88,7 @@ namespace WheelMUD.Core.Output
             }
         }
 
-        /// <summary>
-        /// Clears out the output buffer
-        /// </summary>
+        /// <summary>Clears out the output buffer.</summary>
         public void Clear()
         {
             lock (this.lockObject)
@@ -120,9 +98,7 @@ namespace WheelMUD.Core.Output
             }
         }
 
-        /// <summary>
-        /// Returns the requested rows from the Output Buffer.
-        /// </summary>
+        /// <summary>Returns the requested rows from the Output Buffer.</summary>
         /// <param name="bufferDirection">The direction to move in the buffer.</param>
         /// <param name="maxRows">The maximum rows to return.</param>
         /// <returns>Rows from the output buffer.</returns>

@@ -10,14 +10,10 @@
 
 namespace WheelMUD.Core.Events
 {
-    /// <summary>
-    /// The base class for passing game event arguments.
-    /// </summary>
+    /// <summary>The base class for passing game event arguments.</summary>
     public class GameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the GameEvent class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the GameEvent class.</summary>
         /// <param name="activeThing">The active thing.</param>
         /// <param name="sensoryMessage">The sensory message.</param>
         public GameEvent(Thing activeThing, SensoryMessage sensoryMessage)
@@ -50,16 +46,12 @@ namespace WheelMUD.Core.Events
         public SensoryMessage SensoryMessage { get; private set; }
     }
 
-    /// <summary>
-    /// Represents a game event that can be cancelled prior to actually raising the event.
-    /// </summary>
+    /// <summary>Represents a game event that can be cancelled prior to actually raising the event.</summary>
     public class CancellableGameEvent : GameEvent
     {
         private bool sentCancelMessage;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CancellableGameEvent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="CancellableGameEvent"/> class.</summary>
         /// <param name="activeThing">The active thing.</param>
         /// <param name="sensoryMessage">The sensory message.</param>
         public CancellableGameEvent(Thing activeThing, SensoryMessage sensoryMessage)
@@ -67,15 +59,11 @@ namespace WheelMUD.Core.Events
         {
         }
 
-        /// <summary>
-        /// Gets a value indicating whether this event has been cancelled.
-        /// </summary>
+        /// <summary>Gets a value indicating whether this event has been cancelled.</summary>
         /// <value><c>true</c> if this instance is cancelled; otherwise, <c>false</c>.</value>
         public bool IsCancelled { get; private set; }
 
-        /// <summary>
-        /// Cancels the event, with the cancellation described by the specified cancel message.
-        /// </summary>
+        /// <summary>Cancels the event, with the cancellation described by the specified cancel message.</summary>
         /// <param name="cancelMessage">The cancel message.</param>
         public void Cancel(string cancelMessage)
         {

@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to hold something with your second hand.
-    /// </summary>
+    /// <summary>An action to hold something with your second hand.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("hold", CommandCategory.Item)]
     [ActionDescription("Hold something with your second hand.")]

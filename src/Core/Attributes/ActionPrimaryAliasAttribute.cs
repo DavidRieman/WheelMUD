@@ -12,15 +12,11 @@ namespace WheelMUD.Core.Attributes
 {
     using System;
 
-    /// <summary>
-    /// The attribute that goes above the primary alias for an action.
-    /// </summary>
+    /// <summary>The attribute that goes above the primary alias for an action.</summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ActionPrimaryAliasAttribute : Attribute
     {
-        /// <summary>
-        /// Initializes a new instance of the ActionPrimaryAliasAttribute class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ActionPrimaryAliasAttribute class.</summary>
         /// <param name="alias">The actual alias that a user types in.</param>
         /// <param name="category">The category that this action is under.</param>
         public ActionPrimaryAliasAttribute(string alias, CommandCategory category)

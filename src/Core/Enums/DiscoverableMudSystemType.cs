@@ -11,25 +11,23 @@
 
 namespace WheelMUD.Core.Enums
 {
-    /// <summary>
-    /// A list of the MUD systems that can be replaced using the
-    /// pluggable MEF framework. http//mef.codeplex.com
-    /// </summary>
+    /// <summary>A list of the MUD systems that can be replaced using the pluggable MEF framework.</summary>
+    /// <remarks>http://mef.codeplex.com</remarks>
     public enum DiscoverableMudSystemType
     {
-        /// <summary>Character Creation</summary>
+        /// <summary>Character Creation.</summary>
         CharacterCreation,
 
-        /// <summary>Questing System</summary>
+        /// <summary>Questing System.</summary>
         Quest,
 
-        /// <summary>Combat System</summary>
+        /// <summary>Combat System.</summary>
         Combat,
 
-        /// <summary>Skill System</summary>
+        /// <summary>Skill System.</summary>
         Skill,
 
-        /// <summary>Magic System</summary>
+        /// <summary>Magic System.</summary>
         Magic
     }
 }

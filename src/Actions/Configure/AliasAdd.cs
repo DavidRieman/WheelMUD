@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to set an alias for another command.
-    /// </summary>
+    /// <summary>An action to set an alias for another command.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("alias add", CommandCategory.Configure)]
     [ActionDescription("Set an alias for another command.")]

@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Enums;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command that performs pagination.
-    /// </summary>
+    /// <summary>A command that performs pagination.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("previous", CommandCategory.Inform)]
     [ActionAlias("p", CommandCategory.Inform)]

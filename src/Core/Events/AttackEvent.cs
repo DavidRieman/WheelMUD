@@ -10,14 +10,10 @@
 
 namespace WheelMUD.Core.Events
 {
-    /// <summary>
-    /// An attack event.
-    /// </summary>
+    /// <summary>An attack event.</summary>
     public class AttackEvent : CancellableGameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the AttackEvent class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the AttackEvent class.</summary>
         /// <param name="activeThing">The active thing.</param>
         /// <param name="senseMessage">The sensory message.</param>
         /// <param name="aggressor">The aggressor of the attack.</param>

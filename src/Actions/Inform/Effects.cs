@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to list the description of known effects upon you.
-    /// </summary>
+    /// <summary>An action to list the description of known effects upon you.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("effects", CommandCategory.Inform)]
     [ActionAlias("effect", CommandCategory.Inform)]

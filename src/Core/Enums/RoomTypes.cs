@@ -14,9 +14,7 @@ namespace WheelMUD.Core
 {
     using System;
     
-    /// <summary>
-    /// Room types.
-    /// </summary>
+    /// <summary>Room types.</summary>
     [Flags]
     public enum RoomType : uint
     {
@@ -41,10 +39,10 @@ namespace WheelMUD.Core
         /// <summary>Ocean room type.</summary>
         Ocean = 32,
 
-        /// <summary>Cave room type</summary>
+        /// <summary>Cave room type.</summary>
         Cave = 64,
 
-        /// <summary>Snowy room type</summary>
+        /// <summary>Snowy room type.</summary>
         Snowy = 128,
 
         /// <summary>Hills room type.</summary>
@@ -71,7 +69,7 @@ namespace WheelMUD.Core
         /// <summary>Underwater room type.</summary>
         Underwater = 32768,
 
-        /// <summary>The surface room type used to denote the surface of something..</summary>
+        /// <summary>The surface room type used to denote the surface of something.</summary>
         Surface = 65536,
 
         /// <summary>The room could go on forever to the player, like a big room or the open sea.</summary>
@@ -101,19 +99,19 @@ namespace WheelMUD.Core
         /// <summary>Tundra Biom room type: RoomType.Plains | RoomType.Snowy | RoomType.Dry</summary>
         Tundra = RoomType.Plains | RoomType.Snowy | RoomType.Dry,
 
-        /// <summary> Chaparral Biom room type  (Wild West scenery): RoomType.Dry | RoomType.Plains | RoomType.Hills </summary>
+        /// <summary>Chaparral Biom room type  (Wild West scenery): RoomType.Dry | RoomType.Plains | RoomType.Hills</summary>
         Chaparral = RoomType.Dry | RoomType.Plains | RoomType.Hills,
 
-        /// <summary> Savanna Biom room type (African Plains): RoomType.Dry | RoomType.Plains </summary>
+        /// <summary>Savanna Biom room type (African Plains): RoomType.Dry | RoomType.Plains</summary>
         Savanna = RoomType.Dry | RoomType.Plains,
 
-        /// <summary> Rainforest Biom room type (South America): RoomType.Forest | RoomType.Humid</summary>
+        /// <summary>Rainforest Biom room type (South America): RoomType.Forest | RoomType.Humid</summary>
         Rainforest = RoomType.Forest | RoomType.Humid,
 
-        /// <summary> Swamp Biom room type (wet marsh): RoomType.Plains | RoomType.Humid</summary>
+        /// <summary>Swamp Biom room type (wet marsh): RoomType.Plains | RoomType.Humid</summary>
         Swamp = RoomType.Plains | RoomType.Humid,
 
-        /// <summary> Taiga Biom room type (Mountain Forest): RoomType.Forest | RoomType.Mountains</summary>
+        /// <summary>Taiga Biom room type (Mountain Forest): RoomType.Forest | RoomType.Mountains</summary>
         Taiga = RoomType.Forest | RoomType.Mountains
     }
 }

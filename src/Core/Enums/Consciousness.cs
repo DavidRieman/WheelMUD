@@ -10,9 +10,7 @@
 
 namespace WheelMUD.Core
 {
-    /// <summary>
-    /// An enumeration of possible consciousness states.
-    /// </summary>
+    /// <summary>An enumeration of possible consciousness states.</summary>
     public enum Consciousness
     {
         /// <summary>The entity is awake.</summary>

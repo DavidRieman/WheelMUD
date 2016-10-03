@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command to display the in-game and out of game date and time.
-    /// </summary>
+    /// <summary>A command to display the in-game and out of game date and time.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("date", CommandCategory.Inform)]
     [ActionDescription("Get the game date and server time.")]

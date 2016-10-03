@@ -14,9 +14,7 @@ namespace WheelMUD.Core
     using System.Collections.Generic;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// The mobiles manager class.
-    /// </summary>
+    /// <summary>The mobiles manager class.</summary>
     /// <remarks>
     /// @@@ TODO: Provide search ability of registered 'mobiles' through LINQ rather than, 
     /// or in addition to, specific-purpose search methods.
@@ -40,10 +38,7 @@ namespace WheelMUD.Core
             get { return instance; }
         }
 
-        /// <summary>
-        /// Called when an action has been received, the manager can then
-        /// put the action onto the queue.
-        /// </summary>
+        /// <summary>Called when an action has been received, the manager can then put the action onto the queue.</summary>
         /// <param name="sender">The entity sending the action.</param>
         /// <param name="actionInput">The action input to be enqueued.</param>
         public void OnActionReceived(Thing sender, ActionInput actionInput)
@@ -51,9 +46,7 @@ namespace WheelMUD.Core
             CommandManager.Instance.EnqueueAction(actionInput);
         }
 
-        /// <summary>
-        /// Registers a mobile with the mobile manager.
-        /// </summary>
+        /// <summary>Registers a mobile with the mobile manager.</summary>
         /// <param name="mobile">An instance of a mobile to be registered.</param>
         public void RegisterMobile(Thing mobile)
         {
@@ -94,9 +87,7 @@ namespace WheelMUD.Core
             this.SystemHost.UpdateSystemHost(this, "Stopped");
         }
 
-        /// <summary>
-        /// Finds a mobile using the predicate passed.
-        /// </summary>
+        /// <summary>Finds a mobile using the predicate passed.</summary>
         /// <param name="predicate">The predicate to match.</param>
         /// <returns>The IMobile found.</returns>
         public Thing FindMobile(Predicate<Thing> predicate)
@@ -107,11 +98,9 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Finds a mobile using a name or part name.
-        /// </summary>
+        /// <summary>Finds a mobile using a name or part name.</summary>
         /// <param name="name">The name of the mobile to return.</param>
-        /// <param name="partialMatch">Used to indicate whether the search criteria can look at just the start of the name</param>
+        /// <param name="partialMatch">Used to indicate whether the search criteria can look at just the start of the name.</param>
         /// <returns>The IMobile found.</returns>
         public Thing FindMobileByName(string name, bool partialMatch)
         {
@@ -129,9 +118,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Finds a Mobile object by the identifier.
-        /// </summary>
+        /// <summary>Finds a Mobile object by the identifier.</summary>
         /// <param name="id">Identifier of the mobile.</param>
         /// <returns>returns a mobile object.</returns>
         public Thing FindMobileById(string id)
@@ -144,9 +131,7 @@ namespace WheelMUD.Core
         }
 
         /* @@@ ?
-        /// <summary>
-        /// This method is called when a mobile receives an action.
-        /// </summary>
+        /// <summary>This method is called when a mobile receives an action.</summary>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="actionInput">The action input received.</param>
         /// <param name="delay">The delay before the action should occur.</param>

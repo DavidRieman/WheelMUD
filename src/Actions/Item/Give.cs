@@ -16,10 +16,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// Allows the caller to attempt to give something from their inventory to another
-    /// entity.
-    /// </summary>
+    /// <summary>Allows the caller to attempt to give something from their inventory to another entity.</summary>
     /// <remarks>
     /// Some accepted command form examples are as follows:
     ///  "give sword to Karak"

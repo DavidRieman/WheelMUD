@@ -33,97 +33,69 @@ namespace WheelMUD.Core.Attributes
     [Flags]
     public enum SecurityRole
     {
-        /// <summary>
-        /// Commands flagged with 'SecurityRole.none' can not be executed.
-        /// This should not be used on actual commands.
-        /// </summary>
+        /// <summary>Commands flagged with 'SecurityRole.none' can not be executed.</summary>
+        /// <remarks>This should not be used on actual commands.</remarks>
         none = 0x0000,
-        
-        /// <summary>
-        /// Commands flagged with this role are available to mobiles.
-        /// </summary>
+
+        /// <summary>Commands flagged with this role are available to mobiles.</summary>
         mobile = 0x0001,
 
         /// <summary>
         /// Commands flagged with this role are available to items.  This may seem strange, 
-        /// but the eventing system may more properly trigger 'commands' rather than redundant 
+        /// but the events system may more properly trigger 'commands' rather than redundant 
         /// 'events' at which time commands specific to items may be appropriate.  For example,
         /// a command for 'self-destruct' may make sense for an item, but not a player or mob.
         /// </summary>
         item = 0x0002,
 
-        /// <summary>
-        /// Commands flagged with this role are available to rooms.  As above, this is not in 
-        /// use yet but may be useful to future eventing systems.
-        /// </summary>
+        /// <summary>Commands flagged with this role are available to rooms.</summary>
+        /// <remarks>As above, this is not in use yet but may be useful to future events systems.</remarks>
         room = 0x0004,
-        
-        /// <summary>
-        /// Commands flagged with this role are available to brand new tutorial players.
-        /// The intent is to lock out most advanced commands until the tutorial is completed.
-        /// Command help lists will be shorter and therefore be easier to grasp for newbies.
-        /// </summary>
+
+        /// <summary>Commands flagged with this role are available to brand new tutorial players.</summary>
+        /// <remarks>
+        /// This may be used to lock out advanced commands until a tutorial is completed, or to provide
+        /// tutorial-specific commands such as opting-out of the tutorial / marking it completed early.
+        /// </remarks>
         tutorialPlayer = 0x0010,
-        
-        /// <summary>
-        /// Commands flagged with this role are available to the typical player.  Most players
-        /// will only have this role, but may additionally have others depending on the situation.
-        /// </summary>
+
+        /// <summary>Commands flagged with this role are available to the typical player.</summary>
+        /// <remarks>Most players will only have this role, but may additionally have others depending on the situation.</remarks>
         player = 0x0020,
-        
-        /// <summary>
-        /// Commands flagged with this role are available to 'helper' players.  Specific players 
-        /// which are recognized as 'helpers' will gain access to commands that further allow them 
-        /// to assist new players, in addition to being notably flagged as helpers.
-        /// </summary>
+
+        /// <summary>Commands flagged with this role are available to 'helper' players.</summary>
+        /// <remarks>Intended for commands that further allow them to assist new players.</remarks>
         helper = 0x0040,
-        
-        /// <summary>
-        /// Commands flagged with this role are available to 'married' players.  These commands 
-        /// are specific to MUD-married pairs, such as divorce commands and such.
-        /// </summary>
+
+        /// <summary>Commands flagged with this role are available to 'married' players.</summary>
+        /// <remarks>These commands are specific to MUD-married pairs, such as divorce commands and such.</remarks>
         married = 0x0080,
-        
-        /// <summary>
-        /// Commands flagged with this role are available to 'minor builders' which are intended 
-        /// to be the commands that create and set properties for new rooms, new mobiles, new items, 
-        /// etc.
-        /// </summary>
+
+        /// <summary>Commands flagged with this role are available to 'minor builders'.</summary>
+        /// <remarks>Intended for commands that create and set properties for new rooms, new mobiles, new items, etc.</remarks>
         minorBuilder = 0x0100,
-        
-        /// <summary>
-        /// Commands flagged with this role are available to 'full builders' which are intended 
-        /// to be the commands that administrate entire zones, mark zones as approved, etc.
-        /// </summary>
+
+        /// <summary>Commands flagged with this role are available to 'full builders'.</summary>
+        /// <remarks>Intended for commands that administrate entire zones, mark zones as approved, etc.</remarks>
         fullBuilder = 0x0200,
-        
-        /// <summary>
-        /// Commands flagged with this role are available to 'minor admins' which are intended 
-        /// to be commands which 'watch' a player for botting, send players to 'jail', etc.
-        /// </summary>
+
+        /// <summary>Commands flagged with this role are available to 'minor admins'.</summary>
+        /// <remarks>Intended for commands which 'watch' a player for bot-playing, send players to 'jail', etc.</remarks>
         minorAdmin = 0x1000,
-        
-        /// <summary>
-        /// Commands flagged with this role are available to 'full admins' only, who have the 
-        /// ability to 'lockdown' or 'shutdown' the entire MUD, delete characters, etc.
-        /// </summary>
+
+        /// <summary>Commands flagged with this role are available to 'full admins' only.</summary>
+        /// <remarks>Intended for commands which 'lockdown' or 'shutdown' the entire MUD, delete characters, etc.</remarks>
         fullAdmin = 0x2000,
 
-        /// <summary>
-        /// Commands flagged with this role are available to everyone and everything.
-        /// </summary>
+        /// <summary>Commands flagged with this role are available to everyone and everything.</summary>
         all = 0xFFFF
     }
-    
-    /// <summary>
-    /// An action security attribute.
-    /// </summary>
+
+    /// <summary>An action security attribute.</summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ActionSecurityAttribute : Attribute
     {
-        /// <summary>
-        /// Initializes a new instance of the ActionSecurityAttribute class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ActionSecurityAttribute class.</summary>
         /// <param name="role">The security role.</param>
         public ActionSecurityAttribute(SecurityRole role)
         {

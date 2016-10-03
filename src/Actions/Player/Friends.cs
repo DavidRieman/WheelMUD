@@ -19,9 +19,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command to manipulate a players friends list
-    /// </summary>
+    /// <summary>A command to manipulate a players friends list.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("friends", CommandCategory.Player)]
     [ActionAlias("friend", CommandCategory.Player)]
@@ -37,11 +35,8 @@ namespace WheelMUD.Actions
 
         private Thing player;
         private PlayerBehavior playerBehavior;
-        //private UserControlledBehavior userControlledBehavior;
 
-        /// <summary>
-        /// Executes the command.
-        /// </summary>
+        /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         /// <remarks>Verify that the Guards pass first.</remarks>
         public override void Execute(ActionInput actionInput)

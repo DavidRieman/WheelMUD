@@ -12,9 +12,7 @@ namespace WheelMUD.Core
 {
     using System;
 
-    /// <summary>
-    /// The contextual availability, as it applies to a context command, etc.
-    /// </summary>
+    /// <summary>The contextual availability, as it applies to a context command, etc.</summary>
     [Flags]
     public enum ContextAvailability
     {

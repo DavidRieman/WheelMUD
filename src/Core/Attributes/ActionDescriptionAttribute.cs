@@ -13,15 +13,11 @@ namespace WheelMUD.Core.Attributes
 {
     using System;
 
-    /// <summary>
-    /// Action description attribute.
-    /// </summary>
+    /// <summary>Action description attribute.</summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ActionDescriptionAttribute : Attribute
     {
-        /// <summary>
-        /// Initializes a new instance of the ActionDescriptionAttribute class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ActionDescriptionAttribute class.</summary>
         /// <param name="description">The description of the action.</param>
         public ActionDescriptionAttribute(string description)
         {

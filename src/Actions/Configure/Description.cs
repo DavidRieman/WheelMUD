@@ -16,9 +16,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// An action to change your character's description.
-    /// </summary>
+    /// <summary>An action to change your character's description.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("description", CommandCategory.Configure)]
     [ActionAlias("descript", CommandCategory.Configure)]
@@ -31,9 +29,7 @@ namespace WheelMUD.Actions
         {
         };
 
-        /// <summary>
-        /// Gets or sets the new description that will be used
-        /// </summary>
+        /// <summary>Gets or sets the new description that will be used.</summary>
         private string NewDescription { get; set; }
 
         /// <summary>Executes the command.</summary>

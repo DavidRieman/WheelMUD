@@ -14,9 +14,7 @@
 
 namespace WheelMUD.Core.Enums
 {
-    /// <summary>
-    /// Replace this with this class summary
-    /// </summary>
+    /// <summary>Replace this with this class summary.</summary>
     public enum SensoryTypeMeasurement
     {
         /// <summary>Used for debugging.</summary>
@@ -28,10 +26,7 @@ namespace WheelMUD.Core.Enums
         /// <summary>How bright something is.</summary>
         Lumen,
 
-        /// <summary>
-        /// Used for smell and taste. Both senses use the same
-        /// measurement.
-        /// </summary>
+        /// <summary>Used for smell and taste. Both senses use the same measurement.</summary>
         PartsPerMillion,
 
         /// <summary>Provides tactile feedback to the touch sense.</summary>

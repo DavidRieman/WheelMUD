@@ -10,14 +10,10 @@
 
 namespace WheelMUD.Core.Events
 {
-    /// <summary>
-    /// A 'change owner' event.
-    /// </summary>
+    /// <summary>A 'change owner' event.</summary>
     public class ChangeOwnerEvent : CancellableGameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the ChangeOwnerEvent class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ChangeOwnerEvent class.</summary>
         /// <param name="activeThing">The active thing.</param>
         /// <param name="senseMessage">The sensory message.</param>
         /// <param name="oldOwner">The old owner of the item.</param>

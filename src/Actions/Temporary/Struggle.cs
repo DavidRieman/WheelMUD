@@ -18,9 +18,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Effects;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// @@@ Temporary script to to get out of a web.
-    /// </summary>
+    /// <summary>@@@ Temporary script to to get out of a web.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("struggle", CommandCategory.Temporary)]
     [ActionDescription("@@@ Temp command.")]

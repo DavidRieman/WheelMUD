@@ -17,9 +17,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command that allows a player to enter a Thing.
-    /// </summary>
+    /// <summary>A command that allows a player to enter a Thing.</summary>
     /// <remarks>
     /// @@@ TODO: An "enter" action should only be present through a ContextCommand added by an EnterableBehavior,
     ///           like how OpensClosesBehavior handles it; move action to be EnterableBehavior.cs private class?

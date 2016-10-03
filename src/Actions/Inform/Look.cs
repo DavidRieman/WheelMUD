@@ -19,9 +19,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
     using WheelMUD.Utilities;
 
-    /// <summary>
-    /// A command that allows a player to look at their environment.
-    /// </summary>
+    /// <summary>A command that allows a player to look at their environment.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("look", CommandCategory.Inform)]
     [ActionAlias("l", CommandCategory.Inform)]
@@ -84,9 +82,7 @@ namespace WheelMUD.Actions
             return null;
         }
 
-        /// <summary>
-        /// Tries the look at thing.
-        /// </summary>
+        /// <summary>Tries to look at a thing.</summary>
         /// <param name="thingToLookAt">The thing to look at.</param>
         /// <param name="sender">The sender.</param>
         /// <returns>Returns the rendered view.</returns>
@@ -117,9 +113,7 @@ namespace WheelMUD.Actions
             return string.Empty;
         }
 
-        /// <summary>
-        /// Looks at room. @@@ Move to SensesBehavior?
-        /// </summary>
+        /// <summary>Looks at room. @@@ Move to SensesBehavior?</summary>
         /// <param name="sender">The sender.</param>
         /// <returns>Returns the text of the rendered room template.</returns>
         private string LookAtRoom(Thing sender)

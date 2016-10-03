@@ -15,9 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// An action to wear an item.
-    /// </summary>
+    /// <summary>An action to wear an item.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("wear", CommandCategory.Item)]
     [ActionAlias("don", CommandCategory.Item)]

@@ -16,14 +16,10 @@ namespace WheelMUD.Effects
     using System.Timers;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// Abstract base class for all effects.
-    /// </summary>
+    /// <summary>Abstract base class for all effects.</summary>
     public abstract class Effect : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Effect" /> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="Effect" /> class.</summary>
         /// <param name="startTime">The start time.</param>
         /// <param name="duration">The duration.</param>
         public Effect(DateTime startTime, TimeSpan duration)
@@ -33,9 +29,7 @@ namespace WheelMUD.Effects
             this.Duration = duration;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Effect" /> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="Effect" /> class.</summary>
         /// <param name="duration">The duration.</param>
         public Effect(TimeSpan duration)
             : base(null)
@@ -44,9 +38,7 @@ namespace WheelMUD.Effects
             this.Duration = duration;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the Effect class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the Effect class.</summary>
         /// <param name="instanceProperties">Dictionary of properties to spawn this effect instance with, if any.</param>
         protected Effect(Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
@@ -54,30 +46,24 @@ namespace WheelMUD.Effects
             this.StartTime = DateTime.Now;
         }
 
-        /// <summary>
-        /// Gets or sets the effect duration.
+        /// <summary>Gets or sets the effect duration.</summary>
+        /// <remarks>
         /// Time starts counting down as soon as this property is set, unless the property
         /// is set to TimeSpan.MaxValue, in which case the effect will remain indefinitely.
-        /// </summary>
+        /// </remarks>
         public TimeSpan Duration { get; set; }
 
-        /// <summary>
-        /// Gets the remaining effect duration.
-        /// </summary>
+        /// <summary>Gets the remaining effect duration.</summary>
         public TimeSpan RemainingDuration
         {
             get { return this.Duration.Subtract(DateTime.Now - this.StartTime); }
         }
 
-        /// <summary>
-        /// Gets the time when the effect was applied.
-        /// </summary>
+        /// <summary>Gets the time when the effect was applied.</summary>
         /// <value>The start time.</value>
         public DateTime StartTime { get; private set; }
 
-        /// <summary>
-        /// Gets the time when the effect will expire.
-        /// </summary>
+        /// <summary>Gets the time when the effect will expire.</summary>
         /// <value>The time when the effect will expire.</value>
         public DateTime EndTime
         {

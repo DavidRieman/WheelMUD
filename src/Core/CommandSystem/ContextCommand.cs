@@ -13,15 +13,11 @@ namespace WheelMUD.Core
     using WheelMUD.Actions;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// A ContextCommand is like a Command but simpler, and can only be executed in temporary/certain contexts.
-    /// @@@ TODO: Add description/details or whatnot, and have help system list any currently-applicable context commands.
-    /// </summary>
+    /// <summary>A ContextCommand is like a Command but simpler, and can only be executed in temporary/certain contexts.</summary>
+    /// <remarks>@@@ TODO: Add description/details or whatnot, and have help system list any currently-applicable context commands.</remarks>
     public class ContextCommand
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ContextCommand"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ContextCommand"/> class.</summary>
         /// <param name="commandScript">The command script.</param>
         /// <param name="commandKey">The command key.</param>
         /// <param name="availability">The availability.</param>

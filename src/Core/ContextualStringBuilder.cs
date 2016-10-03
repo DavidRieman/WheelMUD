@@ -24,9 +24,7 @@ namespace WheelMUD.Core
     //// $grp$     - gendered reflexive pronoun, will pass himself, herself, itself (Yourself if the string is passed to the sender)
     //// $gpp$     - gendered posesive pronount, will pass his, her, its, (your if the string is passed to the sender)
 
-    /// <summary>
-    /// Contextual string usage flags.
-    /// </summary>
+    /// <summary>Contextual string usage flags.</summary>
     public enum ContextualStringUsage
     {
         /// <summary>Use this string anytime.</summary>
@@ -48,9 +46,7 @@ namespace WheelMUD.Core
         WhenNotBeingPassedToReceiverOrOriginator
     }
 
-    /// <summary>
-    /// Contextual string builder.
-    /// </summary>
+    /// <summary>Contextual string builder.</summary>
     public class ContextualStringBuilder
     {
         ////private readonly StringBuilder sb = new StringBuilder();
@@ -58,9 +54,7 @@ namespace WheelMUD.Core
         /// <summary>A list of contextually-constrained strings, used to build output.</summary>
         private readonly List<ContextualString> texts = new List<ContextualString>();
 
-        /// <summary>
-        /// Initializes a new instance of the ContextualStringBuilder class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ContextualStringBuilder class.</summary>
         /// <param name="originator">The originator of the message.</param>
         /// <param name="receiver">The main target of the message.</param>
         public ContextualStringBuilder(Thing originator, Thing receiver)
@@ -79,9 +73,7 @@ namespace WheelMUD.Core
         /// <summary>Gets the view engine context.</summary>
         public Hashtable ViewEngineContext { get; private set; }
 
-        /// <summary>
-        /// Append the specified text, within the specified context only.
-        /// </summary>
+        /// <summary>Append the specified text, within the specified context only.</summary>
         /// <param name="text">The text to append.</param>
         /// <param name="usage">The context(s) which this string should be appended.</param>
         /// <returns>Returns a ContextualStringBuilder object.</returns>
@@ -91,20 +83,16 @@ namespace WheelMUD.Core
             return this;
         }
 
-        /// <summary>
-        /// Appends the following text, regardless of context.
-        /// </summary>
+        /// <summary>Appends the following text, regardless of context.</summary>
         /// <param name="text">The text to append.</param>
-        /// <returns>Returns a ContextualStringBuilder</returns>
+        /// <returns>Returns a ContextualStringBuilder.</returns>
         public ContextualStringBuilder Append(string text)
         {
             this.Append(text, ContextualStringUsage.Anytime);
             return this;
         }
 
-        /// <summary>
-        /// Parse the string with the context of the specified receiver.
-        /// </summary>
+        /// <summary>Parse the string with the context of the specified receiver.</summary>
         /// <param name="currentReceiver">The intended receiver.</param>
         /// <returns>The suitable string for the intended receiver.</returns>
         public string Parse(Thing currentReceiver)
@@ -159,14 +147,10 @@ namespace WheelMUD.Core
             return output;
         }
 
-        /// <summary>
-        /// A context-sensitive string.
-        /// </summary>
+        /// <summary>A context-sensitive string.</summary>
         private class ContextualString
         {
-            /// <summary>
-            /// Initializes a new instance of the ContextualString class.
-            /// </summary>
+            /// <summary>Initializes a new instance of the ContextualString class.</summary>
             /// <param name="text">The string text.</param>
             /// <param name="usage">The contextual usage of this string.</param>
             public ContextualString(string text, ContextualStringUsage usage)

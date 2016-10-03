@@ -15,16 +15,12 @@ namespace WheelMUD.Core
     using System.ComponentModel.Composition;
     using WheelMUD.Actions;
 
-    /// <summary>
-    /// An attribute to export GameActions with.
-    /// </summary>
+    /// <summary>An attribute to export GameActions with.</summary>
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ExportGameActionAttribute : ExportAttribute
     {
-        /// <summary>
-        /// Initializes a new instance of the ExportGameActionAttribute class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ExportGameActionAttribute class.</summary>
         public ExportGameActionAttribute()
             : base(typeof(GameAction))
         {

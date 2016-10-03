@@ -174,8 +174,8 @@ namespace WheelMUD.Server
             }
         }
 
-        /// <summary>Closes a connection</summary>
-        /// <param name="connectionId">The ID of the connection to close</param>
+        /// <summary>Closes a connection.</summary>
+        /// <param name="connectionId">The ID of the connection to close.</param>
         public void CloseConnection(string connectionId)
         {
             for (int i = connections.Count - 1; i >= 0; i--)

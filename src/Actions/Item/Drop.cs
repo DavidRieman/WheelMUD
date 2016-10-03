@@ -15,12 +15,9 @@ namespace WheelMUD.Actions
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A command to drop an object from the player inventory to the room.
-    /// </summary>
+    /// <summary>A command to drop an object from the player inventory to the room.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("drop", CommandCategory.Item)]
     [ActionDescription("Drop an object from your inventory.")]

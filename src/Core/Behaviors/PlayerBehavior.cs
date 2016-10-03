@@ -136,7 +136,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Loads a player by name.</summary>
-        /// <param name="playerName">Name of the player</param>
+        /// <param name="playerName">Name of the player.</param>
         public void Load(string playerName)
         {
             var repository = new PlayerRepository();
@@ -349,10 +349,8 @@ namespace WheelMUD.Core
             return false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// <summary>Builds the player's prompt.</summary>
+        /// <returns>The player's current prompt.</returns>
         /// <remarks>
         /// Other game systems should have their own, deriving versions of PlayerBehavior override
         /// this default prompt printer with one which is aware of game-specific details...
@@ -475,9 +473,7 @@ namespace WheelMUD.Core
 
         /* @@@ This was part of the Quit command, so wouldn't execute if the player was Booted, etc...
          *     probably this should happen as part of PlayerBehavior.Quit()
-        /// <summary>
-        /// Sets the LastLogoutDate for the player, then saves it to the database.
-        /// </summary>
+        /// <summary>Sets the LastLogoutDate for the player, then saves it to the database.</summary>
         /// <param name="sender">Sender of the command.</param>
         private void SavePlayer(IController sender)
         {

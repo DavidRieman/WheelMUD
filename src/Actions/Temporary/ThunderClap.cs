@@ -20,9 +20,6 @@ namespace WheelMUD.Actions
     using WheelMUD.Effects;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// Action description here.
-    /// </summary>
     [ExportGameAction]
     [ActionPrimaryAlias("ThunderClap", CommandCategory.Temporary)]
     [ActionDescription("@@@ Temp command.")]
@@ -38,9 +35,7 @@ namespace WheelMUD.Actions
             CommonGuards.RequiresAtLeastOneArgument
         };
 
-        /// <summary>
-        /// The target of the ThunderClap action.
-        /// </summary>
+        /// <summary>The target of the ThunderClap action.</summary>
         private Thing target = null;
 
         /// <summary>Executes the command.</summary>
