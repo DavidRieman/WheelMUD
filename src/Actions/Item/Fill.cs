@@ -49,10 +49,10 @@ namespace WheelMUD.Actions
         /// <summary>The current room that the player is within.</summary>
         private Thing parent = null;
 
-        /// <summary>The name of the container that you want to tranfer data to. </summary>
+        /// <summary>The name of the container that you want to tranfer data to.</summary>
         private string destinationContainerName = null;
 
-        /// <summary>The container that you want to tranfer data to. </summary>
+        /// <summary>The container that you want to tranfer data to.</summary>
         private Thing destinationContainer = null;
 
         private ContainerBehavior containerBehavior;

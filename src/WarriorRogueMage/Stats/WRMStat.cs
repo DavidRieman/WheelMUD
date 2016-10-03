@@ -152,7 +152,7 @@ namespace WarriorRogueMage
 
         /// <summary>Converts the value of this instance to an <see cref="Object"/> of the specified <see cref="Type"/> that has an equivalent value.</summary>
         /// <returns>An <see cref="Object"/> instance of type <paramref name="conversionType"/> whose value is equivalent to the value of this instance.</returns>
-        /// <param name="conversionType">The <see cref="Type"/> to which the value of this instance is converted. </param>
+        /// <param name="conversionType">The <see cref="Type"/> to which the value of this instance is converted.</param>
         /// <param name="provider">An <see cref="IFormatProvider"/> interface implementation supplying culture-specific formatting information.</param>
         public object ToType(Type conversionType, IFormatProvider provider)
         {

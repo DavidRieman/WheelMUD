@@ -39,13 +39,13 @@ namespace WheelMUD.Universe
             this.ID = instanceID;
         }
 
-        /// <summary>Gets or sets a value indicating whether the container is able to hold liquid without leaking. </summary>
+        /// <summary>Gets or sets a value indicating whether the container is able to hold liquid without leaking.</summary>
         public bool HoldsLiquid { get; set; }
 
-        /// <summary>Gets or sets the amount of space in the container. </summary>
+        /// <summary>Gets or sets the amount of space in the container.</summary>
         public int Volume { get; set; }
 
-        /// <summary>Gets or sets the units of measurement for the volume. </summary>
+        /// <summary>Gets or sets the units of measurement for the volume.</summary>
         public string VolumeUnitOfMeasurement { get; set; }
 
         /// <summary>
