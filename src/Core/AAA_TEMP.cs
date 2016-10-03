@@ -103,11 +103,11 @@ namespace WheelMUD.Interfaces
         /// <summary>Gets the session ID.</summary>
         string SessionID { get; }
 
-        /// <summary> Gets the friends of this player. </summary>
+        /// <summary> Gets the friends of this player.</summary>
         List<string> Friends { get; }
 
-        /// <summary> Allows a player's password to be changed.  </summary>
-        /// <param name="newPassword"> The new Password. </param>
+        /// <summary> Allows a player's password to be changed.</summary>
+        /// <param name="newPassword"> The new Password.</param>
         void SetPassword(string newPassword);
     }
 }*/
@@ -158,7 +158,7 @@ namespace WheelMUD.Universe.Beings
         /// Load this player.
 @@@ TODO: This should all happen at the base Thing and Behavior (for PlayerBehavior or whatnot)
         /// </summary>
-        /// <param name="repository"> The player repository. </param>
+        /// <param name="repository"> The player repository.</param>
         private void LoadChildObjects(PlayerRepository repository)
         {
             var session = Controller as Session;
@@ -288,7 +288,7 @@ namespace WheelMUD.Universe.Places
         /// <summary>
         /// Loads the world
         /// </summary>
-        /// <param name="itemManager"> The item Manager. </param>
+        /// <param name="itemManager"> The item Manager.</param>
         /// <returns> A loaded world object </returns>
         public static Thing Load(ItemManager itemManager)
         {
@@ -2279,7 +2279,7 @@ public interface IEventObserver
                 }
             }
         }
-        /// <summary> Items that are separate, but act as part of the parent. </summary>
+        /// <summary> Items that are separate, but act as part of the parent.</summary>
         private List<IThingAdornment> adornments = new List<IThingAdornment>();
         /// <summary>
         /// Gets or sets a value indicating whether this item is an adornment.

@@ -44,7 +44,7 @@ namespace WheelMUD.Actions
         /// <summary>The container that we are to 'empty'.</summary>
         private Thing sourceContainer = null;
 
-        /// <summary>The parent that you want to tranfer data to. </summary>
+        /// <summary>The parent that you want to tranfer data to.</summary>
         private Thing destinationParent = null;
 
         /// <summary>Executes the command.</summary>
