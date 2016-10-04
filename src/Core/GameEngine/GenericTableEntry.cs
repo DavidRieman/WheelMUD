@@ -14,10 +14,7 @@ namespace WheelMUD.Core
     using System.Collections.Generic;
     using WheelMUD.Rules;
 
-    /// <summary>
-    /// A helper class to deal with custom game tables, that don't fit under
-    /// the set game tables or other game engine classer.
-    /// </summary>
+    /// <summary>Defines custom game tables that don't fit under the set game tables or other game engine classes.</summary>
     public class GenericTableEntry
     {
         public string Name { get; set; }

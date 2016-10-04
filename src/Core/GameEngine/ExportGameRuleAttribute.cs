@@ -14,16 +14,12 @@ namespace WheelMUD.Core
     using System.ComponentModel.Composition;
     using WheelMUD.Rules;
 
-    /// <summary>
-    /// An [ExportGameRule] attribute to mark GameRules for export through MEF.
-    /// </summary>
+    /// <summary>An [ExportGameRule] attribute to mark GameRules for export through MEF.</summary>
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ExportGameRuleAttribute : ExportAttribute
     {
-        /// <summary>
-        /// Initializes a new instance of the ExportGameRuleAttribute class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ExportGameRuleAttribute class.</summary>
         public ExportGameRuleAttribute()
             : base(typeof(GameRule))
         {

@@ -12,9 +12,7 @@
 
 namespace WheelMUD.Data.RavenDb.Documents
 {
-    /// <summary>
-    /// The representation of a mobile in the document database.
-    /// </summary>
+    /// <summary>The representation of a mobile in the document database.</summary>
     public class MobileDocument
     {
     }

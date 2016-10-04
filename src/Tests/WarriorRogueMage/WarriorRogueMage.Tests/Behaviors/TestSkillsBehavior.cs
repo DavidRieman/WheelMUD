@@ -13,17 +13,12 @@
 namespace WheelMUD.Tests.Behaviors
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NUnit.Framework;
-
     using WarriorRogueMage.Behaviors;
     using WarriorRogueMage.Skills;
-
     using WheelMUD.Core;
 
-    /// <summary>
-    /// Replace this with this class summary
-    /// </summary>
+    /// <summary>Replace this with this class summary.</summary>
     [TestClass][TestFixture]
     public class TestSkillsBehavior
     {
@@ -37,9 +32,7 @@ namespace WheelMUD.Tests.Behaviors
             this.playerThing = new Thing() { Name = "PlayerThing", ID = TestThingID.Generate("testthing") };
         }
 
-        /// <summary>
-        /// Test to make sure WRM behaviors are attaching properly.
-        ///</summary>
+        /// <summary>Test to make sure WRM behaviors are attaching properly.</summary>
         [TestMethod]
         [Test]
         public void AttachSkillsBehaviorToPlayerTest()

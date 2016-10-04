@@ -15,22 +15,16 @@ namespace WheelMUD.Universe
     using System.Collections.Generic;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// A potion item behavior adds the ability to quaff/sip from an item.
-    /// </summary>
+    /// <summary>A potion item behavior adds the ability to quaff/sip from an item.</summary>
     public class PotionBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the PotionBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the PotionBehavior class.</summary>
         public PotionBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the PotionBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the PotionBehavior class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">Dictionary of properties to spawn this behavior instance with, if any.</param>
         public PotionBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -54,9 +48,7 @@ namespace WheelMUD.Universe
         /// <summary>Gets or sets the duration of the effect of this potion.</summary>
         public TimeSpan Duration { get; set; }
 
-        /// <summary>
-        /// Have the specified entity drink the potion.
-        /// </summary>
+        /// <summary>Have the specified entity drink the potion.</summary>
         /// <param name="entity">The entity to drink the potion.</param>
         public void Drink(Thing entity)
         {
@@ -80,9 +72,7 @@ namespace WheelMUD.Universe
             ////this.Save(); @@@ Bring back as Save from base class?
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.MaxSips = 5;

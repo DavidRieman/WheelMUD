@@ -16,22 +16,16 @@ namespace WheelMUD.Effects
     using WheelMUD.Core;
     using WheelMUD.Core.Events;
 
-    /// <summary>
-    /// An effect to alter a stat on a thing.
-    /// </summary>
+    /// <summary>An effect to alter a stat on a thing.</summary>
     public class StatEffect : Effect
     {
-        /// <summary>
-        /// Initializes a new instance of the StatEffect class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the StatEffect class.</summary>
         public StatEffect()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StatEffect" /> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="StatEffect" /> class.</summary>
         /// <param name="activeThing">The active thing.</param>
         /// <param name="stat">The stat.</param>
         /// <param name="valueMod">The modification to the stat's value.</param>
@@ -54,9 +48,7 @@ namespace WheelMUD.Effects
             this.Duration = duration;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the StatEffect class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the StatEffect class.</summary>
         /// <param name="instanceId">ID of the effect instance.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this effect instance.</param>
         public StatEffect(long instanceId, Dictionary<string, object> instanceProperties)
@@ -65,63 +57,35 @@ namespace WheelMUD.Effects
             this.ID = instanceId;
         }
 
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>The name.</value>
+        /// <summary>Gets or sets the name.</summary>
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the active thing.
-        /// </summary>
-        /// <value>The active thing.</value>
+        /// <summary>Gets or sets the active thing.</summary>
         public Thing ActiveThing { get; set; }
 
-        /// <summary>
-        /// Gets or sets the sensory message.
-        /// </summary>
-        /// <value>The sensory message.</value>
+        /// <summary>Gets or sets the sensory message.</summary>
         public SensoryMessage SensoryMessage { get; set; }
 
-        /// <summary>
-        /// Gets or sets the expiration message.
-        /// </summary>
-        /// <value>The expiration message.</value>
+        /// <summary>Gets or sets the expiration message.</summary>
         public SensoryMessage ExpirationMessage { get; set; }
 
-        /// <summary>
-        /// Gets or sets the stat being modified.
-        /// </summary>
-        /// <value>The stat being modified.</value>
+        /// <summary>Gets or sets the stat being modified.</summary>
         public GameStat Stat { get; set; }
 
-        /// <summary>
-        /// Gets or sets the modification to the stat's current value.
-        /// </summary>
-        /// <value>The modification to the stat's current value.</value>
+        /// <summary>Gets or sets the modification to the stat's current value.</summary>
         public int ValueMod { get; set; }
 
-        /// <summary>
-        /// Gets or sets the modification to the stat's minimum value.
-        /// </summary>
-        /// <value>The modification to the stat's minimum value.</value>
+        /// <summary>Gets or sets the modification to the stat's minimum value.</summary>
         public int MinimumMod { get; set; }
 
-        /// <summary>
-        /// Gets or sets the modification to the stat's maximum value.
-        /// </summary>
-        /// <value>The modification to the stat's maximum value.</value>
+        /// <summary>Gets or sets the modification to the stat's maximum value.</summary>
         public int MaximumMod { get; set; }
 
-        /// <summary>
-        /// Gets or sets the <see cref="TimeEvent" /> related to this effect's expiration.
-        /// </summary>
+        /// <summary>Gets or sets the <see cref="TimeEvent" /> related to this effect's expiration.</summary>
         /// <value>The <see cref="TimeEvent" /> related to this effect's expiration.</value>
         public TimeEvent RemoveStatEvent { get; set; }
 
-        /// <summary>
-        /// Expires this instance.
-        /// </summary>
+        /// <summary>Expires this instance.</summary>
         public void Expire()
         {
             this.Parent.Behaviors.Remove(this);
@@ -130,12 +94,8 @@ namespace WheelMUD.Effects
             this.RemoveStatEvent = null;
         }
 
-        /// <summary>
-        /// <para>Applies the effect to its host.</para>
-        /// <para>
-        /// Preconditions: this.Parent.Attributes must not be null if this.Parent is not null.
-        /// </para>
-        /// </summary>
+        /// <summary>Applies the effect to its host.</summary>
+        /// <remarks>Preconditions: this.Parent.Attributes must not be null if this.Parent is not null.</remarks>
         public override void OnAddBehavior()
         {
             // Create and broadcast the event notifying players that the effect was applied.
@@ -154,16 +114,12 @@ namespace WheelMUD.Effects
             base.OnAddBehavior();
         }
 
-        /// <summary>
-        /// <para>
-        /// The method that is called when an effect is to be removed.
+        /// <summary>The method that is called when an effect is to be removed.</summary>
+        /// <remarks>
         /// It is effectively the cleanup operation, i.e. reduce stats to normal level.
-        /// </para>
-        /// <para>
         /// Preconditions: this.Parent.Attributes must not be null if this.Parent is not null.
         /// this.Stat must not be null - provide defaults in this.SetDefaultProperties().
-        /// </para>
-        /// </summary>
+        /// </remarks>
         public override void OnRemoveBehavior()
         {
             // Broadcast the removal event that we previously created in OnAddBehavior.
@@ -184,10 +140,7 @@ namespace WheelMUD.Effects
             base.OnRemoveBehavior();
         }
 
-        /// <summary>
-        /// Sets the default properties of this effect instance.
-        /// Duration is given a default TimeSpan.
-        /// </summary>
+        /// <summary>Sets the default properties of this effect instance. Duration is given a default TimeSpan.</summary>
         protected override void SetDefaultProperties()
         {
             this.Duration = TimeSpan.FromMinutes(1);

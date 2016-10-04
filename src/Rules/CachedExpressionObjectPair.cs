@@ -17,34 +17,26 @@ namespace WheelMUD.Rules
 {
     using System;
 
-    /// <summary>
-    /// A cached rule expression that consists of a pair of objects.
-    /// </summary>
+    /// <summary>A cached rule expression that consists of a pair of objects.</summary>
     public sealed class CachedExpressionObjectPair : IEquatable<CachedExpressionObjectPair>
     {
         readonly CachedExpression privateCachedExpression;
         readonly object privateValue;
         readonly int hashCode;
 
-        /// <summary>
-        /// Gets CachedExpression
-        /// </summary>
+        /// <summary>Gets the cached expression.</summary>
         public CachedExpression CachedExpression
         {
             get { return this.privateCachedExpression; }
         }
 
-        /// <summary>
-        /// Gets Value
-        /// </summary>
+        /// <summary>Gets the value.</summary>
         public object Value
         {
             get { return this.privateValue; }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CachedExpressionObjectPair"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="CachedExpressionObjectPair"/> class.</summary>
         /// <param name="cachedExpression">The cached expression.</param>
         /// <param name="value">The value.</param>
         public CachedExpressionObjectPair(CachedExpression cachedExpression, object value)
@@ -90,38 +82,26 @@ namespace WheelMUD.Rules
             return false;
         }
 
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-        /// </returns>
+        /// <summary>Returns a hash code for this instance.</summary>
+        /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         public override int GetHashCode()
         {
             return hashCode;
         }
 
-        /// <summary>
-        /// Implements the operator ==.
-        /// </summary>
+        /// <summary>Implements the operator ==.</summary>
         /// <param name="t1">The t1.</param>
         /// <param name="t2">The t2.</param>
-        /// <returns>
-        /// The result of the operator.
-        /// </returns>
+        /// <returns>The result of the operation.</returns>
         public static bool operator ==(CachedExpressionObjectPair t1, CachedExpressionObjectPair t2)
         {
             return t1.Equals(t2);
         }
 
-        /// <summary>
-        /// Implements the operator !=.
-        /// </summary>
+        /// <summary>Implements the operator !=.</summary>
         /// <param name="t1">The t1.</param>
         /// <param name="t2">The t2.</param>
-        /// <returns>
-        /// The result of the operator.
-        /// </returns>
+        /// <returns>The result of the operation.</returns>
         public static bool operator !=(CachedExpressionObjectPair t1, CachedExpressionObjectPair t2)
         {
             return !t1.Equals(t2);

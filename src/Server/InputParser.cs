@@ -32,10 +32,7 @@ namespace WheelMUD.Server
         /// <summary>The 'input received' event handler.</summary>
         public event InputReceivedEventHandler InputReceived;
 
-        /// <summary>
-        /// Checks the data passed to it to see if the connection now has
-        /// a command ready.
-        /// </summary>
+        /// <summary>Checks the data passed to it to see if the connection now has a command ready.</summary>
         /// <param name="sender">The connection sending the data</param>
         /// <param name="data">The data received</param>
         public void OnDataReceived(IConnection sender, byte[] data)
@@ -137,10 +134,7 @@ namespace WheelMUD.Server
             return input;
         }
 
-        /// <summary>
-        /// Sets the last input terminator to the termination char(s) we have
-        /// just received (if any)
-        /// </summary>
+        /// <summary>Sets the last input terminator to the termination char(s) we have just received (if any).</summary>
         /// <param name="sender">The connection we received input on</param>
         /// <param name="input">The input we are checking</param>
         private static void SetLastTerminator(IConnection sender, string input)

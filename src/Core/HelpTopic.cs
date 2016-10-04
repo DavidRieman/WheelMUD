@@ -13,9 +13,7 @@ namespace WheelMUD.Core
 {
     using System.Collections.Generic;
 
-    /// <summary>
-    /// A help topic that has been defined in the database.
-    /// </summary>
+    /// <summary>A help topic that has been defined in the database.</summary>
     public class HelpTopic
     {
         public HelpTopic(string contents, List<string> aliases)

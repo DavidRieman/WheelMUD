@@ -11,14 +11,10 @@
 
 namespace WheelMUD.Server.Telnet
 {
-    /// <summary>
-    /// Class that handles the subnegotiation of a NAWS telnet option code.
-    /// </summary>
+    /// <summary>Class that handles the subnegotiation of a NAWS telnet option code.</summary>
     internal class TelnetOptionNaws : TelnetOption
     {
-        /// <summary>
-        /// Initializes a new instance of the TelnetOptionNaws class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the TelnetOptionNaws class.</summary>
         /// <param name="wantOption">Whether the option is wanted or not.</param>
         /// <param name="connection">The connection.</param>
         public TelnetOptionNaws(bool wantOption, Connection connection)

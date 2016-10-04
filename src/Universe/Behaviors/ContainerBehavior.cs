@@ -14,23 +14,16 @@ namespace WheelMUD.Universe
     using System.Collections.Generic;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// A container behavior adds the ability to contain other things.
-    /// @@@ TODO: Rename file. 
-    /// </summary>
+    /// <summary>A container behavior adds the ability to contain other things.</summary>
     public class ContainerBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the ContainerBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ContainerBehavior"/> class.</summary>
         public ContainerBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the ContainerBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ContainerBehavior"/> class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">Dictionary of properties to spawn this behavior instance with, if any.</param>
         public ContainerBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -48,9 +41,7 @@ namespace WheelMUD.Universe
         /// <summary>Gets or sets the units of measurement for the volume.</summary>
         public string VolumeUnitOfMeasurement { get; set; }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.HoldsLiquid = false;

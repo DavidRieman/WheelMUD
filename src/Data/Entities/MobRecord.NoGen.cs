@@ -11,14 +11,10 @@
 
 namespace WheelMUD.Data.Entities
 {
-    /// <summary>
-    /// Initializes a new instance of the MobRecord class.
-    /// </summary>
+    /// <summary>Initializes a new instance of the MobRecord class.</summary>
     public partial class MobRecord
     {
-        /// <summary>
-        /// The types of mobiles.
-        /// </summary>
+        /// <summary>The types of mobiles.</summary>
         public enum MobTypes
         {
             /// <summary>A basic guard mob.</summary>

@@ -13,19 +13,13 @@
 namespace WheelMUD.Tests.Talents
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NUnit.Framework;
-
     using WarriorRogueMage;
     using WarriorRogueMage.Attributes;
     using WarriorRogueMage.Behaviors;
     using WarriorRogueMage.Stats;
-
     using WheelMUD.Core;
 
-    /// <summary>
-    /// Replace this with this class summary
-    /// </summary>
     [TestClass][TestFixture]
     public class TestChampionTalent
     {
@@ -64,9 +58,7 @@ namespace WheelMUD.Tests.Talents
             playerThing.Stats.Add(attackStat.Name, attackStat);
         }
 
-        /// <summary>
-        /// Tests the champion talent added mechanism.
-        /// </summary>
+        /// <summary>Tests the champion talent added mechanism.</summary>
         [TestMethod]
         [Test]
         public void TestChampionTalentAddedMechanism()
@@ -83,9 +75,7 @@ namespace WheelMUD.Tests.Talents
             behavior.RemoveTalent(champion);
         }
 
-        /// <summary>
-        /// Tests the champion talent auto set rule.
-        /// </summary>
+        /// <summary>Tests the champion talent auto set rule.</summary>
         [TestMethod]
         [Test]
         public void TestChampionTalentAutosetRule()

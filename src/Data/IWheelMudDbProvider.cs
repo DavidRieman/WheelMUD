@@ -15,9 +15,7 @@ namespace WheelMUD.Data
 {
     using System.Data;
 
-    /// <summary>
-    /// Interface for supporting different database back ends under ORMLite
-    /// </summary>
+    /// <summary>Interface for supporting different database back ends under ORMLite.</summary>
     public interface IWheelMudDbProvider
     {
         string ConnectionString { get; set; }

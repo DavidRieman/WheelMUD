@@ -11,13 +11,12 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
-	/// <summary>
-	/// Present working directory command handler
-	/// </summary>
+    /// <summary>Present working directory command handler</summary>
     public class PwdCommandHandler : PwdCommandHandlerBase
-	{
-		public PwdCommandHandler(FtpConnectionObject connectionObject)
-			: base("PWD", connectionObject)
-		{}
-	}
+    {
+        public PwdCommandHandler(FtpConnectionObject connectionObject)
+            : base("PWD", connectionObject)
+        {
+        }
+    }
 }

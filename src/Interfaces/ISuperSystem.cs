@@ -10,20 +10,14 @@
 
 namespace WheelMUD.Interfaces
 {
-    /// <summary>
-    /// An interface describing a SuperSystem.
-    /// </summary>
+    /// <summary>An interface describing a SuperSystem.</summary>
     public interface ISuperSystem : ISystemBase, ISystemHost
     {
-        /// <summary>
-        /// Subscribe to the specified super system subscriber.
-        /// </summary>
+        /// <summary>Subscribe to the specified super system subscriber.</summary>
         /// <param name="sender">The subscribing system; generally use 'this'.</param>
         void SubscribeToSystem(ISuperSystemSubscriber sender);
 
-        /// <summary>
-        /// Unsubscribe from the specified super system subscriber.
-        /// </summary>
+        /// <summary>Unsubscribe from the specified super system subscriber.</summary>
         /// <param name="sender">The unsubscribing system; generally use 'this'.</param>
         void UnSubscribeFromSystem(ISuperSystemSubscriber sender);
     }

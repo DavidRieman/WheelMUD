@@ -14,22 +14,16 @@ namespace WheelMUD.Universe
     using WheelMUD.Core;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// OpensClosesBehavior addes the ability to open and close a thing.
-    /// </summary>
+    /// <summary>OpensClosesBehavior addes the ability to open and close a thing.</summary>
     public class HoldsLiquidBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the HoldsLiquidBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the HoldsLiquidBehavior class.</summary>
         public HoldsLiquidBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the HoldsLiquidBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the HoldsLiquidBehavior class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">Dictionary of properties to spawn this behavior instance with, if any.</param>
         public HoldsLiquidBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -81,9 +75,7 @@ namespace WheelMUD.Universe
             return;
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
         }

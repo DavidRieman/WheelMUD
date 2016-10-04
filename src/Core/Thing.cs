@@ -348,10 +348,8 @@ namespace WheelMUD.Core
             return true;
         }
 
-        /// <summary>
-        /// De-serialize the next object in the stream and re-create the current one in its image.
-        /// Uses the internal CloneProperties() for ease of maintenance by developers.
-        /// </summary>
+        /// <summary>De-serialize the next object in the stream and re-create the current one in its image.</summary>
+        /// <remarks>Uses the internal CloneProperties() for ease of maintenance by developers.</remarks>
         /// <param name="r">The stream to read from.</param>
         /// <returns>True on success, false on error.</returns>
         public bool LoadFromXML(Stream r)

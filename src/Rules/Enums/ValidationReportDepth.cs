@@ -17,20 +17,13 @@ namespace WheelMUD.Rules
 {
     public enum ValidationReportDepth
     {
-        /// <summary>
-        /// Only report the first encountered error for an Expression.
-        /// </summary>
+        /// <summary>Only report the first encountered error for an Expression.</summary>
         FieldShortCircuit,
 
-        
-        /// <summary>
-        /// Stops reporting at the first error encountered.
-        /// </summary>
+        /// <summary>Stops reporting at the first error encountered.</summary>
         ShortCircuit,
 
-        /// <summary>
-        /// Test all Validation Rules.
-        /// </summary>
+        /// <summary>Test all Validation Rules.</summary>
         All
     }
 }

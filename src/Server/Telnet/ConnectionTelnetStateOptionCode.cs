@@ -18,9 +18,7 @@ namespace WheelMUD.Server.Telnet
         /// <summary>The option code.</summary>
         private int optionCode;
 
-        /// <summary>
-        /// Initializes a new instance of the ConnectionTelnetStateOptionCode class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ConnectionTelnetStateOptionCode class.</summary>
         /// <param name="parent">The parent telnet code handler which this object is created by.</param>
         /// <param name="optionCode">The option code being negotiated.</param>
         public ConnectionTelnetStateOptionCode(TelnetCodeHandler parent, int optionCode)

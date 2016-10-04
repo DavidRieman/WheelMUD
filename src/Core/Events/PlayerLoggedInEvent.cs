@@ -10,14 +10,10 @@
 
 namespace WheelMUD.Core.Events
 {
-    /// <summary>
-    /// A 'player logged in' event.
-    /// </summary>
+    /// <summary>A 'player logged in' event.</summary>
     public class PlayerLogInEvent : CancellableGameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PlayerLogInEvent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="PlayerLogInEvent"/> class.</summary>
         /// <param name="activeThing">The player that has logged in.</param>
         /// <param name="senseMessage">The sensory message describing the event to those who can perceive it.</param>
         public PlayerLogInEvent(Thing activeThing, SensoryMessage senseMessage)

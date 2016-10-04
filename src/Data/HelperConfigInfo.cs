@@ -11,16 +11,11 @@
 
 namespace WheelMUD.Data
 {
-    using System;
     using System.Configuration;
     using System.IO;
-
     using Configuration = WheelMUD.Utilities.Configuration;
 
-    /// <summary>
-    /// Class to read connection string configuration info for the NHibernate Session
-    /// in the Helpers.cs class.
-    /// </summary>
+    /// <summary>Class to read connection string configuration info for the NHibernate Session in the Helpers.cs class.</summary>
     public class HelperConfigInfo
     {
         /// <summary>The HelperConfigInfo singleton instance.</summary>

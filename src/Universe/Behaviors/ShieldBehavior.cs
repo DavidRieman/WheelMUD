@@ -12,25 +12,20 @@
 
 namespace WheelMUD.Universe
 {
+    using System;
     using System.Collections.Generic;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// A shield item behavior adds the ability to wear an item and otherwise be used like a shield.
-    /// </summary>
+    /// <summary>A shield item behavior adds the ability to wear an item and otherwise be used like a shield.</summary>
     public class ShieldBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the ShieldBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ShieldBehavior class.</summary>
         public ShieldBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the ShieldBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ShieldBehavior class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">Dictionary of properties to spawn this behavior instance with, if any.</param>
         public ShieldBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -39,9 +34,7 @@ namespace WheelMUD.Universe
             this.ID = instanceID;
         }
 
-        /// <summary>
-        /// Use the specified shield.
-        /// </summary>
+        /// <summary>Use the specified shield.</summary>
         /// <param name="shieldRequest">The request details for wearing the shield.</param>
         /// <returns>True if the shield is put on, else false.</returns>
         public virtual bool Use(UseShieldRequest shieldRequest)
@@ -49,12 +42,10 @@ namespace WheelMUD.Universe
             return false;
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

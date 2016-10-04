@@ -18,9 +18,7 @@ namespace WheelMUD.Core
     using System.Linq;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// High level manager that provides tracking and global collection of all Thing instances.
-    /// </summary>
+    /// <summary>High level manager that provides tracking and global collection of all Thing instances.</summary>
     /// <remarks>
     /// @@@ TODO: Provide search ability of registered Things through LINQ rather than, 
     /// or in addition to, specific-purpose search methods.
@@ -203,10 +201,7 @@ namespace WheelMUD.Core
                 get { return ThingManager.Instance; }
             }
 
-            /// <summary>
-            /// Gets the Type of the singleton system, without instantiating it.
-            /// </summary>
-            /// <value></value>
+            /// <summary>Gets the Type of the singleton system, without instantiating it.</summary>
             /// <returns>The Type of the singleton system.</returns>
             public override Type SystemType
             {

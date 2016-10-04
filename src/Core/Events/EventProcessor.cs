@@ -14,18 +14,14 @@ namespace WheelMUD.Core
     using System.Collections;
     using WheelMUD.Core.Events;
 
-    /// <summary>
-    /// An event processor for a Player.
-    /// </summary>
+    /// <summary>An event processor for a Player.</summary>
     public class PlayerEventProcessor : IDisposable
     {
         private PlayerBehavior playerBehavior;
         private SensesBehavior sensesBehavior;
         private UserControlledBehavior userControlledBehavior;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PlayerEventProcessor"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="PlayerEventProcessor"/> class.</summary>
         /// <param name="playerBehavior">The player behavior.</param>
         /// <param name="sensesBehavior">The senses behavior.</param>
         /// <param name="userControlledBehavior">The user controlled behavior.</param>
@@ -36,9 +32,7 @@ namespace WheelMUD.Core
             this.userControlledBehavior = userControlledBehavior;
         }
 
-        /// <summary>
-        /// Attaches player-related events such as combat, movement, and communication.
-        /// </summary>
+        /// <summary>Attaches player-related events such as combat, movement, and communication.</summary>
         public void AttachEvents()
         {
             Thing player = this.playerBehavior.Parent;
@@ -51,9 +45,7 @@ namespace WheelMUD.Core
             player.Eventing.MiscellaneousEvent += this.ProcessEvent;
         }
 
-        /// <summary>
-        /// Process a specified event.
-        /// </summary>
+        /// <summary>Process a specified event.</summary>
         /// <param name="root">The root.</param>
         /// <param name="e">The event to be processed.</param>
         public void ProcessEvent(Thing root, GameEvent e)
@@ -69,9 +61,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Dispose of any resources used by this EventProcessor.
-        /// </summary>
+        /// <summary>Dispose of any resources used by this EventProcessor.</summary>
         public void Dispose()
         {
             if (this.playerBehavior != null)
@@ -87,9 +77,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Process a sensory message.
-        /// </summary>
+        /// <summary>Process a sensory message.</summary>
         /// <param name="message">The sensory message to be processed.</param>
         /// <returns>The rendered view of this sensory message.</returns>
         private string ProcessMessage(SensoryMessage message)
@@ -120,9 +108,7 @@ namespace WheelMUD.Core
         }
 
         /* @@@ FIX?
-        /// <summary>
-        /// Process the specified DebugEvent.
-        /// </summary>
+        /// <summary>Process the specified DebugEvent.</summary>
         /// <param name="debugEvent">The DebugEvent to be processed.</param>
         private void ProcessDebugEvent(DebugEvent debugEvent)
         {

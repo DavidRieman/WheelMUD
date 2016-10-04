@@ -14,32 +14,22 @@ namespace WheelMUD.Core
     using Raven.Imports.Newtonsoft.Json;
     using WheelMUD.Core.Enums;
 
-    /// <summary>
-    /// Encapsulates sensory behavior.
-    /// </summary>
+    /// <summary>Encapsulates sensory behavior.</summary>
     public class SensesBehavior : Behavior
     {
         /// <summary>The synchronization locking object.</summary>
         [JsonIgnore]
         private readonly object lockObject = new object();
 
-        /// <summary>
-        /// Initializes a new instance of the SensesBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the SensesBehavior class.</summary>
         public SensesBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the SensesBehavior class.
-        /// </summary>
-        /// <param name="instanceId">
-        /// The instance ID.
-        /// </param>
-        /// <param name="instanceProperties">
-        /// The dictionary of propertyNames-propertyValues for this behavior instance.
-        /// </param>
+        /// <summary>Initializes a new instance of the SensesBehavior class.</summary>
+        /// <param name="instanceId">The instance ID.</param>
+        /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public SensesBehavior(long instanceId, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
@@ -49,16 +39,11 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the senses this thing has access to.</summary>
         public SenseManager Senses { get; set; }
 
-        /// <summary>
-        /// Gets the things last perceived by this thing.
-        /// </summary>
-        /// <value>The perceived things.</value>
+        /// <summary>Gets the things last perceived by this thing.</summary>
         [JsonIgnore]
         public List<Thing> PerceivedThings { get; private set; }
 
-        /// <summary>
-        /// Have the entity perceive a list of possible exits with its senses.
-        /// </summary>
+        /// <summary>Have the entity perceive a list of possible exits with its senses.</summary>
         /// <returns>A list of perceived exits.</returns>
         public List<string> PerceiveExits()
         {
@@ -107,9 +92,7 @@ namespace WheelMUD.Core
             return null;
         }
 
-        /// <summary>
-        /// Have the entity perceive a list of entities with its senses.
-        /// </summary>
+        /// <summary>Have the entity perceive a list of entities with its senses.</summary>
         /// <returns>A list of perceived entities.</returns>
         public IList<Thing> PerceiveEntities()
         {
@@ -136,9 +119,7 @@ namespace WheelMUD.Core
             return new List<Thing>();
         }
 
-        /// <summary>
-        /// Have the entity perceive a list of items with its senses.
-        /// </summary>
+        /// <summary>Have the entity perceive a list of items with its senses.</summary>
         /// <returns>A list of perceived items.</returns>
         public IList<Thing> PerceiveItems()
         {
@@ -168,10 +149,8 @@ namespace WheelMUD.Core
             return null;
         }
 
-        /// <summary>
-        /// Determines whether the thing passed into the function can be perceived by this entity
-        /// Checks the Items, Entities and Exits for the thing passed
-        /// </summary>
+        /// <summary>Determines whether the thing passed into the function can be perceived by this entity.</summary>
+        /// <remarks>Checks the Items, Entities and Exits for the Thing passed.</remarks>
         /// <param name="thing">The thing to test.</param>
         /// <returns>true if the thing can be perceived; otherwise false.</returns>
         public bool CanPerceiveThing(Thing thing)
@@ -181,9 +160,7 @@ namespace WheelMUD.Core
             return this.Parent.FindChild(t => t == thing) != null && thing.IsDetectableBySense(this.Senses);
         }
 
-        /// <summary>
-        /// Allows the entity to determine what things are around it
-        /// </summary>
+        /// <summary>Allows the entity to determine what things are around it.</summary>
         public void ProcessSurroundings()
         {
             if (this.Parent == null)
@@ -199,9 +176,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.PerceivedThings = new List<Thing>();
@@ -209,9 +184,7 @@ namespace WheelMUD.Core
             this.LoadSenses();
         }
 
-        /// <summary>
-        /// Load the senses of the entity.
-        /// </summary>
+        /// <summary>Load the senses of the entity.</summary>
         private void LoadSenses()
         {
             // @@@ TODO: Each sense's details should be persistable/designable per race, etc.

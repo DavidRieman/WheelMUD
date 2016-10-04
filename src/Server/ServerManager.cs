@@ -16,9 +16,7 @@ namespace WheelMUD.Server
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// The ServerManager controls the flow of data through the various server layers.
-    /// </summary>
+    /// <summary>The ServerManager controls the flow of data through the various server layers.</summary>
     public class ServerManager : ManagerSystem
     {
         /// <summary>The singleton instance of this class.</summary>

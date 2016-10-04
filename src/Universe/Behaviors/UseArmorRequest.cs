@@ -10,9 +10,7 @@
 
 namespace WheelMUD.Universe
 {
-    /// <summary>
-    /// A request to use armor.
-    /// </summary>
+    /// <summary>A request to use armor.</summary>
     public class UseArmorRequest
     {
     }

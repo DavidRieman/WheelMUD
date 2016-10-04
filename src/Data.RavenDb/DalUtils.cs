@@ -16,17 +16,12 @@ namespace WheelMUD.Data.RavenDb
     using System.Linq;
     using Raven.Client;
     using Raven.Client.Indexes;
-
     using WheelMUD.Utilities;
 
-    /// <summary>
-    /// Utilities for making the use of RavenDb easier.
-    /// </summary>
+    /// <summary>Utilities for making the use of RavenDb easier.</summary>
     public class DalUtils
     {
-        /// <summary>
-        /// Gets the path to where the RavenDb data will be stored.
-        /// </summary>
+        /// <summary>Gets the path to where the RavenDb data will be stored.</summary>
         /// <returns>The path to the folder where the RavenDb data is stored.</returns>
         public static string GetDbPath()
         {
@@ -46,22 +41,16 @@ namespace WheelMUD.Data.RavenDb
             return root;
         }
 
-        /// <summary>
-        /// Gets the raven session.
-        /// </summary>
+        /// <summary>Gets the raven session.</summary>
         /// <returns>Returns a Raven.Client.IDocumentSession</returns>
         public static IDocumentSession GetRavenSession()
         {
             var store = DocumentStoreSingleton.Instance;
-
             var session = store.OpenSession();
-
             return session;
         }
 
-        /// <summary>
-        /// Creates the needed indexes, if they don't exist.
-        /// </summary>
+        /// <summary>Creates the needed indexes, if they don't exist.</summary>
         public static void CreateIndexes()
         {
             using (var store = DocumentStoreSingleton.Instance)
@@ -86,7 +75,7 @@ namespace WheelMUD.Data.RavenDb
                                       {
                                           doc.Name
                                       }
-                    }); 
+                    });
             }
         }
     }

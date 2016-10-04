@@ -20,15 +20,29 @@ namespace WheelMUD.Rules
 
     public class SetupClassElseEndIf<T, R, ENDIF> : IMustPassRule<SetupClassElseEndIf<T, R, ENDIF>, T, R>, ISetupClass
     {
-        Expression<Func<T, R>> _expression;
-        ForClassElseEndIf<T, ENDIF> _parent;
-        RulesEngine rulesRulesEngine;
+        private Expression<Func<T, R>> _expression;
+        private ForClassElseEndIf<T, ENDIF> _parent;
+        private RulesEngine rulesRulesEngine;
 
         internal SetupClassElseEndIf(RulesEngine rulesRulesEngine, ForClassElseEndIf<T, ENDIF> parent, Expression<Func<T, R>> expression)
         {
             _expression = expression;
             _parent = parent;
             this.rulesRulesEngine = rulesRulesEngine;
+        }
+
+        public Expression<Func<T, R>> Expression
+        {
+            get
+            {
+                return _expression;
+            }
+        }
+
+        /// <summary>Gets RulesEngine.</summary>
+        public RulesEngine RulesRulesEngine
+        {
+            get { return this.rulesRulesEngine; }
         }
 
         public SetupClassElseEndIf<T, R, ENDIF> MustPassRule(IRule<R> rule)
@@ -42,8 +56,7 @@ namespace WheelMUD.Rules
             this.rulesRulesEngine.RegisterRule(rule, Utilities.ReturnSelf<T>(), _expression);
             return this;
         }
-
-
+        
         public SetupClassElseEndIf<T, R1, ENDIF> Setup<R1>(Expression<Func<T, R1>> expression)
         {
             return new SetupClassElseEndIf<T, R1, ENDIF>(this.rulesRulesEngine, _parent, expression);
@@ -63,23 +76,6 @@ namespace WheelMUD.Rules
         {
             return _parent.EndIf();
         }
-
-        public Expression<Func<T, R>> Expression
-        {
-            get
-            {
-                return _expression;
-            }
-        }
-
-        /// <summary>
-        /// Gets RulesEngine
-        /// </summary>
-        public RulesEngine RulesRulesEngine
-        {
-            get { return this.rulesRulesEngine; }
-        }
-
 
         public SetupClassElseEndIf<T, R, ENDIF> GetSelf()
         {

@@ -10,19 +10,10 @@
 
 namespace WheelMUD.Core.Events
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    /// <summary>
-    /// Event raised when an item is wielded or unwielded.
-    /// </summary>
+    /// <summary>Event raised when an item is wielded or unwielded.</summary>
     public class WieldUnwieldEvent : CancellableGameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WieldUnwieldEvent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="WieldUnwieldEvent"/> class.</summary>
         /// <param name="wieldedItem">The thing being affected by this event.</param>
         /// <param name="isBeingWielded">Whether the thing is being wielded (true) or unwielded (false).</param>
         /// <param name="activeThing">The actor causing the event (if applicable).</param>
@@ -35,14 +26,10 @@ namespace WheelMUD.Core.Events
             sensoryMessage.Context.Add("WieldedItem", this.WieldedItem);
         }
 
-        /// <summary>
-        /// Gets a value indicating whether this event pertains to the target being wielded (true) or unwielded (false).
-        /// </summary>
+        /// <summary>Gets a value indicating whether this event pertains to the target being wielded (true) or unwielded (false).</summary>
         public bool IsBeingWielded { get; private set; }
 
-        /// <summary>
-        /// Gets the thing that was affected.
-        /// </summary>
+        /// <summary>Gets the thing that was affected.</summary>
         public Thing WieldedItem { get; private set; }
     }
 }

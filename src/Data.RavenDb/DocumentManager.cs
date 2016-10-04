@@ -16,15 +16,10 @@ namespace WheelMUD.Data.RavenDb
     using System;
     using System.Linq;
 
-    /// <summary>
-    /// Central class to host code that will load and save documents from the
-    /// document database (RavenDb).
-    /// </summary>
+    /// <summary>Central class to host code that will load and save documents from the document database (RavenDb).</summary>
     public class DocumentManager
     {
-        /// <summary>
-        /// Saves the player document.
-        /// </summary>
+        /// <summary>Saves the player document.</summary>
         /// <param name="playerDocument">The player document to be saved.</param>
         public static void SavePlayerDocument(PlayerDocument playerDocument)
         {
@@ -37,9 +32,7 @@ namespace WheelMUD.Data.RavenDb
             }
         }
 
-        /// <summary>
-        /// Loads the player document.
-        /// </summary>
+        /// <summary>Loads the player document.</summary>
         /// <param name="databaseId">The database id.</param>
         /// <returns>The loaded PlayerDocument.</returns>
         public static PlayerDocument LoadPlayerDocument(long databaseId)
@@ -52,9 +45,7 @@ namespace WheelMUD.Data.RavenDb
             }
         }
 
-        /// <summary>
-        /// Loads the player document.
-        /// </summary>
+        /// <summary>Loads the player document.</summary>
         /// <param name="playerName">Name of the player.</param>
         /// <returns>The loaded PlayerDocument.</returns>
         public static PlayerDocument LoadPlayerDocument(string playerName)

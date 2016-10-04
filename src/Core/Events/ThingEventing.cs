@@ -14,9 +14,7 @@ namespace WheelMUD.Core.Events
     using System.Collections.Generic;
     using System.Diagnostics;
 
-    /// <summary>
-    /// Houses eventing functionality for a Thing instance.
-    /// </summary>
+    /// <summary>Houses eventing functionality for a Thing instance.</summary>
     public class ThingEventing
     {
         /// <summary>The owner Thing of this instance.</summary>

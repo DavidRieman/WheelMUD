@@ -11,20 +11,19 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
-	/// <summary>
-	/// Base class for present current directory commands
-	/// </summary>
+    /// <summary>Base class for present current directory commands</summary>
     public class PwdCommandHandlerBase : FtpCommandHandler
-	{
-		public PwdCommandHandlerBase(string sCommand, FtpConnectionObject connectionObject)
-			: base(sCommand, connectionObject)
-		{}
+    {
+        public PwdCommandHandlerBase(string sCommand, FtpConnectionObject connectionObject)
+            : base(sCommand, connectionObject)
+        {
+        }
 
-		protected override string OnProcess(string sMessage)
-		{
+        protected override string OnProcess(string sMessage)
+        {
             string sDirectory = this.ConnectionObject.CurrentDirectory;
-			sDirectory = sDirectory.Replace('\\', '/');
-			return this.GetMessage(257, string.Format("\"{0}\" PWD Successful.", sDirectory));
-		}
-	}
+            sDirectory = sDirectory.Replace('\\', '/');
+            return this.GetMessage(257, string.Format("\"{0}\" PWD Successful.", sDirectory));
+        }
+    }
 }

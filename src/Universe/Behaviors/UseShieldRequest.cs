@@ -10,9 +10,7 @@
 
 namespace WheelMUD.Universe
 {
-    /// <summary>
-    /// A request to use a shield.
-    /// </summary>
+    /// <summary>A request to use a shield.</summary>
     public class UseShieldRequest
     {
     }

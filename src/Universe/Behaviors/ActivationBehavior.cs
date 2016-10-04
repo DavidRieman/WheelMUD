@@ -11,26 +11,20 @@
 
 namespace WheelMUD.Universe
 {
+    using System;
     using System.Collections.Generic;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// An activation item behavior adds the ability to trigger effects upon item activation.
-    /// @@@ TODO: Rename file.
-    /// </summary>
+    /// <summary>An activation item behavior adds the ability to trigger effects upon item activation.</summary>
     public class ActivationBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the ActivationBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ActivationBehavior"/> class.</summary>
         public ActivationBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the ActivationBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ActivationBehavior"/> class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">Dictionary of properties to spawn this behavior instance with, if any.</param>
         public ActivationBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -39,12 +33,10 @@ namespace WheelMUD.Universe
             this.ID = instanceID;
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

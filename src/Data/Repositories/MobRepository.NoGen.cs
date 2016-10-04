@@ -14,18 +14,13 @@ namespace WheelMUD.Data.Repositories
     using System;
     using System.Collections.Generic;  
     using System.Data;
-
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
 
-    /// <summary>
-    /// Custom code for the MobRepository class.
-    /// </summary>
+    /// <summary>Custom code for the MobRepository class.</summary>
     public partial class MobRepository
     {
-        /// <summary>
-        /// Gets a list of mobiles that should exist for the specified room.
-        /// </summary>
+        /// <summary>Gets a list of mobiles that should exist for the specified room.</summary>
         /// <param name="roomId">The ID of the room.</param>
         /// <returns>A list of mobile data structures for mobiles that start in this room.</returns>
         public ICollection<MobRecord> GetMobsForRoom(long roomId)

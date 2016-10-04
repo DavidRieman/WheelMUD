@@ -13,22 +13,16 @@ namespace WheelMUD.Universe
     using System.Collections.Generic;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// This behavior allows the attached thing to be drinkable.
-    /// </summary>
+    /// <summary>This behavior allows the attached thing to be drinkable.</summary>
     public class DrinkableBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the DrinkableBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the DrinkableBehavior class.</summary>
         public DrinkableBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the DrinkableBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the DrinkableBehavior class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">Dictionary of properties to spawn this behavior instance with, if any.</param>
         public DrinkableBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -37,9 +31,7 @@ namespace WheelMUD.Universe
             this.ID = instanceID;
         }
 
-        /// <summary>
-        /// Have a thing try to drink from this drinkable thing.
-        /// </summary>
+        /// <summary>Have a thing try to drink from this drinkable thing.</summary>
         /// <param name="drinker">The thing trying to take a drink.</param>
         public void Drink(Thing drinker)
         {
@@ -48,9 +40,7 @@ namespace WheelMUD.Universe
             //     like effects upon the drinking of it), and implement said reactions.
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
         }

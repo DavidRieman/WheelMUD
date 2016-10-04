@@ -1388,7 +1388,7 @@ namespace WheelMUD.Universe.Things.Locks
         /// <returns>Returns true for succesful unlock, false for failure.</returns>
         public override bool AttemptUnlock(string key)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>Attempt to lock the single dial combination lock.</summary>
@@ -1396,7 +1396,7 @@ namespace WheelMUD.Universe.Things.Locks
         /// <returns>Returns true for success and false for failure.</returns>
         public override bool AttemptLock(string key)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }
@@ -1459,7 +1459,7 @@ namespace WheelMUD.Universe.Things.Locks
         /// <returns>Returns true for succesful unlock, false for failure.</returns>
         public override bool AttemptUnlock(string key)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>Attempt to lock the multi dial combination lock.</summary>
@@ -1467,7 +1467,7 @@ namespace WheelMUD.Universe.Things.Locks
         /// <returns>Returns true for success and false for failure.</returns>
         public override bool AttemptLock(string key)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }
@@ -1488,7 +1488,7 @@ namespace WheelMUD.Universe.Things.Locks
         /// <returns>Returns true for succesful unlock, false for failure.</returns>
         public override bool AttemptUnlock(string key)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>Attempt to lock the multi dial combination lock.</summary>
@@ -1496,7 +1496,7 @@ namespace WheelMUD.Universe.Things.Locks
         /// <returns>Returns true for success and false for failure.</returns>
         public override bool AttemptLock(string key)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }*/

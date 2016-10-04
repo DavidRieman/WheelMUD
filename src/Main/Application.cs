@@ -183,9 +183,7 @@ namespace WheelMUD.Main
             this.Notify(sender.GetType().Name + " - " + msg);
         }
 
-        /// <summary>
-        /// Temporary help system just so that we have something here if the person types help at the console.
-        /// </summary>
+        /// <summary>Temporary help system just so that we have something here if the person types help at the console.</summary>
         public void DisplayHelp()
         {
             var path = Path.Combine(Configuration.GetDataStoragePath(), "ConsoleHelp.txt");

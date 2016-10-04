@@ -24,9 +24,7 @@ namespace WheelMUD.Server.Telnet
         /// <summary>@@@ What is this?</summary>
         internal const int SE = 240;
 
-        /// <summary>
-        /// Initializes a new instance of the ConnectionTelnetState class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ConnectionTelnetState class.</summary>
         /// <param name="parent">The parent telnet code handler which this object is created by.</param>
         protected ConnectionTelnetState(TelnetCodeHandler parent)
         {

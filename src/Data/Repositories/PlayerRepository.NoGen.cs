@@ -19,14 +19,10 @@ namespace WheelMUD.Data.Repositories
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
 
-    /// <summary>
-    /// Custom code for the PlayerRepository class.
-    /// </summary>
+    /// <summary>Custom code for the PlayerRepository class.</summary>
     public partial class PlayerRepository
     {
-        /// <summary>
-        /// Authenticates the specified name.
-        /// </summary>
+        /// <summary>Authenticates the specified name.</summary>
         /// <param name="userName">The user name for the player trying to authenticate.</param>
         /// <param name="password">The password for the player trying to authenticate.</param>
         /// <returns>A Boolean value indicating whether the authentication request was successful or not.</returns>
@@ -55,9 +51,7 @@ namespace WheelMUD.Data.Repositories
             return player != null;
         }
 
-        /// <summary>
-        /// Gets a player record that is associated with the user name.
-        /// </summary>
+        /// <summary>Gets a player record that is associated with the user name.</summary>
         /// <param name="userName">The user name to look up a player.</param>
         /// <returns>Returns a player record loaded with the player's data.</returns>
         public PlayerRecord GetPlayerByUserName(string userName)
@@ -83,9 +77,7 @@ namespace WheelMUD.Data.Repositories
             return player;
         }
 
-        /// <summary>
-        /// Gets a list of RoleRecords for a specific player
-        /// </summary>
+        /// <summary>Gets a list of RoleRecords for a specific player</summary>
         /// <param name="playerId">The player Id for which we want roles loaded.</param>
         /// <returns>Returns a list of RoleRecords, if any, for the specified player Id.</returns>
         public List<RoleRecord> GetPlayerRoles(long playerId)

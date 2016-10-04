@@ -20,15 +20,11 @@ namespace WheelMUD.Core
     /// </summary>
     public abstract class SystemExporter
     {
-        /// <summary>
-        /// Gets the singleton system instance.
-        /// </summary>
+        /// <summary>Gets the singleton system instance.</summary>
         /// <returns>A new instance of the singleton system.</returns>
         public abstract ISystem Instance { get; }
 
-        /// <summary>
-        /// Gets the Type of the singleton system, without instantiating it.
-        /// </summary>
+        /// <summary>Gets the Type of the singleton system, without instantiating it.</summary>
         /// <returns>The Type of the singleton system.</returns>
         public abstract Type SystemType { get; }
     }

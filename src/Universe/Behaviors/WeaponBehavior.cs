@@ -15,13 +15,13 @@ namespace WheelMUD.Universe
     using System.Collections.Generic;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// A weapon behavior adds the ability to wield and attack with the host Thing.
+    /// <summary>A weapon behavior adds the ability to wield and attack with the host Thing.</summary>
+    /// <remarks>
+    /// @@@ TODO: Add an interface for all behaviors which make statistical adjustments, to assist with recalculations?
     /// @@@ TODO: Perhaps remove concepts like 'MinimumStrength' from core behaviors, instead
     /// this could be accomplished with a GameWeaponBehavior, and/or global game system event 
     /// handlers which enforce such rules at time of the wield request's processing...
-    /// </summary>
-    /// <remarks>@@@ TODO: Add an interface for all behaviors which make statistical adjustments, to assist with recalculations?</remarks>
+    /// </remarks>
     public class WeaponBehavior : Behavior
     {
         /// <summary>Initializes a new instance of the WeaponBehavior class.</summary>

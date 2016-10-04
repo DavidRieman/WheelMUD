@@ -15,68 +15,65 @@ namespace WheelMUD.Ftp.FtpCommands
     using System.IO;
     using WheelMUD.Ftp.General;
 
-	/// <summary>
-	/// Base class for all ftp command handlers.
-	/// </summary>
-	public class FtpCommandHandler
-	{
-		public FtpCommandHandler(string command, FtpConnectionObject connectionObject)
-		{
-			this.Command = command;
-			this.ConnectionObject = connectionObject;
-		}
+    /// <summary>Base class for all ftp command handlers.</summary>
+    public class FtpCommandHandler
+    {
+        public FtpCommandHandler(string command, FtpConnectionObject connectionObject)
+        {
+            this.Command = command;
+            this.ConnectionObject = connectionObject;
+        }
 
         public string Command { get; private set; }
 
         public FtpConnectionObject ConnectionObject { get; private set; }
 
-		public void Process(string sMessage)
-		{
-			this.SendMessage(OnProcess(sMessage));
-		}
+        public void Process(string sMessage)
+        {
+            this.SendMessage(OnProcess(sMessage));
+        }
 
-		protected virtual string OnProcess(string sMessage)
-		{
-			Debug.Assert(false, "FtpCommandHandler::OnProcess base called");
-		    return string.Empty;
-		}
+        protected virtual string OnProcess(string sMessage)
+        {
+            Debug.Assert(false, "FtpCommandHandler::OnProcess base called");
+            return string.Empty;
+        }
 
-		protected string GetMessage(int nReturnCode, string sMessage)
-		{
-			return string.Format("{0} {1}\r\n", nReturnCode, sMessage);
-		}
+        protected string GetMessage(int nReturnCode, string sMessage)
+        {
+            return string.Format("{0} {1}\r\n", nReturnCode, sMessage);
+        }
 
-		protected string GetPath(string sPath)
-		{
-			if (sPath.Length == 0)
-			{
+        protected string GetPath(string sPath)
+        {
+            if (sPath.Length == 0)
+            {
                 return this.ConnectionObject.CurrentDirectory;
-			}
+            }
 
-			sPath = sPath.Replace('/', '\\');
+            sPath = sPath.Replace('/', '\\');
 
-			return Path.Combine(this.ConnectionObject.CurrentDirectory, sPath);
-		}
+            return Path.Combine(this.ConnectionObject.CurrentDirectory, sPath);
+        }
 
-		private void SendMessage(string sMessage)
-		{
-			if (sMessage.Length == 0)
-			{
-				return;
-			}
+        private void SendMessage(string message)
+        {
+            if (message.Length == 0)
+            {
+                return;
+            }
 
-			int nEndIndex = sMessage.IndexOf('\r');
+            int endIndex = message.IndexOf('\r');
+            if (endIndex < 0)
+            {
+                FtpServerMessageHandler.SendMessage(this.ConnectionObject.Id, message);
+            }
+            else
+            {
+                FtpServerMessageHandler.SendMessage(this.ConnectionObject.Id, message.Substring(0, endIndex));
+            }
 
-			if (nEndIndex < 0)
-			{
-                FtpServerMessageHandler.SendMessage(this.ConnectionObject.Id, sMessage);
-			}
-			else
-			{
-                FtpServerMessageHandler.SendMessage(this.ConnectionObject.Id, sMessage.Substring(0, nEndIndex));
-			}
-
-            SocketHelpers.Send(this.ConnectionObject.Socket, sMessage);
-		}
-	}
+            SocketHelpers.Send(this.ConnectionObject.Socket, message);
+        }
+    }
 }

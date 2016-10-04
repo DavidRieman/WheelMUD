@@ -23,9 +23,6 @@ namespace WheelMUD.Tests.Behaviors
 
     using WheelMUD.Core;
 
-    /// <summary>
-    /// Replace this with this class summary
-    /// </summary>
     [TestClass()][TestFixture]
     public class TestTalentsBehavior
     {

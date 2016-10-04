@@ -13,16 +13,12 @@ namespace WheelMUD.Core
     using System;
     using System.ComponentModel.Composition;
 
-    /// <summary>
-    /// An [ExportGameSkill] attribute to mark GameSkills for export through MEF.
-    /// </summary>
+    /// <summary>An [ExportGameSkill] attribute to mark GameSkills for export through MEF.</summary>
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ExportGameSkillAttribute : ExportAttribute
     {
-        /// <summary>
-        /// Initializes a new instance of the ExportGameSkillAttribute class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ExportGameSkillAttribute class.</summary>
         public ExportGameSkillAttribute()
             : base(typeof(GameSkill))
         {

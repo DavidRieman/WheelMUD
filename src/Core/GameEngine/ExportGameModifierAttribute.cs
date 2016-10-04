@@ -13,16 +13,12 @@ namespace WheelMUD.Core
     using System;
     using System.ComponentModel.Composition;
 
-    /// <summary>
-    /// An [ExportGameModifier] attribute to mark GameModifiers for export through MEF.
-    /// </summary>
+    /// <summary>An [ExportGameModifier] attribute to mark GameModifiers for export through MEF.</summary>
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ExportGameModifierAttribute : ExportAttribute
     {
-        /// <summary>
-        /// Initializes a new instance of the ExportGameModifierAttribute class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ExportGameModifierAttribute class.</summary>
         public ExportGameModifierAttribute()
             : base(typeof(GameModifier))
         {

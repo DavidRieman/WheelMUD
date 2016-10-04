@@ -13,17 +13,12 @@ namespace WheelMUD.Utilities
     using System;
     using System.IO; 
     using System.Reflection;
-
     using Nini.Config;
 
-    /// <summary>
-    /// Provides help methods for configuration code in the MUD engine.
-    /// </summary>
+    /// <summary>Provides help methods for configuration code in the MUD engine.</summary>
     public class Configuration
     {
-        /// <summary>
-        /// Gets the data storage path for WheelMUD files.
-        /// </summary>
+        /// <summary>Gets the data storage path for WheelMUD files.</summary>
         /// <returns>A string containing the root data directory for WheelMUD files.</returns>
         public static string GetDataStoragePath()
         {
@@ -35,11 +30,8 @@ namespace WheelMUD.Utilities
 
             return fullPath;
         }
-
-
-        /// <summary>
-        /// Gets the connection string configuration file path.
-        /// </summary>
+        
+        /// <summary>Gets the connection string configuration file path.</summary>
         /// <returns>The path to the configuration file that contains the connection strings.</returns>
         public static string GetConnectionStringConfigFilePath()
         {

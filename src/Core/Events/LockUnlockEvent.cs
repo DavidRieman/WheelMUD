@@ -10,14 +10,10 @@
 
 namespace WheelMUD.Core.Events
 {
-    /// <summary>
-    /// A lock/unlock event.
-    /// </summary>
+    /// <summary>A lock/unlock event.</summary>
     public class LockUnlockEvent : CancellableGameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LockUnlockEvent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="LockUnlockEvent"/> class.</summary>
         /// <param name="target">The thing being affected by this event.</param>
         /// <param name="isBeingLocked">Whether the thing is being locked (true) or unlocked (false).</param>
         /// <param name="activeThing">The actor causing the event (if applicable).</param>

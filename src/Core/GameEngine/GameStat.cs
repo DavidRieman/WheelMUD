@@ -17,16 +17,12 @@
 namespace WheelMUD.Core
 {
     using WheelMUD.Interfaces;
-    
-    /// <summary>
-    /// Represents a game-wide stat. This is used as a template to let the system
-    /// know what are the stats for the MUD.
-    /// </summary>
+
+    /// <summary>Represents a game-wide stat.</summary>
+    /// <remarks>This is used as a template to let the system know what are the stats for the MUD.</remarks>
     public class GameStat : BaseStat, IPersistsWithPlayer
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GameStat"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="GameStat"/> class.</summary>
         /// <param name="controller">The controller.</param>
         /// <param name="name">The stat name.</param>
         /// <param name="abbreviation">The ID that will be used to allow the gaming system to recognize this stat.</param>

@@ -15,16 +15,15 @@ namespace WheelMUD.Core
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-
     using WheelMUD.Core.Events;
     using WheelMUD.Data.RavenDb;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// High level manager that provides tracking and global collection of online players.
-    /// </summary>
+    /// <summary>High level manager that provides tracking and global collection of online players.</summary>
+    /// <remarks>
     /// Following what is still the standard C# event pattern.
     /// http://blogs.msdn.com/b/cburrows/archive/2010/03/30/events-get-a-little-overhaul-in-c-4-afterward-effective-events.aspx
+    /// </remarks>
     public class PlayerManager : ManagerSystem
     {
         /// <summary>The singleton instance of this class.</summary>
@@ -33,10 +32,7 @@ namespace WheelMUD.Core
         /// <summary>A list of managed players.</summary>
         private readonly List<PlayerBehavior> playersList = new List<PlayerBehavior>();
 
-        /// <summary>
-        /// Prevents a default instance of the <see cref="PlayerManager"/> class from being created. 
-        /// Initializes a new instance of the PlayerManager class.
-        /// </summary>
+        /// <summary>Prevents a default instance of the <see cref="PlayerManager"/> class from being created.</summary>
         private PlayerManager()
         {
         }
@@ -459,17 +455,13 @@ namespace WheelMUD.Core
         [ExportSystem]
         public class PlayerManagerExporter : SystemExporter
         {
-            /// <summary>
-            /// Gets the singleton instance of the PlayerManager singleton.
-            /// </summary>
+            /// <summary>Gets the singleton instance of the <see cref="PlayerManager"/> class.</summary>
             public override ISystem Instance
             {
                 get { return PlayerManager.Instance; }
             }
 
-            /// <summary>
-            /// Gets the Type of the singleton system, without instantiating it.
-            /// </summary>
+            /// <summary>Gets the Type of the singleton system, without instantiating it.</summary>
             /// <returns>The Type of the singleton system.</returns>
             public override Type SystemType
             {

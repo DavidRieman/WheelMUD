@@ -13,18 +13,13 @@ namespace WheelMUD.Data.Repositories
 {
     using System.Collections.Generic;
     using System.Data;
-
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
 
-    /// <summary>
-    /// Custom code for the PlayerRoleRepository class.
-    /// </summary>
+    /// <summary>Custom code for the PlayerRoleRepository class.</summary>
     public partial class PlayerRoleRepository
     {
-        /// <summary>
-        /// Deletes a list of roles from a player.
-        /// </summary>
+        /// <summary>Deletes a list of roles from a player.</summary>
         /// <param name="playerId">The id of the player that will have roles removed.</param>
         public void DeleteAllRolesForPlayer(long playerId)
         {
@@ -36,9 +31,7 @@ namespace WheelMUD.Data.Repositories
             }
         }
 
-        /// <summary>
-        /// Adds a list of roles to a player.
-        /// </summary>
+        /// <summary>Adds a list of roles to a player.</summary>
         /// <param name="roles">The roles that will be added to a player.</param>
         public void AddRolesToPlayer(List<PlayerRoleRecord> roles)
         {
@@ -55,9 +48,7 @@ namespace WheelMUD.Data.Repositories
             }
         }
 
-        /// <summary>
-        /// Fetches all player role records for player.
-        /// </summary>
+        /// <summary>Fetches all player role records for player.</summary>
         /// <param name="playerId">The player id that will be used to retrieve the roles.</param>
         /// <returns>A list of PlayerRoleRecord objects.</returns>
         public ICollection<PlayerRoleRecord> FetchAllPlayerRoleRecordsForPlayer(long playerId)

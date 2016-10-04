@@ -18,9 +18,7 @@ namespace WheelMUD.Core
     using WheelMUD.Interfaces;
     using WheelMUD.Utilities;
 
-    /// <summary>
-    /// High level manager that provides tracking and global collection of all connected sessions.
-    /// </summary>
+    /// <summary>High level manager that provides tracking and global collection of all connected sessions.</summary>
     public class SessionManager : ManagerSystem
     {
         /// <summary>The singleton instance of this class.</summary>

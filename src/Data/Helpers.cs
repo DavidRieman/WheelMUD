@@ -10,29 +10,19 @@ namespace WheelMUD.Data
     using System;
     using System.Data;
 
-    /// <summary>
-    /// Helper methods for the WheelMUD.Data namespace.
-    /// </summary>
+    /// <summary>Helper methods for the WheelMUD.Data namespace.</summary>
     public class Helpers
     {
-        /// <summary>
-        /// The session factory variable.
-        /// </summary>
+        /// <summary>The session factory variable.</summary>
         private static IDbConnection _sessionFactory;
 
-        /// <summary>
-        /// The database provider string value.
-        /// </summary>
+        /// <summary>The database provider string value.</summary>
         private static string _provider;
 
-        /// <summary>
-        /// The database connection string variable.
-        /// </summary>
+        /// <summary>The database connection string variable.</summary>
         private static string _connectionString;
 
-        /// <summary>
-        /// Gets the session factory.
-        /// </summary>
+        /// <summary>Gets the session factory.</summary>
         /// <value>The session factory.</value>
         private static IDbConnection SessionFactory
         {
@@ -68,9 +58,7 @@ namespace WheelMUD.Data
             }
         }
 
-        /// <summary>
-        /// Opens a session for the current database provider.
-        /// </summary>
+        /// <summary>Opens a session for the current database provider.</summary>
         /// <returns>Returns a Session object.</returns>
         public static IDbCommand OpenSession()
         {
@@ -86,9 +74,7 @@ namespace WheelMUD.Data
             }
         }
 
-        /// <summary>
-        /// Gets the name of the current database provider.
-        /// </summary>
+        /// <summary>Gets the name of the current database provider.</summary>
         /// <returns>Returns the current database provider name.</returns>
         public static string GetCurrentProviderName()
         {
@@ -97,9 +83,7 @@ namespace WheelMUD.Data
             return config.Provider;
         }
 
-        /// <summary>
-        /// Gets the name of the current connection string.
-        /// </summary>
+        /// <summary>Gets the name of the current connection string.</summary>
         /// <returns>Returns the name used as the key for the connection string.</returns>
         public static string GetCurrentConnectionStringName()
         {
@@ -108,9 +92,7 @@ namespace WheelMUD.Data
             return config.ConnectionStringName;
         }
 
-        /// <summary>
-        /// Gets the current connection string.
-        /// </summary>
+        /// <summary>Gets the current connection string.</summary>
         /// <returns>Returns the current connection string used to talk to the relational database.</returns>
         public static string GetCurrentConnectionString()
         {

@@ -12,9 +12,7 @@ namespace WheelMUD.Core
 {
     using System.Collections.Generic;
 
-    /// <summary>
-    /// A manager of senses, as used for perception by Things.
-    /// </summary>
+    /// <summary>A manager of senses, as used for perception by Things.</summary>
     public class SenseManager
     {
         /// <summary>The synchronization locking object.</summary>
@@ -23,11 +21,8 @@ namespace WheelMUD.Core
         /// <summary>The collection of managed senses.</summary>
         private Dictionary<SensoryType, Sense> senses = new Dictionary<SensoryType, Sense>();
 
-        /// <summary>
-        /// Gets or sets the internal dictionary of senses.
-        /// </summary>
-        /// <remarks>This is needed so that the senses can be
-        /// saved to the document database.</remarks>
+        /// <summary>Gets or sets the internal dictionary of senses.</summary>
+        /// <remarks>This is needed so that the senses can be saved to the document database.</remarks>
         public Dictionary<SensoryType, Sense> SenseDictionary
         {
             get
@@ -41,9 +36,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Provide array-style indexing for the managed senses.
-        /// </summary>
+        /// <summary>Provide array-style indexing for the managed senses.</summary>
         /// <param name="index">The senses index.</param>
         /// <returns>The sense found at that index.</returns>
         public Sense this[SensoryType index]
@@ -59,9 +52,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Adds the specified sense to this SenseManager.
-        /// </summary>
+        /// <summary>Adds the specified sense to this SenseManager.</summary>
         /// <param name="sense">The sense to add.</param>
         public void AddSense(Sense sense)
         {
@@ -71,9 +62,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Removes the specified sense from this SenseManager.
-        /// </summary>
+        /// <summary>Removes the specified sense from this SenseManager.</summary>
         /// <param name="sense">The sense to remove.</param>
         public void RemoveSense(Sense sense)
         {
@@ -83,9 +72,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Determines if the collection of senses contain the specified sense.
-        /// </summary>
+        /// <summary>Determines if the collection of senses contain the specified sense.</summary>
         /// <param name="sense">The sense to search for.</param>
         /// <returns>True if the collection of senses contains this sense, else false.</returns>
         public bool Contains(Sense sense)
@@ -93,9 +80,7 @@ namespace WheelMUD.Core
             return this.senses.ContainsKey(sense.SensoryType);
         }
 
-        /// <summary>
-        /// Determines if the collection of senses contain the specified sense.
-        /// </summary>
+        /// <summary>Determines if the collection of senses contain the specified sense.</summary>
         /// <param name="senseType">The sense to search for.</param>
         /// <returns>True if the collection of senses contains this sense, else false.</returns>
         public bool Contains(SensoryType senseType)
@@ -106,36 +91,28 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Gets the total count of all senses.
-        /// </summary>
+        /// <summary>Gets the total count of all senses.</summary>
         /// <returns>The total count of all senses.</returns>
         public int Count()
         {
             return this.senses.Count;
         }
 
-        /// <summary>
-        /// Gets an enumerator for the senses.
-        /// </summary>
+        /// <summary>Gets an enumerator for the senses.</summary>
         /// <returns>An enumerator for the senses.</returns>
         public IEnumerator<Sense> GetEnumerator()
         {
             return this.senses.Values.GetEnumerator();
         }
 
-        /// <summary>
-        /// Gets the dictionary of senses.
-        /// </summary>
+        /// <summary>Gets the dictionary of senses.</summary>
         /// <returns>A dictionary of senses.</returns>
         public Dictionary<SensoryType, Sense> GetSenses()
         {
             return this.senses;
         }
 
-        /// <summary>
-        /// Determine if the specified sensory message can be processed.
-        /// </summary>
+        /// <summary>Determine if the specified sensory message can be processed.</summary>
         /// <param name="message">The sensory message.</param>
         /// <returns>True if it can be processed, else false.</returns>
         public bool CanProcessSensoryMessage(SensoryMessage message)

@@ -23,20 +23,17 @@ namespace WheelMUD.Tests.WRMCombat
 
     using WheelMUD.Core;
 
-    /// <summary>
-    /// This is a test class for WRMCombatTest and is intended
-    /// to contain all WRMCombatTest Unit Tests
-    /// </summary>
-    [TestClass][TestFixture]
+    /// <summary>This is a test class for WRMCombatTest and is intended to contain all WRMCombatTest Unit Tests.</summary>
+    [TestClass]
+    [TestFixture]
     public class TestWrmCombat
     {
         /// <summary>Common actors in the test.</summary>
         private Thing playerThing;
 
-        /// <summary>
-        /// Initializes data for this test class.
-        /// </summary>
-        [TestInitialize][SetUp]
+        /// <summary>Initializes data for this test class.</summary>
+        [TestInitialize]
+        [SetUp]
         public void Init()
         {
             this.playerThing = new Thing() { Name = "PlayerThing", ID = TestThingID.Generate("testthing") };
@@ -72,9 +69,7 @@ namespace WheelMUD.Tests.WRMCombat
             this.playerThing.Behaviors.Add(testBehavior);
         }
 
-        /// <summary>
-        /// A test for checking for the awareness skill using an instance.
-        /// </summary>
+        /// <summary>A test for checking for the awareness skill using an instance.</summary>
         [TestMethod]
         [Test]
         public void CheckAwarenessByInstanceTest()
@@ -84,9 +79,7 @@ namespace WheelMUD.Tests.WRMCombat
             Verify.IsNotNull(awareness);
         }
 
-        /// <summary>
-        /// A test for checking for the awareness skill using the skill name.
-        /// </summary>
+        /// <summary>A test for checking for the awareness skill using the skill name.</summary>
         [TestMethod]
         [Test]
         public void CheckAwarenessByNameTest()
@@ -96,9 +89,7 @@ namespace WheelMUD.Tests.WRMCombat
             Verify.IsNotNull(awareness);
         }
 
-        /// <summary>
-        /// A test for CombatSession
-        /// </summary>
+        /// <summary>A test for CombatSession.</summary>
         [TestMethod]
         [Test]
         public void CombatSessionTest()
@@ -110,9 +101,7 @@ namespace WheelMUD.Tests.WRMCombat
             Verify.AreEqual(1, expected.Combatants.Count);
         }
 
-        /// <summary>
-        /// A test for DoInititiveRoll
-        /// </summary>
+        /// <summary>A test for DoInititiveRoll.</summary>
         [TestMethod]
         [Test]
         public void DoInititiveRollTest()
@@ -125,9 +114,7 @@ namespace WheelMUD.Tests.WRMCombat
         }
 
 
-        /// <summary>
-        /// A test for Instance
-        /// </summary>
+        /// <summary>A test for Instance.</summary>
         [TestMethod]
         [Test]
         public void InstanceTest()

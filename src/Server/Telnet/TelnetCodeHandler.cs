@@ -51,9 +51,7 @@ namespace WheelMUD.Server.Telnet
         /// <summary>The connection telnet state.</summary>
         private ConnectionTelnetState connectionTelnetState;
 
-        /// <summary>
-        /// Initializes a new instance of the TelnetCodeHandler class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the TelnetCodeHandler class.</summary>
         /// <param name="connection">The connection upon which this telnet code handler is based.</param>
         public TelnetCodeHandler(Connection connection)
         {
@@ -62,7 +60,7 @@ namespace WheelMUD.Server.Telnet
             this.SetupRequiredOptions();
         }
 
-        /// <summary>Gets the telnet options this handler supports./// </summary>
+        /// <summary>Gets the telnet options this handler supports.</summary>
         public List<ITelnetOption> TelnetOptions
         {
             get { return this.telnetOptions; }

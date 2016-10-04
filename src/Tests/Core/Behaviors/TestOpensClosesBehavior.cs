@@ -15,9 +15,7 @@ namespace WheelMUD.Tests.Behaviors
     using WheelMUD.Core;
     using WheelMUD.Core.Events;
     
-    /// <summary>
-    /// Tests for the OpensClosesBehavior class.
-    /// </summary>
+    /// <summary>Tests for the OpensClosesBehavior class.</summary>
     [TestClass][TestFixture]
     public class TestOpensClosesBehavior
     {
@@ -56,9 +54,7 @@ namespace WheelMUD.Tests.Behaviors
             this.actingThing.Eventing.MiscellaneousEvent += (root, e) => { this.lastActorEvent = e; };
         }
 
-        /// <summary>
-        /// Test OpensClosesBehavior without an attached parent.
-        /// </summary>
+        /// <summary>Test OpensClosesBehavior without an attached parent.</summary>
         [TestMethod][Test]
         public void TestUnattachedOpensClosesBehavior()
         {
@@ -72,9 +68,7 @@ namespace WheelMUD.Tests.Behaviors
             Verify.Equals(initialState, this.opensClosesBehavior.IsOpen);
         }
 
-        /// <summary>
-        /// Test normal OpensClosesBehavior operation.
-        /// </summary>
+        /// <summary>Test normal OpensClosesBehavior operation.</summary>
         [TestMethod][Test]
         public void TestOpeningAndClosing()
         {
@@ -134,9 +128,7 @@ namespace WheelMUD.Tests.Behaviors
             Verify.IsTrue(actorMessage.Contains("You close"));
         }
 
-        /// <summary>
-        /// Test special OpensClosesBehavior operations for exits.
-        /// </summary>
+        /// <summary>Test special OpensClosesBehavior operations for exits.</summary>
         [TestMethod][Test]
         public void TestOpeningClosingAndMovementForExits()
         {
@@ -182,9 +174,7 @@ namespace WheelMUD.Tests.Behaviors
             Verify.AreSame(roomB, this.actingThing.Parent);
         }
 
-        /// <summary>
-        /// Clear all potentially tracked events so we can verify new ones.
-        /// </summary>
+        /// <summary>Clear all potentially tracked events so we can verify new ones.</summary>
         private void ClearTrackedEvents()
         {
             this.lastActorEvent = null;

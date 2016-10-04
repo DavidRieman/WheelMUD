@@ -13,26 +13,20 @@ namespace WheelMUD.Universe
     using System.Collections.Generic;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// FlammableBehavior addes the ability to an object to be treated as furniture.
-    /// </summary>
+    /// <summary>FlammableBehavior addes the ability to an object to be treated as furniture.</summary>
     /// <remarks>
     /// @@@ TODO: Revisit this behavior... perhaps "furniture" is not a great scope for behavior here; perhaps we could have
     /// distinct behaviors for things like being able to sit and/or sleep on a thing, add an ObscuresExitBehavior, etc...
     /// </remarks>
     public class FurnitureBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the FurnitureBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the FurnitureBehavior class.</summary>
         public FurnitureBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the FurnitureBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the FurnitureBehavior class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">Dictionary of properties to spawn this behavior instance with, if any.</param>
         public FurnitureBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -53,9 +47,7 @@ namespace WheelMUD.Universe
         /// <summary>Gets or sets a value indicating the exit that is obscured.</summary>
         public string ObscuredExit { get; set; }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.IsMoveable = true;

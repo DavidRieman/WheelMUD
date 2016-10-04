@@ -20,14 +20,29 @@ namespace WheelMUD.Rules
 
     public class SetupClass<T, R> : IMustPassRule<SetupClass<T, R>, T, R>, ISetupClass
     {
-        Expression<Func<T, R>> _expression;
-        ForClass<T> _parent;
-        RulesEngine rulesRulesEngine;
+        private Expression<Func<T, R>> _expression;
+        private ForClass<T> _parent;
+        private RulesEngine rulesRulesEngine;
+
         internal SetupClass(RulesEngine rulesRulesEngine, ForClass<T> parent, Expression<Func<T, R>> expression)
         {
             _expression = expression;
             _parent = parent;
             this.rulesRulesEngine = rulesRulesEngine;
+        }
+
+        public Expression<Func<T, R>> Expression
+        {
+            get
+            {
+                return _expression;
+            }
+        }
+
+        /// <summary>Gets RulesEngine.</summary>
+        public RulesEngine RulesRulesEngine
+        {
+            get { return this.rulesRulesEngine; }
         }
 
         public SetupClass<T, R> MustPassRule(IRule<R> rule)
@@ -51,30 +66,11 @@ namespace WheelMUD.Rules
         {
             return _parent.If(condition);
         }
-
-
+        
         public ForClass<T> EndSetup()
         {
             return _parent;
         }
-
-        public Expression<Func<T, R>> Expression
-        {
-            get
-            {
-                return _expression;
-            }
-        }
-
-        /// <summary>
-        /// Gets RulesEngine
-        /// </summary>
-        public RulesEngine RulesRulesEngine
-        {
-            get { return this.rulesRulesEngine; }
-        }
-
-
 
         public SetupClass<T, R> GetSelf()
         {

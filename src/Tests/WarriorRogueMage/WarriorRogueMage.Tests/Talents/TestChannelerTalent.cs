@@ -23,9 +23,7 @@ namespace WheelMUD.Tests.Talents
 
     using WheelMUD.Core;
 
-    /// <summary>
-    /// Tests the TalentChanneler class.
-    /// </summary>
+    /// <summary>Tests the TalentChanneler class.</summary>
     [TestClass]
     [TestFixture]
     public class TestChannelerTalent
@@ -63,9 +61,7 @@ namespace WheelMUD.Tests.Talents
             playerThing.Stats.Add(damageStat.Name, damageStat);
         }
 
-        /// <summary>
-        /// Tests the channeler talent added mechanism.
-        /// </summary>
+        /// <summary>Tests the channeler talent added mechanism.</summary>
         [TestMethod]
         [Test]
         public void TestChannelerTalentAddedMechanism()
@@ -82,9 +78,7 @@ namespace WheelMUD.Tests.Talents
             behavior.RemoveTalent(channeler);
         }
 
-        /// <summary>
-        /// Tests the channeler talent auto set rule.
-        /// </summary>
+        /// <summary>Tests the channeler talent auto set rule.</summary>
         [TestMethod]
         [Test]
         public void TestChannelerTalentAutosetRule()

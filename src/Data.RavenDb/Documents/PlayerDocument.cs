@@ -14,10 +14,7 @@ namespace WheelMUD.Data.RavenDb
 {
     using System.Collections.Generic;
     using WheelMUD.Interfaces;
-
-    /// <summary>
-    /// The representation of the player in the document database.
-    /// </summary>
+    /// <summary>The representation of the player in the document database.</summary>
     public class PlayerDocument
     {
         /// <summary>Gets or sets the name.</summary>
@@ -45,9 +42,7 @@ namespace WheelMUD.Data.RavenDb
         public Dictionary<string, IPersistsWithPlayer> Skills { get; set; }
 
         /// <summary>Gets or sets the children.</summary>
-        /// <remarks>
-        /// @@@ TODO: This should be "Children" to match Thing's "Children" property, but needs a DB update to match...
-        /// </remarks>
+        /// <remarks>TODO: This should be "Children" to match Thing's "Children" property, but needs a DB update to match...</remarks>
         public List<IThing> SubThings { get; set; }
     }
 }

@@ -15,9 +15,7 @@ namespace WheelMUD.Server.Telnet
     /// <summary>@@@ What is this?</summary>
     internal class ConnectionTelnetStateSubRequestIAC : ConnectionTelnetState
     {
-        /// <summary>
-        /// Initializes a new instance of the ConnectionTelnetStateSubRequestIAC class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ConnectionTelnetStateSubRequestIAC class.</summary>
         /// <param name="parent">The parent telnet code handler which this object is created by.</param>
         public ConnectionTelnetStateSubRequestIAC(TelnetCodeHandler parent)
             : base(parent)

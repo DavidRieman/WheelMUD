@@ -67,14 +67,12 @@ namespace WheelMUD.Rules
             return _parent;
         }
 
-        /// <summary>
-        /// Gets RulesEngine
-        /// </summary>
+        /// <summary>Gets RulesEngine.</summary>
         public RulesEngine RulesRulesEngine
         {
             get { return this.rulesRulesEngine; }
         }
-        
+
         public ForClassElseEndIf<T, ENDIF> GetSelf()
         {
             return this;

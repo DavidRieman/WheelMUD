@@ -11,21 +11,16 @@
 
 namespace WheelMUD.Data.Repositories
 {
-    using System.Text;
     using System.Data;
     using System.Linq;
-
+    using System.Text;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
 
-    /// <summary>
-    /// Custom code for the RoleRepository class.
-    /// </summary>
+    /// <summary>Custom code for the RoleRepository class.</summary>
     public partial class RoleRepository
     {
-        /// <summary>
-        /// Gets a role record that is associated with the role name.
-        /// </summary>
+        /// <summary>Gets a role record that is associated with the role name.</summary>
         /// <param name="roleName">The user name to look up a role.</param>
         /// <returns>Returns a role record loaded with the role's data.</returns>
         public RoleRecord GetRoleByName(string roleName)

@@ -17,9 +17,7 @@ namespace WheelMUD.Tests.Behaviors
     using WheelMUD.Core.Behaviors;
     using WheelMUD.Core.Events;
 
-    /// <summary>
-    /// Test cases for FollowingBehavior.
-    /// </summary>
+    /// <summary>Test cases for FollowingBehavior.</summary>
     [TestClass]
     [TestFixture]
     public class TestFollowingBehavior
@@ -79,9 +77,7 @@ namespace WheelMUD.Tests.Behaviors
             this.victim2.Eventing.MovementEvent += (root, e) => { this.lastVictimEvent = e; };
         }
 
-        /// <summary>
-        /// Test LocksUnlocksBehavior without an attached parent.
-        /// </summary>
+        /// <summary>Test LocksUnlocksBehavior without an attached parent.</summary>
         [TestMethod]
         [Test]
         public void TestUnattachedFollowingBehavior()
@@ -96,9 +92,7 @@ namespace WheelMUD.Tests.Behaviors
             Verify.Equals(initialState, followingBehavior.Target);
         }
 
-        /// <summary>
-        /// Verify that the default target is null.
-        /// </summary>
+        /// <summary>Verify that the default target is null.</summary>
         [TestMethod]
         [Test]
         public void TestFollowingBehaviorStartsOutNull()
@@ -109,9 +103,7 @@ namespace WheelMUD.Tests.Behaviors
             Verify.IsNull(followingBehavior.Target);
         }
 
-        /// <summary>
-        /// Verify that Target changes to the specified victim.
-        /// </summary>
+        /// <summary>Verify that Target changes to the specified victim.</summary>
         [TestMethod]
         [Test]
         public void TestSettingTarget()
@@ -154,9 +146,7 @@ namespace WheelMUD.Tests.Behaviors
             Verify.IsNotNull(this.lastVictimEvent);
         }
 
-        /// <summary>
-        /// Verify sensory messages seen by stalker/victim and unseen by witness.
-        /// </summary>
+        /// <summary>Verify sensory messages seen by stalker/victim and unseen by witness.</summary>
         [TestMethod]
         [Test]
         public void TestFollowingMessages()
@@ -187,10 +177,8 @@ namespace WheelMUD.Tests.Behaviors
             Verify.IsTrue(victimMessage.Contains(" stops following you."));
         }
 
-        /// <summary>
-        /// Tests the garbage collected target.
-        /// TODO: Figure out whether it's the test or the code that's broken.
-        /// </summary>
+        /// <summary>Tests the garbage collected target.</summary>
+        /// <remarks>TODO: Figure out whether it's the test or the code that's broken.</remarks>
         [TestMethod]
         [Test]
         public void TestGarbageCollectedTarget()
@@ -214,9 +202,7 @@ namespace WheelMUD.Tests.Behaviors
             ////Verify.IsNull(followingBehavior.Target);
         }
 
-        /// <summary>
-        /// Clear all potentially tracked events so we can verify new ones.
-        /// </summary>
+        /// <summary>Clear all potentially tracked events so we can verify new ones.</summary>
         private void ClearTrackedEvents()
         {
             this.lastStalkerEvent = null;

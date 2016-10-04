@@ -14,41 +14,25 @@ namespace WheelMUD.Rules
 {
     using System;
 
-    /// <summary>
-    /// List of valid relationship types
-    /// between a parent object and another
-    /// object through a managed property.
-    /// </summary>
+    /// <summary>List of valid relationship types between a parent object and another object through a managed property.</summary>
     [Flags]
     public enum RelationshipTypes
     {
-        /// <summary>
-        /// The default value, indicating all values are cleared
-        /// </summary>
+        /// <summary>The default value, indicating all values are cleared.</summary>
         None = 0x0,
 
-        /// <summary>
-        /// Property is a reference to a child
-        /// object contained by the parent.
-        /// </summary>
+        /// <summary>Property is a reference to a child object contained by the parent.</summary>
         Child = 0x1,
 
-        /// <summary>
-        /// Property is a reference to a lazy
-        /// loaded object. Attempting to get
-        /// or read the property value
-        /// prior to a set or load will result in 
-        /// an exception.
-        /// </summary>
+        /// <summary>Property is a reference to a lazy loaded object.</summary>
+        /// <remarks>Attempting to get or read the property value prior to a set or load will result in an exception.</remarks>
         LazyLoad = 0x2,
 
-        /// <summary>
-        /// Property is stored in a private field. Attempting 
-        /// to read or write the property in FieldManager 
-        /// (managed fields) will throw an exception. 
-        /// NonGeneric ReadProperty/LoadProperty will call
-        /// property get/set methods. 
-        /// </summary>
+        /// <summary>Property is stored in a private field.</summary>
+        /// <remarks>
+        /// Attempting to read or write the property in FieldManager (managed fields) will throw an exception. 
+        /// NonGeneric ReadProperty/LoadProperty will call property get/set methods. 
+        /// </remarks>
         PrivateField = 0x4,
     }
 }

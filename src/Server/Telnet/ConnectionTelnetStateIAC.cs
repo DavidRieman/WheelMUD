@@ -13,9 +13,7 @@ namespace WheelMUD.Server.Telnet
     /// <summary>Handles the negotiation of a telnet IAC option.</summary>
     internal class ConnectionTelnetStateIAC : ConnectionTelnetState
     {
-        /// <summary>
-        /// Initializes a new instance of the ConnectionTelnetStateIAC class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ConnectionTelnetStateIAC class.</summary>
         /// <param name="parent">The parent telnet code handler which this object is created by.</param>
         public ConnectionTelnetStateIAC(TelnetCodeHandler parent)
             : base(parent)

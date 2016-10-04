@@ -20,14 +20,26 @@ namespace WheelMUD.Rules
 
     public class SetupClassEndIf<T, R, ENDIF> : IMustPassRule<SetupClassEndIf<T, R, ENDIF>, T, R>
     {
-        Expression<Func<T, R>> _expression;
-        ForClassEndIf<T, ENDIF> _parent;
-        RulesEngine rulesRulesEngine;
+        private Expression<Func<T, R>> _expression;
+        private ForClassEndIf<T, ENDIF> _parent;
+        private RulesEngine rulesRulesEngine;
+
         internal SetupClassEndIf(RulesEngine rulesRulesEngine, ForClassEndIf<T, ENDIF> parent, Expression<Func<T, R>> expression)
         {
-            _expression = expression;
-            _parent = parent;
+            this._expression = expression;
+            this._parent = parent;
             this.rulesRulesEngine = rulesRulesEngine;
+        }
+
+        public Expression<Func<T, R>> Expression
+        {
+            get { return this._expression; }
+        }
+
+        /// <summary>Gets RulesEngine.</summary>
+        public RulesEngine RulesRulesEngine
+        {
+            get { return this.rulesRulesEngine; }
         }
 
         public SetupClassEndIf<T, R, ENDIF> MustPassRule(IRule<R> rule)
@@ -41,8 +53,7 @@ namespace WheelMUD.Rules
             this.rulesRulesEngine.RegisterRule(rule, Utilities.ReturnSelf<T>(), _expression);
             return this;
         }
-
-
+        
         public SetupClassEndIf<T, R1, ENDIF> Setup<R1>(Expression<Func<T, R1>> expression)
         {
             return new SetupClassEndIf<T, R1, ENDIF>(this.rulesRulesEngine, _parent, expression);
@@ -52,29 +63,11 @@ namespace WheelMUD.Rules
         {
             return _parent.If(condition);
         }
-
-
+        
         public ENDIF EndIf()
         {
             return _parent.EndIf();
         }
-
-        public Expression<Func<T, R>> Expression
-        {
-            get
-            {
-                return _expression;
-            }
-        }
-
-        /// <summary>
-        /// Gets RulesEngine
-        /// </summary>
-        public RulesEngine RulesRulesEngine
-        {
-            get { return this.rulesRulesEngine; }
-        }
-
 
         public SetupClassEndIf<T, R, ENDIF> GetSelf()
         {

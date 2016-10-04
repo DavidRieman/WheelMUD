@@ -10,14 +10,10 @@
 
 namespace WheelMUD.Core.Events
 {
-    /// <summary>
-    /// A stat change event.
-    /// </summary>
+    /// <summary>A stat change event.</summary>
     public class StatChangeEvent : CancellableGameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the StatChangeEvent class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the StatChangeEvent class.</summary>
         /// <param name="activeThing">The active thing.</param>
         /// <param name="senseMessage">The sensory message.</param>
         /// <param name="stat">The applicable stat.</param>

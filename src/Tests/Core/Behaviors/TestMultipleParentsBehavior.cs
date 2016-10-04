@@ -14,9 +14,7 @@ namespace WheelMUD.Tests.Behaviors
     using NUnit.Framework;
     using WheelMUD.Core;
     
-    /// <summary>
-    /// Tests for the MultipleParentsBehavior class.
-    /// </summary>
+    /// <summary>Tests for the MultipleParentsBehavior class.</summary>
     [TestClass][TestFixture]
     public class TestMultipleParentsBehavior
     {
@@ -37,9 +35,7 @@ namespace WheelMUD.Tests.Behaviors
             this.multipleParentsBehavior = new MultipleParentsBehavior();
         }
 
-        /// <summary>
-        /// Test normal parenting behaviors without a MultipleParentsBehavior being attached.
-        /// </summary>
+        /// <summary>Test normal parenting behaviors without a MultipleParentsBehavior being attached.</summary>
         [TestMethod][Test]
         public void TestSingleParentingBehavior()
         {
@@ -65,9 +61,7 @@ namespace WheelMUD.Tests.Behaviors
             Verify.IsTrue(this.child.Parent == null);
         }
 
-        /// <summary>
-        /// Test an unattached MultipleParentsBehavior.
-        /// </summary>
+        /// <summary>Test an unattached MultipleParentsBehavior.</summary>
         [TestMethod]
         [Test]
         public void TestUnattachedMultipleParentsBehavior()
@@ -78,9 +72,7 @@ namespace WheelMUD.Tests.Behaviors
             this.multipleParentsBehavior.RemoveParent(parent1);
         }
 
-        /// <summary>
-        /// Test parenting behaviors with a MultipleParentsBehavior attached.
-        /// </summary>
+        /// <summary>Test parenting behaviors with a MultipleParentsBehavior attached.</summary>
         [TestMethod][Test]
         public void TestMultipleParentingBehavior()
         {

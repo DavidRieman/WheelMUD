@@ -15,9 +15,7 @@ namespace WheelMUD.Interfaces
     using WheelMUD.Core.Enums;
     using WheelMUD.Core.Output;
 
-    /// <summary>
-    /// An interface defining a Connection.
-    /// </summary>
+    /// <summary>An interface defining a Connection.</summary>
     public interface IConnection
     {
         /// <summary>Gets the ID of the connection.</summary>
@@ -44,49 +42,35 @@ namespace WheelMUD.Interfaces
         /// <summary>Gets the textual representation of the data still waiting to be returned as an input string.</summary>
         StringBuilder Buffer { get; }
 
-        /// <summary>
-        /// Gets or sets the number of rows that are buffered
-        /// </summary>
+        /// <summary>Gets or sets the number of rows that are buffered</summary>
         int PagingRowLimit { get; set; }
-        
+
         /// <summary>Gets or sets the line terminator used on the last command.</summary>
         string LastInputTerminator { get; set; }
 
-        /// <summary>
-        /// Disconnect a connection from the server
-        /// </summary>
+        /// <summary>Disconnect a connection from the server</summary>
         void Disconnect();
 
-        /// <summary>
-        /// Send data to the connection
-        /// </summary>
+        /// <summary>Send data to the connection.</summary>
         /// <param name="data">The byte array to send</param>
         void Send(byte[] data);
 
-        /// <summary>
-        /// Send data to the connection
-        /// </summary>
+        /// <summary>Send data to the connection.</summary>
         /// <param name="data">The string to send</param>
         void Send(string data);
 
-        /// <summary>
-        /// Send data to the connection
-        /// </summary>
+        /// <summary>Send data to the connection.</summary>
         /// <param name="data">The string to send</param>
         /// <param name="bypassDataFormatter">Allows the data formmater to be bypassed</param>
         void Send(string data, bool bypassDataFormatter);
 
-        /// <summary>
-        /// Send data to the connection
-        /// </summary>
+        /// <summary>Send data to the connection.</summary>
         /// <param name="data">The string to send</param>
         /// <param name="bypassDataFormatter">Allows the data formmater to be bypassed</param>
         /// <param name="sendAllData">Allows all data to be sent without paging</param>
         void Send(string data, bool bypassDataFormatter, bool sendAllData);
 
-        /// <summary>
-        /// Doesn't modify the buffer but utilizes it to produce output.
-        /// </summary>
+        /// <summary>Doesn't modify the buffer but utilizes it to produce output.</summary>
         /// <param name="bufferDirection">Direction to process data</param>
         void ProcessBuffer(BufferDirection bufferDirection);
     }

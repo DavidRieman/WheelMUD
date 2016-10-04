@@ -12,11 +12,8 @@
 namespace WheelMUD.Core
 {
     using System.Collections.Generic;
-    ////using System.Collections.Specialized;
 
-    /// <summary>
-    /// Determines the function of the tabular data.
-    /// </summary>
+    /// <summary>Determines the function of the tabular data.</summary>
     public enum GameTableFunction
     {
         /// <summary>Attributes table.</summary>

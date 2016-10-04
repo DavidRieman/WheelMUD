@@ -17,14 +17,10 @@ namespace WheelMUD.Effects
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A class that represents the muted effect.
-    /// </summary>
+    /// <summary>A class that represents the muted effect.</summary>
     public class MutedEffect : Effect
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MutedEffect" /> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="MutedEffect" /> class.</summary>
         /// <param name="activeThing">The active thing.</param>
         /// <param name="duration">The duration.</param>
         /// <param name="sensoryMessage">The sensory message.</param>
@@ -39,9 +35,7 @@ namespace WheelMUD.Effects
             this.Duration = duration;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MutedEffect" /> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="MutedEffect" /> class.</summary>
         /// <param name="instanceId">ID of the effect instance.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this effect instance.</param>
         public MutedEffect(long instanceId, Dictionary<string, object> instanceProperties)
@@ -51,54 +45,33 @@ namespace WheelMUD.Effects
             this.ID = instanceId;
         }
 
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>The name.</value>
+        /// <summary>Gets or sets the name.</summary>
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the active thing.
-        /// </summary>
-        /// <value>The active thing.</value>
+        /// <summary>Gets or sets the active thing.</summary>
         public Thing ActiveThing { get; set; }
 
-        /// <summary>
-        /// Gets or sets the sensory message.
-        /// </summary>
-        /// <value>The sensory message.</value>
+        /// <summary>Gets or sets the sensory message.</summary>
         public SensoryMessage SensoryMessage { get; set; }
 
-        /// <summary>
-        /// Gets or sets the expiration message.
-        /// </summary>
-        /// <value>The expiration message.</value>
+        /// <summary>Gets or sets the expiration message.</summary>
         public SensoryMessage ExpirationMessage { get; set; }
 
-        /// <summary>
-        /// Gets or sets the event handler that intercepts and prevents communication.
-        /// A reference is stored here so it can be removed at the appropriate time.
-        /// </summary>
-        /// <value>
-        /// The event handler that intercepts and prevents communication.
-        /// </value>
+        /// <summary>Gets or sets the event handler that intercepts and prevents communication.</summary>
+        /// <remarks>A reference is stored here so it can be removed at the appropriate time.</remarks>
+        /// <value>The event handler that intercepts and prevents communication.</value>
         public CancellableGameEventHandler Interceptor { get; set; }
 
-        /// <summary>
-        /// Gets or sets the unmute event.
-        /// </summary>
-        /// <value>
-        /// The unmute event.
-        /// </value>
+        /// <summary>Gets or sets the unmute event.</summary>
         public TimeEvent UnmuteEvent { get; set; }
 
-        /// <summary>
-        /// Called when a parent has just been assigned to this behavior.
+        /// <summary>Called when a parent has just been assigned to this behavior.</summary>
+        /// <remarks>
         /// This method first creates and broadcasts an event notifying users that
         /// the mute effect was applied. Then it creates another event that holds
         /// the Unmute method, and adds it to the TimeSystem scheduler to call
         /// after the duration time has passed.
-        /// </summary>
+        /// </remarks>
         public override void OnAddBehavior()
         {
             // While this effect is attached to its parent, it denies all verbal communications from it.
@@ -121,9 +94,7 @@ namespace WheelMUD.Effects
             base.OnAddBehavior();
         }
 
-        /// <summary>
-        /// Called when the current parent of this behavior is about to be removed. (Refer to this.Parent)
-        /// </summary>
+        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent.)</summary>
         public override void OnRemoveBehavior()
         {
             // Stop intercepting communication events.
@@ -147,18 +118,14 @@ namespace WheelMUD.Effects
             base.OnRemoveBehavior();
         }
 
-        /// <summary>
-        /// Removes this effect from its parent Thing.
-        /// </summary>
+        /// <summary>Removes this effect from its parent Thing.</summary>
         public void Unmute()
         {
             this.Parent.Eventing.OnCommunicationEvent(this.UnmuteEvent, EventScope.ParentsDown);
             this.Parent.Behaviors.Remove(this);
         }
 
-        /// <summary>
-        /// Sets the default properties of this effect instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this effect instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.Duration = TimeSpan.FromMinutes(60);

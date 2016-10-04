@@ -10,14 +10,10 @@
 
 namespace WheelMUD.Core.Events
 {
-    /// <summary>
-    /// An 'open/close' event.
-    /// </summary>
+    /// <summary>An 'open/close' event.</summary>
     public class OpenCloseEvent : CancellableGameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the OpenCloseEvent class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the OpenCloseEvent class.</summary>
         /// <param name="target">The thing being affected by this event.</param>
         /// <param name="isBeingOpened">Whether the thing is being opened (true) or closed (false).</param>
         /// <param name="activeThing">The actor causing the event (if applicable).</param>

@@ -12,44 +12,28 @@
 
 namespace WheelMUD.Rules
 {
-    /// <summary>
-    /// The different conditions that can be evaluated by a rule.
-    /// </summary>
+    /// <summary>The different conditions that can be evaluated by a rule.</summary>
     public enum RuleConditions
     {
-        /// <summary>
-        /// No condition present
-        /// </summary>
+        /// <summary>No condition present.</summary>
         None,
 
-        /// <summary>
-        /// Is Equal Condition
-        /// </summary>
+        /// <summary>Is Equal Condition.</summary>
         Equality,
 
-        /// <summary>
-        /// Is Less Than Condition
-        /// </summary>
+        /// <summary>Is Less Than Condition.</summary>
         LessThan,
 
-        /// <summary>
-        /// Is Less Than Or Equal Condition
-        /// </summary>
+        /// <summary>Is Less Than Or Equal Condition.</summary>
         LessThanEqual,
 
-        /// <summary>
-        /// Is Greater Than Condition
-        /// </summary>
+        /// <summary>Is Greater Than Condition.</summary>
         GreaterThan,
 
-        /// <summary>
-        /// Is Greater Than Or Equal Condition
-        /// </summary>
+        /// <summary>Is Greater Than Or Equal Condition.</summary>
         GreaterThanEqual,
 
-        /// <summary>
-        /// Is Not Equal Condition
-        /// </summary>
+        /// <summary>Is Not Equal Condition.</summary>
         NonEquality
     }
 }

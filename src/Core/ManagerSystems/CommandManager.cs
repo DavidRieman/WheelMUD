@@ -19,9 +19,7 @@ namespace WheelMUD.Core
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// High level manager that provides tracking and global collection of all commands.
-    /// </summary>
+    /// <summary>High level manager that provides tracking and global collection of all commands.</summary>
     public class CommandManager : ManagerSystem, IRecomposable
     {
         /// <summary>The singleton instance of this class.</summary>
@@ -172,9 +170,7 @@ namespace WheelMUD.Core
             return commands;
         }
 
-        /// <summary>
-        /// Places an action onto the queue for execution.
-        /// </summary>
+        /// <summary>Places an action onto the queue for execution.</summary>
         /// <param name="actionInput">The action input to enqueue.</param>
         public void EnqueueAction(ActionInput actionInput)
         {

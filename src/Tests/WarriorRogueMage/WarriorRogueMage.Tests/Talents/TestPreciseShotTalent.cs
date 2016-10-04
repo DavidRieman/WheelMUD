@@ -13,19 +13,14 @@
 namespace WheelMUD.Tests.Talents
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NUnit.Framework;
-
     using WarriorRogueMage;
     using WarriorRogueMage.Attributes;
     using WarriorRogueMage.Behaviors;
     using WarriorRogueMage.Stats;
-
     using WheelMUD.Core;
 
-    /// <summary>
-    /// Tests the TalentPreciseShot class.
-    /// </summary>
+    /// <summary>Tests the TalentPreciseShot class.</summary>
     [TestClass()]
     [TestFixture]
     public class TestPreciseShotTalent
@@ -63,9 +58,7 @@ namespace WheelMUD.Tests.Talents
             playerThing.Stats.Add(damageStat.Name, damageStat);
         }
 
-        /// <summary>
-        /// Tests the precise shot talent added mechanism.
-        /// </summary>
+        /// <summary>Tests the precise shot talent added mechanism.</summary>
         [TestMethod]
         [Test]
         public void TestPreciseShotTalentAddedMechanism()
@@ -82,9 +75,7 @@ namespace WheelMUD.Tests.Talents
             behavior.RemoveTalent(preciseShot);
         }
 
-        /// <summary>
-        /// Tests the precise shot talent auto set rule.
-        /// </summary>
+        /// <summary>Tests the precise shot talent auto set rule.</summary>
         [TestMethod]
         [Test]
         public void TestPreciseShotTalentAutosetRule()

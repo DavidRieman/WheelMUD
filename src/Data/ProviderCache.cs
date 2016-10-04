@@ -17,9 +17,6 @@ namespace WheelMUD.Data
     using System.ComponentModel.Composition.Hosting;
     using System.Reflection;
 
-    /// <summary>
-    /// Replace this with this class summary
-    /// </summary>
     public class ProviderCache
     {
         public ProviderCache()

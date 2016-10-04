@@ -34,17 +34,13 @@ namespace WheelMUD.Server
         /// <summary>Sub system host.</summary>
         private ISubSystemHost subSystemHost;
 
-        /// <summary>
-        /// Initializes a new instance of the BaseServer class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the BaseServer class.</summary>
         public BaseServer()
         {
             Port = 4000;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the BaseServer class, and specifies which port to use.
-        /// </summary>
+        /// <summary>Initializes a new instance of the BaseServer class, and specifies which port to use.</summary>
         /// <param name="port">Which port to open up for incoming connections.</param>
         public BaseServer(int port)
         {
@@ -111,27 +107,21 @@ namespace WheelMUD.Server
             CloseSockets();
         }
 
-        /// <summary>
-        /// Subscribe to receive system updates from this system.
-        /// </summary>
+        /// <summary>Subscribe to receive system updates from this system.</summary>
         /// <param name="sender">The subscribing system; generally use 'this'.</param>
         public void SubscribeToSystem(ISubSystemHost sender)
         {
             subSystemHost = sender;
         }
 
-        /// <summary>
-        /// Inform subscribed system(s) of the specified update.
-        /// </summary>
+        /// <summary>Inform subscribed system(s) of the specified update.</summary>
         /// <param name="message">The message to be sent to subscribed system(s).</param>
         public void InformSubscribedSystem(string message)
         {
             subSystemHost.UpdateSubSystemHost(this, message);
         }
 
-        /// <summary>
-        /// Gets a connection specified by the connectionId
-        /// </summary>
+        /// <summary>Gets a connection specified by the connectionId.</summary>
         /// <param name="connectionId">The ID of the connection to get</param>
         /// <returns>The specified connection</returns>
         public IConnection GetConnection(string connectionId)
@@ -149,9 +139,7 @@ namespace WheelMUD.Server
             return null;
         }
 
-        /// <summary>
-        /// Closes the specified connection
-        /// </summary>
+        /// <summary>Closes the specified connection.</summary>
         /// <param name="connection">Connection that is to be closed.</param>
         public void CloseConnection(IConnection connection)
         {

@@ -15,22 +15,16 @@ namespace WheelMUD.Effects
     using System;
     using System.Collections.Generic;
 
-    /// <summary>
-    /// PoisonEffect: Poisons a person.
-    /// </summary>
+    /// <summary>PoisonEffect: Poisons a person.</summary>
     public class PoisonEffect : Effect
     {
-        /// <summary>
-        /// Initializes a new instance of the PoisonEffect class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the PoisonEffect class.</summary>
         public PoisonEffect()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the PoisonEffect class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the PoisonEffect class.</summary>
         /// <param name="instanceID">ID of the effect instance.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this effect instance.</param>
         public PoisonEffect(long instanceID, Dictionary<string, object> instanceProperties)
@@ -77,9 +71,7 @@ namespace WheelMUD.Effects
         }
         */
 
-        /// <summary>
-        /// Sets the default properties of this effect instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this effect instance.</summary>
         protected override void SetDefaultProperties()
         {
             throw new NotImplementedException();

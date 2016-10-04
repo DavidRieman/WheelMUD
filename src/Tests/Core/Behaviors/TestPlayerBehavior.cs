@@ -14,9 +14,7 @@ namespace WheelMUD.Tests.Behaviors
     using NUnit.Framework;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// Tests for the ExitBehavior class.
-    /// </summary>
+    /// <summary>Tests for the ExitBehavior class.</summary>
     [TestFixture]
     [TestClass]
     public class TestPlayerBehavior

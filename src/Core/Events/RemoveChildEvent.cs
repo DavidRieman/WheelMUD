@@ -10,14 +10,10 @@
 
 namespace WheelMUD.Core.Events
 {
-    /// <summary>
-    /// A thing removal request/event.
-    /// </summary>
+    /// <summary>A thing removal request/event.</summary>
     public class RemoveChildEvent : CancellableGameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the RemoveChildEvent class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the RemoveChildEvent class.</summary>
         /// <param name="activeThing">The active thing being removed from it's current Parent.</param>
         public RemoveChildEvent(Thing activeThing)
             : base(activeThing, null)
@@ -25,9 +21,7 @@ namespace WheelMUD.Core.Events
             this.OldParent = activeThing.Parent;
         }
 
-        /// <summary>
-        /// Gets the parent of the thing before being removed.
-        /// </summary>
+        /// <summary>Gets the parent of the thing before being removed.</summary>
         /// <value>The parent of the thing before being removed.</value>
         public Thing OldParent { get; private set; }
     }

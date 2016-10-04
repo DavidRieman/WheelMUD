@@ -10,19 +10,10 @@
 
 namespace WheelMUD.Core.Events
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    /// <summary>
-    /// Event to convey that someone has stopped following someone else.
-    /// </summary>
+    /// <summary>Event to convey that someone has stopped following someone else.</summary>
     public class UnfollowEvent : CancellableGameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UnfollowEvent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="UnfollowEvent"/> class.</summary>
         /// <param name="activeThing">The active thing.</param>
         /// <param name="senseMessage">The sense message.</param>
         /// <param name="follower">The follower.</param>

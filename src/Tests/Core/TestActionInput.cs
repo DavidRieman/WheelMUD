@@ -13,32 +13,26 @@ namespace WheelMUD.Tests
     using NUnit.Framework;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// Tests the base ActionInput class.
-    /// In particular, the input parsing method that is called
-    /// from within the ActionInput constructor.
-    /// </summary>
+    /// <summary>Tests the base ActionInput class.</summary>
+    /// <remarks>In particular, the input parsing method that is called from within the ActionInput constructor.</remarks>
     [TestFixture]
     [TestClass]
     public class TestActionInput
     {
-        /// <summary>
-        /// Common preparation for all ActionInput tests.
-        /// </summary>
+        /// <summary>Common preparation for all ActionInput tests.</summary>
         [TestInitialize]
         [SetUp]
         public void Init()
         {
         }
 
-        /// <summary>
-        /// Test parsing of command text.
-        /// NOTE:
+        /// <summary>Test parsing of command text.</summary>
+        /// <remarks>
         /// Currently this sends a null IController to the ActionInput constructor, but AFAIK the
         /// constructor is not expected to handle this cleanly (although it is nice). If the null
         /// causes this test to fail in the future, it might be the test that needs to be fixed
         /// to use a fake or mock IController.
-        /// </summary>
+        /// </remarks>
         [TestMethod]
         [Test]
         public void TestParseText()

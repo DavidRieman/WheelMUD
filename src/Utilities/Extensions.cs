@@ -13,14 +13,10 @@ namespace WheelMUD.Utilities
     using System;
     using System.Collections.Generic;
 
-    /// <summary>
-    /// Provides extension methods for the whole MUD framework.
-    /// </summary>
+    /// <summary>Provides extension methods for the whole MUD framework.</summary>
     public static class Extensions
     {
-        /// <summary>
-        /// Extension method that converts anything enumerable to a dictionary.
-        /// </summary>
+        /// <summary>Extension method that converts anything enumerable to a dictionary.</summary>
         /// <typeparam name="TKey">The type of dictionary key.</typeparam>
         /// <typeparam name="TValue">The type of dictionary value, and the type of the enumerable.</typeparam>
         /// <param name="values">The enumerable values.</param>
@@ -38,9 +34,7 @@ namespace WheelMUD.Utilities
             return mappings;
         }
 
-        /// <summary>
-        /// Gets the value from the dictionary or uses the supplied lambda to create an exception message.
-        /// </summary>
+        /// <summary>Gets the value from the dictionary or uses the supplied lambda to create an exception message.</summary>
         /// <typeparam name="TKey">The type of the key of the dictionary.</typeparam>
         /// <typeparam name="TValue">The type of the value in the dictionary.</typeparam>
         /// <param name="dict">The dictionary.</param>

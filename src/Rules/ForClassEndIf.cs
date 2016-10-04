@@ -62,9 +62,7 @@ namespace WheelMUD.Rules
             }
         }
 
-        /// <summary>
-        /// Gets RulesEngine
-        /// </summary>
+        /// <summary>Gets RulesEngine.</summary>
         public RulesEngine RulesRulesEngine
         {
             get { return this.rulesRulesEngine; }

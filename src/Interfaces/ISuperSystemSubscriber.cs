@@ -11,15 +11,11 @@
 namespace WheelMUD.Interfaces
 {
     using System;
-    
-    /// <summary>
-    /// An interface describing a SuperSystemSubscriber.
-    /// </summary>
+
+    /// <summary>An interface describing a SuperSystemSubscriber.</summary>
     public interface ISuperSystemSubscriber : IDisposable
     {
-        /// <summary>
-        /// Notify subscribers of the specified message.
-        /// </summary>
+        /// <summary>Notify subscribers of the specified message.</summary>
         /// <param name="message">The message to pass along.</param>
         void Notify(string message);
     }

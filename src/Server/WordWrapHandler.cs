@@ -53,9 +53,7 @@ namespace WheelMUD.Server
             return wrappedBlock;
         }
 
-        /// <summary>
-        /// This method looks for ANSI tags and MXP tags that are "invisible" when it comes to word wrapping.
-        /// </summary>
+        /// <summary>Looks for ANSI tags and MXP tags that are "invisible" when it comes to word wrapping.</summary>
         /// <param name="originalText">The text to check for tags.</param>
         /// <param name="replacedText">A list of the replaced tags ready for reinsertion.</param>
         /// <returns>A string stripped of tags.</returns>
@@ -92,9 +90,7 @@ namespace WheelMUD.Server
             return originalText;
         }
 
-        /// <summary>
-        /// Replaces all place holder tags with their original invisible tags.
-        /// </summary>
+        /// <summary>Replaces all place holder tags with their original invisible tags.</summary>
         /// <param name="originalText">The text to check for tags.</param>
         /// <param name="replacements">A list of the replaced tags ready for reinsertion.</param>
         /// <returns>The output, with all place holder tags replaced with their original tags.</returns>
@@ -125,9 +121,7 @@ namespace WheelMUD.Server
             return modifiedText.ToString();
         }
 
-        /// <summary>
-        /// The core word wrapping functionality.
-        /// </summary>
+        /// <summary>The core word wrapping functionality.</summary>
         /// <param name="originalText">The text we want to insert line breaks into.</param>
         /// <param name="maxWidth">The maximum width, in characters, of output per line.</param>
         /// <returns>The finished text, with line breaks inserted.</returns>
@@ -162,9 +156,7 @@ namespace WheelMUD.Server
             return wrappedText;
         }
 
-        /// <summary>
-        /// Inserts line breaks into lines that are longer than the max width, based on word bounds.
-        /// </summary>
+        /// <summary>Inserts line breaks into lines that are longer than the max width, based on word bounds.</summary>
         /// <param name="originalText">The text we want to insert line breaks into.</param>
         /// <param name="maxWidth">The maximum width, in characters, of output per line.</param>
         /// <returns>The finished text, with line breaks inserted.</returns>

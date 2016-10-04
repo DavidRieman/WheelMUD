@@ -12,9 +12,7 @@
 
 namespace WheelMUD.Rules
 {
-    /// <summary>
-    /// The different actions that this rule can take.
-    /// </summary>
+    /// <summary>The different actions that this rule can take.</summary>
     public enum RuleAction
     {
         Assign,

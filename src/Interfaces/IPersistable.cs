@@ -10,9 +10,7 @@
 
 namespace WheelMUD.Interfaces
 {
-    /// <summary>
-    /// An interface that defines a persistable object.
-    /// </summary>
+    /// <summary>An interface that defines a persistable object.</summary>
     public interface IPersistable
     {
         /// <summary>Saves the thing.</summary>

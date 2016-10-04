@@ -76,7 +76,7 @@ namespace WheelMUD.Server
             set;
         }
 
-        /// <summary>Gets or sets a value indicating whether the client wants wordwrap.</summary>
+        /// <summary>Gets or sets a value indicating whether the client wants word-wrapping.</summary>
         public bool UseWordWrap
         {
             get { return this.useWordWrap; }
@@ -97,20 +97,16 @@ namespace WheelMUD.Server
             set { this.terminalType = value; }
         }
 
-        /// <summary>
-        /// Gets or sets the version of the client being used to connect.
-        /// This is only available if the client supports the Version tag specified in the MXP protocol.
-        /// </summary>
+        /// <summary>Gets or sets the version of the client being used to connect.</summary>
+        /// <remarks>This is only available if the client supports the Version tag specified in the MXP protocol.</remarks>
         public string Version
         {
             get { return this.version; }
             set { this.version = value; }
         }
 
-        /// <summary>
-        /// Gets or sets the client being used to connect.
-        /// This is only available if the client supports the Client tag specified in the MXP protocol.
-        /// </summary>
+        /// <summary>Gets or sets the client being used to connect.</summary>
+        /// <remarks>This is only available if the client supports the Client tag specified in the MXP protocol.</remarks>
         public string Client
         {
             get { return this.client; }

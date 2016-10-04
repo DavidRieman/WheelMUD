@@ -12,9 +12,7 @@
 
 namespace WheelMUD.Data.RavenDb.Documents
 {
-    /// <summary>
-    /// A class to hold custom MUD exit attributes.
-    /// </summary>
+    /// <summary>A class to hold custom MUD exit attributes.</summary>
     public class ExitDocument
     {
     }

@@ -10,14 +10,10 @@
 
 namespace WheelMUD.Core.Events
 {
-    /// <summary>
-    /// A sensory event.
-    /// </summary>
+    /// <summary>A sensory event.</summary>
     public class SensoryEvent : GameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the SensoryEvent class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the SensoryEvent class.</summary>
         /// <param name="activeThing">The active thing.</param>
         /// <param name="senseMessage">The sensory message.</param>
         public SensoryEvent(Thing activeThing, SensoryMessage senseMessage)

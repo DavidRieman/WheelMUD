@@ -17,16 +17,11 @@ namespace WheelMUD.Data.Repositories
     using ServiceStack.DataAnnotations;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-
-    /// <summary>
-    /// Replace this with this class summary
-    /// </summary>
+    
     [Alias("Areas")]
     public partial class AreaRepository
     {
-        /// <summary>
-        /// Gets the rooms for area.
-        /// </summary>
+        /// <summary>Gets the rooms for area.</summary>
         /// <param name="areaId">The id for the area that will be worked upon.</param>
         /// <returns>Returns an collection of RoomRecord objects.</returns>
         public ICollection<RoomRecord> GetRoomsForArea(long areaId)

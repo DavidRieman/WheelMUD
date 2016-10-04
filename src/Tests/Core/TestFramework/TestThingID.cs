@@ -19,9 +19,7 @@ namespace WheelMUD.Tests
         /// <summary>The current ID to be assigned to new Things to guarantee unique test IDs.</summary>
         private static int currentID = 0;
         
-        /// <summary>
-        /// Generate the next temporary per-execution unique ID for a test Thing.
-        /// </summary>
+        /// <summary>Generate the next temporary per-execution unique ID for a test Thing.</summary>
         /// <param name="thingType">The type of thing (like "testroom").</param>
         /// <returns>A temporary per-execution unique ID to use for a test Thing.</returns>
         public static string Generate(string thingType)

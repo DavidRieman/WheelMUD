@@ -10,14 +10,10 @@
 
 namespace WheelMUD.Core.Events
 {
-    /// <summary>
-    /// A 'player logged out' event.
-    /// </summary>
+    /// <summary>A 'player logged out' event.</summary>
     public class PlayerLogOutEvent : CancellableGameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the PlayerLogOutEvent class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the PlayerLogOutEvent class.</summary>
         /// <param name="activeThing">The active thing.</param>
         /// <param name="senseMessage">The sensory message.</param>
         public PlayerLogOutEvent(Thing activeThing, SensoryMessage senseMessage)

@@ -17,40 +17,34 @@ namespace WheelMUD.Rules
 {
     public struct ValidationResult
     {
+        private static readonly ValidationResult _valid = new ValidationResult(true, null);
+
         private bool _isValid;
         private object[] _arguments;
 
-        /// <summary>
-        /// Gets IsValid
-        /// </summary>
-        public bool IsValid
+        public ValidationResult(bool isValid, object[] arguments)
         {
-            get { return _isValid; }
+            this._isValid = isValid;
+            this._arguments = arguments;
         }
 
-        /// <summary>
-        /// Gets Arguments
-        /// </summary>
-        public object[] Arguments
-        {
-            get { return _arguments; }
-        }
-
-        /// <summary>
-        /// Successful result for a validation.
-        /// </summary>
+        /// <summary>Gets the success result for a validation.</summary>
         public static ValidationResult Success
         {
             get { return _valid; }
         }
 
-        public ValidationResult(bool isValid, object[] arguments)
+        /// <summary>Gets a value indicating whether the result is valid.</summary>
+        public bool IsValid
         {
-            _isValid = isValid;
-            _arguments = arguments;
+            get { return this._isValid; }
         }
 
-        private static readonly ValidationResult _valid = new ValidationResult(true, null);
+        /// <summary>Gets Arguments.</summary>
+        public object[] Arguments
+        {
+            get { return this._arguments; }
+        }
 
         public static ValidationResult Fail(params object[] arguments)
         {

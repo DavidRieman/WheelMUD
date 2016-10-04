@@ -16,18 +16,13 @@ namespace WheelMUD.Core
     using WheelMUD.Interfaces;
     using WheelMUD.Utilities;
 
-    /// <summary>
-    /// High level manager that provides tracking and global collection of all places.
-    /// </summary>
+    /// <summary>High level manager that provides tracking and global collection of all places.</summary>
     public class PlacesManager : ManagerSystem
     {
         /// <summary>The singleton instance of this class.</summary>
-        private static PlacesManager instance = new PlacesManager();
+        private static readonly PlacesManager SingletonInstance = new PlacesManager();
 
-        /// <summary>
-        /// Prevents a default instance of the <see cref="PlacesManager"/> class from being created. 
-        /// Initializes a new instance of the PlacesManager class.
-        /// </summary>
+        /// <summary>Prevents a default instance of the <see cref="PlacesManager"/> class from being created.</summary>
         private PlacesManager()
         {
             // @@@ assign to ItemManager instance? is it needed? currently disabled...
@@ -41,7 +36,7 @@ namespace WheelMUD.Core
         /// <summary>Gets the singleton instance of the <see cref="PlacesManager"/> system.</summary>
         public static PlacesManager Instance
         {
-            get { return instance; }
+            get { return SingletonInstance; }
         }
 
         /// <summary>Gets the world.</summary>

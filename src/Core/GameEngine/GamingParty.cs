@@ -14,29 +14,20 @@ namespace WheelMUD.Core
 {
     using System.Collections.Generic;
 
-    /// <summary>
-    /// This is the implementation of MUD parties, where a group of people are
-    /// adventuring together.
-    /// </summary>
+    /// <summary>This is the implementation of MUD parties, where a group of people are adventuring together.</summary>
     public class GamingParty
     {
-        /// <summary>
-        /// The members of this party.
-        /// </summary>
+        /// <summary>The members of this party.</summary>
         private readonly Dictionary<string, Thing> partyMembers = new Dictionary<string, Thing>();
 
-        /// <summary>
-        /// Adds a member to this party.
-        /// </summary>
+        /// <summary>Adds a member to this party.</summary>
         /// <param name="partyMember">The Entity that needs to be added.</param>
         public void AddPartyMember(ref Thing partyMember)
         {
             this.partyMembers.Add(partyMember.Name, partyMember);
         }
 
-        /// <summary>
-        /// Remove a member from this party.
-        /// </summary>
+        /// <summary>Remove a member from this party.</summary>
         /// <param name="partyMember">The Entity that needs to be removed.</param>
         public void RemovePartyMember(ref Thing partyMember)
         {

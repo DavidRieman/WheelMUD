@@ -14,120 +14,117 @@ namespace WheelMUD.Ftp.FtpCommands
     using System;
     using System.IO;
     using System.Text;
-    using WheelMUD.Ftp.FileSystem;
     using WheelMUD.Ftp.General;
 
-	/// <summary>
-	/// Base class for list commands
-	/// </summary>
-	public abstract class ListCommandHandlerBase : FtpCommandHandler
-	{
-		public ListCommandHandlerBase(string sCommand, FtpConnectionObject connectionObject)
-			: base(sCommand, connectionObject)
-		{}
+    /// <summary>Base class for list commands</summary>
+    public abstract class ListCommandHandlerBase : FtpCommandHandler
+    {
+        public ListCommandHandlerBase(string command, FtpConnectionObject connectionObject)
+            : base(command, connectionObject)
+        {
+        }
 
-		protected override string OnProcess(string message)
-		{
-			SocketHelpers.Send(this.ConnectionObject.Socket, "150 Opening data connection for LIST\r\n");
+        protected override string OnProcess(string message)
+        {
+            SocketHelpers.Send(this.ConnectionObject.Socket, "150 Opening data connection for LIST\r\n");
 
-			string [] asFiles = null;
-			string [] asDirectories = null;
+            string[] asFiles = null;
+            string[] asDirectories = null;
 
-			message = message.Trim();
+            message = message.Trim();
 
-			string path = this.GetPath("");
-			
-			if (message.Length == 0 || message[0] == '-')
-			{
-				asFiles = this.ConnectionObject.FileSystemObject.GetFiles(path);
-				asDirectories = this.ConnectionObject.FileSystemObject.GetDirectories(path);
-			}
-			else 
-			{
-				asFiles = this.ConnectionObject.FileSystemObject.GetFiles(path, message);
-				asDirectories = this.ConnectionObject.FileSystemObject.GetDirectories(path, message);
-			}
+            string path = this.GetPath(string.Empty);
 
-			var asAll = ArrayHelpers.Add(asDirectories, asFiles) as string[];
-			string sFileList = this.BuildReply(message, asAll);
-			
-			var socketReply = new FtpReplySocket(this.ConnectionObject);
+            if (message.Length == 0 || message[0] == '-')
+            {
+                asFiles = this.ConnectionObject.FileSystemObject.GetFiles(path);
+                asDirectories = this.ConnectionObject.FileSystemObject.GetDirectories(path);
+            }
+            else
+            {
+                asFiles = this.ConnectionObject.FileSystemObject.GetFiles(path, message);
+                asDirectories = this.ConnectionObject.FileSystemObject.GetDirectories(path, message);
+            }
 
-			if (!socketReply.Loaded)
-			{
-				return this.GetMessage(550, "LIST unable to establish return connection.");
-			}
-			
-			socketReply.Send(sFileList);
-			socketReply.Close();
+            var asAll = ArrayHelpers.Add(asDirectories, asFiles) as string[];
+            string fileList = this.BuildReply(message, asAll);
 
-			return this.GetMessage(226, "LIST successful.");
-		}
+            var socketReply = new FtpReplySocket(this.ConnectionObject);
 
-		protected abstract string BuildReply(string sMessage, string [] asFiles);
+            if (!socketReply.Loaded)
+            {
+                return this.GetMessage(550, "LIST unable to establish return connection.");
+            }
 
-		protected string BuildShortReply(string [] asFiles)
-		{
-			string sFileList = string.Join("\r\n", asFiles);
-			sFileList += "\r\n";
-			return sFileList;
-		}
+            socketReply.Send(fileList);
+            socketReply.Close();
 
-		protected string BuildLongReply(string [] asFiles)
-		{
-            string sDirectory = this.GetPath(string.Empty);
+            return this.GetMessage(226, "LIST successful.");
+        }
 
-			var stringBuilder = new StringBuilder();
+        protected abstract string BuildReply(string message, string[] asFiles);
 
-			for (int nIndex = 0 ; nIndex < asFiles.Length; nIndex++)
-			{
-				string sFile = asFiles[nIndex];
-				sFile = Path.Combine(sDirectory, sFile);
+        protected string BuildShortReply(string[] asFiles)
+        {
+            string fileList = string.Join("\r\n", asFiles);
+            fileList += "\r\n";
+            return fileList;
+        }
 
-				IFileInfo info = this.ConnectionObject.FileSystemObject.GetFileInfo(sFile);
+        protected string BuildLongReply(string[] asFiles)
+        {
+            string dir = this.GetPath(string.Empty);
 
-				if (info != null)
-				{
-					string sAttributes = info.GetAttributeString();
-					stringBuilder.Append(sAttributes);
-					stringBuilder.Append(" 1 owner group");
+            var stringBuilder = new StringBuilder();
 
-					if (info.IsDirectory())
-					{
-						stringBuilder.Append("            1 ");
-					}
-					else
-					{
-						string sFileSize = info.GetSize().ToString();
-						stringBuilder.Append(General.TextHelpers.RightAlignString(sFileSize, 13, ' '));
-						stringBuilder.Append(" ");
-					}
+            for (int index = 0; index < asFiles.Length; index++)
+            {
+                string file = asFiles[index];
+                file = Path.Combine(dir, file);
 
-					DateTime fileDate = info.GetModifiedTime();
+                var info = this.ConnectionObject.FileSystemObject.GetFileInfo(file);
+                if (info != null)
+                {
+                    string attributes = info.GetAttributeString();
+                    stringBuilder.Append(attributes);
+                    stringBuilder.Append(" 1 owner group");
 
-					string sDay = fileDate.Day.ToString();
+                    if (info.IsDirectory())
+                    {
+                        stringBuilder.Append("            1 ");
+                    }
+                    else
+                    {
+                        string fileSize = info.GetSize().ToString();
+                        stringBuilder.Append(General.TextHelpers.RightAlignString(fileSize, 13, ' '));
+                        stringBuilder.Append(" ");
+                    }
 
-					stringBuilder.Append(TextHelpers.Month(fileDate.Month));
-					stringBuilder.Append(" ");
+                    DateTime fileDate = info.GetModifiedTime();
 
-					if (sDay.Length == 1)
-					{
-						stringBuilder.Append(" ");
-					}
+                    string day = fileDate.Day.ToString();
 
-					stringBuilder.Append(sDay);
-					stringBuilder.Append(" ");
-					stringBuilder.Append(string.Format("{0:hh}", fileDate));
-					stringBuilder.Append(":");
-					stringBuilder.Append(string.Format("{0:mm}", fileDate));
-					stringBuilder.Append(" ");
+                    stringBuilder.Append(TextHelpers.Month(fileDate.Month));
+                    stringBuilder.Append(" ");
 
-					stringBuilder.Append(asFiles[nIndex]);
-					stringBuilder.Append("\r\n");
-				}
-			}
+                    if (day.Length == 1)
+                    {
+                        stringBuilder.Append(" ");
+                    }
 
-			return stringBuilder.ToString();
-		}
-	}
+                    stringBuilder.Append(day);
+                    stringBuilder.Append(" ");
+                    stringBuilder.Append(string.Format("{0:hh}", fileDate));
+                    stringBuilder.Append(":");
+                    stringBuilder.Append(string.Format("{0:mm}", fileDate));
+                    stringBuilder.Append(" ");
+
+                    stringBuilder.Append(asFiles[index]);
+                    stringBuilder.Append("\r\n");
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
+    }
 }

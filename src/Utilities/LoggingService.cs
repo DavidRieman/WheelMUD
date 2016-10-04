@@ -14,15 +14,10 @@ namespace WheelMUD.Utilities
     using log4net;
     using log4net.Config;
 
-    /// <summary>
-    /// This will handle logging for all of WheelMUD using 
-    /// log4net ( http://logging.apache.org/log4net/ )
-    /// </summary>
+    /// <summary>This will handle logging for all of WheelMUD using log4net ( http://logging.apache.org/log4net/ ).</summary>
     public class LoggingService
     {
-        /// <summary>
-        /// These are all of the valid logging levels that can be used in code.
-        /// </summary>
+        /// <summary>These are all of the valid logging levels that can be used in code.</summary>
         public enum LogLevel
         {
             /// <summary>Log level is debug.</summary>

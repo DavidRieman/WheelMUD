@@ -15,9 +15,7 @@ namespace WheelMUD.Server.Telnet
     /// <remarks>See RFC857 (http://www.faqs.org/rfcs/rfc857.html)</remarks>
     internal class TelnetOptionEcho : TelnetOption
     {
-        /// <summary>
-        /// Initializes a new instance of the TelnetOptionEcho class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the TelnetOptionEcho class.</summary>
         /// <param name="wantOption">Whether the option is wanted or not.</param>
         /// <param name="connection">The connection.</param>
         public TelnetOptionEcho(bool wantOption, Connection connection)

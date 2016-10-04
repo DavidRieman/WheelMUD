@@ -13,14 +13,10 @@ namespace WheelMUD.Server.Telnet
 {
     using WheelMUD.Core.Output;
 
-    /// <summary>
-    /// Class that handles the sub-negotiation of the MXP telnet option code.
-    /// </summary>
+    /// <summary>Class that handles the sub-negotiation of the MXP telnet option code.</summary>
     internal class TelnetOptionMXP : TelnetOption
     {
-        /// <summary>
-        /// Initializes a new instance of the TelnetOptionMXP class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the TelnetOptionMXP class.</summary>
         /// <param name="wantOption">Whether the option is wanted or not.</param>
         /// <param name="connection">The connection.</param>
         public TelnetOptionMXP(bool wantOption, Connection connection)

@@ -10,14 +10,10 @@
 
 namespace WheelMUD.Interfaces
 {
-    /// <summary>
-    /// An interface describing a SystemHost.
-    /// </summary>
+    /// <summary>An interface describing a SystemHost.</summary>
     public interface ISystemHost
     {
-        /// <summary>
-        /// Send an update to the system host.
-        /// </summary>
+        /// <summary>Send an update to the system host.</summary>
         /// <param name="sender">The sending system.</param>
         /// <param name="msg">The message to be sent.</param>
         void UpdateSystemHost(ISystem sender, string msg);

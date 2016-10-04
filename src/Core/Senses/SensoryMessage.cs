@@ -12,14 +12,10 @@ namespace WheelMUD.Core
 {
     using System.Collections;
 
-    /// <summary>
-    /// A sense-based message.
-    /// </summary>
+    /// <summary>A sense-based message.</summary>
     public class SensoryMessage
     {
-        /// <summary>
-        /// Initializes a new instance of the SensoryMessage class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the SensoryMessage class.</summary>
         /// <param name="targetedSense">The sense this message is for.</param>
         /// <param name="messageStrength">The strength of the message.</param>
         /// <param name="message">The message contents.</param>
@@ -32,9 +28,7 @@ namespace WheelMUD.Core
             this.Context = context;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the SensoryMessage class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the SensoryMessage class.</summary>
         /// <param name="targetedSense">The sense this message is for.</param>
         /// <param name="messageStrength">The strength of the message.</param>
         /// <param name="message">The message contents.</param>
@@ -43,9 +37,7 @@ namespace WheelMUD.Core
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the SensoryMessage class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the SensoryMessage class.</summary>
         /// <param name="targetedSense">The sense this message is for.</param>
         /// <param name="messageStrength">The strength of the message.</param>
         public SensoryMessage(SensoryType targetedSense, int messageStrength)

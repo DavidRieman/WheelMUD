@@ -13,14 +13,10 @@ namespace WheelMUD.Server.Telnet
 {
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A class that represents a telnet option and is able to negotiate itself with the client.
-    /// </summary>
+    /// <summary>A class that represents a telnet option and is able to negotiate itself with the client.</summary>
     internal class TelnetOption : ITelnetOption
     {
-        /// <summary>
-        /// Initializes a new instance of the TelnetOption class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the TelnetOption class.</summary>
         /// <param name="name">The name of this telnet option.</param>
         /// <param name="optionCode">The code that represents this telnet option.</param>
         /// <param name="wantOption">Whether this telnet option is wanted or not.</param>

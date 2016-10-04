@@ -26,17 +26,13 @@ namespace WheelMUD.Universe
         /// <summary>The contextual commands for this behavior instance.</summary>
         private LocksUnlocksBehaviorCommands commands;
 
-        /// <summary>
-        /// Initializes a new instance of the LocksUnlocksBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the LocksUnlocksBehavior class.</summary>
         public LocksUnlocksBehavior()
             : this(0, null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the LocksUnlocksBehavior class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the LocksUnlocksBehavior class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public LocksUnlocksBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -49,9 +45,7 @@ namespace WheelMUD.Universe
         /// <summary>Gets a value indicating whether the attached thing is currently locked.</summary>
         public bool IsLocked { get; private set; }
 
-        /// <summary>
-        /// Called when a parent has just been assigned to this behavior. (Refer to this.Parent)
-        /// </summary>
+        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
         public override void OnAddBehavior()
         {
             var parent = this.Parent;
@@ -87,9 +81,7 @@ namespace WheelMUD.Universe
             this.LockOrUnlock(unlocker, UnlockString, false);
         }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.IsLocked = true;
@@ -146,9 +138,7 @@ namespace WheelMUD.Universe
             }
         }
 
-        /// <summary>
-        /// Handle any requests this behavior is registered to.
-        /// </summary>
+        /// <summary>Handle any requests this behavior is registered to.</summary>
         /// <param name="root">The root Thing where this event broadcast started.</param>
         /// <param name="e">The cancellable event/request arguments.</param>
         private void RequestHandler(Thing root, CancellableGameEvent e)
@@ -170,9 +160,7 @@ namespace WheelMUD.Universe
             }
         }
 
-        /// <summary>
-        /// Contextual commands for the LocksUnlocksBehavior.
-        /// </summary>
+        /// <summary>Contextual commands for the LocksUnlocksBehavior.</summary>
         private class LocksUnlocksBehaviorCommands : GameAction
         {
             /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
@@ -187,9 +175,7 @@ namespace WheelMUD.Universe
             /// <summary>The LocksUnlocksBehavior this class belongs to.</summary>
             private LocksUnlocksBehavior locksUnlocksBehavior;
 
-            /// <summary>
-            /// Initializes a new instance of the LocksUnlocksBehaviorCommands class.
-            /// </summary>
+            /// <summary>Initializes a new instance of the LocksUnlocksBehaviorCommands class.</summary>
             /// <param name="locksUnlocksBehavior">The OpensClosesBehavior this class belongs to.</param>
             public LocksUnlocksBehaviorCommands(LocksUnlocksBehavior locksUnlocksBehavior)
                 : base()
@@ -197,9 +183,7 @@ namespace WheelMUD.Universe
                 this.locksUnlocksBehavior = locksUnlocksBehavior;
             }
 
-            /// <summary>
-            /// Execute the action.
-            /// </summary>
+            /// <summary>Execute the action.</summary>
             /// <param name="actionInput">The full input specified for executing the command.</param>
             public override void Execute(ActionInput actionInput)
             {

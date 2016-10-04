@@ -12,6 +12,7 @@
 
 namespace WheelMUD.Universe
 {
+    using System;
     using System.Collections.Generic;
     using WheelMUD.Core;
 
@@ -45,7 +46,7 @@ namespace WheelMUD.Universe
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

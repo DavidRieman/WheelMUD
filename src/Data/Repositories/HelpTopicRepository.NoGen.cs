@@ -18,22 +18,16 @@ namespace WheelMUD.Data.Repositories
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
 
-    /// <summary>
-    /// Specific calls that are not auto generated.
-    /// </summary>
+    /// <summary>Specific calls that are not auto generated.</summary>
     public partial class HelpTopicRepository
     {
     }
 
-    /// <summary>
-    /// Specific calls that are not auto generated.
-    /// </summary>
+    /// <summary>Specific calls that are not auto generated.</summary>
     public partial class HelpTopicAliasRepository
     {
 
-        /// <summary>
-        /// Loads the alias entries for a given help topic.
-        /// </summary>
+        /// <summary>Loads the alias entries for a given help topic.</summary>
         /// <param name="helpTopicId">The ID of the parent help topic</param>
         /// <returns>List of Help Topic Alias records</returns>
         public List<HelpTopicAliasRecord> LoadAliasForTopic(long helpTopicId)

@@ -14,14 +14,10 @@ namespace WheelMUD.Core
 {
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// An attribute such as strength, intelligence, etc.
-    /// </summary>
+    /// <summary>An attribute such as strength, intelligence, etc.</summary>
     public class GameAttribute : BaseStat, IPersistsWithPlayer
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GameAttribute"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="GameAttribute"/> class.</summary>
         /// <param name="controller">The controller.</param>
         /// <param name="name">The stat name.</param>
         /// <param name="abbreviation">The ID that will be used to allow the gaming system to recognize this stat.</param>

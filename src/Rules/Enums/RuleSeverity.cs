@@ -12,43 +12,19 @@
 
 namespace WheelMUD.Rules
 {
-    /// <summary>
-    /// Values for validation rule severities.
-    /// </summary>
+    /// <summary>Values for validation rule severities.</summary>
     public enum RuleSeverity
     {
-        /// <summary>
-        /// Represents a serious
-        /// game rule violation that
-        /// should cause an object to
-        /// be considered invalid.
-        /// </summary>
+        /// <summary>A serious game rule violation that should cause an object to be considered invalid.</summary>
         Error,
 
-        /// <summary>
-        /// Represents a game rule
-        /// violation that should be
-        /// displayed to the user, but which
-        /// should not make an object be
-        /// invalid.
-        /// </summary>
+        /// <summary>A game rule violation that should be displayed to the user, but which should not make an object be invalid.</summary>
         Warning,
 
-        /// <summary>
-        /// Represents a game rule
-        /// result that should be displayed
-        /// to the user, but which is less
-        /// severe than a warning.
-        /// </summary>
+        /// <summary>A game rule result that should be displayed to the user, but which is less severe than a warning.</summary>
         Information,
 
-        /// <summary>
-        /// Represents a game rule
-        /// result that should not
-        /// be displayed to the user,
-        /// and where the rule was
-        /// successful.
-        /// </summary>
+        /// <summary>A game rule result that should not be displayed to the user, and where the rule was successful.</summary>
         Success
     }
 }

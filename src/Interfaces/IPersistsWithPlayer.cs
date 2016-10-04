@@ -7,11 +7,7 @@
 
 namespace WheelMUD.Interfaces
 {
-    /// <summary>
-    /// This interface is used to mark anything that needs to be
-    /// saved as part of the player's data into the document
-    /// database.
-    /// </summary>
+    /// <summary>Marks anything that needs to be saved as part of the player's data into the document database.</summary>
     public interface IPersistsWithPlayer
     {
     }

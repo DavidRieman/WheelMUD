@@ -18,9 +18,7 @@ namespace WheelMUD.Server
     /// <summary>The data formatter.</summary>
     internal static class DataFormatter
     {
-        /// <summary>
-        /// Runs the data through our presentation handlers
-        /// </summary>
+        /// <summary>Runs the data through our presentation handlers.</summary>
         /// <param name="data">The data to format</param>
         /// <param name="connection">The connection object this data is going to be sent to</param>
         /// <param name="sendAllData">Indicates if all data should be sent.</param>

@@ -15,11 +15,10 @@
 
 namespace WheelMUD.Rules
 {
+    using System;
     using System.Linq.Expressions;
 
-    /// <summary>
-    /// Caches a rule expression.
-    /// </summary>
+    /// <summary>Caches a rule expression.</summary>
     public sealed class CachedExpression
     {
         private readonly Expression cachedExpression;
@@ -28,26 +27,20 @@ namespace WheelMUD.Rules
         {
             if (expression == null)
             {
-                throw new System.ArgumentNullException("expression");
+                throw new ArgumentNullException("expression");
             }
-            
+
             this.cachedExpression = expression;
         }
 
-        /// <summary>
-        /// Gets Expression
-        /// </summary>
+        /// <summary>Gets the cached expression.</summary>
         public Expression Expression
         {
             get { return this.cachedExpression; }
         }
 
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
+        /// <summary>Returns a <see cref="String"/> that represents this instance.</summary>
+        /// <returns>A <see cref="String"/> that represents this instance.</returns>
         public override string ToString()
         {
             return this.cachedExpression.ToString();

@@ -12,19 +12,14 @@
 namespace WheelMUD.Data.Repositories
 {
     using System.Collections.Generic;
-    using System.Data; 
-
+    using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
 
-    /// <summary>
-    /// Custom code for the RoomRepository class.
-    /// </summary>
+    /// <summary>Custom code for the RoomRepository class.</summary>
     public partial class RoomRepository
     {
-        /// <summary>
-        /// Loads the exits for a room.
-        /// </summary>
+        /// <summary>Loads the exits for a room.</summary>
         /// <param name="roomId">The room id used to load the exits.</param>
         /// <returns>Returns a collection of ExitRecord objects.</returns>
         public ICollection<ExitRecord> LoadExitsForRoom(long roomId)

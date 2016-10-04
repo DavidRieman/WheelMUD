@@ -13,14 +13,10 @@ namespace WheelMUD.Server.Telnet
 {
     using System.Text;
 
-    /// <summary>
-    /// Class that handles the Terminal Type telnet option code.
-    /// </summary>
+    /// <summary>Class that handles the Terminal Type telnet option code.</summary>
     internal class TelnetOptionTermType : TelnetOption
     {
-        /// <summary>
-        /// Initializes a new instance of the TelnetOptionTermType class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the TelnetOptionTermType class.</summary>
         /// <param name="wantOption">Whether the option is wanted or not.</param>
         /// <param name="connection">The connection.</param>
         public TelnetOptionTermType(bool wantOption, Connection connection)

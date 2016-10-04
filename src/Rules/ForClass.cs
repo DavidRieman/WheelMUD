@@ -26,23 +26,25 @@ namespace WheelMUD.Rules
         {
             this.rulesRulesEngine = rulesRulesEngine;
         }
+
         public SetupClass<T, R> Setup<R>(Expression<Func<T, R>> expression)
         {
             return new SetupClass<T, R>(this.rulesRulesEngine, this, expression);
         }
-
-
+        
         public ForClass<T> MustPassRule(IRule<T> rule)
         {
             Expression<Func<T, T>> expression = t => t;
             this.rulesRulesEngine.RegisterRule<T, T>(rule, expression, expression);
             return this;
         }
+
         public ForClassElseEndIf<T, ForClass<T>> If(Expression<Func<T, bool>> conditionalExpression)
         {
             var invoker = this.rulesRulesEngine.RegisterCondition(conditionalExpression);
             return new ForClassElseEndIf<T, ForClass<T>>(invoker.IfTrueRulesEngine, invoker, this);
         }
+
         public Expression<Func<T, T>> Expression
         {
             get
@@ -51,9 +53,7 @@ namespace WheelMUD.Rules
             }
         }
 
-        /// <summary>
-        /// Gets RulesEngine
-        /// </summary>
+        /// <summary>Gets RulesEngine.</summary>
         public RulesEngine RulesRulesEngine
         {
             get { return this.rulesRulesEngine; }

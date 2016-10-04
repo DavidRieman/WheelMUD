@@ -13,17 +13,12 @@ namespace WheelMUD.Data.RavenDb
 {
     using Raven.Client.Embedded;
 
-    /// <summary>
-    /// Encapsulates the Raven.Client.Embedded.EmbeddableDocumentStore
-    /// into a singleton.
-    /// </summary>
+    /// <summary>Encapsulates the Raven.Client.Embedded.EmbeddableDocumentStore into a singleton.</summary>
     public class DocumentStoreSingleton
     {
         private static EmbeddableDocumentStore instance;
 
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
+        /// <summary>Gets the instance.</summary>
         public static EmbeddableDocumentStore Instance
         {
             get

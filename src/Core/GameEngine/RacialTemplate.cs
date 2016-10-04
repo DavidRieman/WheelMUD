@@ -15,68 +15,29 @@ namespace WheelMUD.Core
     using System.Collections.Generic;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// Describes the most basic characteristics for a race in the
-    /// current gaming system.
-    /// </summary>
+    /// <summary>Describes the most basic characteristics for a race in the current gaming system.</summary>
     public class GameRace : IPersistsWithPlayer
     {
-        /// <summary>
-        /// Gets or sets the name of the race.
-        /// </summary>
-        /// <value>
-        /// The name of the race.
-        /// </value>
+        /// <summary>Gets or sets the name of the race.</summary>
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the racial description.
-        /// </summary>
-        /// <value>
-        /// The description for this particular race.
-        /// </value>
+        /// <summary>Gets or sets the racial description.</summary>
         public string Description { get; set; }
 
-        /// <summary>
-        /// Gets or sets the racial stats.
-        /// </summary>
-        /// <value>
-        /// The racial stats.
-        /// </value>
+        /// <summary>Gets or sets the racial stats.</summary>
         public List<GameStat> RacialStats { get; set; }
 
-        /// <summary>
-        /// Gets or sets the racial custom tables.
-        /// This is where anything that doesn't have an
-        /// obvious place goes.
-        /// </summary>
-        /// <value>
-        /// The racial custom tables.
-        /// </value>
+        /// <summary>Gets or sets the racial custom tables.</summary>
+        /// <remarks>This is where anything that doesn't have an obvious place goes.</remarks>
         public Dictionary<string, GameTable> RacialCustomTables { get; set; }
 
-        /// <summary>
-        /// Gets or sets the racial attributes.
-        /// </summary>
-        /// <value>
-        /// The racial attributes.
-        /// </value>
+        /// <summary>Gets or sets the racial attributes.</summary>
         public List<GameAttribute> RacialAttributes { get; set; }
 
-        /// <summary>
-        /// Gets or sets the racial skills.
-        /// </summary>
-        /// <value>
-        /// The racial skills.
-        /// </value>
+        /// <summary>Gets or sets the racial skills.</summary>
         public List<GameSkill> RacialSkills { get; set; }
 
-        /// <summary>
-        /// Gets or sets the racial modifiers.
-        /// </summary>
-        /// <value>
-        /// The racial modifiers.
-        /// </value>
+        /// <summary>Gets or sets the racial modifiers.</summary>
         public List<GameModifier> RacialModifiers { get; set; }
     }
 }

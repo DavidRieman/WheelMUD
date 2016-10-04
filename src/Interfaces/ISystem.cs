@@ -10,14 +10,10 @@
 
 namespace WheelMUD.Interfaces
 {
-    /// <summary>
-    /// An interface describing a SubSystemHost.
-    /// </summary>
+    /// <summary>An interface describing a SubSystemHost.</summary>
     public interface ISystem : ISystemBase, ISubSystemHost
     {
-        /// <summary>
-        /// Subscribes this system to the specified system host, so that host can receive updates.
-        /// </summary>
+        /// <summary>Subscribes this system to the specified system host, so that host can receive updates.</summary>
         /// <param name="sender">The system host to receive our updates.</param>
         void SubscribeToSystemHost(ISystemHost sender);
     }

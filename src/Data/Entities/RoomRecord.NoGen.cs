@@ -13,17 +13,13 @@ namespace WheelMUD.Data.Entities
 {
     using System.Collections.Generic;
 
-    /// <summary>
-    /// Custom code for the RoomRecord class.
-    /// </summary>
+    /// <summary>Custom code for the RoomRecord class.</summary>
     public partial class RoomRecord
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RoomRecord"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="RoomRecord"/> class.</summary>
         public RoomRecord()
         {
-           //this.Exits = new Dictionary<string, Exit>();
+            //this.Exits = new Dictionary<string, Exit>();
         }
 
         /// <summary>Gets the exits within the room.</summary>

@@ -13,35 +13,22 @@ namespace WheelMUD.Core
 {
     using System.Collections.Generic;
 
-    /// <summary>
-    /// Represents a game/ruleset modifier.
-    /// </summary>
+    /// <summary>Represents a game/rule-set modifier.</summary>
     public class GameModifier
     {
-        /// <summary>
-        /// Initializes a new instance of the GameModifier class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the GameModifier class.</summary>
         public GameModifier()
         {
             this.Modifiers = new Dictionary<string, string>();
-        } 
+        }
 
-        /// <summary>
-        /// Gets or sets the map to.
-        /// </summary>
-        /// <value>The map to.</value>
+        /// <summary>Gets or sets the map to.</summary>
         public string MapTo { get; set; }
 
-        /// <summary>
-        /// Gets or sets the stat level.
-        /// </summary>
-        /// <value>The stat level.</value>
+        /// <summary>Gets or sets the stat level.</summary>
         public int StatLevel { get; set; }
 
-        /// <summary>
-        /// Gets or sets the modifiers.
-        /// </summary>
-        /// <value>The modifiers.</value>
+        /// <summary>Gets or sets the modifiers.</summary>
         public Dictionary<string, string> Modifiers { get; set; }
     }
 }

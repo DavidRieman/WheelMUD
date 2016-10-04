@@ -10,10 +10,7 @@
 
 namespace WheelMUD.Interfaces
 {
-    /// <summary>
-    /// Interface that will be used to load MUD systems that are
-    /// non-core. These will be loaded using MEF
-    /// </summary>
+    /// <summary>Interface that will be used to load MUD systems that are non-core. These will be loaded using MEF.</summary>
     public interface ISystemPlugIn : ISystem
     {
     }

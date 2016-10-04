@@ -30,28 +30,21 @@ namespace WheelMUD.Server
         {
         }
 
-        /// <summary>
-        /// Subscribe to receive system updates from this system.
-        /// </summary>
+        /// <summary>Subscribe to receive system updates from this system.</summary>
         /// <param name="sender">The subscribing system; generally use 'this'.</param>
         public void SubscribeToSystem(ISubSystemHost sender)
         {
             this.subSystemHost = sender;
         }
 
-        /// <summary>
-        /// Inform subscribed system(s) of the specified update.
-        /// </summary>
+        /// <summary>Inform subscribed system(s) of the specified update.</summary>
         /// <param name="msg">The message to be sent to subscribed system(s).</param>
         public void InformSubscribedSystem(string msg)
         {
             this.subSystemHost.UpdateSubSystemHost(this, msg);
         }
 
-        /// <summary>
-        /// Checks the data passed to it for any telnet escape codes, or non alpha characters that need
-        /// to be processed and processes them.
-        /// </summary>
+        /// <summary>Handles received data: Processes telnet escape codes and non-alpha characters.</summary>
         /// <param name="sender">The connection which sent the data.</param>
         /// <param name="data">The data that was sent.</param>
         /// <returns>The altered data, after removing any non printable characters.</returns>
@@ -62,10 +55,8 @@ namespace WheelMUD.Server
             return HandleNonPrintables(sender, returnData);
         }
 
-        /// <summary>
-        /// This method handles incoming data and removes any non printable characters.
-        /// It also deals with backspaces on char by char connections.
-        /// </summary>
+        /// <summary>Handles incoming data and removes any non printable characters.</summary>
+        /// <remarks>It also deals with backspaces on char by char connections.</remarks>
         /// <param name="sender">The connection which sent the data.</param>
         /// <param name="data">The data that was sent.</param>
         /// <returns>The altered data, after removing any non printable characters.</returns>

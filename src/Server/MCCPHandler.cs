@@ -18,9 +18,7 @@ namespace WheelMUD.Server
     /// <summary>The MUD Client Compression Protocol (MCCP) handler.</summary>
     internal static class MCCPHandler
     {
-        /// <summary>
-        /// Compresses data using zlib.
-        /// </summary>
+        /// <summary>Compresses data using zlib.</summary>
         /// <param name="data">The data to compress</param>
         /// <returns>A byte array containing the compressed data</returns>
         public static byte[] Compress(string data)

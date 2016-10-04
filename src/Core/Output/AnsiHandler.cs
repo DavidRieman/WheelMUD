@@ -91,9 +91,7 @@ namespace WheelMUD.Core.Output
         Underline = 4
     }
 
-    /// <summary>
-    /// Class For parsing mud ansi Tags into ansi
-    /// </summary>
+    /// <summary>Class For parsing mud ansi Tags into ansi.</summary>
     public static class AnsiHandler
     {
         /// <summary>The ANSI 'escape sequence'.</summary>

@@ -10,9 +10,7 @@
 
 namespace WheelMUD.Interfaces
 {
-    /// <summary>
-    /// An interface describing Terminal settings.
-    /// </summary>
+    /// <summary>An interface describing Terminal settings.</summary>
     public interface ITerminal
     {
         /// <summary>Gets or sets the height of the users terminal.</summary>

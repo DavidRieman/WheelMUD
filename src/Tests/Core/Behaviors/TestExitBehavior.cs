@@ -14,9 +14,7 @@ namespace WheelMUD.Tests.Behaviors
     using NUnit.Framework;
     using WheelMUD.Core;
     
-    /// <summary>
-    /// Tests for the ExitBehavior class.
-    /// </summary>
+    /// <summary>Tests for the ExitBehavior class.</summary>
     [TestFixture]
     [TestClass]
     public class TestExitBehavior
@@ -38,9 +36,7 @@ namespace WheelMUD.Tests.Behaviors
             this.exit = new Thing(this.exitBehavior) { Name = "Exit", ID = TestThingID.Generate("testexit") };
         }
 
-        /// <summary>
-        /// Test behaviors of a one-way exit.
-        /// </summary>
+        /// <summary>Test behaviors of a one-way exit.</summary>
         [TestMethod][Test]
         public void TestOneWayExitBehavior()
         {
@@ -71,9 +67,7 @@ namespace WheelMUD.Tests.Behaviors
             this.actor.Parent = this.roomA;
         }
 
-        /// <summary>
-        /// Test behaviors of a two-way exit.
-        /// </summary>
+        /// <summary>Test behaviors of a two-way exit.</summary>
         [TestMethod][Test]
         public void TestTwoWayExitBehavior()
         {

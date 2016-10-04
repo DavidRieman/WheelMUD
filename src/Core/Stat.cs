@@ -14,9 +14,7 @@ namespace WheelMUD.Core
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A base class used to help define various elements of game attributes/stats/skills/etc.
-    /// </summary>
+    /// <summary>A base class used to help define various elements of game attributes/stats/skills/etc.</summary>
     public abstract class BaseStat
     {
         /// <summary>The synchronization locking object.</summary>
@@ -136,23 +134,17 @@ namespace WheelMUD.Core
         [JsonIgnore]
         public Thing Parent { get; set; }
 
-        /// <summary>
-        /// Called when a parent Thing has just been assigned this game element.
-        /// </summary>
+        /// <summary>Called when a parent Thing has just been assigned this game element.</summary>
         public virtual void OnAdd()
         {
         }
 
-        /// <summary>
-        /// Called when the current parent Thing of this game element is about to be removed.
-        /// </summary>
+        /// <summary>Called when the current parent Thing of this game element is about to be removed.</summary>
         public virtual void OnRemove()
         {
         }
 
-        /// <summary>
-        /// Sets the value of the stat.
-        /// </summary>
+        /// <summary>Sets the value of the stat.</summary>
         /// <param name="value">The new value.</param>
         /// <param name="sender">The sender of the stat change.</param>
         /// <param name="message">The contextual message to broadcast with the change.</param>
@@ -207,9 +199,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>
-        /// Sets the value of the stat.
-        /// </summary>
+        /// <summary>Sets the value of the stat.</summary>
         /// <param name="value">The new value.</param>
         /// <param name="sender">The sender of the stat change.</param>
         public void SetValue(int value, Thing sender)
@@ -217,9 +207,7 @@ namespace WheelMUD.Core
             this.SetValue(value, sender, null);
         }
 
-        /// <summary>
-        /// Increases the value of the stat.
-        /// </summary>
+        /// <summary>Increases the value of the stat.</summary>
         /// <param name="value">The amount to increase.</param>
         /// <param name="sender">The sender of the stat change.</param>
         /// <param name="message">The contextual message to broadcast with the change.</param>
@@ -228,9 +216,7 @@ namespace WheelMUD.Core
             this.SetValue(this.Value + value, sender, message);
         }
 
-        /// <summary>
-        /// Increases the value of the stat.
-        /// </summary>
+        /// <summary>Increases the value of the stat.</summary>
         /// <param name="value">The amount to increase.</param>
         /// <param name="sender">The sender of the stat change.</param>
         public void Increase(int value, Thing sender)
@@ -238,9 +224,7 @@ namespace WheelMUD.Core
             this.SetValue(this.Value + value, sender);
         }
 
-        /// <summary>
-        /// Decreases the value of the stat.
-        /// </summary>
+        /// <summary>Decreases the value of the stat.</summary>
         /// <param name="value">The amount to increase.</param>
         /// <param name="sender">The sender of the stat change.</param>
         /// <param name="message">The contextual message to broadcast with the change.</param>
@@ -249,9 +233,7 @@ namespace WheelMUD.Core
             this.SetValue(this.Value - value, sender, message);
         }
 
-        /// <summary>
-        /// Decreases the value of the stat.
-        /// </summary>
+        /// <summary>Decreases the value of the stat.</summary>
         /// <param name="value">The amount to increase.</param>
         /// <param name="sender">The sender of the stat change.</param>
         public void Decrease(int value, Thing sender)

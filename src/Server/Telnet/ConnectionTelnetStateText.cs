@@ -11,15 +11,11 @@
 
 namespace WheelMUD.Server.Telnet
 {
-    /// <summary>
-    /// Handles the incoming data over our connection.
-    /// This is the default state for our connections data stream.
-    /// </summary>
+    /// <summary>Handles the incoming data over our connection.</summary>
+    /// <remarks>This is the default state for our connections data stream.</remarks>
     internal class ConnectionTelnetStateText : ConnectionTelnetState
     {
-        /// <summary>
-        /// Initializes a new instance of the ConnectionTelnetStateText class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ConnectionTelnetStateText class.</summary>
         /// <param name="parent">The parent telnet code handler which this object is created by.</param>
         public ConnectionTelnetStateText(TelnetCodeHandler parent)
             : base(parent)

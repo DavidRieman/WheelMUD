@@ -21,38 +21,6 @@ namespace WheelMUD.Rules
 
     public sealed class ExpressionCache
     {
-        private class ExpressionKey : IEquatable<ExpressionKey>
-        {
-            private readonly IEqualityComparer<Expression> _comparer;
-            private readonly Expression _expression;
-            private readonly int _hashCode;
-
-            /// <summary>
-            /// Gets Expression
-            /// </summary>
-            public Expression Expression
-            {
-                get { return _expression; }
-            }
-
-            public ExpressionKey(IEqualityComparer<Expression> comparer, Expression expression)
-            {
-                _comparer = comparer;
-                _expression = expression;
-                _hashCode = comparer.GetHashCode(expression);
-
-            }
-
-            public bool Equals(ExpressionKey other)
-            {
-                return (_hashCode == other._hashCode && _comparer.Equals(_expression, other._expression));
-            }
-
-            public override int GetHashCode()
-            {
-                return _hashCode;
-            }
-        }
         private readonly Dictionary<ExpressionKey, CachedExpression> _cache;
         private readonly IEqualityComparer<Expression> _comparer;
 
@@ -60,16 +28,25 @@ namespace WheelMUD.Rules
             this(new ExpressionComparer())
         {
         }
+
         public ExpressionCache(IEqualityComparer<Expression> comparer)
         {
-            if (comparer == null) throw new System.ArgumentNullException("comparer");
+            if (comparer == null)
+            {
+                throw new ArgumentNullException("comparer");
+            }
+
             _comparer = comparer;
             _cache = new Dictionary<ExpressionKey, CachedExpression>();
         }
 
         public CachedExpression Get(Expression expression)
         {
-            if (expression == null) throw new System.ArgumentNullException("expression");
+            if (expression == null)
+            {
+                throw new ArgumentNullException("expression");
+            }
+
             CachedExpression result;
             var key = new ExpressionKey(_comparer, expression);
             if (_cache.TryGetValue(key, out result))
@@ -81,6 +58,36 @@ namespace WheelMUD.Rules
                 result = new CachedExpression(expression);
                 _cache.Add(key, result);
                 return result;
+            }
+        }
+
+        private class ExpressionKey : IEquatable<ExpressionKey>
+        {
+            private readonly IEqualityComparer<Expression> _comparer;
+            private readonly Expression _expression;
+            private readonly int _hashCode;
+
+            public ExpressionKey(IEqualityComparer<Expression> comparer, Expression expression)
+            {
+                _comparer = comparer;
+                _expression = expression;
+                _hashCode = comparer.GetHashCode(expression);
+            }
+
+            /// <summary>Gets the Expression.</summary>
+            public Expression Expression
+            {
+                get { return _expression; }
+            }
+
+            public bool Equals(ExpressionKey other)
+            {
+                return _hashCode == other._hashCode && _comparer.Equals(_expression, other._expression);
+            }
+
+            public override int GetHashCode()
+            {
+                return _hashCode;
             }
         }
     }

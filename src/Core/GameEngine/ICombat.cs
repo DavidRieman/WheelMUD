@@ -12,21 +12,15 @@
 
 namespace WheelMUD.Core
 {
-    /// <summary>
-    /// Generic interface for a combat system in a gaming system.
-    /// </summary>
+    /// <summary>Generic interface for a combat system in a gaming system.</summary>
     public interface ICombat
     {
         GameCombatSession CombatSession { get; set; }
 
-        /// <summary>
-        /// To be used in combat systems that are turn based.
-        /// </summary>
+        /// <summary>To be used in combat systems that are turn based.</summary>
         void ProcessCombatRound();
 
-        /// <summary>
-        /// To be used in combat systems that are near-real time.
-        /// </summary>
+        /// <summary>To be used in combat systems that are near-real time.</summary>
         void ProcessCombatActions();
 
         void CreateCombatOrder();

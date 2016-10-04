@@ -15,6 +15,8 @@
 
 namespace WheelMUD.Rules
 {
+    using System;
+
     public interface IErrorResolver
     {
         string GetErrorMessage(ValidationError validationError);
@@ -27,33 +29,25 @@ namespace WheelMUD.Rules
         private object[] _validationArguments;
         private object _value;
 
-        /// <summary>
-        /// Gets Rule
-        /// </summary>
+        /// <summary>Gets the Rule.</summary>
         public IRule Rule
         {
             get { return _rule; }
         }
 
-        /// <summary>
-        /// Gets Expression
-        /// </summary>
+        /// <summary>Gets the cached expression.</summary>
         public CachedExpression CachedExpression
         {
             get { return _cachedExpression; }
         }
 
-        /// <summary>
-        /// Gets ValidationArguments
-        /// </summary>
+        /// <summary>Gets ValidationArguments.</summary>
         public object[] ValidationArguments
         {
             get { return _validationArguments; }
         }
 
-        /// <summary>
-        /// Gets Value
-        /// </summary>
+        /// <summary>Gets the value.</summary>
         public object Value
         {
             get { return _value; }
@@ -61,10 +55,17 @@ namespace WheelMUD.Rules
 
         public ValidationError(IRule rule, CachedExpression cachedExpression, object[] validationArguments, object value)
         {
-            if (validationArguments == null) throw new System.ArgumentNullException("validationArguments");
-            if (value == null) throw new System.ArgumentNullException("value");
-            if (cachedExpression == null) throw new System.ArgumentNullException("cachedExpression");
-            if (rule == null) throw new System.ArgumentNullException("rule");
+            if (validationArguments == null)
+            {
+                throw new ArgumentNullException("validationArguments");
+            }
+
+            if (value == null)
+                throw new ArgumentNullException("value");
+            if (cachedExpression == null)
+                throw new ArgumentNullException("cachedExpression");
+            if (rule == null)
+                throw new ArgumentNullException("rule");
 
             _rule = rule;
             _cachedExpression = cachedExpression;

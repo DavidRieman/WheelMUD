@@ -14,14 +14,10 @@ namespace WheelMUD.Core
     using WheelMUD.CommandSystem;
     using WheelMUD.Core.Attributes;
 
-    /// <summary>
-    /// A scripting command.
-    /// </summary>
+    /// <summary>A scripting command.</summary>
     public class ScriptingCommand
     {
-        /// <summary>
-        /// Initializes a new instance of the ScriptingCommand class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ScriptingCommand class.</summary>
         /// <param name="name">The name of the command.</param>
         /// <param name="executeDelegate">The execution delegate.</param>
         /// <param name="guardsDelegate">The guards delegate.</param>

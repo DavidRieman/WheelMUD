@@ -10,14 +10,10 @@
 
 namespace WheelMUD.Core.Events
 {
-    /// <summary>
-    /// A bulk movement event.
-    /// </summary>
+    /// <summary>A bulk movement event.</summary>
     public class BulkMovementEvent : GameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BulkMovementEvent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="BulkMovementEvent"/> class.</summary>
         /// <param name="activeThing">The active thing.</param>
         /// <param name="sensoryMessage">The sensory message.</param>
         public BulkMovementEvent(Thing activeThing, SensoryMessage sensoryMessage)
@@ -26,14 +22,10 @@ namespace WheelMUD.Core.Events
         }
     }
 
-    /// <summary>
-    /// Event associated with movement from one place to another.
-    /// </summary>
+    /// <summary>Event associated with movement from one place to another.</summary>
     public class MovementEvent : CancellableGameEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MovementEvent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="MovementEvent"/> class.</summary>
         /// <param name="thingMoving">The thing moving.</param>
         /// <param name="goingFrom">The original location of the moving thing.</param>
         /// <param name="goingTo">The location where the thing is going.</param>
@@ -53,33 +45,23 @@ namespace WheelMUD.Core.Events
             }
         }
 
-        /// <summary>
-        /// Gets the original location of the moving thing.
-        /// </summary>
+        /// <summary>Gets the original location of the moving thing.</summary>
         /// <value>The going from.</value>
         public Thing GoingFrom { get; private set; }
 
-        /// <summary>
-        /// Gets the location where the thing is going.
-        /// </summary>
+        /// <summary>Gets the location where the thing is going.</summary>
         /// <value>The going to.</value>
         public Thing GoingTo { get; private set; }
 
-        /// <summary>
-        /// Gets the thing (typically an exit) through which the movement occurs.
-        /// </summary>
+        /// <summary>Gets the thing (typically an exit) through which the movement occurs.</summary>
         /// <value>The going via.</value>
         public Thing GoingVia { get; private set; }
     }
 
-    /// <summary>
-    /// A movment event specifically associated with leaving a location.
-    /// </summary>
+    /// <summary>A movment event specifically associated with leaving a location.</summary>
     public class LeaveEvent : MovementEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LeaveEvent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="LeaveEvent"/> class.</summary>
         /// <param name="thingMoving">The thing moving.</param>
         /// <param name="goingFrom">The original location of the moving thing.</param>
         /// <param name="goingTo">The location where the thing is going.</param>
@@ -91,14 +73,10 @@ namespace WheelMUD.Core.Events
         }
     }
 
-    /// <summary>
-    /// A movment event specifically associated with arriving at a location.
-    /// </summary>
+    /// <summary>A movment event specifically associated with arriving at a location.</summary>
     public class ArriveEvent : MovementEvent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ArriveEvent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ArriveEvent"/> class.</summary>
         /// <param name="thingMoving">The thing moving.</param>
         /// <param name="goingFrom">The original location of the moving thing.</param>
         /// <param name="goingTo">The location where the thing is going.</param>

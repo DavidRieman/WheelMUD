@@ -35,9 +35,7 @@ namespace WheelMUD.Rules
             _expressionCache = expressionCache;
         }
 
-        /// <summary>
-        /// Creates a Rules Engine.
-        /// </summary>
+        /// <summary>Creates a Rules Engine.</summary>
         /// <param name="basedOn">Copies rules from base Engine</param>
         public RulesEngine(RulesEngine basedOn)
         {
@@ -46,9 +44,7 @@ namespace WheelMUD.Rules
             _expressionCache = basedOn._expressionCache;
         }
 
-        /// <summary>
-        /// Creates a Rules Engine.
-        /// </summary>
+        /// <summary>Creates a Rules Engine.</summary>
         /// <param name="basedOn">Copies specific rules from base Engine</param>
         /// <param name="types">Copies rules for the specified types only.</param>
         public RulesEngine(RulesEngine basedOn, params Type[] types)
@@ -105,17 +101,13 @@ namespace WheelMUD.Rules
             get { return this; }
         }
 
-        /// <summary>
-        /// Gets ExpressionCache
-        /// </summary>
+        /// <summary>Gets ExpressionCache.</summary>
         public ExpressionCache ExpressionCache
         {
             get { return _expressionCache; }
         }
 
-        /// <summary>
-        /// Gets DefaultExpressionCache
-        /// </summary>
+        /// <summary>Gets DefaultExpressionCache.</summary>
         public static ExpressionCache DefaultExpressionCache
         {
             get { return _defaultExpressionCache; }

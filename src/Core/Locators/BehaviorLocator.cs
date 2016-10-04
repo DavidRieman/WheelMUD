@@ -18,13 +18,10 @@ namespace WheelMUD.Core.Locators
     using System.Reflection;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// A locator class that deals with behaviors. 
-    /// </summary>
+    /// <summary>A locator class that deals with behaviors.</summary>
     public class BehaviorLocator : IServiceLocator
     {
-        private static readonly object TheLock = new object();
-        private static IServiceLocator instance;
+        private static readonly IServiceLocator SingletonInstance = new BehaviorLocator();
         private IDictionary<Type, object> instantiatedServices;
         private IDictionary<Type, Type> servicesType;
 
@@ -34,28 +31,13 @@ namespace WheelMUD.Core.Locators
             this.servicesType = new Dictionary<Type, Type>();
         }
 
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
+        /// <summary>Gets the singleton instance of the <see cref="BehaviorLocator"/> class.</summary>
         public static IServiceLocator Instance
         {
-            get
-            {
-                lock (TheLock)
-                {
-                    if (instance == null)
-                    {
-                        instance = new BehaviorLocator();
-                    }
-                }
-
-                return instance;
-            }
+            get { return SingletonInstance; }
         }
 
-        /// <summary>
-        /// Registers the service.
-        /// </summary>
+        /// <summary>Registers the service.</summary>
         /// <typeparam name="T">Type signature of the behavior being registered.</typeparam>
         /// <param name="behaviorToRegister">The behavior to register.</param>
         public void RegisterService<T>(T behaviorToRegister)
@@ -63,13 +45,9 @@ namespace WheelMUD.Core.Locators
             this.instantiatedServices.Add(typeof(T), behaviorToRegister);
         }
 
-        /// <summary>
-        /// Gets the service.
-        /// </summary>
+        /// <summary>Gets the service.</summary>
         /// <typeparam name="T">The signature (class) that we are looking for.</typeparam>
-        /// <returns>
-        /// Returns an instance of the class in question, if it exists.
-        /// </returns>
+        /// <returns>Returns an instance of the class in question, if it exists.returns>
         public T GetService<T>()
         {
             if (this.instantiatedServices.ContainsKey(typeof(T)))

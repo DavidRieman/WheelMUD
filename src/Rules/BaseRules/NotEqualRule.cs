@@ -21,8 +21,8 @@ namespace WheelMUD.Rules
 
     public class NotEqualRule<R> : IRule<R>
     {
-        R _value;
-        IEqualityComparer<R> _comparer;
+        private R _value;
+        private IEqualityComparer<R> _comparer;
 
         public NotEqualRule(R value) : this(value, EqualityComparer<R>.Default)
         {
@@ -30,31 +30,37 @@ namespace WheelMUD.Rules
 
         public NotEqualRule(R value, IEqualityComparer<R> comparer)
         {
-            if (comparer == null) throw new System.ArgumentNullException("comparer");
+            if (comparer == null)
+            {
+                throw new ArgumentNullException("comparer");
+            }
+
             _comparer = comparer;
             _value = value;
-        }
-
-        public ValidationResult Validate(R value)
-        {
-            if (!_comparer.Equals(value, _value))
-                return ValidationResult.Success;
-
-            return ValidationResult.Fail(_value);
         }
 
         public string RuleKind
         {
             get { return "NotEqualRule"; }
         }
+
+        public ValidationResult Validate(R value)
+        {
+            if (!_comparer.Equals(value, _value))
+            {
+                return ValidationResult.Success;
+            }
+
+            return ValidationResult.Fail(_value);
+        }
     }
 
     public class NotEqualRule<T, R> : IRule<T>
     {
-        IEqualityComparer<R> _comparer;
-        Func<T, R> _value;
-        Func<T, R> _value2;
-        //CAUTION: rules of the same ruleKind must return the same number of arguments.
+        // CAUTION: rules of the same ruleKind must return the same number of arguments.
+        private IEqualityComparer<R> _comparer;
+        private Func<T, R> _value;
+        private Func<T, R> _value2;
 
         public NotEqualRule(Expression<Func<T, R>> value, Expression<Func<T, R>> value2)
             : this(value, value2, EqualityComparer<R>.Default)
@@ -63,13 +69,29 @@ namespace WheelMUD.Rules
 
         public NotEqualRule(Expression<Func<T, R>> value, Expression<Func<T, R>> value2, IEqualityComparer<R> comparer)
         {
-            if (comparer == null) throw new System.ArgumentNullException("comparer");
-            if (value2 == null) throw new System.ArgumentNullException("value2");
-            if (value == null) throw new System.ArgumentNullException("value");
+            if (comparer == null)
+            {
+                throw new ArgumentNullException("comparer");
+            }
+
+            if (value2 == null)
+            {
+                throw new ArgumentNullException("value2");
+            }
+
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
 
             _value = value.Compile();
             _value2 = value2.Compile();
             _comparer = comparer;
+        }
+
+        public string RuleKind
+        {
+            get { return "NotEqualRule"; }
         }
 
         public ValidationResult Validate(T value)
@@ -78,14 +100,11 @@ namespace WheelMUD.Rules
             R v2 = _value2(value);
 
             if (!_comparer.Equals(v1, v2))
+            {
                 return ValidationResult.Success;
+            }
 
             return ValidationResult.Fail(v2);
-        }
-
-        public string RuleKind
-        {
-            get { return "NotEqualRule"; }
         }
     }
 }

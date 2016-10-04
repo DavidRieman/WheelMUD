@@ -13,14 +13,10 @@ namespace WheelMUD.Core
     using System;
     using System.Text;
 
-    /// <summary>
-    /// Extensions to the Exception class.
-    /// </summary>
+    /// <summary>Extensions to the Exception class.</summary>
     public static class ExceptionExtensions
     {
-        /// <summary>
-        /// Build the exception message, stack trace, and so on for inner exceptions, into a string.
-        /// </summary>
+        /// <summary>Build the exception message, stack trace, and so on for inner exceptions, into a string.</summary>
         /// <param name="ex">The exception.</param>
         /// <returns>A potentially-long multi-line report string.</returns>
         public static string ToDeepString(this Exception ex)
@@ -46,9 +42,7 @@ namespace WheelMUD.Core
             return sb.ToString();
         }
 
-        /// <summary>
-        /// Append full exception information into a StringBuilder.
-        /// </summary>
+        /// <summary>Append full exception information into a StringBuilder.</summary>
         /// <param name="ex">The exception whose information is being mined.</param>
         /// <param name="sb">The StringBuilder to append.</param>
         private static void AppendExceptionInfo(Exception ex, StringBuilder sb)

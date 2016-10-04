@@ -15,9 +15,7 @@ namespace WheelMUD.Universe
     using WheelMUD.Core;
     using WheelMUD.Core.Events;
 
-    /// <summary>
-    /// A portal item behavior adds the ability to enter an item to arrive at a new location.
-    /// </summary>
+    /// <summary>A portal item behavior adds the ability to enter an item to arrive at a new location.</summary>
     public class PortalBehavior : Behavior
     {
         /// <summary>Potentially cache a reference to the room this portal leads to.</summary>
@@ -56,9 +54,7 @@ namespace WheelMUD.Universe
         }
 
         /*
-        /// <summary>
-        /// Have the specified entity try to use the portal.
-        /// </summary>
+        /// <summary>Have the specified entity try to use the portal.</summary>
         /// <param name="enteringEntity">The entity to enter the portal.</param>
         /// <param name="world">The world with which we'll try to associate the destination room ID.</param>
         public void Use(Entity enteringEntity, Thing world)

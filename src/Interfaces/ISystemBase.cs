@@ -11,9 +11,7 @@
 
 namespace WheelMUD.Interfaces
 {
-    /// <summary>
-    /// This is the most basic system in the MUD.
-    /// </summary>
+    /// <summary>This is the most basic system in the MUD.</summary>
     public interface ISystemBase
     {
         /// <summary>Starts this system.</summary>
