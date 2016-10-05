@@ -19,10 +19,8 @@ namespace WheelMUD.Ftp
     using WheelMUD.Ftp.General;
     using WheelMUD.Interfaces;
 
-	/// <summary>
-	/// Listens for incoming connections and accepts them.
-	/// Incoming socket connections are then passed to the socket handling class (FtpSocketHandler).
-	/// </summary>
+    /// <summary>Listens for incoming connections and accepts them.</summary>
+    /// <remarks>Incoming socket connections are then passed to the socket handling class (FtpSocketHandler).</remarks>
     [Export(typeof(ISystemPlugIn))]
     public class FtpServer : ISystemPlugIn, ISubSystem
 	{
@@ -33,9 +31,7 @@ namespace WheelMUD.Ftp
 		private int _port;
         private readonly IFileSystemClassFactory _fileSystemClassFactory;
 
-        /// <summary>
-        /// The host system that the GameEngine is subscribing to.
-        /// </summary>
+        /// <summary>The host system that the GameEngine is subscribing to.</summary>
         private ISystemHost _host;
 
 		public delegate void ConnectionHandler(int nId);
@@ -98,9 +94,7 @@ namespace WheelMUD.Ftp
             this._host.UpdateSystemHost(this, "Stopped");
         }
 
-        /// <summary>
-        /// Allows the sub system host to receive an update when subscribed to this system.
-        /// </summary>
+        /// <summary>Allows the sub system host to receive an update when subscribed to this system.</summary>
         /// <param name="sender">The sender of the update.</param>
         /// <param name="msg">The message to be sent.</param>
         public void UpdateSubSystemHost(ISubSystem sender, string msg)
@@ -108,26 +102,20 @@ namespace WheelMUD.Ftp
             this._host.UpdateSystemHost(this, msg);
         }
 
-        /// <summary>
-        /// Subscribes this system to the specified system host, so that host can receive updates.
-        /// </summary>
+        /// <summary>Subscribes this system to the specified system host, so that host can receive updates.</summary>
         /// <param name="sender">The system host to receive our updates.</param>
         public void SubscribeToSystemHost(ISystemHost sender)
         {
             this._host = sender;
         }
 
-        /// <summary>
-        /// Subscribe to receive system updates from this system.
-        /// </summary>
+        /// <summary>Subscribe to receive system updates from this system.</summary>
         /// <param name="sender">The subscribing system; generally use 'this'.</param>
         public void SubscribeToSystem(ISubSystemHost sender)
         {
         }
 
-        /// <summary>
-        /// Inform subscribed system(s) of the specified update.
-        /// </summary>
+        /// <summary>Inform subscribed system(s) of the specified update.</summary>
         /// <param name="msg">The message to be sent to subscribed system(s).</param>
         public void InformSubscribedSystem(string msg)
         {

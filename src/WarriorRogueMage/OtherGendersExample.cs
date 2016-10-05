@@ -15,9 +15,7 @@ namespace WarriorRogueMage
 {
     using WheelMUD.Core;
 
-    /// <summary>
-    /// Eunuch Gender
-    /// </summary>
+    /// <summary>Eunuch Gender.</summary>
     [ExportGameGender]
     public class GenderEunuch : GameGender
     {
@@ -26,9 +24,7 @@ namespace WarriorRogueMage
         }
     }
 
-    /// <summary>
-    /// Neuter Gender
-    /// </summary>
+    /// <summary>Neuter Gender.</summary>
     [ExportGameGender]
     public class GenderNeuter : GameGender
     {

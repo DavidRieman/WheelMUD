@@ -14,14 +14,10 @@ namespace WarriorRogueMage.Behaviors
 {
     using System.Collections.Generic;
     using System.Linq;
-
     using WarriorRogueMage.Skills;
-
     using WheelMUD.Core;
 
-    /// <summary>
-    /// A behavior housing player skills functionality.
-    /// </summary>
+    /// <summary>A behavior housing player skills functionality.</summary>
     public class SkillsBehavior : Behavior
     {
         /// <summary>Initializes a new instance of the SkillsBehavior class.</summary>

@@ -38,28 +38,17 @@ namespace WarriorRogueMage.CharacterCreation
         Done,
     }
 
-    /// <summary>
-    /// The character creation step where the player will set their stats.
-    /// </summary>
+    /// <summary>The character creation step where the player will set their stats.</summary>
     public class SetAttributesState : CharacterCreationSubState
     {
-        private static string Prompt = string.Format("Select the character's starting attributes.{0}> ", Environment.NewLine);
-        private static int MaxPoints = 10;
+        private static readonly string Prompt = string.Format("Select the character's starting attributes.{0}> ", Environment.NewLine);
+        private static readonly int MaxPoints = 10;
         private int warriorPoints;
         private int roguePoints;
         private int magePoints;
 
-        private int SpentPoints
-        {
-            get { return this.warriorPoints + this.roguePoints + this.magePoints; }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SetAttributesState"/> class.
-        /// </summary>
-        /// <param name="session">
-        /// The session.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="SetAttributesState"/> class.</summary>
+        /// <param name="session">The session.</param>
         public SetAttributesState(Session session)
             : base(session)
         {
@@ -67,12 +56,14 @@ namespace WarriorRogueMage.CharacterCreation
             this.RefreshScreen(false);
         }
 
-        /// <summary>
-        /// Processes the text that the player sends while in this state.
-        /// </summary>
-        /// <param name="command">
-        /// The command that the player just sent.
-        /// </param>
+        /// <summary>Gets the total points spent so far by the character.</summary>
+        private int SpentPoints
+        {
+            get { return this.warriorPoints + this.roguePoints + this.magePoints; }
+        }
+
+        /// <summary>Processes the text that the player sends while in this state.</summary>
+        /// <param name="s">The command that the player just sent.</param>
         public override void ProcessInput(string s)
         {
             var command = this.FindTargetCommand(s);
@@ -88,7 +79,7 @@ namespace WarriorRogueMage.CharacterCreation
                     this.ProcessAttributeCommand(command, s, ref this.magePoints);
                     break;
                 case SetAttributeCommand.Done:
-                    if (SpentPoints != MaxPoints)
+                    if (this.SpentPoints != MaxPoints)
                     {
                         WrmChargenCommon.SendErrorMessage(this.Session, "You have not spent all your points.");
                     }
@@ -99,6 +90,7 @@ namespace WarriorRogueMage.CharacterCreation
                         this.StateMachine.HandleNextStep(this, StepStatus.Success);
                         return;
                     }
+
                     break;
                 default:
                     WrmChargenCommon.SendErrorMessage(this.Session, "Unknown command. Please use warrior, rogue, mage, or done.");
@@ -106,6 +98,13 @@ namespace WarriorRogueMage.CharacterCreation
             }
 
             this.RefreshScreen();
+        }
+
+        /// <summary>Builds the prompt.</summary>
+        /// <returns>A prompt indicating how the player should proceed.</returns>
+        public override string BuildPrompt()
+        {
+            return Prompt;
         }
 
         private void ProcessAttributeCommand(SetAttributeCommand command, string s, ref int targetPoints)
@@ -117,7 +116,7 @@ namespace WarriorRogueMage.CharacterCreation
                 WrmChargenCommon.SendErrorMessage(this.Session, "No valid number was found.");
                 return;
             }
-            
+
             int n;
             if (!int.TryParse(numberString, out n))
             {
@@ -161,13 +160,6 @@ namespace WarriorRogueMage.CharacterCreation
             }
         }
 
-        /// <summary>Builds the prompt.</summary>
-        /// <returns>A prompt indicating how the player should proceed.</returns>
-        public override string BuildPrompt()
-        {
-            return Prompt;
-        }
-
         private void RefreshScreen(bool sendPrompt = true)
         {
             var sb = new StringBuilder();
@@ -194,17 +186,27 @@ namespace WarriorRogueMage.CharacterCreation
         private SetAttributeCommand FindTargetCommand(string s)
         {
             if (string.IsNullOrWhiteSpace(s))
+            {
                 return SetAttributeCommand.Unknown;
-            
+            }
+
             s = s.ToLower().Trim();
             if (s.StartsWith("w"))
+            {
                 return SetAttributeCommand.Warrior;
+            }
             else if (s.StartsWith("r"))
+            {
                 return SetAttributeCommand.Rogue;
+            }
             else if (s.StartsWith("m"))
+            {
                 return SetAttributeCommand.Mage;
+            }
             else if (s.StartsWith("done") || s.StartsWith("end") || s.StartsWith("quit"))
+            {
                 return SetAttributeCommand.Done;
+            }
 
             return SetAttributeCommand.Unknown;
         }
@@ -212,11 +214,18 @@ namespace WarriorRogueMage.CharacterCreation
         private string FindOperation(string s)
         {
             if (string.IsNullOrWhiteSpace(s))
+            {
                 return string.Empty;
+            }
             else if (s.Contains("+"))
+            {
                 return "+";
+            }
             else if (s.Contains("-"))
+            {
                 return "-";
+            }
+
             return string.Empty;
         }
 

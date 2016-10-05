@@ -21,10 +21,8 @@ namespace WarriorRogueMage
     public class TalentFinder : IRecomposable
     {
         private static readonly TalentFinder instance = new TalentFinder();
-        
-        /// <summary>
-        /// Prevents a default instance of the TalentFinder class from being created.
-        /// </summary>
+
+        /// <summary>Prevents a default instance of the TalentFinder class from being created.</summary>
         private TalentFinder()
         {
             this.Recompose();

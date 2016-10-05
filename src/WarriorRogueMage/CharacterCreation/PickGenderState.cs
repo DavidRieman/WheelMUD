@@ -18,28 +18,20 @@ namespace WarriorRogueMage.CharacterCreation
     using WheelMUD.ConnectionStates;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// The character creation step where the player will pick their gender.
-    /// </summary>
+    /// <summary>The character creation step where the player will pick their gender.</summary>
     public class PickGenderState : CharacterCreationSubState
     {
         private GameGender selectedGender;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PickGenderState"/> class.
-        /// </summary>
-        /// <param name="session">
-        /// The session.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="PickGenderState"/> class.</summary>
+        /// <param name="session">The session.</param>
         public PickGenderState(Session session)
             : base(session)
         {
             this.RefreshScreen(false);
         }
 
-        /// <summary>
-        /// ProcessInput is used to receive the user input during this state.
-        /// </summary>
+        /// <summary>ProcessInput is used to receive the user input during this state.</summary>
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         { 

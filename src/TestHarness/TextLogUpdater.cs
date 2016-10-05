@@ -15,34 +15,26 @@ namespace TestHarness
     using System.Text;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// Text Log Updater.
-    /// </summary>
+    /// <summary>Text Log Updater.</summary>
     public class TextLogUpdater : ISuperSystemSubscriber
     {
         /// <summary>The text stream writer for the log file to be appended.</summary>
         private StreamWriter writer;
         
-        /// <summary>
-        /// Initializes a new instance of the TextLogUpdater class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the TextLogUpdater class.</summary>
         /// <param name="textLogFilePath">The log file path to append text messages to.</param>
         public TextLogUpdater(string textLogFilePath)
         {
             this.writer = new StreamWriter(textLogFilePath, true, Encoding.ASCII);
         }
 
-        /// <summary>
-        /// Finalizes an instance of the TextLogUpdater class.
-        /// </summary>
+        /// <summary>Finalizes an instance of the TextLogUpdater class.</summary>
         ~TextLogUpdater()
         {
             this.Dispose();
         }
 
-        /// <summary>
-        /// Dispose of any resources used by this TextLogUpdater.
-        /// </summary>
+        /// <summary>Dispose of any resources used by this TextLogUpdater.</summary>
         public void Dispose()
         {
             if (this.writer != null)
@@ -60,9 +52,7 @@ namespace TestHarness
             }
         }
 
-        /// <summary>
-        /// Notify user of the specified message via logging to a text file.
-        /// </summary>
+        /// <summary>Notify user of the specified message via logging to a text file.</summary>
         /// <param name="message">The message to pass along.</param>
         public void Notify(string message)
         {

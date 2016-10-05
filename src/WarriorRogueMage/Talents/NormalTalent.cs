@@ -14,9 +14,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class ArmoredCasterTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ArmoredCasterTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ArmoredCasterTalent"/> class.</summary>
         public ArmoredCasterTalent()
             : base(
                 "Armored Caster",
@@ -31,9 +29,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class BloodMageTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BloodMageTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="BloodMageTalent"/> class.</summary>
         public BloodMageTalent()
             : base(
                 "Blood Mage",
@@ -48,9 +44,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class ChampionTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ChampionTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ChampionTalent"/> class.</summary>
         public ChampionTalent()
             : base(
                 "Champion",
@@ -61,9 +55,7 @@ namespace WarriorRogueMage
         {
         }
 
-        /// <summary>
-        /// Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing)
-        /// </summary>
+        /// <summary>Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing)</summary>
         public override void OnAddTalent()
         {
             new IncreaseStatRule().Execute(this.PlayerThing, "Damage", 2);
@@ -72,9 +64,7 @@ namespace WarriorRogueMage
             base.OnAddTalent();
         }
 
-        /// <summary>
-        /// Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing)
-        /// </summary>
+        /// <summary>Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing)</summary>
         public override void OnRemoveTalent()
         {
             new DecreaseStatRule().Execute(this.PlayerThing, "Damage", 2);
@@ -88,9 +78,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class ChannelerTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ChannelerTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ChannelerTalent"/> class.</summary>
         public ChannelerTalent()
             : base(
                 "Channeler",
@@ -100,9 +88,7 @@ namespace WarriorRogueMage
         {
         }
 
-        /// <summary>
-        /// Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing)
-        /// </summary>
+        /// <summary>Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing)</summary>
         public override void OnAddTalent()
         {
             new AddAttributeToStatRule<GameAttribute, GameStat>().Execute(this.PlayerThing, "Mage", "Damage");
@@ -110,9 +96,7 @@ namespace WarriorRogueMage
             base.OnAddTalent();
         }
 
-        /// <summary>
-        /// Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing)
-        /// </summary>
+        /// <summary>Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing)</summary>
         public override void OnRemoveTalent()
         {
             new SubstractStatFromAttributeRule<GameAttribute, GameStat>().Execute(this.PlayerThing, "Mage", "Damage");
@@ -125,9 +109,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class CraftsmanTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CraftsmanTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="CraftsmanTalent"/> class.</summary>
         public CraftsmanTalent()
             : base(
                 "Craftsman", "You are trained in a craft like blacksmithing, carpentry or bowmaking.", TalentType.Normal)
@@ -139,9 +121,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class DualWieldingTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DualWieldingTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="DualWieldingTalent"/> class.</summary>
         public DualWieldingTalent()
             : base(
                 "Dual Wielding",
@@ -156,9 +136,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class FamiliarTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FamiliarTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="FamiliarTalent"/> class.</summary>
         public FamiliarTalent()
             : base(
                 "Familiar",
@@ -173,9 +151,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class HenchmanTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HenchmanTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="HenchmanTalent"/> class.</summary>
         public HenchmanTalent()
             : base(
                 "Henchman",
@@ -190,9 +166,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class HunterTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HunterTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="HunterTalent"/> class.</summary>
         public HunterTalent()
             : base(
                 "Hunter",
@@ -207,9 +181,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class LeadershipTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LeadershipTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="LeadershipTalent"/> class.</summary>
         public LeadershipTalent()
             : base("Leadership", "You are a talented leader and may command troops.", TalentType.Normal)
         {
@@ -220,9 +192,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class LuckyDevilTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LuckyDevilTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="LuckyDevilTalent"/> class.</summary>
         public LuckyDevilTalent()
             : base("Lucky Devil", "You may reroll any roll once per scene (or combat).", TalentType.Normal)
         {
@@ -233,9 +203,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class MassiveAttackTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MassiveAttackTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="MassiveAttackTalent"/> class.</summary>
         public MassiveAttackTalent()
             : base(
                 "Massive Attack",
@@ -245,9 +213,7 @@ namespace WarriorRogueMage
         {
         }
 
-        /// <summary>
-        /// Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing)
-        /// </summary>
+        /// <summary>Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing.)</summary>
         public override void OnAddTalent()
         {
             new AddAttributeToStatRule<GameAttribute, GameStat>().Execute(this.PlayerThing, "Warrior", "Damage");
@@ -255,9 +221,7 @@ namespace WarriorRogueMage
             base.OnAddTalent();
         }
 
-        /// <summary>
-        /// Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing)
-        /// </summary>
+        /// <summary>Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing.)</summary>
         public override void OnRemoveTalent()
         {
             new SubstractStatFromAttributeRule<GameAttribute, GameStat>().Execute(this.PlayerThing, "Warrior", "Damage");
@@ -270,9 +234,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class PreciseShotTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PreciseShotTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="PreciseShotTalent"/> class.</summary>
         public PreciseShotTalent()
             : base(
                 "Precise Shot",
@@ -282,9 +244,7 @@ namespace WarriorRogueMage
         {
         }
 
-        /// <summary>
-        /// Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing)
-        /// </summary>
+        /// <summary>Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing.)</summary>
         public override void OnAddTalent()
         {
             new AddAttributeToStatRule<GameAttribute, GameStat>().Execute(this.PlayerThing, "Rogue", "Damage");
@@ -292,9 +252,7 @@ namespace WarriorRogueMage
             base.OnAddTalent();
         }
 
-        /// <summary>
-        /// Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing)
-        /// </summary>
+        /// <summary>Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing.)</summary>
         public override void OnRemoveTalent()
         {
             new SubstractStatFromAttributeRule<GameAttribute, GameStat>().Execute(this.PlayerThing, "Rogue", "Damage");
@@ -307,9 +265,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class SailorTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SailorTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="SailorTalent"/> class.</summary>
         public SailorTalent()
             : base(
                 "Sailor",
@@ -325,9 +281,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class SixthSenseTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SixthSenseTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="SixthSenseTalent"/> class.</summary>
         public SixthSenseTalent()
             : base(
                 "Sixth Sense",
@@ -337,10 +291,8 @@ namespace WarriorRogueMage
         {
         }
 
-        /// <summary>
-        /// Called when the game engine, or other systems, need to activate the talent. Some talents are not automatic
-        /// and can only be used/activated in certain situations.
-        /// </summary>
+        /// <summary>Called when the game engine, or other systems, need to activate the talent.</summary>
+        /// <remarks>Some talents are not automatic and can only be used/activated in certain situations.</remarks>
         public override void OnActivateTalent()
         {
             ////new RollDieRule("1d6").Execute(this.PlayerThing, "Initiative", 4);
@@ -352,9 +304,7 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class ToughAsNailsTalent : Talent
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ToughAsNailsTalent"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="ToughAsNailsTalent"/> class.</summary>
         public ToughAsNailsTalent()
             : base(
             "Tough As Nails",

@@ -18,9 +18,7 @@ namespace WarriorRogueMage.Actions
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// An action to wield a weapon in your primary hand.
-    /// </summary>
+    /// <summary>An action to wield a weapon in your primary hand.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("wield", CommandCategory.Item)]
     [ActionDescription("Wield a weapon in your primary hand.")]
@@ -148,10 +146,8 @@ namespace WarriorRogueMage.Actions
             return null;
         }
 
-        /// <summary>
-        /// Intercepts and cancels a movement request for the wielded item.
-        /// This way a player will not accidentally drop a wielded weapon, etc.
-        /// </summary>
+        /// <summary>Intercepts and cancels a movement request for the wielded item.</summary>
+        /// <remarks>This way a player will not accidentally drop a wielded weapon, etc.</remarks>
         /// <param name="root">The root.</param>
         /// <param name="e">The event.</param>
         private void Eventing_MovementRequest(Thing root, CancellableGameEvent e)

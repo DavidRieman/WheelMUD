@@ -17,24 +17,20 @@ namespace WarriorRogueMage.Behaviors
     using WheelMUD.Core;
     using WheelMUD.Core.Events;
 
-    /// <summary>
-    /// A <see cref="Thing"/> having WieldableBehavior can be wielded by a player or NPC.
+    /// <summary>A <see cref="Thing"/> having WieldableBehavior can be wielded by a player or NPC.</summary>
+    /// <remarks>
     /// Typically wielding would be for weapons, but it could also be applied to non-weapons
     /// for roleplay or quests; thus WieldableBehavior is independent from WeaponBehavior.
-    /// </summary>
+    /// </remarks>
     public class WieldableBehavior : Behavior
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WieldableBehavior"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="WieldableBehavior"/> class.</summary>
         public WieldableBehavior()
             : base(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WieldableBehavior"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="WieldableBehavior"/> class.</summary>
         /// <param name="instanceID">ID of the behavior instance.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public WieldableBehavior(long instanceID, Dictionary<string, object> instanceProperties)
@@ -51,9 +47,7 @@ namespace WarriorRogueMage.Behaviors
         /// </summary>
         public bool MustBeHeld { get; set; }
 
-        /// <summary>
-        /// Gets or sets the <see cref="Thing"/> that is currently wielding this weapon.
-        /// </summary>
+        /// <summary>Gets or sets the <see cref="Thing"/> that is currently wielding this weapon.</summary>
         public Thing Wielder { get; set; }
 
         /// <summary>
@@ -65,9 +59,7 @@ namespace WarriorRogueMage.Behaviors
         /// </summary>
         public CancellableGameEventHandler MovementInterceptor { get; set; }
 
-        /// <summary>
-        /// Sets the default properties of this behavior instance.
-        /// </summary>
+        /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
             this.MustBeHeld = true;

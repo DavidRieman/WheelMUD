@@ -22,9 +22,7 @@ namespace WarriorRogueMage.CharacterCreation
     using WheelMUD.ConnectionStates;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// The character creation step where the player will pick their race.
-    /// </summary>
+    /// <summary>The character creation step where the player will pick their race.</summary>
     public class PickRaceState : CharacterCreationSubState
     {
         private int longestRaceName;
@@ -32,27 +30,18 @@ namespace WarriorRogueMage.CharacterCreation
         private GameRace selectedRace;
         private List<GameRace> gameRaces;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PickRaceState"/> class.
-        /// </summary>
-        /// <param name="session">
-        /// The session.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="PickRaceState"/> class.</summary>
+        /// <param name="session">The session.</param>
         public PickRaceState(Session session)
             : base(session)
         {
             this.Session.Write("You will now pick your character's race.");
-
             this.gameRaces = GameSystemController.Instance.GameRaces;
-
             this.FormatRaceText();
-
             this.RefreshScreen(false);
         }
 
-        /// <summary>
-        /// ProcessInput is used to receive the user input during this state.
-        /// </summary>
+        /// <summary>ProcessInput is used to receive the user input during this state.</summary>
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {

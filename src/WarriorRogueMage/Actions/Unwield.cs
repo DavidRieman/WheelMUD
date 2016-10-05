@@ -18,9 +18,7 @@ namespace WarriorRogueMage.Actions
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
-    /// <summary>
-    /// An action to unwield a weapon.
-    /// </summary>
+    /// <summary>An action to unwield a weapon.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("unwield", CommandCategory.Item)]
     [ActionDescription("Unwield a weapon.")]

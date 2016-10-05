@@ -15,9 +15,7 @@ namespace WarriorRogueMage.Skills
 
     public class WRMSkill : GameSkill
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WRMSkill"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="WRMSkill"/> class.</summary>
         /// <param name="name">The name of the skill.</param>
         /// <param name="controllingAttribute">The controlling attribute for this skill.</param>
         /// <param name="description">The description for this skill.</param>
@@ -28,9 +26,7 @@ namespace WarriorRogueMage.Skills
             this.ControllingAttribute = controllingAttribute;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WRMSkill"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="WRMSkill"/> class.</summary>
         /// <param name="name">The name of the skill.</param>
         /// <param name="controllingAttribute">The controlling attribute for this skill.</param>
         /// <param name="description">The description for this skill.</param>
@@ -43,9 +39,7 @@ namespace WarriorRogueMage.Skills
             this.PlayerThing = playerThing;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WRMSkill"/> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="WRMSkill"/> class.</summary>
         /// <param name="playerThing">The player thing that will be the parent of this skill.</param>
         public WRMSkill(Thing playerThing)
         {

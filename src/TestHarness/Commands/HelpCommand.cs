@@ -13,9 +13,7 @@ namespace TestHarness.Commands
     using System.Collections.Generic;
     using WheelMUD.Main;
 
-    /// <summary>
-    /// Handle the 'help' command as specified by the administrator from the console.
-    /// </summary>
+    /// <summary>Handle the 'help' command as specified by the administrator from the console.</summary>
     public class HelpCommand : ITestHarnessCommand
     {
         /// <summary>Recognized names for this command.</summary>

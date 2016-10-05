@@ -18,9 +18,7 @@ namespace WarriorRogueMage.Rules
     using WheelMUD.Interfaces;
     using WheelMUD.Rules;
 
-    /// <summary>
-    /// Adds the value of a <see cref="GameAttribute" /> to a <see cref="GameStat" />.
-    /// </summary>
+    /// <summary>Adds the value of a <see cref="GameAttribute" /> to a <see cref="GameStat" />.</summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="R"></typeparam>
     public class AddAttributeToStatRule<T, R> : GameRule<T, R>

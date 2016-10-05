@@ -10,15 +10,10 @@
 
 namespace WheelMUD.Ftp
 {
-    /// <summary>
-    /// Ftp configuration information class
-    /// </summary>
+    /// <summary>FTP configuration information class.</summary>
     public class FtpConfigInfo
     {
-        /// <summary>
-        /// Gets or sets the server root folder.
-        /// </summary>
-        /// <value>The server root folder.</value>
+        /// <summary>Gets or sets the server root folder.</summary>
         public string ServerRootFolder { get; set; }
     }
 }

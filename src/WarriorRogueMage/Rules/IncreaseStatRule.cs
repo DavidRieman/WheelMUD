@@ -13,23 +13,18 @@
 namespace WarriorRogueMage.Rules
 {
     using System;
-
     using WheelMUD.Core;
     using WheelMUD.Interfaces;
     using WheelMUD.Rules;
 
-    /// <summary>
-    /// Rule to increase the value of a stat.
-    /// </summary>
+    /// <summary>Rule to increase the value of a stat.</summary>
     public class IncreaseStatRule : GameRule
     {
         private static Thing parentThing;
         private static GameStat privateStat;
         private static int value;
 
-        /// <summary>
-        /// Executes the rule on the specified player <see cref="Thing"/>.
-        /// </summary>
+        /// <summary>Executes the rule on the specified player <see cref="Thing"/>.</summary>
         /// <param name="playerThing">The player thing.</param>
         /// <param name="statName">Name of the attribute.</param>
         /// <param name="valueToAdd">The value to add.</param>
@@ -43,18 +38,10 @@ namespace WarriorRogueMage.Rules
             IncreaseStatValue();
         }
 
-        /// <summary>
-        /// Gets the kind of the rule.
-        /// </summary>
-        /// <value>
-        /// The kind of the rule.
-        /// </value>
+        /// <summary>Gets the kind of the rule.</summary>
         public override string RuleKind
         {
-            get
-            {
-                return "IncreaseStatRule";
-            }
+            get { return "IncreaseStatRule"; }
         }
 
         private static void FindStat(string statNameToFind)

@@ -13,9 +13,7 @@ namespace WheelMUD.Ftp.FtpCommands
 {
     using WheelMUD.Ftp.FileSystem;
 	
-    /// <summary>
-	/// Starts a rename file operation
-	/// </summary>
+    /// <summary>Starts a rename file operation.</summary>
 	public class RenameStartCommandHandler : FtpCommandHandler
 	{
 		public RenameStartCommandHandler(FtpConnectionObject connectionObject)

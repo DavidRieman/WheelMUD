@@ -16,41 +16,27 @@ namespace WarriorRogueMage.CharacterCreation
     using WheelMUD.ConnectionStates;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// Warrior, Rogue, Mage state machine for creating a new character
-    /// </summary>
+    /// <summary>Warrior, Rogue, Mage state machine for creating a new character.</summary>
     [ExportCharacterCreationStateMachine(200)]
     public class WRMCharacterCreationStateMachine : CharacterCreationStateMachine
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WRMCharacterCreationStateMachine" /> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="WRMCharacterCreationStateMachine" /> class.</summary>
         /// <param name="session">The session.</param>
         public WRMCharacterCreationStateMachine(Session session) 
             : base(session)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WRMCharacterCreationStateMachine" /> class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="WRMCharacterCreationStateMachine" /> class.</summary>
         public WRMCharacterCreationStateMachine()
             : this(null)
         {
         }
 
-        /// <summary>
-        /// Gets the next step in the creation process.
-        /// </summary>
-        /// <param name="current">
-        /// The current (just executed step)
-        /// </param>
-        /// <param name="previousStatus">
-        /// Whether the current step passed or failed
-        /// </param>
-        /// <returns>
-        /// The next step in the character creation process, or null if it is finished
-        /// </returns>
+        /// <summary>Gets the next step in the creation process.</summary>
+        /// <param name="current">The current (just executed step).</param>
+        /// <param name="previousStatus">Whether the current step passed or failed.</param>
+        /// <returns>The next step in the character creation process, or null if it is finished.</returns>
         public override CharacterCreationSubState GetNextStep(CharacterCreationSubState current, StepStatus previousStatus)
         {
             // entry point of the state machine

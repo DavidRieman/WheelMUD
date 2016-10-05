@@ -18,9 +18,7 @@ namespace WheelMUD.Ftp
     using WheelMUD.Ftp.FtpCommands;
     using WheelMUD.Ftp.General;
 
-	/// <summary>
-	/// Processes incoming messages and passes the data on to the relevant handler class.
-	/// </summary>
+	/// <summary>Processes incoming messages and passes the data on to the relevant handler class.</summary>
 	public class FtpConnectionObject : FtpConnectionData
 	{
 		private readonly Hashtable _commandHashTable;

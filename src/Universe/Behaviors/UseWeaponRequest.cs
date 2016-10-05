@@ -10,7 +10,7 @@
 
 namespace WheelMUD.Universe
 {
-    /// <summary>/// A request to use a weapon.</summary>
+    /// <summary>A request to use a weapon.</summary>
     public class UseWeaponRequest
     {
     }

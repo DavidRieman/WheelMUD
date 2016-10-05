@@ -15,9 +15,7 @@ namespace WheelMUD.Ftp
     using System.Text;
     using WheelMUD.Ftp.General;
 
-    /// <summary>
-    /// Encapsulates the functionality necessary to send data along the reply connection
-    /// </summary>
+    /// <summary>Encapsulates the functionality necessary to send data along the reply connection.</summary>
     public class FtpReplySocket
     {
         private TcpClient socket;

@@ -22,9 +22,7 @@ namespace WarriorRogueMage.CharacterCreation
     using WheelMUD.ConnectionStates;
     using WheelMUD.Core;
 
-    /// <summary>
-    /// The character creation step where the player will pick their talents.
-    /// </summary>
+    /// <summary>The character creation step where the player will pick their talents.</summary>
     public class PickTalentsState : CharacterCreationSubState
     {
         private int longestTalentName;
@@ -32,12 +30,8 @@ namespace WarriorRogueMage.CharacterCreation
         private string formattedTalents;
         private List<Talent> talents;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PickTalentsState"/> class.
-        /// </summary>
-        /// <param name="session">
-        /// The session.
-        /// </param>
+        /// <summary>Initializes a new instance of the <see cref="PickTalentsState"/> class.</summary>
+        /// <param name="session">The session.</param>
         public PickTalentsState(Session session)
             : base(session)
         {
@@ -50,9 +44,7 @@ namespace WarriorRogueMage.CharacterCreation
             this.RefreshScreen(false);
         }
 
-        /// <summary>
-        /// ProcessInput is used to receive the user input during this state.
-        /// </summary>
+        /// <summary>ProcessInput is used to receive the user input during this state.</summary>
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {

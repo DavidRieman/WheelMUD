@@ -17,9 +17,7 @@ namespace WheelMUD.Ftp
     using WheelMUD.Ftp.FileSystem;
     using WheelMUD.Ftp.General;
 
-    /// <summary>
-    /// Contains the socket read functionality. Works on its own thread since all socket operation is blocking.
-    /// </summary>
+    /// <summary>Contains the socket read functionality. Works on its own thread since all socket operation is blocking.</summary>
     public class FtpSocketHandler
     {
         private TcpClient _clientSocket;

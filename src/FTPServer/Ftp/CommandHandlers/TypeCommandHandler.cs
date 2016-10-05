@@ -11,33 +11,31 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
-	/// <summary>
-	/// Implements the 'TYPE' command
-	/// </summary>
-	public class TypeCommandHandler : FtpCommandHandler
-	{
-		public TypeCommandHandler(FtpConnectionObject connectionObject)
-			: base("TYPE", connectionObject)
-		{}
+    /// <summary>Implements the 'TYPE' command.</summary>
+    public class TypeCommandHandler : FtpCommandHandler
+    {
+        public TypeCommandHandler(FtpConnectionObject connectionObject)
+            : base("TYPE", connectionObject)
+        {
+        }
 
-		protected override string OnProcess(string sMessage)
-		{
-			sMessage = sMessage.ToUpper();
-
-			if (sMessage == "A")
-			{
+        protected override string OnProcess(string message)
+        {
+            message = message.ToUpper();
+            if (message == "A")
+            {
                 this.ConnectionObject.BinaryMode = false;
                 return this.GetMessage(200, "ASCII transfer mode active.");
-			}
-			else if (sMessage == "I")
-			{
+            }
+            else if (message == "I")
+            {
                 this.ConnectionObject.BinaryMode = true;
                 return this.GetMessage(200, "Binary transfer mode active.");
-			}
-			else
-			{
-                return this.GetMessage(550, string.Format("Error - unknown binary mode \"{0}\"", sMessage));
-			}
-		}
-	}
+            }
+            else
+            {
+                return this.GetMessage(550, string.Format("Error - unknown binary mode \"{0}\"", message));
+            }
+        }
+    }
 }
