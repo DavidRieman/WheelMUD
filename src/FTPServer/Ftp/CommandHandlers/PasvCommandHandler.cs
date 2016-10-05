@@ -11,51 +11,50 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using System.Net.Sockets;
     using WheelMUD.Ftp.General;
 
-	public class PasvCommandHandler : FtpCommandHandler
-	{
-		const int m_nPort = 20;
+    public class PasvCommandHandler : FtpCommandHandler
+    {
+        private const int Port = 20;
 
-		public PasvCommandHandler(FtpConnectionObject connectionObject)
-			: base("PASV", connectionObject)
-		{}
+        public PasvCommandHandler(FtpConnectionObject connectionObject)
+            : base("PASV", connectionObject)
+        {
+        }
 
-		protected override string OnProcess(string sMessage)
-		{
-			if (this.ConnectionObject.PasvSocket == null)
-			{			
-				TcpListener listener = SocketHelpers.CreateTcpListener(m_nPort);
+        protected override string OnProcess(string message)
+        {
+            if (this.ConnectionObject.PasvSocket == null)
+            {
+                var listener = SocketHelpers.CreateTcpListener(Port);
+                if (listener == null)
+                {
+                    return this.GetMessage(550, string.Format("Couldn't start listener on port {0}", Port));
+                }
 
-				if (listener == null)
-				{
-                    return this.GetMessage(550, string.Format("Couldn't start listener on port {0}", m_nPort));
-				}
+                this.SendPasvReply();
 
-				this.SendPasvReply();
+                listener.Start();
 
-				listener.Start();
+                this.ConnectionObject.PasvSocket = listener.AcceptTcpClient();
 
-				this.ConnectionObject.PasvSocket = listener.AcceptTcpClient();
-				
-				listener.Stop();
-				return string.Empty;
-			}
+                listener.Stop();
+                return string.Empty;
+            }
 
-		    this.SendPasvReply();
-		    return string.Empty;
-		}
+            this.SendPasvReply();
+            return string.Empty;
+        }
 
-		private void SendPasvReply()
-		{
-			string sIpAddress = SocketHelpers.GetLocalAddress().ToString();
-			sIpAddress = sIpAddress.Replace('.', ',');
-			sIpAddress += ',';
-			sIpAddress += "0";
-			sIpAddress += ',';
-			sIpAddress += m_nPort.ToString();
-            SocketHelpers.Send(this.ConnectionObject.Socket, string.Format("227 ={0}\r\n", sIpAddress));
-		}
-	}
+        private void SendPasvReply()
+        {
+            string addr = SocketHelpers.GetLocalAddress().ToString();
+            addr = addr.Replace('.', ',');
+            addr += ',';
+            addr += "0";
+            addr += ',';
+            addr += Port.ToString();
+            SocketHelpers.Send(this.ConnectionObject.Socket, string.Format("227 ={0}\r\n", addr));
+        }
+    }
 }

@@ -15,8 +15,9 @@ namespace WheelMUD.Ftp.FtpCommands
     public class CdUpCommandHandler : FtpCommandHandler
     {
         public CdUpCommandHandler(FtpConnectionObject connectionObject)
-			: base("CDUP", connectionObject)
-		{}
+            : base("CDUP", connectionObject)
+        {
+        }
 
         protected override string OnProcess(string message)
         {
@@ -26,17 +27,17 @@ namespace WheelMUD.Ftp.FtpCommands
             {
                 if (workingDirectory != "\\")
                 {
-                    string upPath = Directory.GetParent(workingDirectory).ToString();
+                    string path = Directory.GetParent(workingDirectory).ToString();
 
-                    if (upPath.Contains("C:"))
+                    if (path.Contains("C:"))
                     {
-                        upPath = upPath.Replace("C:", "");
-                        upPath = upPath.Replace('/', '\\');
+                        path = path.Replace("C:", string.Empty);
+                        path = path.Replace('/', '\\');
                     }
 
-                    this.ConnectionObject.CurrentDirectory = upPath;
+                    this.ConnectionObject.CurrentDirectory = path;
 
-                    return this.GetMessage(250, "CDUP command successful."); 
+                    return this.GetMessage(250, "CDUP command successful.");
                 }
             }
 

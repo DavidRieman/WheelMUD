@@ -17,187 +17,174 @@ namespace WheelMUD.Ftp.FileSystem
     {
         private string startDirectory = string.Empty;
 
-        public StandardFileSystemObject(string sStartDirectory)
+        public StandardFileSystemObject(string startDirectory)
         {
-            startDirectory = sStartDirectory;
+            this.startDirectory = startDirectory;
         }
 
-        private string GetPath(string sPath)
+        public IFile OpenFile(string path, bool write)
         {
-            if (sPath.Length == 0)
+            var file = new StandardFileObject(this.GetPath(path), write);
+            return file.Loaded ? file : null;
+        }
+
+        public IFileInfo GetFileInfo(string path)
+        {
+            var info = new StandardFileInfoObject(this.GetPath(path));
+            return info.Loaded ? info : null;
+        }
+
+        public string[] GetFiles(string path)
+        {
+            string currentPath = this.GetPath(path);
+            string[] files = Directory.GetFiles(currentPath);
+            this.RemovePath(files, currentPath);
+            return files;
+        }
+
+        public string[] GetFiles(string path, string wildcard)
+        {
+            string currentPath = this.GetPath(path);
+            string[] asFiles = Directory.GetFiles(currentPath, wildcard);
+            this.RemovePath(asFiles, currentPath);
+            return asFiles;
+        }
+
+        public string[] GetDirectories(string path)
+        {
+            string currentPath = this.GetPath(path);
+            string[] files = Directory.GetDirectories(currentPath);
+            this.RemovePath(files, currentPath);
+            return files;
+        }
+
+        public string[] GetDirectories(string path, string wildcard)
+        {
+            string currentPath = this.GetPath(path);
+            string[] files = Directory.GetDirectories(currentPath, wildcard);
+            this.RemovePath(files, currentPath);
+            return files;
+        }
+
+        public bool DirectoryExists(string path)
+        {
+            return Directory.Exists(this.GetPath(path));
+        }
+
+        public bool FileExists(string path)
+        {
+            return File.Exists(this.GetPath(path));
+        }
+
+        public bool Move(string oldPath, string newPath)
+        {
+            string fullPathOld = this.GetPath(oldPath);
+            string fullPathNew = this.GetPath(newPath);
+
+            try
+            {
+                FileInfo info = new FileInfo(fullPathOld);
+                if (info == null)
+                {
+                    return false;
+                }
+
+                if ((info.Attributes & FileAttributes.Directory) != 0)
+                {
+                    Directory.Move(fullPathOld, fullPathNew);
+                }
+                else
+                {
+                    File.Move(fullPathOld, fullPathNew);
+                }
+            }
+            catch (IOException)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool Delete(string path)
+        {
+            try
+            {
+                var fullPath = this.GetPath(path);
+                var info = new FileInfo(fullPath);
+                if (info == null)
+                {
+                    return false;
+                }
+
+                if ((info.Attributes & FileAttributes.Directory) != 0)
+                {
+                    Directory.Delete(fullPath);
+                }
+                else
+                {
+                    File.Delete(fullPath);
+                }
+            }
+            catch (IOException)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool CreateDirectory(string path)
+        {
+            string fullPath = this.GetPath(path);
+
+            try
+            {
+                Directory.CreateDirectory(fullPath);
+            }
+            catch (IOException)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private string GetPath(string path)
+        {
+            if (path.Length == 0)
             {
                 return startDirectory;
             }
 
-            if (sPath[0] == '\\')
+            if (path[0] == '\\')
             {
-                sPath = sPath.Substring(1);
+                path = path.Substring(1);
             }
 
-            return Path.Combine(startDirectory, sPath);
+            return Path.Combine(startDirectory, path);
         }
 
-        public IFile OpenFile(string sPath, bool fWrite)
+        private void RemovePath(string[] files, string path)
         {
-            var file = new StandardFileObject(this.GetPath(sPath), fWrite);
+            int index = 0;
+            string pathLowerCase = path.ToLower();
 
-            if (file.Loaded)
+            foreach (string file in files)
             {
-                return file;
-            }
-
-            return null;
-        }
-
-        public IFileInfo GetFileInfo(string sPath)
-        {
-            var info = new StandardFileInfoObject(this.GetPath(sPath));
-            if (info.Loaded)
-            {
-                return info;
-            }
-
-            return null;
-        }
-
-        public string[] GetFiles(string sPath)
-        {
-            string sCurrentPath = this.GetPath(sPath);
-            string[] asFiles = Directory.GetFiles(sCurrentPath);
-            this.RemovePath(asFiles, sCurrentPath);
-            return asFiles;
-        }
-
-        public string[] GetFiles(string sPath, string sWildcard)
-        {
-            string sCurrentPath = this.GetPath(sPath);
-            string[] asFiles = Directory.GetFiles(sCurrentPath, sWildcard);
-            this.RemovePath(asFiles, sCurrentPath);
-            return asFiles;
-        }
-
-        public string[] GetDirectories(string sPath)
-        {
-            string sCurrentPath = this.GetPath(sPath);
-            string[] asFiles = Directory.GetDirectories(sCurrentPath);
-            this.RemovePath(asFiles, sCurrentPath);
-            return asFiles;
-        }
-
-        public string[] GetDirectories(string sPath, string sWildcard)
-        {
-            string sCurrentPath = this.GetPath(sPath);
-            string[] asFiles = Directory.GetDirectories(sCurrentPath, sWildcard);
-            this.RemovePath(asFiles, sCurrentPath);
-            return asFiles;
-        }
-
-        public bool DirectoryExists(string sPath)
-        {
-            return Directory.Exists(this.GetPath(sPath));
-        }
-
-        public bool FileExists(string sPath)
-        {
-            return File.Exists(this.GetPath(sPath));
-        }
-
-        public bool Move(string sOldPath, string sNewPath)
-        {
-            string sFullPathOld = this.GetPath(sOldPath);
-            string sFullPathNew = this.GetPath(sNewPath);
-
-            try
-            {
-                FileInfo info = new FileInfo(sFullPathOld);
-                if (info == null)
+                if (file.Substring(0, path.Length).ToLower() == pathLowerCase)
                 {
-                    return false;
-                }
-
-                if ((info.Attributes & FileAttributes.Directory) != 0)
-                {
-                    Directory.Move(sFullPathOld, sFullPathNew);
-                }
-                else
-                {
-                    File.Move(sFullPathOld, sFullPathNew);
-                }
-            }
-            catch (IOException)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public bool Delete(string sPath)
-        {
-            try
-            {
-                string sFullPath = this.GetPath(sPath);
-
-                var info = new FileInfo(sFullPath);
-                if (info == null)
-                {
-                    return false;
-                }
-
-                if ((info.Attributes & FileAttributes.Directory) != 0)
-                {
-                    Directory.Delete(sFullPath);
-                }
-                else
-                {
-                    File.Delete(sFullPath);
-                }
-            }
-            catch (IOException)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public bool CreateDirectory(string sPath)
-        {
-            string sFullPath = this.GetPath(sPath);
-
-            try
-            {
-                Directory.CreateDirectory(sFullPath);
-            }
-            catch (IOException)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private void RemovePath(string[] asFiles, string sPath)
-        {
-            int nIndex = 0;
-
-            string sPathLowerCase = sPath.ToLower();
-
-            foreach (string file in asFiles)
-            {
-                if (file.Substring(0, sPath.Length).ToLower() == sPathLowerCase)
-                {
-                    string fileName = file.Substring(sPath.Length);
+                    string fileName = file.Substring(path.Length);
 
                     if (fileName.Length > 0 && fileName[0] == '\\')
                     {
                         fileName = fileName.Substring(1);
                     }
 
-                    asFiles[nIndex] = fileName;
+                    files[index] = fileName;
                 }
 
-                nIndex += 1;
+                index += 1;
             }
         }
     }

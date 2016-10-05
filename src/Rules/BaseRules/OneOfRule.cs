@@ -21,8 +21,8 @@ namespace WheelMUD.Rules
 
     public class OneOfRule<R> : IRule<R>
     {
-        private IEnumerable<R> _values;
-        private IEqualityComparer<R> _comparer;
+        private IEnumerable<R> values;
+        private IEqualityComparer<R> comparer;
 
         public OneOfRule(IEnumerable<R> values)
             : this(values, EqualityComparer<R>.Default)
@@ -41,8 +41,8 @@ namespace WheelMUD.Rules
                 throw new ArgumentNullException("values");
             }
 
-            _values = values;
-            _comparer = comparer;
+            this.values = values;
+            this.comparer = comparer;
         }
 
         public string RuleKind
@@ -52,13 +52,13 @@ namespace WheelMUD.Rules
 
         public ValidationResult Validate(R value)
         {
-            if (_values.Contains(value, _comparer))
+            if (values.Contains(value, comparer))
             {
                 return ValidationResult.Success;
             }
             else
             {
-                return ValidationResult.Fail(new object[] { _values });
+                return ValidationResult.Fail(new object[] { values });
             }
         }
     }

@@ -21,32 +21,42 @@ namespace WheelMUD.Rules
 
     public class NotOneOfRule<R> : IRule<R>
     {
-        IEnumerable<R> _values;
-        IEqualityComparer<R> _comparer;
+        IEnumerable<R> values;
+        IEqualityComparer<R> comparer;
 
-        public NotOneOfRule(IEnumerable<R> values) : this (values, EqualityComparer<R>.Default)
+        public NotOneOfRule(IEnumerable<R> values) : this(values, EqualityComparer<R>.Default)
         {
         }
 
         public NotOneOfRule(IEnumerable<R> values, IEqualityComparer<R> comparer)
         {
-            if (comparer == null) throw new ArgumentNullException("comparer");
-            if (values == null) throw new ArgumentNullException("values");
-            _values = values;
-            _comparer = comparer;
-        }
+            if (comparer == null)
+            {
+                throw new ArgumentNullException("comparer");
+            }
 
-        public ValidationResult Validate(R value)
-        {
-            if (!_values.Contains(value, _comparer))
-                return ValidationResult.Success;
+            if (values == null)
+            {
+                throw new ArgumentNullException("values");
+            }
 
-                return ValidationResult.Fail(new object[] { _values });
+            this.values = values;
+            this.comparer = comparer;
         }
 
         public string RuleKind
         {
             get { return "NotOneOfRule"; }
+        }
+
+        public ValidationResult Validate(R value)
+        {
+            if (!values.Contains(value, comparer))
+            {
+                return ValidationResult.Success;
+            }
+
+            return ValidationResult.Fail(new object[] { values });
         }
     }
 }

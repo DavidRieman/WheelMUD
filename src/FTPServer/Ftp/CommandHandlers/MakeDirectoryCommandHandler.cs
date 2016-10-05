@@ -11,10 +11,11 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
-	public class MakeDirectoryCommandHandler : MakeDirectoryCommandHandlerBase
-	{
-		public MakeDirectoryCommandHandler(FtpConnectionObject connectionObject)
-			: base("MKD", connectionObject)
-		{}
-	}
+    public class MakeDirectoryCommandHandler : MakeDirectoryCommandHandlerBase
+    {
+        public MakeDirectoryCommandHandler(FtpConnectionObject connectionObject)
+            : base("MKD", connectionObject)
+        {
+        }
+    }
 }

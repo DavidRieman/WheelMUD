@@ -17,17 +17,14 @@ namespace WheelMUD.Rules
 {
     public class NotNullOrEmpty : IRule<string>
     {
-        public ValidationResult Validate(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-                return ValidationResult.Fail();
-            else
-                return ValidationResult.Success;
-        }
-
         public string RuleKind
         {
             get { return "NotNullOrEmpty"; }
+        }
+
+        public ValidationResult Validate(string value)
+        {
+            return string.IsNullOrEmpty(value) ? ValidationResult.Fail() : ValidationResult.Success;
         }
     }
 }

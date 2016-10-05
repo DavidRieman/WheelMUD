@@ -11,27 +11,27 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
-	public class RemoveDirectoryCommandHandlerBase : FtpCommandHandler
-	{
-		protected RemoveDirectoryCommandHandlerBase(string sCommand, FtpConnectionObject connectionObject)
-			: base(sCommand, connectionObject)
-		{}
+    public class RemoveDirectoryCommandHandlerBase : FtpCommandHandler
+    {
+        protected RemoveDirectoryCommandHandlerBase(string command, FtpConnectionObject connectionObject)
+            : base(command, connectionObject)
+        {
+        }
 
-		protected override string OnProcess(string sMessage)
-		{
-            string sFile = this.GetPath(sMessage);
-
-            if (!this.ConnectionObject.FileSystemObject.DirectoryExists(sFile))
-			{
+        protected override string OnProcess(string message)
+        {
+            string file = this.GetPath(message);
+            if (!this.ConnectionObject.FileSystemObject.DirectoryExists(file))
+            {
                 return this.GetMessage(550, string.Format("Directory does not exist"));
-			}
+            }
 
-            if (this.ConnectionObject.FileSystemObject.Delete(sFile))
-			{
+            if (this.ConnectionObject.FileSystemObject.Delete(file))
+            {
                 return this.GetMessage(250, "Directory removed.");
-			}
+            }
 
-            return this.GetMessage(550, string.Format("Couldn't remove directory ({0}).", sFile));
-		}
-	}
+            return this.GetMessage(550, string.Format("Couldn't remove directory ({0}).", file));
+        }
+    }
 }

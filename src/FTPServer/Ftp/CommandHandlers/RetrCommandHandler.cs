@@ -11,28 +11,25 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using WheelMUD.Ftp.FileSystem;
     using WheelMUD.Ftp.General;
 
     /// <summary>Implements the RETR command.</summary>
-	public class RetrCommandHandler : FtpCommandHandler
+    public class RetrCommandHandler : FtpCommandHandler
     {
         public RetrCommandHandler(FtpConnectionObject connectionObject)
             : base("RETR", connectionObject)
         {
         }
 
-        protected override string OnProcess(string sMessage)
+        protected override string OnProcess(string message)
         {
-            string sFilePath = this.GetPath(sMessage);
-
-            if (!this.ConnectionObject.FileSystemObject.FileExists(sFilePath))
+            string filePath = this.GetPath(message);
+            if (!this.ConnectionObject.FileSystemObject.FileExists(filePath))
             {
                 return this.GetMessage(550, "File doesn't exist");
             }
 
             var replySocket = new FtpReplySocket(this.ConnectionObject);
-
             if (!replySocket.Loaded)
             {
                 return this.GetMessage(550, "Unable to establish data connection");
@@ -40,21 +37,18 @@ namespace WheelMUD.Ftp.FtpCommands
 
             SocketHelpers.Send(this.ConnectionObject.Socket, "150 Starting data transfer, please wait...\r\n");
 
-            const int bufferSize = 65536;
-
-            IFile file = this.ConnectionObject.FileSystemObject.OpenFile(sFilePath, false);
+            var file = this.ConnectionObject.FileSystemObject.OpenFile(filePath, false);
             if (file == null)
             {
                 return this.GetMessage(550, "Couldn't open file");
             }
 
-            var abBuffer = new byte[bufferSize];
-
-            int nRead = file.Read(abBuffer, bufferSize);
-
-            while (nRead > 0 && replySocket.Send(abBuffer, nRead))
+            const int BufferSize = 65536;
+            var buffer = new byte[BufferSize];
+            int read = file.Read(buffer, BufferSize);
+            while (read > 0 && replySocket.Send(buffer, read))
             {
-                nRead = file.Read(abBuffer, bufferSize);
+                read = file.Read(buffer, BufferSize);
             }
 
             file.Close();

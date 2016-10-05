@@ -28,32 +28,31 @@ namespace WheelMUD.Ftp.FtpCommands
 
         public FtpConnectionObject ConnectionObject { get; private set; }
 
-        public void Process(string sMessage)
+        public void Process(string message)
         {
-            this.SendMessage(OnProcess(sMessage));
+            this.SendMessage(OnProcess(message));
         }
 
-        protected virtual string OnProcess(string sMessage)
+        protected virtual string OnProcess(string message)
         {
             Debug.Assert(false, "FtpCommandHandler::OnProcess base called");
             return string.Empty;
         }
 
-        protected string GetMessage(int nReturnCode, string sMessage)
+        protected string GetMessage(int returnCode, string message)
         {
-            return string.Format("{0} {1}\r\n", nReturnCode, sMessage);
+            return string.Format("{0} {1}\r\n", returnCode, message);
         }
 
-        protected string GetPath(string sPath)
+        protected string GetPath(string path)
         {
-            if (sPath.Length == 0)
+            if (path.Length == 0)
             {
                 return this.ConnectionObject.CurrentDirectory;
             }
 
-            sPath = sPath.Replace('/', '\\');
-
-            return Path.Combine(this.ConnectionObject.CurrentDirectory, sPath);
+            path = path.Replace('/', '\\');
+            return Path.Combine(this.ConnectionObject.CurrentDirectory, path);
         }
 
         private void SendMessage(string message)

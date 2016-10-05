@@ -17,6 +17,11 @@ namespace WheelMUD.Rules
 {
     public class NoLeadingWhitespaceRule : IRule<string>
     {
+        public string RuleKind
+        {
+            get { return "NoLeadingWhitespaceRule"; }
+        }
+
         public ValidationResult Validate(string value)
         {
             if (value == null || value.Length == 0)
@@ -26,15 +31,14 @@ namespace WheelMUD.Rules
             else
             {
                 if (!char.IsWhiteSpace(value[0]))
+                {
                     return ValidationResult.Success;
+                }
                 else
+                {
                     return ValidationResult.Fail();
+                }
             }
-        }
-
-        public string RuleKind
-        {
-            get { return "NoLeadingWhitespaceRule"; }
         }
     }
 }

@@ -11,15 +11,16 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
-	public class NoopCommandHandler : FtpCommandHandler
-	{
-		public NoopCommandHandler(FtpConnectionObject connectionObject)
-			: base("NOOP", connectionObject)
-		{}
+    public class NoopCommandHandler : FtpCommandHandler
+    {
+        public NoopCommandHandler(FtpConnectionObject connectionObject)
+            : base("NOOP", connectionObject)
+        {
+        }
 
-		protected override string OnProcess(string sMessage)
-		{
-			return this.GetMessage(200, "");
-		}
-	}
+        protected override string OnProcess(string message)
+        {
+            return this.GetMessage(200, string.Empty);
+        }
+    }
 }

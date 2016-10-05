@@ -15,39 +15,51 @@ namespace WheelMUD.Ftp.FileSystem
 
     public interface IFile
     {
-        int Read(byte[] abData, int nDataSize);
-        int Write(byte[] abData, int nDataSize);
+        int Read(byte[] data, int dataSize);
+
+        int Write(byte[] data, int dataSize);
+
         void Close();
     }
 
     public interface IFileInfo
     {
         DateTime GetModifiedTime();
+
         long GetSize();
+
         string GetAttributeString();
+
         bool IsDirectory();
     }
 
     public interface IFileSystem
     {
-        IFile OpenFile(string sPath, bool fWrite);
-        IFileInfo GetFileInfo(string sPath);
+        IFile OpenFile(string path, bool write);
 
-        string[] GetFiles(string sPath);
-        string[] GetFiles(string sPath, string sWildcard);
-        string[] GetDirectories(string sPath);
-        string[] GetDirectories(string sPath, string sWildcard);
+        IFileInfo GetFileInfo(string path);
 
-        bool DirectoryExists(string sPath);
-        bool FileExists(string sPath);
+        string[] GetFiles(string path);
 
-        bool CreateDirectory(string sPath);
-        bool Move(string sOldPath, string sNewPath);
-        bool Delete(string sPath);
+        string[] GetFiles(string path, string wildcard);
+
+        string[] GetDirectories(string path);
+
+        string[] GetDirectories(string path, string wildcard);
+
+        bool DirectoryExists(string path);
+
+        bool FileExists(string path);
+
+        bool CreateDirectory(string path);
+
+        bool Move(string oldPath, string newPath);
+
+        bool Delete(string path);
     }
 
     public interface IFileSystemClassFactory
     {
-        IFileSystem Create(string sUser, string sPassword);
+        IFileSystem Create(string user, string password);
     }
 }

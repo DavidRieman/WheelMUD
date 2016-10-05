@@ -11,15 +11,16 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
-	public class ListCommandHandler : ListCommandHandlerBase
-	{
-		public ListCommandHandler(FtpConnectionObject connectionObject)
-			: base("LIST", connectionObject)
-		{}
+    public class ListCommandHandler : ListCommandHandlerBase
+    {
+        public ListCommandHandler(FtpConnectionObject connectionObject)
+            : base("LIST", connectionObject)
+        {
+        }
 
-		protected override string BuildReply(string sMessage, string[] asFiles)
-		{
-			return BuildLongReply(asFiles);
-		}
-	}
+        protected override string BuildReply(string message, string[] files)
+        {
+            return this.BuildLongReply(files);
+        }
+    }
 }

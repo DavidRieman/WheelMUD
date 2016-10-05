@@ -19,44 +19,43 @@ namespace WheelMUD.Ftp.General
     public sealed class SocketHelpers
     {
         private SocketHelpers()
-        { }
-
-        public static bool Send(TcpClient socket, byte[] abMessage)
         {
-            return Send(socket, abMessage, 0, abMessage.Length);
         }
 
-        public static bool Send(TcpClient socket, byte[] abMessage, int nStart)
+        public static bool Send(TcpClient socket, byte[] messageData)
         {
-            return Send(socket, abMessage, nStart, abMessage.Length - nStart);
+            return Send(socket, messageData, 0, messageData.Length);
         }
 
-        public static bool Send(TcpClient socket, byte[] abMessage, int nStart, int nLength)
+        public static bool Send(TcpClient socket, byte[] messageData, int start)
         {
-            bool fReturn = true;
+            return Send(socket, messageData, start, messageData.Length - start);
+        }
 
+        public static bool Send(TcpClient socket, byte[] messageData, int start, int length)
+        {
             try
             {
                 var writer = new BinaryWriter(socket.GetStream());
-                writer.Write(abMessage, nStart, nLength);
+                writer.Write(messageData, start, length);
                 writer.Flush();
             }
             catch (IOException)
             {
-                fReturn = false;
+                return false;
             }
             catch (SocketException)
             {
-                fReturn = false;
+                return false;
             }
 
-            return fReturn;
+            return true;
         }
 
-        public static bool Send(TcpClient socket, string sMessage)
+        public static bool Send(TcpClient socket, string message)
         {
-            byte[] abMessage = System.Text.Encoding.ASCII.GetBytes(sMessage);
-            return Send(socket, abMessage);
+            byte[] messageBuffer = System.Text.Encoding.ASCII.GetBytes(message);
+            return Send(socket, messageBuffer);
         }
 
         public static void Close(TcpClient socket)
@@ -103,13 +102,12 @@ namespace WheelMUD.Ftp.General
             }
         }
 
-        public static TcpClient CreateTcpClient(string sAddress, int nPort)
+        public static TcpClient CreateTcpClient(string address, int port)
         {
             TcpClient client;
-
             try
             {
-                client = new TcpClient(sAddress, nPort);
+                client = new TcpClient(address, port);
             }
             catch (SocketException)
             {
@@ -119,13 +117,12 @@ namespace WheelMUD.Ftp.General
             return client;
         }
 
-        public static TcpListener CreateTcpListener(int nPort)
+        public static TcpListener CreateTcpListener(int port)
         {
             TcpListener listener;
-
             try
             {
-                listener = new TcpListener(IPAddress.Any, nPort);
+                listener = new TcpListener(IPAddress.Any, port);
             }
             catch (SocketException)
             {
@@ -137,8 +134,7 @@ namespace WheelMUD.Ftp.General
 
         public static IPAddress GetLocalAddress()
         {
-            IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
-
+            var hostEntry = Dns.GetHostEntry(Dns.GetHostName());
             if (hostEntry.AddressList.Length == 0)
             {
                 return null;

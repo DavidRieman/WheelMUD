@@ -15,29 +15,29 @@ namespace WheelMUD.Ftp.FtpCommands
     using WheelMUD.Ftp.General;
 
     public class CwdCommandHandler : FtpCommandHandler
-	{
-		public CwdCommandHandler(FtpConnectionObject connectionObject)
-			: base("CWD", connectionObject)
-		{}
+    {
+        public CwdCommandHandler(FtpConnectionObject connectionObject)
+            : base("CWD", connectionObject)
+        {
+        }
 
-		protected override string OnProcess(string sMessage)
-		{
-			sMessage = sMessage.Replace('/', '\\');
+        protected override string OnProcess(string message)
+        {
+            message = message.Replace('/', '\\');
 
-			if (!FileNameHelpers.IsValid(sMessage))
-			{
+            if (!FileNameHelpers.IsValid(message))
+            {
                 return this.GetMessage(550, "Not a valid directory string.");
-			}
+            }
 
-            string sDirectory = this.GetPath(sMessage);
-
-            if (!this.ConnectionObject.FileSystemObject.DirectoryExists(sDirectory))
-			{
+            var dir = this.GetPath(message);
+            if (!this.ConnectionObject.FileSystemObject.DirectoryExists(dir))
+            {
                 return this.GetMessage(550, "Not a valid directory.");
-			}
+            }
 
-            this.ConnectionObject.CurrentDirectory = Path.Combine(this.ConnectionObject.CurrentDirectory, sMessage);
+            this.ConnectionObject.CurrentDirectory = Path.Combine(this.ConnectionObject.CurrentDirectory, message);
             return this.GetMessage(250, string.Format("CWD Successful ({0})", this.ConnectionObject.CurrentDirectory.Replace("\\", "/")));
-		}
-	}
+        }
+    }
 }

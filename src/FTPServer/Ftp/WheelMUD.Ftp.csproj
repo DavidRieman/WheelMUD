@@ -137,6 +137,7 @@
     </Compile>
     <Compile Include="CommandHandlers\PasswordCommandHandler.cs">
       <SubType>Code</SubType>
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="CommandHandlers\PasvCommandHandler.cs">
       <SubType>Code</SubType>

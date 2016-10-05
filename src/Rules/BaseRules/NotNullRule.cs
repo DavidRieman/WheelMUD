@@ -17,17 +17,14 @@ namespace WheelMUD.Rules
 {
     public class NotNullRule<R> : IRule<R> where R : class
     {
-        public ValidationResult Validate(R value)
-        {
-            if (value != null)
-                return ValidationResult.Success;
-
-            return ValidationResult.Fail();
-        }
-
         public string RuleKind
         {
             get { return "NotNullRule"; }
+        }
+
+        public ValidationResult Validate(R value)
+        {
+            return value != null ? ValidationResult.Success : ValidationResult.Fail();
         }
     }
 }

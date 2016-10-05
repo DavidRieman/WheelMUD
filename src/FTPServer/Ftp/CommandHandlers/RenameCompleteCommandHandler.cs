@@ -11,36 +11,37 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
-	public class RenameCompleteCommandHandler : FtpCommandHandler
-	{
-		public RenameCompleteCommandHandler(FtpConnectionObject connectionObject)
-			: base("RNTO", connectionObject)
-		{}
+    public class RenameCompleteCommandHandler : FtpCommandHandler
+    {
+        public RenameCompleteCommandHandler(FtpConnectionObject connectionObject)
+            : base("RNTO", connectionObject)
+        {
+        }
 
-		protected override string OnProcess(string sMessage)
-		{
+        protected override string OnProcess(string message)
+        {
             if (this.ConnectionObject.FileToRename.Length == 0)
-			{
+            {
                 return this.GetMessage(503, "RNTO must be preceded by a RNFR.");
-			}
+            }
 
-            string sNewFileName = this.GetPath(sMessage);
-            string sOldFileName = this.ConnectionObject.FileToRename;
+            string newFileName = this.GetPath(message);
+            string oldFileName = this.ConnectionObject.FileToRename;
 
-            this.ConnectionObject.FileToRename = "";
+            this.ConnectionObject.FileToRename = string.Empty;
 
-            if (this.ConnectionObject.FileSystemObject.FileExists(sNewFileName) ||
-                this.ConnectionObject.FileSystemObject.DirectoryExists(sNewFileName))
-			{
-                return this.GetMessage(553, string.Format("File already exists ({0}).", sNewFileName));
-			}
+            if (this.ConnectionObject.FileSystemObject.FileExists(newFileName) ||
+                this.ConnectionObject.FileSystemObject.DirectoryExists(newFileName))
+            {
+                return this.GetMessage(553, string.Format("File already exists ({0}).", newFileName));
+            }
 
-            if (!this.ConnectionObject.FileSystemObject.Move(sOldFileName, sNewFileName))
-			{
+            if (!this.ConnectionObject.FileSystemObject.Move(oldFileName, newFileName))
+            {
                 return this.GetMessage(553, "Move failed");
-			}
+            }
 
             return this.GetMessage(250, "Renamed file successfully.");
-		}
-	}
+        }
+    }
 }

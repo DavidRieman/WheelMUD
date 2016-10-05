@@ -21,8 +21,8 @@ namespace WheelMUD.Rules
 
     public class NotEqualRule<R> : IRule<R>
     {
-        private R _value;
-        private IEqualityComparer<R> _comparer;
+        private R value;
+        private IEqualityComparer<R> comparer;
 
         public NotEqualRule(R value) : this(value, EqualityComparer<R>.Default)
         {
@@ -35,8 +35,8 @@ namespace WheelMUD.Rules
                 throw new ArgumentNullException("comparer");
             }
 
-            _comparer = comparer;
-            _value = value;
+            this.comparer = comparer;
+            this.value = value;
         }
 
         public string RuleKind
@@ -46,21 +46,21 @@ namespace WheelMUD.Rules
 
         public ValidationResult Validate(R value)
         {
-            if (!_comparer.Equals(value, _value))
+            if (!comparer.Equals(value, this.value))
             {
                 return ValidationResult.Success;
             }
 
-            return ValidationResult.Fail(_value);
+            return ValidationResult.Fail(this.value);
         }
     }
 
     public class NotEqualRule<T, R> : IRule<T>
     {
         // CAUTION: rules of the same ruleKind must return the same number of arguments.
-        private IEqualityComparer<R> _comparer;
-        private Func<T, R> _value;
-        private Func<T, R> _value2;
+        private IEqualityComparer<R> comparer;
+        private Func<T, R> value;
+        private Func<T, R> value2;
 
         public NotEqualRule(Expression<Func<T, R>> value, Expression<Func<T, R>> value2)
             : this(value, value2, EqualityComparer<R>.Default)
@@ -84,9 +84,9 @@ namespace WheelMUD.Rules
                 throw new ArgumentNullException("value");
             }
 
-            _value = value.Compile();
-            _value2 = value2.Compile();
-            _comparer = comparer;
+            this.value = value.Compile();
+            this.value2 = value2.Compile();
+            this.comparer = comparer;
         }
 
         public string RuleKind
@@ -96,10 +96,10 @@ namespace WheelMUD.Rules
 
         public ValidationResult Validate(T value)
         {
-            R v1 = _value(value);
-            R v2 = _value2(value);
+            R v1 = this.value(value);
+            R v2 = this.value2(value);
 
-            if (!_comparer.Equals(v1, v2))
+            if (!comparer.Equals(v1, v2))
             {
                 return ValidationResult.Success;
             }

@@ -18,37 +18,37 @@ namespace WheelMUD.Ftp.FileSystem
     {
         private FileStream fileStream;
 
-        public StandardFileObject(string sPath, bool fWrite)
+        public StandardFileObject(string path, bool write)
         {
             try
             {
-                fileStream = new FileStream(sPath,
-                    (fWrite) ? FileMode.OpenOrCreate : FileMode.Open,
-                    (fWrite) ? FileAccess.Write : FileAccess.Read);
+                var mode = write ? FileMode.OpenOrCreate : FileMode.Open;
+                var access = write ? FileAccess.Write : FileAccess.Read;
+                this.fileStream = new FileStream(path, mode, access);
 
-                if (fWrite)
+                if (write)
                 {
-                    fileStream.Seek(0, System.IO.SeekOrigin.End);
+                    this.fileStream.Seek(0, System.IO.SeekOrigin.End);
                 }
 
-                isLoaded = true;
+                this.isLoaded = true;
             }
             catch (IOException)
             {
-                fileStream = null;
+                this.fileStream = null;
             }
         }
 
-        public int Read(byte[] abData, int nDataSize)
+        public int Read(byte[] data, int dataSize)
         {
-            if (fileStream == null)
+            if (this.fileStream == null)
             {
                 return 0;
             }
 
             try
             {
-                return fileStream.Read(abData, 0, nDataSize);
+                return this.fileStream.Read(data, 0, dataSize);
             }
             catch (IOException)
             {
@@ -56,38 +56,38 @@ namespace WheelMUD.Ftp.FileSystem
             }
         }
 
-        public int Write(byte[] abData, int nDataSize)
+        public int Write(byte[] data, int dataSize)
         {
-            if (fileStream == null)
+            if (this.fileStream == null)
             {
                 return 0;
             }
 
             try
             {
-                fileStream.Write(abData, 0, nDataSize);
+                this.fileStream.Write(data, 0, dataSize);
             }
             catch (IOException)
             {
                 return 0;
             }
 
-            return nDataSize;
+            return dataSize;
         }
 
         public void Close()
         {
-            if (fileStream != null)
+            if (this.fileStream != null)
             {
                 try
                 {
-                    fileStream.Close();
+                    this.fileStream.Close();
                 }
                 catch (IOException)
                 {
                 }
 
-                fileStream = null;
+                this.fileStream = null;
             }
         }
     }

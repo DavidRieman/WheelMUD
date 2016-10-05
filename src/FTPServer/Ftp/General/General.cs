@@ -17,14 +17,14 @@ namespace WheelMUD.Ftp.General
     /// <summary>Helper functions relating to files and file names/paths.</summary>
     public class FileNameHelpers
     {
-        static public bool IsValid(string sFileName)
+        public static bool IsValid(string fileName)
         {
-            if (sFileName.IndexOf("\\\\") >= 0)
+            if (fileName.IndexOf("\\\\") >= 0)
             {
                 return false;
             }
 
-            if (sFileName.IndexOf("...") >= 0)
+            if (fileName.IndexOf("...") >= 0)
             {
                 return false;
             }
@@ -35,22 +35,22 @@ namespace WheelMUD.Ftp.General
 
     public class TextHelpers
     {
-        static public string RightAlignString(string sString, int nWidth, char cDelimiter)
+        public static string RightAlignString(string s, int width, char delimiter)
         {
             var stringBuilder = new StringBuilder();
 
-            for (int nCharacter = 0; nCharacter < nWidth - sString.Length; nCharacter++)
+            for (int chr = 0; chr < width - s.Length; chr++)
             {
-                stringBuilder.Append(cDelimiter);
+                stringBuilder.Append(delimiter);
             }
 
-            stringBuilder.Append(sString);
+            stringBuilder.Append(s);
             return stringBuilder.ToString();
         }
 
-        static public string Month(int nMonth)
+        public static string Month(int monthNumber)
         {
-            switch (nMonth)
+            switch (monthNumber)
             {
                 case 1:
                     return "Jan";
@@ -77,7 +77,7 @@ namespace WheelMUD.Ftp.General
                 case 12:
                     return "Dec";
                 default:
-                    Debug.Assert(false);
+                    Debug.Assert(false, "Invalid month number");
                     return string.Empty;
             }
         }

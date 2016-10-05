@@ -15,12 +15,12 @@ namespace WheelMUD.Ftp.FileSystem
 
     public class StandardFileSystemClassFactory : IFileSystemClassFactory
     {
-        public IFileSystem Create(string sUser, string sPassword)
+        public IFileSystem Create(string user, string password)
         {
-            //if (UserData.GetInstance().HasUser(sUser) && UserData.GetInstance().GetUserPassword(sUser) == sPassword)
-            //{
-            //    return new StandardFileSystemObject(UserData.GetInstance().GetUserStartingDirectory(sUser));
-            //}
+            ////if (UserData.GetInstance().HasUser(user) && UserData.GetInstance().GetUserPassword(user) == password)
+            ////{
+            ////    return new StandardFileSystemObject(UserData.GetInstance().GetUserStartingDirectory(user));
+            ////}
 
             string serverFolder = MudEngineAttributes.Instance.FTPServerRootFolder;
             return new StandardFileSystemObject(serverFolder);

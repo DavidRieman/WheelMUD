@@ -12,36 +12,36 @@
 namespace WheelMUD.Ftp.General
 {
     using System;
+    using System.Diagnostics;
 
     public sealed class ArrayHelpers
     {
-        public static Array Add(Array aFirst, Array aSecond)
-        {
-            if (aFirst == null)
-            {
-                return aSecond.Clone() as Array;
-            }
-
-            if (aSecond == null)
-            {
-                return aFirst.Clone() as Array;
-            }
-
-            Type typeFirst = aFirst.GetType().GetElementType();
-            Type typeSecond = aSecond.GetType().GetElementType();
-
-            System.Diagnostics.Debug.Assert(typeFirst == typeSecond);
-
-            Array aNewArray = Array.CreateInstance(typeFirst, aFirst.Length + aSecond.Length);
-            aFirst.CopyTo(aNewArray, 0);
-            aSecond.CopyTo(aNewArray, aFirst.Length);
-
-            return aNewArray;
-        }
-
         private ArrayHelpers()
         {
+        }
 
+        public static Array Add(Array firstArray, Array secondArray)
+        {
+            if (firstArray == null)
+            {
+                return secondArray.Clone() as Array;
+            }
+
+            if (secondArray == null)
+            {
+                return firstArray.Clone() as Array;
+            }
+
+            Type typeFirst = firstArray.GetType().GetElementType();
+            Type typeSecond = secondArray.GetType().GetElementType();
+
+            Debug.Assert(typeFirst == typeSecond, "The array types must be the same to add them.");
+
+            Array newArray = Array.CreateInstance(typeFirst, firstArray.Length + secondArray.Length);
+            firstArray.CopyTo(newArray, 0);
+            secondArray.CopyTo(newArray, firstArray.Length);
+
+            return newArray;
         }
     }
 }

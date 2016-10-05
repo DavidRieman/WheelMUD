@@ -19,24 +19,26 @@ namespace WheelMUD.Rules
 
     public class OfTypeRule<R> : IRule<R>
     {
-        Type _type;
+        private Type type;
 
         public OfTypeRule(Type type)
         {
-            _type = type;
-        }
-
-        public ValidationResult Validate(R value)
-        {
-            if (value != null && _type.IsAssignableFrom(value.GetType()))
-                return ValidationResult.Success;
-
-                return ValidationResult.Fail(_type);
+            this.type = type;
         }
 
         public string RuleKind
         {
             get { return "OfTypeRule"; }
+        }
+
+        public ValidationResult Validate(R value)
+        {
+            if (value != null && type.IsAssignableFrom(value.GetType()))
+            {
+                return ValidationResult.Success;
+            }
+
+            return ValidationResult.Fail(type);
         }
     }
 }

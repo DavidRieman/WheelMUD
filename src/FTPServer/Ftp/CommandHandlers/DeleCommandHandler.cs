@@ -19,16 +19,15 @@ namespace WheelMUD.Ftp.FtpCommands
         {
         }
 
-        protected override string OnProcess(string sMessage)
+        protected override string OnProcess(string message)
         {
-            string sFile = this.GetPath(sMessage);
-
-            if (!this.ConnectionObject.FileSystemObject.FileExists(sFile))
+            var filePath = this.GetPath(message);
+            if (!this.ConnectionObject.FileSystemObject.FileExists(filePath))
             {
                 return this.GetMessage(550, "File does not exist.");
             }
 
-            if (!this.ConnectionObject.FileSystemObject.Delete(sFile))
+            if (!this.ConnectionObject.FileSystemObject.Delete(filePath))
             {
                 return this.GetMessage(550, "Couldn't delete file.");
             }

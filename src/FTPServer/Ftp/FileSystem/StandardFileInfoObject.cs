@@ -20,42 +20,42 @@ namespace WheelMUD.Ftp.FileSystem
     {
         private FileInfo fileInfo = null;
 
-        public StandardFileInfoObject(string sPath)
+        public StandardFileInfoObject(string path)
         {
             try
             {
-                fileInfo = new FileInfo(sPath);
-                isLoaded = true;
+                this.fileInfo = new FileInfo(path);
+                this.isLoaded = true;
             }
             catch (IOException)
             {
-                fileInfo = null;
+                this.fileInfo = null;
             }
         }
 
         public bool IsDirectory()
         {
-            return (fileInfo.Attributes & FileAttributes.Directory) != 0;
+            return (this.fileInfo.Attributes & FileAttributes.Directory) != 0;
         }
 
         public DateTime GetModifiedTime()
         {
-            return fileInfo.LastWriteTime;
+            return this.fileInfo.LastWriteTime;
         }
 
         public long GetSize()
         {
-            return fileInfo.Length;
+            return this.fileInfo.Length;
         }
 
         public string GetAttributeString()
         {
-            bool fDirectory = (fileInfo.Attributes & FileAttributes.Directory) != 0;
-            bool fReadOnly = (fileInfo.Attributes & FileAttributes.ReadOnly) != 0;
+            bool isDir = (this.fileInfo.Attributes & FileAttributes.Directory) != 0;
+            bool isReadOnly = (this.fileInfo.Attributes & FileAttributes.ReadOnly) != 0;
 
             var builder = new StringBuilder();
 
-            if (fDirectory)
+            if (isDir)
             {
                 builder.Append("d");
             }
@@ -66,7 +66,7 @@ namespace WheelMUD.Ftp.FileSystem
 
             builder.Append("r");
 
-            if (fReadOnly)
+            if (isReadOnly)
             {
                 builder.Append("-");
             }
@@ -75,7 +75,7 @@ namespace WheelMUD.Ftp.FileSystem
                 builder.Append("w");
             }
 
-            if (fDirectory)
+            if (isDir)
             {
                 builder.Append("x");
             }
@@ -84,7 +84,7 @@ namespace WheelMUD.Ftp.FileSystem
                 builder.Append("-");
             }
 
-            if (fDirectory)
+            if (isDir)
             {
                 builder.Append("r-xr-x");
             }

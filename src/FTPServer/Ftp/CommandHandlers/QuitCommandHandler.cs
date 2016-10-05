@@ -12,14 +12,15 @@
 namespace WheelMUD.Ftp.FtpCommands
 {
     public class QuitCommandHandler : FtpCommandHandler
-	{
-		public QuitCommandHandler(FtpConnectionObject connectionObject)
-			: base("QUIT", connectionObject)
-		{}
+    {
+        public QuitCommandHandler(FtpConnectionObject connectionObject)
+            : base("QUIT", connectionObject)
+        {
+        }
 
-		protected override string OnProcess(string sMessage)
-		{
-			return this.GetMessage(220, "Goodbye");
-		}
-	}
+        protected override string OnProcess(string message)
+        {
+            return this.GetMessage(220, "Goodbye");
+        }
+    }
 }

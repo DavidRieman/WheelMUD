@@ -11,25 +11,25 @@
 
 namespace WheelMUD.Ftp.General
 {
-	public interface ILoaded
-	{
-		bool Loaded { get; }
-	}
+    public interface ILoaded
+    {
+        bool Loaded { get; }
+    }
 
-	public class LoadedClass : ILoaded
-	{
-		protected bool isLoaded;
+    public class LoadedClass : ILoaded
+    {
+        protected bool isLoaded;
 
-		public LoadedClass()
-		{
-		}
+        public LoadedClass()
+        {
+        }
 
-		public bool Loaded
-		{
-			get
-			{
-				return isLoaded;
-			}
-		}
-	}
+        public bool Loaded
+        {
+            get
+            {
+                return isLoaded;
+            }
+        }
+    }
 }

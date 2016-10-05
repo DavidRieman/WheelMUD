@@ -20,65 +20,63 @@ namespace WheelMUD.Rules
 
     public class BetweenRule<T, R> : IRule<T> where R : IComparable<R>
     {
-        private Func<T, R> _greaterThan;
-        private Func<T, R> _lessThan;
-        private Func<T, R> _value;
-        private int _compareToResultLower;
-        private int _compareToResultUpper;
-        private BetweenRuleBoundsOption _options;
+        private Func<T, R> greaterThan;
+        private Func<T, R> lessThan;
+        private Func<T, R> value;
+        private int compareToResultLower;
+        private int compareToResultUpper;
+        private BetweenRuleBoundsOption options;
 
         public BetweenRule(Expression<Func<T, R>> value, Expression<Func<T, R>> greaterThan, Expression<Func<T, R>> lessThan, BetweenRuleBoundsOption options)
         {
-            _value = value.Compile();
-            _greaterThan = greaterThan.Compile();
-            _lessThan = lessThan.Compile();
-            _options = options;
+            this.value = value.Compile();
+            this.greaterThan = greaterThan.Compile();
+            this.lessThan = lessThan.Compile();
+            this.options = options;
             Initialize();
-        }
-
-        private void Initialize()
-        {
-            if (_options == BetweenRuleBoundsOption.BothInclusive)
-            {
-                _compareToResultLower = 1;
-                _compareToResultUpper = -1;
-            }
-            else if (_options == BetweenRuleBoundsOption.LowerInclusiveUpperExclusive)
-            {
-                _compareToResultLower = 1;
-                _compareToResultUpper = 0;
-            }
-            else if (_options == BetweenRuleBoundsOption.LowerExclusiveUpperInclusive)
-            {
-                _compareToResultLower = 0;
-                _compareToResultUpper = -1;
-            }
-            else
-            {
-                _compareToResultLower = 0;
-                _compareToResultUpper = 0;
-            }
-        }
-
-        public ValidationResult Validate(T value)
-        {
-            R v = _value(value);
-            IComparable<R> lowerBound = _greaterThan(value);
-            IComparable<R> upperBound = _lessThan(value);
-
-            if (lowerBound.CompareTo(v) < _compareToResultLower && upperBound.CompareTo(v) > _compareToResultUpper)
-                return ValidationResult.Success;
-
-            return ValidationResult.Fail(lowerBound, upperBound, v, _options);
         }
 
         public string RuleKind
         {
-            get
-            {
-                return "BetweenRule";
-            }
+            get { return "BetweenRule"; }
         }
 
+        public ValidationResult Validate(T value)
+        {
+            R v = this.value(value);
+            IComparable<R> lowerBound = greaterThan(value);
+            IComparable<R> upperBound = lessThan(value);
+
+            if (lowerBound.CompareTo(v) < compareToResultLower && upperBound.CompareTo(v) > compareToResultUpper)
+            {
+                return ValidationResult.Success;
+            }
+
+            return ValidationResult.Fail(lowerBound, upperBound, v, options);
+        }
+
+        private void Initialize()
+        {
+            if (options == BetweenRuleBoundsOption.BothInclusive)
+            {
+                compareToResultLower = 1;
+                compareToResultUpper = -1;
+            }
+            else if (options == BetweenRuleBoundsOption.LowerInclusiveUpperExclusive)
+            {
+                compareToResultLower = 1;
+                compareToResultUpper = 0;
+            }
+            else if (options == BetweenRuleBoundsOption.LowerExclusiveUpperInclusive)
+            {
+                compareToResultLower = 0;
+                compareToResultUpper = -1;
+            }
+            else
+            {
+                compareToResultLower = 0;
+                compareToResultUpper = 0;
+            }
+        }
     }
 }

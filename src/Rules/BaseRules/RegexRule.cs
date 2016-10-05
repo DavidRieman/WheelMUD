@@ -20,7 +20,7 @@ namespace WheelMUD.Rules
 
     public class RegexRule : IRule<string>
     {
-        private Regex _regex;
+        private Regex regex;
 
         public RegexRule(Regex regex)
         {
@@ -29,7 +29,7 @@ namespace WheelMUD.Rules
                 throw new ArgumentNullException("regex");
             }
 
-            _regex = regex;
+            this.regex = regex;
         }
 
         public string RuleKind
@@ -45,12 +45,12 @@ namespace WheelMUD.Rules
                 return ValidationResult.Success;
             }
 
-            if (this._regex.IsMatch(value))
+            if (this.regex.IsMatch(value))
             {
                 return ValidationResult.Success;
             }
 
-            return ValidationResult.Fail(this._regex);
+            return ValidationResult.Fail(this.regex);
         }
     }
 }

@@ -20,55 +20,54 @@ namespace WheelMUD.Ftp
     /// <summary>Contains the socket read functionality. Works on its own thread since all socket operation is blocking.</summary>
     public class FtpSocketHandler
     {
-        private TcpClient _clientSocket;
-        private Thread _mainThread;
         private const int InternalBufferSize = 65536;
-        private FtpConnectionObject _connectionCommands;
-        private readonly IFileSystemClassFactory _fileSystemClassFactory;
-
-        public delegate void CloseHandler(FtpSocketHandler handler);
-        public event CloseHandler Closed;
+        private readonly IFileSystemClassFactory fileSystemClassFactory;
+        private TcpClient clientSocket;
+        private Thread mainThread;
+        private FtpConnectionObject connectionCommands;
 
         public FtpSocketHandler(IFileSystemClassFactory fileSystemClassFactory, int nId)
         {
             this.Id = nId;
-            this._fileSystemClassFactory = fileSystemClassFactory;
+            this.fileSystemClassFactory = fileSystemClassFactory;
         }
+
+        public delegate void CloseHandler(FtpSocketHandler handler);
+
+        public event CloseHandler Closed;
 
         public int Id { get; private set; }
 
         public void Start(TcpClient socket)
         {
-            this._clientSocket = socket;
+            this.clientSocket = socket;
 
-            this._connectionCommands = new FtpConnectionObject(_fileSystemClassFactory, Id, socket);
+            this.connectionCommands = new FtpConnectionObject(fileSystemClassFactory, Id, socket);
 
-            this._mainThread = new Thread(ThreadRun);
-            this._mainThread.Name = "ThreadRun:" + Id;
-            this._mainThread.Start();
+            this.mainThread = new Thread(ThreadRun);
+            this.mainThread.Name = "ThreadRun:" + Id;
+            this.mainThread.Start();
         }
 
         public void Stop()
         {
-            SocketHelpers.Close(this._clientSocket);
-            //_mainThread.Join();
+            SocketHelpers.Close(this.clientSocket);
+            ////_mainThread.Join();
         }
 
         private void ThreadRun()
         {
-            var abData = new byte[InternalBufferSize];
-
+            var data = new byte[InternalBufferSize];
             try
             {
                 //while (_clientSocket.Connected)
                 //{
-                int nReceived = this._clientSocket.GetStream().Read(abData, 0, InternalBufferSize);
-
-                while (nReceived > 0)
+                int received = this.clientSocket.GetStream().Read(data, 0, InternalBufferSize);
+                while (received > 0)
                 {
-                    this._connectionCommands.Process(abData);
+                    this.connectionCommands.Process(data);
 
-                    nReceived = this._clientSocket.GetStream().Read(abData, 0, InternalBufferSize);
+                    received = this.clientSocket.GetStream().Read(data, 0, InternalBufferSize);
                 }
                 //}
             }
@@ -106,9 +105,9 @@ namespace WheelMUD.Ftp
         {
             FtpServerMessageHandler.SendMessage(Id, "Connection closed");
 
-            if (this._clientSocket.Connected)
+            if (this.clientSocket.Connected)
             {
-                this._clientSocket.Close();
+                this.clientSocket.Close();
             }
 
             if (this.Closed != null)

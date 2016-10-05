@@ -19,24 +19,21 @@ namespace WheelMUD.Rules
 
     public class GenericRule<R> : IRule<R>
     {
-        Func<R, bool> _rule;
-
-        public ValidationResult Validate(R value)
-        {
-            if (_rule(value))
-                return ValidationResult.Success;
-
-            return ValidationResult.Fail();
-        }
+        private Func<R, bool> rule;
 
         public GenericRule(Func<R, bool> rule)
         {
-            _rule = rule;
+            this.rule = rule;
         }
 
         public string RuleKind
         {
             get { return "GenericRule"; }
+        }
+
+        public ValidationResult Validate(R value)
+        {
+            return rule(value) ? ValidationResult.Success : ValidationResult.Fail();
         }
     }
 }

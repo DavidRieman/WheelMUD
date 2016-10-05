@@ -11,30 +11,28 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using WheelMUD.Ftp.FileSystem;
-	
     public class SizeCommandHandler : FtpCommandHandler
-	{
-		public SizeCommandHandler(FtpConnectionObject connectionObject)
-			: base("SIZE", connectionObject)
-		{}
+    {
+        public SizeCommandHandler(FtpConnectionObject connectionObject)
+            : base("SIZE", connectionObject)
+        {
+        }
 
-		protected override string OnProcess(string sMessage)
-		{
-            string sPath = this.GetPath(sMessage);
+        protected override string OnProcess(string message)
+        {
+            string path = this.GetPath(message);
+            if (!this.ConnectionObject.FileSystemObject.FileExists(path))
+            {
+                return this.GetMessage(550, string.Format("File doesn't exist ({0})", path));
+            }
 
-            if (!this.ConnectionObject.FileSystemObject.FileExists(sPath))
-			{
-                return this.GetMessage(550, string.Format("File doesn't exist ({0})", sPath));
-			}
-
-            IFileInfo info = this.ConnectionObject.FileSystemObject.GetFileInfo(sPath);
-			if (info == null)
-			{
+            var info = this.ConnectionObject.FileSystemObject.GetFileInfo(path);
+            if (info == null)
+            {
                 return this.GetMessage(550, "Error in getting file information");
-			}
+            }
 
             return this.GetMessage(220, info.GetSize().ToString());
-		}
-	}
+        }
+    }
 }

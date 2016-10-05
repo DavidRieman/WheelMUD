@@ -11,22 +11,22 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
-	public class MakeDirectoryCommandHandlerBase : FtpCommandHandler
-	{
-		protected MakeDirectoryCommandHandlerBase(string sCommand, FtpConnectionObject connectionObject)
-			: base(sCommand, connectionObject)
-		{}
+    public class MakeDirectoryCommandHandlerBase : FtpCommandHandler
+    {
+        protected MakeDirectoryCommandHandlerBase(string command, FtpConnectionObject connectionObject)
+            : base(command, connectionObject)
+        {
+        }
 
-		protected override string OnProcess(string sMessage)
-		{
-            string sFile = this.GetPath(sMessage);
+        protected override string OnProcess(string message)
+        {
+            string filePath = this.GetPath(message);
+            if (!this.ConnectionObject.FileSystemObject.CreateDirectory(filePath))
+            {
+                return this.GetMessage(550, string.Format("Couldn't create directory. ({0})", filePath));
+            }
 
-			if (!this.ConnectionObject.FileSystemObject.CreateDirectory(sFile))
-			{
-				return this.GetMessage(550, string.Format("Couldn't create directory. ({0})", sFile));
-			}
-
-			return this.GetMessage(257, sFile);
-		}
-	}
+            return this.GetMessage(257, filePath);
+        }
+    }
 }

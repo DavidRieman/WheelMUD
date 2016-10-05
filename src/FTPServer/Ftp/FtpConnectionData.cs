@@ -25,26 +25,26 @@ namespace WheelMUD.Ftp
             this.Id = id;
             this.Socket = socket;
             this.CurrentDirectory = "\\";
-            this.PortCommandSocketAddress = "";
+            this.PortCommandSocketAddress = string.Empty;
             this.PortCommandSocketPort = 20;
         }
 
-        /// <summary>Main connection socket.</summary>
+        /// <summary>Gets the main connection socket.</summary>
         public TcpClient Socket { get; private set; }
 
         public string User { get; set; }
 
-        /// <summary>The current directory for this connection.</summary>
+        /// <summary>Gets or sets the current directory for this connection.</summary>
         public string CurrentDirectory { get; set; }
 
-        /// <summary>This connection ID.</summary>
+        /// <summary>Gets the ID for this connection.</summary>
         public int Id { get; private set; }
 
-        /// <summary>Socket address from PORT command.</summary>
+        /// <summary>Gets or sets the socket address from PORT command.</summary>
         /// <remarks>See FtpReplySocket class.</remarks>
         public string PortCommandSocketAddress { get; set; }
 
-        /// <summary>Port from PORT command.</summary>
+        /// <summary>Gets or sets the port from PORT command.</summary>
         /// <remarks>See FtpReplySocket class.</remarks>
         public int PortCommandSocketPort { get; set; }
 

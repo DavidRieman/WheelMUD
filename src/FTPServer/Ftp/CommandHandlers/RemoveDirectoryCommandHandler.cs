@@ -15,6 +15,7 @@ namespace WheelMUD.Ftp.FtpCommands
     {
         public RemoveDirectoryCommandHandler(FtpConnectionObject connectionObject)
             : base("RMD", connectionObject)
-        { }
+        {
+        }
     }
 }

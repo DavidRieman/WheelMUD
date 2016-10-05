@@ -19,10 +19,7 @@ namespace WheelMUD.Rules
     {
         public ValidationResult Validate(R value)
         {
-            if (value != null)
-                return ValidationResult.Success;
-            else
-                return ValidationResult.Fail();
+            return value != null ? ValidationResult.Success : ValidationResult.Fail();
         }
 
         public string RuleKind

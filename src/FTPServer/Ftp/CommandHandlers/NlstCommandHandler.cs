@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// <copyright file="NsltCommandHandler.cs" company="WheelMUD Development Team">
+// <copyright file="NlstCommandHandler.cs" company="WheelMUD Development Team">
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
@@ -11,20 +11,21 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
-	public class NlstCommandHandler : ListCommandHandlerBase
-	{
-		public NlstCommandHandler(FtpConnectionObject connectionObject)
-			: base("NLST", connectionObject)
-		{}
+    public class NlstCommandHandler : ListCommandHandlerBase
+    {
+        public NlstCommandHandler(FtpConnectionObject connectionObject)
+            : base("NLST", connectionObject)
+        {
+        }
 
-		protected override string BuildReply(string sMessage, string[] asFiles)
-		{
-		    if (sMessage == "-L" || sMessage == "-l")
-			{
-				return BuildLongReply(asFiles);
-			}
-		    
-            return BuildShortReply(asFiles);
-		}
-	}
+        protected override string BuildReply(string message, string[] asFiles)
+        {
+            if (message == "-L" || message == "-l")
+            {
+                return this.BuildLongReply(asFiles);
+            }
+
+            return this.BuildShortReply(asFiles);
+        }
+    }
 }

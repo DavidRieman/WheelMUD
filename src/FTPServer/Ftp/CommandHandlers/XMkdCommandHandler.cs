@@ -15,6 +15,7 @@ namespace WheelMUD.Ftp.FtpCommands
     {
         public XMkdCommandHandler(FtpConnectionObject connectionObject)
             : base("XMKD", connectionObject)
-        { }
+        {
+        }
     }
 }

@@ -13,36 +13,37 @@ namespace WheelMUD.Ftp.FtpCommands
 {
     using WheelMUD.Data.Repositories;
 
-	public class PasswordCommandHandler : FtpCommandHandler
-	{
-		public PasswordCommandHandler(FtpConnectionObject connectionObject)
-			: base("PASS", connectionObject)
-		{}
+    public class PasswordCommandHandler : FtpCommandHandler
+    {
+        public PasswordCommandHandler(FtpConnectionObject connectionObject)
+            : base("PASS", connectionObject)
+        {
+        }
 
-		protected override string OnProcess(string sMessage)
-		{
-		    string retval;
+        protected override string OnProcess(string message)
+        {
+            string retval;
 
-            bool auth = PlayerRepository.Authenticate(this.ConnectionObject.User, sMessage);
+            bool auth = PlayerRepository.Authenticate(this.ConnectionObject.User, message);
 
-		    if (auth)
-		    {
+            if (auth)
+            {
                 this.ConnectionObject.CreateFileSystem();
                 retval = this.GetMessage(220, "Password ok, FTP server ready");
-		    }
-		    else
-		    {
+            }
+            else
+            {
                 retval = this.GetMessage(530, "Username or password incorrect");
-		    }
+            }
 
-            //if (this.ConnectionObject.Login(sMessage))
-            //{
-            //    return this.GetMessage(220, "Password ok, FTP server ready");
-            //}
+            ////if (this.ConnectionObject.Login(sMessage))
+            ////{
+            ////    return this.GetMessage(220, "Password ok, FTP server ready");
+            ////}
+            ////
+            ////return this.GetMessage(530, "Username or password incorrect");
 
-            //return this.GetMessage(530, "Username or password incorrect");
-
-		    return retval;
-		}
-	}
+            return retval;
+        }
+    }
 }

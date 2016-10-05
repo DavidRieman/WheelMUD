@@ -18,38 +18,24 @@ namespace WheelMUD.Ftp
     using WheelMUD.Ftp.FtpCommands;
     using WheelMUD.Ftp.General;
 
-	/// <summary>Processes incoming messages and passes the data on to the relevant handler class.</summary>
-	public class FtpConnectionObject : FtpConnectionData
-	{
-		private readonly Hashtable _commandHashTable;
-		private readonly IFileSystemClassFactory _fileSystemClassFactory;
-		
-		public FtpConnectionObject(IFileSystemClassFactory fileSystemClassFactory, int nId, TcpClient socket)
-			: base(nId, socket)
-		{
-            this._commandHashTable = new Hashtable();
-            this._fileSystemClassFactory = fileSystemClassFactory;
-			
-			this.LoadCommands();
-		}
+    /// <summary>Processes incoming messages and passes the data on to the relevant handler class.</summary>
+    public class FtpConnectionObject : FtpConnectionData
+    {
+        private readonly Hashtable commandHashTable;
+        private readonly IFileSystemClassFactory fileSystemClassFactory;
 
-        public bool Login(string sPassword)
-		{
-			IFileSystem fileSystem = _fileSystemClassFactory.Create(User, sPassword);
+        public FtpConnectionObject(IFileSystemClassFactory fileSystemClassFactory, int nId, TcpClient socket)
+            : base(nId, socket)
+        {
+            this.commandHashTable = new Hashtable();
+            this.fileSystemClassFactory = fileSystemClassFactory;
 
-			if (fileSystem == null)
-			{
-				return false;
-			}
-
-			SetFileSystemObject(fileSystem);
-			return true;
+            this.LoadCommands();
         }
 
-        public bool CreateFileSystem()
+        public bool Login(string password)
         {
-            IFileSystem fileSystem = _fileSystemClassFactory.Create(User, "");
-
+            var fileSystem = this.fileSystemClassFactory.Create(User, password);
             if (fileSystem == null)
             {
                 return false;
@@ -59,12 +45,24 @@ namespace WheelMUD.Ftp
             return true;
         }
 
-        public void Process(byte[] abData)
+        public bool CreateFileSystem()
         {
-            string message = Encoding.ASCII.GetString(abData);
+            var fileSystem = this.fileSystemClassFactory.Create(User, string.Empty);
+            if (fileSystem == null)
+            {
+                return false;
+            }
+
+            this.SetFileSystemObject(fileSystem);
+            return true;
+        }
+
+        public void Process(byte[] data)
+        {
+            var message = Encoding.ASCII.GetString(data);
             message = message.Substring(0, message.IndexOf('\r'));
 
-            FtpServerMessageHandler.SendMessage(Id, message);
+            FtpServerMessageHandler.SendMessage(this.Id, message);
 
             string command;
             string value;
@@ -82,12 +80,11 @@ namespace WheelMUD.Ftp
                 value = message.Substring(command.Length + 1);
             }
 
-            var handler = _commandHashTable[command] as FtpCommandHandler;
-
+            var handler = this.commandHashTable[command] as FtpCommandHandler;
             if (handler == null)
             {
-                FtpServerMessageHandler.SendMessage(Id, string.Format("\"{0}\" : Unknown command", command));
-                SocketHelpers.Send(Socket, "550 Unknown command\r\n");
+                FtpServerMessageHandler.SendMessage(this.Id, string.Format("\"{0}\" : Unknown command", command));
+                SocketHelpers.Send(this.Socket, "550 Unknown command\r\n");
             }
             else
             {
@@ -95,38 +92,38 @@ namespace WheelMUD.Ftp
             }
         }
 
-		private void LoadCommands()
-		{
-			this.AddCommand(new UserCommandHandler(this));
+        private void LoadCommands()
+        {
+            this.AddCommand(new UserCommandHandler(this));
             this.AddCommand(new PasswordCommandHandler(this));
-		    this.AddCommand(new QuitCommandHandler(this));
-			this.AddCommand(new CwdCommandHandler(this));
-			this.AddCommand(new PortCommandHandler(this));
-			this.AddCommand(new PasvCommandHandler(this));
-			this.AddCommand(new ListCommandHandler(this));
-			this.AddCommand(new NlstCommandHandler(this));
-			this.AddCommand(new PwdCommandHandler(this));
-			this.AddCommand(new XPwdCommandHandler(this));
-			this.AddCommand(new TypeCommandHandler(this));
-			this.AddCommand(new RetrCommandHandler(this));
-			this.AddCommand(new NoopCommandHandler(this));
-			this.AddCommand(new SizeCommandHandler(this));
-			this.AddCommand(new DeleCommandHandler(this));
-			this.AddCommand(new AlloCommandHandler(this));
-			this.AddCommand(new StoreCommandHandler(this));
-			this.AddCommand(new MakeDirectoryCommandHandler(this));
-			this.AddCommand(new RemoveDirectoryCommandHandler(this));
-			this.AddCommand(new AppendCommandHandler(this));
-			this.AddCommand(new RenameStartCommandHandler(this));
-			this.AddCommand(new RenameCompleteCommandHandler(this));
-			this.AddCommand(new XMkdCommandHandler(this));
+            this.AddCommand(new QuitCommandHandler(this));
+            this.AddCommand(new CwdCommandHandler(this));
+            this.AddCommand(new PortCommandHandler(this));
+            this.AddCommand(new PasvCommandHandler(this));
+            this.AddCommand(new ListCommandHandler(this));
+            this.AddCommand(new NlstCommandHandler(this));
+            this.AddCommand(new PwdCommandHandler(this));
+            this.AddCommand(new XPwdCommandHandler(this));
+            this.AddCommand(new TypeCommandHandler(this));
+            this.AddCommand(new RetrCommandHandler(this));
+            this.AddCommand(new NoopCommandHandler(this));
+            this.AddCommand(new SizeCommandHandler(this));
+            this.AddCommand(new DeleCommandHandler(this));
+            this.AddCommand(new AlloCommandHandler(this));
+            this.AddCommand(new StoreCommandHandler(this));
+            this.AddCommand(new MakeDirectoryCommandHandler(this));
+            this.AddCommand(new RemoveDirectoryCommandHandler(this));
+            this.AddCommand(new AppendCommandHandler(this));
+            this.AddCommand(new RenameStartCommandHandler(this));
+            this.AddCommand(new RenameCompleteCommandHandler(this));
+            this.AddCommand(new XMkdCommandHandler(this));
             this.AddCommand(new XRmdCommandHandler(this));
             this.AddCommand(new CdUpCommandHandler(this));
-		}
+        }
 
-		private void AddCommand(FtpCommandHandler handler)
-		{
-			this._commandHashTable.Add(handler.Command, handler);
-		}
-	}
+        private void AddCommand(FtpCommandHandler handler)
+        {
+            this.commandHashTable.Add(handler.Command, handler);
+        }
+    }
 }

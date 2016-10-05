@@ -39,28 +39,28 @@ namespace WheelMUD.Ftp
             this.socket = null;
         }
 
-        public bool Send(byte[] abData, int nSize)
+        public bool Send(byte[] data, int size)
         {
-            return SocketHelpers.Send(socket, abData, 0, nSize);
+            return SocketHelpers.Send(socket, data, 0, size);
         }
 
-        public bool Send(char[] abChars, int nSize)
+        public bool Send(char[] chars, int size)
         {
-            return SocketHelpers.Send(socket, System.Text.Encoding.ASCII.GetBytes(abChars), 0, nSize);
+            return SocketHelpers.Send(socket, System.Text.Encoding.ASCII.GetBytes(chars), 0, size);
         }
 
-        public bool Send(string sMessage)
+        public bool Send(string message)
         {
-            byte[] abData = Encoding.ASCII.GetBytes(sMessage);
-            return this.Send(abData, abData.Length);
+            byte[] data = Encoding.ASCII.GetBytes(message);
+            return this.Send(data, data.Length);
         }
 
-        public int Receive(byte[] abData)
+        public int Receive(byte[] data)
         {
-            return this.socket.GetStream().Read(abData, 0, abData.Length);
+            return this.socket.GetStream().Read(data, 0, data.Length);
         }
 
-        static private TcpClient OpenSocket(FtpConnectionObject connectionObject)
+        private static TcpClient OpenSocket(FtpConnectionObject connectionObject)
         {
             TcpClient socketPasv = connectionObject.PasvSocket;
 
