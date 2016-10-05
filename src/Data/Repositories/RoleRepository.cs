@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the Roles table.
-    ///</summary>
-    public partial class RoleRepository : IRoleRepository
-    {		
-        #region IRoleRepository Members
 
+    /// <summary>Repository for the Roles table.</summary>
+    public partial class RoleRepository : IRoleRepository
+    {
         public void Add(RoleRecord role)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(role);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(role);
+                transaction.Commit();
+            }
         }
 
         public void Update(RoleRecord role)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(role);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(role);
+                transaction.Commit();
+            }
         }
 
         public void Remove(RoleRecord role)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(role);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(role);
+                transaction.Commit();
+            }
         }
-        
+
         public RoleRecord GetById(long roleId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<RoleRecord>("ID = {0}", roleId);
-        }		
+        }
 
         public RoleRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<RoleRecord>();
             }
         }
-
-        #endregion
     }
 }

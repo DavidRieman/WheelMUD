@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the Areas table.
-    ///</summary>
-    public partial class AreaRepository : IAreaRepository
-    {		
-        #region IAreaRepository Members
 
+    /// <summary>Repository for the Areas table.</summary>
+    public partial class AreaRepository : IAreaRepository
+    {
         public void Add(AreaRecord area)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(area);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(area);
+                transaction.Commit();
+            }
         }
 
         public void Update(AreaRecord area)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(area);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(area);
+                transaction.Commit();
+            }
         }
 
         public void Remove(AreaRecord area)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(area);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(area);
+                transaction.Commit();
+            }
         }
-        
+
         public AreaRecord GetById(long areaId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<AreaRecord>("ID = {0}", areaId);
-        }		
+        }
 
         public AreaRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<AreaRecord>();
             }
         }
-
-        #endregion
     }
 }

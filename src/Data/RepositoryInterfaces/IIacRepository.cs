@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the Iac entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the Iac entity.</summary>
     public interface IIacRepository
-    {        
+    {
         void Add(IacRecord iac);
         void Update(IacRecord iac);
         void Remove(IacRecord iac);
-        IacRecord GetById(long iacId);		
+        IacRecord GetById(long iacId);
         IacRecord GetByName(string name);
         ICollection<IacRecord> FetchAll();
     }

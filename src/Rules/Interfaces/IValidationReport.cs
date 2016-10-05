@@ -18,8 +18,11 @@ namespace WheelMUD.Rules
     public interface IValidationReport
     {
         bool HasError(CachedExpression expression, object value, out ValidationError[] validationErrors);
+
         bool HasError(CachedExpression expression, object value);
+
         void AddError(ValidationError validationError);
+
         bool HasErrors { get; }
     }
 }

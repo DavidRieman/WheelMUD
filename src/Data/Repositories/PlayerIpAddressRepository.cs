@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the PlayerIPAddress table.
-    ///</summary>
-    public partial class PlayerIpAddressRepository : IPlayerIpAddressRepository
-    {		
-        #region IPlayerIpAddressRepository Members
 
+    /// <summary>Repository for the PlayerIPAddress table.</summary>
+    public partial class PlayerIpAddressRepository : IPlayerIpAddressRepository
+    {
         public void Add(PlayerIpAddressRecord playeripaddress)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(playeripaddress);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(playeripaddress);
+                transaction.Commit();
+            }
         }
 
         public void Update(PlayerIpAddressRecord playeripaddress)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(playeripaddress);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(playeripaddress);
+                transaction.Commit();
+            }
         }
 
         public void Remove(PlayerIpAddressRecord playeripaddress)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(playeripaddress);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(playeripaddress);
+                transaction.Commit();
+            }
         }
-        
+
         public PlayerIpAddressRecord GetById(long playeripaddressId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<PlayerIpAddressRecord>("ID = {0}", playeripaddressId);
-        }		
+        }
 
         public PlayerIpAddressRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<PlayerIpAddressRecord>();
             }
         }
-
-        #endregion
     }
 }

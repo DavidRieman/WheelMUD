@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the MudChannels table.
-    ///</summary>
-    public partial class MudChannelRepository : IMudChannelRepository
-    {		
-        #region IMudChannelRepository Members
 
+    /// <summary>Repository for the MudChannels table.</summary>
+    public partial class MudChannelRepository : IMudChannelRepository
+    {
         public void Add(MudChannelRecord mudchannel)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(mudchannel);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(mudchannel);
+                transaction.Commit();
+            }
         }
 
         public void Update(MudChannelRecord mudchannel)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(mudchannel);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(mudchannel);
+                transaction.Commit();
+            }
         }
 
         public void Remove(MudChannelRecord mudchannel)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(mudchannel);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(mudchannel);
+                transaction.Commit();
+            }
         }
-        
+
         public MudChannelRecord GetById(long mudchannelId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<MudChannelRecord>("ID = {0}", mudchannelId);
-        }		
+        }
 
         public MudChannelRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<MudChannelRecord>();
             }
         }
-
-        #endregion
     }
 }

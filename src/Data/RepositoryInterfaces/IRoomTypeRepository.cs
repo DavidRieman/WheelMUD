@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the RoomType entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the RoomType entity.</summary>
     public interface IRoomTypeRepository
-    {        
+    {
         void Add(RoomTypeRecord roomtype);
         void Update(RoomTypeRecord roomtype);
         void Remove(RoomTypeRecord roomtype);
-        RoomTypeRecord GetById(long roomtypeId);		
+        RoomTypeRecord GetById(long roomtypeId);
         RoomTypeRecord GetByName(string name);
         ICollection<RoomTypeRecord> FetchAll();
     }

@@ -11,16 +11,12 @@
 
 namespace WheelMUD.Data.Entities
 {
-	using System;
-
     using ServiceStack.DataAnnotations;
-	
-    ///<summary>
-    /// Represents a single Exit row in the Exit table.
-    ///</summary>
+
+    /// <summary>Represents a single Exit row in the Exit table.</summary>
     [Alias("Exits")]
-	public partial class ExitRecord 
-	{
+    public partial class ExitRecord
+    {
         [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual long ExitRoomAID { get; set; }
@@ -28,6 +24,5 @@ namespace WheelMUD.Data.Entities
         public virtual long ExitRoomBID { get; set; }
         public virtual string DirectionB { get; set; }
         public virtual long DoorID { get; set; }
-	}
+    }
 }
-

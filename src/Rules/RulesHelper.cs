@@ -24,8 +24,6 @@ namespace WheelMUD.Rules
 
     public static class RulesHelper
     {
-        #region LessThan
-
         public static M MustBeLessThan<M, T, R>(this IMustPassRule<M, T, R> mpr, R lessThan)
             where R : IComparable<R>
         {
@@ -49,10 +47,6 @@ namespace WheelMUD.Rules
         {
             return mpr.MustPassRule(new LessThanRule<T, R>(mpr.Expression, lessThan, true));
         }
-
-        #endregion
-
-        #region GreaterThan
 
         public static M MustBeGreaterThan<M, T, R>(this IMustPassRule<M, T, R> mpr, R greaterThan)
             where R : IComparable<R>
@@ -78,10 +72,6 @@ namespace WheelMUD.Rules
             return mpr.MustPassRule(new GreaterThanRule<T, R>(mpr.Expression, greaterThan, true));
         }
 
-        #endregion
-
-        #region Null Rules
-
         public static M MustNotBeNull<M, T, R>(this IMustPassRule<M, T, R> mpr)
             where R : class
         {
@@ -98,10 +88,6 @@ namespace WheelMUD.Rules
         {
             return mpr.MustPassRule(new NotNullOrEmpty());
         }
-
-        #endregion
-
-        #region BetweenRule
 
         private const BetweenRuleBoundsOption DefaultBoundOption = BetweenRuleBoundsOption.BothInclusive;
 
@@ -169,10 +155,6 @@ namespace WheelMUD.Rules
             return MustBeBetween(mpr, greaterThanFunc, lessThanFunc, bounds);
         }
 
-        #endregion
-
-        #region OneOf
-
         public static M MustBeOneOf<M, T, R>(this IMustPassRule<M, T, R> mpr, IEnumerable<R> values)
         {
             return mpr.MustPassRule(new OneOfRule<R>(values));
@@ -192,10 +174,6 @@ namespace WheelMUD.Rules
         {
             return mpr.MustPassRule(new OneOfRule<R>(values, comparer));
         }
-
-        #endregion
-
-        #region NotOneOf
 
         public static M MustNotBeOneOf<M, T, R>(this IMustPassRule<M, T, R> mpr, IEnumerable<R> values)
         {
@@ -217,10 +195,6 @@ namespace WheelMUD.Rules
             return mpr.MustPassRule(new NotOneOfRule<R>(values, comparer));
         }
 
-        #endregion
-
-        #region EqualRule
-
         public static M MustEqual<M, T, R>(this IMustPassRule<M, T, R> mpr, R value)
         {
             return mpr.MustPassRule(new EqualRule<R>(value));
@@ -240,10 +214,6 @@ namespace WheelMUD.Rules
         {
             return mpr.MustPassRule(new EqualRule<T, R>(mpr.Expression, value, comparer));
         }
-
-        #endregion
-
-        #region NotEqualRule
 
         public static M MustNotEqual<M, T, R>(this IMustPassRule<M, T, R> mpr, R value)
         {
@@ -265,9 +235,6 @@ namespace WheelMUD.Rules
             return mpr.MustPassRule(new NotEqualRule<T, R>(mpr.Expression, value, comparer));
         }
 
-        #endregion
-
-        #region Regex
         public static M MustMatchRegex<M, T>(this IMustPassRule<M, T, string> mpr, string pattern)
         {
             return mpr.MustPassRule(new RegexRule(new Regex(pattern, RegexOptions.Compiled)));
@@ -277,16 +244,11 @@ namespace WheelMUD.Rules
         {
             return mpr.MustPassRule(new RegexRule(new Regex(pattern, options)));
         }
-        #endregion
-
-        #region Of Type
 
         public static M MustBeOfType<M, T, R>(this IMustPassRule<M, T, R> mpr, Type type)
         {
             return mpr.MustPassRule(new OfTypeRule<R>(type));
         }
-
-        #endregion
 
         public static M MustPassGenericRule<M, T, R>(this IMustPassRule<M, T, R> mpr, Func<R, bool> rule)
         {

@@ -27,15 +27,12 @@
 namespace WheelMUD.Data.DataTransferObjects
 {
     using System;
-    	
-	///<summary>
-	/// The Data Transfer Object (DTO) that corresponds to the
-	/// <%=Inflector.ToTitleCase(singularName).Replace(" ","")%> entity class. 
-	///</summary>
-	public struct <%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Dto
-	{
-		<%  foreach(ColumnSchema column in SourceTable.Columns) { %>
+
+    /// <summary>The Data Transfer Object (DTO) that corresponds to the <%=Inflector.ToTitleCase(singularName).Replace(" ","")%> entity class.</summary>
+    public struct <%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Dto
+    {
+        <%  foreach(ColumnSchema column in SourceTable.Columns) { %>
         public <%=CSharpAlias[column.SystemType.FullName] %> <%=column.Name %> { get; set; }
         <% } %>
-	}
+    }
 }

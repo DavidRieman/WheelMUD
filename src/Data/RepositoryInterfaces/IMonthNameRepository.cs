@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the MonthName entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the MonthName entity.</summary>
     public interface IMonthNameRepository
-    {        
+    {
         void Add(MonthNameRecord monthname);
         void Update(MonthNameRecord monthname);
         void Remove(MonthNameRecord monthname);
-        MonthNameRecord GetById(long monthnameId);		
+        MonthNameRecord GetById(long monthnameId);
         MonthNameRecord GetByName(string name);
         ICollection<MonthNameRecord> FetchAll();
     }

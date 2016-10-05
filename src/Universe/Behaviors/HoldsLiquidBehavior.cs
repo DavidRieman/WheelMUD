@@ -14,7 +14,7 @@ namespace WheelMUD.Universe
     using WheelMUD.Core;
     using WheelMUD.Interfaces;
 
-    /// <summary>OpensClosesBehavior addes the ability to open and close a thing.</summary>
+    /// <summary>OpensClosesBehavior adds the ability to open and close a thing.</summary>
     public class HoldsLiquidBehavior : Behavior
     {
         /// <summary>Initializes a new instance of the HoldsLiquidBehavior class.</summary>

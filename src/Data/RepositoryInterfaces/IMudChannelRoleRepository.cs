@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the MudChannelRole entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the MudChannelRole entity.</summary>
     public interface IMudChannelRoleRepository
-    {        
+    {
         void Add(MudChannelRoleRecord mudchannelrole);
         void Update(MudChannelRoleRecord mudchannelrole);
         void Remove(MudChannelRoleRecord mudchannelrole);
-        MudChannelRoleRecord GetById(long mudchannelroleId);		
+        MudChannelRoleRecord GetById(long mudchannelroleId);
         MudChannelRoleRecord GetByName(string name);
         ICollection<MudChannelRoleRecord> FetchAll();
     }

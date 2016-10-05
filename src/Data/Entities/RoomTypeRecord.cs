@@ -11,20 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-	using System;
-
     using ServiceStack.DataAnnotations;
-	
-    ///<summary>
-    /// Represents a single RoomType row in the RoomType table.
-    ///</summary>
+
+    /// <summary>Represents a single RoomType row in the RoomType table.</summary>
     [Alias("RoomTypes")]
-	public partial class RoomTypeRecord 
-	{
+    public partial class RoomTypeRecord
+    {
         [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string Name { get; set; }
         public virtual string Description { get; set; }
-	}
+    }
 }
-

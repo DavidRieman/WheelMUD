@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the DoorSide entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the DoorSide entity.summary>
     public interface IDoorSideRepository
-    {        
+    {
         void Add(DoorSideRecord doorside);
         void Update(DoorSideRecord doorside);
         void Remove(DoorSideRecord doorside);
-        DoorSideRecord GetById(long doorsideId);		
+        DoorSideRecord GetById(long doorsideId);
         DoorSideRecord GetByName(string name);
         ICollection<DoorSideRecord> FetchAll();
     }

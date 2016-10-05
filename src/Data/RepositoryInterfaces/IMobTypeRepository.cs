@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the MobType entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the MobType entity.</summary>
     public interface IMobTypeRepository
-    {        
+    {
         void Add(MobTypeRecord mobtype);
         void Update(MobTypeRecord mobtype);
         void Remove(MobTypeRecord mobtype);
-        MobTypeRecord GetById(long mobtypeId);		
+        MobTypeRecord GetById(long mobtypeId);
         MobTypeRecord GetByName(string name);
         ICollection<MobTypeRecord> FetchAll();
     }

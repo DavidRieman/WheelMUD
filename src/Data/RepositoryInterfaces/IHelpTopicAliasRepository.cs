@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the HelpTopicAlias entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the HelpTopicAlias entity.</summary>
     public interface IHelpTopicAliasRepository
-    {        
+    {
         void Add(HelpTopicAliasRecord helptopicalias);
         void Update(HelpTopicAliasRecord helptopicalias);
         void Remove(HelpTopicAliasRecord helptopicalias);
-        HelpTopicAliasRecord GetById(long helptopicaliasId);		
+        HelpTopicAliasRecord GetById(long helptopicaliasId);
         HelpTopicAliasRecord GetByName(string name);
         ICollection<HelpTopicAliasRecord> FetchAll();
     }

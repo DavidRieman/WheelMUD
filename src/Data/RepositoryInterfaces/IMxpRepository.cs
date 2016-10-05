@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the Mxp entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the Mxp entity.</summary>
     public interface IMxpRepository
-    {        
+    {
         void Add(MxpRecord mxp);
         void Update(MxpRecord mxp);
         void Remove(MxpRecord mxp);
-        MxpRecord GetById(long mxpId);		
+        MxpRecord GetById(long mxpId);
         MxpRecord GetByName(string name);
         ICollection<MxpRecord> FetchAll();
     }

@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the BannedIPAddresses table.
-    ///</summary>
-    public partial class BannedIpAddressRepository : IBannedIpAddressRepository
-    {		
-        #region IBannedIpAddressRepository Members
 
+    /// <summary>Repository for the BannedIPAddresses table.</summary>
+    public partial class BannedIpAddressRepository : IBannedIpAddressRepository
+    {
         public void Add(BannedIpAddressRecord bannedipaddress)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(bannedipaddress);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(bannedipaddress);
+                transaction.Commit();
+            }
         }
 
         public void Update(BannedIpAddressRecord bannedipaddress)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(bannedipaddress);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(bannedipaddress);
+                transaction.Commit();
+            }
         }
 
         public void Remove(BannedIpAddressRecord bannedipaddress)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(bannedipaddress);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(bannedipaddress);
+                transaction.Commit();
+            }
         }
-        
+
         public BannedIpAddressRecord GetById(long bannedipaddressId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<BannedIpAddressRecord>("ID = {0}", bannedipaddressId);
-        }		
+        }
 
         public BannedIpAddressRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<BannedIpAddressRecord>();
             }
         }
-
-        #endregion
     }
 }

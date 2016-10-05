@@ -20,9 +20,9 @@ namespace WheelMUD.Rules
     /// <summary>A cached rule expression that consists of a pair of objects.</summary>
     public sealed class CachedExpressionObjectPair : IEquatable<CachedExpressionObjectPair>
     {
-        readonly CachedExpression privateCachedExpression;
-        readonly object privateValue;
-        readonly int hashCode;
+        private readonly CachedExpression privateCachedExpression;
+        private readonly object privateValue;
+        private readonly int hashCode;
 
         /// <summary>Gets the cached expression.</summary>
         public CachedExpression CachedExpression

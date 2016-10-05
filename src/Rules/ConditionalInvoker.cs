@@ -20,48 +20,49 @@ namespace WheelMUD.Rules
 
     public class ConditionalInvoker<T> : IRuleInvoker, IRegisterInvoker
     {
-        Func<T, bool> _condition;
-        RulesEngine _parent;
-        RulesEngine _innerTrue;
-        RulesEngine _innerFalse;
+        private Func<T, bool> condition;
+        private RulesEngine parent;
+        private RulesEngine innerTrue;
+        private RulesEngine innerFalse;
 
         public ConditionalInvoker(Expression<Func<T, bool>> conditionalExpression, RulesEngine parent)
         {
-            _condition = conditionalExpression.Compile();
-            _parent = parent;
-            _innerTrue = new RulesEngine();
-            _innerFalse = new RulesEngine();
+            condition = conditionalExpression.Compile();
+            this.parent = parent;
+            this.innerTrue = new RulesEngine();
+            this.innerFalse = new RulesEngine();
         }
 
         public void Invoke(object value, IValidationReport report, ValidationReportDepth depth)
         {
-            if (_condition.Invoke((T)value))
+            if (condition.Invoke((T)value))
             {
-                _innerTrue.Validate(value, report, depth);
+                innerTrue.Validate(value, report, depth);
             }
             else
             {
-                _innerFalse.Validate(value, report, depth);
+                innerFalse.Validate(value, report, depth);
             }
         }
 
         public void RegisterInvoker(IRuleInvoker ruleInvoker)
         {
-            _innerTrue.RegisterInvoker(ruleInvoker);
+            innerTrue.RegisterInvoker(ruleInvoker);
         }
 
         public RulesEngine RulesRulesEngine
         {
-            get { return _parent; }
+            get { return parent; }
         }
 
         public RulesEngine IfTrueRulesEngine
         {
-            get { return _innerTrue; }
+            get { return innerTrue; }
         }
+
         public RulesEngine IfFalseRulesEngine
         {
-            get { return _innerFalse; }
+            get { return innerFalse; }
         }
 
         public Type ParameterType

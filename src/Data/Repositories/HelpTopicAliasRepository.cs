@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the HelpTopicAliases table.
-    ///</summary>
-    public partial class HelpTopicAliasRepository : IHelpTopicAliasRepository
-    {		
-        #region IHelpTopicAliasRepository Members
 
+    /// <summary>Repository for the HelpTopicAliases table.</summary>
+    public partial class HelpTopicAliasRepository : IHelpTopicAliasRepository
+    {
         public void Add(HelpTopicAliasRecord helptopicalias)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(helptopicalias);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(helptopicalias);
+                transaction.Commit();
+            }
         }
 
         public void Update(HelpTopicAliasRecord helptopicalias)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(helptopicalias);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(helptopicalias);
+                transaction.Commit();
+            }
         }
 
         public void Remove(HelpTopicAliasRecord helptopicalias)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(helptopicalias);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(helptopicalias);
+                transaction.Commit();
+            }
         }
-        
+
         public HelpTopicAliasRecord GetById(long helptopicaliasId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<HelpTopicAliasRecord>("ID = {0}", helptopicaliasId);
-        }		
+        }
 
         public HelpTopicAliasRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<HelpTopicAliasRecord>();
             }
         }
-
-        #endregion
     }
 }

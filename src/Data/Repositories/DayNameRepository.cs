@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the DayNames table.
-    ///</summary>
-    public partial class DayNameRepository : IDayNameRepository
-    {		
-        #region IDayNameRepository Members
 
+    /// <summary>Repository for the DayNames table.</summary>
+    public partial class DayNameRepository : IDayNameRepository
+    {
         public void Add(DayNameRecord dayname)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(dayname);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(dayname);
+                transaction.Commit();
+            }
         }
 
         public void Update(DayNameRecord dayname)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(dayname);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(dayname);
+                transaction.Commit();
+            }
         }
 
         public void Remove(DayNameRecord dayname)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(dayname);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(dayname);
+                transaction.Commit();
+            }
         }
-        
+
         public DayNameRecord GetById(long daynameId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<DayNameRecord>("ID = {0}", daynameId);
-        }		
+        }
 
         public DayNameRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<DayNameRecord>();
             }
         }
-
-        #endregion
     }
 }

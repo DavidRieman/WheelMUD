@@ -26,6 +26,7 @@ namespace WheelMUD.Core.Attributes
         }
 
         public string Token { get; private set; }
+
         public string Description { get; private set; }
     }
 }

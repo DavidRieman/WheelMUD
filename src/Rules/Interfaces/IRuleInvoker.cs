@@ -20,7 +20,7 @@ namespace WheelMUD.Rules
     public interface IRuleInvoker
     {
         void Invoke(object value, IValidationReport report, ValidationReportDepth depth);
-        Type ParameterType { get; }
 
+        Type ParameterType { get; }
     }
 }

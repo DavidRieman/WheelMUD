@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the BannedIpAddress entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the BannedIpAddress entity.</summary>
     public interface IBannedIpAddressRepository
-    {        
+    {
         void Add(BannedIpAddressRecord bannedipaddress);
         void Update(BannedIpAddressRecord bannedipaddress);
         void Remove(BannedIpAddressRecord bannedipaddress);
-        BannedIpAddressRecord GetById(long bannedipaddressId);		
+        BannedIpAddressRecord GetById(long bannedipaddressId);
         BannedIpAddressRecord GetByName(string name);
         ICollection<BannedIpAddressRecord> FetchAll();
     }

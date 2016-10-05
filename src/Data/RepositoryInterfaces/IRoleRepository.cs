@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the Role entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the Role entity.</summary>
     public interface IRoleRepository
-    {        
+    {
         void Add(RoleRecord role);
         void Update(RoleRecord role);
         void Remove(RoleRecord role);
-        RoleRecord GetById(long roleId);		
+        RoleRecord GetById(long roleId);
         RoleRecord GetByName(string name);
         ICollection<RoleRecord> FetchAll();
     }

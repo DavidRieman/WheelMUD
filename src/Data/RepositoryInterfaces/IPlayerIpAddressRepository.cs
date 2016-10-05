@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the PlayerIpAddress entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the PlayerIpAddress entity.</summary>
     public interface IPlayerIpAddressRepository
-    {        
+    {
         void Add(PlayerIpAddressRecord playeripaddress);
         void Update(PlayerIpAddressRecord playeripaddress);
         void Remove(PlayerIpAddressRecord playeripaddress);
-        PlayerIpAddressRecord GetById(long playeripaddressId);		
+        PlayerIpAddressRecord GetById(long playeripaddressId);
         PlayerIpAddressRecord GetByName(string name);
         ICollection<PlayerIpAddressRecord> FetchAll();
     }

@@ -36,9 +36,7 @@ namespace WheelMUD.Tests.Behaviors
             this.playerThing = new Thing() { Name = "PlayerThing", ID = TestThingID.Generate("testthing") };
         }
 
-        /// <summary>
-        /// Test to make sure WRM behaviors are attaching properly.
-        ///</summary>
+        /// <summary>Test to make sure WRM behaviors are attaching properly.</summary>
         [TestMethod]
         [Test]
         public void AttachTalentsBehaviorToPlayerTest()

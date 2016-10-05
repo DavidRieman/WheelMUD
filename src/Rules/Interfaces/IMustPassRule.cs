@@ -21,9 +21,13 @@ namespace WheelMUD.Rules
     public interface IMustPassRule<M, T, R>
     {
         M MustPassRule(IRule<R> rule);
+
         M MustPassRule(IRule<T> rule);
+
         Expression<Func<T, R>> Expression { get; }
+
         M GetSelf();
+
         RulesEngine RulesRulesEngine { get; }
     }
 }

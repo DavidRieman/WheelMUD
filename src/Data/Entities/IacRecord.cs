@@ -11,16 +11,12 @@
 
 namespace WheelMUD.Data.Entities
 {
-	using System;
-
     using ServiceStack.DataAnnotations;
-	
-    ///<summary>
-    /// Represents a single IAC row in the IAC table.
-    ///</summary>
+
+    /// <summary>Represents a single IAC row in the IAC table.</summary>
     [Alias("IAC")]
-	public partial class IacRecord 
-	{
+    public partial class IacRecord
+    {
         [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string Name { get; set; }
@@ -29,6 +25,5 @@ namespace WheelMUD.Data.Entities
         public virtual bool RequiresSubNegotiation { get; set; }
         public virtual string SubNegAssembly { get; set; }
         public virtual string NegotiationStartValue { get; set; }
-	}
+    }
 }
-

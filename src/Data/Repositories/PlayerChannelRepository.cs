@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the PlayerChannels table.
-    ///</summary>
-    public partial class PlayerChannelRepository : IPlayerChannelRepository
-    {		
-        #region IPlayerChannelRepository Members
 
+    /// <summary>Repository for the PlayerChannels table.</summary>
+    public partial class PlayerChannelRepository : IPlayerChannelRepository
+    {
         public void Add(PlayerChannelRecord playerchannel)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(playerchannel);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(playerchannel);
+                transaction.Commit();
+            }
         }
 
         public void Update(PlayerChannelRecord playerchannel)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(playerchannel);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(playerchannel);
+                transaction.Commit();
+            }
         }
 
         public void Remove(PlayerChannelRecord playerchannel)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(playerchannel);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(playerchannel);
+                transaction.Commit();
+            }
         }
-        
+
         public PlayerChannelRecord GetById(long playerchannelId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<PlayerChannelRecord>("ID = {0}", playerchannelId);
-        }		
+        }
 
         public PlayerChannelRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<PlayerChannelRecord>();
             }
         }
-
-        #endregion
     }
 }

@@ -11,16 +11,13 @@
 
 namespace WheelMUD.Data.Entities
 {
-	using System;
-
+    using System;
     using ServiceStack.DataAnnotations;
-	
-    ///<summary>
-    /// Represents a single Mob row in the Mob table.
-    ///</summary>
+
+    /// <summary>Represents a single Mob row in the Mob table.</summary>
     [Alias("Mobs")]
-	public partial class MobRecord 
-	{
+    public partial class MobRecord
+    {
         [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual int MobTypeID { get; set; }
@@ -31,6 +28,5 @@ namespace WheelMUD.Data.Entities
         public virtual int CurrentRoomID { get; set; }
         public virtual string Prompt { get; set; }
         public virtual DateTime CreateDate { get; set; }
-	}
+    }
 }
-

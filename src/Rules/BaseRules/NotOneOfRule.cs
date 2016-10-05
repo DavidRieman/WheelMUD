@@ -21,8 +21,8 @@ namespace WheelMUD.Rules
 
     public class NotOneOfRule<R> : IRule<R>
     {
-        IEnumerable<R> values;
-        IEqualityComparer<R> comparer;
+        private IEnumerable<R> values;
+        private IEqualityComparer<R> comparer;
 
         public NotOneOfRule(IEnumerable<R> values) : this(values, EqualityComparer<R>.Default)
         {

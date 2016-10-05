@@ -13,7 +13,7 @@ namespace WheelMUD.Universe
     using System.Collections.Generic;
     using WheelMUD.Core;
 
-    /// <summary>FlammableBehavior addes the ability to an object to be treated as furniture.</summary>
+    /// <summary>FlammableBehavior adds the ability to an object to be treated as furniture.</summary>
     /// <remarks>
     /// @@@ TODO: Revisit this behavior... perhaps "furniture" is not a great scope for behavior here; perhaps we could have
     /// distinct behaviors for things like being able to sit and/or sleep on a thing, add an ObscuresExitBehavior, etc...

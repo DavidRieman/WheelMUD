@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the MudChannelRoles table.
-    ///</summary>
-    public partial class MudChannelRoleRepository : IMudChannelRoleRepository
-    {		
-        #region IMudChannelRoleRepository Members
 
+    /// <summary>Repository for the MudChannelRoles table.</summary>
+    public partial class MudChannelRoleRepository : IMudChannelRoleRepository
+    {
         public void Add(MudChannelRoleRecord mudchannelrole)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(mudchannelrole);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(mudchannelrole);
+                transaction.Commit();
+            }
         }
 
         public void Update(MudChannelRoleRecord mudchannelrole)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(mudchannelrole);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(mudchannelrole);
+                transaction.Commit();
+            }
         }
 
         public void Remove(MudChannelRoleRecord mudchannelrole)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(mudchannelrole);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(mudchannelrole);
+                transaction.Commit();
+            }
         }
-        
+
         public MudChannelRoleRecord GetById(long mudchannelroleId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<MudChannelRoleRecord>("ID = {0}", mudchannelroleId);
-        }		
+        }
 
         public MudChannelRoleRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<MudChannelRoleRecord>();
             }
         }
-
-        #endregion
     }
 }

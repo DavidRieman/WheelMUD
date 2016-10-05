@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the Rooms table.
-    ///</summary>
-    public partial class RoomRepository : IRoomRepository
-    {		
-        #region IRoomRepository Members
 
+    /// <summary>Repository for the Rooms table.</summary>
+    public partial class RoomRepository : IRoomRepository
+    {
         public void Add(RoomRecord room)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(room);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(room);
+                transaction.Commit();
+            }
         }
 
         public void Update(RoomRecord room)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(room);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(room);
+                transaction.Commit();
+            }
         }
 
         public void Remove(RoomRecord room)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(room);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(room);
+                transaction.Commit();
+            }
         }
-        
+
         public RoomRecord GetById(long roomId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<RoomRecord>("ID = {0}", roomId);
-        }		
+        }
 
         public RoomRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<RoomRecord>();
             }
         }
-
-        #endregion
     }
 }

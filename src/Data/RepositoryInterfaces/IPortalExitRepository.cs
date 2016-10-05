@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the PortalExit entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the PortalExit entity.</summary>
     public interface IPortalExitRepository
-    {        
+    {
         void Add(PortalExitRecord portalexit);
         void Update(PortalExitRecord portalexit);
         void Remove(PortalExitRecord portalexit);
-        PortalExitRecord GetById(long portalexitId);		
+        PortalExitRecord GetById(long portalexitId);
         PortalExitRecord GetByName(string name);
         ICollection<PortalExitRecord> FetchAll();
     }

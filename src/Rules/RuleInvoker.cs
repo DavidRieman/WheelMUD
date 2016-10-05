@@ -20,30 +20,15 @@ namespace WheelMUD.Rules
 
     public class RuleInvoker<T, R> : IRuleInvoker
     {
-        IRule<R> _rule;
-        CachedExpression _expressionToBlame;
-        Func<T, R> _compiledExpression;
+        private IRule<R> rule;
+        private CachedExpression expressionToBlame;
+        private Func<T, R> compiledExpression;
 
         public RuleInvoker(IRule<R> rule, Expression<Func<T, R>> expressionToInvoke, CachedExpression expressionToBlame)
         {
-            _rule = rule;
-            _compiledExpression = expressionToInvoke.Compile();
-            _expressionToBlame = expressionToBlame;
-        }
-
-        public void Invoke(object value, IValidationReport report, ValidationReportDepth depth)
-        {
-            //If validating an Expression that has already failed a rule, then skip.
-            if (depth == ValidationReportDepth.FieldShortCircuit && report.HasError(_expressionToBlame, value))
-            {
-                return;
-            }
-
-            var result = _rule.Validate(_compiledExpression.Invoke((T)value));
-            if (!result.IsValid)
-            {
-                report.AddError(new ValidationError(_rule, _expressionToBlame, result.Arguments, value));
-            }
+            this.rule = rule;
+            this.compiledExpression = expressionToInvoke.Compile();
+            this.expressionToBlame = expressionToBlame;
         }
 
         public Type ParameterType
@@ -51,5 +36,19 @@ namespace WheelMUD.Rules
             get { return typeof(T); }
         }
 
+        public void Invoke(object value, IValidationReport report, ValidationReportDepth depth)
+        {
+            // If validating an Expression that has already failed a rule, then skip.
+            if (depth == ValidationReportDepth.FieldShortCircuit && report.HasError(expressionToBlame, value))
+            {
+                return;
+            }
+
+            var result = rule.Validate(compiledExpression.Invoke((T)value));
+            if (!result.IsValid)
+            {
+                report.AddError(new ValidationError(rule, expressionToBlame, result.Arguments, value));
+            }
+        }
     }
 }

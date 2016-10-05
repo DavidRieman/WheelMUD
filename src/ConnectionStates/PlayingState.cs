@@ -25,12 +25,12 @@ namespace WheelMUD.ConnectionStates
             : base(session)
         {
             // JFED -- Temporary workaround - null exceptions
-            if(session.Thing != null)
+            if (session.Thing != null)
             {
                 var behavior = session.Thing.Behaviors.FindFirst<PlayerBehavior>();
-                this.playerBehavior = new WeakReference<PlayerBehavior>(behavior);    
+                this.playerBehavior = new WeakReference<PlayerBehavior>(behavior);
             }
-            
+
             string nl = Environment.NewLine;
             session.Write(string.Format("{0}Welcome, {1}.{0}{0}", nl, this.Session.UserName), false);
         }
@@ -61,6 +61,7 @@ namespace WheelMUD.ConnectionStates
                 {
                     return playerBehavior.BuildPrompt();
                 }
+
                 return "> ";
             }
             catch (Exception)

@@ -19,32 +19,33 @@ namespace WheelMUD.Rules
 
     public class DefaultErrorResolver : IErrorResolver
     {
-        Dictionary<string, string> _formats = new Dictionary<string, string>();
+        private Dictionary<string, string> formats = new Dictionary<string, string>();
+
         public DefaultErrorResolver()
         {
-            _formats["LessThanRule"] = "Must be less than {0}.";
-            _formats["LessThanOrEqualToRule"] = "Must be less than or equal to {0}.";
-            _formats["BetweenRule"] = "Must be between {0} and {1}.";
-            _formats["EqualRule"] = "Must equal {0}.";
-            _formats["GenericRule"] = "Generic rule failed.";
-            _formats["GreaterThanRule"] = "Must be greater than {0}.";
-            _formats["GreaterThanOrEqualToRule"] = "Must be greater than or equal to {0}.";
-            _formats["NoLeadingWhitespaceRule"] = "Must not start with whitespace";
-            _formats["NotEqualRule"] = "Must not equal {0}.";
-            _formats["NotNullRule"] = "Must not be null.";
-            _formats["NotOneOfRule"] = "Listed as invalid.";
-            _formats["NullRule"] = "Must be null.";
-            _formats["OfTypeRule"] = "Must be of type '{0}'.";
-            _formats["OneOfRule"] = "Must be listed as valid.";
-            _formats["RegexRule"] = "Failed regex validation '{0}'.";
-            _formats["NotNullOrEmpty"] = "Must not be null or empty.";
+            this.formats["LessThanRule"] = "Must be less than {0}.";
+            this.formats["LessThanOrEqualToRule"] = "Must be less than or equal to {0}.";
+            this.formats["BetweenRule"] = "Must be between {0} and {1}.";
+            this.formats["EqualRule"] = "Must equal {0}.";
+            this.formats["GenericRule"] = "Generic rule failed.";
+            this.formats["GreaterThanRule"] = "Must be greater than {0}.";
+            this.formats["GreaterThanOrEqualToRule"] = "Must be greater than or equal to {0}.";
+            this.formats["NoLeadingWhitespaceRule"] = "Must not start with whitespace";
+            this.formats["NotEqualRule"] = "Must not equal {0}.";
+            this.formats["NotNullRule"] = "Must not be null.";
+            this.formats["NotOneOfRule"] = "Listed as invalid.";
+            this.formats["NullRule"] = "Must be null.";
+            this.formats["OfTypeRule"] = "Must be of type '{0}'.";
+            this.formats["OneOfRule"] = "Must be listed as valid.";
+            this.formats["RegexRule"] = "Failed regex validation '{0}'.";
+            this.formats["NotNullOrEmpty"] = "Must not be null or empty.";
         }
 
         public string GetErrorMessage(ValidationError validationError)
         {
             string format;
 
-            if (_formats.TryGetValue(validationError.Rule.RuleKind, out format))
+            if (formats.TryGetValue(validationError.Rule.RuleKind, out format))
             {
                 return string.Format(format, validationError.ValidationArguments);
             }
@@ -54,7 +55,7 @@ namespace WheelMUD.Rules
 
         public void SetFormat(string ruleKind, string format)
         {
-            _formats[ruleKind] = format;
+            formats[ruleKind] = format;
         }
     }
 }

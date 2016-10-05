@@ -25,17 +25,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
+    using System.Collections.Generic;
     
-    ///<summary>
-    /// Repository interface for the <%=Inflector.ToTitleCase(singularName).Replace(" ","")%> entity.
-    ///</summary>
+    /// <summary>Repository interface for the <%=Inflector.ToTitleCase(singularName).Replace(" ","")%> entity.</summary>
     public interface I<%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Repository
     {        
         void Add(<%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Record <%=singularLowerName%>);
         void Update(<%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Record <%=singularLowerName%>);
         void Remove(<%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Record <%=singularLowerName%>);
-        <%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Record GetById(long <%=singularLowerName%>Id);		
+        <%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Record GetById(long <%=singularLowerName%>Id);
         <%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Record GetByName(string name);
         ICollection<<%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Record> FetchAll();
     }

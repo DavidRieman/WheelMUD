@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the Exits table.
-    ///</summary>
-    public partial class ExitRepository : IExitRepository
-    {		
-        #region IExitRepository Members
 
+    /// <summary>Repository for the Exits table.</summary>
+    public partial class ExitRepository : IExitRepository
+    {
         public void Add(ExitRecord exit)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(exit);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(exit);
+                transaction.Commit();
+            }
         }
 
         public void Update(ExitRecord exit)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(exit);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(exit);
+                transaction.Commit();
+            }
         }
 
         public void Remove(ExitRecord exit)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(exit);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(exit);
+                transaction.Commit();
+            }
         }
-        
+
         public ExitRecord GetById(long exitId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<ExitRecord>("ID = {0}", exitId);
-        }		
+        }
 
         public ExitRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<ExitRecord>();
             }
         }
-
-        #endregion
     }
 }

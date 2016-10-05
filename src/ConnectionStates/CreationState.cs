@@ -52,9 +52,7 @@ namespace WheelMUD.ConnectionStates
         }
 
         /// <summary>Called upon the completion of character creation.</summary>
-        /// <param name="newCharacter">
-        /// The new Character.
-        /// </param>
+        /// <param name="newCharacter">The new Character.</param>
         private void SubState_CharacterCreationCompleted(Thing newCharacter)
         {
             // Attach the new character to the current session.

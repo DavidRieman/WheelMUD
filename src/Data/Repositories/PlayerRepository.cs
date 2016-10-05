@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the Players table.
-    ///</summary>
-    public partial class PlayerRepository : IPlayerRepository
-    {		
-        #region IPlayerRepository Members
 
+    /// <summary>Repository for the Players table.</summary>
+    public partial class PlayerRepository : IPlayerRepository
+    {
         public void Add(PlayerRecord player)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(player);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(player);
+                transaction.Commit();
+            }
         }
 
         public void Update(PlayerRecord player)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(player);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(player);
+                transaction.Commit();
+            }
         }
 
         public void Remove(PlayerRecord player)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(player);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(player);
+                transaction.Commit();
+            }
         }
-        
+
         public PlayerRecord GetById(long playerId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<PlayerRecord>("ID = {0}", playerId);
-        }		
+        }
 
         public PlayerRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<PlayerRecord>();
             }
         }
-
-        #endregion
     }
 }

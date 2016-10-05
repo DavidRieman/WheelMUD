@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the PortalExits table.
-    ///</summary>
-    public partial class PortalExitRepository : IPortalExitRepository
-    {		
-        #region IPortalExitRepository Members
 
+    /// <summary>Repository for the PortalExits table.</summary>
+    public partial class PortalExitRepository : IPortalExitRepository
+    {
         public void Add(PortalExitRecord portalexit)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(portalexit);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(portalexit);
+                transaction.Commit();
+            }
         }
 
         public void Update(PortalExitRecord portalexit)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(portalexit);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(portalexit);
+                transaction.Commit();
+            }
         }
 
         public void Remove(PortalExitRecord portalexit)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(portalexit);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(portalexit);
+                transaction.Commit();
+            }
         }
-        
+
         public PortalExitRecord GetById(long portalexitId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<PortalExitRecord>("ID = {0}", portalexitId);
-        }		
+        }
 
         public PortalExitRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<PortalExitRecord>();
             }
         }
-
-        #endregion
     }
 }

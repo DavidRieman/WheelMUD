@@ -11,19 +11,14 @@
 
 namespace WheelMUD.Data.Entities
 {
-	using System;
-
     using ServiceStack.DataAnnotations;
-	
-    ///<summary>
-    /// Represents a single MobType row in the MobType table.
-    ///</summary>
+
+    /// <summary>Represents a single MobType row in the MobType table.</summary>
     [Alias("MobTypes")]
-	public partial class MobTypeRecord 
-	{
+    public partial class MobTypeRecord
+    {
         [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string MobTypeName { get; set; }
-	}
+    }
 }
-

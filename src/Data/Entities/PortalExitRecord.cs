@@ -11,21 +11,16 @@
 
 namespace WheelMUD.Data.Entities
 {
-	using System;
-
     using ServiceStack.DataAnnotations;
-	
-    ///<summary>
-    /// Represents a single PortalExit row in the PortalExit table.
-    ///</summary>
+
+    /// <summary>Represents a single PortalExit row in the PortalExit table.</summary>
     [Alias("PortalExits")]
-	public partial class PortalExitRecord 
-	{
+    public partial class PortalExitRecord
+    {
         [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual long PortalID { get; set; }
         public virtual long RoomAID { get; set; }
         public virtual long RoomBID { get; set; }
-	}
+    }
 }
-

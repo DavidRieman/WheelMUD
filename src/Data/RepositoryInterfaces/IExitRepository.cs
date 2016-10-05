@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the Exit entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the Exit entity.</summary>
     public interface IExitRepository
-    {        
+    {
         void Add(ExitRecord exit);
         void Update(ExitRecord exit);
         void Remove(ExitRecord exit);
-        ExitRecord GetById(long exitId);		
+        ExitRecord GetById(long exitId);
         ExitRecord GetByName(string name);
         ICollection<ExitRecord> FetchAll();
     }

@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the Doors table.
-    ///</summary>
-    public partial class DoorRepository : IDoorRepository
-    {		
-        #region IDoorRepository Members
 
+    /// <summary>Repository for the Doors table.</summary>
+    public partial class DoorRepository : IDoorRepository
+    {
         public void Add(DoorRecord door)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(door);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(door);
+                transaction.Commit();
+            }
         }
 
         public void Update(DoorRecord door)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(door);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(door);
+                transaction.Commit();
+            }
         }
 
         public void Remove(DoorRecord door)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(door);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(door);
+                transaction.Commit();
+            }
         }
-        
+
         public DoorRecord GetById(long doorId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<DoorRecord>("ID = {0}", doorId);
-        }		
+        }
 
         public DoorRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<DoorRecord>();
             }
         }
-
-        #endregion
     }
 }

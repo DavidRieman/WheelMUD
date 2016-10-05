@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the RoomVisuals table.
-    ///</summary>
-    public partial class RoomVisualRepository : IRoomVisualRepository
-    {		
-        #region IRoomVisualRepository Members
 
+    /// <summary>Repository for the RoomVisuals table.</summary>
+    public partial class RoomVisualRepository : IRoomVisualRepository
+    {
         public void Add(RoomVisualRecord roomvisual)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(roomvisual);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(roomvisual);
+                transaction.Commit();
+            }
         }
 
         public void Update(RoomVisualRecord roomvisual)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(roomvisual);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(roomvisual);
+                transaction.Commit();
+            }
         }
 
         public void Remove(RoomVisualRecord roomvisual)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(roomvisual);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(roomvisual);
+                transaction.Commit();
+            }
         }
-        
+
         public RoomVisualRecord GetById(long roomvisualId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<RoomVisualRecord>("ID = {0}", roomvisualId);
-        }		
+        }
 
         public RoomVisualRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<RoomVisualRecord>();
             }
         }
-
-        #endregion
     }
 }

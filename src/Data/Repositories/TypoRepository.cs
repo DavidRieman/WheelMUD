@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the Typos table.
-    ///</summary>
-    public partial class TypoRepository : ITypoRepository
-    {		
-        #region ITypoRepository Members
 
+    /// <summary>Repository for the Typos table.</summary>
+    public partial class TypoRepository : ITypoRepository
+    {
         public void Add(TypoRecord typo)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(typo);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(typo);
+                transaction.Commit();
+            }
         }
 
         public void Update(TypoRecord typo)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(typo);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(typo);
+                transaction.Commit();
+            }
         }
 
         public void Remove(TypoRecord typo)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(typo);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(typo);
+                transaction.Commit();
+            }
         }
-        
+
         public TypoRecord GetById(long typoId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<TypoRecord>("ID = {0}", typoId);
-        }		
+        }
 
         public TypoRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<TypoRecord>();
             }
         }
-
-        #endregion
     }
 }

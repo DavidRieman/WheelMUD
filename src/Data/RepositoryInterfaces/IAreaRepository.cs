@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the Area entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the Area entity.</summary>
     public interface IAreaRepository
-    {        
+    {
         void Add(AreaRecord area);
         void Update(AreaRecord area);
         void Remove(AreaRecord area);
-        AreaRecord GetById(long areaId);		
+        AreaRecord GetById(long areaId);
         AreaRecord GetByName(string name);
         ICollection<AreaRecord> FetchAll();
     }

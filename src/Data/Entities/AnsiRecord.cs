@@ -11,20 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-	using System;
-
     using ServiceStack.DataAnnotations;
-	
-    ///<summary>
-    /// Represents a single ANSI row in the ANSI table.
-    ///</summary>
+
+    /// <summary>Represents a single ANSI row in the ANSI table.</summary>
     [Alias("ANSI")]
-	public partial class AnsiRecord 
-	{
+    public partial class AnsiRecord
+    {
         [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string EscapeCode { get; set; }
         public virtual string Tag { get; set; }
-	}
+    }
 }
-

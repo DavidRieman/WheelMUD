@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the ANSI table.
-    ///</summary>
-    public partial class AnsiRepository : IAnsiRepository
-    {		
-        #region IAnsiRepository Members
 
+    /// <summary>Repository for the ANSI table.</summary>
+    public partial class AnsiRepository : IAnsiRepository
+    {
         public void Add(AnsiRecord ansi)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(ansi);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(ansi);
+                transaction.Commit();
+            }
         }
 
         public void Update(AnsiRecord ansi)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(ansi);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(ansi);
+                transaction.Commit();
+            }
         }
 
         public void Remove(AnsiRecord ansi)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(ansi);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(ansi);
+                transaction.Commit();
+            }
         }
-        
+
         public AnsiRecord GetById(long ansiId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<AnsiRecord>("ID = {0}", ansiId);
-        }		
+        }
 
         public AnsiRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<AnsiRecord>();
             }
         }
-
-        #endregion
     }
 }

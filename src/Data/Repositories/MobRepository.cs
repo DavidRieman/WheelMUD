@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the Mobs table.
-    ///</summary>
-    public partial class MobRepository : IMobRepository
-    {		
-        #region IMobRepository Members
 
+    /// <summary>Repository for the Mobs table.</summary>
+    public partial class MobRepository : IMobRepository
+    {
         public void Add(MobRecord mob)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(mob);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(mob);
+                transaction.Commit();
+            }
         }
 
         public void Update(MobRecord mob)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(mob);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(mob);
+                transaction.Commit();
+            }
         }
 
         public void Remove(MobRecord mob)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(mob);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(mob);
+                transaction.Commit();
+            }
         }
-        
+
         public MobRecord GetById(long mobId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<MobRecord>("ID = {0}", mobId);
-        }		
+        }
 
         public MobRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<MobRecord>();
             }
         }
-
-        #endregion
     }
 }

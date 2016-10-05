@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the PlayerRole entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the PlayerRole entity.</summary>
     public interface IPlayerRoleRepository
-    {        
+    {
         void Add(PlayerRoleRecord playerrole);
         void Update(PlayerRoleRecord playerrole);
         void Remove(PlayerRoleRecord playerrole);
-        PlayerRoleRecord GetById(long playerroleId);		
+        PlayerRoleRecord GetById(long playerroleId);
         PlayerRoleRecord GetByName(string name);
         ICollection<PlayerRoleRecord> FetchAll();
     }

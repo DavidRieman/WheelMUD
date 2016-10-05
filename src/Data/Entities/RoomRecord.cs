@@ -11,16 +11,12 @@
 
 namespace WheelMUD.Data.Entities
 {
-	using System;
-
     using ServiceStack.DataAnnotations;
-	
-    ///<summary>
-    /// Represents a single Room row in the Room table.
-    ///</summary>
+
+    /// <summary>Represents a single Room row in the Room table.</summary>
     [Alias("Rooms")]
-	public partial class RoomRecord 
-	{
+    public partial class RoomRecord
+    {
         [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string UID { get; set; }
@@ -28,6 +24,5 @@ namespace WheelMUD.Data.Entities
         public virtual string Name { get; set; }
         public virtual string Description { get; set; }
         public virtual long RoomTypeID { get; set; }
-	}
+    }
 }
-

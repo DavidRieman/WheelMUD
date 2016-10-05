@@ -11,16 +11,12 @@
 
 namespace WheelMUD.Data.Entities
 {
-	using System;
-
     using ServiceStack.DataAnnotations;
-	
-    ///<summary>
-    /// Represents a single Player row in the Player table.
-    ///</summary>
+
+    /// <summary>Represents a single Player row in the Player table.</summary>
     [Alias("Players")]
-	public partial class PlayerRecord 
-	{
+    public partial class PlayerRecord
+    {
         [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string UserName { get; set; }
@@ -43,6 +39,5 @@ namespace WheelMUD.Data.Entities
         public virtual string HomePage { get; set; }
         public virtual string PlanText { get; set; }
         public virtual int BufferLength { get; set; }
-	}
+    }
 }
-

@@ -11,20 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-	using System;
-
     using ServiceStack.DataAnnotations;
-	
-    ///<summary>
-    /// Represents a single PlayerIPAddress row in the PlayerIPAddress table.
-    ///</summary>
+
+    /// <summary>Represents a single PlayerIPAddress row in the PlayerIPAddress table.</summary>
     [Alias("PlayerIPAddress")]
-	public partial class PlayerIpAddressRecord 
-	{
+    public partial class PlayerIpAddressRecord
+    {
         [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual long PlayerID { get; set; }
         public virtual string IPAddress { get; set; }
-	}
+    }
 }
-

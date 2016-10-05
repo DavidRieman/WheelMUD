@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the Typo entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the Typo entity.</summary>
     public interface ITypoRepository
-    {        
+    {
         void Add(TypoRecord typo);
         void Update(TypoRecord typo);
         void Remove(TypoRecord typo);
-        TypoRecord GetById(long typoId);		
+        TypoRecord GetById(long typoId);
         TypoRecord GetByName(string name);
         ICollection<TypoRecord> FetchAll();
     }

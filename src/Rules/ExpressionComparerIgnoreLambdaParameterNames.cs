@@ -39,8 +39,8 @@ namespace WheelMUD.Rules
             }
             else
             {
-                //The Type of the parameter is irrelevant here. The CompareLambda has already ensured parameter types.
-                //Only make sure that the parameters are found at identical positions in their respective lists.
+                // The Type of the parameter is irrelevant here. The CompareLambda has already ensured parameter types.
+                // Only make sure that the parameters are found at identical positions in their respective lists.
                 return index1 == index2;
             }
         }
@@ -50,7 +50,7 @@ namespace WheelMUD.Rules
             if (AreBothNull(node1, node2)) return true;
             if (AreEitherNull(node1, node2)) return false;
 
-            //Those parameters will be checked later on to make sure both expressions are equivalent.
+            // Those parameters will be checked later on to make sure both expressions are equivalent.
             GetCompareState(state, 0).AddRange(node1.Parameters);
             GetCompareState(state, 1).AddRange(node2.Parameters);
 
@@ -73,17 +73,13 @@ namespace WheelMUD.Rules
             var index = GetHashCodeState(state).IndexOf(node);
             if (index == -1)
             {
-                //Name is relevant...
+                // Name is relevant...
                 return base.GetHashCode(node, state);
             }
             else
             {
-                //Index of the parameter is relevant...
-                return CombineHash(
-                    GetHashCode(node.Type, state)
-                    , node.IsByRef.GetHashCode()
-                    , index
-                    );
+                // Index of the parameter is relevant...
+                return CombineHash(GetHashCode(node.Type, state), node.IsByRef.GetHashCode(), index);
             }
         }
 
@@ -92,12 +88,9 @@ namespace WheelMUD.Rules
             return (List<ParameterExpression>)state;
         }
 
-
         private List<ParameterExpression> GetCompareState(object state, int index)
         {
             return ((List<ParameterExpression>[])state)[index];
         }
-
-
     }
 }

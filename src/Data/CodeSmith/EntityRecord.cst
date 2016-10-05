@@ -32,20 +32,17 @@ string singularName = Inflector.MakeSingular(SourceTable.Name);
 
 namespace WheelMUD.Data.Entities
 {
-	using System;
-
+    using System;
     using ServiceStack.DataAnnotations;
-	
-    ///<summary>
-    /// Represents a single <%=singularName%> row in the <%=singularName%> table.
-    ///</summary>
+
+    /// <summary>Represents a single <%=singularName%> row in the <%=singularName%> table.</summary>
     [Alias("<%=SourceTable.Name%>")]
-	public partial class <%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Record 
-	{
-		<%  foreach(ColumnSchema column in SourceTable.Columns) { %>
+    public partial class <%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Record 
+    {
+        <%  foreach(ColumnSchema column in SourceTable.Columns) { %>
         <%=CreatePropertyLine(column)%>
-        <% } %>			
-	}
+        <% } %>
+    }
 }
 
 <script runat="template">

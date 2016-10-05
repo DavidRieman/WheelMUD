@@ -20,7 +20,7 @@
       <![CDATA[
             [Function("filenamefromdate")]
         public static string Test()
-        {            	
+        {
           string strResult;
 
               strResult = Microsoft.VisualBasic.Strings.Format(DateTime.Now, "yyyyMMddHHmmss");
@@ -88,8 +88,8 @@
     </zip>
 
     <!--<echo message="Moving zip file to distribution storage..." />
-	
-	<sleep seconds="10" />
+
+    <sleep seconds="10" />
     
     <move todir="${deploy.folder}">
       <fileset>

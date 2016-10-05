@@ -21,23 +21,25 @@ namespace WheelMUD.Rules
 
     public class EnumerableCompositionInvoker<T, R> : IRuleInvoker where R : IEnumerable
     {
-        Func<T, R> _compiledExpression;
-        CachedExpression _enumerableCompositionExpression;
-        RulesEngine rulesRulesEngine;
+        private Func<T, R> compiledExpression;
+        private CachedExpression enumerableCompositionExpression;
+        private RulesEngine rulesRulesEngine;
+
         public EnumerableCompositionInvoker(RulesEngine rulesRulesEngine, Expression<Func<T, R>> enumerableCompositionExpression)
         {
             this.rulesRulesEngine = rulesRulesEngine;
-            _compiledExpression = enumerableCompositionExpression.Compile();
-            _enumerableCompositionExpression = rulesRulesEngine.ExpressionCache.Get(enumerableCompositionExpression);
+            compiledExpression = enumerableCompositionExpression.Compile();
+            this.enumerableCompositionExpression = rulesRulesEngine.ExpressionCache.Get(enumerableCompositionExpression);
         }
+
         public void Invoke(object value, IValidationReport report, ValidationReportDepth depth)
         {
-            if (depth == ValidationReportDepth.FieldShortCircuit && report.HasError(_enumerableCompositionExpression, value))
+            if (depth == ValidationReportDepth.FieldShortCircuit && report.HasError(enumerableCompositionExpression, value))
             {
                 return;
             }
 
-            IEnumerable enumerableToValidate = _compiledExpression.Invoke((T)value);
+            IEnumerable enumerableToValidate = compiledExpression.Invoke((T)value);
             if (enumerableToValidate != null)
             {
                 foreach (object objToValidate in enumerableToValidate)
@@ -55,6 +57,5 @@ namespace WheelMUD.Rules
         {
             get { return typeof(T); }
         }
-
     }
 }

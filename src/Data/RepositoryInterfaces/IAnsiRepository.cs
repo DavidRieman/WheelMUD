@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the Ansi entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the Ansi entity.</summary>
     public interface IAnsiRepository
-    {        
+    {
         void Add(AnsiRecord ansi);
         void Update(AnsiRecord ansi);
         void Remove(AnsiRecord ansi);
-        AnsiRecord GetById(long ansiId);		
+        AnsiRecord GetById(long ansiId);
         AnsiRecord GetByName(string name);
         ICollection<AnsiRecord> FetchAll();
     }

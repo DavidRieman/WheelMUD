@@ -11,17 +11,15 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using System.Collections.Generic;	
-    
-    ///<summary>
-    /// Repository interface for the DayName entity.
-    ///</summary>
+    using System.Collections.Generic;
+
+    /// <summary>Repository interface for the DayName entity.</summary>
     public interface IDayNameRepository
-    {        
+    {
         void Add(DayNameRecord dayname);
         void Update(DayNameRecord dayname);
         void Remove(DayNameRecord dayname);
-        DayNameRecord GetById(long daynameId);		
+        DayNameRecord GetById(long daynameId);
         DayNameRecord GetByName(string name);
         ICollection<DayNameRecord> FetchAll();
     }

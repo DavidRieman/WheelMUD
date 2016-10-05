@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the MXP table.
-    ///</summary>
-    public partial class MxpRepository : IMxpRepository
-    {		
-        #region IMxpRepository Members
 
+    /// <summary>Repository for the MXP table.</summary>
+    public partial class MxpRepository : IMxpRepository
+    {
         public void Add(MxpRecord mxp)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(mxp);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(mxp);
+                transaction.Commit();
+            }
         }
 
         public void Update(MxpRecord mxp)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(mxp);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(mxp);
+                transaction.Commit();
+            }
         }
 
         public void Remove(MxpRecord mxp)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(mxp);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(mxp);
+                transaction.Commit();
+            }
         }
-        
+
         public MxpRecord GetById(long mxpId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<MxpRecord>("ID = {0}", mxpId);
-        }		
+        }
 
         public MxpRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<MxpRecord>();
             }
         }
-
-        #endregion
     }
 }

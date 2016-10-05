@@ -27,11 +27,9 @@ namespace WheelMUD.Data.Repositories
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
     
-    ///<summary>
-    /// Repository for the <%=currentTable%> table.
-    ///</summary>
+    /// <summary>Repository for the <%=currentTable%> table.</summary>
     public partial class <%=currentTable%>Repository : I<%=currentTable%>Repository
-    {		
+    {
         #region I<%=currentTable%>Repository Members
 
         public void Add(<%=currentTable%>Record <%=currentTable.ToString().ToLower() %>)
@@ -68,7 +66,7 @@ namespace WheelMUD.Data.Repositories
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.SingleWhere<<%=currentTable%>Record>("ID = {0}", <%=currentTable.ToString().ToLower() %>Id);
-        }		
+        }
 
         public <%=currentTable%>Record GetByName(string name)
         {

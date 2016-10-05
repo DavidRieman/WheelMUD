@@ -20,25 +20,25 @@ namespace WheelMUD.Rules
 
     public class CompositionInvoker<T, R> : IRuleInvoker
     {
-        Func<T, R> _compiledExpression;
-        CachedExpression _cachedExpression;
-        RulesEngine rulesRulesEngine;
+        private Func<T, R> compiledExpression;
+        private CachedExpression cachedExpression;
+        private RulesEngine rulesRulesEngine;
 
         public CompositionInvoker(RulesEngine rulesRulesEngine, Expression<Func<T, R>> compositionExpression)
         {
             this.rulesRulesEngine = rulesRulesEngine;
-            _compiledExpression = compositionExpression.Compile();
-            _cachedExpression = rulesRulesEngine.ExpressionCache.Get(compositionExpression);
+            this.compiledExpression = compositionExpression.Compile();
+            this.cachedExpression = rulesRulesEngine.ExpressionCache.Get(compositionExpression);
         }
 
         public void Invoke(object value, IValidationReport report, ValidationReportDepth depth)
         {
-            if (depth == ValidationReportDepth.FieldShortCircuit && report.HasError(_cachedExpression, value))
+            if (depth == ValidationReportDepth.FieldShortCircuit && report.HasError(cachedExpression, value))
             {
                 return;
             }
 
-            R objToValidate = _compiledExpression.Invoke((T)value);
+            R objToValidate = compiledExpression.Invoke((T)value);
             if (objToValidate != null)
             {
                 this.rulesRulesEngine.Validate(objToValidate, report, depth);

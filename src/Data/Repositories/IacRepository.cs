@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the IAC table.
-    ///</summary>
-    public partial class IacRepository : IIacRepository
-    {		
-        #region IIacRepository Members
 
+    /// <summary>Repository for the IAC table.</summary>
+    public partial class IacRepository : IIacRepository
+    {
         public void Add(IacRecord iac)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(iac);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(iac);
+                transaction.Commit();
+            }
         }
 
         public void Update(IacRecord iac)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(iac);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(iac);
+                transaction.Commit();
+            }
         }
 
         public void Remove(IacRecord iac)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(iac);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(iac);
+                transaction.Commit();
+            }
         }
-        
+
         public IacRecord GetById(long iacId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<IacRecord>("ID = {0}", iacId);
-        }		
+        }
 
         public IacRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<IacRecord>();
             }
         }
-
-        #endregion
     }
 }

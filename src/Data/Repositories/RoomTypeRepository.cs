@@ -15,49 +15,45 @@ namespace WheelMUD.Data.Repositories
     using System.Data;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
-    ///<summary>
-    /// Repository for the RoomTypes table.
-    ///</summary>
-    public partial class RoomTypeRepository : IRoomTypeRepository
-    {		
-        #region IRoomTypeRepository Members
 
+    /// <summary>Repository for the RoomTypes table.</summary>
+    public partial class RoomTypeRepository : IRoomTypeRepository
+    {
         public void Add(RoomTypeRecord roomtype)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Save(roomtype);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Save(roomtype);
+                transaction.Commit();
+            }
         }
 
         public void Update(RoomTypeRecord roomtype)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Update(roomtype);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Update(roomtype);
+                transaction.Commit();
+            }
         }
 
         public void Remove(RoomTypeRecord roomtype)
         {
             using (IDbCommand session = Helpers.OpenSession())
-                using (IDbTransaction transaction = session.Connection.BeginTransaction())
-                {
-                    session.Connection.Delete(roomtype);
-                    transaction.Commit();
-                }
+            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            {
+                session.Connection.Delete(roomtype);
+                transaction.Commit();
+            }
         }
-        
+
         public RoomTypeRecord GetById(long roomtypeId)
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<RoomTypeRecord>("ID = {0}", roomtypeId);
-        }		
+        }
 
         public RoomTypeRecord GetByName(string name)
         {
@@ -74,7 +70,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<RoomTypeRecord>();
             }
         }
-
-        #endregion
     }
 }

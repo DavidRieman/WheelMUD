@@ -29,13 +29,9 @@ namespace WheelMUD.Data.Repositories
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
     
-    ///<summary>
-    /// Repository for the <%=SourceTable.Name%> table.
-    ///</summary>
+    /// <summary>Repository for the <%=SourceTable.Name%> table.</summary>
     public partial class <%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Repository : I<%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Repository
-    {		
-        #region I<%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Repository Members
-
+    {
         public void Add(<%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Record <%=singularName.ToLower() %>)
         {
             using (IDbCommand session = Helpers.OpenSession())
@@ -70,7 +66,7 @@ namespace WheelMUD.Data.Repositories
         {
             using (IDbCommand session = Helpers.OpenSession())
                 return session.Connection.SingleWhere<<%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Record>("ID = {0}", <%=singularName.ToLower() %>Id);
-        }		
+        }
 
         public <%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Record GetByName(string name)
         {
@@ -87,7 +83,5 @@ namespace WheelMUD.Data.Repositories
                 return session.Connection.Select<<%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Record>();
             }
         }
-
-        #endregion
     }
 }
