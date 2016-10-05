@@ -24,6 +24,12 @@ namespace WarriorRogueMage.Rules
         private static GameStat privateStat;
         private static int value;
 
+        /// <summary>Gets the kind of the rule.</summary>
+        public override string RuleKind
+        {
+            get { return "IncreaseStatRule"; }
+        }
+
         /// <summary>Executes the rule on the specified player <see cref="Thing"/>.</summary>
         /// <param name="playerThing">The player thing.</param>
         /// <param name="statName">Name of the attribute.</param>
@@ -31,17 +37,9 @@ namespace WarriorRogueMage.Rules
         public override void Execute(IThing playerThing, string statName, int valueToAdd)
         {
             value = valueToAdd;
-
             parentThing = (Thing)playerThing;
-
             FindStat(statName);
             IncreaseStatValue();
-        }
-
-        /// <summary>Gets the kind of the rule.</summary>
-        public override string RuleKind
-        {
-            get { return "IncreaseStatRule"; }
         }
 
         private static void FindStat(string statNameToFind)

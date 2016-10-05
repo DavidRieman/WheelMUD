@@ -27,6 +27,17 @@ namespace WheelMUD.Rules
             this.rulesRulesEngine = rulesRulesEngine;
         }
 
+        public Expression<Func<T, T>> Expression
+        {
+            get { return Utilities.ReturnSelf<T>(); }
+        }
+
+        /// <summary>Gets RulesEngine.</summary>
+        public RulesEngine RulesRulesEngine
+        {
+            get { return this.rulesRulesEngine; }
+        }
+
         public SetupClass<T, R> Setup<R>(Expression<Func<T, R>> expression)
         {
             return new SetupClass<T, R>(this.rulesRulesEngine, this, expression);
@@ -44,21 +55,6 @@ namespace WheelMUD.Rules
             var invoker = this.rulesRulesEngine.RegisterCondition(conditionalExpression);
             return new ForClassElseEndIf<T, ForClass<T>>(invoker.IfTrueRulesEngine, invoker, this);
         }
-
-        public Expression<Func<T, T>> Expression
-        {
-            get
-            {
-                return Utilities.ReturnSelf<T>();
-            }
-        }
-
-        /// <summary>Gets RulesEngine.</summary>
-        public RulesEngine RulesRulesEngine
-        {
-            get { return this.rulesRulesEngine; }
-        }
-
 
         public ForClass<T> GetSelf()
         {

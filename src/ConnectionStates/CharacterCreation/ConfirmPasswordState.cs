@@ -33,7 +33,7 @@ namespace WheelMUD.ConnectionStates
             // with whitespace on either end. Instead we need to respect the raw line of input for password entries.
             if (playerBehavior.PasswordMatches(this.Session.Connection.LastRawInput))
             {
-                if (this.AddCharacterToDatabase(Session))
+                if (this.AddCharacterToDatabase(this.Session))
                 {
                     // Proceed to automatic login step.
                     this.StateMachine.HandleNextStep(this, StepStatus.Success);

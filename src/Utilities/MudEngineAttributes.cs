@@ -21,11 +21,11 @@ namespace WheelMUD.Utilities
         /// <summary>The synchronization locking object.</summary>
         private static readonly object syncRoot = new object();
 
+        /// <summary>The MudEngineAttributes singleton instance.</summary>
+        private static readonly MudEngineAttributes SingletonInstance = new MudEngineAttributes();
+
         /// <summary>The .NET configuration source.</summary>
         private readonly DotNetConfigSource config;
-
-        /// <summary>The MudEngineAttributes singleton instance.</summary>
-        private static volatile MudEngineAttributes instance;
 
         /// <summary>The version of the engine.</summary>
         private string version;
@@ -36,33 +36,16 @@ namespace WheelMUD.Utilities
         /// <summary>Prevents a default instance of the <see cref="MudEngineAttributes"/> class from being created.</summary>
         private MudEngineAttributes()
         {
-            lock (syncRoot)
-            {
-                string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                path = Path.Combine(path, "mud.config");
-                this.config = new DotNetConfigSource(path);
-                this.GetConfigSettings();
-            }
+            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            path = Path.Combine(path, "mud.config");
+            this.config = new DotNetConfigSource(path);
+            this.GetConfigSettings();
         }
 
         /// <summary>Gets the singleton instance of the <see cref="MudEngineAttributes"/> class.</summary>
         public static MudEngineAttributes Instance
         {
-            get
-            {
-                if (instance == null)
-                {
-                    lock (syncRoot)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new MudEngineAttributes();
-                        }
-                    }
-                }
-
-                return instance;
-            }
+            get { return SingletonInstance; }
         }
 
         /// <summary>Gets the current version of the MUD.</summary>
@@ -152,7 +135,7 @@ namespace WheelMUD.Utilities
             this.version = this.GetType().Assembly.GetName().Version.ToString();
             string runDir = Configuration.GetDataStoragePath();
             this.FTPServerRootFolder = runDir;
-            //this.config.Configs["FTP"].GetString("RootFolder").Replace("%FTPRUNDIR%", runDir);
+            ////this.config.Configs["FTP"].GetString("RootFolder").Replace("%FTPRUNDIR%", runDir);
         }
     }
 }

@@ -33,10 +33,13 @@ namespace WheelMUD.Rules
 
         public Expression<Func<T, T>> Expression
         {
-            get
-            {
-                return Utilities.ReturnSelf<T>();
-            }
+            get { return Utilities.ReturnSelf<T>(); }
+        }
+
+        /// <summary>Gets RulesEngine.</summary>
+        public RulesEngine RulesRulesEngine
+        {
+            get { return this.rulesRulesEngine; }
         }
 
         public SetupClassElseEndIf<T, R, ENDIF> Setup<R>(Expression<Func<T, R>> expression)
@@ -65,12 +68,6 @@ namespace WheelMUD.Rules
         public ENDIF EndIf()
         {
             return _parent;
-        }
-
-        /// <summary>Gets RulesEngine.</summary>
-        public RulesEngine RulesRulesEngine
-        {
-            get { return this.rulesRulesEngine; }
         }
 
         public ForClassElseEndIf<T, ENDIF> GetSelf()

@@ -1,4 +1,13 @@
-﻿
+﻿//-----------------------------------------------------------------------------
+// <copyright file="RacialTalents.cs" company="WheelMUD Development Team">
+//   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
+//   subject to the Microsoft Permissive License. All other rights reserved.
+// </copyright>
+// <summary>
+//   
+// </summary>
+//-----------------------------------------------------------------------------
+
 namespace WarriorRogueMage
 {
     /// <summary>Beserker Talent.</summary>
@@ -17,8 +26,6 @@ namespace WarriorRogueMage
     [ExportTalent]
     public class ExceptionalAttributeTalent : Talent
     {
-        public string ExceptionalAttribute { get; private set; }
-
         /// <summary>Initializes a new instance of the <see cref="ExceptionalAttributeTalent"/> class.</summary>
         /// <param name="attribute">The attribute.</param>
         public ExceptionalAttributeTalent(string attribute) : base("Exceptional Attribute",
@@ -32,15 +39,14 @@ namespace WarriorRogueMage
         public ExceptionalAttributeTalent() : this(null)
         {
         }
+
+        public string ExceptionalAttribute { get; private set; }
     }
 
     /// <summary>Natural Armor Talent.</summary>
     [ExportTalent]
     public class NaturalArmorTalent : Talent
     {
-        /// <summary>Gets the defense bonus.</summary>
-        public int DefenseBonus { get; private set; }
-
         /// <summary>Initializes a new instance of the <see cref="NaturalArmorTalent"/> class.</summary>
         /// <param name="defenseBonus">The defense bonus.</param>
         public NaturalArmorTalent(int defenseBonus) : base("Natural Armor",
@@ -54,6 +60,9 @@ namespace WarriorRogueMage
         public NaturalArmorTalent() : this(2)
         {
         }
+
+        /// <summary>Gets the defense bonus.</summary>
+        public int DefenseBonus { get; private set; }
     }
 
     /// <summary>No Talent For Magic Talent.</summary>

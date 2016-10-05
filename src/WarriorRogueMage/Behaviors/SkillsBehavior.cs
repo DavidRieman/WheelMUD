@@ -25,7 +25,7 @@ namespace WarriorRogueMage.Behaviors
         public SkillsBehavior(Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            ManagedSkills = new List<WRMSkill>();
+            this.ManagedSkills = new List<WRMSkill>();
         }
 
         /// <summary>Gets or sets the list of active skills.</summary>
@@ -40,7 +40,7 @@ namespace WarriorRogueMage.Behaviors
             var parent = this.Parent;
             if (parent != null)
             {
-                foreach (var managedSkill in ManagedSkills)
+                foreach (var managedSkill in this.ManagedSkills)
                 {
                     if (managedSkill.PlayerThing == null)
                     {
@@ -58,7 +58,7 @@ namespace WarriorRogueMage.Behaviors
             var parent = this.Parent;
             if (parent != null)
             {
-                foreach (var managedSkill in ManagedSkills)
+                foreach (var managedSkill in this.ManagedSkills)
                 {
                     managedSkill.PlayerThing = null;
                 }

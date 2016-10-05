@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// <copyright file="SkillsWRM.cs" company="WheelMUD Development Team">
+// <copyright file="WRMSkills.cs" company="WheelMUD Development Team">
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
@@ -18,7 +18,7 @@ namespace WarriorRogueMage.Skills
     public class SkillAcrobatics : WRMSkill
     {
         /// <summary>Initializes a new instance of the <see cref="SkillAcrobatics"/> class.</summary>
-        public SkillAcrobatics(): base("Acrobatics",
+        public SkillAcrobatics() : base("Acrobatics",
                 "ROG",
                 "Training in activities like dancing, contortion, climbing, tightrope, walking, tumbling.")
         {

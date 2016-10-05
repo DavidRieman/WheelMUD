@@ -33,23 +33,6 @@ namespace WheelMUD.Rules
             this.innerFalse = new RulesEngine();
         }
 
-        public void Invoke(object value, IValidationReport report, ValidationReportDepth depth)
-        {
-            if (condition.Invoke((T)value))
-            {
-                innerTrue.Validate(value, report, depth);
-            }
-            else
-            {
-                innerFalse.Validate(value, report, depth);
-            }
-        }
-
-        public void RegisterInvoker(IRuleInvoker ruleInvoker)
-        {
-            innerTrue.RegisterInvoker(ruleInvoker);
-        }
-
         public RulesEngine RulesRulesEngine
         {
             get { return parent; }
@@ -68,6 +51,23 @@ namespace WheelMUD.Rules
         public Type ParameterType
         {
             get { return typeof(T); }
+        }
+
+        public void Invoke(object value, IValidationReport report, ValidationReportDepth depth)
+        {
+            if (condition.Invoke((T)value))
+            {
+                innerTrue.Validate(value, report, depth);
+            }
+            else
+            {
+                innerFalse.Validate(value, report, depth);
+            }
+        }
+
+        public void RegisterInvoker(IRuleInvoker ruleInvoker)
+        {
+            innerTrue.RegisterInvoker(ruleInvoker);
         }
     }
 }

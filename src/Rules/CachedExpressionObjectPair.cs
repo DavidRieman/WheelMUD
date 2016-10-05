@@ -61,7 +61,7 @@ namespace WheelMUD.Rules
         /// <returns><c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            return Equals(obj as CachedExpressionObjectPair);
+            return this.Equals(obj as CachedExpressionObjectPair);
         }
 
         /// <summary>Indicates whether the current object is equal to another object of the same type.</summary>

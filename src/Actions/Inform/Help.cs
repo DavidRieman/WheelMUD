@@ -53,7 +53,7 @@ namespace WheelMUD.Actions
             HelpTopic helpTopic = HelpManager.Instance.FindHelpTopic(commandTail);
             if (helpTopic != null)
             {
-                if (useMXP)
+                if (this.useMXP)
                 {
                     var sb = new StringBuilder();
                     foreach (string line in helpTopic.Contents.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))

@@ -13,18 +13,18 @@ namespace WheelMUD.ConnectionStates
     /// <summary>This is the state for new character name entry as supplied by a player.</summary>
     public class GetNameState : CharacterCreationSubState
     {
+        /// <summary>The minimum allowed length for a new character's name.</summary>
+        private const int MinimumNameLength = 2;
+
+        /// <summary>The maximum allowed length for a new character's name.</summary>
+        private const int MaximumNameLength = 20;
+
         /// <summary>Initializes a new instance of the <see cref="GetNameState"/> class.</summary>
         /// <param name="session">The session.</param>
         public GetNameState(Session session)
             : base(session)
         {
         }
-
-        /// <summary>The minimum allowed length for a new character's name.</summary>
-        private const int MinimumNameLength = 2;
-
-        /// <summary>The maximum allowed length for a new character's name.</summary>
-        private const int MaximumNameLength = 20;
 
         /// <summary>ProcessInput is used to receive the user input during this state.</summary>
         /// <param name="command">The command text to be processed.</param>

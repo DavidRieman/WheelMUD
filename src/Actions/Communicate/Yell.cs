@@ -35,7 +35,7 @@ namespace WheelMUD.Actions
 
         /// <summary>Falloff value, yell will stop after so many rooms have been yelled at, set to -1 to hit everything</summary>
         /// <remarks>Should be mentioned, that this builds a list of previous rooms, so too large of a world with -1 will lead to memory issues.</remarks>
-        private readonly int RoomFallOff = 5;
+        private static readonly int RoomFallOff = 5;
 
         /// <summary>The sensory event that is fired into each room.</summary>
         private VerbalCommunicationEvent yellEvent;
@@ -53,7 +53,7 @@ namespace WheelMUD.Actions
             List<Thing> previousRooms = new List<Thing>();
 
             this.CreateYellEvent(sender.Thing);
-            this.TraverseRoom(parent, actionInput, sender, this.RoomFallOff, previousRooms);
+            this.TraverseRoom(parent, actionInput, sender, RoomFallOff, previousRooms);
         }
 
         /// <summary>Checks against the guards for the command.</summary>

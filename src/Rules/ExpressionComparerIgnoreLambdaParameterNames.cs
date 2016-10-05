@@ -27,11 +27,11 @@ namespace WheelMUD.Rules
 
         protected override bool CompareParameter(ParameterExpression node1, ParameterExpression node2, object state)
         {
-            if (AreBothNull(node1, node2)) return true;
-            if (AreEitherNull(node1, node2)) return false;
+            if (this.AreBothNull(node1, node2)) return true;
+            if (this.AreEitherNull(node1, node2)) return false;
 
-            var index1 = GetCompareState(state, 0).IndexOf(node1);
-            var index2 = GetCompareState(state, 1).IndexOf(node2);
+            var index1 = this.GetCompareState(state, 0).IndexOf(node1);
+            var index2 = this.GetCompareState(state, 1).IndexOf(node2);
 
             if (index1 == -1 && index2 == -1)
             {
@@ -47,12 +47,12 @@ namespace WheelMUD.Rules
 
         protected override bool CompareLambda(LambdaExpression node1, LambdaExpression node2, object state)
         {
-            if (AreBothNull(node1, node2)) return true;
-            if (AreEitherNull(node1, node2)) return false;
+            if (this.AreBothNull(node1, node2)) return true;
+            if (this.AreEitherNull(node1, node2)) return false;
 
             // Those parameters will be checked later on to make sure both expressions are equivalent.
-            GetCompareState(state, 0).AddRange(node1.Parameters);
-            GetCompareState(state, 1).AddRange(node2.Parameters);
+            this.GetCompareState(state, 0).AddRange(node1.Parameters);
+            this.GetCompareState(state, 1).AddRange(node2.Parameters);
 
             return base.CompareLambda(node1, node2, state);
         }
@@ -64,13 +64,13 @@ namespace WheelMUD.Rules
 
         protected override int GetHashCode(LambdaExpression node, object state)
         {
-            if (node != null) GetHashCodeState(state).AddRange(node.Parameters);
+            if (node != null) this.GetHashCodeState(state).AddRange(node.Parameters);
             return base.GetHashCode(node, state);
         }
 
         protected override int GetHashCode(ParameterExpression node, object state)
         {
-            var index = GetHashCodeState(state).IndexOf(node);
+            var index = this.GetHashCodeState(state).IndexOf(node);
             if (index == -1)
             {
                 // Name is relevant...
@@ -79,7 +79,7 @@ namespace WheelMUD.Rules
             else
             {
                 // Index of the parameter is relevant...
-                return CombineHash(GetHashCode(node.Type, state), node.IsByRef.GetHashCode(), index);
+                return this.CombineHash(this.GetHashCode(node.Type, state), node.IsByRef.GetHashCode(), index);
             }
         }
 

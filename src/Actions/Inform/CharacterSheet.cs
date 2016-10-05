@@ -47,11 +47,10 @@ namespace WheelMUD.Actions
             Thing t = sender.Thing;
 
             var statEffects = t.Behaviors.OfType<StatEffect>();
+            var sb = new StringBuilder();
 
-            StringBuilder sb = new StringBuilder();
-
-            var hp = t.Stats["HP"];
-            var hpMod = statEffects.Where(e => e.Stat.Abbreviation == "HP").Sum(e => e.ValueMod);
+            var health = t.Stats["HP"];
+            var healthMod = statEffects.Where(e => e.Stat.Abbreviation == "HP").Sum(e => e.ValueMod);
             var mana = t.Stats["MANA"];
             var damage = t.Stats["DAMAGE"];
             var init = t.Stats["INIT"];
@@ -63,7 +62,7 @@ namespace WheelMUD.Actions
             var familiar = t.Stats["FAMILIAR"];
             var fate = t.Stats["FATE"];
 
-            var hpLine = string.Format("{0,-13} {1,5:####0}/{2,-5:####0} ({3})", hp.Name, hp.Value, hp.MaxValue, hpMod).PadRight(31);
+            var healthLine = string.Format("{0,-13} {1,5:####0}/{2,-5:####0} ({3})", health.Name, health.Value, health.MaxValue, healthMod).PadRight(31);
             var manaLine = string.Format("{0,-12} {1,5:####0}/{2,-5:####0}", mana.Name, mana.Value, mana.MaxValue).PadRight(31);
             var damageLine = string.Format("{0,-13} {1,5:##0}/{2,-5:##0}", damage.Name, damage.Value, damage.MaxValue).PadRight(31);
             var initLine = string.Format("{0,-16} {1,-6}", init.Name, init.Value).PadRight(31);
@@ -80,7 +79,7 @@ namespace WheelMUD.Actions
             sb.AppendFormat("   | {0, -19} Level {1, -6}  Reputation {2, -6}  Kudos {3, -6} |\r\n", t.Name, 1, 0, 0);
             sb.AppendFormat("   +----------------+----------------+----------------+----------------+\r\n");
 
-            sb.AppendFormat("   | {0} | {1} |\r\n", hpLine, manaLine);
+            sb.AppendFormat("   | {0} | {1} |\r\n", healthLine, manaLine);
             sb.AppendFormat("   | {0} | {1} |\r\n", damageLine, initLine);
             sb.AppendFormat("   | {0} | {1} |\r\n", attackLine, defenseLine);
             sb.AppendFormat("   | {0} | {1} |\r\n", armorPenaltyLine, wieldMaxLine);

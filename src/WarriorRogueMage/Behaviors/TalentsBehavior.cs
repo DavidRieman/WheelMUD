@@ -23,7 +23,7 @@ namespace WarriorRogueMage.Behaviors
         /// <param name="instanceProperties">Dictionary of properties to spawn this behavior instance with, if any.</param>
         public TalentsBehavior(Dictionary<string, object> instanceProperties) : base(instanceProperties)
         {
-            ManagedTalents = new List<Talent>();
+            this.ManagedTalents = new List<Talent>();
         }
 
         /// <summary>Gets or sets the list of active talents.</summary>
@@ -39,7 +39,7 @@ namespace WarriorRogueMage.Behaviors
             {
                 // This is to handle the case when talents have been added to the behavior
                 // before it being added to a thing.
-                foreach (var managedTalent in ManagedTalents)
+                foreach (var managedTalent in this.ManagedTalents)
                 {
                     if (managedTalent.PlayerThing == null)
                     {
@@ -60,7 +60,7 @@ namespace WarriorRogueMage.Behaviors
                 // Make sure to "unhook" all children talents from the
                 // player Thing object. Otherwise we could have a memory leak,
                 // and/or weird errors.
-                foreach (var managedTalent in ManagedTalents)
+                foreach (var managedTalent in this.ManagedTalents)
                 {
                     managedTalent.PlayerThing = null;
                 }

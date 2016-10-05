@@ -31,6 +31,11 @@ namespace WheelMUD.Rules
             this.cachedExpression = rulesRulesEngine.ExpressionCache.Get(compositionExpression);
         }
 
+        public Type ParameterType
+        {
+            get { return typeof(T); }
+        }
+
         public void Invoke(object value, IValidationReport report, ValidationReportDepth depth)
         {
             if (depth == ValidationReportDepth.FieldShortCircuit && report.HasError(cachedExpression, value))
@@ -43,11 +48,6 @@ namespace WheelMUD.Rules
             {
                 this.rulesRulesEngine.Validate(objToValidate, report, depth);
             }
-        }
-
-        public Type ParameterType
-        {
-            get { return typeof(T); }
         }
     }
 }

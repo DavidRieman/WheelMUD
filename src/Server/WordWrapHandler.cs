@@ -40,7 +40,7 @@ namespace WheelMUD.Server
             string wrappedBlock = string.Empty;
             foreach (string textLine in wrappedText)
             {
-                wrappedBlock = String.Format("{0}\r\n{1}", wrappedBlock, textLine);
+                wrappedBlock = string.Format("{0}\r\n{1}", wrappedBlock, textLine);
             }
 
             wrappedBlock = wrappedBlock.Substring(1).TrimStart();

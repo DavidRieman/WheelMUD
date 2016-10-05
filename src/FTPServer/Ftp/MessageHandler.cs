@@ -14,18 +14,19 @@ namespace WheelMUD.Ftp
     /// <summary>Gives a mechanism for classes to pass messages to the main form for display in the messages list box.</summary>
     public class FtpServerMessageHandler
     {
-        public delegate void MessageEventHandler(int nId, string sMessage);
-        static public event MessageEventHandler Message;
-
         protected FtpServerMessageHandler()
         {
         }
 
-        public static void SendMessage(int nId, string sMessage)
+        public delegate void MessageEventHandler(int id, string message);
+
+        public static event MessageEventHandler Message;
+
+        public static void SendMessage(int id, string message)
         {
             if (Message != null)
             {
-                Message(nId, sMessage);
+                Message(id, message);
             }
         }
     }

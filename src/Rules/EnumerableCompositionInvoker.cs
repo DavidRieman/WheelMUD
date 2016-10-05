@@ -32,6 +32,11 @@ namespace WheelMUD.Rules
             this.enumerableCompositionExpression = rulesRulesEngine.ExpressionCache.Get(enumerableCompositionExpression);
         }
 
+        public Type ParameterType
+        {
+            get { return typeof(T); }
+        }
+
         public void Invoke(object value, IValidationReport report, ValidationReportDepth depth)
         {
             if (depth == ValidationReportDepth.FieldShortCircuit && report.HasError(enumerableCompositionExpression, value))
@@ -51,11 +56,6 @@ namespace WheelMUD.Rules
                     }
                 }
             }
-        }
-
-        public Type ParameterType
-        {
-            get { return typeof(T); }
         }
     }
 }

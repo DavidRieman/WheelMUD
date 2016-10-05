@@ -20,7 +20,7 @@ namespace WarriorRogueMage
 
     public class TalentFinder : IRecomposable
     {
-        private static readonly TalentFinder instance = new TalentFinder();
+        private static readonly TalentFinder SingletonInstance = new TalentFinder();
 
         /// <summary>Prevents a default instance of the TalentFinder class from being created.</summary>
         private TalentFinder()
@@ -29,7 +29,10 @@ namespace WarriorRogueMage
         }
 
         /// <summary>Gets the singleton instance of the TalentFinder class.</summary>
-        public static TalentFinder Instance { get { return instance; } }
+        public static TalentFinder Instance
+        {
+            get { return SingletonInstance; }
+        }
 
         public List<Talent> NormalTalents { get; private set; }
 

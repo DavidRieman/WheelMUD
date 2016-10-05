@@ -17,13 +17,14 @@ namespace WheelMUD.Rules
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
 
-    using System.Collections.Generic;
-
     public static class RulesHelper
     {
+        private const BetweenRuleBoundsOption DefaultBoundOption = BetweenRuleBoundsOption.BothInclusive;
+
         public static M MustBeLessThan<M, T, R>(this IMustPassRule<M, T, R> mpr, R lessThan)
             where R : IComparable<R>
         {
@@ -31,7 +32,7 @@ namespace WheelMUD.Rules
         }
 
         public static M MustBeLessThan<M, T, R>(this IMustPassRule<M, T, R> mpr, Expression<Func<T, R>> lessThan)
-        where R : IComparable<R>
+            where R : IComparable<R>
         {
             return mpr.MustPassRule(new LessThanRule<T, R>(mpr.Expression, lessThan, false));
         }
@@ -43,7 +44,7 @@ namespace WheelMUD.Rules
         }
 
         public static M MustBeLessThanOrEqualTo<M, T, R>(this IMustPassRule<M, T, R> mpr, Expression<Func<T, R>> lessThan)
-        where R : IComparable<R>
+            where R : IComparable<R>
         {
             return mpr.MustPassRule(new LessThanRule<T, R>(mpr.Expression, lessThan, true));
         }
@@ -67,7 +68,7 @@ namespace WheelMUD.Rules
         }
 
         public static M MustBeGreaterThanOrEqualTo<M, T, R>(this IMustPassRule<M, T, R> mpr, Expression<Func<T, R>> greaterThan)
-        where R : IComparable<R>
+            where R : IComparable<R>
         {
             return mpr.MustPassRule(new GreaterThanRule<T, R>(mpr.Expression, greaterThan, true));
         }
@@ -88,8 +89,6 @@ namespace WheelMUD.Rules
         {
             return mpr.MustPassRule(new NotNullOrEmpty());
         }
-
-        private const BetweenRuleBoundsOption DefaultBoundOption = BetweenRuleBoundsOption.BothInclusive;
 
         public static M MustBeBetween<M, T, R>(this IMustPassRule<M, T, R> mpr, Expression<Func<T, R>> greaterThan, Expression<Func<T, R>> lessThan, BetweenRuleBoundsOption bounds)
             where R : IComparable<R>
@@ -123,6 +122,7 @@ namespace WheelMUD.Rules
             Expression<Func<T, R>> lessThanFunc = f => lessThan;
             return MustBeBetween(mpr, greaterThanFunc, lessThanFunc, bounds);
         }
+
         public static M MustBeBetween<M, T, R>(this IMustPassRule<M, T, R> mpr, R greaterThan, R lessThan)
             where R : IComparable<R>
         {
@@ -147,6 +147,7 @@ namespace WheelMUD.Rules
             Expression<Func<T, R>> lessThanFunc = f => lessThan;
             return MustBeBetween(mpr, greaterThanFunc, lessThanFunc, bounds);
         }
+
         public static M MustBeBetween<M, T, R>(this IMustPassRule<M, T, R> mpr, R greaterThan, R lessThan, BetweenRuleBoundsOption bounds)
             where R : IComparable<R>
         {

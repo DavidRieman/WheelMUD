@@ -27,36 +27,14 @@ namespace WarriorRogueMage.Rules
         private static T privateAttrib;
         private static R privateStat;
 
-        private static void FindAttribute(string attributeNameToFind)
+        public override string RuleKind
         {
-            var attributeToFind = parentThing.FindGameAttribute(attributeNameToFind);
-
-            var attrib = (WRMAttribute)Convert.ChangeType(attributeToFind, typeof(WRMAttribute));
-
-            privateAttrib = (T)Convert.ChangeType(parentThing.FindGameAttribute(attrib.Name), typeof(T));
-        }
-
-        private static void FindStat(string statNameToFind)
-        {
-            var statToFind = parentThing.FindGameStat(statNameToFind);
-
-            var stat = (WRMStat)Convert.ChangeType(statToFind, typeof(WRMStat));
-
-            privateStat = (R)Convert.ChangeType(parentThing.FindGameStat(stat.Name), typeof(R));
-        }
-
-        private static void AddAttributeValueToStatValue()
-        {
-            var stat = (WRMStat)Convert.ChangeType(privateStat, typeof(WRMStat));
-            var attrib = (WRMAttribute)Convert.ChangeType(privateAttrib, typeof(WRMAttribute));
-
-            stat.Increase(attrib.Value, parentThing);
+            get { return "AddAttributeToStatRule"; }
         }
 
         public override void Execute(IThing playerThing, string attributeName, string statName)
         {
             parentThing = (Thing)playerThing;
-
             FindStat(statName);
             FindAttribute(attributeName);
             AddAttributeValueToStatValue();
@@ -67,12 +45,25 @@ namespace WarriorRogueMage.Rules
             return ValidationResult.Success;
         }
 
-        public override string RuleKind
+        private static void FindAttribute(string attributeNameToFind)
         {
-            get
-            {
-                return "AddAttributeToStatRule";
-            }
+            var attributeToFind = parentThing.FindGameAttribute(attributeNameToFind);
+            var attrib = (WRMAttribute)Convert.ChangeType(attributeToFind, typeof(WRMAttribute));
+            privateAttrib = (T)Convert.ChangeType(parentThing.FindGameAttribute(attrib.Name), typeof(T));
+        }
+
+        private static void FindStat(string statNameToFind)
+        {
+            var statToFind = parentThing.FindGameStat(statNameToFind);
+            var stat = (WRMStat)Convert.ChangeType(statToFind, typeof(WRMStat));
+            privateStat = (R)Convert.ChangeType(parentThing.FindGameStat(stat.Name), typeof(R));
+        }
+
+        private static void AddAttributeValueToStatValue()
+        {
+            var stat = (WRMStat)Convert.ChangeType(privateStat, typeof(WRMStat));
+            var attrib = (WRMAttribute)Convert.ChangeType(privateAttrib, typeof(WRMAttribute));
+            stat.Increase(attrib.Value, parentThing);
         }
     }
 }
