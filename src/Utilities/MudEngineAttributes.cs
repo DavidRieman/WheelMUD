@@ -18,9 +18,6 @@ namespace WheelMUD.Utilities
     /// <summary>MUD Engine Attributes.</summary>
     public class MudEngineAttributes
     {
-        /// <summary>The synchronization locking object.</summary>
-        private static readonly object syncRoot = new object();
-
         /// <summary>The MudEngineAttributes singleton instance.</summary>
         private static readonly MudEngineAttributes SingletonInstance = new MudEngineAttributes();
 

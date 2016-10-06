@@ -14,13 +14,13 @@ namespace WheelMUD.Data
     public class Helpers
     {
         /// <summary>The session factory variable.</summary>
-        private static IDbConnection _sessionFactory;
+        private static IDbConnection sessionFactory;
 
         /// <summary>The database provider string value.</summary>
-        private static string _provider;
+        private static string provider;
 
         /// <summary>The database connection string variable.</summary>
-        private static string _connectionString;
+        private static string connectionString;
 
         /// <summary>Gets the session factory.</summary>
         /// <value>The session factory.</value>
@@ -28,20 +28,20 @@ namespace WheelMUD.Data
         {
             get
             {
-                if (_sessionFactory == null)
+                if (sessionFactory == null)
                 {
-                    _connectionString = HelperConfigInfo.Instance.ConnectionString;
-                    _provider = HelperConfigInfo.Instance.Provider;
+                    connectionString = HelperConfigInfo.Instance.ConnectionString;
+                    provider = HelperConfigInfo.Instance.Provider;
 
                     var cache = new ProviderCache();
 
                     try
                     {
                         IWheelMudDbProvider factory;
-                        cache.Providers.TryGetValue(_provider.ToLower(), out factory);
-                        factory.ConnectionString = _connectionString;
+                        cache.Providers.TryGetValue(provider.ToLower(), out factory);
+                        factory.ConnectionString = connectionString;
 
-                        _sessionFactory = factory.CreateDatabaseSession();
+                        sessionFactory = factory.CreateDatabaseSession();
                     }
                     catch (Exception)
                     {
@@ -54,7 +54,7 @@ namespace WheelMUD.Data
                     }
                 }
 
-                return _sessionFactory;
+                return sessionFactory;
             }
         }
 

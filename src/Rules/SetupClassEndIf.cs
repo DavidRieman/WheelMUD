@@ -20,20 +20,20 @@ namespace WheelMUD.Rules
 
     public class SetupClassEndIf<T, R, ENDIF> : IMustPassRule<SetupClassEndIf<T, R, ENDIF>, T, R>
     {
-        private Expression<Func<T, R>> _expression;
-        private ForClassEndIf<T, ENDIF> _parent;
+        private Expression<Func<T, R>> expression;
+        private ForClassEndIf<T, ENDIF> parent;
         private RulesEngine rulesRulesEngine;
 
         internal SetupClassEndIf(RulesEngine rulesRulesEngine, ForClassEndIf<T, ENDIF> parent, Expression<Func<T, R>> expression)
         {
-            this._expression = expression;
-            this._parent = parent;
+            this.expression = expression;
+            this.parent = parent;
             this.rulesRulesEngine = rulesRulesEngine;
         }
 
         public Expression<Func<T, R>> Expression
         {
-            get { return this._expression; }
+            get { return this.expression; }
         }
 
         /// <summary>Gets RulesEngine.</summary>
@@ -44,29 +44,29 @@ namespace WheelMUD.Rules
 
         public SetupClassEndIf<T, R, ENDIF> MustPassRule(IRule<R> rule)
         {
-            this.rulesRulesEngine.RegisterRule(rule, _expression, _expression);
+            this.rulesRulesEngine.RegisterRule(rule, expression, expression);
             return this;
         }
 
         public SetupClassEndIf<T, R, ENDIF> MustPassRule(IRule<T> rule)
         {
-            this.rulesRulesEngine.RegisterRule(rule, Utilities.ReturnSelf<T>(), _expression);
+            this.rulesRulesEngine.RegisterRule(rule, Utilities.ReturnSelf<T>(), expression);
             return this;
         }
         
         public SetupClassEndIf<T, R1, ENDIF> Setup<R1>(Expression<Func<T, R1>> expression)
         {
-            return new SetupClassEndIf<T, R1, ENDIF>(this.rulesRulesEngine, _parent, expression);
+            return new SetupClassEndIf<T, R1, ENDIF>(this.rulesRulesEngine, parent, expression);
         }
 
         public ForClassElseEndIf<T, ForClassEndIf<T, ENDIF>> If(Expression<Func<T, bool>> condition)
         {
-            return _parent.If(condition);
+            return parent.If(condition);
         }
         
         public ENDIF EndIf()
         {
-            return _parent.EndIf();
+            return parent.EndIf();
         }
 
         public SetupClassEndIf<T, R, ENDIF> GetSelf()

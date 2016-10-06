@@ -19,52 +19,81 @@ namespace WheelMUD.Rules
 
     public class RulesEngine : IRegisterInvoker
     {
-        //Create a default ExpressionCache, ignoring lambda parameter names.
-        private static readonly ExpressionCache _defaultExpressionCache = new ExpressionCache(new ExpressionComparerIgnoreLambdaParameterNames());
-        private readonly InvokerRegistry _registry = new InvokerRegistry();
-        private readonly ExpressionCache _expressionCache;
+        private readonly InvokerRegistry registry = new InvokerRegistry();
+
+        static RulesEngine()
+        {
+            // Create a default ExpressionCache, ignoring lambda parameter names.
+            DefaultExpressionCache = new ExpressionCache(new ExpressionComparerIgnoreLambdaParameterNames());
+        }
 
         public RulesEngine()
         {
-            _expressionCache = _defaultExpressionCache;
+            this.ExpressionCache = DefaultExpressionCache;
         }
 
+        /// <summary>Initializes a new instance of the <see cref="RulesEngine"/> class.</summary>
+        /// <param name="expressionCache">The expression cache.</param>
         public RulesEngine(ExpressionCache expressionCache)
         {
-            if (expressionCache == null) throw new ArgumentNullException("expressionCache");
-            _expressionCache = expressionCache;
+            if (expressionCache == null)
+            {
+                throw new ArgumentNullException("expressionCache");
+            }
+
+            this.ExpressionCache = expressionCache;
         }
 
-        /// <summary>Creates a Rules Engine.</summary>
+        /// <summary>Initializes a new instance of the <see cref="RulesEngine"/> class.</summary>
         /// <param name="basedOn">Copies rules from base Engine</param>
         public RulesEngine(RulesEngine basedOn)
         {
-            if (basedOn == null) throw new ArgumentNullException("basedOn");
-            _registry = basedOn._registry.Clone();
-            _expressionCache = basedOn._expressionCache;
+            if (basedOn == null)
+            {
+                throw new ArgumentNullException("basedOn");
+            }
+
+            registry = basedOn.registry.Clone();
+            this.ExpressionCache = basedOn.ExpressionCache;
         }
 
-        /// <summary>Creates a Rules Engine.</summary>
+        /// <summary>Initializes a new instance of the <see cref="RulesEngine"/> class.</summary>
         /// <param name="basedOn">Copies specific rules from base Engine</param>
         /// <param name="types">Copies rules for the specified types only.</param>
         public RulesEngine(RulesEngine basedOn, params Type[] types)
         {
-            if (types == null) throw new ArgumentNullException("types");
-            if (basedOn == null) throw new ArgumentNullException("basedOn");
+            if (types == null)
+            {
+                throw new ArgumentNullException("types");
+            }
 
-            var registry = basedOn._registry.Clone();
-
-            _expressionCache = basedOn._expressionCache;
-
+            if (basedOn == null)
+            {
+                throw new ArgumentNullException("basedOn");
+            }
+            
+            var registry = basedOn.registry.Clone();
+            this.ExpressionCache = basedOn.ExpressionCache;
             foreach (var type in types)
             {
                 var invokers = registry.GetInvokers(type);
                 foreach (var invoker in invokers)
                 {
-                    _registry.RegisterInvoker(invoker);
+                    this.registry.RegisterInvoker(invoker);
                 }
             }
         }
+
+        /// <summary>Gets DefaultExpressionCache.</summary>
+        public static ExpressionCache DefaultExpressionCache { get; private set; }
+
+        RulesEngine IRegisterInvoker.RulesRulesEngine
+        {
+            get { return this; }
+        }
+
+        /// <summary>Gets ExpressionCache.</summary>
+        public ExpressionCache ExpressionCache { get; private set; }
 
         public ForClass<T> For<T>()
         {
@@ -73,8 +102,12 @@ namespace WheelMUD.Rules
 
         public void Validate(object value, IValidationReport report, ValidationReportDepth depth)
         {
-            if (value == null) return;
-            foreach (var invoker in _registry.GetInvokers(value.GetType()))
+            if (value == null)
+            {
+                return;
+            }
+
+            foreach (var invoker in registry.GetInvokers(value.GetType()))
             {
                 invoker.Invoke(value, report, depth);
                 if (report.HasErrors && depth == ValidationReportDepth.ShortCircuit)
@@ -93,24 +126,7 @@ namespace WheelMUD.Rules
 
         void IRegisterInvoker.RegisterInvoker(IRuleInvoker ruleInvoker)
         {
-            _registry.RegisterInvoker(ruleInvoker);
-        }
-
-        RulesEngine IRegisterInvoker.RulesRulesEngine
-        {
-            get { return this; }
-        }
-
-        /// <summary>Gets ExpressionCache.</summary>
-        public ExpressionCache ExpressionCache
-        {
-            get { return _expressionCache; }
-        }
-
-        /// <summary>Gets DefaultExpressionCache.</summary>
-        public static ExpressionCache DefaultExpressionCache
-        {
-            get { return _defaultExpressionCache; }
+            registry.RegisterInvoker(ruleInvoker);
         }
     }
 }

@@ -67,7 +67,9 @@
     <Compile Include="Enums\RuleConditions.cs" />
     <Compile Include="Enums\RuleSeverity.cs" />
     <Compile Include="ExpressionCache.cs" />
-    <Compile Include="ExpressionComparer.cs" />
+    <Compile Include="ExpressionComparer.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="ExpressionComparerIgnoreLambdaParameterNames.cs" />
     <Compile Include="ForClass.cs" />
     <Compile Include="ForClassElseEndIf.cs" />

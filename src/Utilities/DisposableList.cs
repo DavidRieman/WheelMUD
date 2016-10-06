@@ -25,7 +25,7 @@ namespace WheelMUD.Utilities
         /// <summary>The synchronization locking object to prevent simultaneous disposal from multiple threads.</summary>
         private readonly object lockObject = new object();
 
-        /// <summary>Finalizes an instance of the <see cref="DisposableList"/> class.</summary>
+        /// <summary>Finalizes an instance of the DisposableList class.</summary>
         ~DisposableList()
         {
             this.Dispose();

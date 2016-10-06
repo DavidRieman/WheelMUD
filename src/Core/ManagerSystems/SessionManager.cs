@@ -22,7 +22,7 @@ namespace WheelMUD.Core
     public class SessionManager : ManagerSystem
     {
         /// <summary>The singleton instance of this class.</summary>
-        private static SessionManager instance = new SessionManager();
+        private static readonly SessionManager SingletonInstance = new SessionManager();
 
         /// <summary>The login splash screen.</summary>
         ////private static string splash;
@@ -38,7 +38,7 @@ namespace WheelMUD.Core
         /// <summary>Gets the singleton instance of the <see cref="SessionManager"/> system.</summary>
         public static SessionManager Instance
         {
-            get { return instance; }
+            get { return SingletonInstance; }
         }
 
         /// <summary>Gets the dictionary of sessions.</summary>

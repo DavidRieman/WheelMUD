@@ -20,14 +20,14 @@ namespace WheelMUD.Rules
 
     public class SetupClassElseEndIf<T, R, ENDIF> : IMustPassRule<SetupClassElseEndIf<T, R, ENDIF>, T, R>, ISetupClass
     {
-        private Expression<Func<T, R>> _expression;
-        private ForClassElseEndIf<T, ENDIF> _parent;
+        private Expression<Func<T, R>> expression;
+        private ForClassElseEndIf<T, ENDIF> parent;
         private RulesEngine rulesRulesEngine;
 
         internal SetupClassElseEndIf(RulesEngine rulesRulesEngine, ForClassElseEndIf<T, ENDIF> parent, Expression<Func<T, R>> expression)
         {
-            _expression = expression;
-            _parent = parent;
+            this.expression = expression;
+            this.parent = parent;
             this.rulesRulesEngine = rulesRulesEngine;
         }
 
@@ -35,7 +35,7 @@ namespace WheelMUD.Rules
         {
             get
             {
-                return _expression;
+                return expression;
             }
         }
 
@@ -47,34 +47,34 @@ namespace WheelMUD.Rules
 
         public SetupClassElseEndIf<T, R, ENDIF> MustPassRule(IRule<R> rule)
         {
-            this.rulesRulesEngine.RegisterRule(rule, _expression, _expression);
+            this.rulesRulesEngine.RegisterRule(rule, expression, expression);
             return this;
         }
 
         public SetupClassElseEndIf<T, R, ENDIF> MustPassRule(IRule<T> rule)
         {
-            this.rulesRulesEngine.RegisterRule(rule, Utilities.ReturnSelf<T>(), _expression);
+            this.rulesRulesEngine.RegisterRule(rule, Utilities.ReturnSelf<T>(), expression);
             return this;
         }
         
         public SetupClassElseEndIf<T, R1, ENDIF> Setup<R1>(Expression<Func<T, R1>> expression)
         {
-            return new SetupClassElseEndIf<T, R1, ENDIF>(this.rulesRulesEngine, _parent, expression);
+            return new SetupClassElseEndIf<T, R1, ENDIF>(this.rulesRulesEngine, parent, expression);
         }
 
         public ForClassEndIf<T, ENDIF> Else()
         {
-            return _parent.Else();
+            return parent.Else();
         }
 
         public ForClassElseEndIf<T, ForClassElseEndIf<T, ENDIF>> If(Expression<Func<T, bool>> condition)
         {
-            return _parent.If(condition);
+            return parent.If(condition);
         }
 
         public ENDIF EndIf()
         {
-            return _parent.EndIf();
+            return parent.EndIf();
         }
 
         public SetupClassElseEndIf<T, R, ENDIF> GetSelf()

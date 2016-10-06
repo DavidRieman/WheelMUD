@@ -22,7 +22,7 @@ namespace WheelMUD.Core
     public class MobileManager : ManagerSystem
     {
         /// <summary>The singleton instance of this class.</summary>
-        private static MobileManager instance = new MobileManager();
+        private static readonly MobileManager SingletonInstance = new MobileManager();
 
         /// <summary>The list of managed mobiles.</summary>
         private readonly List<Thing> mobiles = new List<Thing>();
@@ -35,7 +35,7 @@ namespace WheelMUD.Core
         /// <summary>Gets the singleton instance of the MobileManager class.</summary>
         public static MobileManager Instance
         {
-            get { return instance; }
+            get { return SingletonInstance; }
         }
 
         /// <summary>Called when an action has been received, the manager can then put the action onto the queue.</summary>

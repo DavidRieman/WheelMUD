@@ -87,7 +87,7 @@ namespace WheelMUD.Tests.Session
             {
             }
 
-            /// <summary>Initializes a new instance of the ConnectedState class.</summary>
+            /// <summary>Initializes a new instance of the <see cref="FakeSessionState"/> class.</summary>
             /// <remarks>This constructor is required to support MEF discovery as our default connection state.</remarks>
             public FakeSessionState() : this(null)
             {

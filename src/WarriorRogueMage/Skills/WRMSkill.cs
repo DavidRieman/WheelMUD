@@ -13,6 +13,7 @@ namespace WarriorRogueMage.Skills
 {
     using WheelMUD.Core;
 
+    /// <summary>A WRM game skill.</summary>
     public class WRMSkill : GameSkill
     {
         /// <summary>Initializes a new instance of the <see cref="WRMSkill"/> class.</summary>

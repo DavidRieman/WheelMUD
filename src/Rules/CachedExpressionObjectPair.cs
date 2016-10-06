@@ -24,18 +24,6 @@ namespace WheelMUD.Rules
         private readonly object privateValue;
         private readonly int hashCode;
 
-        /// <summary>Gets the cached expression.</summary>
-        public CachedExpression CachedExpression
-        {
-            get { return this.privateCachedExpression; }
-        }
-
-        /// <summary>Gets the value.</summary>
-        public object Value
-        {
-            get { return this.privateValue; }
-        }
-
         /// <summary>Initializes a new instance of the <see cref="CachedExpressionObjectPair"/> class.</summary>
         /// <param name="cachedExpression">The cached expression.</param>
         /// <param name="value">The value.</param>
@@ -54,6 +42,36 @@ namespace WheelMUD.Rules
             this.privateCachedExpression = cachedExpression;
             this.privateValue = value;
             hashCode = Utilities.CombineHash(cachedExpression.GetHashCode(), value.GetHashCode());
+        }
+
+        /// <summary>Gets the cached expression.</summary>
+        public CachedExpression CachedExpression
+        {
+            get { return this.privateCachedExpression; }
+        }
+
+        /// <summary>Gets the value.</summary>
+        public object Value
+        {
+            get { return this.privateValue; }
+        }
+
+        /// <summary>Implements the operator ==.</summary>
+        /// <param name="t1">The t1.</param>
+        /// <param name="t2">The t2.</param>
+        /// <returns>The result of the operation.</returns>
+        public static bool operator ==(CachedExpressionObjectPair t1, CachedExpressionObjectPair t2)
+        {
+            return t1.Equals(t2);
+        }
+
+        /// <summary>Implements the operator !=.</summary>
+        /// <param name="t1">The t1.</param>
+        /// <param name="t2">The t2.</param>
+        /// <returns>The result of the operation.</returns>
+        public static bool operator !=(CachedExpressionObjectPair t1, CachedExpressionObjectPair t2)
+        {
+            return !t1.Equals(t2);
         }
 
         /// <summary>Determines whether the specified <see cref="System.Object"/> is equal to this instance.</summary>
@@ -87,24 +105,6 @@ namespace WheelMUD.Rules
         public override int GetHashCode()
         {
             return hashCode;
-        }
-
-        /// <summary>Implements the operator ==.</summary>
-        /// <param name="t1">The t1.</param>
-        /// <param name="t2">The t2.</param>
-        /// <returns>The result of the operation.</returns>
-        public static bool operator ==(CachedExpressionObjectPair t1, CachedExpressionObjectPair t2)
-        {
-            return t1.Equals(t2);
-        }
-
-        /// <summary>Implements the operator !=.</summary>
-        /// <param name="t1">The t1.</param>
-        /// <param name="t2">The t2.</param>
-        /// <returns>The result of the operation.</returns>
-        public static bool operator !=(CachedExpressionObjectPair t1, CachedExpressionObjectPair t2)
-        {
-            return !t1.Equals(t2);
         }
     }
 }

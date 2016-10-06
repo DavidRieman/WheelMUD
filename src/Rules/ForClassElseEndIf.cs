@@ -21,14 +21,14 @@ namespace WheelMUD.Rules
     public class ForClassElseEndIf<T, ENDIF> : IMustPassRule<ForClassElseEndIf<T, ENDIF>, T, T>
     {
         private RulesEngine rulesRulesEngine;
-        private ENDIF _parent;
-        private ConditionalInvoker<T> _conditionalInvoker;
+        private ENDIF parent;
+        private ConditionalInvoker<T> conditionalInvoker;
 
         internal ForClassElseEndIf(RulesEngine rulesRulesEngine, ConditionalInvoker<T> conditionalInvoker, ENDIF parent)
         {
             this.rulesRulesEngine = rulesRulesEngine;
-            _parent = parent;
-            _conditionalInvoker = conditionalInvoker;
+            this.parent = parent;
+            this.conditionalInvoker = conditionalInvoker;
         }
 
         public Expression<Func<T, T>> Expression
@@ -62,12 +62,12 @@ namespace WheelMUD.Rules
 
         public ForClassEndIf<T, ENDIF> Else()
         {
-            return new ForClassEndIf<T, ENDIF>(_conditionalInvoker.IfFalseRulesEngine, _conditionalInvoker, _parent);
+            return new ForClassEndIf<T, ENDIF>(conditionalInvoker.IfFalseRulesEngine, conditionalInvoker, parent);
         }
 
         public ENDIF EndIf()
         {
-            return _parent;
+            return parent;
         }
 
         public ForClassElseEndIf<T, ENDIF> GetSelf()

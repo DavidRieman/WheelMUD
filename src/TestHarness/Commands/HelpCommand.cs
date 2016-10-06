@@ -17,12 +17,12 @@ namespace TestHarness.Commands
     public class HelpCommand : ITestHarnessCommand
     {
         /// <summary>Recognized names for this command.</summary>
-        private readonly string[] _names = { "?", "HELP", "help", "h" };
+        private readonly string[] names = { "?", "HELP", "help", "h" };
 
         /// <summary>Gets the recognized names for this command.</summary>
         public IEnumerable<string> Names
         {
-            get { return _names; }
+            get { return names; }
         }
 
         /// <summary>Execute the Help command.</summary>

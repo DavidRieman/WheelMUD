@@ -126,13 +126,14 @@ namespace WheelMUD.Core
         /// <summary>Gets a value indicating whether this state is visible.</summary>
         public bool Visible { get; private set; }
 
+        /// <summary>Gets or sets the parent Thing this stat belongs to.</summary>
+        /// <remarks>@@@ TODO: IMPLEMENT OnAdd AND OnRemove REACTIONS WHEN CHANGING PARENT AS PER BEHAVIORS!</remarks>
+        [JsonIgnore]
+        public Thing Parent { get; set; }
+
         /// <summary>Gets or sets the host that this stat applies to.</summary>
         [JsonIgnore]
         protected IController Host { get; set; }
-
-        // @@@ IMPLEMENT OnAdd AND OnRemove REACTIONS WHEN CHANGING PARENT AS PER BEHAVIORS!
-        [JsonIgnore]
-        public Thing Parent { get; set; }
 
         /// <summary>Called when a parent Thing has just been assigned this game element.</summary>
         public virtual void OnAdd()

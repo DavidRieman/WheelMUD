@@ -30,8 +30,6 @@ namespace WheelMUD.Data.Repositories
     /// <summary>Repository for the <%=currentTable%> table.</summary>
     public partial class <%=currentTable%>Repository : I<%=currentTable%>Repository
     {
-        #region I<%=currentTable%>Repository Members
-
         public void Add(<%=currentTable%>Record <%=currentTable.ToString().ToLower() %>)
         {
             using (IDbCommand session = Helpers.OpenSession())
@@ -83,8 +81,6 @@ namespace WheelMUD.Data.Repositories
                 return session.Select<<%=currentTable%>Record>();
             }
         }
-
-        #endregion
     }
 }
 <% } %>

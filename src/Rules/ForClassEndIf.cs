@@ -21,14 +21,14 @@ namespace WheelMUD.Rules
     public class ForClassEndIf<T, ENDIF> : IMustPassRule<ForClassEndIf<T, ENDIF>, T, T>
     {
         private RulesEngine rulesRulesEngine;
-        private ENDIF _parent;
+        private ENDIF parent;
 
         internal ForClassEndIf(RulesEngine rulesRulesEngine, ConditionalInvoker<T> conditionalInvoker, ENDIF parent)
         {
             // TODO: conditionalInvoker is not used. These rules don't actually seem to be used anyway, but this seems 
             //       like a strong indication that at least this class is broken.
             this.rulesRulesEngine = rulesRulesEngine;
-            _parent = parent;
+            this.parent = parent;
         }
 
         public Expression<Func<T, T>> Expression
@@ -62,7 +62,7 @@ namespace WheelMUD.Rules
 
         public ENDIF EndIf()
         {
-            return _parent;
+            return parent;
         }
 
         public ForClassEndIf<T, ENDIF> GetSelf()

@@ -39,7 +39,6 @@ namespace WheelMUD.Rules
                                         .ToArray();
 
                 normalizedInvokers[type] = result;
-
             }
 
             return result;
@@ -47,7 +46,7 @@ namespace WheelMUD.Rules
 
         public void RegisterInvoker(IRuleInvoker ruleInvoker)
         {
-            //Re-Calculate normalized invokers every time a new invoker is added.
+            // Recalculate normalized invokers every time a new invoker is added.
             normalizedInvokers.Clear();
 
             if (invokers.Any(ri => ri.Key == ruleInvoker.ParameterType))
@@ -63,11 +62,6 @@ namespace WheelMUD.Rules
             }
         }
 
-        private bool IsTypeCompatible(Type value, Type invokerType)
-        {
-            return invokerType.IsAssignableFrom(value);
-        }
-
         public InvokerRegistry Clone()
         {
             var result = new InvokerRegistry();
@@ -78,6 +72,11 @@ namespace WheelMUD.Rules
         object ICloneable.Clone()
         {
             return Clone();
+        }
+
+        private bool IsTypeCompatible(Type value, Type invokerType)
+        {
+            return invokerType.IsAssignableFrom(value);
         }
     }
 }

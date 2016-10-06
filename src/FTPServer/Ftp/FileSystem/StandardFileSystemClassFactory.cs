@@ -17,9 +17,9 @@ namespace WheelMUD.Ftp.FileSystem
     {
         public IFileSystem Create(string user, string password)
         {
-            ////if (UserData.GetInstance().HasUser(user) && UserData.GetInstance().GetUserPassword(user) == password)
+            ////if (UserData.Instance.HasUser(user) && UserData.GetInstance().GetUserPassword(user) == password)
             ////{
-            ////    return new StandardFileSystemObject(UserData.GetInstance().GetUserStartingDirectory(user));
+            ////    return new StandardFileSystemObject(UserData.Instance.GetUserStartingDirectory(user));
             ////}
 
             string serverFolder = MudEngineAttributes.Instance.FTPServerRootFolder;

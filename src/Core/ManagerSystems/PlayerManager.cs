@@ -27,7 +27,7 @@ namespace WheelMUD.Core
     public class PlayerManager : ManagerSystem
     {
         /// <summary>The singleton instance of this class.</summary>
-        private static PlayerManager instance = new PlayerManager();
+        private static readonly PlayerManager SingletonInstance = new PlayerManager();
 
         /// <summary>A list of managed players.</summary>
         private readonly List<PlayerBehavior> playersList = new List<PlayerBehavior>();
@@ -53,7 +53,7 @@ namespace WheelMUD.Core
         /// <value>The instance.</value>
         public static PlayerManager Instance
         {
-            get { return instance; }
+            get { return SingletonInstance; }
         }
 
         /// <summary>Gets a read only collection of the players currently online.</summary>

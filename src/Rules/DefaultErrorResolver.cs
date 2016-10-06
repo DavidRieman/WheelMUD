@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// <copyright file=" DefaultErrorResolver.cs" company="http://rulesengine.codeplex.com">
+// <copyright file="DefaultErrorResolver.cs" company="http://rulesengine.codeplex.com">
 //   Copyright (c) athoma13. See RulesEngine_License.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>

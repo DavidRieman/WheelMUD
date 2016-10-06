@@ -16,9 +16,12 @@ namespace TestHarness.Commands
 
     public class UpdateActionsCommand : ITestHarnessCommand
     {
-        private readonly string[] _names = { "UPDATE-ACTIONS", "UPDATE", "update", "u" };
+        private readonly string[] names = { "UPDATE-ACTIONS", "UPDATE", "update", "u" };
 
-        public IEnumerable<string> Names { get { return _names; } }
+        public IEnumerable<string> Names
+        {
+            get { return names; }
+        }
 
         public void Execute(Application app, MultiUpdater display, string[] words)
         {

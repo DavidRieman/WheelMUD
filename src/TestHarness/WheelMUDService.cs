@@ -19,7 +19,7 @@ namespace TestHarness
         /// <summary>The application.</summary>
         private readonly Application application;
 
-        /// <summary>Initializes a new instance of the WheelMUDService class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="WheelMudService"/> class.</summary>
         public WheelMudService()
         {
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;

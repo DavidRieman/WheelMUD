@@ -24,34 +24,10 @@ namespace WheelMUD.Rules
 
     public class ValidationError
     {
-        private IRule _rule;
-        private CachedExpression _cachedExpression;
-        private object[] _validationArguments;
-        private object _value;
-
-        /// <summary>Gets the Rule.</summary>
-        public IRule Rule
-        {
-            get { return _rule; }
-        }
-
-        /// <summary>Gets the cached expression.</summary>
-        public CachedExpression CachedExpression
-        {
-            get { return _cachedExpression; }
-        }
-
-        /// <summary>Gets ValidationArguments.</summary>
-        public object[] ValidationArguments
-        {
-            get { return _validationArguments; }
-        }
-
-        /// <summary>Gets the value.</summary>
-        public object Value
-        {
-            get { return _value; }
-        }
+        private IRule rule;
+        private CachedExpression cachedExpression;
+        private object[] validationArguments;
+        private object value;
 
         public ValidationError(IRule rule, CachedExpression cachedExpression, object[] validationArguments, object value)
         {
@@ -61,16 +37,48 @@ namespace WheelMUD.Rules
             }
 
             if (value == null)
+            {
                 throw new ArgumentNullException("value");
-            if (cachedExpression == null)
-                throw new ArgumentNullException("cachedExpression");
-            if (rule == null)
-                throw new ArgumentNullException("rule");
+            }
 
-            _rule = rule;
-            _cachedExpression = cachedExpression;
-            _validationArguments = validationArguments;
-            _value = value;
+            if (cachedExpression == null)
+            {
+                throw new ArgumentNullException("cachedExpression");
+            }
+
+            if (rule == null)
+            {
+                throw new ArgumentNullException("rule");
+            }
+
+            this.rule = rule;
+            this.cachedExpression = cachedExpression;
+            this.validationArguments = validationArguments;
+            this.value = value;
+        }
+
+        /// <summary>Gets the Rule.</summary>
+        public IRule Rule
+        {
+            get { return rule; }
+        }
+
+        /// <summary>Gets the cached expression.</summary>
+        public CachedExpression CachedExpression
+        {
+            get { return cachedExpression; }
+        }
+
+        /// <summary>Gets ValidationArguments.</summary>
+        public object[] ValidationArguments
+        {
+            get { return validationArguments; }
+        }
+
+        /// <summary>Gets the value.</summary>
+        public object Value
+        {
+            get { return value; }
         }
     }
 }

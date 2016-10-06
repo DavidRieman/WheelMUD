@@ -22,13 +22,11 @@ namespace WheelMUD.ConnectionStates
             this.Session = session;
         }
 
-        /// <summary>Gets the session for this user connection.</summary>
-        protected Session Session { get; private set; }
-
-        public abstract string BuildPrompt();
-
         /// <summary>Gets or sets the state machine managing this creation state.</summary>
         public CharacterCreationStateMachine StateMachine { get; set; }
+
+        /// <summary>Gets the session for this user connection.</summary>
+        protected Session Session { get; private set; }
 
         /// <summary>Gets the character creation handler.</summary>
         protected CharacterCreationStateMachineManager Handler { get; private set; }
@@ -36,5 +34,9 @@ namespace WheelMUD.ConnectionStates
         /// <summary>ProcessInput is used to receive the user input during this state.</summary>
         /// <param name="command">The command text to be processed.</param>
         public abstract void ProcessInput(string command);
+
+        /// <summary>Builds the player prompt for this stage of character creation.</summary>
+        /// <returns>The build player prompt.</returns>
+        public abstract string BuildPrompt();
     }
 }

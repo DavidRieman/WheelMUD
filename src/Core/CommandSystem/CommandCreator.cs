@@ -28,7 +28,7 @@ namespace WheelMUD.CommandSystem
     public class CommandCreator
     {
         /// <summary>The CommandCreator singleton instance.</summary>
-        private static CommandCreator instance = new CommandCreator();
+        private static readonly CommandCreator SingletonInstance = new CommandCreator();
 
         /// <summary>The response given for a player's attempted but unrecognized command.</summary>
         private static string unknownCommandResponse = "Huh?";
@@ -41,7 +41,7 @@ namespace WheelMUD.CommandSystem
         /// <summary>Gets the singleton instance of the CommandCreator class.</summary>
         public static CommandCreator Instance
         {
-            get { return instance; }
+            get { return SingletonInstance; }
         }
 
         /// <summary>Creates a scripting command from action input.</summary>

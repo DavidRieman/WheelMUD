@@ -33,7 +33,7 @@ namespace WheelMUD.Effects
         /// <summary>Sets the default properties of this effect instance.</summary>
         protected override void SetDefaultProperties()
         {
-            //throw new NotImplementedException();
+            ////throw new NotImplementedException();
         }
     }
 }

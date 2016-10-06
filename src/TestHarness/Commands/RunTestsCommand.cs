@@ -19,9 +19,12 @@ namespace TestHarness.Commands
 
     public class RunTestsCommand : ITestHarnessCommand
     {
-        private readonly string[] _names = { "RUN", "RUN-TESTS", "run", "Run", "r" };
+        private readonly string[] names = { "RUN", "RUN-TESTS", "run", "Run", "r" };
 
-        public IEnumerable<string> Names { get { return _names; } }
+        public IEnumerable<string> Names
+        {
+            get { return names; }
+        }
 
         public void Execute(Application app, MultiUpdater display, string[] words)
         {
@@ -81,6 +84,7 @@ namespace TestHarness.Commands
                                 {
                                     throw new Exception(string.Format("FATAL Error: Data could not be sent: '{0}'.", data[1]));
                                 }
+
                                 break;
                             case "r":
                             case "recv":
@@ -91,6 +95,7 @@ namespace TestHarness.Commands
                                 {
                                     throw new Exception(string.Format("FATAL Error: Data Returned does not match regex of '{0}'.", data[1]));
                                 }
+
                                 break;
                             case "w":
                             case "wait":
@@ -103,12 +108,14 @@ namespace TestHarness.Commands
                                 {
                                     Thread.Sleep(1000);
                                     tsc.Recieve(out wtr);
-                                } while (c++ < to && !Regex.IsMatch(wtr, data[2]));
+                                }
+                                while (c++ < to && !Regex.IsMatch(wtr, data[2]));
 
                                 if (c > to)
                                 {
                                     throw new Exception(string.Format("FATAL Error: Timed out while waiting for match of regex '{0}'.", data[2]));
                                 }
+
                                 break;
                         }
                     }
@@ -134,6 +141,7 @@ namespace TestHarness.Commands
                 {
                     display.Notify(">> " + error);
                 }
+
                 display.Notify(">> FATAL ERROR. Tests FAILED.");
                 failed.Clear();
             }

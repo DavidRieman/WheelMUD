@@ -1,7 +1,14 @@
-﻿// TEMP CONTENT FROM REMOVED FILES - FOR TEMPORARY SLN SEARCHABILITY ONLY WHILE
-// TRANSITIONING CODE TO NEW BEHAVIORS, EVENTS, MEF, ETC.
-// @@@ DO NOT REMOVE UNTIL EACH PART IS DEFINITELY REPLACED/PROVEN WITH BEHAVIORS ETC.
-
+﻿//-----------------------------------------------------------------------------
+// <copyright file="AAA_TEMP.cs" company="WheelMUD Development Team">
+//   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
+//   subject to the Microsoft Public License. All other rights reserved.
+// </copyright>
+// <summary>
+//   TEMP CONTENT FROM REMOVED FILES - FOR TEMPORARY SLN SEARCHABILITY ONLY WHILE
+//   TRANSITIONING CODE TO NEW BEHAVIORS, EVENTS, MEF, ETC.
+//   @@@ DO NOT REMOVE UNTIL EACH PART IS DEFINITELY REPLACED/PROVEN WITH BEHAVIORS ETC.
+// </summary>
+//-----------------------------------------------------------------------------
 
 // Extracted from Things.cs:
 /* @@@ TODO: Replace with a ProvidesConsumableBehavior

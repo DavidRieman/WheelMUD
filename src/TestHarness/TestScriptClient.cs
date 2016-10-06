@@ -20,21 +20,21 @@ namespace TestHarness
     /// <summary>Scriptable client for full integration testing.</summary>
     public class TestScriptClient
     {
-        private TcpClient _client;
-        private NetworkStream _netstr;
-        private MultiUpdater _display;
+        private TcpClient client;
+        private NetworkStream netStream;
+        private MultiUpdater display;
 
         /// <summary>Gets a value indicating whether the client is currently connected.</summary>
         public bool Connected
         {
             get
             {
-                if (_client == null)
+                if (client == null)
                 {
                     return false;
                 }
 
-                return _client.Connected;
+                return client.Connected;
             }
         }
 
@@ -45,27 +45,27 @@ namespace TestHarness
         {
             try
             {
-                _client = new TcpClient();
+                client = new TcpClient();
 
                 // Use default mud port. TODO: Read and use configured port?
-                _client.Connect(new IPEndPoint(IPAddress.Loopback, 4000));
+                client.Connect(new IPEndPoint(IPAddress.Loopback, 4000));
 
                 int attempts = 0;
-                while (!_client.Connected && attempts++ < 10)
+                while (!client.Connected && attempts++ < 10)
                 {
                     display.Notify("> Connecting to mud server on localhost port 4000...");
                     Thread.Sleep(1000);
                 }
 
-                _display = display;
-                _netstr = _client.GetStream();
+                this.display = display;
+                netStream = client.GetStream();
 
                 return true;
             }
             catch (Exception ex)
             {
-                _display.Notify("> Fatal Error: " + ex);
-                _client = null;
+                this.display.Notify("> Fatal Error: " + ex);
+                client = null;
                 return false;
             }
         }
@@ -79,11 +79,11 @@ namespace TestHarness
 
             try
             {
-                _netstr.Write(buf, 0, buf.Length);
+                netStream.Write(buf, 0, buf.Length);
             }
             catch (Exception ex)
             {
-                _display.Notify(">> ERROR: " + ex);
+                display.Notify(">> ERROR: " + ex);
                 return false;
             }
 
@@ -101,13 +101,13 @@ namespace TestHarness
             {
                 var buf = new byte[1024];
 
-                _netstr.Read(buf, 0, buf.Length);
+                netStream.Read(buf, 0, buf.Length);
 
                 data = Encoding.ASCII.GetString(buf);
             }
             catch (Exception ex)
             {
-                _display.Notify(">> FATAL Error: " + ex);
+                display.Notify(">> FATAL Error: " + ex);
                 return false;
             }
 
@@ -120,9 +120,9 @@ namespace TestHarness
             if (Connected)
             {
                 Send("quit");
-                _netstr.Close();
-                _netstr = null;
-                _client = null;
+                netStream.Close();
+                netStream = null;
+                client = null;
             }
         }
     }

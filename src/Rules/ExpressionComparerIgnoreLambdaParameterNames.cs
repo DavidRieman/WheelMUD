@@ -27,8 +27,15 @@ namespace WheelMUD.Rules
 
         protected override bool CompareParameter(ParameterExpression node1, ParameterExpression node2, object state)
         {
-            if (this.AreBothNull(node1, node2)) return true;
-            if (this.AreEitherNull(node1, node2)) return false;
+            if (this.AreBothNull(node1, node2))
+            {
+                return true;
+            }
+
+            if (this.AreEitherNull(node1, node2))
+            {
+                return false;
+            }
 
             var index1 = this.GetCompareState(state, 0).IndexOf(node1);
             var index2 = this.GetCompareState(state, 1).IndexOf(node2);
@@ -47,8 +54,15 @@ namespace WheelMUD.Rules
 
         protected override bool CompareLambda(LambdaExpression node1, LambdaExpression node2, object state)
         {
-            if (this.AreBothNull(node1, node2)) return true;
-            if (this.AreEitherNull(node1, node2)) return false;
+            if (this.AreBothNull(node1, node2))
+            {
+                return true;
+            }
+
+            if (this.AreEitherNull(node1, node2))
+            {
+                return false;
+            }
 
             // Those parameters will be checked later on to make sure both expressions are equivalent.
             this.GetCompareState(state, 0).AddRange(node1.Parameters);
@@ -64,7 +78,11 @@ namespace WheelMUD.Rules
 
         protected override int GetHashCode(LambdaExpression node, object state)
         {
-            if (node != null) this.GetHashCodeState(state).AddRange(node.Parameters);
+            if (node != null)
+            {
+                this.GetHashCodeState(state).AddRange(node.Parameters);
+            }
+
             return base.GetHashCode(node, state);
         }
 

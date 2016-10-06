@@ -20,14 +20,14 @@ namespace WheelMUD.Rules
 
     public class SetupClass<T, R> : IMustPassRule<SetupClass<T, R>, T, R>, ISetupClass
     {
-        private Expression<Func<T, R>> _expression;
-        private ForClass<T> _parent;
+        private Expression<Func<T, R>> expression;
+        private ForClass<T> parent;
         private RulesEngine rulesRulesEngine;
 
         internal SetupClass(RulesEngine rulesRulesEngine, ForClass<T> parent, Expression<Func<T, R>> expression)
         {
-            _expression = expression;
-            _parent = parent;
+            this.expression = expression;
+            this.parent = parent;
             this.rulesRulesEngine = rulesRulesEngine;
         }
 
@@ -35,7 +35,7 @@ namespace WheelMUD.Rules
         {
             get
             {
-                return _expression;
+                return expression;
             }
         }
 
@@ -47,29 +47,29 @@ namespace WheelMUD.Rules
 
         public SetupClass<T, R> MustPassRule(IRule<R> rule)
         {
-            this.rulesRulesEngine.RegisterRule(rule, _expression, _expression);
+            this.rulesRulesEngine.RegisterRule(rule, expression, expression);
             return this;
         }
 
         public SetupClass<T, R> MustPassRule(IRule<T> rule)
         {
-            this.rulesRulesEngine.RegisterRule(rule, Utilities.ReturnSelf<T>(), _expression);
+            this.rulesRulesEngine.RegisterRule(rule, Utilities.ReturnSelf<T>(), expression);
             return this;
         }
 
         public SetupClass<T, R1> Setup<R1>(Expression<Func<T, R1>> expression)
         {
-            return new SetupClass<T, R1>(this.rulesRulesEngine, _parent, expression);
+            return new SetupClass<T, R1>(this.rulesRulesEngine, parent, expression);
         }
 
         public ForClassElseEndIf<T, ForClass<T>> If(Expression<Func<T, bool>> condition)
         {
-            return _parent.If(condition);
+            return parent.If(condition);
         }
         
         public ForClass<T> EndSetup()
         {
-            return _parent;
+            return parent;
         }
 
         public SetupClass<T, R> GetSelf()

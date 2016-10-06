@@ -21,7 +21,7 @@ namespace WheelMUD.Core
     public class HelpManager : ManagerSystem
     {
         /// <summary>The singleton instance of this class.</summary>
-        private static HelpManager instance = new HelpManager();
+        private static readonly HelpManager SingletonInstance = new HelpManager();
 
         /// <summary>Prevents a default instance of the <see cref="HelpManager"/> class from being created.</summary>
         private HelpManager()
@@ -33,7 +33,7 @@ namespace WheelMUD.Core
         /// <value>The HelpManager instance.</value>
         public static HelpManager Instance
         {
-            get { return instance; }
+            get { return SingletonInstance; }
         }
 
         /// <summary>Gets the complete list of HelpTopics that are loaded into memory.</summary>

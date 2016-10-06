@@ -20,6 +20,10 @@ namespace WarriorRogueMage
     /// </summary>
     public class WRMRace : GameRace
     {
+        /// <summary>Initializes a new instance of the <see cref="WRMRace"/> class.</summary>
+        /// <param name="name">The name of the race.</param>
+        /// <param name="description">The description of the race.</param>
+        /// <param name="racialTalents">The talents of the race.</param>
         public WRMRace(string name, string description, params Talent[] racialTalents) : base()
         {
             this.Name = name;
@@ -27,6 +31,7 @@ namespace WarriorRogueMage
             this.RacialTalents = racialTalents.ToList();
         }
 
+        /// <summary>Gets the list of racial talents.</summary>
         public List<Talent> RacialTalents { get; private set; }
     }
 }

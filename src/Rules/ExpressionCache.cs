@@ -21,11 +21,10 @@ namespace WheelMUD.Rules
 
     public sealed class ExpressionCache
     {
-        private readonly Dictionary<ExpressionKey, CachedExpression> _cache;
-        private readonly IEqualityComparer<Expression> _comparer;
+        private readonly Dictionary<ExpressionKey, CachedExpression> ccache;
+        private readonly IEqualityComparer<Expression> comparer;
 
-        public ExpressionCache() :
-            this(new ExpressionComparer())
+        public ExpressionCache() : this(new ExpressionComparer())
         {
         }
 
@@ -36,8 +35,8 @@ namespace WheelMUD.Rules
                 throw new ArgumentNullException("comparer");
             }
 
-            _comparer = comparer;
-            _cache = new Dictionary<ExpressionKey, CachedExpression>();
+            this.comparer = comparer;
+            ccache = new Dictionary<ExpressionKey, CachedExpression>();
         }
 
         public CachedExpression Get(Expression expression)
@@ -48,46 +47,46 @@ namespace WheelMUD.Rules
             }
 
             CachedExpression result;
-            var key = new ExpressionKey(_comparer, expression);
-            if (_cache.TryGetValue(key, out result))
+            var key = new ExpressionKey(comparer, expression);
+            if (ccache.TryGetValue(key, out result))
             {
                 return result;
             }
             else
             {
                 result = new CachedExpression(expression);
-                _cache.Add(key, result);
+                ccache.Add(key, result);
                 return result;
             }
         }
 
         private class ExpressionKey : IEquatable<ExpressionKey>
         {
-            private readonly IEqualityComparer<Expression> _comparer;
-            private readonly Expression _expression;
-            private readonly int _hashCode;
+            private readonly IEqualityComparer<Expression> comparer;
+            private readonly Expression expression;
+            private readonly int hashCode;
 
             public ExpressionKey(IEqualityComparer<Expression> comparer, Expression expression)
             {
-                _comparer = comparer;
-                _expression = expression;
-                _hashCode = comparer.GetHashCode(expression);
+                this.comparer = comparer;
+                this.expression = expression;
+                this.hashCode = comparer.GetHashCode(expression);
             }
 
             /// <summary>Gets the Expression.</summary>
             public Expression Expression
             {
-                get { return _expression; }
+                get { return expression; }
             }
 
             public bool Equals(ExpressionKey other)
             {
-                return _hashCode == other._hashCode && _comparer.Equals(_expression, other._expression);
+                return hashCode == other.hashCode && comparer.Equals(expression, other.expression);
             }
 
             public override int GetHashCode()
             {
-                return _hashCode;
+                return hashCode;
             }
         }
     }

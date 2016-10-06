@@ -18,9 +18,10 @@ namespace WarriorRogueMage.Skills
     public class SkillAcrobatics : WRMSkill
     {
         /// <summary>Initializes a new instance of the <see cref="SkillAcrobatics"/> class.</summary>
-        public SkillAcrobatics() : base("Acrobatics",
-                "ROG",
-                "Training in activities like dancing, contortion, climbing, tightrope, walking, tumbling.")
+        public SkillAcrobatics() : base(
+            "Acrobatics",
+            "ROG",
+            "Training in activities like dancing, contortion, climbing, tightrope, walking, tumbling.")
         {
         }
     }
@@ -30,7 +31,8 @@ namespace WarriorRogueMage.Skills
     public class SkillAlchemy : WRMSkill
     {
         /// <summary>Initializes a new instance of the <see cref="SkillAlchemy"/> class.</summary>
-        public SkillAlchemy() : base("Alchemy", 
+        public SkillAlchemy() : base(
+            "Alchemy", 
             "MAG", 
             "Training in creating and identifying potions and salves.")
         {
@@ -42,7 +44,8 @@ namespace WarriorRogueMage.Skills
     public class SkillAthletics : WRMSkill
     {
         /// <summary>Initializes a new instance of the <see cref="SkillAthletics"/> class.</summary>
-        public SkillAthletics() : base("Athletics", 
+        public SkillAthletics() : base(
+            "Athletics", 
             "WAR", 
             "Training in swimming, running, and jumping.")
         {
@@ -54,7 +57,8 @@ namespace WarriorRogueMage.Skills
     public class SkillAwareness : WRMSkill
     {
         /// <summary>Initializes a new instance of the <see cref="SkillAwareness"/> class.</summary>
-        public SkillAwareness() : base("Awareness", 
+        public SkillAwareness() : base(
+            "Awareness", 
             "MAG", 
             "This skill is a measure of a character's awareness of his surroundings.")
         {
@@ -66,7 +70,8 @@ namespace WarriorRogueMage.Skills
     public class SkillAxes : WRMSkill
     {
         /// <summary>Initializes a new instance of the <see cref="SkillAxes"/> class.</summary>
-        public SkillAxes() : base("Axes", 
+        public SkillAxes() : base(
+            "Axes", 
             "WAR", 
             "Training with axes.")
         {
@@ -78,7 +83,8 @@ namespace WarriorRogueMage.Skills
     public class SkillBlunt : WRMSkill
     {
         /// <summary>Initializes a new instance of the <see cref="SkillBlunt"/> class.</summary>
-        public SkillBlunt() : base("Blunt", 
+        public SkillBlunt() : base(
+            "Blunt", 
             "WAR", 
             "Training in all blunt weapons including maces and staves.")
         {
@@ -130,9 +136,10 @@ namespace WarriorRogueMage.Skills
     public class SkillHerbalism : WRMSkill
     {
         /// <summary>Initializes a new instance of the <see cref="SkillHerbalism"/> class.</summary>
-        public SkillHerbalism() : base("Herbalism",
-                "MAG",
-                "Knowledge of plants, herbs, and their medical uses. Can be used to heal critically wounded characters.")
+        public SkillHerbalism() : base(
+            "Herbalism",
+            "MAG",
+            "Knowledge of plants, herbs, and their medical uses. Can be used to heal critically wounded characters.")
         {
         }
     }

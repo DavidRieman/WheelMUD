@@ -17,44 +17,21 @@ namespace WheelMUD.Ftp
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Windows.Forms;
 
-    [Serializable]
-    class UserDataItem
-    {
-        private string password = string.Empty;
-        private string startingDirectory = "C:\\";
-
-        public string Password
-        {
-            get { return password; }
-            set { password = value; }
-        }
-
-        public string StartingDirectory
-        {
-            get { return startingDirectory; }
-            set { startingDirectory = value; }
-        }
-    }
-
     public class UserData
     {
-        private static UserData instance = null;
+        private static readonly UserData SingletonInstance = new UserData();
 
         private Hashtable mapUserToData = null;
 
+        /// <summary>Initializes a new instance of the <see cref="UserData"/> class.</summary>
         protected UserData()
         {
             mapUserToData = new Hashtable();
         }
 
-        public static UserData GetInstance()
+        public static UserData Instance
         {
-            if (instance == null)
-            {
-                instance = new UserData();
-            }
-
-            return instance;
+            get { return SingletonInstance; }
         }
 
         public string[] Users
@@ -63,13 +40,11 @@ namespace WheelMUD.Ftp
             {
                 ICollection collectionUsers = mapUserToData.Keys;
                 var asUsers = new string[collectionUsers.Count];
-
-                int nIndex = 0;
-
-                foreach (string sUser in collectionUsers)
+                int index = 0;
+                foreach (string user in collectionUsers)
                 {
-                    asUsers[nIndex] = sUser;
-                    nIndex++;
+                    asUsers[index] = user;
+                    index++;
                 }
 
                 return asUsers;
@@ -84,20 +59,19 @@ namespace WheelMUD.Ftp
             }
         }
 
-        public void AddUser(string sUser)
+        public void AddUser(string user)
         {
-            mapUserToData.Add(sUser, new UserDataItem());
+            mapUserToData.Add(user, new UserDataItem());
         }
 
-        public void RemoveUser(string sUser)
+        public void RemoveUser(string user)
         {
-            mapUserToData.Remove(sUser);
+            mapUserToData.Remove(user);
         }
 
-        public string GetUserPassword(string sUser)
+        public string GetUserPassword(string user)
         {
-            UserDataItem item = GetUserItem(sUser);
-
+            UserDataItem item = GetUserItem(user);
             if (item != null)
             {
                 return item.Password;
@@ -106,20 +80,18 @@ namespace WheelMUD.Ftp
             return string.Empty;
         }
 
-        public void SetUserPassword(string sUser, string sPassword)
+        public void SetUserPassword(string user, string password)
         {
-            UserDataItem item = GetUserItem(sUser);
-
+            UserDataItem item = GetUserItem(user);
             if (item != null)
             {
-                item.Password = sPassword;
+                item.Password = password;
             }
         }
 
-        public string GetUserStartingDirectory(string sUser)
+        public string GetUserStartingDirectory(string user)
         {
-            UserDataItem item = GetUserItem(sUser);
-
+            UserDataItem item = GetUserItem(user);
             if (item != null)
             {
                 return item.StartingDirectory;
@@ -128,28 +100,27 @@ namespace WheelMUD.Ftp
             return "C:\\";
         }
 
-        public void SetUserStartingDirectory(string sUser, string sDirectory)
+        public void SetUserStartingDirectory(string user, string directory)
         {
-            UserDataItem item = GetUserItem(sUser);
-
+            UserDataItem item = GetUserItem(user);
             if (item != null)
             {
-                item.StartingDirectory = sDirectory;
+                item.StartingDirectory = directory;
             }
         }
 
-        public bool HasUser(string sUser)
+        public bool HasUser(string user)
         {
-            UserDataItem item = GetUserItem(sUser);
+            UserDataItem item = GetUserItem(user);
             return item != null;
         }
 
-        public bool Save(string sFileName)
+        public bool Save(string fileName)
         {
             try
             {
                 var formatter = new BinaryFormatter();
-                var fileStream = new FileStream(sFileName, FileMode.Create);
+                var fileStream = new FileStream(fileName, FileMode.Create);
                 formatter.Serialize(fileStream, mapUserToData);
                 fileStream.Close();
             }
@@ -192,14 +163,33 @@ namespace WheelMUD.Ftp
             return Load(GetDefaultPath());
         }
 
-        private UserDataItem GetUserItem(string sUser)
+        private UserDataItem GetUserItem(string user)
         {
-            return mapUserToData[sUser] as UserDataItem;
+            return mapUserToData[user] as UserDataItem;
         }
 
         private string GetDefaultPath()
         {
             return Path.Combine(Application.StartupPath, "Users.dat");
+        }
+
+        [Serializable]
+        private class UserDataItem
+        {
+            private string password = string.Empty;
+            private string startingDirectory = "C:\\";
+
+            public string Password
+            {
+                get { return password; }
+                set { password = value; }
+            }
+
+            public string StartingDirectory
+            {
+                get { return startingDirectory; }
+                set { startingDirectory = value; }
+            }
         }
     }
 }

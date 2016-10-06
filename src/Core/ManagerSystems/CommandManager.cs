@@ -23,7 +23,7 @@ namespace WheelMUD.Core
     public class CommandManager : ManagerSystem, IRecomposable
     {
         /// <summary>The singleton instance of this class.</summary>
-        private static CommandManager instance = new CommandManager();
+        private static readonly CommandManager SingletonInstance = new CommandManager();
 
         /// <summary>The master command list contains all aliases of all commands.</summary>
         private Dictionary<string, Command> masterCommandList = new Dictionary<string, Command>();
@@ -46,7 +46,7 @@ namespace WheelMUD.Core
         /// <summary>Gets the singleton instance of the <see cref="CommandManager"/> class.</summary>
         public static CommandManager Instance
         {
-            get { return instance; }
+            get { return SingletonInstance; }
         }
 
         /// <summary>Gets the master command list.</summary>

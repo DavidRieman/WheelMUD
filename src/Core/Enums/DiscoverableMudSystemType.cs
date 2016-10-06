@@ -12,7 +12,7 @@
 namespace WheelMUD.Core.Enums
 {
     /// <summary>A list of the MUD systems that can be replaced using the pluggable MEF framework.</summary>
-    /// <remarks>http://mef.codeplex.com</remarks>
+    /// <remarks>See: http://mef.codeplex.com</remarks>
     public enum DiscoverableMudSystemType
     {
         /// <summary>Character Creation.</summary>

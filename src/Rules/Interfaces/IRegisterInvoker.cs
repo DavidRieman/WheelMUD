@@ -17,8 +17,8 @@ namespace WheelMUD.Rules
 {
     public interface IRegisterInvoker
     {
-        void RegisterInvoker(IRuleInvoker ruleInvoker);
-
         RulesEngine RulesRulesEngine { get; }
+
+        void RegisterInvoker(IRuleInvoker ruleInvoker);
     }
 }

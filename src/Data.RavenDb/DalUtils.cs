@@ -45,7 +45,7 @@ namespace WheelMUD.Data.RavenDb
         /// <returns>Returns a Raven.Client.IDocumentSession</returns>
         public static IDocumentSession GetRavenSession()
         {
-            var store = DocumentStoreSingleton.Instance;
+            var store = DocumentStore.Instance;
             var session = store.OpenSession();
             return session;
         }
@@ -53,7 +53,7 @@ namespace WheelMUD.Data.RavenDb
         /// <summary>Creates the needed indexes, if they don't exist.</summary>
         public static void CreateIndexes()
         {
-            using (var store = DocumentStoreSingleton.Instance)
+            using (var store = DocumentStore.Instance)
             {
                 store.DatabaseCommands.PutIndex(
                     "GetPlayerByDatabaseId",

@@ -17,13 +17,13 @@ namespace TestHarness
     public class MultiUpdater : ISuperSystemSubscriber
     {
         /// <summary>All notifiers utilized by this MultiUpdater.</summary>
-        private List<ISuperSystemSubscriber> _notifiers = new List<ISuperSystemSubscriber>();
+        private List<ISuperSystemSubscriber> notifiers = new List<ISuperSystemSubscriber>();
 
         /// <summary>Initializes a new instance of the MultiUpdater class.</summary>
         /// <param name="notifiers">All the notifiers that this MultiUpdater will utilize.</param>
         public MultiUpdater(params ISuperSystemSubscriber[] notifiers)
         {
-            _notifiers.AddRange(notifiers);
+            this.notifiers.AddRange(notifiers);
         }
 
         /// <summary>Finalizes an instance of the MultiUpdater class.</summary>
@@ -35,29 +35,29 @@ namespace TestHarness
         /// <summary>Dispose of all resources utilized by this MultiUpdater.</summary>
         public void Dispose()
         {
-            if (_notifiers == null)
+            if (notifiers == null)
             {
                 return;
             }
 
-            foreach (var notifier in _notifiers)
+            foreach (var notifier in notifiers)
             {
                 notifier.Dispose();
             }
 
-            _notifiers = null;
+            notifiers = null;
         }
 
         /// <summary>Notify user of the specified message via logging to a text file.</summary>
         /// <param name="message">The message to pass along.</param>
         public void Notify(string message)
         {
-            if (_notifiers == null)
+            if (notifiers == null)
             {
                 return;
             }
 
-            foreach (var notifier in _notifiers)
+            foreach (var notifier in notifiers)
             {
                 notifier.Notify(message);
             }

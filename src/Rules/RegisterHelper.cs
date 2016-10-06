@@ -38,7 +38,7 @@ namespace WheelMUD.Rules
             register.RegisterInvoker(compositionInvoker);
         }
 
-        public static void RegisterEnumerableComposition<T, R>(this IRegisterInvoker register, Expression<Func<T, R>> enumerableCompositionExpression )
+        public static void RegisterEnumerableComposition<T, R>(this IRegisterInvoker register, Expression<Func<T, R>> enumerableCompositionExpression)
                 where R : IEnumerable
         {
             RegisterEnumerableComposition(register, enumerableCompositionExpression, register.RulesRulesEngine);
@@ -62,6 +62,5 @@ namespace WheelMUD.Rules
         {
             register.RegisterInvoker(ruleInvoker);
         }
-
     }
 }

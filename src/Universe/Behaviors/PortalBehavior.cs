@@ -19,7 +19,7 @@ namespace WheelMUD.Universe
     public class PortalBehavior : Behavior
     {
         /// <summary>Potentially cache a reference to the room this portal leads to.</summary>
-        //       private Thing exitLocation = null;
+        ////private Thing exitLocation = null;
 
         /// <summary>Initializes a new instance of the PortalBehavior class.</summary>
         public PortalBehavior()
@@ -46,6 +46,9 @@ namespace WheelMUD.Universe
             this.DestinationThingID = null;
         }
 
+        /// <summary>Handle movement requests from the parent Thing.</summary>
+        /// <param name="root">The root Thing where this event broadcast started.</param>
+        /// <param name="e">The cancellable event/request arguments.</param>
         private void Parent_MovementRequest(Thing root, CancellableGameEvent e)
         {
             // @@@ TODO: When our parent Thing gets an Arrive request (such as when a thing is attempting to enter an
