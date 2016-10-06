@@ -48,6 +48,30 @@ namespace WheelMUD.Actions
             RequiresAtLeastTwoArguments
         }
 
+        /// <summary>Gets the best match for a Player or Mobile entity from the specified name.</summary>
+        /// <param name="entityName">The name of the entity to find.</param>
+        /// <returns>Entity if an entity is found, otherwise null.</returns>
+        public static Thing GetPlayerOrMobile(string entityName)
+        {
+            // Commands using this method want to find an entity with the following precedence:
+            // * Player who matches the name exactly.
+            // * Mobile who matches the name exactly.
+            // * Player who matches the partial name.
+            // * Mobile who matches the partial name.
+            return PlayerManager.Instance.FindPlayerByName(entityName, false) ??
+                   MobileManager.Instance.FindMobileByName(entityName, false) ??
+                   PlayerManager.Instance.FindPlayerByName(entityName, true) ??
+                   MobileManager.Instance.FindMobileByName(entityName, true);
+        }
+
+        /// <summary>Gets a room for the specified ID.</summary>
+        /// <param name="roomId">The ID of the room to find.</param>
+        /// <returns>Room if a room is found, otherwise null</returns>
+        public static Thing GetRoom(long roomId)
+        {
+            return PlacesManager.Instance.WorldBehavior.FindRoom(roomId);
+        }
+
         /// <summary>Executes the command.</summary>
         /// <remarks>Verify that the Guards pass first.</remarks>
         /// <param name="actionInput">The full input specified for executing the command.</param>
@@ -115,30 +139,6 @@ namespace WheelMUD.Actions
             }
 
             return null;
-        }
-
-        /// <summary>Gets the best match for a Player or Mobile entity from the specified name.</summary>
-        /// <param name="entityName">The name of the entity to find.</param>
-        /// <returns>Entity if an entity is found, otherwise null.</returns>
-        public static Thing GetPlayerOrMobile(string entityName)
-        {
-            // Commands using this method want to find an entity with the following precedence:
-            // * Player who matches the name exactly.
-            // * Mobile who matches the name exactly.
-            // * Player who matches the partial name.
-            // * Mobile who matches the partial name.
-            return PlayerManager.Instance.FindPlayerByName(entityName, false) ??
-                   MobileManager.Instance.FindMobileByName(entityName, false) ??
-                   PlayerManager.Instance.FindPlayerByName(entityName, true) ??
-                   MobileManager.Instance.FindMobileByName(entityName, true);
-        }
-
-        /// <summary>Gets a room for the specified ID.</summary>
-        /// <param name="roomId">The ID of the room to find.</param>
-        /// <returns>Room if a room is found, otherwise null</returns>
-        public static Thing GetRoom(long roomId)
-        {
-            return PlacesManager.Instance.WorldBehavior.FindRoom(roomId);
         }
     }
 }

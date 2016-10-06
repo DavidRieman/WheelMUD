@@ -23,7 +23,7 @@ namespace WheelMUD.Core
         protected readonly object lockObject = new object();
 
         /// <summary>Subscribes this system to the specified system host, so that host can receive updates.</summary>
-        /// <param name="sender">The system host to receive our updates.</param>
+        /// <param name="systemHost">The system host to receive our updates.</param>
         public void SubscribeToSystemHost(ISystemHost systemHost)
         {
             this.SystemHost = systemHost;

@@ -22,7 +22,6 @@ namespace WheelMUD.Core.Events
     /// <summary>An 'action received' event handler.</summary>
     /// <param name="sender">The sender of the action.</param>
     /// <param name="actionInput">The the action input received.</param>
-    /// <param name="delay">The delay before the action can occur.</param>
     public delegate void ActionReceivedEventHandler(IController sender, ActionInput actionInput);
 
     /// <summary>The 'rpc session authenticated' event handler delegate.</summary>

@@ -75,7 +75,7 @@ namespace WheelMUD.Actions
             return null;
         }
 
-        /// <summary></summary>
+        /// <summary>Build the glance command response.</summary>
         /// <param name="sender">The sender of the glance command.</param>
         /// <returns>A fully generated glance of the room.</returns>
         private ContextualStringBuilder BuildGlance(Thing sender)

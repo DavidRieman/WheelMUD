@@ -37,7 +37,7 @@ namespace WarriorRogueMage.Stats
     [ExportGameStat]
     public class ArmorPenaltyStat : WRMStat
     {
-        /// <summary>Initializes a new instance of the <see cref="ArmorPenaltyStat"/> class.summary>
+        /// <summary>Initializes a new instance of the <see cref="ArmorPenaltyStat"/> class.</summary>
         public ArmorPenaltyStat() : base("Armor Penalty", "ARMORPENALTY", "ARMORPENALTY", 0, 0, 0)
         {
         }

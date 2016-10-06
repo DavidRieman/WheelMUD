@@ -13,11 +13,10 @@ namespace WheelMUD.Data.Repositories
 {
     using System.Collections.Generic;
     using System.Data;
-
     using ServiceStack.DataAnnotations;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
-    
+
     [Alias("Areas")]
     public partial class AreaRepository
     {
