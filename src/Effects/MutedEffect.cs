@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// <copyright file="Muted.cs" company="WheelMUD Development Team">
+// <copyright file="MutedEffect.cs" company="WheelMUD Development Team">
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
@@ -131,6 +131,9 @@ namespace WheelMUD.Effects
             this.Duration = TimeSpan.FromMinutes(60);
         }
 
+        /// <summary>Deny communication requests by the host Thing.</summary>
+        /// <param name="root">The thing making the request.</param>
+        /// <param name="e">The communication request event args.</param>
         private void DenyCommunicationRequest(IThing root, CancellableGameEvent e)
         {
             var communicationRequest = e as VerbalCommunicationEvent;
