@@ -117,7 +117,7 @@
     </Compile>
     <Compile Include="DalUtils.cs" />
     <Compile Include="DocumentManager.cs" />
-    <Compile Include="DocumentStoreSingleton.cs" />
+    <Compile Include="DocumentStore.cs" />
     <Compile Include="Documents\ExitDocument.cs" />
     <Compile Include="Documents\MobileDocument.cs" />
     <Compile Include="Documents\PlayerDocument.cs" />

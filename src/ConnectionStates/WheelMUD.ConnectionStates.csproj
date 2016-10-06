@@ -58,7 +58,7 @@
     <Compile Include="CharacterCreation\GetDescriptionState.cs" />
     <Compile Include="CharacterCreation\GetNameState.cs" />
     <Compile Include="CharacterCreation\GetPasswordState.cs" />
-    <Compile Include="CharacterCreation\StepStatusEnum.cs" />
+    <Compile Include="CharacterCreation\StepStatus.cs" />
     <Compile Include="CombatState.cs" />
     <Compile Include="ConnectedState.cs" />
     <Compile Include="CreationState.cs" />
