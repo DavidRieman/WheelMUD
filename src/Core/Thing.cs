@@ -513,8 +513,8 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Finds the stat.</summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <typeparam name="T">The GameState type to search for.</typeparam>
+        /// <returns>The matching GameState, if found, else null.</returns>
         public GameStat FindStat<T>() where T : GameStat
         {
             var statList = new List<GameStat>(this.Stats.Values);
@@ -524,7 +524,7 @@ namespace WheelMUD.Core
 
         /// <summary>Finds the game stat.</summary>
         /// <param name="name">The name.</param>
-        /// <returns></returns>
+        /// <returns>The matching GameState, if found, else null.</returns>
         public GameStat FindGameStat(string name)
         {
             GameStat stat;
@@ -533,6 +533,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Finds the behavior in the behavior manager.</summary>
+        /// <param name="name">The name of the attribute to search for.</param>
         /// <returns>A behavior if one is found, otherwise null.</returns>
         public GameAttribute FindGameAttribute(string name)
         {
@@ -544,8 +545,8 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Finds the game attribute.</summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <typeparam name="T">The GameAttribute type to search for.</typeparam>
+        /// <returns>The matching attribute, if found, else null.</returns>
         public T FindGameAttribute<T>() where T : GameAttribute
         {
             var attribList = new List<GameAttribute>(this.Attributes.Values);
@@ -758,6 +759,7 @@ namespace WheelMUD.Core
         /// <summary>Perform removal of the specified thing from our Children.</summary>
         /// <param name="thingToRemove">The thing to remove from our Children.</param>
         /// <param name="removalEvent">The removal event to work with; must have previously been sent as the request.</param>
+        /// <param name="multipleParentsBehavior">The multipleParentsBehavior, if applicable.</param>
         /// <returns>True if the thing has been successfully removed, else false.</returns>
         private bool PerformRemoval(Thing thingToRemove, RemoveChildEvent removalEvent, MultipleParentsBehavior multipleParentsBehavior)
         {

@@ -47,7 +47,7 @@ namespace WheelMUD.Core.Locators
 
         /// <summary>Gets the service.</summary>
         /// <typeparam name="T">The signature (class) that we are looking for.</typeparam>
-        /// <returns>Returns an instance of the class in question, if it exists.returns>
+        /// <returns>Returns an instance of the class in question, if it exists.</returns>
         public T GetService<T>()
         {
             if (this.instantiatedServices.ContainsKey(typeof(T)))
