@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   This class wraps the output at the desired width.
-//   Created: December 2006 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : April 30, 2012
-//   Purpose   :ORMLite Sqlite provider for WheelMUD
+//   ORMLite Sqlite provider for WheelMUD
 // </summary>
 //-----------------------------------------------------------------------------
 

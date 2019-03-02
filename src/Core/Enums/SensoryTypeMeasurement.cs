@@ -4,11 +4,8 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 5/5/2009 7:54:31 AM
-//   Purpose   : An enum used for making senses more granular. This holds what
-//               measurements are allowed to use when dealing with sensory
-//               levels.
+//   An enum used for making senses more granular. This holds what
+//   measurements are allowed to use when dealing with sensory levels.
 // </summary>
 //-----------------------------------------------------------------------------
 

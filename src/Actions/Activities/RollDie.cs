@@ -4,8 +4,7 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   @@@ Temporary script to test the dice system.
-//   Created: November 2006 by Foxedup.
+//   Temporary script to test the dice system.
 // </summary>
 //-----------------------------------------------------------------------------
 

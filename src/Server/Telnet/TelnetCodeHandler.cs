@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Class that handles the delegation of processing telnet option codes.
-//   Created: January 2007 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

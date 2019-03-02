@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Test cases for FollowingBehavior.
-//   Created: March 2012 by James McManus.
 // </summary>
 //-----------------------------------------------------------------------------
 

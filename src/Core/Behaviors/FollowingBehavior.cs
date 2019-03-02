@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A behavior that indicates who the player/mob is currently following.
-//   Created: 3/23/2012 by James McManus.
 // </summary>
 //-----------------------------------------------------------------------------
 

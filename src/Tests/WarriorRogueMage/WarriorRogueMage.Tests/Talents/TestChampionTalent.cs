@@ -4,9 +4,7 @@
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 2/2/2012 11:27:55 PM
-//   Purpose   : Tests the Champion talent.
+//   Tests the Champion talent.
 // </summary>
 //-----------------------------------------------------------------------------
 

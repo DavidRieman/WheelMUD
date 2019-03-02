@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: David
-//   Date      : 5/11/2009 8:56:04 PM
-//   Purpose   : List all commands.
+//   Lists all commands.
 // </summary>
 //-----------------------------------------------------------------------------
 

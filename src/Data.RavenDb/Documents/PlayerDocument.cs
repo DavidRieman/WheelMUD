@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : May 17, 2011
-//   Purpose   : The representation of the player in the document database.
+//   The representation of the player in the document database.
 // </summary>
 //-----------------------------------------------------------------------------
 

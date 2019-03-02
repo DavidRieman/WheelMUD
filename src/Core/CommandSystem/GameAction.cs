@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A base class that represents an instance of an Action.
-//   Created: April 2009 by Karak.
 // </summary>
 //-----------------------------------------------------------------------------
 

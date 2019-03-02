@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A base class that anything within the world inherits from.
-//   Created: October 2006 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

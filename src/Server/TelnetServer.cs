@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   This class decorates the base server, providing telnet facilities to the application.
-//   Created: August 2006 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

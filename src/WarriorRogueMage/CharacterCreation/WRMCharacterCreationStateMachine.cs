@@ -5,8 +5,6 @@
 // <summary>
 //   State machine for creating a new character using Warrior, Rogue, and Mage
 //   rules.
-//   Created By : Fastalanasa
-//   Created On : May 12, 2011.
 // </summary>
 //-----------------------------------------------------------------------------
 

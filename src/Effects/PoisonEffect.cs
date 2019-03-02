@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Shabubu
-//   Date      : 5/8/2009 8:28:07 PM
-//   Purpose   : Type purpose here.
+//   TODO: Add summary
 // </summary>
 //-----------------------------------------------------------------------------
 

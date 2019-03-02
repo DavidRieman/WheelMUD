@@ -31,9 +31,7 @@ The file headers will look like this:
 // </copyright>
 // <summary>
 //   A command that lets a character give items to a character or a mob.
-//   Created: April 2009 by Karak.
 // </summary>
 //-----------------------------------------------------------------------------
 ```
 When creating a new file, just copy-paste an existing header and update the file name and the summary.
-You can omit the "Created:" style comments if you wish. Conversely, if you wish, you can add your own lines like "Updated: Added the Whatever feature, 2015 by Karak" when making non-trivial updates.

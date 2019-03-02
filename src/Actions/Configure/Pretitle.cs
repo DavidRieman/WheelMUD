@@ -5,8 +5,6 @@
 // </copyright>
 // <summary>
 //   A command to set a player's title.
-//   Created: February 2007 by Saquivor.
-//   Modified: December 2009 by bengecko
 // </summary>
 //-----------------------------------------------------------------------------
 

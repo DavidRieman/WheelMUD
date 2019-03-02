@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   An action to get or set your command prompt display.
-//   Created: December 2009 by bengecko
 // </summary>
 //-----------------------------------------------------------------------------
 

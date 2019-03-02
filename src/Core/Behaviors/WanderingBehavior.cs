@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 6/12/2011
-//   Purpose   : Behavior that allows NPC to wander randomly, thus becoming a mobile.
+//   Behavior that allows NPC to wander randomly, thus becoming a mobile.
 // </summary>
 //-----------------------------------------------------------------------------
 

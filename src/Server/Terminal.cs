@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Class to hold Termial Options and info.
-//   Created: January 2007 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   An effect to alter a stat on a thing.
-//   Created: December 2006 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

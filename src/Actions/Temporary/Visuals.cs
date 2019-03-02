@@ -4,10 +4,8 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: James
-//   Date      : May 25, 2012
-//   Command to add, remove, or display the "visuals" associated with a
-//   room. Visuals are like pseudo-items that can be looked at, e.g. to
+//   Command to add, remove, or display the "visuals" associated 
+//   with a room. Visuals are like pseudo-items that can be looked at, e.g. to
 //   provide clues or just to enhance the room.
 // </summary>
 // -----------------------------------------------------------------------

@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A command to list the characters who are currently in-game.
-//   Created: November 2006 by Foxedup.
 //   Edited: January 2007 by Saquivor.
 // </summary>
 //-----------------------------------------------------------------------------

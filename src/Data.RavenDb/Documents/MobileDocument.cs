@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : May 29, 2011
-//   Purpose   : The representation of a mobile in the document database.
+//   The representation of a mobile in the document database.
 // </summary>
 //-----------------------------------------------------------------------------
 

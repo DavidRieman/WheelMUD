@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Action description attribute.
-//   Created: April 2009 by Fastalanasa
 // </summary>
 //-----------------------------------------------------------------------------
 

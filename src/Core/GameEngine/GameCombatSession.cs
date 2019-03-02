@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 5/15/2009 5:00:18 PM
-//   Purpose   : Deals with combatants.
+//   Deals with combatants.
 // </summary>
 //-----------------------------------------------------------------------------
 

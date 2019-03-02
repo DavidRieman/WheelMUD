@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Feverdream
-//   Date      : 4/26/2010 10:00:26 PM
-//   Purpose   : Flagged Enum to denote possible Genders.
+//   Flagged Enum to denote possible Genders.
 // </summary>
 //-----------------------------------------------------------------------------
 

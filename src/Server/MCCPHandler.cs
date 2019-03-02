@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Compresses our data into a byte array using zlib compression
-//   Created: January 2007 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

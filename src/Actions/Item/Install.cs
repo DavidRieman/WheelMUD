@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   An action to install an thing adornment
-//   Created: November 2009 by bengecko
 // </summary>
 //-----------------------------------------------------------------------------
 

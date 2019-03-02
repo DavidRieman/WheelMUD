@@ -4,7 +4,6 @@
 // </copyright>
 // <summary>
 //   A thing add request/event.
-//   Created: September 2010 by Karak.
 // </summary>
 //-----------------------------------------------------------------------------
 

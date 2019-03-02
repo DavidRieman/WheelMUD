@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Lists the credits for the game.
-//   Created: May 2009 by Karak.
 // </summary>
 //-----------------------------------------------------------------------------
 

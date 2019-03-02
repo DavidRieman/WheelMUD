@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A command to send a message directly to one entity.
-//   Created: January 2007 by Saquivor.
 // </summary>
 //-----------------------------------------------------------------------------
 

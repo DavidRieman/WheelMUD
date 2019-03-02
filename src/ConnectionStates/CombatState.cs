@@ -4,10 +4,7 @@
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : April 23, 2012
-//   Purpose   : Changes the state of the player, so that the MUD engine can
-//               do combat.
+//   Changes the state of the player, so that the MUD engine can do combat.
 // </summary>
 //-----------------------------------------------------------------------------
 
