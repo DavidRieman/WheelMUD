@@ -4,7 +4,6 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Updated: November 2009 by bengecko - AbstractItemBehavior
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -4,7 +4,7 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Edited by Duane King as needed.
+//   Tests the WRMCombat class
 // </summary>
 //-----------------------------------------------------------------------------
 

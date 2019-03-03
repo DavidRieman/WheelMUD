@@ -4,7 +4,6 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Updated: June 2011 by Karak: fixing recreation of multiple-parent exits from simple A-to-B DB entries.
 // </summary>
 //-----------------------------------------------------------------------------
 

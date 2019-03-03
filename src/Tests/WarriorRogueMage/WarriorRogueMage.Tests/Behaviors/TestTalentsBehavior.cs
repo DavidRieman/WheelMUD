@@ -4,7 +4,7 @@
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Testing the TalentsBehavior class.
+//   Tests the TalentsBehavior class.
 // </summary>
 //-----------------------------------------------------------------------------
 
