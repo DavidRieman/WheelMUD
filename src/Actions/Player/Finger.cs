@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Finger individual player or npc ?.
-//   Created: January 2007 by Saquivor.
 // </summary>
 //-----------------------------------------------------------------------------
 

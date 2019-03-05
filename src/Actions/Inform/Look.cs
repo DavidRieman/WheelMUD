@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A script to allow a player to look at their environment.
-//   Created: November 2006 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

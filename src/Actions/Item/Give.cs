@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A command that lets a character give items to a character or a mob.
-//   Created: April 2009 by Karak.
 // </summary>
 //-----------------------------------------------------------------------------
 

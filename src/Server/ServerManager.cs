@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Controls the flow of data through the various server layers.
-//   Created: August 2006 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Handles MUD Extension Protocol (MXP) data.
-//   Created: January 2007 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

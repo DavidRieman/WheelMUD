@@ -4,7 +4,7 @@
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Karak
+//   TODO: Add summary
 // </summary>
 //-----------------------------------------------------------------------------
 

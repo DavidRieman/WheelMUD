@@ -4,9 +4,7 @@
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : April 30, 2012
-//   Purpose   : Doing the MEF hosting here to load database providers.
+//   Doing the MEF hosting here to load database providers.
 // </summary>
 //-----------------------------------------------------------------------------
 

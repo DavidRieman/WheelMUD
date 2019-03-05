@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 5/6/2009 6:50:22 PM
-//   Purpose   : Representation of a game rule.
+//   Representation of a game rule.
 // </summary>
 //-----------------------------------------------------------------------------
 

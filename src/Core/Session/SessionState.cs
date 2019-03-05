@@ -6,7 +6,6 @@
 // <summary>
 //   A base class that represents the current state of a session.  IE logging in, 
 //   playing, etc.  All data for a connection flows through this class.
-//   Created: September 2006 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

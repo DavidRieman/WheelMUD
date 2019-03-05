@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 2/19/2011
-//   Purpose   : Maintains metadata about a property.
+//   Maintains metadata about a property.
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A command to drop an object from the player inventory to the room.
-//   Created: January 2007 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

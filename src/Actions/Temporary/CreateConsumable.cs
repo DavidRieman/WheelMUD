@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A command that allows an admin to create a consumable.
-//   Created: January 2007 by Foxedup.
 //   Modified on 4/25/2010 by Feverdream (Add use of all enumerated consumable types.)
 // </summary>
 //-----------------------------------------------------------------------------

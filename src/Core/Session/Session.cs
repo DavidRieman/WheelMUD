@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A player's session.
-//   Created: September 2006 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

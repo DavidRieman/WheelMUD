@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A command script to allow the drinking of "drinkable" items.
-//   Created: January 2007 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

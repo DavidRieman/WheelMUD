@@ -57,7 +57,6 @@ namespace WheelMUD.ConnectionStates
 
         /// <summary>Validate a proposed new character name against some basic criteria.</summary>
         /// <remarks>
-        /// Created: April 2009 by Karak.
         /// TODO: Rudimentary checks for profanity/slander and such could be done here.
         ///       This could be done in conjunction with a persisted list (DB-stored)
         ///       of banned words to scan for, which could be expanded by admins/etc.

@@ -5,8 +5,6 @@
 // </copyright>
 // <summary>
 //   A shield item behavior adds the ability to wear an item and otherwise be used like a shield.
-//   Updated: June 2009 by Karak: implements IItemBehavior; ID, Clone
-//   Updated: November 2009 by bengecko - AbstractItemBehavior
 // </summary>
 //-----------------------------------------------------------------------------
 

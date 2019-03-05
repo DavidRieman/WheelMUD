@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A script that allows a player to look at something.
-//   Created: October 2006 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

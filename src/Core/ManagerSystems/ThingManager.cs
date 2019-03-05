@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   High level manager that provides tracking and global collection of all Thing instances.
-//   Created: December 2010 by Karak, based on ItemManager as created January 2007 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

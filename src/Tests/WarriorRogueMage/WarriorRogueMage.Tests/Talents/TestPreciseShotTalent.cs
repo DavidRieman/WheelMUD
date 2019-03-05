@@ -4,9 +4,7 @@
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 2/12/2012
-//   Purpose   : Tests the TalentPreciseShot class.
+//   Tests the TalentPreciseShot class.
 // </summary>
 //-----------------------------------------------------------------------------
 

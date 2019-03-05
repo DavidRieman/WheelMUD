@@ -4,10 +4,8 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : June 5, 2011
-//   Purpose   : This class will handle resolution of contests
-//               using skills, talents, and other things.
+//   This class will handle resolution of contests using skills, talents, 
+//   and other things.
 // </summary>
 //-----------------------------------------------------------------------------
 /* Disabled for now: Seems unused, and raised errors:

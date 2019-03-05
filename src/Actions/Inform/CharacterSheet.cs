@@ -6,7 +6,6 @@
 // <summary>
 //   A script to view a character sheet.
 //   @@@ TODO: Implement beyond 'Attributes.cs' functionality.
-//   Created: November 2006 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

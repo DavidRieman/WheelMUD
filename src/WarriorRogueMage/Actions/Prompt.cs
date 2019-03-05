@@ -6,10 +6,6 @@
 // <summary>
 //   An action to get or set your command prompt display.
 // </summary>
-// <history>
-//   May 8, 2012 - By JFed
-//   Moved to WarriorRogueMage.Actions from WheelMUD.Actions.
-// </history>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage.Actions

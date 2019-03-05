@@ -6,7 +6,6 @@
 // <summary>
 //   A set of classes that represent the states that data moves through as it
 //   is processed for Telnet Option codes.
-//   Created: January 2007 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

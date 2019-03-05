@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A class that represents a telnet option and is able to negotiate itself with the client.
-//   Created: January 2007 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

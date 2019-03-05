@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : May 22, 2011
-//   Purpose   : This represents a player, Mob, or NPC gender.
+//   This represents a player, Mob, or NPC gender.
 // </summary>
 //-----------------------------------------------------------------------------
 

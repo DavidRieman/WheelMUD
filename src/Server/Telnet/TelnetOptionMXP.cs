@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Class that handles the subnegotiation of the MUD eXtension Protocol (MXP) telnet option code.
-//   Created: January 2007 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 
