@@ -4,7 +4,6 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Created: January 25, 2014 by Fastalanasa
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A command that performs pagination.
-//   Created: November 2006 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

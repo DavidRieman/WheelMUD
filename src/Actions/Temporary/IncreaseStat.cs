@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   @@@ Temporary script to test the stat effects.
-//   Created: November 2006 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

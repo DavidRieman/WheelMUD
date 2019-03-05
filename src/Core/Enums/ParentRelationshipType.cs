@@ -4,7 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Bengecko November 2009
+//   TODO: Add summary
 // </summary>
 //-----------------------------------------------------------------------------
 

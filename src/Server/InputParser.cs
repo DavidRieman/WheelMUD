@@ -6,7 +6,6 @@
 // <summary>
 //   This class handles data coming in over a connection, it checks to see if the data is
 //   an action and if so notifies the interested parties for processing.
-//   Created: August 2006 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

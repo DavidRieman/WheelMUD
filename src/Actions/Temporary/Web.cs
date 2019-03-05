@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   @@@ Temporary script to demonstrate a web effect.
-//   Created: November 2006 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

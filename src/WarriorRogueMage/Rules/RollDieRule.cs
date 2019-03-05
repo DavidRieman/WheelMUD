@@ -4,9 +4,7 @@
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 2/24/2012 9:38:57 PM
-//   Purpose   : Rule that requires rolling a set of dice.
+//   Rule that requires rolling a set of dice.
 // </summary>
 //-----------------------------------------------------------------------------
 

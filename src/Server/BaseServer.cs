@@ -6,7 +6,6 @@
 // <summary>
 //   This is the lowest level of our server, this object deals with the creation of our connections
 //   and also the sending and receiving of data over the wire. All data flows through this class.
-//   Created: August 2006 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 2/19/2011
-//   Purpose   : Contains information about the result of a rule.
+//   Contains information about the result of a rule.
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -4,8 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: IRay
-//   Date      : 1/17/2005 3:32 PM
+//   TODO: Add summary
 // </summary>
 //-----------------------------------------------------------------------------
 
@@ -61,12 +60,6 @@ namespace WheelMUD.Core
     /// <remarks>
     /// This is to represent a gaming table in the system.
     /// </remarks>
-    /// <history>
-    ///     [Iray]          1/17/2005   Class Created
-    ///     [Fastalanasa]   9/9/2005    xml docs added
-    ///     [Fastalanasa]   9/11/2005   Changed name from RuleSet to GameTable.
-    ///     [Fastalanasa]   5/15/2009   Converted to C#.
-    /// </history>
     /// -----------------------------------------------------------------------------
     public class GameTable
     {

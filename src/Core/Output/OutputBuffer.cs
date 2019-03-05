@@ -6,7 +6,6 @@
 // <summary>
 //   This class provides a server side output buffer, IE it wraps the text to
 //   a predefined number of lines.
-//   Created: November 2009 by BenGecko for extended more capabilities.
 // </summary>
 //-----------------------------------------------------------------------------
 

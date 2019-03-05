@@ -4,7 +4,6 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Created: December 2010 by Karak, based largely on the old CommandQueue.
 // </summary>
 //-----------------------------------------------------------------------------
 

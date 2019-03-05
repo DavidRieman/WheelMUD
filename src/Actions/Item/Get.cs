@@ -6,7 +6,6 @@
 // <summary>
 //   A command that allows a player to get items from the room they are in or from a 
 //   container within their inventory.
-//   Created: January 2007 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

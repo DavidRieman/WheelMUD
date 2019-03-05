@@ -6,7 +6,6 @@
 // <summary>
 //   A command to allow a player to manage their friends list.
 //   Currently friends lists are not saved!
-//   Created: May 2009 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

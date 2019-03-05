@@ -4,9 +4,7 @@
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 1/30/2012 11:01:38 PM
-//   Purpose   : Testing the WRM SkillsBehavior
+//   Testing the WRM SkillsBehavior
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Exception for the attempted socket port being in use.
-//   Created: November 2010 by Karak
 // </summary>
 //-----------------------------------------------------------------------------
 

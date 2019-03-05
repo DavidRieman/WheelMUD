@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A command that allows an admin to create a portal.
-//   Created: January 2007 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

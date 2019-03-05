@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A behavior defining traits specific to living beings (IE players and mobiles).
-//   Created: September 2010 by Karak.
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Karak
-//   Date      : 2011-06-01
-//   Purpose   : 
+//   TODO: Add summary
 // </summary>
 //-----------------------------------------------------------------------------
 

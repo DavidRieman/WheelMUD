@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : May 29, 2011
-//   Purpose   : A class to hold custom MUD exit attributes.
+//   A class to hold custom MUD exit attributes.
 // </summary>
 //-----------------------------------------------------------------------------
 

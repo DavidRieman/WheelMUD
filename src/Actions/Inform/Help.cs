@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Shabubu - 5/6/2009 2:35:52 AM
-//   Modified by: bengecko - 12/05/2009
-//   Heavily modified by: Pure - 03/10/2010
+//   TODO: Add summary
 // </summary>
 //-----------------------------------------------------------------------------
 

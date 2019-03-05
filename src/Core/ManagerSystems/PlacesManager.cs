@@ -5,8 +5,6 @@
 // </copyright>
 // <summary>
 //   High level manager that provides tracking and global collection of all places.
-//   Created: August 2006 by Foxedup
-//   Modified: December 2009 by bengecko.  Pointed it at AbstractManager
 // </summary>
 //-----------------------------------------------------------------------------
 

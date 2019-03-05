@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Allows changing the current value of a stat.
-//   Created: March 2012 by James McManus
 // </summary>
 //-----------------------------------------------------------------------------
 

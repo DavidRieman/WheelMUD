@@ -5,8 +5,6 @@
 // </copyright>
 // <summary>
 //   Base class for Weapon Behavior.
-//   Updated: June 2009 by Karak: implements IItemBehavior; ID, Clone
-//   Updated: November 2009 by bengecko - AbstractItemBehavior
 // </summary>
 //-----------------------------------------------------------------------------
 

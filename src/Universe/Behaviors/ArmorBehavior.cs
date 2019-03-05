@@ -5,8 +5,6 @@
 // </copyright>
 // <summary>
 //   An armor item behavior adds the ability to wear an item and gain bonuses from it.
-//   Updated: June 2009 by Karak: implements IItemBehavior; ID, Clone
-//   Updated: November 2009 by bengecko - AbstractItemBehavior
 // </summary>
 //-----------------------------------------------------------------------------
 

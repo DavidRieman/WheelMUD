@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : April 30, 2012
-//   Purpose   : ORMLite Microsoft SQL Server provider for WheelMUD
+//   ORMLite Microsoft SQL Server provider for WheelMUD
 // </summary>
 //-----------------------------------------------------------------------------
 

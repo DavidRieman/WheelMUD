@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A MUD Principal for Entity Authorization.
-//   Created: December 2006 by Hector Sosa, Jr (aka Fastalanasa).
 // </summary>
 //-----------------------------------------------------------------------------
 

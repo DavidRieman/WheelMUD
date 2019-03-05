@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A command that allows a player chop a tree.
-//   Created: March 2008 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

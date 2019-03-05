@@ -7,7 +7,6 @@
 //   A behavior that indicates who is currently following the player or mob.
 //   Currently not too useful, but this is the companion to FollowingBehavior,
 //   which leads to movement when following someone.
-//   Created: 3/23/2012 by James McManus.
 // </summary>
 //-----------------------------------------------------------------------------
 

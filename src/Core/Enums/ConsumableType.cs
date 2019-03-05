@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Consumable types.
-//   Updated by Feverdream @ 4/24/2010 to use actual flag values and extend enum for real-world raw resource scenerios.
 // </summary>
 //-----------------------------------------------------------------------------
 

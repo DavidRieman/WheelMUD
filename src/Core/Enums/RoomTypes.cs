@@ -5,8 +5,6 @@
 // </copyright>
 // <summary>
 //   Enum of accepted room types that are usable.
-//   Updated by Feverdream @ 4/24/2010 to use actual flag values and extend enum 
-//   for real-earth Biom scenerios.
 // </summary>
 //-----------------------------------------------------------------------------
 

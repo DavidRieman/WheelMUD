@@ -4,10 +4,8 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : April 30, 2012
-//   Purpose   : Interface for supporting different database back ends under
-//               ORMLite https://github.com/ServiceStack/ServiceStack.OrmLite
+//   Interface for supporting different database back ends under
+//   ORMLite https://github.com/ServiceStack/ServiceStack.OrmLite
 // </summary>
 //-----------------------------------------------------------------------------
 

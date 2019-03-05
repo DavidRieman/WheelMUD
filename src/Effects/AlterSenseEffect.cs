@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   An effect which alters it's parent's senses.
-//   Created: August 2010 by Karak.
 // </summary>
 //-----------------------------------------------------------------------------
 

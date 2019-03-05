@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A command that allows a player move to the room ID or entity specified.
-//   Created: January 2007 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

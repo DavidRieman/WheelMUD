@@ -5,8 +5,6 @@
 // </copyright>
 // <summary>
 //   High level manager that provides tracking and global collection of all items.
-//   Created: December 2009 by bengecko.
-//   Modified by: Pure October 2010
 // </summary>
 //-----------------------------------------------------------------------------
 

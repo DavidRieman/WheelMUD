@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Allows a player to quit.
-//   Created: November 2006 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

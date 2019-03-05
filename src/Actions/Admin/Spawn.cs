@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Command to spawn a mobile NPC for testing.
-//   Created: March 2012 by James McManus
 //   TODO: Expose more options than just the name.
 // </summary>
 //-----------------------------------------------------------------------------

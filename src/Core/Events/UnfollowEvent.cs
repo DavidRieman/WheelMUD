@@ -4,7 +4,6 @@
 // </copyright>
 // <summary>
 //   Event associated with the "unfollow" command
-//   Created: March 23, 2012 by James McManus.
 // </summary>
 //-----------------------------------------------------------------------------
 

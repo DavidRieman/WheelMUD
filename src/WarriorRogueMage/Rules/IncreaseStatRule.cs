@@ -4,9 +4,7 @@
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 2/12/2012
-//   Purpose   : Rule to increase the value of a stat.
+//   Rule to increase the value of a stat.
 // </summary>
 //-----------------------------------------------------------------------------
 

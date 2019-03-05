@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Base object representing a command that can be executed by the command executor.
-//   Created: January 2007 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

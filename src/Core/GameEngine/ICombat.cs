@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : Jan 14, 2012
-//   Purpose   : Generic interface for a combat system in a gaming system.
+//   Generic interface for a combat system in a gaming system.
 // </summary>
 //-----------------------------------------------------------------------------
 

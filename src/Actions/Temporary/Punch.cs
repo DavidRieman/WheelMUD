@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   @@@ Temporary script to attempt some combat.
-//   Created: November 2006 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -4,9 +4,7 @@
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 1/30/2012 10:37:31 PM
-//   Purpose   : Testing the TalentsBehavior class.
+//   Tests the TalentsBehavior class.
 // </summary>
 //-----------------------------------------------------------------------------
 
