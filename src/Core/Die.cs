@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A rollable die.
-//   Organized: April 2009 by Karak
 // </summary>
 //-----------------------------------------------------------------------------
 

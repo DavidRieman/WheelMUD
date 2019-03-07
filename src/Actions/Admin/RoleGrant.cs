@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   An action to give a role to a player.
-//   Implemented by Fastalanasa
 // </summary>
 //-----------------------------------------------------------------------------
 

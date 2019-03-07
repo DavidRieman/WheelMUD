@@ -875,10 +875,9 @@ namespace WheelMUD.Universe.Things
 // <summary>
 //   A potion item which creates effects when sipped/quaffed.
 //   A Potion is now an easy way to work with an Item whose primary purpose is 
-//   to house PotionItemBeavior;  note that other items which are not primarily 
+//   to house PotionItemBehavior;  note that other items which are not primarily 
 //   considered "potions" could also have PotionItemBehavior to achieve the 
 //   same functionality as normal potions.
-//   Rewritten: June 2009 by Karak: using the ItemBehaviors now.
 // </summary>
 /*
 namespace WheelMUD.Universe.Things

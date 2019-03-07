@@ -5,8 +5,6 @@
 // </copyright>
 // <summary>
 //   Character creation state used to set the player's gender.
-//   Author: Fastalanasa
-//   Date: May 8, 2011
 // </summary>
 //-----------------------------------------------------------------------------
 

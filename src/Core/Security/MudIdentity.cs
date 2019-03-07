@@ -13,7 +13,6 @@ namespace WheelMUD.Universe
     using System.Security.Principal;
 
     /// <summary>This gives <see cref="WheelMUD.Universe.Entity"/> child classes a .NET-style identity.</summary>
-    /// <remarks>Added by Hector Sosa, Jr (aka Fastalanasa) on Dec 27, 2006.</remarks>
     public class MudIdentity : GenericIdentity
     {
         /// <summary>Initializes a new instance of the <see cref="MudIdentity"/> class.</summary>

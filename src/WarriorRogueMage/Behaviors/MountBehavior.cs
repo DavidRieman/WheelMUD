@@ -4,10 +4,7 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Behavior that deals with a mounts in the game, i.e. Horses, Mules, Ostriches,
-//   etc.
-//   Author: Fastalanasa
-//   Date: May 12, 2011
+//   Behavior that deals with a mounts in the game, i.e. Horses, Mules, Ostriches, etc.
 // </summary>
 //-----------------------------------------------------------------------------
 

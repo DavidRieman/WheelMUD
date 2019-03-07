@@ -4,10 +4,7 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Character creation state used to set the initial values for the player's
-//   base attributes.
-//   Author: Fastalanasa
-//   Date: May 6, 2011
+//   Character creation state used to set the initial values for the player's base attributes.
 // </summary>
 //-----------------------------------------------------------------------------
 
