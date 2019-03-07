@@ -31,7 +31,7 @@ namespace WheelMUD.Core.Behaviors
     /// </summary>
     public class FollowingBehavior : Behavior
     {
-        private WeakReference<Thing> target;
+        private Utilities.WeakReference<Thing> target;
 
         /// <summary>Initializes a new instance of the FollowingBehavior class.</summary>
         public FollowingBehavior()
@@ -133,7 +133,7 @@ namespace WheelMUD.Core.Behaviors
 
                 if (!followEvent.IsCancelled)
                 {
-                    this.target = new WeakReference<Thing>(newTarget);
+                    this.target = new Utilities.WeakReference<Thing>(newTarget);
                     newTarget.Eventing.MovementEvent += this.ProcessMovementEvent;
                     self.Eventing.OnMovementEvent(followEvent, EventScope.ParentsDown);
                 }
