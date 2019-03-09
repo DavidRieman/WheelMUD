@@ -21,7 +21,7 @@ namespace WheelMUD.Core
         // @@@ TODO: Register to static RoomBehavior.RoomCreated events or something to keep updated?
         // @@@ HMM, what about Template ID vs. instance ID (IE able to have instanced rooms or multiple 
         //     instances of a given vehicle which has a RoomBehavior, etc)
-        // @@@ Also, consider whether such caches should use WeakReferences instead of references.
+        // @@@ Also, consider whether such caches should use SimpleWeakReferences instead of references.
         ////private readonly Dictionary<long, RoomBehavior> roomsCache;
 
         /// <summary>Initializes a new instance of the WorldBehavior class.</summary>
