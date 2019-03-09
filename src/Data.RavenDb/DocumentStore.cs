@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Encapsulates the Raven.Client.Embedded.EmbeddableDocumentStore into a singleton.
-//   Date: May 15, 2011
 // </summary>
 //-----------------------------------------------------------------------------
 
