@@ -92,7 +92,7 @@ namespace WheelMUD.Core
                 destination = ThingManager.Instance.FindThing(destinationInfo.TargetID);
                 if (destination != null)
                 {
-                    destinationInfo.CachedTarget = new WeakReference<Thing>(destination);
+                    destinationInfo.CachedTarget = new SimpleWeakReference<Thing>(destination);
                 }
 
                 return destination;
@@ -126,7 +126,7 @@ namespace WheelMUD.Core
             if (destinationInfo.CachedTarget == null || destinationInfo.CachedTarget.Target == null)
             {
                 Thing newTarget = ThingManager.Instance.FindThing(destinationInfo.TargetID);
-                destinationInfo.CachedTarget = new WeakReference<Thing>(newTarget);
+                destinationInfo.CachedTarget = new SimpleWeakReference<Thing>(newTarget);
             }
 
             // If the destination can't be found, abort.
@@ -345,7 +345,7 @@ namespace WheelMUD.Core
             {
                 this.ExitCommand = command;
                 this.TargetID = targetID;
-                this.CachedTarget = new WeakReference<Thing>(null);
+                this.CachedTarget = new SimpleWeakReference<Thing>(null);
             }
 
             /// <summary>Gets or sets the command which is used to reach the target destination.</summary>
@@ -355,7 +355,7 @@ namespace WheelMUD.Core
             public string TargetID { get; set; }
 
             /// <summary>Gets or sets the cached destination thing.</summary>
-            public WeakReference<Thing> CachedTarget { get; set; }
+            public SimpleWeakReference<Thing> CachedTarget { get; set; }
         }
     }
 }

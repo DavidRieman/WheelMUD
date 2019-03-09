@@ -17,7 +17,7 @@ namespace WheelMUD.ConnectionStates
     /// <summary>The 'playing' session state.</summary>
     public class PlayingState : SessionState
     {
-        private WeakReference<PlayerBehavior> playerBehavior;
+        private SimpleWeakReference<PlayerBehavior> playerBehavior;
 
         /// <summary>Initializes a new instance of the PlayingState class.</summary>
         /// <param name="session">The session entering this state.</param>
@@ -28,7 +28,7 @@ namespace WheelMUD.ConnectionStates
             if (session.Thing != null)
             {
                 var behavior = session.Thing.Behaviors.FindFirst<PlayerBehavior>();
-                this.playerBehavior = new WeakReference<PlayerBehavior>(behavior);
+                this.playerBehavior = new SimpleWeakReference<PlayerBehavior>(behavior);
             }
 
             string nl = Environment.NewLine;

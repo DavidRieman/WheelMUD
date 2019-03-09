@@ -26,7 +26,7 @@ namespace WheelMUD.Core.Behaviors
     /// may be taken.
     /// </para>
     /// </summary>
-    /// <remarks>TODO: Change this class to use WeakReference for the Followers collection.</remarks>
+    /// <remarks>TODO: Change this class to use SimpleWeakReference for the Followers collection.</remarks>
     public class FollowedBehavior : Behavior
     {
         /// <summary>Initializes a new instance of the FollowedBehavior class.</summary>
