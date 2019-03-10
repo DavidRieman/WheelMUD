@@ -6,7 +6,7 @@ However, we currently recommend using [Visual Studio](https://visualstudio.micro
 For more details, check the [Basic Prerequisites](BasicPrerequisites.md) page.
 
 ## Additional Requirements
-* .NET Framework 4.7.2 (http://www.microsoft.com/en-us/download/details.aspx?id=17718), although the project target frameworks can likely all be lowered to 4 or lower if needed, without very much hassle.
+* [.NET Framework 4.7.2](https://support.microsoft.com/en-us/help/4054530/microsoft-net-framework-4-7-2-offline-installer-for-windows), although the project target frameworks can likely all be lowered to 4 or lower if needed, without very much hassle.
 * Any Telnet client, such as:
   - [zMUD or cMUD](http://www.zuggsoft.com/index.php). Heavy, feature-rich telnet client, used by tons of serious MUD users.
   - [PuTTY](http://www.putty.org). Lightweight telnet client, but remembers session info.
