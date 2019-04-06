@@ -46,14 +46,13 @@ namespace WheelMUD.Rules
 
             if (invokers.Any(ri => ri.Key == ruleInvoker.ParameterType))
             {
-                var invokers = this.invokers.First((KeyValuePair<Type, List<IRuleInvoker>> ri) => ri.Key == ruleInvoker.ParameterType).Value;
-                invokers.Add(ruleInvoker);
+                var invokersList = this.invokers.First((KeyValuePair<Type, List<IRuleInvoker>> ri) => ri.Key == ruleInvoker.ParameterType).Value;
+                invokersList.Add(ruleInvoker);
             }
             else
             {
-                var invokers = new List<IRuleInvoker>();
-                invokers.Add(ruleInvoker);
-                this.invokers.Add(new KeyValuePair<Type, List<IRuleInvoker>>(ruleInvoker.ParameterType, invokers));
+                var newInvokersList = new List<IRuleInvoker>() { ruleInvoker };
+                this.invokers.Add(new KeyValuePair<Type, List<IRuleInvoker>>(ruleInvoker.ParameterType, newInvokersList));
             }
         }
 
