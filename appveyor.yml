@@ -5,5 +5,5 @@ configuration:
   - Debug
   - Release
 
-build_script:
-  - msbuild src/WheelMUD.sln
+build:
+  project: src/WheelMUD.sln
