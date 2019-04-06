@@ -7,8 +7,6 @@
 //   A base action input command. This is created whenever input is detected on 
 //   the sockets, or action input is created by mobile AI.
 //   The text is parsed so that it can be presented to the command system easily.
-//   Created: January 2007 by Foxedup.
-//   Renamed: April 2009 by Karak. "Action" to "ActionInput" to fit its purpose.
 // </summary>
 //-----------------------------------------------------------------------------
 

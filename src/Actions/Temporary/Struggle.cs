@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   @@@ Temporary script to to get out of a web.
-//   Created: November 2006 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

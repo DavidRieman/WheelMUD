@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   High level manager that provides tracking and global collection of Things.
-//   Created: December 2009 by bengecko.
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -6,7 +6,6 @@
 // <summary>
 //   The ActionSecurity attribute can be assigned to Actions to restrict the 
 //   action from being utilized by users who do not have the right permissions.
-//   Updated: April 2009 by Karak: Utilizing enumeration for SecurityRoles now.
 // </summary>
 //-----------------------------------------------------------------------------
 

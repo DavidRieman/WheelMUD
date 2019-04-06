@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A behavior that indicates who the player/mob is currently following.
-//   Created: 3/23/2012 by James McManus.
 // </summary>
 //-----------------------------------------------------------------------------
 
@@ -32,7 +31,7 @@ namespace WheelMUD.Core.Behaviors
     /// </summary>
     public class FollowingBehavior : Behavior
     {
-        private WeakReference<Thing> target;
+        private SimpleWeakReference<Thing> target;
 
         /// <summary>Initializes a new instance of the FollowingBehavior class.</summary>
         public FollowingBehavior()
@@ -134,7 +133,7 @@ namespace WheelMUD.Core.Behaviors
 
                 if (!followEvent.IsCancelled)
                 {
-                    this.target = new WeakReference<Thing>(newTarget);
+                    this.target = new SimpleWeakReference<Thing>(newTarget);
                     newTarget.Eventing.MovementEvent += this.ProcessMovementEvent;
                     self.Eventing.OnMovementEvent(followEvent, EventScope.ParentsDown);
                 }

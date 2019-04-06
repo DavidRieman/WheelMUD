@@ -4,7 +4,6 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created: 5/8/2009 by Shabubu.
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   High level manager that provides tracking and global collection of all commands.
-//   Created: August 2006 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

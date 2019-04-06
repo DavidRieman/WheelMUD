@@ -1,7 +1,7 @@
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 -=  $MudAttributes.MudName Server Console $MudAttributes.Version
--=  Copyright (C) 2008-2014 $MudAttributes.Website
+-=  Copyright (C) 2008-2019 $MudAttributes.Website
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
  
 Welcome to the $MudAttributes.Version release of $MudAttributes.MudName
@@ -12,7 +12,7 @@ User Dungeon) MUD games.
 
 If you have any comments/questions/feedback
 then please let us know at either
-$MudAttributes.Website or http://wheelmud.codeplex.com
+$MudAttributes.Website or https://github.com/WheelMud/WheelMUD
 
 We are always on the lookout for new people
 to help with the coding/testing. If you feel

@@ -4,14 +4,8 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 5/17/2009 6:10:43 PM
-//   Purpose   : A game stat.
+//   A game stat.
 // </summary>
-// <history>
-//    June 2011 by Karak - Made it inherit from BaseStat and implement
-//                            the IPersistsWithPlayer interface.
-// </history>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core

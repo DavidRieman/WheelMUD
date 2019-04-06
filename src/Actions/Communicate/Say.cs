@@ -5,8 +5,7 @@
 // </copyright>
 // <summary>
 //   Communicate with others in the same location.
-//   Created: November 2006 by Foxedup.
-// </summary>
+//// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions

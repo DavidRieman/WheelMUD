@@ -16,10 +16,10 @@ Our road map may change over time. Most likely a few features that are less comm
 | 0.5     | In Progress: Basic WR&M combat, mob AI, skills, spells, finish Behaviors refactoring and related tests. |
 | 0.6     | Party, guilds, chat channels, settings, economy, weather. |
 | 0.7     | Quests, paging, message boards, ticketing. |
-| 0.8     | InterMUD communication, player housing / in-game building, professions. |
+| 0.8     | InterMUD communication, player housing / in-game building (OLC), professions. |
 | 0.9     | Admin-events support, pets (and mounts), MCCP. |
 | 1.0     | Performance and stress testing, optimizations, release polish, UX testing and iteration, publicize official release. |
-| 1.1+    | Ranged combat, multiple currencies, item durability, flight, underwater, a default new user tutorial area, etc... |
+| 1.1+    | Ranged combat, multiple currencies, item durability, flight, underwater, a default new user tutorial area, auctions, banking, embedded mini-games, macros, area instancing, etc... |
 
 ### After Version 1.0
 We're not stopping at v1. We just mark any issues that we felt were not required for our V1 release as 1.1+.

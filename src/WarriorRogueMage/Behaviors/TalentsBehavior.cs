@@ -5,8 +5,6 @@
 // </copyright>
 // <summary>
 //   Behavior that deals with a player's talents.
-//   Author: Fastalanasa
-//   Date: May 12, 2011
 // </summary>
 //-----------------------------------------------------------------------------
 

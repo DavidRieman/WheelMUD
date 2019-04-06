@@ -4,8 +4,6 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 6/6/2010
 //   Different enums to handle various weather related settings.
 // </summary>
 //-----------------------------------------------------------------------------

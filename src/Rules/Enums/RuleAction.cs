@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 2/19/2011
-//   Purpose   : A central repository for game rule enums.
+//   A central repository for game rule enums.
 // </summary>
 //-----------------------------------------------------------------------------
 

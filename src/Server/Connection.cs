@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   This is the low level connection object that is assigned to a user when they connect.
-//   Created: August 2006 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

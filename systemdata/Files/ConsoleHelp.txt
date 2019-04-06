@@ -1,6 +1,6 @@
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 -=  $MudAttributes.MudName Server Console Help       =-
--=  Copyright (C) 2008-2014 $MudAttributes.Website    =-
+-=  Copyright (C) 2008-2019 $MudAttributes.Website    =-
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 Welcome to the $MudAttributes.Version release of $MudAttributes.MudName
@@ -15,7 +15,7 @@ a telnet client. From this machine you can
 connect to ip address 127.0.0.1 and port $MudAttributes.TelnetPort
 
 Extra help is available on our website at
-$MudAttributes.Website or http://wheelmud.codeplex.com
+$MudAttributes.Website or https://github.com/WheelMud/WheelMUD
 
 Commands Available:
     SHUTDOWN - Closes the server

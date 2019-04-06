@@ -5,8 +5,6 @@
 // </copyright>
 // <summary>
 //    A locator class that deals with behaviors.
-//    Created By : Fastalanasa
-//    Created On : May 12, 2011  
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Script to list the items in a player's inventory.
-//   Created: November 2006 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

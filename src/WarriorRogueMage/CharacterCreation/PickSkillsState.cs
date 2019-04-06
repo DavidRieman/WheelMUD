@@ -5,8 +5,6 @@
 // </copyright>
 // <summary>
 //   Character creation state used to set the initial skills for the player.
-//   Author: Fastalanasa
-//   Date: May 8, 2011
 // </summary>
 //-----------------------------------------------------------------------------
 

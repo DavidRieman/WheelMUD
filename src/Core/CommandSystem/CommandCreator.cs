@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Turns an action into a command script for execution on the queue.
-//   Created: January 2007 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

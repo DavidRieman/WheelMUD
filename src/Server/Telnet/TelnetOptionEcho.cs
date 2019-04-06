@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Class that handles the echo telnet option code.
-//   Created: January 2007 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

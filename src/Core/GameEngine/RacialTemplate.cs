@@ -5,8 +5,6 @@
 // </copyright>
 // <summary>
 //   Class that will hold a game racial template.
-//   Author: Fastalanasa
-//   Date: May 10, 2011
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Provides a dice system (random number generator) to the world.
-//   Created: October 2006 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

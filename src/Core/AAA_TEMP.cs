@@ -683,7 +683,6 @@ namespace WheelMUD.Universe
 // <summary>
 //   @@@ A temporary example of a reaction script, that simply broadcasts to entities in the room
 //   that it has detected an event.
-//   Created: January 2007 by Foxedup
 // </summary>
 /* @@@ Build a RelaySenseBehavior or whatnot...
 namespace WheelMUD.EventReactions
@@ -719,7 +718,6 @@ namespace WheelMUD.EventReactions
 // Removed ListeningDevice.cs:
 // <summary>
 //   @@@ A temporary example of an item that responds to world events.
-//   Created: January 2007 by Foxedup
 // </summary>
 /*
 namespace WheelMUD.Universe.Things
@@ -877,11 +875,9 @@ namespace WheelMUD.Universe.Things
 // <summary>
 //   A potion item which creates effects when sipped/quaffed.
 //   A Potion is now an easy way to work with an Item whose primary purpose is 
-//   to house PotionItemBeavior;  note that other items which are not primarily 
+//   to house PotionItemBehavior;  note that other items which are not primarily 
 //   considered "potions" could also have PotionItemBehavior to achieve the 
 //   same functionality as normal potions.
-//   Created: January 2007 by Foxedup.
-//   Rewritten: June 2009 by Karak: using the ItemBehaviors now.
 // </summary>
 /*
 namespace WheelMUD.Universe.Things

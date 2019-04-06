@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   An action to remove a role from a player.
-//   Implemented by Fastalanasa - 7/16/2009
 // </summary>
 //-----------------------------------------------------------------------------
 

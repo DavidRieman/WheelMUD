@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A command that allows an admin to clone any cloneable item.
-//   Revised: June 2009 by Karak: generic cloning instead of 'ClonePotion.cs' etc.
 // </summary>
 //-----------------------------------------------------------------------------
 

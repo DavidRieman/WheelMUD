@@ -4,8 +4,7 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Created: January 2012 by Fastalanasa.
-//   Edited by Duane King as needed.
+//   Tests the WRMCombat class
 // </summary>
 //-----------------------------------------------------------------------------
 

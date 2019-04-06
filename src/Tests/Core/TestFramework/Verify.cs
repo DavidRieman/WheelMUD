@@ -4,7 +4,6 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Created: August 2011 by Karak.
 // </summary>
 //-----------------------------------------------------------------------------
 
@@ -47,7 +46,8 @@ namespace WheelMUD.Tests
             else if (processName.StartsWith("QTAgent", StringComparison.CurrentCultureIgnoreCase) ||
                      processName.StartsWith("TE.ProcessHost.Managed", StringComparison.CurrentCultureIgnoreCase) ||
                      processName.StartsWith("vstest.executionengine", StringComparison.CurrentCultureIgnoreCase) ||
-                     processName.StartsWith("vstest.console", StringComparison.CurrentCultureIgnoreCase))
+                     processName.StartsWith("vstest.console", StringComparison.CurrentCultureIgnoreCase) ||
+                     processName.StartsWith("testhost", StringComparison.CurrentCultureIgnoreCase))
             {
                 // The test is running in the MS unit testing framework; rig up those assert methods.
                 WireMSTestAsserts();

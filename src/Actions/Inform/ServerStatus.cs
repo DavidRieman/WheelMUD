@@ -6,7 +6,6 @@
 // <summary>
 //   A script to show server status information.
 //   SQL status including DB IIS. Need to add try catch error handling to WMI connection.
-//   Created: January 2007 by Saquivor.
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -4,8 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 7/5/2009 9:52:27 PM
+//   TODO: Add summary
 // </summary>
 //-----------------------------------------------------------------------------
 

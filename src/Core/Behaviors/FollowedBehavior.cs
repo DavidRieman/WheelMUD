@@ -7,7 +7,6 @@
 //   A behavior that indicates who is currently following the player or mob.
 //   Currently not too useful, but this is the companion to FollowingBehavior,
 //   which leads to movement when following someone.
-//   Created: 3/23/2012 by James McManus.
 // </summary>
 //-----------------------------------------------------------------------------
 
@@ -27,7 +26,7 @@ namespace WheelMUD.Core.Behaviors
     /// may be taken.
     /// </para>
     /// </summary>
-    /// <remarks>TODO: Change this class to use WeakReference for the Followers collection.</remarks>
+    /// <remarks>TODO: Change this class to use SimpleWeakReference for the Followers collection.</remarks>
     public class FollowedBehavior : Behavior
     {
         /// <summary>Initializes a new instance of the FollowedBehavior class.</summary>

@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A script to allow the moving of items from an inventory to a container.
-//   Created: January 2007 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

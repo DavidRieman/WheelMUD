@@ -4,7 +4,6 @@
 // </copyright>
 // <summary>
 //   Event associated with the "follow" command.
-//   Created: March 23, 2012 by James McManus.
 // </summary>
 //-----------------------------------------------------------------------------
 

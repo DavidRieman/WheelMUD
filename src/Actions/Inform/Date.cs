@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A command script to display the ingame and out of game date and time.
-//   Created: January 2007 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

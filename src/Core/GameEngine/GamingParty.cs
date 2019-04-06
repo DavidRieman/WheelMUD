@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 5/15/2009 5:12:37 PM
-//   Purpose   : Construct to represent adventuring parties or groups.
+//   Construct to represent adventuring parties or groups.
 // </summary>
 //-----------------------------------------------------------------------------
 

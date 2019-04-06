@@ -4,13 +4,8 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 5/15/2009 5:30:30 PM
-//   Purpose   : Top class for the GameEngine.
+//   Top class for the GameEngine.
 // </summary>
-// <history>
-//   2011-06-01 by Karak - Removed CSScript in favor of MEF discovery w/compiled parts
-// </history>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core

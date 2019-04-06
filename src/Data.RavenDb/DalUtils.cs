@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Utilities for making the use of RavenDb easier.
-//   Date: May 15, 2011
 // </summary>
 //-----------------------------------------------------------------------------
 

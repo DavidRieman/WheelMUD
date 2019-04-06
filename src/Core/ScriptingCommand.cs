@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A scripting command.
-//   Organized: April 2009 by Karak.
 // </summary>
 //-----------------------------------------------------------------------------
 

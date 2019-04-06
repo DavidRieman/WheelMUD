@@ -4,10 +4,9 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by Karak, 2011-06-05
-//   (Technically we probably don't want these choices for players but here's an example
+//   Technically we probably don't want these choices for players but here's an example
 //   of having a game element which has some elements defined in Core and others expanded
-//   by the game engine.)
+//   by the game engine.
 // </summary>
 //-----------------------------------------------------------------------------
 

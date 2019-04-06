@@ -4,10 +4,8 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : May 29, 2011
-//   Purpose   : Central class to host code that will load and save documents 
-//               from the document database (RavenDb).
+//   Central class to host code that will load and save documents from the
+//   document database (RavenDb).
 // </summary>
 //-----------------------------------------------------------------------------
 

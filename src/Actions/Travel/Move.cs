@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   A script that allows players to move.
-//   Created: November 2006 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 /*

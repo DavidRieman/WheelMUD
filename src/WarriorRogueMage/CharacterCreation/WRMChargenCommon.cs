@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Common methods for Warrior, Rogue, and Mage character creation
-//   Author: Fastalanasa
-//   Date: May 14, 2011
+//   Common methods for Warrior, Rogue, and Mage character creation.
 // </summary>
 //-----------------------------------------------------------------------------
 

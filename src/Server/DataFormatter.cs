@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   Runs data through our series of data filters for correct presentation on the client.
-//   Created: January 2007 by Foxedup
 // </summary>
 //-----------------------------------------------------------------------------
 

@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   High level manager that provides tracking and global collection of all connected sessions.
-//   Created: August 2006 by Foxedup.
 // </summary>
 //-----------------------------------------------------------------------------
 

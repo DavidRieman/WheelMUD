@@ -4,9 +4,7 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : Jan 14, 2012
-//   Purpose   : Warrior, Rogue, Mage based combat.
+//   Warrior, Rogue, Mage based combat.
 // </summary>
 //-----------------------------------------------------------------------------
 

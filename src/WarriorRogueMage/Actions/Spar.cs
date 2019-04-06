@@ -4,14 +4,8 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   Created by: Fastalanasa
-//   Date      : 6/12/2011
-//   Purpose   : Initiates non-lethal combat.
+//   Initiates non-lethal combat.
 // </summary>
-// <history>
-//   June 13, 2010 - By Fastalanasa
-//   Moved to WarriorRogueMage.Actions from WheelMUD.Actions.
-// </history>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage.Actions

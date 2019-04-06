@@ -4,7 +4,6 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Created: March 2012 by Karak.
 // </summary>
 //-----------------------------------------------------------------------------
 
