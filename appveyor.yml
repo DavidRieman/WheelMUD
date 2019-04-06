@@ -6,5 +6,4 @@ configuration:
   - Release
 
 build:
-  project:
-    - src/WheelMUD.sln
+  project: src\WheelMUD.sln
