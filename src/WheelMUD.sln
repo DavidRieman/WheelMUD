@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MudFramework", "MudFramework", "{70B47C52-9264-4B57-BA38-D1A5BAECC660}"
 EndProject
@@ -72,13 +72,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{13D09790
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHarness", "TestHarness\TestHarness.csproj", "{F6AE400B-3760-4D4E-909A-D09F3E477BB5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CDE99827-E16A-44A1-AE28-386B6185B97D}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -185,6 +178,9 @@ Global
 		{F9235B03-F19E-494D-A6BF-87750A821B1D} = {6132C745-3F4C-496A-A904-C7C7CE363085}
 		{3BFE4F46-3B33-4449-AA58-B2B2F6E0A464} = {D051C5A7-F170-427F-A8C8-DEBC246CA934}
 		{2C0AABE2-0B83-4F32-82C5-A0AF066AB34A} = {219394ED-676D-46B8-8AEE-FC6A2084F90F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {264B2ECC-2D1D-4C6D-9CA9-82539671B3B1}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = WheelMUD.vsmdi
