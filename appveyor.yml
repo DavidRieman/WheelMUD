@@ -1,9 +1,9 @@
-platform:
-  - x86
-
+version: 1.0.{build}
+image: Visual Studio 2017
 configuration:
-  - Debug
-  - Release
-
-build_script:
-  - msbuild src/WheelMUD.sln
+- Debug
+- Release
+platform: x86
+build:
+  project: src\WheelMUD.sln
+  verbosity: normal
