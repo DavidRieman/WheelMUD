@@ -15,7 +15,7 @@ There are a lot more information in old discussions and design documents buried 
 For those who know git, code, and telnet already and want to jump right in.
 * Fork the repository.
 * Download the code (IE https://github.com/WheelMud/WheelMUD.git).
-* Open the solution, preferably in Visual Studio 2013.
+* Open the solution, preferably in Visual Studio 2019.
 * Build and Launch.
 * Once the server is ready, telnet localhost 4000.
 The [Documentation](Documentation/README.md) also includes a far more detailed [Getting Started](Documentation/GettingStarted.md) section.
