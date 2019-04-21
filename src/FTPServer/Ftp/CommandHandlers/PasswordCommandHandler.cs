@@ -9,6 +9,7 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
+    using WheelMUD.Data.Entities;
     using WheelMUD.Data.Repositories;
 
     public class PasswordCommandHandler : FtpCommandHandler
@@ -22,7 +23,7 @@ namespace WheelMUD.Ftp.FtpCommands
         {
             string retval;
 
-            bool auth = PlayerRepository.Authenticate(this.ConnectionObject.User, message);
+            bool auth = PlayerRepositoryExtensions.Authenticate(this.ConnectionObject.User, message);
 
             if (auth)
             {

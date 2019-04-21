@@ -11,6 +11,7 @@
 namespace WheelMUD.ConnectionStates
 {
     using WheelMUD.Core;
+    using WheelMUD.Data.Entities;
     using WheelMUD.Data.Repositories;
 
     /// <summary>The 'login' session state.</summary>
@@ -57,7 +58,7 @@ namespace WheelMUD.ConnectionStates
         /// <returns>True if authenticated, else false.</returns>
         private bool Authenticate()
         {
-            return PlayerRepository.Authenticate(this.Session.UserName, this.Password);
+            return PlayerRepositoryExtensions.Authenticate(this.Session.UserName, this.Password);
         }
     }
 }

@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -130,7 +128,7 @@ namespace WheelMUD.Core
         /// <param name="playerId">The player's id.</param>
         public void Load(int playerId)
         {
-            var repository = new PlayerRepository();
+            var repository = new Repository<PlayerRecord>();
             this.PlayerData = repository.GetById(playerId);
         }
 
@@ -138,7 +136,7 @@ namespace WheelMUD.Core
         /// <param name="playerName">Name of the player.</param>
         public void Load(string playerName)
         {
-            var repository = new PlayerRepository();
+            var repository = new Repository<PlayerRecord>();
             this.PlayerData = repository.GetPlayerByUserName(playerName);
         }
 
@@ -146,7 +144,7 @@ namespace WheelMUD.Core
         public override void Save()
         {
             // Save the player's basic info.
-            var repository = new PlayerRepository();
+            var repository = new Repository<PlayerRecord>();
 
             if (this.ID == 0)
             {
