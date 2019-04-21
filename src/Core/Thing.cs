@@ -10,12 +10,12 @@
 
 namespace WheelMUD.Core
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Xml.Serialization;
-    using Raven.Imports.Newtonsoft.Json;
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 

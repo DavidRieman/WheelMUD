@@ -12,8 +12,8 @@
 
 namespace WheelMUD.Core.Behaviors
 {
+    using Newtonsoft.Json;
     using System.Collections.Generic;
-    using Raven.Imports.Newtonsoft.Json;
 
     /// <summary>
     /// <para>

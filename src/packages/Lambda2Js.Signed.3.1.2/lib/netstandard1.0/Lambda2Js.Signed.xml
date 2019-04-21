@@ -1,0 +1,1242 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Lambda2Js.Signed</name>
+    </assembly>
+    <members>
+        <member name="T:Lambda2Js.AttributeJavascriptMetadataProvider">
+            <summary>
+            Provides metadata about the objects that are going to be converted to JavaScript in some way.
+            </summary>
+        </member>
+        <member name="M:Lambda2Js.AttributeJavascriptMetadataProvider.GetMemberMetadata(System.Reflection.MemberInfo)">
+            <summary>
+            Gets metadata about a property that is going to be used in JavaScript code.
+            </summary>
+            <param name="memberInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Lambda2Js.AttributeJavascriptMetadataProvider.UseCache">
+            <summary>
+            Gets or sets a value indicating whether to use cache by default.
+            Applyes to `GetMemberMetadata` overload without `useCache` parameter.
+            </summary>
+        </member>
+        <member name="M:Lambda2Js.AttributeJavascriptMetadataProvider.GetMemberMetadata(System.Reflection.MemberInfo,System.Boolean)">
+            <summary>
+            Gets metadata about a property that is going to be used in JavaScript code.
+            </summary>
+            <param name="memberInfo"></param>
+            <param name="useCache"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Lambda2Js.IJavascriptMemberMetadata">
+            <summary>
+            Interface that contains metadata information about a property for JavaScript conversion.
+            </summary>
+        </member>
+        <member name="P:Lambda2Js.IJavascriptMemberMetadata.MemberName">
+            <summary>
+            Gets or sets the name of the property when converted to JavaScript.
+            </summary>
+        </member>
+        <member name="T:Lambda2Js.JavascriptCompilationOptions">
+            <summary>
+            Options that change how Lambda2Js converts to the resulting JavaScript.
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptCompilationOptions.DefaultOptions">
+            <summary>
+            Gets the default options used by Lambda2Js converts to JavaScript.
+            </summary>
+        </member>
+        <member name="M:Lambda2Js.JavascriptCompilationOptions.#ctor(Lambda2Js.JsCompilationFlags,Lambda2Js.JavascriptConversionExtension[])">
+            <summary>
+            Creates an instance of the <see cref="T:Lambda2Js.JavascriptCompilationOptions"/> object.
+            </summary>
+            <param name="flags">JavaScript compilation flags.</param>
+            <param name="extensions">Extensions to the compilation.</param>
+        </member>
+        <member name="M:Lambda2Js.JavascriptCompilationOptions.#ctor(Lambda2Js.JavascriptConversionExtension[])">
+            <summary>
+            Creates an instance of the <see cref="T:Lambda2Js.JavascriptCompilationOptions"/> object.
+            </summary>
+            <param name="extensions">Extensions to the compilation.</param>
+        </member>
+        <member name="M:Lambda2Js.JavascriptCompilationOptions.#ctor(Lambda2Js.JsCompilationFlags,Lambda2Js.ScriptVersion,Lambda2Js.JavascriptConversionExtension[])">
+            <summary>
+            Creates an instance of the <see cref="T:Lambda2Js.JavascriptCompilationOptions"/> object.
+            </summary>
+            <param name="flags">JavaScript compilation flags.</param>
+            <param name="scriptVersion">Target version of the compiled JavaScript.</param>
+            <param name="extensions">Extensions to the compilation.</param>
+        </member>
+        <member name="M:Lambda2Js.JavascriptCompilationOptions.#ctor(Lambda2Js.ScriptVersion,Lambda2Js.JavascriptConversionExtension[])">
+            <summary>
+            Creates an instance of the <see cref="T:Lambda2Js.JavascriptCompilationOptions"/> object.
+            </summary>
+            <param name="scriptVersion">Target version of the compiled JavaScript.</param>
+            <param name="extensions">Extensions to the compilation.</param>
+        </member>
+        <member name="M:Lambda2Js.JavascriptCompilationOptions.#ctor(Lambda2Js.JsCompilationFlags,System.Collections.Generic.IEnumerable{Lambda2Js.JavascriptConversionExtension},Lambda2Js.ScriptVersion)">
+            <summary>
+            Creates an instance of the <see cref="T:Lambda2Js.JavascriptCompilationOptions"/> object.
+            </summary>
+            <param name="flags">JavaScript compilation flags.</param>
+            <param name="scriptVersion">Target version of the compiled JavaScript.</param>
+            <param name="extensions">Extensions to the compilation.</param>
+        </member>
+        <member name="P:Lambda2Js.JavascriptCompilationOptions.BodyOnly">
+            <summary>
+            Gets a value indicating whether only the body of the lambda expression will be rendered.
+            </summary>
+        </member>
+        <member name="P:Lambda2Js.JavascriptCompilationOptions.ScopeParameter">
+            <summary>
+            Gets a value indicating whether the single argument of the lambda represents the arguments passed to the JavaScript.
+            <para>The lambda:</para>
+            <para>(obj) => obj.X + obj.Y</para>
+            <para>results in this kind of JavaScript:</para>
+            <para>function(x,y){return x+y;}</para>
+            </summary>
+        </member>
+        <member name="P:Lambda2Js.JavascriptCompilationOptions.ScriptVersion">
+            <summary>
+            Gets the target version of the generated script.
+            </summary>
+        </member>
+        <member name="P:Lambda2Js.JavascriptCompilationOptions.UndefinedLiteral">
+            <summary>
+            Gets or sets the literal used to represent undefined in javascript.
+            If anything but a literal is provided, then you should parenthesize the whole expression.
+            </summary>
+        </member>
+        <member name="P:Lambda2Js.JavascriptCompilationOptions.CustomMetadataProvider">
+            <summary>
+            Gets or sets the metadata provider that should be used in the compilation process when information about types are needed.
+            </summary>
+        </member>
+        <member name="T:Lambda2Js.JavascriptCompilerExpressionVisitor">
+            <summary>
+            Expression visitor that converts each node to JavaScript code.
+            </summary>
+        </member>
+        <member name="P:Lambda2Js.JavascriptCompilerExpressionVisitor.Options">
+            <summary>
+            Gets the user options.
+            </summary>
+        </member>
+        <member name="P:Lambda2Js.JavascriptCompilerExpressionVisitor.Result">
+            <summary>
+            Gets the resulting JavaScript code.
+            </summary>
+        </member>
+        <member name="P:Lambda2Js.JavascriptCompilerExpressionVisitor.UsedScopeMembers">
+            <summary>
+            Gets the scope names that were used from the scope parameter.
+            </summary>
+        </member>
+        <member name="P:Lambda2Js.JavascriptConversionContext.Node">
+            <summary>
+            Gets the node being converted.
+            [Do not set this property, as the setter will be soon removed. Use either `WriteLambda` or `WriteExpression` method.]
+            </summary>
+            <remarks>
+            The preferred way to process another node, instead of setting this property,
+            is calling either `WriteLambda` or `WriteExpression` method.
+            </remarks>
+        </member>
+        <member name="M:Lambda2Js.JavascriptConversionContext.GetWriter">
+            <summary>
+            Gets a JavaScript writer, to output JavaScript code as the result of a node conversion.
+            When this method is used, it marks the context as being used already,
+            so that the node is not compiled again by any other extension or default behavior of the converter.
+            </summary>
+        </member>
+        <member name="T:Lambda2Js.JavascriptConversionExtension">
+            <summary>
+            Base class for extenions to the Lambda to JavaScript converter.
+            </summary>
+        </member>
+        <member name="M:Lambda2Js.JavascriptConversionExtension.ConvertToJavascript(Lambda2Js.JavascriptConversionContext)">
+            <summary>
+            When overridden allows the control of expression nodes to JavaScript code.
+            </summary>
+            <param name="context">JavaScript conversion context, that allows to write text to the output stream.</param>
+        </member>
+        <member name="M:Lambda2Js.JavascriptConversionExtension.GetTypeOfExpression(System.Linq.Expressions.Expression)">
+            <summary>
+            Helper method that gets the <see cref="T:System.Type"/> of an expression, ignoring type casts to base classes.
+            </summary>
+            <param name="expression">The expression to get the type for.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Lambda2Js.JavascriptConversionHelpers">
+            <summary>
+            Extension methods to help with the JavaScript rendering, when implementing <see cref="T:Lambda2Js.JavascriptConversionExtension"/>.
+            </summary>
+        </member>
+        <member name="M:Lambda2Js.JavascriptConversionHelpers.Write(Lambda2Js.JavascriptConversionContext,System.Linq.Expressions.Expression)">
+            <summary>
+            Writes many expression nodes, separated by the given separator.
+            </summary>
+            <param name="context">The Javascript conversion context.</param>
+            <param name="node">The node to write.</param>
+            <returns>The Javascript conversion context itself, to allow fluent style rendering.</returns>
+        </member>
+        <member name="M:Lambda2Js.JavascriptConversionHelpers.Write(Lambda2Js.JavascriptConversionContext,System.Char)">
+            <summary>
+            Writes a single character.
+            </summary>
+            <param name="context">The Javascript conversion context.</param>
+            <param name="ch">Character to write.</param>
+            <returns>The Javascript conversion context itself, to allow fluent style rendering.</returns>
+        </member>
+        <member name="M:Lambda2Js.JavascriptConversionHelpers.WriteMany(Lambda2Js.JavascriptConversionContext,System.Char,System.Collections.Generic.IEnumerable{System.Linq.Expressions.Expression})">
+            <summary>
+            Writes many expression nodes, separated by the given separator.
+            </summary>
+            <param name="context">The Javascript conversion context.</param>
+            <param name="separator">Separator to be used.</param>
+            <param name="nodes">A list of nodes to write.</param>
+            <returns>The Javascript conversion context itself, to allow fluent style rendering.</returns>
+        </member>
+        <member name="M:Lambda2Js.JavascriptConversionHelpers.WriteMany(Lambda2Js.JavascriptConversionContext,System.Char,System.Linq.Expressions.Expression[])">
+            <summary>
+            Writes many expression nodes, separated by the given separator.
+            </summary>
+            <param name="context">The Javascript conversion context.</param>
+            <param name="separator">Separator to be used.</param>
+            <param name="nodes">A list of nodes to write.</param>
+            <returns>The Javascript conversion context itself, to allow fluent style rendering.</returns>
+        </member>
+        <member name="M:Lambda2Js.JavascriptConversionHelpers.WriteManyIsolated(Lambda2Js.JavascriptConversionContext,System.Char,System.Char,System.Char,System.Collections.Generic.IEnumerable{System.Linq.Expressions.Expression})">
+            <summary>
+            Writes many expressions isolated from outer and inner operations by opening, closing and separator characters.
+            </summary>
+            <param name="context">The Javascript conversion context.</param>
+            <param name="opening">First character to render, isolating from outer operation.</param>
+            <param name="closing">Last character to render, isolating from outer operation.</param>
+            <param name="separator">Separator character to render, isolating one parameter from the other.</param>
+            <param name="nodes">Nodes to render.</param>
+        </member>
+        <member name="M:Lambda2Js.JavascriptConversionHelpers.WriteManyIsolated(Lambda2Js.JavascriptConversionContext,System.Char,System.Char,System.Char,System.Linq.Expressions.Expression[])">
+            <summary>
+            Writes many expressions isolated from outer and inner operations by opening, closing and separator characters.
+            </summary>
+            <param name="context">The Javascript conversion context.</param>
+            <param name="opening">First character to render, isolating from outer operation.</param>
+            <param name="closing">Last character to render, isolating from outer operation.</param>
+            <param name="separator">Separator character to render, isolating one parameter from the other.</param>
+            <param name="nodes">Nodes to render.</param>
+        </member>
+        <member name="M:Lambda2Js.JavascriptConversionHelpers.Operation(Lambda2Js.JavascriptConversionContext,Lambda2Js.JavascriptOperationTypes)">
+            <summary>
+            Encloses the following write calls in an operation context,
+            that will automatically write precedence operators '(' and ')' if needed,
+            depening on the operations stack.
+            <para>
+            For example, a sum (+)
+            inside a multiplication (*) requires the precedence operators.
+            </para>
+            <para>
+            To isolate operations, you can pass 0 to the <paramref name="op"/> parameter,
+            making neither the current nor the inner operation need precedence operators.
+            </para>
+            </summary>
+            <param name="context">Context of the conversion.</param>
+            <param name="op">The operation that you want to render in the scope.</param>
+            <returns>A disposable object that renders the ending ')' when needed.</returns>
+        </member>
+        <member name="M:Lambda2Js.JavascriptConversionHelpers.Write(Lambda2Js.JavascriptConversionContext,System.String)">
+            <summary>
+            Writes a string to the output.
+            </summary>
+            <param name="context">The Javascript conversion context.</param>
+            <param name="str">String to write.</param>
+            <returns>The Javascript conversion context itself, to allow fluent style rendering.</returns>
+        </member>
+        <member name="M:Lambda2Js.JavascriptConversionHelpers.WriteFormat(Lambda2Js.JavascriptConversionContext,System.String,System.Object[])">
+            <summary>
+            Writes a formatted string to the output.
+            </summary>
+            <param name="context">The Javascript conversion context.</param>
+            <param name="format">A string with place-holders to be filled with the values.</param>
+            <param name="values">A list values to use in each place-holder.</param>
+            <returns>The Javascript conversion context itself, to allow fluent style rendering.</returns>
+        </member>
+        <member name="M:Lambda2Js.JavascriptConversionHelpers.WriteAccessor(Lambda2Js.JavascriptConversionContext,System.String)">
+            <summary>
+            Writes a property accessor.
+            </summary>
+            <param name="context"></param>
+            <param name="propertyName">The property to access. Anything that can be converted to a string.</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:Lambda2Js.JavascriptMemberAttribute">
+            <summary>
+            Attribute containing metadata for JavaScript conversion.
+            </summary>
+        </member>
+        <member name="P:Lambda2Js.JavascriptMemberAttribute.MemberName">
+            <summary>
+            Gets or sets the name of the property when converted to JavaScript.
+            </summary>
+        </member>
+        <member name="T:Lambda2Js.JavascriptMetadataProvider">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptMetadataProvider.default">
+            <summary>
+            Gets or sets the default metadata provider.
+            The default is the <see cref="T:Lambda2Js.AttributeJavascriptMetadataProvider"/> class, but it can be changed.
+            </summary>
+        </member>
+        <member name="P:Lambda2Js.JavascriptMetadataProvider.Default">
+            <summary>
+            Gets or sets the default metadata provider.
+            The default is the <see cref="T:Lambda2Js.AttributeJavascriptMetadataProvider"/> class, but it can be changed.
+            </summary>
+        </member>
+        <member name="M:Lambda2Js.JavascriptMetadataProvider.GetMemberMetadata(System.Reflection.MemberInfo)">
+            <summary>
+            Gets metadata about a property that is going to be used in JavaScript code.
+            </summary>
+            <param name="memberInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.ParamIsolatedLhs">
+            <summary>
+            Parameters, all LHS operands in assignments, and other isolated value:
+            <para>f(op)</para>
+            <para>f(op, op)</para>
+            <para>new f(op)</para>
+            <para>new f(op, op)</para>
+            <para>obj[op]</para>
+            <para>[op]</para>
+            <para>[op, op]</para>
+            <para>{ Name: op }</para>
+            <para>{ Name: op, Name: op }</para>
+            <para>if (op) ...</para>
+            <para>for (op; op; op) ...</para>
+            <para>for (var i in op) ...</para>
+            <para>op;</para>
+            <para>return op;</para>
+            <para>var x = op;</para>
+            <para>var x = op, y = op;</para>
+            <para>condition ? op : op</para>
+            <para>op = value</para>
+            <para>op += value</para>
+            <para>op -= value</para>
+            <para>op *= value</para>
+            <para>op /= value</para>
+            <para>op %= value</para>
+            <para>op |= value</para>
+            <para>op &amp;= value</para>
+            <para>op ^= value</para>
+            <para>() => value</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.AssignRhs">
+            <summary>
+            Right hand side of an assignment.
+            <para>ref = op</para>
+            <para>ref += op</para>
+            <para>ref -= op</para>
+            <para>ref *= op</para>
+            <para>ref /= op</para>
+            <para>ref %= op</para>
+            <para>ref |= op</para>
+            <para>ref &amp;= op</para>
+            <para>ref ^= op</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.TernaryTest">
+            <summary>
+            Ternary condition.
+            <para>op ? true : false</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.TernaryFalseValue">
+            <summary>
+            Ternary condition.
+            <para>cond ? true : op</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.TernaryOp">
+            <summary>
+            Ternary operator.
+            <para>op => cond ? true : false</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.TernaryTrueValue">
+            <summary>
+            Ternary condition.
+            <para>cond ? op : false</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.Or">
+            <summary>
+            Or and logic Or.
+            <para>op | op</para>
+            <para>op || op</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.AndXor">
+            <summary>
+            And, Exclusive-Or and logic And.
+            <para>op &amp; op</para>
+            <para>op ^ op</para>
+            <para>op &amp;&amp; op</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.Comparison">
+            <summary>
+            Equals, not equals, greater, lower, not greater, not lower.
+            <para>op == op</para>
+            <para>op != op</para>
+            <para>op > op</para>
+            <para>op &lt; op</para>
+            <para>op &lt;= op</para>
+            <para>op >= op</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.AddSubtract">
+            <summary>
+            Add and subtract.
+            <para>op + op</para>
+            <para>op - op</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.Concat">
+            <summary>
+            String concatenation.
+            <para>op + op</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.MulDivMod">
+            <summary>
+            Multiply, divide and get module.
+            <para>op * op</para>
+            <para>op / op</para>
+            <para>op % op</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.Shift">
+            <summary>
+            Shift operations.
+            <para>op &lt;&lt; op</para>
+            <para>op >> op</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.NegComplPlus">
+            <summary>
+            Negative, one's complement, and plus sign.
+            <para>-op</para>
+            <para>~op</para>
+            <para>+op</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.InlineFunc">
+            <summary>
+            Inline function definition.
+            <para>function(){ statements }</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.Call">
+            <summary>
+            Calling a function.
+            <para>op(parameters)</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.New">
+            <summary>
+            New operator.
+            <para>new op(parameters)</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.Literal">
+            <summary>
+            Literal.
+            <para>1234</para>
+            <para>.1</para>
+            <para>3.9</para>
+            <para>40.</para>
+            <para>"string"</para>
+            <para>'string'</para>
+            <para>/regex/</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JavascriptOperationTypes.IndexerProperty">
+            <summary>
+            Getting an indexed value or property.
+            <para>op[value]</para>
+            <para>op.Name</para>
+            </summary>
+        </member>
+        <member name="T:Lambda2Js.JavascriptWriter">
+            <summary>
+            Writes Javascript code.
+            </summary>
+        </member>
+        <member name="M:Lambda2Js.JavascriptWriter.ToString">
+            <summary>
+            Gets the generated Javascript code so far.
+            </summary>
+            <returns>The generated code.</returns>
+        </member>
+        <member name="P:Lambda2Js.JavascriptWriter.Length">
+            <summary>
+            Gets the length of the rendered Javascript code so far.
+            </summary>
+        </member>
+        <member name="M:Lambda2Js.JavascriptWriter.Operation(Lambda2Js.JavascriptOperationTypes)">
+            <summary>
+            Uses the precedence operator only if needed. i.e. '(' operations ')'.
+            <para> - Writes '(' immediately, and returns a disposable that writes the ending ')'.</para>
+            <para> - Pushes the operation into the stack, and pops it when disposed.</para>
+            </summary>
+            <param name="op">The operation that is going to be rendered inside the using block.</param>
+            <returns>Disposable that renders the ending ')' of the precedence operator.</returns>
+        </member>
+        <member name="M:Lambda2Js.JavascriptWriter.Operation(System.Linq.Expressions.Expression)">
+            <summary>
+            Uses the precedence operator only if needed. i.e. '(' operations ')'.
+            <para> - Writes '(' immediately, and returns a disposable that writes the ending ')'.</para>
+            <para> - Pushes the operation into the stack, and pops it when disposed.</para>
+            </summary>
+            <param name="node">The node representing the operation that is going to be rendered inside the using block.</param>
+            <returns>Disposable that renders the ending ')' of the precedence operator.</returns>
+        </member>
+        <member name="M:Lambda2Js.JavascriptWriter.Write(System.Char)">
+            <summary>
+            Writes a single character to the output.
+            </summary>
+            <param name="ch">Character to write to the output.</param>
+            <returns>The <see cref="T:Lambda2Js.JavascriptWriter"/>, allowing a fluent style.</returns>
+        </member>
+        <member name="M:Lambda2Js.JavascriptWriter.WriteLiteral(System.Object)">
+            <summary>
+            Writes a literal value to the output.
+            </summary>
+            <param name="value">Value to write.</param>
+            <returns>The <see cref="T:Lambda2Js.JavascriptWriter"/>, allowing a fluent style.</returns>
+        </member>
+        <member name="M:Lambda2Js.JavascriptWriter.WriteOperator(System.Linq.Expressions.ExpressionType,System.Type)">
+            <summary>
+            Writes the operator that corresponds to the given expression type.
+            </summary>
+            <param name="expressionType">Expression type representing the operator to render..</param>
+            <returns>The <see cref="T:Lambda2Js.JavascriptWriter"/>, allowing a fluent style.</returns>
+        </member>
+        <member name="M:Lambda2Js.JavascriptWriter.Write(System.String)">
+            <summary>
+            Writes a string to the output.
+            </summary>
+            <param name="str">String to write to the output.</param>
+            <returns>The <see cref="T:Lambda2Js.JavascriptWriter"/>, allowing a fluent style.</returns>
+        </member>
+        <member name="M:Lambda2Js.JavascriptWriter.Write(System.Object)">
+            <summary>
+            Writes any object to the output.
+            </summary>
+            <param name="value">String to write to the output.</param>
+            <returns>The <see cref="T:Lambda2Js.JavascriptWriter"/>, allowing a fluent style.</returns>
+        </member>
+        <member name="M:Lambda2Js.JavascriptWriter.WriteFormat(System.String,System.Object[])">
+            <summary>
+            Writes a formatted string to the output, using the given values.
+            </summary>
+            <param name="format">The format string laying out the passed values.</param>
+            <param name="values">Values that are used to replace the place-holders of the format string.</param>
+            <returns>The <see cref="T:Lambda2Js.JavascriptWriter"/>, allowing a fluent style.</returns>
+        </member>
+        <member name="F:Lambda2Js.JsCompilationFlags.BodyOnly">
+            <summary>
+            Flag that indicates whether to compile only the body expression of the lambda.
+            Applies only to <see cref="T:System.Linq.Expressions.LambdaExpression"/>.
+            <para>The lambda:</para>
+            <para>() => x + y</para>
+            <para>results in this kind of JavaScript:</para>
+            <para>x+y</para>
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.JsCompilationFlags.ScopeParameter">
+            <summary>
+            Flag that indicates whether the single argument of the lambda
+            represents the arguments passed to the JavaScript.
+            Applies only to <see cref="T:System.Linq.Expressions.LambdaExpression"/>.
+            <para>The lambda:</para>
+            <para>(obj) => obj.X + obj.Y</para>
+            <para>results in this kind of JavaScript:</para>
+            <para>function(x,y){return x+y;}</para>
+            </summary>
+        </member>
+        <member name="M:Lambda2Js.LambdaExpressionExtensions.CompileToJavascript(System.Linq.Expressions.LambdaExpression,Lambda2Js.ScriptVersion,Lambda2Js.JavascriptConversionExtension[])">
+            <summary>
+            Compiles a lambda expression to JavaScript code.
+            </summary>
+            <param name="expr">Expression to compile to JavaScript.</param>
+            <param name="options">
+            Conversion options:
+            whether to include only the body of the lambda,
+            whether to use a single scope parameter,
+            what extensions to use (i.e. StaticStringMethods, StaticMathMethods, or any other custom extensions).
+            </param>
+            <returns>JavaScript code represented as a string.</returns>
+        </member>
+        <member name="M:Lambda2Js.LambdaExpressionExtensions.CompileToJavascript(System.Linq.Expressions.LambdaExpression,Lambda2Js.JavascriptCompilationOptions)">
+            <summary>
+            Compiles a lambda expression to JavaScript code.
+            </summary>
+            <param name="expr">Expression to compile to JavaScript.</param>
+            <param name="options">
+            Conversion options:
+            whether to include only the body of the lambda,
+            whether to use a single scope parameter,
+            what extensions to use (i.e. StaticStringMethods, StaticMathMethods, or any other custom extensions).
+            </param>
+            <returns>JavaScript code represented as a string.</returns>
+        </member>
+        <member name="M:Lambda2Js.LambdaExpressionExtensions.CompileToJavascript(System.Linq.Expressions.Expression,Lambda2Js.JavascriptCompilationOptions)">
+            <summary>
+            Compiles an expression to JavaScript code.
+            </summary>
+            <param name="expr">Expression to compile to JavaScript.</param>
+            <param name="options">
+            Conversion options:
+            What extensions to use (i.e. StaticStringMethods, StaticMathMethods, or any other custom extensions).
+            Options not supported by this overload of `CompileToJavascript`:
+            Include only the body of the lambda (supported only in the LambdaExpression overload of this method);
+            Use a single scope parameter (supported only in the LambdaExpression overload of this method).
+            </param>
+            <returns>JavaScript code represented as a string.</returns>
+        </member>
+        <member name="F:Lambda2Js.EnumOptions.FlagsAsResultingSum">
+            <summary>
+            Represents enums of flags as the summed result.
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.EnumOptions.FlagsAsNumericOrs">
+            <summary>
+            Represents enums of flags as A|B|C
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.EnumOptions.FlagsAsStringWithSeparator">
+            <summary>
+            Represents enums of flags as "A|B|C"
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.EnumOptions.FlagsAsArray">
+            <summary>
+            Represents enums of flags as arrays.
+            If combined with UseStrings: ["A","B","C"]
+            If combined with UseStaticFields: [E.A,E.B,E.C]
+            If combined with UseNumbers: [1,2,3]
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.EnumOptions.UseStrings">
+            <summary>
+            Represents enums with their names i.e. "A"
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.EnumOptions.UseStaticFields">
+            <summary>
+            Represents enums with their names i.e. E.A
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.EnumOptions.UseNumbers">
+            <summary>
+            Represents enums with their names i.e. 1
+            </summary>
+        </member>
+        <member name="T:Lambda2Js.LinqMethods">
+            <summary>
+            Extension that allows the conversion of some Linq methods.
+            </summary>
+        </member>
+        <member name="M:Lambda2Js.MemberInitAsJson.#ctor(System.Type[])">
+            <summary>
+            Initializes a new instance of <see cref="T:Lambda2Js.MemberInitAsJson"/>,
+            so that member initializations of types in `newObjectTypes` are converted to JSON.
+            </summary>
+        </member>
+        <member name="M:Lambda2Js.MemberInitAsJson.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:Lambda2Js.MemberInitAsJson"/>,
+            so that member initializations of any types are converted to JSON.
+            </summary>
+        </member>
+        <member name="M:Lambda2Js.MemberInitAsJson.#ctor(System.Predicate{System.Type})">
+            <summary>
+            Initializes a new instance of <see cref="T:Lambda2Js.MemberInitAsJson"/>,
+            so that member initializations of types that pass the `typePredicate` criteria are converted to JSON.
+            </summary>
+        </member>
+        <member name="T:Lambda2Js.StaticStringMethods">
+            <summary>
+            Extension that allows the conversion of static `String` class methods.
+            </summary>
+        </member>
+        <member name="T:Lambda2Js.ScriptVersion">
+            <summary>
+            Versions of the ECMAScript and JavaScript.
+            </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.Es30">
+            <summary> ECMAScript 3 (December 1999) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.Js15">
+            <summary> JavaScript 1.5 </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.MsJ55">
+            <summary> Microsoft JScript 5.5 </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.Es50">
+            <summary> ECMAScript 5 (December 2009) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.Js181">
+            <summary> JavaScript 1.8.1 </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.MsJ90">
+            <summary> Microsoft JScript 9.0 </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.Es51">
+            <summary> ECMAScript 5.1 (June 2011) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.Es60">
+            <summary> ECMAScript 6 (June 2015) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.ECMAScript2015">
+            <summary> ECMAScript 6 (June 2015) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.Es70">
+            <summary> ECMAScript 7 (June 2016) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.ECMAScript2016">
+            <summary> ECMAScript 7 (June 2016) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.Es80">
+            <summary> ECMAScript 8 (Draft) (may break compatibility) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.ECMAScript2017">
+            <summary> ECMAScript 8 (Draft) (may break compatibility) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.EsLatestStable">
+            <summary> ECMAScript latest stable version (may break compatibility) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.EsNext">
+            <summary> ECMAScript Next (may break compatibility) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.Proposals">
+            <summary> Allow ECMAScript proposed features (may break compatibility) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.Deprecated">
+            <summary> Allow deprecated features (may break compatibility) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.NonStandard">
+            <summary> Allow any non-standard specification features (may break compatibility) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.Js">
+            <summary> Allow JavaScript specification features (Netscape, Mozilla, Firefox) (may break compatibility) </summary>
+        </member>
+        <member name="F:Lambda2Js.ScriptVersion.MsJ">
+            <summary> Allow Microsoft JScript specification features (IE) (may break compatibility) </summary>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.Supports(Lambda2Js.ScriptVersion,Lambda2Js.JavascriptSyntaxFeature)">
+            <summary>
+            Indicates whether the specified version of JavaScript supports the given syntax.
+            </summary>
+            <param name="scriptVersion"></param>
+            <param name="syntax"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.Supports(Lambda2Js.ScriptVersion,Lambda2Js.JavascriptApiFeature)">
+            <summary>
+            Indicates whether the specified version of JavaScript supports the given syntax.
+            </summary>
+            <param name="scriptVersion"></param>
+            <param name="api"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.Create(Lambda2Js.ScriptVersion,System.Int32,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Creates a new ScriptVersion with the given parameters.
+            </summary>
+            <param name="spec">The specification to use, or 0 (zero) to use ECMA standard.</param>
+            <param name="specVersion">The specification version. Pass 0 if using ECMA standard.</param>
+            <param name="ecmaVersion"></param>
+            <param name="allowDeprecated"></param>
+            <param name="allowProposals"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.Deprecated(Lambda2Js.ScriptVersion)">
+            <summary>
+            Changes the script version to accept deprecated features.
+            </summary>
+            <param name="scriptVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.Deprecated(Lambda2Js.ScriptVersion,System.Boolean)">
+            <summary>
+            Changes the script version to accept deprecated features.
+            </summary>
+            <param name="scriptVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.Proposals(Lambda2Js.ScriptVersion)">
+            <summary>
+            Changes the script version to accept proposed features.
+            </summary>
+            <param name="scriptVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.Proposals(Lambda2Js.ScriptVersion,System.Boolean)">
+            <summary>
+            Changes the script version to accept proposed features.
+            </summary>
+            <param name="scriptVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.ToStandard(Lambda2Js.ScriptVersion)">
+            <summary>
+            Changes the script version to accept only ECMAScript standard features.
+            Won't change deprecated nor proposals flags.
+            </summary>
+            <param name="scriptVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.NonStandard(Lambda2Js.ScriptVersion)">
+            <summary>
+            Changes the script version to accept non-standard features from any specification.
+            </summary>
+            <param name="scriptVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.MicrosoftJScript(Lambda2Js.ScriptVersion,System.Int32)">
+            <summary>
+            Changes the script version to accept JScript features.
+            </summary>
+            <param name="scriptVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.Javascript(Lambda2Js.ScriptVersion,System.Int32)">
+            <summary>
+            Changes the script version to accept Javascript (Mozilla) features.
+            </summary>
+            <param name="scriptVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.IsSupersetOf(Lambda2Js.ScriptVersion,Lambda2Js.ScriptVersion)">
+            <summary>
+            Whether a specific version of the script is a superset of another version.
+            This can be used as a rather general feature indicator, but there may be exceptions, such as deprecated features.
+            </summary>
+            <param name="scriptVersion"></param>
+            <param name="baseScriptVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.GetSpecificationVersion(Lambda2Js.ScriptVersion)">
+            <summary>
+            Gets the version of the non-standard specification, if one is present.
+            </summary>
+            <param name="scriptVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.GetStandardVersion(Lambda2Js.ScriptVersion)">
+            <summary>
+            Gets the version of the ECMAScript standard.
+            </summary>
+            <param name="scriptVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.GetSpecification(Lambda2Js.ScriptVersion)">
+            <summary>
+            Gets the version of the non-standard specification.
+            </summary>
+            <param name="scriptVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.IsProposals(Lambda2Js.ScriptVersion)">
+            <summary>
+            Gets a value indicating whether the script version supports proposals
+            (i.e. next ECMAScript proposed features).
+            </summary>
+            <param name="scriptVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Lambda2Js.ScriptVersionHelper.IsDeprecated(Lambda2Js.ScriptVersion)">
+            <summary>
+            Gets a value indicating whether the script version supports deprecated features
+            (i.e. features excluded from the standard, but present in one of Js or MsJ specification).
+            </summary>
+            <param name="scriptVersion"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JetBrains.Annotations.CanBeNullAttribute">
+            <summary>
+            Indicates that the value of the marked element could be <c>null</c> sometimes,
+            so the check for <c>null</c> is necessary before its usage
+            </summary>
+            <example><code>
+            [CanBeNull] public object Test() { return null; }
+            public void UseTest() {
+              var p = Test();
+              var s = p.ToString(); // Warning: Possible 'System.NullReferenceException'
+            }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.NotNullAttribute">
+            <summary>
+            Indicates that the value of the marked element could never be <c>null</c>
+            </summary>
+            <example><code>
+            [NotNull] public object Foo() {
+              return null; // Warning: Possible 'null' assignment
+            }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.StringFormatMethodAttribute">
+            <summary>
+            Indicates that the marked method builds string by format pattern and (optional) arguments.
+            Parameter, which contains format string, should be given in constructor. The format string
+            should be in <see cref="M:System.String.Format(System.IFormatProvider,System.String,System.Object[])"/>-like form
+            </summary>
+            <example><code>
+            [StringFormatMethod("message")]
+            public void ShowError(string message, params object[] args) { /* do something */ }
+            public void Foo() {
+              ShowError("Failed: {0}"); // Warning: Non-existing argument in format string
+            }
+            </code></example>
+        </member>
+        <member name="M:JetBrains.Annotations.StringFormatMethodAttribute.#ctor(System.String)">
+            <param name="formatParameterName">
+            Specifies which parameter of an annotated method should be treated as format-string
+            </param>
+        </member>
+        <member name="T:JetBrains.Annotations.InvokerParameterNameAttribute">
+            <summary>
+            Indicates that the function argument should be string literal and match one
+            of the parameters of the caller function. For example, ReSharper annotates
+            the parameter of <see cref="T:System.ArgumentNullException"/>
+            </summary>
+            <example><code>
+            public void Foo(string param) {
+              if (param == null)
+                throw new ArgumentNullException("par"); // Warning: Cannot resolve symbol
+            }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.NotifyPropertyChangedInvocatorAttribute">
+             <summary>
+             Indicates that the method is contained in a type that implements
+             <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> interface
+             and this method is used to notify that some property value changed
+             </summary>
+             <remarks>
+             The method should be non-static and conform to one of the supported signatures:
+             <list>
+             <item><c>NotifyChanged(string)</c></item>
+             <item><c>NotifyChanged(params string[])</c></item>
+             <item><c>NotifyChanged{T}(Expression{Func{T}})</c></item>
+             <item><c>NotifyChanged{T,U}(Expression{Func{T,U}})</c></item>
+             <item><c>SetProperty{T}(ref T, T, string)</c></item>
+             </list>
+             </remarks>
+             <example><code>
+             public class Foo : INotifyPropertyChanged {
+               public event PropertyChangedEventHandler PropertyChanged;
+               [NotifyPropertyChangedInvocator]
+               protected virtual void NotifyChanged(string propertyName) { ... }
+            
+               private string _name;
+               public string Name {
+                 get { return _name; }
+                 set { _name = value; NotifyChanged("LastName"); /* Warning */ }
+               }
+             }
+             </code>
+             Examples of generated notifications:
+             <list>
+             <item><c>NotifyChanged("Property")</c></item>
+             <item><c>NotifyChanged(() =&gt; Property)</c></item>
+             <item><c>NotifyChanged((VM x) =&gt; x.Property)</c></item>
+             <item><c>SetProperty(ref myField, value, "Property")</c></item>
+             </list>
+             </example>
+        </member>
+        <member name="T:JetBrains.Annotations.ContractAnnotationAttribute">
+            <summary>
+            Describes dependency between method input and output
+            </summary>
+            <syntax>
+            <p>Function Definition Table syntax:</p>
+            <list>
+            <item>FDT      ::= FDTRow [;FDTRow]*</item>
+            <item>FDTRow   ::= Input =&gt; Output | Output &lt;= Input</item>
+            <item>Input    ::= ParameterName: Value [, Input]*</item>
+            <item>Output   ::= [ParameterName: Value]* {halt|stop|void|nothing|Value}</item>
+            <item>Value    ::= true | false | null | notnull | canbenull</item>
+            </list>
+            If method has single input parameter, it's name could be omitted.<br/>
+            Using <c>halt</c> (or <c>void</c>/<c>nothing</c>, which is the same)
+            for method output means that the methos doesn't return normally.<br/>
+            <c>canbenull</c> annotation is only applicable for output parameters.<br/>
+            You can use multiple <c>[ContractAnnotation]</c> for each FDT row,
+            or use single attribute with rows separated by semicolon.<br/>
+            </syntax>
+            <examples><list>
+            <item><code>
+            [ContractAnnotation("=> halt")]
+            public void TerminationMethod()
+            </code></item>
+            <item><code>
+            [ContractAnnotation("halt &lt;= condition: false")]
+            public void Assert(bool condition, string text) // regular assertion method
+            </code></item>
+            <item><code>
+            [ContractAnnotation("s:null => true")]
+            public bool IsNullOrEmpty(string s) // string.IsNullOrEmpty()
+            </code></item>
+            <item><code>
+            // A method that returns null if the parameter is null, and not null if the parameter is not null
+            [ContractAnnotation("null => null; notnull => notnull")]
+            public object Transform(object data) 
+            </code></item>
+            <item><code>
+            [ContractAnnotation("s:null=>false; =>true,result:notnull; =>false, result:null")]
+            public bool TryParse(string s, out Person result)
+            </code></item>
+            </list></examples>
+        </member>
+        <member name="T:JetBrains.Annotations.LocalizationRequiredAttribute">
+            <summary>
+            Indicates that marked element should be localized or not
+            </summary>
+            <example><code>
+            [LocalizationRequiredAttribute(true)]
+            public class Foo {
+              private string str = "my string"; // Warning: Localizable string
+            }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.CannotApplyEqualityOperatorAttribute">
+            <summary>
+            Indicates that the value of the marked type (or its derivatives)
+            cannot be compared using '==' or '!=' operators and <c>Equals()</c>
+            should be used instead. However, using '==' or '!=' for comparison
+            with <c>null</c> is always permitted.
+            </summary>
+            <example><code>
+            [CannotApplyEqualityOperator]
+            class NoEquality { }
+            class UsesNoEquality {
+              public void Test() {
+                var ca1 = new NoEquality();
+                var ca2 = new NoEquality();
+                if (ca1 != null) { // OK
+                  bool condition = ca1 == ca2; // Warning
+                }
+              }
+            }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.BaseTypeRequiredAttribute">
+            <summary>
+            When applied to a target attribute, specifies a requirement for any type marked
+            with the target attribute to implement or inherit specific type or types.
+            </summary>
+            <example><code>
+            [BaseTypeRequired(typeof(IComponent)] // Specify requirement
+            public class ComponentAttribute : Attribute { }
+            [Component] // ComponentAttribute requires implementing IComponent interface
+            public class MyComponent : IComponent { }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.UsedImplicitlyAttribute">
+            <summary>
+            Indicates that the marked symbol is used implicitly
+            (e.g. via reflection, in external library), so this symbol
+            will not be marked as unused (as well as by other usage inspections)
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.MeansImplicitUseAttribute">
+            <summary>
+            Should be used on attributes and causes ReSharper
+            to not mark symbols marked with such attributes as unused
+            (as well as by other usage inspections)
+            </summary>
+        </member>
+        <member name="F:JetBrains.Annotations.ImplicitUseKindFlags.Access">
+            <summary>Only entity marked with attribute considered used</summary>
+        </member>
+        <member name="F:JetBrains.Annotations.ImplicitUseKindFlags.Assign">
+            <summary>Indicates implicit assignment to a member</summary>
+        </member>
+        <member name="F:JetBrains.Annotations.ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature">
+            <summary>
+            Indicates implicit instantiation of a type with fixed constructor signature.
+            That means any unused constructor parameters won't be reported as such.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Annotations.ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature">
+            <summary>Indicates implicit instantiation of a type</summary>
+        </member>
+        <member name="T:JetBrains.Annotations.ImplicitUseTargetFlags">
+            <summary>
+            Specify what is considered used implicitly
+            when marked with <see cref="T:JetBrains.Annotations.MeansImplicitUseAttribute"/>
+            or <see cref="T:JetBrains.Annotations.UsedImplicitlyAttribute"/>
+            </summary>
+        </member>
+        <member name="F:JetBrains.Annotations.ImplicitUseTargetFlags.Members">
+            <summary>Members of entity marked with attribute are considered used</summary>
+        </member>
+        <member name="F:JetBrains.Annotations.ImplicitUseTargetFlags.WithMembers">
+            <summary>Entity marked with attribute and all its members considered used</summary>
+        </member>
+        <member name="T:JetBrains.Annotations.PublicAPIAttribute">
+            <summary>
+            This attribute is intended to mark publicly available API
+            which should not be removed and so is treated as used
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.InstantHandleAttribute">
+            <summary>
+            Tells code analysis engine if the parameter is completely handled
+            when the invoked method is on stack. If the parameter is a delegate,
+            indicates that delegate is executed while the method is executed.
+            If the parameter is an enumerable, indicates that it is enumerated
+            while the method is executed
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.PureAttribute">
+            <summary>
+            Indicates that a method does not make any observable state changes.
+            The same as <c>System.Diagnostics.Contracts.PureAttribute</c>
+            </summary>
+            <example><code>
+            [Pure] private int Multiply(int x, int y) { return x * y; }
+            public void Foo() {
+              const int a = 2, b = 2;
+              Multiply(a, b); // Waring: Return value of pure method is not used
+            }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.PathReferenceAttribute">
+            <summary>
+            Indicates that a parameter is a path to a file or a folder
+            within a web project. Path can be relative or absolute,
+            starting from web root (~)
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcActionAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
+            is an MVC action. If applied to a method, the MVC action name is calculated
+            implicitly from the context. Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)</c>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcAreaAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC area.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)</c>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcControllerAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that
+            the parameter is an MVC controller. If applied to a method,
+            the MVC controller name is calculated implicitly from the context.
+            Use this attribute for custom wrappers similar to 
+            <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String, String)</c>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcMasterAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC Master.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Controller.View(String, String)</c>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcModelTypeAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC model type.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Controller.View(String, Object)</c>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcPartialViewAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that
+            the parameter is an MVC partial view. If applied to a method,
+            the MVC partial view name is calculated implicitly from the context.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper, String)</c>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcSupressViewErrorAttribute">
+            <summary>
+            ASP.NET MVC attribute. Allows disabling all inspections
+            for MVC views within a class or a method.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcDisplayTemplateAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC display template.
+            Use this attribute for custom wrappers similar to 
+            <c>System.Web.Mvc.Html.DisplayExtensions.DisplayForModel(HtmlHelper, String)</c>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcEditorTemplateAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC editor template.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.EditorExtensions.EditorForModel(HtmlHelper, String)</c>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcTemplateAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC template.
+            Use this attribute for custom wrappers similar to
+            <c>System.ComponentModel.DataAnnotations.UIHintAttribute(System.String)</c>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcViewAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
+            is an MVC view. If applied to a method, the MVC view name is calculated implicitly
+            from the context. Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Controller.View(Object)</c>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Annotations.AspMvcActionSelectorAttribute">
+            <summary>
+            ASP.NET MVC attribute. When applied to a parameter of an attribute,
+            indicates that this parameter is an MVC action name
+            </summary>
+            <example><code>
+            [ActionName("Foo")]
+            public ActionResult Login(string returnUrl) {
+              ViewBag.ReturnUrl = Url.Action("Foo"); // OK
+              return RedirectToAction("Bar"); // Error: Cannot resolve action
+            }
+            </code></example>
+        </member>
+        <member name="T:JetBrains.Annotations.RazorSectionAttribute">
+            <summary>
+            Razor attribute. Indicates that a parameter or a method is a Razor section.
+            Use this attribute for custom wrappers similar to 
+            <c>System.Web.WebPages.WebPageBase.RenderSection(String)</c>
+            </summary>
+        </member>
+    </members>
+</doc>
