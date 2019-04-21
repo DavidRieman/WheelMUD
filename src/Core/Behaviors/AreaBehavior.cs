@@ -29,7 +29,7 @@ namespace WheelMUD.Core
         /// <summary>Loads this instance.</summary>
         public void Load()
         {
-            var areaRepository = new AreaRepository();
+            var areaRepository = new Repository<AreaRecord>();
 
             // @@@ TODO: Fix hack: http://www.wheelmud.net/tabid/59/aft/1622/Default.aspx
             string areaNumber = this.Parent.ID.Replace("area/", string.Empty);

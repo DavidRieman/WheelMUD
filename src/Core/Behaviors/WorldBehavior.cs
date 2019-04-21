@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -42,7 +40,7 @@ namespace WheelMUD.Core
         /// <summary>Loads areas into the world.</summary>
         public void Load()
         {
-            var areaRepository = new AreaRepository();
+            var areaRepository = new Repository<AreaRecord>();
             ICollection<AreaRecord> areas = areaRepository.FetchAll();
 
             foreach (var areaRecord in areas)

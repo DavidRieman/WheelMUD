@@ -8,6 +8,7 @@
 namespace WheelMUD.ConnectionStates
 {
     using WheelMUD.Core;
+    using WheelMUD.Data.Entities;
     using WheelMUD.Data.Repositories;
 
     /// <summary>This is the state for new character name entry as supplied by a player.</summary>
@@ -33,7 +34,7 @@ namespace WheelMUD.ConnectionStates
             if (this.ValidateCharacterName(ref command))
             {
                 // The name is valid, but has it been taken already?
-               var repository = new PlayerRepository();
+               var repository = new Repository<PlayerRecord>();
 
                 if (repository.GetPlayerByUserName(command) == null)
                 {

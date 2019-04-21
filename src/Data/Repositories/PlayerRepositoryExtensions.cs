@@ -1,25 +1,20 @@
 ﻿//-----------------------------------------------------------------------------
-// <copyright file="PlayerRepository.NoGen.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
-//   subject to the Microsoft Public License. All other rights reserved.
+// <copyright file="WorldBehavior.cs" company="WheelMUD Development Team">
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   TODO: Add summary
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Data.Repositories
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
+    using System.Text;
     using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
 
-    /// <summary>Custom code for the PlayerRepository class.</summary>
-    public partial class PlayerRepository
+    public static class PlayerRepositoryExtensions
     {
         /// <summary>Authenticates the specified name.</summary>
         /// <param name="userName">The user name for the player trying to authenticate.</param>
@@ -53,7 +48,7 @@ namespace WheelMUD.Data.Repositories
         /// <summary>Gets a player record that is associated with the user name.</summary>
         /// <param name="userName">The user name to look up a player.</param>
         /// <returns>Returns a player record loaded with the player's data.</returns>
-        public PlayerRecord GetPlayerByUserName(string userName)
+        public static PlayerRecord GetPlayerByUserName(this Repository<PlayerRecord> repository, string userName)
         {
             PlayerRecord player;
 
@@ -79,7 +74,7 @@ namespace WheelMUD.Data.Repositories
         /// <summary>Gets a list of RoleRecords for a specific player</summary>
         /// <param name="playerId">The player Id for which we want roles loaded.</param>
         /// <returns>Returns a list of RoleRecords, if any, for the specified player Id.</returns>
-        public List<RoleRecord> GetPlayerRoles(long playerId)
+        public static List<RoleRecord> GetPlayerRoles(this Repository<PlayerRecord> repository, long playerId)
         {
             const string sql = @"SELECT DISTINCT pr.RoleID As ID, r.Name, 
                                     r.SecurityRoleMask 
@@ -92,6 +87,77 @@ namespace WheelMUD.Data.Repositories
             {
                 return session.Connection.Select<RoleRecord>(sql, playerId);
             }
+        }
+
+
+        /// <summary>Deletes a list of roles from a player.</summary>
+        /// <param name="playerId">The id of the player that will have roles removed.</param>
+        public static void DeleteAllRolesForPlayer(this Repository<PlayerRoleRecord> repository, long playerId)
+        {
+            ICollection<PlayerRoleRecord> playerRoleRecords = repository.FetchAllPlayerRoleRecordsForPlayer(playerId);
+            foreach (var playerRoleRecord in playerRoleRecords)
+            {
+                repository.Remove(playerRoleRecord);
+            }
+        }
+
+        /// <summary>Adds a list of roles to a player.</summary>
+        /// <param name="roles">The roles that will be added to a player.</param>
+        public static void AddRolesToPlayer(this Repository<PlayerRoleRecord> repository, List<PlayerRoleRecord> roles)
+        {
+            foreach (var role in roles)
+            {
+                if (role.ID == 0)
+                {
+                    repository.Add(role);
+                }
+                else
+                {
+                    repository.Update(role);
+                }
+            }
+        }
+
+        /// <summary>Fetches all player role records for player.</summary>
+        /// <param name="playerId">The player id that will be used to retrieve the roles.</param>
+        /// <returns>A list of PlayerRoleRecord objects.</returns>
+        public static ICollection<PlayerRoleRecord> FetchAllPlayerRoleRecordsForPlayer(this Repository<PlayerRoleRecord> repository, long playerId)
+        {
+            long id = playerId;
+
+            using (IDbCommand session = Helpers.OpenSession())
+            {
+                return session.Connection.Select<PlayerRoleRecord>("PlayerID = {0}", id);
+            }
+        }
+
+
+        /// <summary>Gets a role record that is associated with the role name.</summary>
+        /// <param name="roleName">The user name to look up a role.</param>
+        /// <returns>Returns a role record loaded with the role's data.</returns>
+        public static RoleRecord GetRoleByName(this Repository<RoleRecord> repository, string roleName)
+        {
+            RoleRecord roleRecord;
+
+            using (IDbCommand session = Helpers.OpenSession())
+            {
+                if (Helpers.GetCurrentProviderName().ToLower() == "system.data.sqlite")
+                {
+                    var sql = new StringBuilder();
+
+                    sql.Append("SELECT * FROM Roles ");
+                    sql.Append("WHERE Name = {0} ");
+                    sql.Append(" COLLATE NOCASE ");
+
+                    roleRecord = session.Connection.Select<RoleRecord>(sql.ToString(), roleName).First();
+                }
+                else
+                {
+                    roleRecord = session.Connection.Select<RoleRecord>("Name = {0}", roleName).First();
+                }
+            }
+
+            return roleRecord;
         }
     }
 }
