@@ -9,11 +9,11 @@
 
 namespace WheelMUD.Core
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Globalization;
-    using Raven.Imports.Newtonsoft.Json;
     using WheelMUD.Core.Events;
     using WheelMUD.Data.Entities;
     using WheelMUD.Data.RavenDb;

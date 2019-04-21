@@ -7,9 +7,9 @@
 
 namespace WheelMUD.Core
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    using Raven.Imports.Newtonsoft.Json;
     using WheelMUD.Interfaces;
     using WheelMUD.Utilities;
 

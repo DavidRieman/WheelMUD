@@ -9,8 +9,8 @@
 
 namespace WheelMUD.Core
 {
+    using Newtonsoft.Json;
     using System.Collections.Generic;
-    using Raven.Imports.Newtonsoft.Json;
     using WheelMUD.Core.Enums;
 
     /// <summary>Encapsulates sensory behavior.</summary>

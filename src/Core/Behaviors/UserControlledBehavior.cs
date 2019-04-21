@@ -9,9 +9,9 @@
 
 namespace WheelMUD.Core
 {
+    using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.Linq;
-    using Raven.Imports.Newtonsoft.Json;
     using WheelMUD.Interfaces;
 
     /// <summary>A security role.</summary>
