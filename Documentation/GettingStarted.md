@@ -19,7 +19,8 @@ If you don't know how to work with git and GitHub, you will want to follow a few
 We take pride in keeping the initial set-up process as painless as possible.
 * Open up the src/WheelMUD.sln file.
 * Ensure TestHarness is the StartUp project.
-* Build and run.
+* Build the entire solution (not just the TestHarness dependencies).
+* Run the TestHarness.
 * The first time the server application is running, you may be prompted with firewall adjustments; accept these for all networks.
 
 That's it! You should see a console output window listing sub-services that spin up with WheelMUD.
@@ -36,3 +37,6 @@ You should be greeted with a WheelMUD welcome screen, and the TestHarness consol
 * SQLite is used for the base player documents (including player names and such). [DB Browser (SQLite)](https://sqlitebrowser.org/) can be handy tool to browse this data.
 * [RavenDB](http://ravendb.net) is used for most world/character data.
 * NuGet can be used to manage dependency versions as found in src/packages. (We do commit those packages to ensure they will be present even if their on-line presences are down, as has occurred sometimes in the past.)
+
+## Optional Configuration
+TODO: Describe additional TestHarness-as-service instructions and additional app configuration options like switching DAL repositories.

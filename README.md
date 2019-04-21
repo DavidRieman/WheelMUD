@@ -11,14 +11,15 @@ Get started at the [Documentation](Documentation/README.md) root, where you will
 
 There are a lot more information in old discussions and design documents buried in [muds.gamedev.com](http://muds.gamedev.com). We are in the process of rebuilding GitHub-friendly documentation and design documents from the gems hidden within. Please bear with us on that front.
 
-## Super Quick Start
-For those who know git, code, and telnet already and want to jump right in.
-* Fork the repository.
-* Download the code (IE https://github.com/WheelMud/WheelMUD.git).
-* Open the solution, preferably in Visual Studio 2019.
-* Build and Launch.
-* Once the server is ready, telnet localhost 4000.
-The [Documentation](Documentation/README.md) also includes a far more detailed [Getting Started](Documentation/GettingStarted.md) section.
+## Quick Setup
+Here's the short version of the setup instructions, mainly for seasoned developers:
+* Meet the framework runtime requirements [listed in Basic Prerequisites](Documentation/BasicPrerequisites.md).
+* Get the code and build the entire solution (not just the TestHarness dependencies).
+* Launch TestHarness.
+* Once the server is ready: telnet localhost 4000.
+
+## Thorough Setup
+See [Getting Started](Documentation/GettingStarted.md) from the [Documentation](Documentation/README.md) pages for a more thorough walk-through to get up and running.
 
 ## GitHub Processes
 * Feel free to introduce yourself and ask questions and such in the Issues section. General banter will likely eventually be closed, after any issues/bugs/tasks have been diligently extracted to separate, tracked issues.
