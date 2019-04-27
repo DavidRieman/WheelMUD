@@ -14,7 +14,8 @@ namespace WheelMUD.Data.RavenDb
     using System.IO;
     using System.Linq;
     using Raven.Client;
-    using Raven.Client.Indexes;
+    using Raven.Client.Documents.Session;
+
     using WheelMUD.Utilities;
 
     /// <summary>Utilities for making the use of RavenDb easier.</summary>
@@ -44,7 +45,7 @@ namespace WheelMUD.Data.RavenDb
         /// <returns>Returns a Raven.Client.IDocumentSession</returns>
         public static IDocumentSession GetRavenSession()
         {
-            var store = DocumentStore.Instance;
+            var store = DocumentStoreHolder.Instance;
             var session = store.OpenSession();
             return session;
         }
@@ -52,7 +53,8 @@ namespace WheelMUD.Data.RavenDb
         /// <summary>Creates the needed indexes, if they don't exist.</summary>
         public static void CreateIndexes()
         {
-            using (var store = DocumentStore.Instance)
+            /* @@@ REPAIR INDEXES https://demo.ravendb.net/demos/related-documents/index-related-documents
+             * using (var store = DocumentStore.Instance)
             {
                 store.DatabaseCommands.PutIndex(
                     "GetPlayerByDatabaseId",
@@ -75,7 +77,7 @@ namespace WheelMUD.Data.RavenDb
                                           doc.Name
                                       }
                     });
-            }
+            }*/
         }
     }
 }

@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -70,7 +68,7 @@ namespace WheelMUD.Core
         /// <summary>Loads the exits for this room behavior.</summary>
         public void Load()
         {
-            var roomRepository = new RoomRepository();
+            var roomRepository = new Repository<RoomRecord>();
 
             // Standard exits are simple DB records, so we need to load them specifically for this room;
             // non-standard exits should be loaded just like any other generic Thing.

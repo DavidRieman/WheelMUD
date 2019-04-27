@@ -1,17 +1,14 @@
 # Getting Started with WheelMUD
 
 ## Prerequisites
-Basically any modern Windows environment with any popular C# development environment, can be used.
-However, we currently recommend using [Visual Studio](https://visualstudio.microsoft.com/downloads/) 2017. The free community edition works.
-For more details, check the [Basic Prerequisites](BasicPrerequisites.md) page.
+Satisfy the [Basic Prerequisites](BasicPrerequisites.md) if you haven't already. (Covers OS versions, runtime dependencies, etc.)
 
 ## Additional Requirements
-* [.NET Framework 4.7.2](https://support.microsoft.com/en-us/help/4054530/microsoft-net-framework-4-7-2-offline-installer-for-windows), although the project target frameworks can likely all be lowered to 4 or lower if needed, without very much hassle.
-* Any Telnet client, such as:
+* Ensure you have a Telnet client available, such as:
+  - Telnet.exe: Built into all supported versions of Windows, but the Telnet Client feature generally starts disabled. Open up the "Turn Windows features on and off" control panel, scroll down and ensure "Telnet Client" gets selected. To see if you have one ready, open up a Command Prompt and run "telnet localhost 4000", which should print that it's connecting to localhost, but then times out (assuming your WheelMUD server isn't running yet).
   - [zMUD or cMUD](http://www.zuggsoft.com/index.php). Heavy, feature-rich telnet client, used by tons of serious MUD users.
   - [PuTTY](http://www.putty.org). Lightweight telnet client, but remembers session info.
   - [fTelnet / HtmlTerm](https://www.ftelnet.ca). Lightweight Flash and HTML5 based clients.
-  - Telnet.exe: Built into all supported versions of Windows, but the Telnet Client feature generally starts disabled. Open up the "Turn Windows features on and off" control panel, scroll down and ensure "Telnet Client" gets selected.
 
 ## Getting the Source Code
 It is preferred to create a GitHub fork the code from the [WheelMud/WheelMUD](https://github.com/WheelMud/WheelMUD) repository.
@@ -20,14 +17,14 @@ If you don't know how to work with git and GitHub, you will want to follow a few
 
 ## Building and Launching the Server
 We take pride in keeping the initial set-up process as painless as possible.
-* Open up the appropriate .sln file; generally WheelMUD.sln.
+* Open up the src/WheelMUD.sln file.
 * Ensure TestHarness is the StartUp project.
-* Build and run.
-That's it! For example, if your development environment of choice is Visual C# 2010 Express:
-* Open up the WheelMUD_Express.sln solution file.
-* In Solution Explorer, collapse projects expanders, right-click TestHarness, "Set as StartUp Project".
-* Ctrl+F5.
-The first time the server application is running, you may be prompted with firewall adjustments; accept these for all networks.
+* Build the entire solution (not just the TestHarness dependencies).
+* Run the TestHarness.
+* The first time the server application is running, you may be prompted with firewall adjustments; accept these for all networks.
+
+That's it! You should see a console output window listing sub-services that spin up with WheelMUD.
+Once it says "All services are started. Server is fully operational." then it is ready for players to connect.
 
 ## Connecting Telnet
 You can now open up your telnet client of choice and connect to localhost 4000.
@@ -37,5 +34,9 @@ You should be greeted with a WheelMUD welcome screen, and the TestHarness consol
 ## Optional Tools
 * [TortoiseGIT](https://code.google.com/p/tortoisegit) can help a lot, if you are not interested in being a git command-line guru.
 * [GitHub for Windows](https://windows.github.com).
+* SQLite is used for the base player documents (including player names and such). [DB Browser (SQLite)](https://sqlitebrowser.org/) can be handy tool to browse this data.
 * [RavenDB](http://ravendb.net) is used for most world/character data.
 * NuGet can be used to manage dependency versions as found in src/packages. (We do commit those packages to ensure they will be present even if their on-line presences are down, as has occurred sometimes in the past.)
+
+## Optional Configuration
+TODO: Describe additional TestHarness-as-service instructions and additional app configuration options like switching DAL repositories.

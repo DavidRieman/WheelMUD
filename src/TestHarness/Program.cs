@@ -17,7 +17,7 @@ using WheelMUD.Main;
 
 namespace TestHarness
 {
-    /// <summary>The test harness program; runs the MUD as a console application.</summary>
+    /// <summary>The test harness program. Entry point for the MUD, whether launching in command-line mode or as a Windows Service.</summary>
     public class Program
     {
         /// <summary>Main entry point into the test harness.</summary>

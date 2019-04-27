@@ -10,7 +10,7 @@
 
 namespace WheelMUD.Core
 {
-    using Raven.Imports.Newtonsoft.Json;
+    using Newtonsoft.Json;
     using WheelMUD.Interfaces;
 
     /// <summary>Holds data for an individual rule-set skill.</summary>
