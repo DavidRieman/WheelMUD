@@ -10,7 +10,6 @@
 
 namespace WheelMUD.Data.Sqlite
 {
-    using System;
     using System.ComponentModel.Composition;
     using System.Data;
     using System.IO;
@@ -33,21 +32,9 @@ namespace WheelMUD.Data.Sqlite
 
         public string ConnectionString { get; set; }
 
-        public string DatabaseName
-        {
-            get
-            {
-                return "SQLite";
-            }
-        }
+        public string DatabaseName { get; } = "SQLite";
 
-        public string ProviderNamespace
-        {
-            get
-            {
-                return "system.data.sqlite";
-            }
-        }
+        public string ProviderNamespace { get; } = "system.data.sqlite";
 
         public IDbConnection CreateDatabaseSession()
         {

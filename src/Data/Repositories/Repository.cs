@@ -58,7 +58,7 @@ namespace WheelMUD.Data.Repositories
             }
         }
 
-        public ICollection<T> FetchAll()
+        public ICollection<T> GetAll()
         {
             using (IDbCommand session = Helpers.OpenSession())
             {
