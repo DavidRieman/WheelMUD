@@ -8,7 +8,7 @@
 // </summary>
 //-----------------------------------------------------------------------------
 
-namespace TestHarness
+namespace ServerHarness
 {
     using System.Collections.Generic;
     using WheelMUD.Interfaces;

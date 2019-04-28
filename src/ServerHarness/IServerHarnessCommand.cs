@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// <copyright file="ITestHarnessCommand.cs" company="WheelMUD Development Team">
+// <copyright file="IServerHarnessCommand.cs" company="WheelMUD Development Team">
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
@@ -8,12 +8,12 @@
 // </summary>
 //-----------------------------------------------------------------------------
 
-namespace TestHarness
+namespace ServerHarness
 {
     using System.Collections.Generic;
     using WheelMUD.Main;
 
-    public interface ITestHarnessCommand
+    public interface IServerHarnessCommand
     {
         IEnumerable<string> Names { get; }
 

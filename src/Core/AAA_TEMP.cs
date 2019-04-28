@@ -299,7 +299,7 @@ namespace WheelMUD.Universe.Places
                 // NOTE: If you are getting a FileNotFoundException here, chances are good that the 
                 // relevant App.Config is configured to use SQLite, but does not correctly point to 
                 // the database in your environment.  Check the App.Config "connectionStrings" tags 
-                // for incorrect file paths.  (The App.Config may be in the TestHarness project or 
+                // for incorrect file paths.  (The App.Config may be in the ServerHarness project or 
                 // the WheelMUD.WindowsService projects, depending on which you are running.)
                 // Also, if you are in Vista, check your UAC settings and the ensure the file 
                 // location of the .db file can be accessed by the program.

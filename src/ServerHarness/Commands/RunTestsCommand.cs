@@ -8,7 +8,7 @@
 // </summary>
 //-----------------------------------------------------------------------------
 
-namespace TestHarness.Commands
+namespace ServerHarness.Commands
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace TestHarness.Commands
     using System.Threading;
     using WheelMUD.Main;
 
-    public class RunTestsCommand : ITestHarnessCommand
+    public class RunTestsCommand : IServerHarnessCommand
     {
         private readonly string[] names = { "RUN", "RUN-TESTS", "run", "Run", "r" };
 
