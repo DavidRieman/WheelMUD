@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>   
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Ftp
@@ -28,6 +26,7 @@ namespace WheelMUD.Ftp
         private Thread serverThread;
         private int id;
         private int port;
+        private bool shuttingDown = false;
 
         /// <summary>The host system that the GameEngine is subscribing to.</summary>
         private ISystemHost host;
@@ -58,13 +57,9 @@ namespace WheelMUD.Ftp
 
         public void Start(int port)
         {
-            ////this.host.UpdateSystemHost(this, new SystemUpdateArgs("Starting..."));
-
             this.port = port;
-            this.serverThread = new Thread(ThreadRun);
+            this.serverThread = new Thread(this.ThreadRun);
             this.serverThread.Start();
-
-            ////this.host.UpdateSystemHost(this, new SystemUpdateArgs("Started"));
         }
 
         public void Start()
@@ -77,11 +72,11 @@ namespace WheelMUD.Ftp
         public void Stop()
         {
             this.host.UpdateSystemHost(this, "Stopping");
+            this.shuttingDown = true;
 
-            foreach (object t in connections)
+            foreach (object t in this.connections)
             {
                 var handler = t as FtpSocketHandler;
-
                 if (handler != null)
                 {
                     handler.Stop();
@@ -128,7 +123,7 @@ namespace WheelMUD.Ftp
 
         private void ThreadRun()
         {
-            this.serverSocketListener = SocketHelpers.CreateTcpListener(port);
+            this.serverSocketListener = SocketHelpers.CreateTcpListener(this.port);
 
             if (this.serverSocketListener != null)
             {
@@ -137,34 +132,30 @@ namespace WheelMUD.Ftp
                 FtpServerMessageHandler.SendMessage(0, "FTP Server Started");
                 this.UpdateSubSystemHost(this, "FTP Server Multi-Threaded Core Started");
 
-                bool shouldContinue = true;
-
-                while (shouldContinue)
+                while (!this.shuttingDown)
                 {
                     TcpClient socket = null;
-
                     try
                     {
-                        socket = serverSocketListener.AcceptTcpClient();
+                        socket = this.serverSocketListener.AcceptTcpClient();
                     }
                     catch (SocketException)
                     {
-                        shouldContinue = false;
+                        this.shuttingDown = true;
                     }
                     finally
                     {
                         if (socket == null)
                         {
-                            shouldContinue = false;
+                            this.shuttingDown = true;
                         }
                         else
                         {
                             socket.NoDelay = false;
+                            this.id++;
 
-                            id++;
-
-                            FtpServerMessageHandler.SendMessage(id, "New connection");
-                            this.UpdateSubSystemHost(this, "New connection id = " + id);
+                            FtpServerMessageHandler.SendMessage(this.id, "New connection");
+                            this.UpdateSubSystemHost(this, "New connection id = " + this.id);
 
                             SendAcceptMessage(socket);
                             this.InitialiseSocketHandler(socket);
