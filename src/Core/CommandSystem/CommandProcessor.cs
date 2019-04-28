@@ -25,6 +25,9 @@ namespace WheelMUD.Core
         /// <summary>The host of this SubSystem.</summary>
         private ISubSystemHost host;
 
+        /// <summary>If true, signifies that this sub-system should be trying to shut down gracefully.</summary>
+        private bool shuttingDown = false;
+
         /// <summary>Initializes a new instance of the CommandProcessor class.</summary>
         /// <param name="host">The host of this CommandProcessor SubSystem.</param>
         public CommandProcessor(ISubSystemHost host)
@@ -44,8 +47,12 @@ namespace WheelMUD.Core
         public void Stop()
         {
             this.host.UpdateSubSystemHost(this, "Stopping...");
-            this.workerThread.Abort();
+            this.shuttingDown = true;
             this.workerThread.Join(5000);
+            if (this.workerThread.IsAlive)
+            {
+                this.workerThread.Abort();
+            }
             this.workerThread = null;
         }
 
@@ -66,7 +73,7 @@ namespace WheelMUD.Core
         /// <summary>Method executed as the worker thread to perform the work indefinitely.</summary>
         private void ProcessCommandsThread()
         {
-            while (true)
+            while (!this.shuttingDown)
             {
                 ActionInput action = CommandManager.Instance.DequeueAction();
                 if (action != null)
