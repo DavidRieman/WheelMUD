@@ -1,0 +1,1578 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Topshelf</name>
+    </assembly>
+    <members>
+        <member name="T:Topshelf.Caching.Cache`2">
+            <summary>
+            A cache implementation that extends the capability of most dictionary style classes to
+            have a more complete set of methods commonly used in a dictionary scenario.
+            </summary>
+            <typeparam name="TKey">The key type of the cache</typeparam>
+            <typeparam name="TValue">The value type of the cache</typeparam>
+        </member>
+        <member name="P:Topshelf.Caching.Cache`2.MissingValueProvider">
+            <summary>
+            Sets the missing value provider used by the cache to create requested values that do not exist in the cache
+            </summary>
+        </member>
+        <member name="P:Topshelf.Caching.Cache`2.ValueAddedCallback">
+            <summary>
+            Sets the callback that is called when a new value is added to the cache
+            </summary>
+        </member>
+        <member name="P:Topshelf.Caching.Cache`2.ValueRemovedCallback">
+            <summary>
+            Sets the callback that is called when a value is removed or replaced from the cache
+            </summary>
+        </member>
+        <member name="P:Topshelf.Caching.Cache`2.DuplicateValueAdded">
+            <summary>
+            Sets the callback that is called when a duplicate value is added to the cache
+            </summary>
+        </member>
+        <member name="P:Topshelf.Caching.Cache`2.KeySelector">
+            <summary>
+            Specifies a selector that returns the key from a value which is used when a value is added to the cache
+            </summary>
+        </member>
+        <member name="P:Topshelf.Caching.Cache`2.Item(`0)">
+            <summary>
+            References a value in the cache, returning a newly created or existing value for the specified key, and
+            adding a new or replacing an existing value in the cache
+            </summary>
+            <param name="key">The key references the value</param>
+            <returns>The value from the cache</returns>
+        </member>
+        <member name="M:Topshelf.Caching.Cache`2.Get(`0)">
+            <summary>
+            Get the value for the specified key
+            </summary>
+            <param name="key">The key referencing the value in the cache</param>
+            <returns>The matching value if the key exists in the cache, otherwise an exception is thrown</returns>
+        </member>
+        <member name="M:Topshelf.Caching.Cache`2.Get(`0,Topshelf.Caching.MissingValueProvider{`0,`1})">
+            <summary>
+            Get the value for the specified key, overriding the default missing value provider
+            </summary>
+            <param name="key">The key referencing the value in the cache</param>
+            <param name="missingValueProvider">An overloaded missing value provider to create the value if it is not found in the cache</param>
+            <returns>The matching value if the key exists in the cache, otherwise an exception is thrown</returns>
+        </member>
+        <member name="M:Topshelf.Caching.Cache`2.GetValue(`0,`1)">
+            <summary>
+            Get a value for the specified key, if not found returns the specified default value
+            </summary>
+            <param name="key">The key referencing the value in the cache</param>
+            <param name="defaultValue">The default value to return if the key is not found in the cache</param>
+            <returns>The matching value if it exists in the cache, otherwise the default value</returns>
+        </member>
+        <member name="M:Topshelf.Caching.Cache`2.GetValue(`0,System.Func{`1})">
+            <summary>
+            Get a value for the specified key, if not found returns the specified default value
+            </summary>
+            <param name="key">The key referencing the value in the cache</param>
+            <param name="defaultValueProvider">The default value to return if the key is not found in the cache</param>
+            <returns>The matching value if it exists in the cache, otherwise the default value</returns>
+        </member>
+        <member name="M:Topshelf.Caching.Cache`2.TryGetValue(`0,`1@)">
+            <summary>
+            Gets a value for the specified key if it exists
+            </summary>
+            <param name="key">The key referencing the value in the cache</param>
+            <param name="value">The value if it exists in the cache, otherwise the default value</param>
+            <returns>True if the item was in the cache, otherwise false</returns>
+        </member>
+        <member name="M:Topshelf.Caching.Cache`2.Add(`0,`1)">
+            <summary>
+            Adds a value to the cache using the specified key. If the key already exists in the cache, an exception is thrown.
+            </summary>
+            <param name="key">The key referencing the value</param>
+            <param name="value">The value</param>
+        </member>
+        <member name="M:Topshelf.Caching.Cache`2.AddValue(`1)">
+            <summary>
+            Adds a value to the cache using the KeySelector to extract the key from the value. If the key already exists
+            in the cache, an exception is thrown.
+            </summary>
+            <param name="value">The value</param>
+        </member>
+        <member name="M:Topshelf.Caching.Cache`2.Remove(`0)">
+            <summary>
+            Remove an existing value from the cache
+            </summary>
+            <param name="key">The key referencing the value</param>
+        </member>
+        <member name="M:Topshelf.Caching.Cache`2.RemoveValue(`1)">
+            <summary>
+            Remove an existing value from the cache, using the KeySelector to extract the key to find the value
+            </summary>
+            <param name="value">The value to remove</param>
+        </member>
+        <member name="M:Topshelf.Caching.Cache`2.Clear">
+            <summary>
+            Removes all items from the cache
+            </summary>
+        </member>
+        <member name="M:Topshelf.Caching.Cache`2.Fill(System.Collections.Generic.IEnumerable{`1})">
+            <summary>
+            Fills the cache from a list of values, using the KeySelector to extract the key for each value.
+            </summary>
+            <param name="values"></param>
+        </member>
+        <member name="M:Topshelf.Caching.Cache`2.WithValue(`0,System.Action{`1})">
+            <summary>
+            Calls the callback with the value matching the specified key
+            </summary>
+            <param name="key">The key referencing the value</param>
+            <param name="callback">The callback to call</param>
+            <returns>True if the value exists and the callback was called</returns>
+        </member>
+        <member name="M:Topshelf.Caching.Cache`2.WithValue``1(`0,System.Func{`1,``0},``0)">
+            <summary>
+            Calls the function with the value matching the specified key, returning the result of that function
+            </summary>
+            <typeparam name="TResult">The result type of the function</typeparam>
+            <param name="key">The key references the value</param>
+            <param name="callback">The function to call</param>
+            <param name="defaultValue">The default return value if the item does not exist in the cache</param>
+            <returns>The return value of the function, or the defaultValue specified if the item does not exist in the cache</returns>
+        </member>
+        <member name="M:Topshelf.Caching.Cache`2.WithValue``1(`0,System.Func{`1,``0},System.Func{`0,``0})">
+            <summary>
+            Calls the function with the value matching the specified key, returning the result of that function
+            </summary>
+            <typeparam name="TResult">The result type of the function</typeparam>
+            <param name="key">The key references the value</param>
+            <param name="callback">The function to call</param>
+            <param name="defaultValue">The default return value if the item does not exist in the cache</param>
+            <returns>The return value of the function, or the defaultValue specified if the item does not exist in the cache</returns>
+        </member>
+        <member name="M:Topshelf.Caching.GenericTypeCache`1.#ctor(System.Type)">
+            <summary>
+            Constructs a cache for the specified generic type
+            </summary>
+            <param name="genericType">The generic type to close</param>
+        </member>
+        <member name="M:Topshelf.Caching.GenericTypeCache`1.#ctor(System.Type,Topshelf.Caching.MissingValueProvider{System.Type,`0})">
+            <summary>
+            Constructs a cache for the specified generic type.
+            </summary>
+            <param name="genericType">The generic type to close</param>
+            <param name="missingValueProvider">The implementation provider, which must close the generic type with the passed type</param>
+        </member>
+        <member name="T:Topshelf.Caching.ReadCache`2">
+            <summary>
+            A read-only view of a cache. Methods that are able to modify the cache contents are not
+            available in this reduced interface. Methods on this interface will NOT invoke a missing
+            item provider.
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue"></typeparam>
+        </member>
+        <member name="P:Topshelf.Caching.ReadCache`2.Count">
+            <summary>
+            The number of items in the cache
+            </summary>
+        </member>
+        <member name="M:Topshelf.Caching.ReadCache`2.Has(`0)">
+            <summary>
+            Checks if the key exists in the cache
+            </summary>
+            <param name="key">The key to check</param>
+            <returns>True if the key exists, otherwise false</returns>
+        </member>
+        <member name="M:Topshelf.Caching.ReadCache`2.HasValue(`1)">
+            <summary>
+            Checks if a value exists in the cache
+            </summary>
+            <param name="value">The value to check</param>
+            <returns>True if the value exists, otherwise false</returns>
+        </member>
+        <member name="M:Topshelf.Caching.ReadCache`2.Each(System.Action{`1})">
+            <summary>
+            Calls the specified callback with each value in the cache
+            </summary>
+            <param name="callback">A callback that accepts the value for each item in the cache</param>
+        </member>
+        <member name="M:Topshelf.Caching.ReadCache`2.Each(System.Action{`0,`1})">
+            <summary>
+            Calls the specified callback with each item in the cache
+            </summary>
+            <param name="callback">A callback that accepts the key and value for each item in the cache</param>
+        </member>
+        <member name="M:Topshelf.Caching.ReadCache`2.Exists(System.Predicate{`1})">
+            <summary>
+            Uses a predicate to scan the cache for a matching value
+            </summary>
+            <param name="predicate">The predicate to run against each value</param>
+            <returns>True if a matching value exists, otherwise false</returns>
+        </member>
+        <member name="M:Topshelf.Caching.ReadCache`2.Find(System.Predicate{`1},`1@)">
+            <summary>
+            Uses a predicate to scan the cache for a matching value
+            </summary>
+            <param name="predicate">The predicate to run against each value</param>
+            <param name="result">The matching value</param>
+            <returns>True if a matching value was found, otherwise false</returns>
+        </member>
+        <member name="M:Topshelf.Caching.ReadCache`2.GetAllKeys">
+            <summary>
+            Gets all keys that are stored in the cache
+            </summary>
+            <returns>An array of every key in the dictionary</returns>
+        </member>
+        <member name="M:Topshelf.Caching.ReadCache`2.GetAll">
+            <summary>
+            Gets all values that are stored in the cache
+            </summary>
+            <returns>An array of every value in the dictionary</returns>
+        </member>
+        <member name="T:Topshelf.Builders.HostBuilder">
+            <summary>
+            Using the service configuration, the host builder will create the host
+            that will be ran by the service console.
+            </summary>
+        </member>
+        <member name="T:Topshelf.CommandLineParser.CommandLine">
+            <summary>
+              Tools for parsing the command line
+            </summary>
+        </member>
+        <member name="M:Topshelf.CommandLineParser.CommandLine.GetUnparsedCommandLine">
+            <summary>
+              Gets the command line from the Environment.CommandLine, removing the application name if present
+            </summary>
+            <returns> The complete, unparsed command line that was specified when the program was executed </returns>
+        </member>
+        <member name="M:Topshelf.CommandLineParser.CommandLine.Parse(System.String)">
+            <summary>
+              Parses the command line
+            </summary>
+            <param name="commandLine"> The command line to parse </param>
+            <returns> The command line elements that were found </returns>
+        </member>
+        <member name="M:Topshelf.CommandLineParser.CommandLine.Parse``1(System.Action{Topshelf.CommandLineParser.ICommandLineElementParser{``0}},System.String)">
+            <summary>
+              Parses the command line and matches any specified patterns
+            </summary>
+            <typeparam name="T"> The output type of the parser </typeparam>
+            <param name="commandLine"> The command line text </param>
+            <param name="initializer"> Used by the caller to add patterns and object generators </param>
+            <returns> The elements that were found on the command line </returns>
+        </member>
+        <member name="T:Topshelf.CommandLineParser.ICommandLineElementParser`1">
+            <summary>
+              Used to configure the command line element parser
+            </summary>
+            <typeparam name="TResult"> The type of object returned as a result of the parse </typeparam>
+        </member>
+        <member name="M:Topshelf.CommandLineParser.ICommandLineElementParser`1.Add(Topshelf.CommandLineParser.Parser{System.Collections.Generic.IEnumerable{Topshelf.CommandLineParser.ICommandLineElement},`0})">
+            <summary>
+              Adds a new pattern to the parser
+            </summary>
+            <param name="parser"> The pattern to match and return the resulting object </param>
+        </member>
+        <member name="T:Topshelf.Configurators.ValidateResult">
+            <summary>
+            Reports information about the configuration before configuring
+            so that corrections can be made without allocating resources, etc.
+            </summary>
+        </member>
+        <member name="P:Topshelf.Configurators.ValidateResult.Disposition">
+            <summary>
+            The disposition of the result, any Failure items will prevent
+            the configuration from completing.
+            </summary>
+        </member>
+        <member name="P:Topshelf.Configurators.ValidateResult.Message">
+            <summary>
+            The message associated with the result
+            </summary>
+        </member>
+        <member name="P:Topshelf.Configurators.ValidateResult.Key">
+            <summary>
+            The key associated with the result (chained if configurators are nested)
+            </summary>
+        </member>
+        <member name="P:Topshelf.Configurators.ValidateResult.Value">
+            <summary>
+            The value associated with the result
+            </summary>
+        </member>
+        <member name="T:Topshelf.Constants.KnownServiceNames">
+            <summary>
+            A selection of commonly-used Windows services.
+            </summary>
+        </member>
+        <member name="P:Topshelf.Constants.KnownServiceNames.Msmq">
+            <summary>
+            The Microsoft Message Queue service.
+            </summary>
+        </member>
+        <member name="P:Topshelf.Constants.KnownServiceNames.SqlServer">
+            <summary>
+            The Microsoft SQL Server service.
+            </summary>
+        </member>
+        <member name="P:Topshelf.Constants.KnownServiceNames.IIS">
+            <summary>
+            The Internet Information Server service.
+            </summary>
+        </member>
+        <member name="P:Topshelf.Constants.KnownServiceNames.EventLog">
+            <summary>
+            The Event Log service.
+            </summary>
+        </member>
+        <member name="M:Topshelf.HelpHostConfiguratorExtensions.SetHelpTextPrefix(Topshelf.HostConfigurators.HostConfigurator,System.String)">
+            <summary>
+            Sets additional text to be displayed before the built-in help text is displayed
+            </summary>
+            <param name="hostConfigurator"></param>
+            <param name="text"></param>
+        </member>
+        <member name="M:Topshelf.HelpHostConfiguratorExtensions.LoadHelpTextPrefix(Topshelf.HostConfigurators.HostConfigurator,System.Reflection.Assembly,System.String)">
+            <summary>
+            Specifies a text resource to be loaded and displayed before the built-in system help text is displayed
+            </summary>
+            <param name="hostConfigurator"></param>
+            <param name="assembly">The assembly containing the text resource</param>
+            <param name="resourceName">The name of the embedded resource</param>
+        </member>
+        <member name="T:Topshelf.HostConfigurators.DependencyHostConfigurator">
+            <summary>
+            Adds a dependency to the InstallBuilder (ignored otherwise)
+            </summary>
+        </member>
+        <member name="T:Topshelf.HostConfigurators.HostBuilderConfigurator">
+            <summary>
+            Can configure/replace the input <see cref="T:Topshelf.Builders.HostBuilder"/>, returning the original
+            or a new <see cref="T:Topshelf.Builders.HostBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostBuilderConfigurator.Configure(Topshelf.Builders.HostBuilder)">
+            <summary>
+            Configures the host builder.
+            </summary>
+            <param name="builder">The host builder.</param>
+            <returns>The configured host builder.</returns>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.SetDisplayName(System.String)">
+            <summary>
+              Specifies the name of the service as it should be displayed in the service control manager
+            </summary>
+            <param name="name"> </param>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.SetServiceName(System.String)">
+            <summary>
+              Specifies the name of the service as it is registered in the service control manager
+            </summary>
+            <param name="name"> </param>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.SetDescription(System.String)">
+            <summary>
+              Specifies the description of the service that is displayed in the service control manager
+            </summary>
+            <param name="description"> </param>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.SetInstanceName(System.String)">
+            <summary>
+              Specifies the service instance name that should be used when the service is registered
+            </summary>
+            <param name="instanceName"> </param>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.SetStartTimeout(System.TimeSpan)">
+            <summary>
+            Sets the amount of time to wait for the service to start before timing out. Default is 10 seconds.
+            </summary>
+            <param name="startTimeOut"></param>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.SetStopTimeout(System.TimeSpan)">
+            <summary>
+            Sets the amount of time to wait for the service to stop before timing out. Default is 10 seconds.
+            </summary>
+            <param name="stopTimeOut"></param>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.EnablePauseAndContinue">
+            <summary>
+            Enable pause and continue support for the service (default is disabled)
+            </summary>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.EnableShutdown">
+            <summary>
+            Enable support for service shutdown (signaled by the host OS)
+            </summary>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.EnableSessionChanged">
+            <summary>
+            Enabled support for the session changed event
+            </summary>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.UseHostBuilder(Topshelf.HostConfigurators.HostBuilderFactory)">
+            <summary>
+              Specifies the builder factory to use when the service is invoked
+            </summary>
+            <param name="hostBuilderFactory"> </param>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.UseServiceBuilder(Topshelf.HostConfigurators.ServiceBuilderFactory)">
+            <summary>
+              Sets the service builder to use for creating the service
+            </summary>
+            <param name="serviceBuilderFactory"> </param>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.UseEnvironmentBuilder(Topshelf.HostConfigurators.EnvironmentBuilderFactory)">
+            <summary>
+              Sets the environment builder to use for creating the service (defaults to Windows)
+            </summary>
+            <param name="environmentBuilderFactory"> </param>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.AddConfigurator(Topshelf.HostConfigurators.HostBuilderConfigurator)">
+            <summary>
+              Adds a a configurator for the host builder to the configurator
+            </summary>
+            <param name="configurator"> </param>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.ApplyCommandLine">
+            <summary>
+            Parses the command line options and applies them to the host configurator
+            </summary>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.ApplyCommandLine(System.String)">
+            <summary>
+            Parses the command line options from the specified command line and applies them to the host configurator
+            </summary>
+            <param name="commandLine"></param>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.AddCommandLineSwitch(System.String,System.Action{System.Boolean})">
+            <summary>
+            Adds a command line switch (--name) that can be either true or false. Switches are CASE SeNsITiVe
+            </summary>
+            <param name="name">The name of the switch, as it will appear on the command line</param>
+            <param name="callback"></param>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.AddCommandLineDefinition(System.String,System.Action{System.String})">
+            <summary>
+            Adds a command line definition (-name:value) that can be specified. the name is case sensitive. If the 
+            definition 
+            </summary>
+            <param name="name"></param>
+            <param name="callback"></param>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.HostConfigurator.OnException(System.Action{System.Exception})">
+            <summary>
+            Specifies a callback to be run when Topshelf encounters an exception while starting, running
+            or stopping. This callback does not replace Topshelf's default handling of any exceptions, and 
+            is intended to allow for local cleanup, logging, etc. This is not required, and is only invoked
+            if a callback is provided.
+            </summary>
+            <param name="callback">The action to run when an exception occurs.</param>
+        </member>
+        <member name="P:Topshelf.HostConfigurators.HostConfigurator.UnhandledExceptionPolicy">
+            <summary>
+            The policy that will be used when Topself detects an UnhandledException in the
+            application. The default policy is to log an error and to stop the service.
+            </summary>
+        </member>
+        <member name="T:Topshelf.HostConfigurators.ServiceRecoveryHostConfigurator">
+            <summary>
+            Implements a service recovery configurator and host builder configurator.
+            </summary>
+            <seealso cref="T:Topshelf.ServiceRecoveryConfigurator" />
+            <seealso cref="T:Topshelf.HostConfigurators.HostBuilderConfigurator" />
+        </member>
+        <member name="M:Topshelf.HostConfigurators.ServiceRecoveryHostConfigurator.Configure(Topshelf.Builders.HostBuilder)">
+            <summary>
+            Configures the host builder.
+            </summary>
+            <param name="builder">The host builder.</param>
+            <returns>The configured host builder.</returns>
+            <exception cref="T:System.ArgumentNullException">builder</exception>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.ServiceRecoveryHostConfigurator.RestartService(System.TimeSpan)">
+            <summary>
+            Adds a restart service recovery action with the specified delay.
+            </summary>
+            <param name="delay">The delay.</param>
+            <returns>The service recovery configurator.</returns>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.ServiceRecoveryHostConfigurator.RestartService(System.Int32)">
+            <summary>
+            Adds a restart service recovery action with the specified delay in minutes.
+            </summary>
+            <param name="delayInMinutes">The delay in minutes.</param>
+            <returns>The service recovery configurator.</returns>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.ServiceRecoveryHostConfigurator.RestartComputer(System.TimeSpan,System.String)">
+            <summary>
+            Adds a restart computer recovery action with the specified delay.
+            </summary>
+            <param name="delay">The delay.</param>
+            <param name="message">The message.</param>
+            <returns>ServiceRecoveryConfigurator.</returns>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.ServiceRecoveryHostConfigurator.RestartComputer(System.Int32,System.String)">
+            <summary>
+            Adds a restart computer recovery action with the specified delay in minutes.
+            </summary>
+            <param name="delayInMinutes">The delay in minutes.</param>
+            <param name="message">The message.</param>
+            <returns>The service recovery configurator.</returns>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.ServiceRecoveryHostConfigurator.RunProgram(System.TimeSpan,System.String)">
+            <summary>
+            Adds a run program recovery action with the specified delay.
+            </summary>
+            <param name="delay">The delay.</param>
+            <param name="command">The command to run.</param>
+            <returns>The service recovery configurator.</returns>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.ServiceRecoveryHostConfigurator.RunProgram(System.Int32,System.String)">
+            <summary>
+            Adds a run program recovery action with the specified delay in minutes.
+            </summary>
+            <param name="delayInMinutes">The delay in minutes.</param>
+            <param name="command">The command.</param>
+            <returns>The service recovery configurator.</returns>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.ServiceRecoveryHostConfigurator.TakeNoAction">
+            <summary>
+            Adds a take no action recovery action.
+            </summary>
+            <returns>The service recovery configurator.</returns>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.ServiceRecoveryHostConfigurator.SetResetPeriod(System.Int32)">
+            <summary>
+            Sets the recovery reset period in days.
+            </summary>
+            <param name="days">The reset period in days.</param>
+        </member>
+        <member name="M:Topshelf.HostConfigurators.ServiceRecoveryHostConfigurator.OnCrashOnly">
+            <summary>
+            Specifies that the recovery actions should only be taken on a service crash. If the service exits
+            with a non-zero exit code, it will not be restarted.
+            </summary>
+        </member>
+        <member name="T:Topshelf.Options.DependencyOption">
+            <summary>
+            Represents an option to set a service dependency.
+            </summary>
+            <seealso cref="T:Topshelf.Options.Option" />
+        </member>
+        <member name="F:Topshelf.Options.DependencyOption.dependencyName">
+            <summary>
+            The dependency name
+            </summary>
+        </member>
+        <member name="M:Topshelf.Options.DependencyOption.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Topshelf.Options.DependencyOption"/> class.
+            </summary>
+            <param name="dependencyName">Name of the dependency.</param>
+        </member>
+        <member name="M:Topshelf.Options.DependencyOption.ApplyTo(Topshelf.HostConfigurators.HostConfigurator)">
+            <summary>
+            Applies the option to the specified host configurator.
+            </summary>
+            <param name="configurator">The host configurator.</param>
+        </member>
+        <member name="T:Topshelf.Options.ServiceRecoveryOption">
+            <summary>
+            Represents an option to set a service recovery options.
+            </summary>
+            <seealso cref="T:Topshelf.Options.Option" />
+        </member>
+        <member name="M:Topshelf.Options.ServiceRecoveryOption.#ctor(Topshelf.Runtime.Windows.ServiceRecoveryOptions)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Topshelf.Options.ServiceRecoveryOption"/> class.
+            </summary>
+            <param name="serviceRecoveryOptions">The service recovery options.</param>
+        </member>
+        <member name="M:Topshelf.Options.ServiceRecoveryOption.ApplyTo(Topshelf.HostConfigurators.HostConfigurator)">
+            <summary>
+            Applies the option to the specified host configurator.
+            </summary>
+            <param name="configurator">The host configurator.</param>
+        </member>
+        <member name="T:Topshelf.Options.StartTimeoutOption">
+            <summary>
+            Represents an option to set a service start timeout (in seconds).
+            </summary>
+            <seealso cref="T:Topshelf.Options.Option" />
+        </member>
+        <member name="F:Topshelf.Options.StartTimeoutOption.startTimeout">
+            <summary>
+            The start timeout (in seconds).
+            </summary>
+        </member>
+        <member name="M:Topshelf.Options.StartTimeoutOption.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Topshelf.Options.StartTimeoutOption"/> class.
+            </summary>
+            <param name="startTimeout">The start timeout (in seconds).</param>
+        </member>
+        <member name="M:Topshelf.Options.StartTimeoutOption.ApplyTo(Topshelf.HostConfigurators.HostConfigurator)">
+            <summary>
+            Applies the option to the specified host configurator.
+            </summary>
+            <param name="configurator">The host configurator.</param>
+        </member>
+        <member name="T:Topshelf.Options.StopTimeoutOption">
+            <summary>
+            Represents an option to set a service stop timeout (in seconds).
+            </summary>
+            <seealso cref="T:Topshelf.Options.Option" />
+        </member>
+        <member name="F:Topshelf.Options.StopTimeoutOption.stopTimeoout">
+            <summary>
+            The stop timeout (in seconds).
+            </summary>
+        </member>
+        <member name="M:Topshelf.Options.StopTimeoutOption.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Topshelf.Options.StopTimeoutOption"/> class.
+            </summary>
+            <param name="stopTimeoout">The stop timeout (in seconds).</param>
+        </member>
+        <member name="M:Topshelf.Options.StopTimeoutOption.ApplyTo(Topshelf.HostConfigurators.HostConfigurator)">
+            <summary>
+            Applies the option to the specified host configurator.
+            </summary>
+            <param name="configurator">The host configurator.</param>
+        </member>
+        <member name="M:Topshelf.ServiceConfigurators.ServiceConfigurator.BeforeStartingService(System.Action{Topshelf.HostStartContext})">
+            <summary>
+            Registers a callback invoked before the service Start method is called.
+            </summary>
+        </member>
+        <member name="M:Topshelf.ServiceConfigurators.ServiceConfigurator.AfterStartingService(System.Action{Topshelf.HostStartedContext})">
+            <summary>
+            Registers a callback invoked after the service Start method is called.
+            </summary>
+        </member>
+        <member name="M:Topshelf.ServiceConfigurators.ServiceConfigurator.BeforeStoppingService(System.Action{Topshelf.HostStopContext})">
+            <summary>
+            Registers a callback invoked before the service Stop method is called.
+            </summary>
+        </member>
+        <member name="M:Topshelf.ServiceConfigurators.ServiceConfigurator.AfterStoppingService(System.Action{Topshelf.HostStoppedContext})">
+            <summary>
+            Registers a callback invoked after the service Stop method is called.
+            </summary>
+        </member>
+        <member name="M:Topshelf.ServiceEventConfiguratorExtensions.BeforeStartingService``1(``0,System.Action)">
+            <summary>
+            Registers a callback invoked before the service Start method is called.
+            </summary>
+        </member>
+        <member name="M:Topshelf.ServiceEventConfiguratorExtensions.AfterStartingService``1(``0,System.Action)">
+            <summary>
+            Registers a callback invoked after the service Start method is called.
+            </summary>
+        </member>
+        <member name="M:Topshelf.ServiceEventConfiguratorExtensions.BeforeStoppingService``1(``0,System.Action)">
+            <summary>
+            Registers a callback invoked before the service Stop method is called.
+            </summary>
+        </member>
+        <member name="M:Topshelf.ServiceEventConfiguratorExtensions.AfterStoppingService``1(``0,System.Action)">
+            <summary>
+            Registers a callback invoked after the service Stop method is called.
+            </summary>
+        </member>
+        <member name="T:Topshelf.ServiceRecoveryConfigurator">
+            <summary>
+            Defines a service recovery configurator.
+            </summary>
+        </member>
+        <member name="M:Topshelf.ServiceRecoveryConfigurator.RestartService(System.TimeSpan)">
+            <summary>
+              Restart the service after waiting the delay period specified
+            </summary>
+            <param name="delay">The delay.</param>
+            <returns>The service recovery configurator.</returns>
+        </member>
+        <member name="M:Topshelf.ServiceRecoveryConfigurator.RestartService(System.Int32)">
+            <summary>
+              Restart the service after waiting the delay period in minutes
+            </summary>
+            <param name="delayInMinutes">The delay in minutes.</param>
+            <returns>The service recovery configurator.</returns>
+        </member>
+        <member name="M:Topshelf.ServiceRecoveryConfigurator.RestartComputer(System.TimeSpan,System.String)">
+            <summary>
+              Restart the computer after waiting the delay period specified
+            </summary>
+            <param name="delay">The delay.</param>
+            <param name="message"></param>
+            <returns>The service recovery configurator.</returns>
+        </member>
+        <member name="M:Topshelf.ServiceRecoveryConfigurator.RestartComputer(System.Int32,System.String)">
+            <summary>
+              Restart the computer after waiting the delay period in minutes
+            </summary>
+            <param name="delayInMinutes">The delay in minutes.</param>
+            <param name="message"> </param>
+            <returns>The service recovery configurator.</returns>
+        </member>
+        <member name="M:Topshelf.ServiceRecoveryConfigurator.RunProgram(System.TimeSpan,System.String)">
+            <summary>
+              Run the command specified
+            </summary>
+            <param name="delay">The delay.</param>
+            <param name="command">The command to run.</param>
+            <returns>The service recovery configurator.</returns>
+        </member>
+        <member name="M:Topshelf.ServiceRecoveryConfigurator.RunProgram(System.Int32,System.String)">
+            <summary>
+              Run the command specified
+            </summary>
+            <param name="delayInMinutes">The delay in minutes.</param>
+            <param name="command">The command to run.</param>
+            <returns>The service recovery configurator.</returns>
+        </member>
+        <member name="M:Topshelf.ServiceRecoveryConfigurator.TakeNoAction">
+            <summary>
+              Take no action
+            </summary>
+            <returns>The service recovery configurator.</returns>
+        </member>
+        <member name="M:Topshelf.ServiceRecoveryConfigurator.SetResetPeriod(System.Int32)">
+            <summary>
+              Specifies the reset period for the restart options
+            </summary>
+            <param name="days">The reset period in days.</param>
+        </member>
+        <member name="M:Topshelf.ServiceRecoveryConfigurator.OnCrashOnly">
+            <summary>
+            Specifies that the recovery actions should only be taken on a service crash. If the service exits
+            with a non-zero exit code, it will not be restarted.
+            </summary>
+        </member>
+        <member name="M:Topshelf.TestHostExtensions.UseTestHost(Topshelf.HostConfigurators.HostConfigurator)">
+            <summary>
+            Configures the test host, which simply starts and stops the service. Meant to be used
+            to verify the service can be created, started, stopped, and disposed without issues.
+            </summary>
+        </member>
+        <member name="T:Topshelf.Host">
+            <summary>
+              A Host can be a number of configured service hosts, from installers to service runners
+            </summary>
+        </member>
+        <member name="M:Topshelf.Host.Run">
+            <summary>
+              Runs the configured host
+            </summary>
+        </member>
+        <member name="T:Topshelf.HostControl">
+            <summary>
+            Allows the service to control the host while running
+            </summary>
+        </member>
+        <member name="M:Topshelf.HostControl.RequestAdditionalTime(System.TimeSpan)">
+            <summary>
+            Tells the Host that the service is still starting, which resets the
+            timeout.
+            </summary>
+        </member>
+        <member name="M:Topshelf.HostControl.Stop">
+            <summary>
+            Stops the Host
+            </summary>
+        </member>
+        <member name="M:Topshelf.HostControl.Stop(Topshelf.TopshelfExitCode)">
+            <summary>
+            Stops the Host, returning the specified exit code
+            </summary>
+        </member>
+        <member name="T:Topshelf.HostFactory">
+            <summary>
+              Configure and run a service host using the HostFactory
+            </summary>
+        </member>
+        <member name="M:Topshelf.HostFactory.New(System.Action{Topshelf.HostConfigurators.HostConfigurator})">
+            <summary>
+              Configures a new service host
+            </summary>
+            <param name="configureCallback"> Configuration method to call </param>
+            <returns> A Topshelf service host, ready to run </returns>
+        </member>
+        <member name="M:Topshelf.HostFactory.Run(System.Action{Topshelf.HostConfigurators.HostConfigurator})">
+            <summary>
+              Configures and runs a new service host, handling any exceptions and writing them to the log.
+            </summary>
+            <param name="configureCallback"> Configuration method to call </param>
+            <returns> Returns the exit code of the process that should be returned by your application's main method </returns>
+        </member>
+        <member name="M:Topshelf.HostStartContext.CancelStart">
+            <summary>
+            If called, prevents the service from starting
+            </summary>
+        </member>
+        <member name="T:Topshelf.Hosts.HelpHost">
+            <summary>
+              Displays the Topshelf command line reference
+            </summary>
+        </member>
+        <member name="P:Topshelf.Hosts.InstallHost.InstallServiceSettingsImpl.CanHandlePowerEvent">
+            <summary>
+            True if the service handles power change events
+            </summary>
+        </member>
+        <member name="T:Topshelf.Logging.LogWriter">
+            <summary>
+            Implementers handle logging and filtering based on logging levels.
+            </summary>
+        </member>
+        <member name="T:Topshelf.Logging.LogWriterOutputProvider">
+            <summary>
+            Delegate to provide the log output if the log level is enabled
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.Debug(System.Object)">
+            <summary>
+            Logs a debug message.
+            
+            </summary>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.Debug(System.Object,System.Exception)">
+            <summary>
+            Logs a debug message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.DebugFormat(System.String,System.Object[])">
+            <summary>
+            Logs a debug message.
+            
+            </summary>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.DebugFormat(System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs a debug message.
+            
+            </summary>
+            <param name="formatProvider">The format provider to use</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.Info(System.Object)">
+            <summary>
+            Logs an info message.
+            
+            </summary>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.Info(System.Object,System.Exception)">
+            <summary>
+            Logs an info message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.InfoFormat(System.String,System.Object[])">
+            <summary>
+            Logs an info message.
+            
+            </summary>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.InfoFormat(System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs an info message.
+            
+            </summary>
+            <param name="formatProvider">The format provider to use</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.Warn(System.Object)">
+            <summary>
+            Logs a warn message.
+            
+            </summary>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.Warn(System.Object,System.Exception)">
+            <summary>
+            Logs a warn message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.WarnFormat(System.String,System.Object[])">
+            <summary>
+            Logs a warn message.
+            
+            </summary>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.WarnFormat(System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs a warn message.
+            
+            </summary>
+            <param name="formatProvider">The format provider to use</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.Error(System.Object)">
+            <summary>
+            Logs an error message.
+            
+            </summary>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.Error(System.Object,System.Exception)">
+            <summary>
+            Logs an error message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.ErrorFormat(System.String,System.Object[])">
+            <summary>
+            Logs an error message.
+            
+            </summary>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.ErrorFormat(System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs an error message.
+            
+            </summary>
+            <param name="formatProvider">The format provider to use</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.Fatal(System.Object)">
+            <summary>
+            Logs a fatal message.
+            
+            </summary>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.Fatal(System.Object,System.Exception)">
+            <summary>
+            Logs a fatal message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.FatalFormat(System.String,System.Object[])">
+            <summary>
+            Logs a fatal message.
+            
+            </summary>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.FatalFormat(System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs a fatal message.
+            
+            </summary>
+            <param name="formatProvider">The format provider to use</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.DebugFormat(System.Exception,System.String,System.Object[])">
+            <summary>
+            Logs a debug message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.DebugFormat(System.Exception,System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs a debug message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="formatProvider">The format provider to use</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.InfoFormat(System.Exception,System.String,System.Object[])">
+            <summary>
+            Logs an info message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.InfoFormat(System.Exception,System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs an info message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="formatProvider">The format provider to use</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.WarnFormat(System.Exception,System.String,System.Object[])">
+            <summary>
+            Logs a warn message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.WarnFormat(System.Exception,System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs a warn message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="formatProvider">The format provider to use</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.ErrorFormat(System.Exception,System.String,System.Object[])">
+            <summary>
+            Logs an error message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.ErrorFormat(System.Exception,System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs an error message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="formatProvider">The format provider to use</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.FatalFormat(System.Exception,System.String,System.Object[])">
+            <summary>
+            Logs a fatal message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="M:Topshelf.Logging.TraceLogWriter.FatalFormat(System.Exception,System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs a fatal message.
+            
+            </summary>
+            <param name="exception">The exception to log</param>
+            <param name="formatProvider">The format provider to use</param>
+            <param name="format">Format string for the message to log</param>
+            <param name="args">Format arguments for the message to log</param>
+        </member>
+        <member name="F:Topshelf.PowerEventCode.QuerySuspend">
+            <summary>
+            The system has requested permission to suspend the computer. An application that grants permission should carry out preparations for the suspension before returning.
+            <remarks>Not supported by <see cref="T:Topshelf.Hosts.ConsoleRunHost"/></remarks>
+            </summary>
+        </member>
+        <member name="F:Topshelf.PowerEventCode.QuerySuspendFailed">
+            <summary>
+            The system was denied permission to suspend the computer. This status is broadcast if any application or driver denied a previous <see cref="F:Topshelf.PowerEventCode.QuerySuspend"/> status.
+            <remarks>Not supported by <see cref="T:Topshelf.Hosts.ConsoleRunHost"/></remarks>
+            </summary>
+        </member>
+        <member name="F:Topshelf.PowerEventCode.Suspend">
+            <summary>
+            The computer is about to enter a suspended state. This event is typically broadcast when all applications and installable drivers have returned true to a previous QuerySuspend state.
+            </summary>
+        </member>
+        <member name="F:Topshelf.PowerEventCode.ResumeCritical">
+            <summary>
+            The system has resumed operation after a critical suspension caused by a failing battery.
+            <remarks>Not supported by <see cref="T:Topshelf.Hosts.ConsoleRunHost"/></remarks>
+            </summary>
+        </member>
+        <member name="F:Topshelf.PowerEventCode.ResumeSuspend">
+            <summary>
+            The system has resumed operation after being suspended.
+            <remarks>Not supported by <see cref="T:Topshelf.Hosts.ConsoleRunHost"/></remarks>
+            </summary>
+        </member>
+        <member name="F:Topshelf.PowerEventCode.BatteryLow">
+            <summary>
+            Battery power is low.
+            <remarks>Not supported by <see cref="T:Topshelf.Hosts.ConsoleRunHost"/></remarks>
+            </summary>
+        </member>
+        <member name="F:Topshelf.PowerEventCode.PowerStatusChange">
+            <summary>
+            A change in the power status of the computer is detected, such as a switch from battery power to A/C. The system also broadcasts this event when remaining battery power slips below the threshold specified by the user or if the battery power changes by a specified percentage.
+            </summary>
+        </member>
+        <member name="F:Topshelf.PowerEventCode.OemEvent">
+            <summary>
+            An Advanced Power Management (APM) BIOS signaled an APM OEM event.
+            <remarks>Not supported by <see cref="T:Topshelf.Hosts.ConsoleRunHost"/></remarks>
+            </summary>
+        </member>
+        <member name="F:Topshelf.PowerEventCode.ResumeAutomatic">
+            <summary>
+            The computer has woken up automatically to handle an event.
+            </summary>
+        </member>
+        <member name="T:Topshelf.Runtime.HostEnvironment">
+            <summary>
+            Abstracts the environment in which the host in running (different OS versions, platforms,
+            bitness, etc.)
+            </summary>
+        </member>
+        <member name="P:Topshelf.Runtime.HostEnvironment.IsAdministrator">
+            <summary>
+            Determines if the service is running as an administrator
+            </summary>
+        </member>
+        <member name="P:Topshelf.Runtime.HostEnvironment.IsRunningAsAService">
+            <summary>
+            Determines if the process is running as a service
+            </summary>
+        </member>
+        <member name="M:Topshelf.Runtime.HostEnvironment.IsServiceInstalled(System.String)">
+            <summary>
+            Determines if the service is installed
+            </summary>
+            <param name="serviceName">The name of the service as it is registered</param>
+            <returns>True if the service is installed, otherwise false</returns>
+        </member>
+        <member name="M:Topshelf.Runtime.HostEnvironment.IsServiceStopped(System.String)">
+            <summary>
+            Determines if the service is stopped, to prevent a debug instance from being started
+            </summary>
+            <param name="serviceName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Topshelf.Runtime.HostEnvironment.StartService(System.String,System.TimeSpan)">
+            <summary>
+            Start the service using operating system controls
+            </summary>
+            <param name="serviceName">The name of the service</param>
+            <param name="startTimeOut">Waits for the service to reach the running status in the specified time.</param>
+        </member>
+        <member name="M:Topshelf.Runtime.HostEnvironment.StopService(System.String,System.TimeSpan)">
+            <summary>
+            Stop the service using operating system controls
+            </summary>
+            <param name="serviceName">The name of the service</param>
+            <param name="stopTimeOut">Waits for the service to reach the stopeed status in the specified time.</param>
+        </member>
+        <member name="M:Topshelf.Runtime.HostEnvironment.InstallService(Topshelf.Runtime.InstallHostSettings,System.Action{Topshelf.Runtime.InstallHostSettings},System.Action,System.Action,System.Action)">
+            <summary>
+            Install the service using the settings provided
+            </summary>
+            <param name="settings"></param>
+            <param name="beforeInstall"> </param>
+            <param name="afterInstall"> </param>
+            <param name="beforeRollback"> </param>
+            <param name="afterRollback"> </param>
+        </member>
+        <member name="M:Topshelf.Runtime.HostEnvironment.UninstallService(Topshelf.Runtime.HostSettings,System.Action,System.Action)">
+            <summary>
+            Uninstall the service using the settings provided
+            </summary>
+            <param name="settings"></param>
+            <param name="beforeUninstall"></param>
+            <param name="afterUninstall"></param>
+        </member>
+        <member name="M:Topshelf.Runtime.HostEnvironment.RunAsAdministrator">
+            <summary>
+            Restarts the service as an administrator which has permission to modify the service configuration
+            </summary>
+            <returns>True if the child process was executed, otherwise false</returns>
+        </member>
+        <member name="M:Topshelf.Runtime.HostEnvironment.CreateServiceHost(Topshelf.Runtime.HostSettings,Topshelf.Runtime.ServiceHandle)">
+            <summary>
+            Create a service host appropriate for the host environment
+            </summary>
+            <param name="settings"></param>
+            <param name="serviceHandle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Topshelf.Runtime.HostEnvironment.SendServiceCommand(System.String,System.Int32)">
+            <summary>
+            Send a command to a service to make it do something
+            </summary>
+            <param name="serviceName">The service name</param>
+            <param name="command">The command value</param>
+        </member>
+        <member name="T:Topshelf.Runtime.HostSettings">
+            <summary>
+              The settings that have been configured for the operating system service
+            </summary>
+        </member>
+        <member name="P:Topshelf.Runtime.HostSettings.Name">
+            <summary>
+              The name of the service
+            </summary>
+        </member>
+        <member name="P:Topshelf.Runtime.HostSettings.DisplayName">
+            <summary>
+              The name of the service as it should be displayed in the service control manager
+            </summary>
+        </member>
+        <member name="P:Topshelf.Runtime.HostSettings.Description">
+            <summary>
+              The description of the service that is displayed in the service control manager
+            </summary>
+        </member>
+        <member name="P:Topshelf.Runtime.HostSettings.InstanceName">
+            <summary>
+              The service instance name that should be used when the service is registered
+            </summary>
+        </member>
+        <member name="P:Topshelf.Runtime.HostSettings.ServiceName">
+            <summary>
+              Returns the Windows service name, including the instance name, which is registered with the SCM Example: myservice$bob
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="P:Topshelf.Runtime.HostSettings.CanPauseAndContinue">
+            <summary>
+              True if the service supports pause and continue
+            </summary>
+        </member>
+        <member name="P:Topshelf.Runtime.HostSettings.CanShutdown">
+            <summary>
+              True if the service can handle the shutdown event
+            </summary>
+        </member>
+        <member name="P:Topshelf.Runtime.HostSettings.CanSessionChanged">
+            <summary>
+            True if the service handles session change events
+            </summary>
+        </member>
+        <member name="P:Topshelf.Runtime.HostSettings.CanHandlePowerEvent">
+            <summary>
+            True if the service handles power change events
+            </summary>
+        </member>
+        <member name="P:Topshelf.Runtime.HostSettings.StartTimeOut">
+            <summary>
+            The amount of time to wait for the service to start before timing out. Default is 10 seconds.
+            </summary>
+        </member>
+        <member name="P:Topshelf.Runtime.HostSettings.StopTimeOut">
+            <summary>
+            The amount of time to wait for the service to stop before timing out. Default is 10 seconds.
+            </summary>
+        </member>
+        <member name="P:Topshelf.Runtime.HostSettings.ExceptionCallback">
+            <summary>
+            A callback to provide visibility into exceptions while Topshelf is performing its
+            own handling.
+            </summary>
+        </member>
+        <member name="P:Topshelf.Runtime.HostSettings.UnhandledExceptionPolicy">
+            <summary>
+            The policy that will be used when Topself detects an UnhandledException in the
+            application. The default policy is to log an error and to stop the service.
+            </summary>
+        </member>
+        <member name="T:Topshelf.Runtime.ServiceHandle">
+            <summary>
+            A handle to a service being hosted by the Host
+            </summary>
+        </member>
+        <member name="M:Topshelf.Runtime.ServiceHandle.Start(Topshelf.HostControl)">
+            <summary>
+            Start the service
+            </summary>
+            <param name="hostControl"></param>
+            <returns>True if the service was started, otherwise false</returns>
+        </member>
+        <member name="M:Topshelf.Runtime.ServiceHandle.Pause(Topshelf.HostControl)">
+            <summary>
+            Pause the service
+            </summary>
+            <param name="hostControl"></param>
+            <returns>True if the service was paused, otherwise false</returns>
+        </member>
+        <member name="M:Topshelf.Runtime.ServiceHandle.Continue(Topshelf.HostControl)">
+            <summary>
+            Continue the service from a paused state
+            </summary>
+            <param name="hostControl"></param>
+            <returns>True if the service was able to continue, otherwise false</returns>
+        </member>
+        <member name="M:Topshelf.Runtime.ServiceHandle.Stop(Topshelf.HostControl)">
+            <summary>
+            Stop the service
+            </summary>
+            <param name="hostControl"></param>
+            <returns>True if the service was stopped, or false if the service cannot be stopped at this time</returns>
+        </member>
+        <member name="M:Topshelf.Runtime.ServiceHandle.Shutdown(Topshelf.HostControl)">
+            <summary>
+            Handle the shutdown event
+            </summary>
+            <param name="hostControl"></param>
+        </member>
+        <member name="M:Topshelf.Runtime.ServiceHandle.SessionChanged(Topshelf.HostControl,Topshelf.SessionChangedArguments)">
+            <summary>
+            Handle the session change event
+            </summary>
+            <param name="hostControl"></param>
+            <param name="arguments"></param>
+        </member>
+        <member name="M:Topshelf.Runtime.ServiceHandle.PowerEvent(Topshelf.HostControl,Topshelf.PowerEventArguments)">
+            <summary>
+            Handle the power change event
+            </summary>
+            <param name="hostControl"></param>
+            <param name="arguments"></param>
+        </member>
+        <member name="M:Topshelf.Runtime.ServiceHandle.CustomCommand(Topshelf.HostControl,System.Int32)">
+            <summary>
+            Handle the custom command
+            </summary>
+            <param name="hostControl"></param>
+            <param name="command"></param>
+        </member>
+        <member name="F:Topshelf.Runtime.UnhandledExceptionPolicyCode.LogErrorAndStopService">
+            <summary>
+            If an UnhandledException occurs, Topshelf will log an error and 
+            stop the service
+            </summary>
+        </member>
+        <member name="F:Topshelf.Runtime.UnhandledExceptionPolicyCode.LogErrorOnly">
+            <summary>
+            If an UnhandledException occurs, Topshelf will log an error and 
+            continue without stopping the service
+            </summary>
+        </member>
+        <member name="F:Topshelf.Runtime.UnhandledExceptionPolicyCode.TakeNoAction">
+            <summary>
+            If an UnhandledException occurs, Topshelf will take no action. 
+            It is assumed that the application will handle the UnhandledException itself.
+            </summary>
+        </member>
+        <member name="F:Topshelf.Runtime.Windows.NativeMethods.SCM_ACCESS.SC_MANAGER_CONNECT">
+            <summary>
+            Required to connect to the service control manager.
+            </summary>
+        </member>
+        <member name="F:Topshelf.Runtime.Windows.NativeMethods.SCM_ACCESS.SC_MANAGER_CREATE_SERVICE">
+            <summary>
+            Required to call the CreateService function to create a service
+            object and add it to the database.
+            </summary>
+        </member>
+        <member name="F:Topshelf.Runtime.Windows.NativeMethods.SCM_ACCESS.SC_MANAGER_ENUMERATE_SERVICE">
+            <summary>
+            Required to call the EnumServicesStatusEx function to list the 
+            services that are in the database.
+            </summary>
+        </member>
+        <member name="F:Topshelf.Runtime.Windows.NativeMethods.SCM_ACCESS.SC_MANAGER_LOCK">
+            <summary>
+            Required to call the LockServiceDatabase function to acquire a 
+            lock on the database.
+            </summary>
+        </member>
+        <member name="F:Topshelf.Runtime.Windows.NativeMethods.SCM_ACCESS.SC_MANAGER_QUERY_LOCK_STATUS">
+            <summary>
+            Required to call the QueryServiceLockStatus function to retrieve 
+            the lock status information for the database.
+            </summary>
+        </member>
+        <member name="F:Topshelf.Runtime.Windows.NativeMethods.SCM_ACCESS.SC_MANAGER_MODIFY_BOOT_CONFIG">
+            <summary>
+            Required to call the NotifyBootConfigStatus function.
+            </summary>
+        </member>
+        <member name="F:Topshelf.Runtime.Windows.NativeMethods.SCM_ACCESS.SC_MANAGER_ALL_ACCESS">
+            <summary>
+            Includes STANDARD_RIGHTS_REQUIRED, in addition to all access 
+            rights in this table.
+            </summary>
+        </member>
+        <member name="F:Topshelf.Runtime.Windows.NativeMethods.SC_ACTION.Type">
+            <summary>
+            The action to be performed. This member can be one of the following values from the <see cref="T:Topshelf.Runtime.Windows.NativeMethods.SC_ACTION_TYPE" /> enumeration type.
+            </summary>
+        </member>
+        <member name="F:Topshelf.Runtime.Windows.NativeMethods.SC_ACTION.Delay">
+            <summary>
+            The time to wait before performing the specified action, in milliseconds.
+            </summary>
+        </member>
+        <member name="T:Topshelf.Runtime.Windows.RestartServiceRecoveryAction">
+            <summary>
+            Represents a restart service service recovery action.
+            </summary>
+            <seealso cref="T:Topshelf.Runtime.Windows.ServiceRecoveryAction" />
+        </member>
+        <member name="M:Topshelf.Runtime.Windows.RestartServiceRecoveryAction.#ctor(System.TimeSpan)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Topshelf.Runtime.Windows.RestartServiceRecoveryAction"/> class.
+            </summary>
+            <param name="delay">The delay.</param>
+        </member>
+        <member name="M:Topshelf.Runtime.Windows.RestartServiceRecoveryAction.GetAction">
+            <summary>
+            Gets the service recovery configuration action.
+            </summary>
+            <returns>A <see cref="T:Topshelf.Runtime.Windows.NativeMethods.SC_ACTION"/> representing the restart service service recovery configuration action.</returns>
+        </member>
+        <member name="T:Topshelf.Runtime.Windows.RestartSystemRecoveryAction">
+            <summary>
+            Represents a restart system service recovery action.
+            </summary>
+            <seealso cref="T:Topshelf.Runtime.Windows.ServiceRecoveryAction" />
+        </member>
+        <member name="M:Topshelf.Runtime.Windows.RestartSystemRecoveryAction.#ctor(System.TimeSpan,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Topshelf.Runtime.Windows.RestartSystemRecoveryAction"/> class.
+            </summary>
+            <param name="delay">The delay.</param>
+            <param name="restartMessage">The restart message.</param>
+        </member>
+        <member name="P:Topshelf.Runtime.Windows.RestartSystemRecoveryAction.RestartMessage">
+            <summary>
+            Gets the system restart message.
+            </summary>
+            <value>The system restart message.</value>
+        </member>
+        <member name="M:Topshelf.Runtime.Windows.RestartSystemRecoveryAction.GetAction">
+            <summary>
+            Gets the service recovery configuration action.
+            </summary>
+            <returns>A <see cref="T:Topshelf.Runtime.Windows.NativeMethods.SC_ACTION"/> representing the restart system service recovery configuration action.</returns>
+        </member>
+        <member name="T:Topshelf.Runtime.Windows.RunProgramRecoveryAction">
+            <summary>
+            Represents a run command service recovery action.
+            </summary>
+            <seealso cref="T:Topshelf.Runtime.Windows.ServiceRecoveryAction" />
+        </member>
+        <member name="M:Topshelf.Runtime.Windows.RunProgramRecoveryAction.#ctor(System.TimeSpan,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Topshelf.Runtime.Windows.RunProgramRecoveryAction"/> class.
+            </summary>
+            <param name="delay">The delay.</param>
+            <param name="command">The command.</param>
+        </member>
+        <member name="P:Topshelf.Runtime.Windows.RunProgramRecoveryAction.Command">
+            <summary>
+            Gets the command to run.
+            </summary>
+            <value>The command. to run</value>
+        </member>
+        <member name="M:Topshelf.Runtime.Windows.RunProgramRecoveryAction.GetAction">
+            <summary>
+            Gets the service recovery configuration action.
+            </summary>
+            <returns>A <see cref="T:Topshelf.Runtime.Windows.NativeMethods.SC_ACTION"/> representing the run command service recovery configuration action.</returns>
+        </member>
+        <member name="T:Topshelf.Runtime.Windows.ServiceRecoveryAction">
+            <summary>
+            Represents a service recovery action.
+            </summary>
+        </member>
+        <member name="M:Topshelf.Runtime.Windows.ServiceRecoveryAction.#ctor(System.TimeSpan)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Topshelf.Runtime.Windows.ServiceRecoveryAction"/> class.
+            </summary>
+            <param name="delay">The delay.</param>
+        </member>
+        <member name="P:Topshelf.Runtime.Windows.ServiceRecoveryAction.Delay">
+            <summary>
+            Gets the delay in milliseconds.
+            </summary>
+            <value>The delay in milliseconds.</value>
+        </member>
+        <member name="M:Topshelf.Runtime.Windows.ServiceRecoveryAction.GetAction">
+            <summary>
+            Gets the service recovery configuration action.
+            </summary>
+            <returns>A <see cref="T:Topshelf.Runtime.Windows.NativeMethods.SC_ACTION"/> representing the service recovery configuration action.</returns>
+        </member>
+        <member name="T:Topshelf.Runtime.Windows.TakeNoActionAction">
+            <summary>
+            Represents a take no action recovery action.
+            </summary>
+        </member>
+        <member name="M:Topshelf.Runtime.Windows.TakeNoActionAction.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Topshelf.Runtime.Windows.TakeNoActionAction"/> class.
+            </summary>
+        </member>
+        <member name="M:Topshelf.Runtime.Windows.TakeNoActionAction.GetAction">
+            <summary>
+            Gets the service recovery configuration action.
+            </summary>
+            <returns>A <see cref="T:Topshelf.Runtime.Windows.NativeMethods.SC_ACTION"/> representing the take no action service recovery configuration action.</returns>
+        </member>
+        <member name="M:Topshelf.Runtime.Windows.WindowsHostSettings.#ctor">
+            <summary>
+              Creates a new WindowsServiceDescription using empty strings for the properties. The class is required to have names by the consumers.
+            </summary>
+        </member>
+        <member name="M:Topshelf.Runtime.Windows.WindowsHostSettings.#ctor(System.String,System.String)">
+            <summary>
+              Creates a new WindowsServiceDescription instance using the passed parameters.
+            </summary>
+            <param name="name"> </param>
+            <param name="instanceName"> </param>
+        </member>
+        <member name="T:Topshelf.ServiceCustomCommand">
+            <summary>
+            Implemented by services that support custom command events
+            </summary>
+        </member>
+        <member name="T:Topshelf.ServicePowerEvent">
+            <summary>
+            Implemented by services that support power change events
+            </summary>
+        </member>
+        <member name="T:Topshelf.ServiceSessionChange">
+            <summary>
+            Implemented by services that support session change events
+            </summary>
+        </member>
+        <member name="T:Topshelf.ServiceShutdown">
+            <summary>
+            Implemented by services that support service shutdown
+            </summary>
+        </member>
+        <member name="M:Topshelf.ServiceShutdown.Shutdown(Topshelf.HostControl)">
+            <summary>
+            Called when the operating system invokes the service shutdown method. There is little
+            time to react here, but the application try to use RequestAdditionalTime if necessary,
+            but this is really a shut down quick and bail method.
+            </summary>
+            <param name="hostControl"></param>
+        </member>
+        <member name="T:Topshelf.ServiceSuspend">
+            <summary>
+            If implemented by a service, used to pause/continue the service
+            </summary>
+        </member>
+    </members>
+</doc>
