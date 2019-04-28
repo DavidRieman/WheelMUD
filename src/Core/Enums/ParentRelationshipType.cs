@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   TODO: Add summary
-// </summary>
 //-----------------------------------------------------------------------------
 
 /* TODO: Currently this is unused, but the idea is that a Thing's Children could be classified this way.
