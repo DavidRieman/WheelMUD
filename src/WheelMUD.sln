@@ -71,7 +71,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{13D09790
 		..\systemdata\Files\StandardRoomViewTemplate_Taliesen.vm = ..\systemdata\Files\StandardRoomViewTemplate_Taliesen.vm
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHarness", "TestHarness\TestHarness.csproj", "{F6AE400B-3760-4D4E-909A-D09F3E477BB5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerHarness", "ServerHarness\ServerHarness.csproj", "{F6AE400B-3760-4D4E-909A-D09F3E477BB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

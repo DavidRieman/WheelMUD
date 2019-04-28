@@ -8,13 +8,13 @@
 // </summary>
 //-----------------------------------------------------------------------------
 
-namespace TestHarness.Commands
+namespace ServerHarness.Commands
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Main;
 
-    public class UpdateActionsCommand : ITestHarnessCommand
+    public class UpdateActionsCommand : IServerHarnessCommand
     {
         private readonly string[] names = { "UPDATE-ACTIONS", "UPDATE", "update", "u" };
 

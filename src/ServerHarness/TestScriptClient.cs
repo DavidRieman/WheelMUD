@@ -15,7 +15,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace TestHarness
+namespace ServerHarness
 {
     /// <summary>Scriptable client for full integration testing.</summary>
     public class TestScriptClient

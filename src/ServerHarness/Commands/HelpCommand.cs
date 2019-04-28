@@ -4,17 +4,17 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Help command for the TestHarness.
+//   Help command for the ServerHarness.
 // </summary>
 //-----------------------------------------------------------------------------
 
-namespace TestHarness.Commands
+namespace ServerHarness.Commands
 {
     using System.Collections.Generic;
     using WheelMUD.Main;
 
     /// <summary>Handle the 'help' command as specified by the administrator from the console.</summary>
-    public class HelpCommand : ITestHarnessCommand
+    public class HelpCommand : IServerHarnessCommand
     {
         /// <summary>Recognized names for this command.</summary>
         private readonly string[] names = { "?", "HELP", "help", "h" };

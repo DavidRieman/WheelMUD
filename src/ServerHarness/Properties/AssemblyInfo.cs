@@ -4,7 +4,7 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Assembly information for the TestHarness project.
+//   Assembly information for the ServerHarness project.
 // </summary>
 //-----------------------------------------------------------------------------
 

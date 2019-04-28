@@ -11,11 +11,11 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using TestHarness.Commands;
+using ServerHarness.Commands;
 using Topshelf;
 using WheelMUD.Main;
 
-namespace TestHarness
+namespace ServerHarness
 {
     /// <summary>The test harness program. Entry point for the MUD, whether launching in command-line mode or as a Windows Service.</summary>
     public class Program
@@ -38,7 +38,7 @@ namespace TestHarness
                 // If we had no commandline arguments, such as when F5 launching inside a development environment
                 // for debugging:  Launch in the interactive console mode where we can type server commands, start
                 // integration tests, see server logs directly, and so on.
-                RunWithTestHarness();
+                RunWithConsoleHarness();
             }
         }
 
@@ -63,8 +63,8 @@ namespace TestHarness
             });
         }
 
-        /// <summary>Execute WheelMUD program via our own TestHarness.</summary>
-        public static void RunWithTestHarness()
+        /// <summary>Execute WheelMUD program via our own console-mode server harness.</summary>
+        public static void RunWithConsoleHarness()
         {
             string logFileName = "Log_" + DateTime.Now.ToShortDateString() + ".txt";
             logFileName = logFileName.Replace('\\', '_').Replace('/', '_');
@@ -76,9 +76,9 @@ namespace TestHarness
             app.SubscribeToSystem(display);
             app.Start();
 
-            // TODO: Consider reflecting implementers of ITestHarnessCommand to keep this automatically up to date?
-            ITestHarnessCommand[] commandObjects = { new HelpCommand(), new UpdateActionsCommand(), new RunTestsCommand() };
-            IDictionary<string, ITestHarnessCommand> commands = new ConcurrentDictionary<string, ITestHarnessCommand>();
+            // TODO: Consider reflecting implementers of IServerHarnessCommand to keep this automatically up to date?
+            IServerHarnessCommand[] commandObjects = { new HelpCommand(), new UpdateActionsCommand(), new RunTestsCommand() };
+            IDictionary<string, IServerHarnessCommand> commands = new ConcurrentDictionary<string, IServerHarnessCommand>();
 
             foreach (var cmdObj in commandObjects)
             {

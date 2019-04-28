@@ -22,7 +22,7 @@ namespace WheelMUD.Actions
     [ActionPrimaryAlias("serverstatus", CommandCategory.Inform)]
     [ActionAlias("server status", CommandCategory.Inform)]
     [ActionDescription("See the server status.")]
-    [ActionSecurity(SecurityRole.player)]
+    [ActionSecurity(SecurityRole.minorAdmin)]
     public class ServerStatus : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
@@ -40,7 +40,7 @@ namespace WheelMUD.Actions
             string appName = string.Empty;
             string div = string.Empty;
 
-            appName = "TestHarness.vshost.exe";
+            appName = "WheelMUD.vshost.exe";
             div = "<%b%><%red%>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<%n%>";
 
             sb.AppendLine(div);
