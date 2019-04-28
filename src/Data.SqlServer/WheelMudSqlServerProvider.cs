@@ -30,15 +30,9 @@ namespace WheelMUD.Data.SqlServer
 
         public string ConnectionString { get; set; }
 
-        public string DatabaseName
-        {
-            get { return "Microsoft SQL Server"; }
-        }
+        public string DatabaseName { get; } = "Microsoft SQL Server";
 
-        public string ProviderNamespace
-        {
-            get { return "system.data.sqlclient"; }
-        }
+        public string ProviderNamespace { get; } = "system.data.sqlclient";
 
         public IDbConnection CreateDatabaseSession()
         {

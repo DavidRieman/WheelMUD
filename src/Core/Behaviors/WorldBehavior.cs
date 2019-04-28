@@ -41,7 +41,7 @@ namespace WheelMUD.Core
         public void Load()
         {
             var areaRepository = new Repository<AreaRecord>();
-            ICollection<AreaRecord> areas = areaRepository.FetchAll();
+            ICollection<AreaRecord> areas = areaRepository.GetAll();
 
             foreach (var areaRecord in areas)
             {
