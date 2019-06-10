@@ -39,7 +39,7 @@ namespace WheelMUD.Actions
 
             if (entity != null)
             {
-                sender.Write(string.Format("You see {0} at {1}, id {2}", entity.Name, entity.Parent.Name, entity.Parent.ID));
+                sender.Write(string.Format("You see {0} at {1}, id {2}", entity.Name, entity.Parent.Name, entity.Parent.Id));
             }
             else
             {

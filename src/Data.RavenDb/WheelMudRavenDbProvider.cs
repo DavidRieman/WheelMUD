@@ -10,17 +10,30 @@
 
 namespace WheelMUD.Data.RavenDb
 {
+    using Raven.Embedded;
     using System.ComponentModel.Composition;
+    using System.Threading.Tasks;
 
     [Export(typeof(IWheelMudDocumentStorageProvider))]
     public class WheelMudRavenDbProvider : IWheelMudDocumentStorageProvider
     {
         public string Name { get; } = "RavenDB";
 
-        public IBasicDocumentSession CreateDatabaseSession()
+        public IBasicDocumentSession CreateDocumentSession()
         {
             var session = DocumentStoreHolder.Instance.OpenSession();
             return new RavenDocumentSessionBridge(session);
+        }
+
+        public void DebugExplore()
+        {
+            EmbeddedServer.Instance.OpenStudioInBrowser();
+        }
+
+        public void Prepare()
+        {
+            // Not strictly necessary, but creating instance here allows RavenDB to be warmed up before players connect.
+            Task.Run(() => DocumentStoreHolder.Instance.Initialize());
         }
     }
 }

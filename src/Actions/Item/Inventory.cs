@@ -44,7 +44,7 @@ namespace WheelMUD.Actions
 
             foreach (Thing item in sender.Thing.Children)
             {
-                sb.Append(item.ID.ToString().PadRight(20));
+                sb.Append(item.Id.ToString().PadRight(20));
                 sb.AppendLine(item.FullName);
             }
 

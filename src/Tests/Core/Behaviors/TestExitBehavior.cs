@@ -29,10 +29,10 @@ namespace WheelMUD.Tests.Behaviors
         public void Init()
         {
             // Create 2 rooms and a basic ExitBehavior in prep for testing.
-            this.roomA = new Thing(new RoomBehavior()) { Name = "Room A", ID = TestThingID.Generate("testroom") };
-            this.roomB = new Thing(new RoomBehavior()) { Name = "Room B", ID = TestThingID.Generate("testroom") };
+            this.roomA = new Thing(new RoomBehavior()) { Name = "Room A", Id = TestThingID.Generate("testroom") };
+            this.roomB = new Thing(new RoomBehavior()) { Name = "Room B", Id = TestThingID.Generate("testroom") };
             this.exitBehavior = new ExitBehavior();
-            this.exit = new Thing(this.exitBehavior) { Name = "Exit", ID = TestThingID.Generate("testexit") };
+            this.exit = new Thing(this.exitBehavior) { Name = "Exit", Id = TestThingID.Generate("testexit") };
         }
 
         /// <summary>Test behaviors of a one-way exit.</summary>
@@ -41,7 +41,7 @@ namespace WheelMUD.Tests.Behaviors
         {
             // Put the exit in room A only, and register an exit command to travel one way.
             this.roomA.Add(this.exit);
-            this.exitBehavior.AddDestination("east", this.roomB.ID);
+            this.exitBehavior.AddDestination("east", this.roomB.Id);
 
             // Ensure the exit is rigged up to the correct location now, but does not work the other way around.
             Verify.AreSame(this.exitBehavior.GetDestination(this.roomA), this.roomB);
@@ -80,13 +80,13 @@ namespace WheelMUD.Tests.Behaviors
             Verify.AreSame(this.exitBehavior.GetDestination(this.roomB), null);
             
             // Rig the exits and ensure both got rigged up to the correct destinations.
-            this.exitBehavior.AddDestination("north", this.roomB.ID);
-            this.exitBehavior.AddDestination("south", this.roomA.ID);
+            this.exitBehavior.AddDestination("north", this.roomB.Id);
+            this.exitBehavior.AddDestination("south", this.roomA.Id);
             Verify.AreSame(this.exitBehavior.GetDestination(this.roomA), this.roomB);
             Verify.AreSame(this.exitBehavior.GetDestination(this.roomB), this.roomA);
 
             // Create an unmovable actor, and ensure that said actor cannot move through.
-            this.actor = new Thing() { Name = "Actor", Parent = this.roomA, ID = TestThingID.Generate("testactor") };
+            this.actor = new Thing() { Name = "Actor", Parent = this.roomA, Id = TestThingID.Generate("testactor") };
             this.exitBehavior.MoveThrough(this.actor);
             Verify.AreSame(this.actor.Parent, this.roomA);
 

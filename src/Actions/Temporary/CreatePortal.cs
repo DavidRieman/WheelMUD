@@ -45,7 +45,7 @@ namespace WheelMUD.Actions
             Thing portalItem = new Thing();
             portalItem.Behaviors.Add(new PortalBehavior()
             {
-                DestinationThingID = this.targetPlace.ID,
+                DestinationThingID = this.targetPlace.Id,
             });
 
             // @@@ TODO: Should not be needed after OLC and instant-spawn commands which should work

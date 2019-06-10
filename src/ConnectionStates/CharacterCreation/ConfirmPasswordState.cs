@@ -74,13 +74,13 @@ namespace WheelMUD.ConnectionStates
             //{
             //    repository.Add(record);
 
-            //    if (record.ID > 0)
+            //    if (record.Id > 0)
             //    {
             //        var roleRepository = new RoleRepository();
             //        var roleRecord = roleRepository.GetRoleByName("player");
             //        var playerRoleRecord = new PlayerRoleRecord();
-            //        playerRoleRecord.PlayerID = record.ID;
-            //        playerRoleRecord.RoleID = roleRecord.ID;
+            //        playerRoleRecord.PlayerID = record.Id;
+            //        playerRoleRecord.RoleID = roleRecord.Id;
             //        var repo = new PlayerRoleRepository();
             //        repo.Add(playerRoleRecord);
             //    }

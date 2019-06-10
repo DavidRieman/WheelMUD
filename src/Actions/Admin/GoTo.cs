@@ -4,7 +4,7 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   A command that allows a player move to the room ID or entity specified.
+//   A command that allows a player move to the room Id or entity specified.
 // </summary>
 //-----------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>A command that allows a player move to the room ID or entity specified.</summary>
+    /// <summary>A command that allows a player move to the room Id or entity specified.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("goto", CommandCategory.Admin)]
     [ActionAlias("go to", CommandCategory.Admin)]

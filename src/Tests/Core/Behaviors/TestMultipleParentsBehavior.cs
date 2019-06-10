@@ -28,9 +28,9 @@ namespace WheelMUD.Tests.Behaviors
         public void Init()
         {
             // Create 2 things and a basic MultipleParentsBehavior for testing.
-            this.parent1 = new Thing() { Name = "Thing1", ID = TestThingID.Generate("testthing") };
-            this.parent2 = new Thing() { Name = "Thing2", ID = TestThingID.Generate("testthing") };
-            this.child = new Thing() { Name = "Child1", ID = TestThingID.Generate("testthing") };
+            this.parent1 = new Thing() { Name = "Thing1", Id = TestThingID.Generate("testthing") };
+            this.parent2 = new Thing() { Name = "Thing2", Id = TestThingID.Generate("testthing") };
+            this.child = new Thing() { Name = "Child1", Id = TestThingID.Generate("testthing") };
             this.multipleParentsBehavior = new MultipleParentsBehavior();
         }
 
@@ -101,7 +101,7 @@ namespace WheelMUD.Tests.Behaviors
             this.parent1.Add(this.child);
 
             // Verify we can be attached to more than 2 parents.
-            Thing parent3 = new Thing() { Name = "Thing3", ID = TestThingID.Generate("testthing") };
+            Thing parent3 = new Thing() { Name = "Thing3", Id = TestThingID.Generate("testthing") };
             parent3.Add(this.child);
             Verify.IsTrue(this.parent1.Children.Contains(this.child));
             Verify.IsTrue(this.parent2.Children.Contains(this.child));

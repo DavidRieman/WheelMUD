@@ -4,7 +4,9 @@
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
 // <summary>
-//   RavenDocumentSessionBridge implements the IBasicDocumentSession abstraction for RavenDB, allowing for technology-agnostic persistence.
+//   RavenDocumentSessionBridge implements the IBasicDocumentSession abstraction for RavenDB,
+//   allowing for technology-agnostic persistence. Since IBasicDocumentSession was modeled off
+//   of RavenDB's IDocumentSession, most methods will be simple pass-through methods.
 // </summary>
 //-----------------------------------------------------------------------------
 
@@ -35,6 +37,21 @@ namespace WheelMUD.Data
         {
             this.documentSession.Dispose();
             this.documentSession = null;
+        }
+
+        public T Load<T>(string id)
+        {
+            return this.documentSession.Load<T>(id);
+        }
+
+        public void SaveChanges()
+        {
+            this.documentSession.SaveChanges();
+        }
+
+        public void Store<T>(T entity)
+        {
+            this.documentSession.Store(entity);
         }
     }
 }

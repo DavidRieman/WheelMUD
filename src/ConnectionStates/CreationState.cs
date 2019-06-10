@@ -57,7 +57,7 @@ namespace WheelMUD.ConnectionStates
         {
             // Attach the new character to the current session.
             this.Session.Thing = this.subStateHandler.NewCharacter;
-            this.Session.Write(string.Format("Saving player {0}...", newCharacter.Name), false);
+            this.Session.Write(string.Format("Saving player {0}.", newCharacter.Name));
 
             // Prepare the default options and new data that will go in the special player DB.
             string currentTime = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
@@ -84,8 +84,8 @@ namespace WheelMUD.ConnectionStates
             }
 
             // Saving the player's Thing should save everything we need to now.
-            newCharacter.Save();
-            this.Session.Write(string.Format(" Done saving player {0}\n\n", newCharacter.Name), false);
+            newCharacter.FindBehavior<PlayerBehavior>()?.SaveWholePlayer();
+            this.Session.Write(string.Format("Done saving player {0}", newCharacter.Name));
 
             // Automatically authenticate (the user just created username and password) and
             // get in-game when character creation is completed.)
@@ -99,7 +99,7 @@ namespace WheelMUD.ConnectionStates
         private void PlaceCharacterInDefaultRoom(Thing character)
         {
             character.Parent = (from t in ThingManager.Instance.Things
-                                where t.ID == "room/" + MudEngineAttributes.Instance.DefaultRoomID
+                                where t.Id == "room/" + MudEngineAttributes.Instance.DefaultRoomID
                                 select t).FirstOrDefault();
             if (character.Parent == null)
             {

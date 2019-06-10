@@ -137,7 +137,7 @@ namespace WheelMUD.Core
 #if DEBUG
                 Thing thing = controller != null ? controller.Thing : null;
                 string thingName = thing != null ? thing.Name : "[null]";
-                string thingID = thing != null ? thing.ID.ToString() : "[null]";
+                string thingID = thing != null ? thing.Id.ToString() : "[null]";
                 string fullCommand = actionInput != null ? actionInput.FullText : "[null]";
                 string format = "Exception encountered for command: {1}{0}From thing: {2} (ID: {3}){0}{4}";
                 string message = string.Format(format, Environment.NewLine, fullCommand, thingName, thingID, ex.ToDeepString());

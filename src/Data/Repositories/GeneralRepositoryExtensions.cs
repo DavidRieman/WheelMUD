@@ -17,13 +17,13 @@ namespace WheelMUD.Data.Repositories
         /// <summary>Loads the alias entries for a given help topic.</summary>
         /// <param name="helpTopicId">The ID of the parent help topic</param>
         /// <returns>List of Help Topic Alias records</returns>
-        public static List<HelpTopicAliasRecord> LoadAliasForTopic(this Repository<HelpTopicRecord> repository, long helpTopicId)
+        public static List<HelpTopicAliasRecord> LoadAliasForTopic(this RelationalRepository<HelpTopicRecord> repository, long helpTopicId)
         {
             string sql = @"SELECT * 
                            FROM HelpTopicAliases 
                            WHERE HelpTopicID = {0}";
 
-            using (IDbCommand session = Helpers.OpenSession())
+            using (IDbCommand session = Helpers.OpenRelationalSession())
             {
                 return session.Connection.Select<HelpTopicAliasRecord>(sql, helpTopicId);
             }
@@ -34,9 +34,9 @@ namespace WheelMUD.Data.Repositories
         /// <summary>Gets a list of mobiles that should exist for the specified room.</summary>
         /// <param name="roomId">The ID of the room.</param>
         /// <returns>A list of mobile data structures for mobiles that start in this room.</returns>
-        public static ICollection<MobRecord> GetMobsForRoom(this Repository<MobRecord> repository, long roomId)
+        public static ICollection<MobRecord> GetMobsForRoom(this RelationalRepository<MobRecord> repository, long roomId)
         {
-            using (IDbCommand session = Helpers.OpenSession())
+            using (IDbCommand session = Helpers.OpenRelationalSession())
             {
                 return session.Connection.Select<MobRecord>("CurrentRoomID = {0}", roomId);
             }

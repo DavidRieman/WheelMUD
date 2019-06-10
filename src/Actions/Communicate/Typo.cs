@@ -40,8 +40,8 @@ namespace WheelMUD.Actions
             TypoEntry typoEntry = new TypoEntry
             {
                 Note = actionInput.Tail,
-                PlaceID = this.player.Parent.ID,
-                SubmittedByPlayerID = this.player.ID,
+                PlaceID = this.player.Parent.Id,
+                SubmittedByPlayerID = this.player.Id,
                 SubmittedDateTime = DateTime.Now,
                 Resolved = false
             };

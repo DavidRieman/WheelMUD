@@ -5,7 +5,6 @@
 // </copyright>
 // <summary>
 //   An action to save your game.
-//   @@@ TODO: Test and improve save depth.
 // </summary>
 //-----------------------------------------------------------------------------
 
@@ -31,8 +30,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            // @@@ TODO: Test and improve save depth.
-            actionInput.Controller.Thing.Save(); 
+            actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SaveWholePlayer(); 
         }
 
         /// <summary>Checks against the guards for the command.</summary>

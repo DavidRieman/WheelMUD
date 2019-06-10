@@ -7,67 +7,28 @@
 
 namespace WheelMUD.Data.Repositories
 {
-    using System.Collections.Generic;
-    using System.Data;
+    using WheelMUD.Interfaces;
 
     /// <summary>Generic document repository implementation for type T.</summary>
-    public class DocumentRepository<T> where T : new() // @@@ ### ENSURE T HAS "Id" PROPERTY VIA INTERFACE -> INTERFACE TO Thing.cs
+    public class DocumentRepository<T> where T : IIdentifiable, new()
     {
         public void Save(T obj)
         {
-
-        }
-        /*
-        public void Add(T obj)
-        {
-            using (IDocumentSession session = Helpers.OpenDocumentSession())
-            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            using (var session = Helpers.OpenDocumentSession())
             {
-                session.Connection.Save(obj);
-                transaction.Commit();
+                // RavenDB will automatically either insert a new document or update the
+                // existing document with this document ID, as appropriate.
+                session.Store(obj);
+                session.SaveChanges();
             }
         }
 
-        public void Update(T obj)
+        public T Load(string id)
         {
-            using (IDbCommand session = Helpers.OpenDocumentSession())
-            using (IDbTransaction transaction = session.Connection.BeginTransaction())
+            using (var session = Helpers.OpenDocumentSession())
             {
-                session.Connection.Update(obj);
-                transaction.Commit();
+                return session.Load<T>(id);
             }
         }
-
-        public void Remove(T obj)
-        {
-            using (IDbCommand session = Helpers.OpenDocumentSession())
-            using (IDbTransaction transaction = session.Connection.BeginTransaction())
-            {
-                session.Connection.Delete(obj);
-                transaction.Commit();
-            }
-        }
-
-        public T GetById(long id)
-        {
-            using (IDbCommand session = Helpers.OpenDocumentSession())
-                return session.Connection.SingleWhere<T>("ID = {0}", id);
-        }
-
-        public T GetByName(string name)
-        {
-            using (IDbCommand session = Helpers.OpenDocumentSession())
-            {
-                return session.Connection.SingleWhere<T>("Name = {0}", name);
-            }
-        }
-
-        public ICollection<T> GetAll()
-        {
-            using (IDbCommand session = Helpers.OpenDocumentSession())
-            {
-                return session.Connection.Select<T>();
-            }
-        }*/
     }
 }

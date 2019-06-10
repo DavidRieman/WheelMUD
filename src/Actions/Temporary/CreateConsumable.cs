@@ -80,7 +80,7 @@ namespace WheelMUD.Actions
             // Create the new consumable. 
             Thing consumable = new Thing();
             consumable.Name = mat;
-            consumable.ID = "0";
+            consumable.Id = "0";
             consumable.Behaviors.Add(new MovableBehavior());
 
             // @@@ TODO: Instead:

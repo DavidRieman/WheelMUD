@@ -205,7 +205,7 @@ namespace WheelMUD.Main
         /// <summary>Ensures that the database and such are present; copies the default if not.</summary>
         private static void EnsureDataIsPresent()
         {
-            if (HelperConfigInfo.Instance.RelationalDataProviderName.ToLower() == "system.data.sqlite")
+            if ("sqlite".Equals(HelperConfigInfo.Instance.RelationalDataProviderName, StringComparison.OrdinalIgnoreCase))
             {
                 // Only for SQLite: Make sure that the database is in the right place.
                 const string DatabaseName = "WheelMud.net.db";
@@ -279,6 +279,8 @@ namespace WheelMUD.Main
         /// <returns>A list of SystemExporters as used to instantiate our systems.</returns>
         private List<SystemExporter> GetLatestSystems()
         {
+            // If you get a dependency load error here right after trying to update a dependency version (e.g. through NuGet),
+            // check to ensure all libraries which reference that dependency have been updated to the same version.
             DefaultComposer.Container.ComposeParts(this);
 
             // Find the Type of each distinct available system.  ToList forces LINQ to process immediately.

@@ -139,7 +139,7 @@ namespace WheelMUD.Core
             }
 
             Thing removedThing;
-            return this.things.TryRemove(thing.ID, out removedThing);
+            return this.things.TryRemove(thing.Id, out removedThing);
         }
 
         /// <summary>Calls <see cref="DestroyThing"/> on all things matching the specified condition.</summary>
@@ -163,9 +163,9 @@ namespace WheelMUD.Core
             this.things.Clear();
         }
 
-        /// <summary>Add or update the ThingManager's cache of Things; should be called when the ID of a Thing is established or changes.</summary>
-        /// <param name="oldId">The previous ID of the Thing, or 0 if it has not had an ID yet.</param>
-        /// <param name="newId">The new ID of the Thing.</param>
+        /// <summary>Add or update the ThingManager's cache of Things; should be called when the Id of a Thing is established or changes.</summary>
+        /// <param name="oldId">The previous Id of the Thing, or 0 if it has not had an Id yet.</param>
+        /// <param name="newId">The new Id of the Thing.</param>
         /// <param name="updatedThing">The updated thing.</param>
         /// <returns>
         /// True if the update was successful. If false, presumably another call won a race
@@ -174,8 +174,8 @@ namespace WheelMUD.Core
         internal bool UpdateThingRegistration(string oldId, string newId, Thing updatedThing)
         {
             Debug.Assert(oldId != newId, "UpdateThingRegistration should not be called when not changing the Thing ID.");
-            Debug.Assert(!string.IsNullOrEmpty(newId), "After initialization, a Thing's ID should never become null or empty!");
-            ////Debug.Assert(!this.things.ContainsKey(newID), "A Thing has been assigned an ID which is not unique!");
+            Debug.Assert(!string.IsNullOrEmpty(newId), "After initialization, a Thing's Id should never become null or empty!");
+            ////Debug.Assert(!this.things.ContainsKey(newId), "A Thing has been assigned an Id which is not unique!");
 
             if (!string.IsNullOrEmpty(oldId))
             {
