@@ -39,63 +39,42 @@ namespace WheelMUD.Data
 
         /// <summary>Gets or sets the connection string.</summary>
         /// <value>The connection string.</value>
-        public string ConnectionString { get; set; }
+        public string RelationalConnectionString { get; set; }
+        public string DocumentConnectionString { get; set; }
 
-        /// <summary>Gets or sets the database provider.</summary>
-        /// <value>The database provider.</value>
-        public string Provider { get; set; }
+        /// <summary>Gets or sets the name of the relational database provider.</summary>
+        /// <value>The relational database provider name.</value>
+        public string RelationalDataProviderName { get; set; }
+
+        /// <summary>Gets or sets the name of the document storage provider.</summary>
+        /// <value>The document storage provider name.</value>
+        public string DocumentDataProviderName { get; set; }
+
+        private ConnectionStringSettings GetConnectionStringSettings(string appSettingsName, string defaultProviderName)
+        {
+            var providerName = ConfigurationManager.AppSettings[appSettingsName];
+            if (providerName == null)
+            {
+                providerName = defaultProviderName;
+            }
+            return ConfigurationManager.ConnectionStrings[providerName];
+        }
 
         /// <summary>Gets the configuration settings.</summary>
         private void GetConfigSettings()
         {
-            string configFile = Configuration.GetConnectionStringConfigFilePath();
-            string defaultName = ConfigurationManager.AppSettings["DefaultConnectionStringName"];
+            var relationalSettings = this.GetConnectionStringSettings("RelationalDataProviderName", "WheelMUDSQLite");
+            var documentSettings = this.GetConnectionStringSettings("DocumentDataProviderName", "RavenDB");
+            this.RelationalDataProviderName = relationalSettings.Name;
+            this.RelationalConnectionString = relationalSettings.ConnectionString;
+            this.DocumentDataProviderName = documentSettings.Name;
+            this.DocumentConnectionString = documentSettings.ConnectionString;
 
-            if (defaultName == null)
-            {
-                defaultName = "WheelMUDSQLite";
-            }
-
-            if (!File.Exists(configFile))
-            {
-                this.CreateConfigFile();
-            }
-
-            ExeConfigurationFileMap configMap = new ExeConfigurationFileMap();
-            configMap.ExeConfigFilename = configFile;
-            var config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
-
-            this.ConnectionStringName = config.ConnectionStrings.ConnectionStrings[defaultName].Name;
-            this.ConnectionString = config.ConnectionStrings.ConnectionStrings[defaultName].ConnectionString;
-            this.Provider = config.ConnectionStrings.ConnectionStrings[defaultName].ProviderName;
-
-            if (this.ConnectionString.Contains("Files\\WheelMud.net.db"))
-            {
-                string path = Path.GetDirectoryName(configFile);
-                string fullPath = Path.Combine(path, "WheelMud.net.db");
-
-                this.ConnectionString = this.ConnectionString.Replace("Files\\WheelMud.net.db", fullPath);
-            }
-        }
-
-        /// <summary>Creates the connection configuration file.</summary>
-        private void CreateConfigFile()
-        {
-            string file = Configuration.GetConnectionStringConfigFilePath();
-
-            var dirPath = Path.GetDirectoryName(file);
-            Directory.CreateDirectory(dirPath);
-
-            using (var writer = File.CreateText(Configuration.GetConnectionStringConfigFilePath()))
-            {
-                writer.WriteLine("<configuration>");
-                writer.WriteLine("<connectionStrings>");
-                writer.WriteLine("  <clear/>");
-                writer.WriteLine("  <add name=\"WheelMUDSQLite\" providerName=\"System.Data.SQLite\" connectionString=\"Data Source = Files\\WheelMud.net.db; Version = 3; \"/>");
-                writer.WriteLine("</connectionStrings>");
-                writer.WriteLine("</configuration>");
-                writer.Flush();
-            }
+            // Replace any tokens like {DataDir} in the connection strings with evaluated values.
+            // This prevents new administrators from having to adjust App.config for user-specific paths.
+            var dataDir = Configuration.GetDataStoragePath() + Path.DirectorySeparatorChar;
+            this.RelationalConnectionString = this.RelationalConnectionString.Replace("{DataDir}", dataDir);
+            this.DocumentConnectionString = this.DocumentConnectionString.Replace("{DataDir}", dataDir);
         }
     }
 }

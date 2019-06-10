@@ -95,6 +95,7 @@
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Services.Client" />
@@ -126,8 +127,14 @@
     <Compile Include="Documents\MobileDocument.cs" />
     <Compile Include="Documents\PlayerDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RavenDocumentSessionBridge.cs" />
+    <Compile Include="WheelMudRavenDbProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\WheelMUD.Data.csproj">
+      <Project>{3772cfd7-5ea1-442c-9cd8-8aa3f7e608f8}</Project>
+      <Name>WheelMUD.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Interfaces\WheelMUD.Interfaces.csproj">
       <Project>{3A5996F8-AFE7-411E-8CFD-09F72CC6C417}</Project>
       <Name>WheelMUD.Interfaces</Name>

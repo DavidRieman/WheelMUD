@@ -140,7 +140,7 @@ namespace WheelMUD.Core
             this.PlayerData = repository.GetPlayerByUserName(playerName);
         }
 
-        /// <summary>Saves this player.</summary>
+        /// <summary>Saves this player behavior.</summary>
         public override void Save()
         {
             // Save the player's basic info.
@@ -148,8 +148,8 @@ namespace WheelMUD.Core
 
             if (this.ID == 0)
             {
-                repository.Add(this.PlayerData);
-                this.ID = this.PlayerData.ID;
+                this.ID = repository.Add(this.PlayerData);
+                this.PlayerData.ID = this.ID;
             }
             else
             {

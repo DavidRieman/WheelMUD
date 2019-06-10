@@ -135,7 +135,9 @@
     <Compile Include="Entities\TypoRecord.cs" />
     <Compile Include="HelperConfigInfo.cs" />
     <Compile Include="Helpers.cs" />
-    <Compile Include="IWheelMudDbProvider.cs" />
+    <Compile Include="IBasicDocumentSession.cs" />
+    <Compile Include="IWheelMudRelationalDbProvider.cs" />
+    <Compile Include="IWheelMudDocumentStorageProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -143,6 +145,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ProviderCache.cs" />
+    <Compile Include="Repositories\DocumentRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\GeneralRepositoryExtensions.cs" />
     <Compile Include="Repositories\LocationRepositoryExtensions.cs" />
@@ -152,12 +155,10 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="CodeSmith\DataTransferObject.cst" />
     <None Include="CodeSmith\EntityRecord.cst" />
     <None Include="CodeSmith\MasterData.cst" />
     <None Include="CodeSmith\SqlServer-CSharpAlias.csmap" />
     <None Include="CodeSmith\System-CSharpAlias.csmap" />
-    <Generate Include="CodeSmith\WheelMUD.Data.csp" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -190,9 +191,6 @@
       <Project>{03849491-18F6-4AB2-8E8C-2B0ACE8EC035}</Project>
       <Name>WheelMUD.Utilities</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="CodeSmith\WheelMUD.CodeSmith.Utilities.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\CodeSmith\CodeSmith.targets" Condition="Exists('$(MSBuildExtensionsPath)\CodeSmith\CodeSmith.targets')" />

@@ -22,21 +22,17 @@ namespace WheelMUD.Data
             this.PopulateProvierCache();
         }
 
-        public Dictionary<string, IWheelMudDbProvider> Providers { get; private set; } = new Dictionary<string, IWheelMudDbProvider>();
+        [ImportMany(typeof(IWheelMudRelationalDbProvider))]
+        public List<IWheelMudRelationalDbProvider> RelationalDatabaseProviders { get; set; }
 
-        [ImportMany(typeof(IWheelMudDbProvider))]
-        private List<IWheelMudDbProvider> DatabaseProviderCache { get; set; }
+        [ImportMany(typeof(IWheelMudDocumentStorageProvider))]
+        public List<IWheelMudDocumentStorageProvider> DocumentStorageProviders { get; set; }
 
         private void PopulateProvierCache()
         {
             var catalog = new AggregateCatalog(new DirectoryCatalog("."), new AssemblyCatalog(Assembly.GetExecutingAssembly()));
             var container = new CompositionContainer(catalog);
             container.ComposeParts(this);
-
-            foreach (IWheelMudDbProvider mudDbProvider in this.DatabaseProviderCache)
-            {
-                this.Providers.Add(mudDbProvider.ProviderNamespace.ToLowerInvariant(), mudDbProvider);
-            }
         }
     }
 }

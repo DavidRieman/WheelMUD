@@ -31,15 +31,6 @@ namespace WheelMUD.Utilities
             return fullPath;
         }
         
-        /// <summary>Gets the connection string configuration file path.</summary>
-        /// <returns>The path to the configuration file that contains the connection strings.</returns>
-        public static string GetConnectionStringConfigFilePath()
-        {
-            string root = GetDataStoragePath();
-
-            return Path.Combine(root, "connectionstrings.cfg");
-        }
-
         private static string GetMudName()
         {
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);

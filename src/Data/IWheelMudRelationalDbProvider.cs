@@ -14,13 +14,11 @@ namespace WheelMUD.Data
     using System.Data;
 
     /// <summary>Interface for supporting different database back ends under ORMLite.</summary>
-    public interface IWheelMudDbProvider
+    public interface IWheelMudRelationalDbProvider
     {
         string ConnectionString { get; set; }
 
         string DatabaseName { get; }
-
-        string ProviderNamespace { get; }
 
         IDbConnection CreateDatabaseSession();
     }
