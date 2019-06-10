@@ -29,10 +29,10 @@ namespace WheelMUD.Core
         /// <summary>Loads this instance.</summary>
         public void Load()
         {
-            var areaRepository = new Repository<AreaRecord>();
+            var areaRepository = new RelationalRepository<AreaRecord>();
 
             // @@@ TODO: Fix hack: http://www.wheelmud.net/tabid/59/aft/1622/Default.aspx
-            string areaNumber = this.Parent.ID.Replace("area/", string.Empty);
+            string areaNumber = this.Parent.Id.Replace("area/", string.Empty);
             long persistedAreaID = long.Parse(areaNumber);
             ICollection<RoomRecord> rooms = areaRepository.GetRoomsForArea(persistedAreaID);
 
@@ -47,7 +47,7 @@ namespace WheelMUD.Core
                 {
                     Name = roomRecord.Name,
                     Description = roomRecord.Description,
-                    ID = "room/" + roomRecord.ID,
+                    Id = "room/" + roomRecord.ID,
                 };
 
                 // Load this room and it's children.

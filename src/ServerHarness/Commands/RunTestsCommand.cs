@@ -23,7 +23,7 @@ namespace ServerHarness.Commands
 
         public IEnumerable<string> Names
         {
-            get { return names; }
+            get { return this.names; }
         }
 
         public void Execute(Application app, MultiUpdater display, string[] words)

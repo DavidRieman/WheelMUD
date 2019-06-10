@@ -155,7 +155,7 @@ namespace WarriorRogueMage.Actions
             var evt = e as ChangeOwnerEvent;
             if (evt != null)
             {
-                if (evt.Thing.ID == this.itemToWield.ID)
+                if (evt.Thing.Id == this.itemToWield.Id)
                 {
                     evt.Cancel(string.Format("The {0} is still wielded!", this.itemToWield.Name));
                 }

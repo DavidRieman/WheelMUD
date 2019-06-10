@@ -17,6 +17,7 @@ namespace WheelMUD.Core
     using System.Linq;
     using System.Xml.Serialization;
     using WheelMUD.Core.Events;
+    using WheelMUD.Data;
     using WheelMUD.Interfaces;
 
     /// <summary>A base class that pretty much any interactive thing within the game world is based on.</summary>
@@ -26,7 +27,7 @@ namespace WheelMUD.Core
     /// a Thing that has a PlayerBehavior (and likely a UserControlledBehavior, and so on).
     /// </remarks>
     [JsonObject(IsReference = true)]
-    public sealed class Thing : IThing, IPersistable, IDisposable
+    public sealed class Thing : IThing, IDisposable, IIdentifiable // IPersistable?
     {
         /// <summary>The synchronization locking object.</summary>
         private readonly object lockObject = new object();
@@ -45,6 +46,10 @@ namespace WheelMUD.Core
 
         /// <summary>The unique ID of this thing.</summary>
         private string id;
+
+        public Thing() : this(null)
+        {
+        }
 
         /// <summary>Initializes a new instance of the <see cref="Thing"/> class.</summary>
         /// <param name="behaviors">The behaviors.</param>
@@ -84,7 +89,7 @@ namespace WheelMUD.Core
         public ThingEventing Eventing { get; private set; }
 
         /// <summary>Gets or sets the unique ID of this thing.</summary>
-        public string ID
+        public string Id
         {
             // The ID should be a unique ID as per the DB, post-persisted.
             // @@@ Thing may also get a TemplateID added as we work out the templating story...
@@ -253,7 +258,7 @@ namespace WheelMUD.Core
         /// <returns>A string representation of this Thing instance.</returns>
         public override string ToString()
         {
-            return string.Format("{0} (ID: {1})", this.FullName, this.ID);
+            return string.Format("{0} (ID: {1})", this.FullName, this.Id);
         }
 
         /// <summary>Performs tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
@@ -263,7 +268,7 @@ namespace WheelMUD.Core
             // @@@ TODO: Dispose all our Children and Behaviors too (things should not be disposed lightly).
         }
 
-        /// <summary>Saves this Thing.</summary>
+        /* /// <summary>Saves this Thing.</summary>
         public void Save()
         {
             // If this thing is a player, use the player saving code instead of the generic
@@ -286,7 +291,7 @@ namespace WheelMUD.Core
                     ////throw new NotImplementedException();
                 }
             }
-        }
+        }*/
 
         /// <summary>Allows a caller to determine whether this thing can be detected by something's senses.</summary>
         /// <param name="senses">The sense manager.</param>
@@ -386,7 +391,7 @@ namespace WheelMUD.Core
                         property.SetValue(this, property.GetValue(existingThing, null), null);
                     }
 
-                    this.ID = null;
+                    this.Id = null;
                     this.Behaviors = (BehaviorManager)existingThing.Behaviors.Clone();
                 }
             }
@@ -421,7 +426,7 @@ namespace WheelMUD.Core
                 // the string exactly, else if that find call returns null, find any item ID 
                 // that starts with the specified string, else if that is null...
                 // @@@ Test: Does the ID check here work? long.Equals(string)?
-                Thing foundThing = this.Children.Find(i => i.ID.Equals(s)) ??
+                Thing foundThing = this.Children.Find(i => i.Id.Equals(s)) ??
                                    this.Children.Find(i => i.Name.ToLower().Equals(s)) ??
                                    this.Children.Find(i => i.Name.ToLower().StartsWith(s)) ??
                                    this.Children.Find(i => i.KeyWords.Contains(s));

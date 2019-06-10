@@ -18,9 +18,9 @@ namespace WheelMUD.Data.Repositories
         /// <param name="repository">The Area repository.</param>
         /// <param name="areaId">The id for the area that will be worked upon.</param>
         /// <returns>Returns an collection of RoomRecord objects.</returns>
-        public static ICollection<RoomRecord> GetRoomsForArea(this Repository<AreaRecord> repository, long areaId)
+        public static ICollection<RoomRecord> GetRoomsForArea(this RelationalRepository<AreaRecord> repository, long areaId)
         {
-            using (IDbCommand session = Helpers.OpenSession())
+            using (IDbCommand session = Helpers.OpenRelationalSession())
             {
                 return session.Connection.Select<RoomRecord>("AreaID = {0}", areaId);
             }
@@ -29,9 +29,9 @@ namespace WheelMUD.Data.Repositories
         /// <summary>Loads the exits for a room.</summary>
         /// <param name="roomId">The room id used to load the exits.</param>
         /// <returns>Returns a collection of ExitRecord objects.</returns>
-        public static ICollection<ExitRecord> LoadExitsForRoom(this Repository<RoomRecord> repository, long roomId)
+        public static ICollection<ExitRecord> LoadExitsForRoom(this RelationalRepository<RoomRecord> repository, long roomId)
         {
-            using (IDbCommand session = Helpers.OpenSession())
+            using (IDbCommand session = Helpers.OpenRelationalSession())
             {
                 // Return just "standard" exits, where this room is the primary owner.
                 return session.Connection.Select<ExitRecord>("ExitRoomAID = {0}", roomId);

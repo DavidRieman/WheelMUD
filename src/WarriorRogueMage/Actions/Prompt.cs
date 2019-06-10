@@ -44,8 +44,6 @@ namespace WarriorRogueMage.Actions
                 try
                 {
                     this.playerBehavior.Prompt = actionInput.Tail;
-                    sender.Thing.Save();
-                    sender.Write("New prompt saved.");
                 }
                 catch (Exception)
                 {

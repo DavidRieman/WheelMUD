@@ -71,7 +71,7 @@ namespace WheelMUD.Core
         {
             // Find the first destination info that doesn't match this location.
             var destinationInfo = (from d in this.destinations
-                                   where d.TargetID != fromLocation.ID
+                                   where d.TargetID != fromLocation.Id
                                    select d).FirstOrDefault();
 
             if (destinationInfo == null)
@@ -79,7 +79,7 @@ namespace WheelMUD.Core
                 return null;
             }
 
-            if (destinationInfo.TargetID != fromLocation.ID)
+            if (destinationInfo.TargetID != fromLocation.Id)
             {
                 // Get and return the cached Thing itself from this ID.  If it's not cached
                 // right now, try to find it, and save it in the cache before returning it.
@@ -115,7 +115,7 @@ namespace WheelMUD.Core
             }
 
             // Find the target location to be reached from here.
-            DestinationInfo destinationInfo = this.GetDestinationFrom(thingToMove.Parent.ID);
+            DestinationInfo destinationInfo = this.GetDestinationFrom(thingToMove.Parent.Id);
             if (destinationInfo == null)
             {
                 // There was no destination reachable from the thing's starting location.
@@ -161,7 +161,7 @@ namespace WheelMUD.Core
         /// <returns>Returns the exit direction.</returns>
         public string GetExitCommandFrom(Thing fromLocation)
         {
-            var destination = this.GetDestinationFrom(fromLocation.ID);
+            var destination = this.GetDestinationFrom(fromLocation.Id);
             return destination != null ? destination.ExitCommand : null;
         }
 

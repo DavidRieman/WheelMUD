@@ -93,12 +93,6 @@ namespace WheelMUD.Core
             return newBehavior;
         }
 
-        /// <summary>Saves this instance.</summary>
-        public virtual void Save()
-        {
-            // @@@ Implement.
-        }
-
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected abstract void SetDefaultProperties();
     }

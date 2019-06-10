@@ -27,7 +27,7 @@ namespace WheelMUD.Tests.Behaviors
         [SetUp]
         public void Init()
         {
-            this.playerThing = new Thing() { Name = "PlayerThing", ID = TestThingID.Generate("testthing") };
+            this.playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
         }
 
         /// <summary>Test to make sure WRM behaviors are attaching properly.</summary>

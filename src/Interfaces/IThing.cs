@@ -11,10 +11,10 @@
 namespace WheelMUD.Interfaces
 {
     /// <summary>An interface defining a Thing.</summary>
-    public interface IThing : IPersistable
+    public interface IThing // ? : IPersistable
     {
         /// <summary>Gets or sets the ID of this thing.</summary>
-        string ID { get; set; }
+        string Id { get; set; }
 
         /// <summary>Gets the name of this thing.</summary>
         string Name { get; }

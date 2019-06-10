@@ -146,7 +146,7 @@
     </Compile>
     <Compile Include="ProviderCache.cs" />
     <Compile Include="Repositories\DocumentRepository.cs" />
-    <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="Repositories\RelationalRepository.cs" />
     <Compile Include="Repositories\GeneralRepositoryExtensions.cs" />
     <Compile Include="Repositories\LocationRepositoryExtensions.cs" />
     <Compile Include="Repositories\PlayerRepositoryExtensions.cs" />
@@ -187,6 +187,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Interfaces\WheelMUD.Interfaces.csproj">
+      <Project>{3A5996F8-AFE7-411E-8CFD-09F72CC6C417}</Project>
+      <Name>WheelMUD.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj">
       <Project>{03849491-18F6-4AB2-8E8C-2B0ACE8EC035}</Project>
       <Name>WheelMUD.Utilities</Name>

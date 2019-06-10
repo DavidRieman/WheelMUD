@@ -14,9 +14,7 @@ namespace WheelMUD.Core
     using System.Globalization;
     using WheelMUD.Core.Events;
     using WheelMUD.Data.Entities;
-    using WheelMUD.Data.RavenDb;
     using WheelMUD.Data.Repositories;
-    using WheelMUD.Interfaces;
 
     /// <summary>The behavior for players.</summary>
     public class PlayerBehavior : Behavior
@@ -128,7 +126,7 @@ namespace WheelMUD.Core
         /// <param name="playerId">The player's id.</param>
         public void Load(int playerId)
         {
-            var repository = new Repository<PlayerRecord>();
+            var repository = new RelationalRepository<PlayerRecord>();
             this.PlayerData = repository.GetById(playerId);
         }
 
@@ -136,15 +134,14 @@ namespace WheelMUD.Core
         /// <param name="playerName">Name of the player.</param>
         public void Load(string playerName)
         {
-            var repository = new Repository<PlayerRecord>();
+            var repository = new RelationalRepository<PlayerRecord>();
             this.PlayerData = repository.GetPlayerByUserName(playerName);
         }
 
-        /// <summary>Saves this player behavior.</summary>
-        public override void Save()
+        private void SavePlayerRecord()
         {
             // Save the player's basic info.
-            var repository = new Repository<PlayerRecord>();
+            var repository = new RelationalRepository<PlayerRecord>();
 
             if (this.ID == 0)
             {
@@ -192,69 +189,23 @@ namespace WheelMUD.Core
             // @@@ TODO: Need to do this with all the other custom lists and collections, like friends and inventory.
         }
 
+        private void SavePlayerThing(Thing player)
+        {
+            var repository = new DocumentRepository<Thing>();
+            repository.Save(player);
+        }
+
         /// <summary>Save the whole player Thing (not just this PlayerBehavior).</summary>
         public void SaveWholePlayer()
         {
             var player = this.Parent;
-
-            if (player != null)
+            if (player == null)
             {
-                this.Save();
-
-                // Set the behavior id to correspond to the database id of the player.
-                // @@@ TODO: Why? Shouldn't Behavior IDs be unique too?
-                var playerBehaviors = player.Behaviors.AllBehaviors;
-                foreach (var behavior in playerBehaviors)
-                {
-                    behavior.ID = this.PlayerData.ID;
-                }
-
-                // Link our unique player ID and PlayerBehavior ID but in a RavenDB-friendly format.
-                player.ID = "player/" + this.PlayerData.ID;
-
-                // Create a PlayerDocument to be saved.
-                var bundle = new PlayerDocument
-                {
-                    DatabaseId = this.PlayerData.ID,
-                    Name = player.Name,
-                    LastUpdatedDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"),
-                    Behaviors = new List<IPersistsWithPlayer>(),
-                    Stats = new Dictionary<string, IPersistsWithPlayer>(),
-                    SecondaryStats = new Dictionary<string, IPersistsWithPlayer>(),
-                    Skills = new Dictionary<string, IPersistsWithPlayer>(),
-                    SubThings = new List<IThing>(),
-                    PlayerPrompt = this.Prompt,
-                };
-
-                bundle.Behaviors.AddRange(playerBehaviors);
-
-                foreach (var stat in player.Stats)
-                {
-                    bundle.Stats.Add(stat.Key, stat.Value);
-                }
-
-                foreach (var attribute in player.Attributes)
-                {
-                    bundle.SecondaryStats.Add(attribute.Key, attribute.Value);
-                }
-
-                foreach (var skill in player.Skills)
-                {
-                    bundle.Skills.Add(skill.Key, skill.Value);
-                }
-
-                foreach (var child in player.Children)
-                {
-                    // Do not save any player as a sub-document of this one.
-                    if (child.Behaviors.FindFirst<PlayerBehavior>() == null)
-                    {
-                        bundle.SubThings.Add(child);
-                    }
-                }
-
-                // Save to the document database
-                DocumentManager.SavePlayerDocument(bundle); 
+                throw new ArgumentNullException("Cannot save a detached PlayerBehavior with no Parent Thing.");
             }
+
+            this.SavePlayerRecord();
+            this.SavePlayerThing(player);
         }
 
         /// <summary>Creates the missing player document in the NoSQL (RavenDb) data store.</summary>
@@ -382,7 +333,7 @@ namespace WheelMUD.Core
                 DateTime universalTime = DateTime.Now.ToUniversalTime();
                 this.PlayerData.LastLogout = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";
 
-                player.Save();
+                player.FindBehavior<PlayerBehavior>()?.SaveWholePlayer();
                 this.Dispose();
                 player.Dispose();
 

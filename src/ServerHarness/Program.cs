@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using ServerHarness.Commands;
 using Topshelf;
 using WheelMUD.Main;
@@ -76,9 +77,12 @@ namespace ServerHarness
             app.SubscribeToSystem(display);
             app.Start();
 
-            // TODO: Consider reflecting implementers of IServerHarnessCommand to keep this automatically up to date?
-            IServerHarnessCommand[] commandObjects = { new HelpCommand(), new UpdateActionsCommand(), new RunTestsCommand() };
-            IDictionary<string, IServerHarnessCommand> commands = new ConcurrentDictionary<string, IServerHarnessCommand>();
+            // TODO: GitHub #58: Reflect implementers of IServerHarnessCommand to keep this automatically up to date
+            IServerHarnessCommand[] commandObjects =
+            {
+                new HelpCommand(), new UpdateActionsCommand(), new RunTestsCommand(), new DebugExploreDocumentsCommand()
+            };
+            var commands = new Dictionary<string, IServerHarnessCommand>();
 
             foreach (var cmdObj in commandObjects)
             {
@@ -88,44 +92,42 @@ namespace ServerHarness
                 }
             }
 
-            var input = string.Empty;
-
             while (true)
             {
-                input = Console.ReadLine();
-                if (input != null)
+                var input = Console.ReadLine();
+                if (string.IsNullOrEmpty(input))
                 {
-                    // TODO: Console.ReadLine probably never includes newlines; this code is probably not doing what was intended!
-                    string[] words = input.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-
-                    if (words.Length == 0)
-                    {
-                        continue;
-                    }
-                    else if ("shutdown".Equals(input, StringComparison.OrdinalIgnoreCase))
-                    {
-                        break;
-                    }
-
-                    var cmd = words[0];
-                    if (commands.ContainsKey(cmd))
-                    {
-                        commands[cmd].Execute(app, display, words);
-                    }
-                    else
-                    {
-                        display.Notify(string.Format("> Command Not Recognized. [{0}]", string.Join(" ", words)));
-                    }
+                    continue;
                 }
 
-                // This is for Mono compatability.
-                input = string.Empty;
+                var words = input.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                if ("shutdown".Equals(words[0], StringComparison.OrdinalIgnoreCase))
+                {
+                    break;
+                }
+
+                var command = FindCommand(commands, words[0]);
+                if (command != null)
+                {
+                    command.Execute(app, display, words);
+                }
+                else
+                {
+                    display.Notify(string.Format("> Command not recognized: {0}", input));
+                }
             }
 
             app.Stop();
 
             display.Notify("Press enter to quit...");
             Console.ReadLine();
+        }
+
+        private static IServerHarnessCommand FindCommand(IDictionary<string, IServerHarnessCommand> commands, string commandName)
+        {
+            return (from command in commands
+                    where commandName.Equals(command.Key, StringComparison.OrdinalIgnoreCase)
+                    select command.Value).FirstOrDefault();
         }
 
         /// <summary>Notifies the user of a message.</summary>

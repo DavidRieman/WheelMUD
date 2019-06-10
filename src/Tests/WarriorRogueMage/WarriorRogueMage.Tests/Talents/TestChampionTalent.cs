@@ -35,7 +35,7 @@ namespace WheelMUD.Tests.Talents
             var damageStat = new DamageStat();
             var attackStat = new AttackStat();
 
-            this.playerThing = new Thing() { Name = "PlayerThing", ID = TestThingID.Generate("testthing") };
+            this.playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
 
             playerThing.Behaviors.Add(testBehavior);
 

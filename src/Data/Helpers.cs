@@ -40,11 +40,12 @@ namespace WheelMUD.Data
             {
                 throw new DataException("Could not find the configured document storage provider: " + configuredDocumentStorageProviderName);
             }
+            configuredDocumentStorageProvider.Prepare();
         }
 
         /// <summary>Gets the session factory.</summary>
         /// <value>The session factory.</value>
-        private static IDbConnection SessionFactory
+        private static IDbConnection RelationalSessionFactory
         {
             get
             {
@@ -73,11 +74,11 @@ namespace WheelMUD.Data
 
         /// <summary>Opens a session for the current database provider.</summary>
         /// <returns>Returns a Session object.</returns>
-        public static IDbCommand OpenSession()
+        public static IDbCommand OpenRelationalSession()
         {
             try
             {
-                return SessionFactory.CreateCommand();
+                return RelationalSessionFactory.CreateCommand();
             }
             catch (NullReferenceException)
             {
@@ -87,10 +88,14 @@ namespace WheelMUD.Data
             }
         }
 
-        public static object OpenDocumentSession()
+        public static IBasicDocumentSession OpenDocumentSession()
         {
-            // @@@ ###
-            return null;
+            return configuredDocumentStorageProvider.CreateDocumentSession();
+        }
+
+        public static void DebugExploreDocuments()
+        {
+            configuredDocumentStorageProvider.DebugExplore();
         }
     }
 }

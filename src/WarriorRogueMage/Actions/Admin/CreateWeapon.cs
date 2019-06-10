@@ -45,7 +45,7 @@ namespace WheelMUD.Actions.Temporary
             weaponItem.Name = weaponName;
             weaponItem.SingularPrefix = "a";
             //weaponItem.ID = Guid.NewGuid().ToString();
-            weaponItem.ID = "0";
+            weaponItem.Id = "0";
 
             var wasAdded = sender.Thing.Parent.Add(weaponItem);
 

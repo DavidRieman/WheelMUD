@@ -36,18 +36,18 @@ namespace WheelMUD.Tests.Behaviors
         public void Init()
         {
             // Create the basic actor instances and behavior for test.
-            this.witness = new Thing() { Name = "Witness", ID = TestThingID.Generate("testthing") };
-            this.stalker1 = new Thing() { Name = "Stalker1", ID = TestThingID.Generate("testthing") };
-            this.stalker2 = new Thing() { Name = "Stalker2", ID = TestThingID.Generate("testthing") };
-            this.victim1 = new Thing() { Name = "Victim1", ID = TestThingID.Generate("testthing") };
-            this.victim2 = new Thing() { Name = "Victim2", ID = TestThingID.Generate("testthing") };
+            this.witness = new Thing() { Name = "Witness", Id = TestThingID.Generate("testthing") };
+            this.stalker1 = new Thing() { Name = "Stalker1", Id = TestThingID.Generate("testthing") };
+            this.stalker2 = new Thing() { Name = "Stalker2", Id = TestThingID.Generate("testthing") };
+            this.victim1 = new Thing() { Name = "Victim1", Id = TestThingID.Generate("testthing") };
+            this.victim2 = new Thing() { Name = "Victim2", Id = TestThingID.Generate("testthing") };
 
             // Set up the rooms.
-            this.room1 = new Thing() { Name = "Room", ID = TestThingID.Generate("room") };
-            this.room2 = new Thing() { Name = "Room 2", ID = TestThingID.Generate("room") };
+            this.room1 = new Thing() { Name = "Room", Id = TestThingID.Generate("room") };
+            this.room2 = new Thing() { Name = "Room 2", Id = TestThingID.Generate("room") };
 
             // Set up an exit connecting the two rooms.
-            this.exit = new Thing() { Name = "East Exit", ID = TestThingID.Generate("exit") };
+            this.exit = new Thing() { Name = "East Exit", Id = TestThingID.Generate("exit") };
             var exitBehavior = new ExitBehavior();
             ////exitBehavior.AddDestination("west", room1.ID);
             ////exitBehavior.AddDestination("east", room1.ID);

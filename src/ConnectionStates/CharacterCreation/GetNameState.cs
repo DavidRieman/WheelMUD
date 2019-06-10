@@ -34,7 +34,7 @@ namespace WheelMUD.ConnectionStates
             if (this.ValidateCharacterName(ref command))
             {
                 // The name is valid, but has it been taken already?
-               var repository = new Repository<PlayerRecord>();
+               var repository = new RelationalRepository<PlayerRecord>();
 
                 if (repository.GetPlayerByUserName(command) == null)
                 {

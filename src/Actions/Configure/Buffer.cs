@@ -71,8 +71,6 @@ namespace WheelMUD.Actions
 
             this.userControlledBehavior.PagingRowLimit = this.parsedBufferLength;
 
-            this.userControlledBehavior.Save();
-
             this.ShowCurrentBuffer();
         }
 

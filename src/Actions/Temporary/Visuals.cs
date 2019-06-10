@@ -48,7 +48,7 @@ namespace WheelMUD.Actions.Temporary
         /// <summary>Name of the room where the sender is located. Cached for convenience.</summary>
         private string roomName;
 
-        /// <summary>ID of the room where the sender is located. Cached for convenience.</summary>
+        /// <summary>Id of the room where the sender is located. Cached for convenience.</summary>
         private string roomId;
 
         /// <summary>The visuals command, i.e. "add", "remove", or "show".</summary>
@@ -74,7 +74,7 @@ namespace WheelMUD.Actions.Temporary
                 response.ToOriginator = string.Format("Visual '{0}' added/updated on room {1} [{2}].", this.visualName, this.roomName, this.roomId);
 
                 //// TODO: Save change
-                this.room.Save();
+                //this.room.Save();
             }
             else if (this.command == "remove")
             {
@@ -86,7 +86,7 @@ namespace WheelMUD.Actions.Temporary
                 }
 
                 //// TODO: Save change
-                this.room.Save();
+                //this.room.Save();
             }
             else if (this.command == "show")
             {
@@ -176,7 +176,7 @@ namespace WheelMUD.Actions.Temporary
             {
                 this.room = location.Behaviors.FindFirst<RoomBehavior>();
                 this.roomName = this.room.Parent.Name;
-                this.roomId = this.room.Parent.ID;
+                this.roomId = this.room.Parent.Id;
             }
 
             // "visuals" with no arguments will default to "visuals show".

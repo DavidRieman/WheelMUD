@@ -41,7 +41,7 @@ namespace WheelMUD.Actions.Admin
             string mobName = actionInput.Tail.Trim();
 
             var thing = new Thing();
-            thing.ID = "0";
+            thing.Id = "0";
             thing.Name = mobName;
             thing.Parent = sender.Thing.Parent;
             thing.Stats["HP"] = new GameStat(sender, "Hit Points", "HP", null, 10, 0, 10, true);

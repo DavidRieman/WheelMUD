@@ -15,7 +15,6 @@ namespace WheelMUD.Core
     using System.Linq;
     using System.Text;
     using WheelMUD.Core.Events;
-    using WheelMUD.Data.RavenDb;
     using WheelMUD.Interfaces;
 
     /// <summary>High level manager that provides tracking and global collection of online players.</summary>
@@ -104,11 +103,7 @@ namespace WheelMUD.Core
         /// <param name="e">The <see cref="WheelMUD.Core.Events.GameEvent"/> instance containing the event data.</param>
         public static void OnPlayerLogIn(Thing player, GameEvent e)
         {
-            var eventHandler = GlobalPlayerLogInEvent;
-            if (eventHandler != null)
-            {
-                eventHandler(player.Parent, e);
-            }
+            GlobalPlayerLogInEvent?.Invoke(player.Parent, e);
         }
 
         /// <summary>Called when a player logs out, to raise the player log out events.</summary>
@@ -116,11 +111,7 @@ namespace WheelMUD.Core
         /// <param name="e">The event arguments.</param>
         public static void OnPlayerLogOut(Thing player, GameEvent e)
         {
-            var eventHandler = GlobalPlayerLogOutEvent;
-            if (eventHandler != null)
-            {
-                eventHandler(player.Parent, e);
-            }
+            GlobalPlayerLogOutEvent?.Invoke(player.Parent, e);
         }
 
         /// <summary>Called when a player is trying to log in, to raise the player log in request.</summary>
@@ -128,11 +119,7 @@ namespace WheelMUD.Core
         /// <param name="e">The event arguments.</param>
         public static void OnPlayerLogInRequest(Thing player, CancellableGameEvent e)
         {
-            var eventHandler = GlobalPlayerLogInRequest;
-            if (eventHandler != null)
-            {
-                eventHandler(player.Parent, e);
-            }
+            GlobalPlayerLogInRequest?.Invoke(player.Parent, e);
         }
 
         /// <summary>Called when a player is trying to log out, to raise the player log out request.</summary>
@@ -140,11 +127,7 @@ namespace WheelMUD.Core
         /// <param name="e">The event arguments.</param>
         public static void OnPlayerLogOutRequest(Thing player, CancellableGameEvent e)
         {
-            var eventHandler = GlobalPlayerLogOutRequest;
-            if (eventHandler != null)
-            {
-                eventHandler(player.Parent, e);
-            }
+            GlobalPlayerLogOutRequest?.Invoke(player.Parent, e);
         }
 
         /// <summary>Finds a player using the predicate passed.</summary>
@@ -185,7 +168,7 @@ namespace WheelMUD.Core
         {
             lock (this.lockObject)
             {
-                PlayerBehavior playerBehavior = this.playersList.Find(p => p.Parent.ID.Equals(id));
+                PlayerBehavior playerBehavior = this.playersList.Find(p => p.Parent.Id.Equals(id));
                 return playerBehavior.Parent;
             }
         }
@@ -221,6 +204,7 @@ namespace WheelMUD.Core
             // don't want to load a duplicate version of the just-created player Thing.
             if (session.Thing == null)
             {
+                /* TODO FIX RAVENDB LOADING THE PLAYER DOCUMENT, THEN RE-RIGGING SESSION ETC!
                 var playerBehavior = new PlayerBehavior();
                 playerBehavior.Load(session.UserName);
 
@@ -290,7 +274,7 @@ namespace WheelMUD.Core
                     // Make sure to add the player behavior to the player Thing object.
                     playerBehavior.Parent = player;
                     player.Behaviors.Add(playerBehavior);
-                    player.ID = "player/" + playerBehavior.ID;
+                    player.Id = "player/" + playerBehavior.ID;
                 }
 
                 if (playerBehavior.LogIn(session))
@@ -342,7 +326,7 @@ namespace WheelMUD.Core
                 {
                     // @@@ TODO: Login denied? Back out of the session, disconnect, etc.
                     throw new NotImplementedException("Cancellation of login event is not yet supported.");
-                }
+                }*/
             }
 
             // Finally, if the newly-logged in character replaced an old connection, notify the new 
@@ -400,45 +384,6 @@ namespace WheelMUD.Core
                 {
                     this.playersList.Remove(playerBehavior);
                 }
-            }
-        }
-
-        /// <summary>Load the player document for the specified player ID.</summary>
-        /// <param name="databaseId">The database ID of the player.</param>
-        /// <returns>The associated PlayerDocument, if there is one, else null.</returns>
-        private PlayerDocument LoadPlayerDocument(long databaseId)
-        {
-            return DocumentManager.LoadPlayerDocument(databaseId);
-        }
-
-        /// <summary>Translates from <see cref="PlayerDocument"/> to a <see cref="Thing"/>.</summary>
-        /// <param name="player">The player.</param>
-        /// <param name="playerDocument">The player document.</param>
-        private void TranslateFromPlayerDocument(ref Thing player, PlayerDocument playerDocument)
-        {
-            foreach (var persistedAsBehavior in playerDocument.Behaviors.ToArray())
-            {
-                player.Behaviors.Add(persistedAsBehavior as Behavior);
-            }
-
-            foreach (var persistedStat in playerDocument.Stats)
-            {
-                player.Stats.Add(persistedStat.Key, persistedStat.Value as GameStat);
-            }
-
-            foreach (var persistedSecondary in playerDocument.SecondaryStats)
-            {
-                player.Attributes.Add(persistedSecondary.Key, persistedSecondary.Value as GameAttribute);
-            }
-
-            foreach (var persistedSkill in playerDocument.Skills)
-            {
-                player.Skills.Add(persistedSkill.Key, persistedSkill.Value as GameSkill);
-            }
-
-            foreach (var persistedChild in playerDocument.SubThings)
-            {
-                player.Children.Add(persistedChild as Thing);
             }
         }
 

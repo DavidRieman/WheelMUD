@@ -93,7 +93,7 @@ namespace WheelMUD.Actions
             foreach (Thing thing in room.Children)
             {
                 // @@@ TODO: Only list Items here...? ItemBehavior? CarryableBehavior?
-                sb.Append(thing.ID.ToString().PadRight(20));
+                sb.Append(thing.Id.ToString().PadRight(20));
                 sb.AppendLine(thing.FullName);
             }
             

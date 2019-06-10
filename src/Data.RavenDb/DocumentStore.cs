@@ -4,7 +4,7 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Encapsulates the Raven.Client.Embedded.EmbeddableDocumentStore into a singleton.
+//   Instantiates and houses one RavenDB document store through a singleton.
 // </summary>
 //-----------------------------------------------------------------------------
 
@@ -17,8 +17,6 @@ namespace WheelMUD.Data.RavenDb
     /// <summary>Encapsulates the RavenDB DocumentStore into a singleton.</summary>
     public class DocumentStoreHolder
     {
-        private static readonly Lazy<IDocumentStore> store = new Lazy<IDocumentStore>(CreateDocumentStore);
-
         private static IDocumentStore CreateDocumentStore()
         {
             // TODO: To allow for using a remote RavenDB server, we could use ConnectionString details to choose
@@ -34,9 +32,6 @@ namespace WheelMUD.Data.RavenDb
             return EmbeddedServer.Instance.GetDocumentStore("Embedded");
         }
 
-        public static IDocumentStore Instance
-        {
-            get { return store.Value; }
-        }
+        public static IDocumentStore Instance { get; } = CreateDocumentStore();
     }
 }
