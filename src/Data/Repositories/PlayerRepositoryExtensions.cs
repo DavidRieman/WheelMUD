@@ -7,6 +7,7 @@
 
 namespace WheelMUD.Data.Repositories
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
@@ -26,7 +27,7 @@ namespace WheelMUD.Data.Repositories
 
             using (IDbCommand session = Helpers.OpenSession())
             {
-                if (Helpers.GetCurrentProviderName().ToLower() == "system.data.sqlite")
+                if ("sqlite".Equals(HelperConfigInfo.Instance.RelationalDataProviderName, StringComparison.InvariantCultureIgnoreCase))
                 {
                     const string sql = @"SELECT * FROM Players 
                                          WHERE UserName = {0} 
@@ -54,7 +55,7 @@ namespace WheelMUD.Data.Repositories
 
             using (IDbCommand session = Helpers.OpenSession())
             {
-                if (Helpers.GetCurrentProviderName().ToLower() == "system.data.sqlite")
+                if ("sqlite".Equals(HelperConfigInfo.Instance.RelationalDataProviderName, StringComparison.InvariantCultureIgnoreCase))
                 {
                     const string sql = @"SELECT * FROM Players 
                                          WHERE UserName = {0} 
@@ -141,7 +142,7 @@ namespace WheelMUD.Data.Repositories
 
             using (IDbCommand session = Helpers.OpenSession())
             {
-                if (Helpers.GetCurrentProviderName().ToLower() == "system.data.sqlite")
+                if ("sqlite".Equals(HelperConfigInfo.Instance.RelationalDataProviderName, StringComparison.InvariantCultureIgnoreCase))
                 {
                     var sql = new StringBuilder();
 

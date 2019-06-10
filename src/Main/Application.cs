@@ -86,7 +86,7 @@ namespace WheelMUD.Main
             this.InitializeSystems();
         }
 
-        private void EnsureFilesArePresent()
+        private static void EnsureFilesArePresent()
         {
             string appPath = Assembly.GetExecutingAssembly().Location;
             var appFile = new FileInfo(appPath);
@@ -116,6 +116,8 @@ namespace WheelMUD.Main
 
                 DirectoryCopy(sourcePath, destDir, true);
             }
+
+            // TODO: Create a link in the bin folder to the program data folder, for administrative convenience.
         }
 
         private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
@@ -203,12 +205,9 @@ namespace WheelMUD.Main
         /// <summary>Ensures that the database and such are present; copies the default if not.</summary>
         private static void EnsureDataIsPresent()
         {
-            string currentProviderName = Helpers.GetCurrentProviderName();
-
-            if (currentProviderName.ToLowerInvariant() == "system.data.sqlite")
+            if (HelperConfigInfo.Instance.RelationalDataProviderName.ToLower() == "system.data.sqlite")
             {
-                // Only for SQLite
-                // Make sure that the database is in the right place.
+                // Only for SQLite: Make sure that the database is in the right place.
                 const string DatabaseName = "WheelMud.net.db";
                 string appPath = Assembly.GetExecutingAssembly().Location;
                 var appFile = new FileInfo(appPath);
