@@ -9,6 +9,7 @@
 
 namespace WheelMUD.Core
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -30,6 +31,7 @@ namespace WheelMUD.Core
         public Thing Parent { get; private set; }
 
         /// <summary>Gets a snapshot of all managed behaviors.</summary>
+        [JsonIgnore]
         public ReadOnlyCollection<Behavior> AllBehaviors
         {
             get

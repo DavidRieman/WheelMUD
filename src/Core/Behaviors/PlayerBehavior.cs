@@ -204,8 +204,8 @@ namespace WheelMUD.Core
                 throw new ArgumentNullException("Cannot save a detached PlayerBehavior with no Parent Thing.");
             }
 
-            this.SavePlayerRecord();
             this.SavePlayerThing(player);
+            this.SavePlayerRecord();
         }
 
         /// <summary>Creates the missing player document in the NoSQL (RavenDb) data store.</summary>
