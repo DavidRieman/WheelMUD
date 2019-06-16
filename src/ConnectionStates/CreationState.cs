@@ -57,7 +57,7 @@ namespace WheelMUD.ConnectionStates
         {
             // Attach the new character to the current session.
             this.Session.Thing = this.subStateHandler.NewCharacter;
-            this.Session.Write(string.Format("Saving player {0}.", newCharacter.Name));
+            this.Session.Write(string.Format("Saving character {0}.", newCharacter.Name));
 
             // Prepare the default options and new data that will go in the special player DB.
             string currentTime = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");

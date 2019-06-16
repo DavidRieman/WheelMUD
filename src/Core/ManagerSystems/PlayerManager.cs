@@ -13,7 +13,6 @@ namespace WheelMUD.Core
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
@@ -204,6 +203,10 @@ namespace WheelMUD.Core
             // don't want to load a duplicate version of the just-created player Thing.
             if (session.Thing == null)
             {
+                using (var docSession = WheelMUD.Data.Helpers.OpenDocumentSession())
+                {
+                    session.Thing = docSession.Load<Thing>(session.UserName);
+                }
                 /* TODO FIX RAVENDB LOADING THE PLAYER DOCUMENT, THEN RE-RIGGING SESSION ETC!
                 var playerBehavior = new PlayerBehavior();
                 playerBehavior.Load(session.UserName);

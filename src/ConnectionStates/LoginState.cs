@@ -32,7 +32,7 @@ namespace WheelMUD.ConnectionStates
             this.Session.AtPrompt = false;
             if (command != string.Empty)
             {
-                // @@@ TODO: This should be encrypted immediately; no properties should house plain text passwords.
+                // @@@ TODO: This should be salted and hashed immediately; no properties should house plain text passwords.
                 this.Password = command;
                 if (this.Authenticate())
                 {
