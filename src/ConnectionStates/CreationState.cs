@@ -11,10 +11,8 @@
 namespace WheelMUD.ConnectionStates
 {
     using System;
-    using System.Linq;
     using WheelMUD.Core;
-    using WheelMUD.Data.Entities;
-    using WheelMUD.Utilities;
+    using WheelMUD.Data;
 
     /// <summary>The 'character creation' session state.</summary>
     public class CreationState : SessionState
@@ -30,7 +28,7 @@ namespace WheelMUD.ConnectionStates
             // Get the default CharacterCreationStateMachine via MEF to drive character creation sub-states.
             this.subStateHandler = CharacterCreationStateMachineManager.Instance.CreateDefaultCharacterCreationStateMachine(session);
             this.subStateHandler.CharacterCreationAborted += this.SubState_CharacterCreationAborted;
-            this.subStateHandler.CharacterCreationCompleted += this.SubState_CharacterCreationCompleted;
+            this.subStateHandler.CharacterCreationCompleted += SubState_CharacterCreationCompleted;
         }
 
         /// <summary>Process the specified input.</summary>
@@ -53,57 +51,39 @@ namespace WheelMUD.ConnectionStates
 
         /// <summary>Called upon the completion of character creation.</summary>
         /// <param name="newCharacter">The new Character.</param>
-        private void SubState_CharacterCreationCompleted(Thing newCharacter)
+        private static void SubState_CharacterCreationCompleted(Session session)
         {
-            // Attach the new character to the current session.
-            this.Session.Thing = this.subStateHandler.NewCharacter;
-            this.Session.Write(string.Format("Saving character {0}.", newCharacter.Name));
+            var nl = Environment.NewLine;
+            var user = session.User;
+            var character = session.Thing;
 
-            // Prepare the default options and new data that will go in the special player DB.
-            string currentTime = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
-            var playerBehavior = newCharacter.FindBehavior<PlayerBehavior>();
-            playerBehavior.PlayerData = new PlayerRecord
+            session.Write(string.Format("Saving character {0}.{1}", character.Name, nl));
+            using (var docSession = Helpers.OpenDocumentSession())
             {
-                UserName = newCharacter.Name,
-                Password = playerBehavior.Password,
-                DisplayName = newCharacter.Name,
-                Description = newCharacter.Description,
-                CurrentRoomID = MudEngineAttributes.Instance.DefaultRoomID,
-                LastLogin = currentTime,
-                CreateDate = currentTime,
-                LastIPAddress = this.Session.Connection.CurrentIPAddress.ToString(),
-                WantAnsi = true,
-                WantMCCP = false,
-                WantMXP = true
-            };
+                // Save the character first so we can use the auto-assigned unique identity.
+                // We could have used playerBehavior.SavePlayer but this uses the same session for storing User too.
+                docSession.Store(character);
 
-            // If the player isn't located anywhere yet, try to drop them in the default room.
-            if (newCharacter.Parent == null)
-            {
-                this.PlaceCharacterInDefaultRoom(newCharacter);
+                // Ensure the User tracks this character ID as one of their characters
+                user.AddPlayerCharacter(character.Id);
+                docSession.Store(user);
+                docSession.SaveChanges();
             }
+            session.Write(string.Format("Done saving {0}.{1}", character.Name, nl));
 
-            // Saving the player's Thing should save everything we need to now.
-            newCharacter.FindBehavior<PlayerBehavior>()?.SaveWholePlayer();
-            this.Session.Write(string.Format("Done saving player {0}", newCharacter.Name));
-
-            // Automatically authenticate (the user just created username and password) and
-            // get in-game when character creation is completed.)
-            this.Session.UserName = newCharacter.Name;
-            this.Session.State = new PlayingState(this.Session);
-            this.Session.AuthenticateSession();
-        }
-
-        /// <summary>Place the specified character in the "default" room.</summary>
-        /// <param name="character">The character to place.</param>
-        private void PlaceCharacterInDefaultRoom(Thing character)
-        {
-            character.Parent = (from t in ThingManager.Instance.Things
-                                where t.Id == "room/" + MudEngineAttributes.Instance.DefaultRoomID
-                                select t).FirstOrDefault();
-            if (character.Parent == null)
+            var playerBehavior = character.Behaviors.FindFirst<PlayerBehavior>();
+            if (playerBehavior.LogIn(session))
             {
-                throw new InvalidOperationException("Could not place a new character in the default room!");
+                // Automatically authenticate (the user just created username and password) and
+                // get in-game when character creation is completed.)
+                session.AuthenticateSession();
+                session.State = new PlayingState(session);
+            }
+            else
+            {
+                session.Write("Character was created but could not be logged in right now. Disconnecting.");
+                session.State = null;
+                session.Connection.Disconnect();
             }
         }
 

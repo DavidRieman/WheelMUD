@@ -12,9 +12,11 @@ namespace WheelMUD.Core
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Globalization;
+    using System.Linq;
     using WheelMUD.Core.Events;
     using WheelMUD.Data.Entities;
     using WheelMUD.Data.Repositories;
+    using WheelMUD.Utilities;
 
     /// <summary>The behavior for players.</summary>
     public class PlayerBehavior : Behavior
@@ -72,15 +74,6 @@ namespace WheelMUD.Core
         [JsonIgnore]
         public int CurrentRoomId { get; set; }
 
-        /// <summary>Gets the player's password.</summary>
-        /// <remarks>@@@ TODO: Gets the player's encrypted password.</remarks>
-        [JsonIgnore]
-        public string Password
-        {
-            get { return this.PlayerData.Password; }
-            private set { this.PlayerData.Password = value; }
-        }
-
         /// <summary>Gets the event processor for this player.</summary>
         [JsonIgnore]
         public PlayerEventProcessor EventProcessor { get; private set; }
@@ -130,73 +123,8 @@ namespace WheelMUD.Core
             this.PlayerData = repository.GetById(playerId);
         }
 
-        /// <summary>Loads a player by name.</summary>
-        /// <param name="playerName">Name of the player.</param>
-        public void Load(string playerName)
-        {
-            var repository = new RelationalRepository<PlayerRecord>();
-            this.PlayerData = repository.GetPlayerByUserName(playerName);
-        }
-
-        private void SavePlayerRecord()
-        {
-            // Save the player's basic info.
-            var repository = new RelationalRepository<PlayerRecord>();
-
-            if (this.ID == 0)
-            {
-                this.ID = repository.Add(this.PlayerData);
-                this.PlayerData.ID = this.ID;
-            }
-            else
-            {
-                repository.Update(this.PlayerData);
-            }
-
-            /* Disabling roles for now
-            // Deal with the player roles.
-            var roleRepository = new PlayerRoleRepository();
-            ICollection<PlayerRoleRecord> existingRoles = roleRepository.FetchAllPlayerRoleRecordsForPlayer(this.Id);
-
-            var toAdd = new List<PlayerRoleRecord>();
-
-            foreach (var roleRecord in this.RoleData)
-            {
-                var currRole = this.FindRole(roleRecord.ID, existingRoles);
-
-                if (currRole == null)
-                {
-                    // Add it to the list to add
-                    toAdd.Add(currRole);
-                }
-                else
-                {
-                    // Remove the role since there is nothing to do.
-                    existingRoles.Remove(currRole);
-                }
-            }
-
-            roleRepository.AddRolesToPlayer(toAdd);
-
-            // Delete any roles still in the existing roles collection as they
-            // are no longer assigned to the person.
-            foreach (PlayerRoleRecord existingRole in existingRoles)
-            {
-                roleRepository.Remove(existingRole);
-            }
-            */
-
-            // @@@ TODO: Need to do this with all the other custom lists and collections, like friends and inventory.
-        }
-
-        private void SavePlayerThing(Thing player)
-        {
-            var repository = new DocumentRepository<Thing>();
-            repository.Save(player);
-        }
-
         /// <summary>Save the whole player Thing (not just this PlayerBehavior).</summary>
-        public void SaveWholePlayer()
+        public void SavePlayer()
         {
             var player = this.Parent;
             if (player == null)
@@ -204,19 +132,7 @@ namespace WheelMUD.Core
                 throw new ArgumentNullException("Cannot save a detached PlayerBehavior with no Parent Thing.");
             }
 
-            this.SavePlayerThing(player);
-            this.SavePlayerRecord();
-        }
-
-        /// <summary>Creates the missing player document in the NoSQL (RavenDb) data store.</summary>
-        /// <remarks>
-        /// This is usually called in the case where a test character was created in the
-        /// relational store, but no player document was created in the NoSQL (RavenDb) data store 
-        /// </remarks>
-        public void CreateMissingPlayerDocument()
-        {
-            this.Prompt = ">";
-            this.SaveWholePlayer();
+            DocumentRepository<Thing>.Save(player);
         }
 
         /// <summary>Releases unmanaged and, optionally, managed resources.</summary>
@@ -264,8 +180,18 @@ namespace WheelMUD.Core
         {
             var player = this.Parent;
 
+            // If the player isn't located anywhere yet, try to drop them in the default room.
+            // (Expect that even new characters may gain a starting position via custom character generation
+            // flows which let the user to select a starting spawn area.)
+            var targetPlayerStartingPosition = player.Parent != null ? player.Parent : FindDefaultRoom();
+            if (targetPlayerStartingPosition == null)
+            {
+                session.Write("Could not place character in the game world. Please contact an administrator.");
+                return false;
+            }
+
             // Prepare a login request and event.
-            var csb = new ContextualStringBuilder(player, player.Parent);
+            var csb = new ContextualStringBuilder(player, targetPlayerStartingPosition);
             csb.Append(@"$ActiveThing.Name enters the world.", ContextualStringUsage.WhenNotBeingPassedToOriginator);
             csb.Append(@"You enter the world.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
             var message = new SensoryMessage(SensoryType.Sight, 100, csb);
@@ -280,11 +206,14 @@ namespace WheelMUD.Core
             // If nothing canceled this event request, carry on with the login.
             if (!e.IsCancelled)
             {
+                player.Parent = targetPlayerStartingPosition;
+
                 DateTime universalTime = DateTime.Now.ToUniversalTime();
                 this.PlayerData.LastLogin = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";
                 this.PlayerData.LastIPAddress = session.Connection.CurrentIPAddress.ToString();
 
                 session.Thing = player;
+                session.User.LastLogInTime = DateTime.Now; // Should this occur when user was authenticated instead?
 
                 // Broadcast that the player successfully logged in, to their login location.
                 player.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
@@ -333,7 +262,7 @@ namespace WheelMUD.Core
                 DateTime universalTime = DateTime.Now.ToUniversalTime();
                 this.PlayerData.LastLogout = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";
 
-                player.FindBehavior<PlayerBehavior>()?.SaveWholePlayer();
+                player.FindBehavior<PlayerBehavior>()?.SavePlayer();
                 this.Dispose();
                 player.Dispose();
 
@@ -345,24 +274,6 @@ namespace WheelMUD.Core
             }
 
             return false;
-        }
-
-        /// <summary>Sets the players password to the new value specified.</summary>
-        /// <param name="newPassword">The new password.</param>
-        public void SetPassword(string newPassword)
-        {
-            // @@@ TODO: Immediately encrypt the password; shouldn't keep it in memory as plain text
-            // since a player or builder or whatnot might find a way to read them.
-            this.Password = newPassword;
-        }
-
-        /// <summary>Check if the password matches.</summary>
-        /// <param name="passwordAttempt">The password attempt.</param>
-        /// <returns>Whether or not the passwords match.</returns>
-        public bool PasswordMatches(string passwordAttempt)
-        {
-            // @@@ TODO: Encrypt the passed-in password and see if it matches the stored password.
-            return this.Password == passwordAttempt;
         }
 
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
@@ -411,24 +322,20 @@ namespace WheelMUD.Core
             }
         }
 
+        private static Thing FindDefaultRoom()
+        {
+            // TODO: Cache a weak reference to the Thing and acquire/reacquire when needed?
+            return (from t in ThingManager.Instance.Things
+                    where t.Id == "room/" + MudEngineAttributes.Instance.DefaultRoomID
+                    select t).FirstOrDefault();
+        }
+
         private bool IsFriend(string friendName)
         {
             lock (this.friendsLock)
             {
                 return this.Friends.Contains(friendName.ToLower());
             }
-        } 
-
-        /* @@@ This was part of the Quit command, so wouldn't execute if the player was Booted, etc...
-         *     probably this should happen as part of PlayerBehavior.Quit()
-        /// <summary>Sets the LastLogoutDate for the player, then saves it to the database.</summary>
-        /// <param name="sender">Sender of the command.</param>
-        private void SavePlayer(IController sender)
-        {
-            var player = (Player)sender.Thing;
-            player.LastLogoutDate = DateTime.Now.ToUniversalTime().ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";
-            player.CurrentRoomId = player.CurrentRoom.Id;
-            player.Save();
-        }*/
+        }
     }
 }

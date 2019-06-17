@@ -30,7 +30,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SaveWholePlayer(); 
+            actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SavePlayer(); 
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -38,7 +38,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

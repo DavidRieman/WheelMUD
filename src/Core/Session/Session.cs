@@ -12,6 +12,7 @@ namespace WheelMUD.Core
 {
     using System;
     using WheelMUD.Core.Events;
+    using WheelMUD.Data;
     using WheelMUD.Interfaces;
 
     /// <summary>The 'session authenticated' event handler delegate.</summary>
@@ -38,7 +39,6 @@ namespace WheelMUD.Core
                 this.Write(string.Empty, true);
 
                 this.AtPrompt = false;
-                this.UserName = string.Empty;
             }
         }
 
@@ -75,8 +75,8 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets a value indicating whether the client is currently at a prompt or not.</summary>
         public bool AtPrompt { get; set; }
 
-        /// <summary>Gets or sets the username this session used to identify themselves with at login.</summary>
-        public string UserName { get; set; }
+        /// <summary>Gets or sets the User authenticated to this session (if any).</summary>
+        public User User { get; set; }
 
         /// <summary>Gets the last action input the session received.</summary>
         public ActionInput LastActionInput { get; private set; }
@@ -87,10 +87,7 @@ namespace WheelMUD.Core
         /// <summary>Provides authentication services for this session.</summary>
         public void AuthenticateSession()
         {
-            if (this.SessionAuthenticated != null)
-            {
-                this.SessionAuthenticated(this);
-            }
+            this.SessionAuthenticated?.Invoke(this);
         }
 
         /// <summary>Passes the input up the chain for processing.</summary>

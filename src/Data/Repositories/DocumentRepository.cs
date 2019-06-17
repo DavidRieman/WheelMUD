@@ -10,9 +10,9 @@ namespace WheelMUD.Data.Repositories
     using WheelMUD.Interfaces;
 
     /// <summary>Generic document repository implementation for type T.</summary>
-    public class DocumentRepository<T> where T : IIdentifiable, new()
+    public static class DocumentRepository<T> where T : IIdentifiable, new()
     {
-        public void Save(T obj)
+        public static void Save(T obj)
         {
             using (var session = Helpers.OpenDocumentSession())
             {
@@ -23,7 +23,7 @@ namespace WheelMUD.Data.Repositories
             }
         }
 
-        public T Load(string id)
+        public static T Load(string id)
         {
             using (var session = Helpers.OpenDocumentSession())
             {

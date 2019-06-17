@@ -13,12 +13,14 @@
 namespace WheelMUD.Data
 {
     using System;
+    using System.Linq;
 
     public interface IBasicDocumentSession : IDisposable
     {
         void Delete<T>(T entity);
         void Delete(string id);
         T Load<T>(string id);
+        IOrderedQueryable<T> Query<T>();
         void Store<T>(T entity);
         void SaveChanges();
     }

@@ -25,9 +25,6 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the session this state applies to.</summary>
         protected Session Session { get; set; }
 
-        /// <summary>Gets or sets the password.</summary>
-        protected string Password { get; set; }
-
         /// <summary>Process the specified input.</summary>
         /// <param name="command">The input to process.</param>
         public abstract void ProcessInput(string command);

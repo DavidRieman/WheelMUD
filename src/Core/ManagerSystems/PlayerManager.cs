@@ -176,9 +176,10 @@ namespace WheelMUD.Core
         /// <param name="session">The authenticated session.</param>
         public void OnSessionAuthenticated(Session session)
         {
-            // If there was already a connected player for this new, authentic user session, 
-            // kick the old one (as it may have been a prior disconnect or whatnot).
-            PlayerBehavior previousPlayer = this.FindLoggedInPlayer(session.UserName);
+            // If there was already a connected player for this new, authentic user session, kick the old
+            // one (as it may have been a prior disconnect or whatnot or even a different player character
+            // controlled by the same user account).
+            PlayerBehavior previousPlayer = this.FindLoggedInPlayer(session.User.UserName);
             if (previousPlayer != null)
             {
                 var msg = "Duplicate player match, kicking session id " + previousPlayer.SessionId;
@@ -196,149 +197,17 @@ namespace WheelMUD.Core
                 this.RemovePlayer(previousPlayer.Parent);
             }
 
-            bool wasPlayerMissingDocument = false;
-
             // If this session doesn't have a player thing attached yet, load it up.  Note that
             // for situations like character creation, we might already have our Thing, so we
             // don't want to load a duplicate version of the just-created player Thing.
             if (session.Thing == null)
             {
-                using (var docSession = WheelMUD.Data.Helpers.OpenDocumentSession())
-                {
-                    session.Thing = docSession.Load<Thing>(session.UserName);
-                }
-                /* TODO FIX RAVENDB LOADING THE PLAYER DOCUMENT, THEN RE-RIGGING SESSION ETC!
-                var playerBehavior = new PlayerBehavior();
-                playerBehavior.Load(session.UserName);
-
-                var player = new Thing(null)
-                {
-                    Name = playerBehavior.PlayerData.DisplayName
-                };
-
-                // Make sure that the playerBehavior has a parent set.
-                playerBehavior.Parent = player;
-
-                // Load game data from disk (RavenDb/NoSQL)
-                PlayerDocument pd = this.LoadPlayerDocument(playerBehavior.PlayerData.ID);
-                if (pd == null)
-                {
-                    // If we are here, this means that the player that we are trying to
-                    // load does not have a corresponding player document in the NoSQL
-                    // (RavenDb) store. Let's go and create a player document with default
-                    // values.
-                    player = PrepareBaseCharacter(session);
-                    player.Name = playerBehavior.PlayerData.DisplayName;
-                    playerBehavior.Parent = player;
-                    playerBehavior.CreateMissingPlayerDocument();
-
-                    var sb = new StringBuilder();
-
-                    sb.AppendLine("This character is missing gaming data.");
-                    sb.AppendFormat("The MUD engine is creating a default game settings for {0}.", playerBehavior.PlayerData.DisplayName);
-                    sb.Append(Environment.NewLine);
-                    sb.AppendLine("The system will now log you out. Please login again, to continue playing.");
-
-                    session.Write(sb.ToString());
-
-                    playerBehavior.LogOut();
-                }
-
-                // Get SensesBehavior and UserControlledBehavior from the PlayerDocument.
-                var sensesBehavior = pd.Behaviors.OfType<SensesBehavior>().FirstOrDefault();
-                var userControlledBehavior = pd.Behaviors.OfType<UserControlledBehavior>().FirstOrDefault();
-
-                // Setup the controlled behavior controller.
-                userControlledBehavior.Controller = session;
-
-                // Initialize the player behavior event processor.
-                playerBehavior.InitEventProcessor(sensesBehavior, userControlledBehavior);
-
-                // Get the player behavior with the game data
-                var persistedPlayerBehavior = pd.Behaviors.OfType<PlayerBehavior>().FirstOrDefault();
-
-                // Get data from the persisted player behavior and merge it into the manually created one
-                playerBehavior.Gender = persistedPlayerBehavior.Gender;
-                playerBehavior.Race = persistedPlayerBehavior.Race;
-                playerBehavior.SessionId = session.ID;
-                playerBehavior.Name = session.UserName;
-                playerBehavior.Prompt = pd.PlayerPrompt;
-                playerBehavior.RoleData = persistedPlayerBehavior.RoleData;
-                playerBehavior.ID = persistedPlayerBehavior.ID;
-
-                // We don't need the persisted player behavior anymore, so remove it
-                pd.Behaviors.Remove(persistedPlayerBehavior);
-
-                if (!wasPlayerMissingDocument)
-                {
-                    // Put all the persisted game data onto the right objects.
-                    this.TranslateFromPlayerDocument(ref player, pd);
-
-                    // Make sure to add the player behavior to the player Thing object.
-                    playerBehavior.Parent = player;
-                    player.Behaviors.Add(playerBehavior);
-                    player.Id = "player/" + playerBehavior.ID;
-                }
-
-                if (playerBehavior.LogIn(session))
-                {
-                    lock (this.lockObject)
-                    {
-                        if (!this.playersList.Contains(playerBehavior))
-                        {
-                            this.playersList.Add(playerBehavior);
-                        }
-                    }
-
-                    // Determine the screen buffer size.
-                    if (session.Connection != null)
-                    {
-                        if (userControlledBehavior.PagingRowLimit >= 0)
-                        {
-                            session.Connection.PagingRowLimit = userControlledBehavior.PagingRowLimit;
-                        }
-                        else
-                        {
-                            int terminalHeight = session.Terminal.Height;
-
-                            // If a broken client doesn't provide a valid terminal height, who knows
-                            // what it might contain. In that case, default to 0 (no paging).
-                            // 100 is an arbitrary realistic number. If this changes, the "buffer"
-                            // command should also be changed for consistency. Or define the
-                            // max/min as constants somewhere.
-                            if (terminalHeight >= 0 && terminalHeight <= 100)
-                            {
-                                session.Connection.PagingRowLimit = session.Terminal.Height;
-                            }
-                            else
-                            {
-                                session.Connection.PagingRowLimit = 0;
-                            }
-                        }
-                    }
-
-                    session.Thing = player;
-
-                    // @@@ HACK: Add player to Krondor's first room
-                    PlacesManager.Instance.World.Children[0].Children[0].Add(player);
-
-                    // Finally give the player some initial sensory feedback by having them look.
-                    CommandManager.Instance.EnqueueAction(new ActionInput("look", userControlledBehavior.Controller));
-                }
-                else
-                {
-                    // @@@ TODO: Login denied? Back out of the session, disconnect, etc.
-                    throw new NotImplementedException("Cancellation of login event is not yet supported.");
-                }*/
+                session.Write("User was authenticated but the player character could not be loaded.");
+                session.Write("Please contact an administrator. Disconnecting.");
+                session.Connection.Disconnect();
             }
 
-            // Finally, if the newly-logged in character replaced an old connection, notify the new 
-            // user of the problem.  We could also vary behavior/logging based on whether the IP 
-            // addresses match; same IP is safer to assume as replaced connection instead of breach.
-            if (previousPlayer != null)
-            {
-                // @@@ TODO: Implement
-            }
+            // TODO: Perhaps reset player command queue to have exactly one "look" command?
         }
 
         /// <summary>Called upon session disconnect.</summary>
@@ -395,6 +264,7 @@ namespace WheelMUD.Core
         /// <returns>The PlayerBehavior of the user, if found, else null.</returns>
         private PlayerBehavior FindLoggedInPlayer(string userName)
         {
+            // TODO: #62: Find via user name instead of player names which match this user name.
             return this.FindPlayer(p => p.Parent.Name.Equals(userName, StringComparison.CurrentCultureIgnoreCase));
         }
 

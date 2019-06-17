@@ -12,11 +12,8 @@ namespace WarriorRogueMage.CharacterCreation
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Text;
-    using System.Text.RegularExpressions;
-    using System.Threading;
     using WheelMUD.ConnectionStates;
     using WheelMUD.Core;
 
@@ -24,9 +21,8 @@ namespace WarriorRogueMage.CharacterCreation
     public class PickTalentsState : CharacterCreationSubState
     {
         private int longestTalentName;
-        private string selectedTalent;
-        private string formattedTalents;
-        private List<Talent> talents;
+        private readonly string formattedTalents;
+        private readonly List<Talent> talents;
 
         /// <summary>Initializes a new instance of the <see cref="PickTalentsState"/> class.</summary>
         /// <param name="session">The session.</param>
@@ -34,11 +30,8 @@ namespace WarriorRogueMage.CharacterCreation
             : base(session)
         {
             this.Session.Write("You will now pick your character's starting talent.");
-
             this.talents = TalentFinder.Instance.NormalTalents;
-
-            this.FormatTalentText();
-
+            this.formattedTalents = this.FormatTalentText();
             this.RefreshScreen(false);
         }
 
@@ -46,34 +39,34 @@ namespace WarriorRogueMage.CharacterCreation
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {
-            string currentCommand = command.ToLower().Trim();
-
+            var commandParts = command.Split(' ');
+            var currentCommand = commandParts[0];
             switch (currentCommand)
             {
-                case "clear":
-                    this.ClearSelectedTalent();
-                    break;
                 case "view":
-                    this.ViewTalentDescription(currentCommand);
-                    break;
-                case "done":
-                    this.ProcessDone();
+                    if (commandParts.Length > 1)
+                    {
+                        this.ViewTalentDescription(commandParts[1]);
+                    }
+                    else
+                    {
+                        WrmChargenCommon.SendErrorMessage(this.Session, "Please select which talent you would like to view details for, like 'view sailor'.");
+                    }
                     break;
                 case "list":
                     this.RefreshScreen();
                     break;
                 default:
-                    string tentativeTalentName = this.GetCommardPart(currentCommand);
-
-                    if (tentativeTalentName == string.Empty)
+                    var talent = this.GetTalent(currentCommand);
+                    if (talent != null)
                     {
-                        this.SetTalent(currentCommand);
+                        // @@@ TODO: Save talent to a WRM-specific Behavior?
+                        this.StateMachine.HandleNextStep(this, StepStatus.Success);
                     }
                     else
                     {
-                        WrmChargenCommon.SendErrorMessage(this.Session, "Invalid command. Please use clear, view, list, or done.");
+                        WrmChargenCommon.SendErrorMessage(this.Session, "Invalid talent. Try again, or use 'view [talent]' or 'list'.");
                     }
-
                     break;
             }
         }
@@ -83,32 +76,11 @@ namespace WarriorRogueMage.CharacterCreation
             return "Select the character's starting talent.\n> ";
         }
 
-        private void SetTalent(string talentToSet)
+        private Talent GetTalent(string talentName)
         {
-            CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
-            TextInfo textInfo = cultureInfo.TextInfo;
-
-            Talent currentSelection = (from r in this.talents
-                                       where r.Name.ToLower() == talentToSet.ToLower()
-                                       select r).FirstOrDefault();
-
-            if (currentSelection != null)
-            {
-                this.selectedTalent = textInfo.ToTitleCase(talentToSet);
-            }
-            else
-            {
-                WrmChargenCommon.SendErrorMessage(this.Session, "That talent does not exist.");
-            }
-
-            this.RefreshScreen();
-        }
-
-        private void ClearSelectedTalent()
-        {
-            this.selectedTalent = string.Empty;
-
-            this.RefreshScreen();
+            return (from r in this.talents
+                    where r.Name.Equals(talentName, StringComparison.OrdinalIgnoreCase)
+                    select r).FirstOrDefault();
         }
 
         private void ViewTalentDescription(string talent)
@@ -133,20 +105,7 @@ namespace WarriorRogueMage.CharacterCreation
             }
         }
 
-        private void ProcessDone()
-        {
-            if (this.selectedTalent != string.Empty)
-            {
-                // Proceed to the next step.
-                this.StateMachine.HandleNextStep(this, StepStatus.Success);
-            }
-            else
-            {
-                WrmChargenCommon.SendErrorMessage(this.Session, "Please select a talent before proceeding to the next step.");
-            }
-        }
-
-        private void FormatTalentText()
+        private string FormatTalentText()
         {
             var talentQueue = new Queue<Talent>();
             var text = new StringBuilder();
@@ -204,24 +163,7 @@ namespace WarriorRogueMage.CharacterCreation
             }
 
             text.Append(Environment.NewLine);
-
-            this.formattedTalents = text.ToString();
-        }
-
-        private string GetCommardPart(string command)
-        {
-            string retval = string.Empty;
-
-            try
-            {
-                retval = Regex.Match(command, @"clear|view|list|done").Value;
-            }
-            catch (ArgumentException)
-            {
-                // Syntax error in the regular expression
-            }
-
-            return retval;
+            return text.ToString();
         }
 
         private void RefreshScreen(bool sendPrompt = true)
@@ -230,17 +172,13 @@ namespace WarriorRogueMage.CharacterCreation
             sb.AppendLine();
             sb.AppendLine();
             sb.AppendLine("You may pick one starting talent for your character.");
-            sb.AppendFormat("Selected Talent : {0}" + Environment.NewLine, this.selectedTalent);
-            sb.AppendLine();
             sb.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
             sb.AppendLine(this.formattedTalents);
             sb.AppendLine("<%yellow%>==========================================================================");
             sb.AppendLine("To pick a talent, type the talent's name. Example: sailor");
             sb.AppendLine("To view a talent's description use the view command. Example: view sailor");
             sb.AppendLine("To see this screen again type list.");
-            sb.AppendLine("When you are done picking your talent, type done.");
             sb.AppendLine("==========================================================================<%n%>");
-
             this.Session.Write(sb.ToString(), sendPrompt);
         }
     }

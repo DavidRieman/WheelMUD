@@ -32,7 +32,7 @@ namespace WheelMUD.ConnectionStates
             }
 
             string nl = Environment.NewLine;
-            session.Write(string.Format("{0}Welcome, {1}.{0}{0}", nl, this.Session.UserName), false);
+            session.Write(string.Format("{0}Welcome, {1}.{0}{0}", nl, this.Session.Thing.FullName), false);
         }
 
         /// <summary>Process the specified input.</summary>

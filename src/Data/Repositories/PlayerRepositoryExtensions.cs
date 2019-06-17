@@ -7,69 +7,43 @@
 
 namespace WheelMUD.Data.Repositories
 {
+    using ServiceStack.OrmLite;
     using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
     using System.Text;
-    using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
 
     public static class PlayerRepositoryExtensions
     {
-        /// <summary>Authenticates the specified name.</summary>
-        /// <param name="userName">The user name for the player trying to authenticate.</param>
-        /// <param name="password">The password for the player trying to authenticate.</param>
-        /// <returns>A Boolean value indicating whether the authentication request was successful or not.</returns>
-        public static bool Authenticate(string userName, string password)
+        public static User Authenticate(string userName, string password)
         {
-            PlayerRecord player;
-
-            using (IDbCommand session = Helpers.OpenRelationalSession())
+            using (var session = Helpers.OpenDocumentSession())
             {
-                if ("sqlite".Equals(HelperConfigInfo.Instance.RelationalDataProviderName, StringComparison.OrdinalIgnoreCase))
+                var salt = (from u in session.Query<User>()
+                            where u.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase)
+                            select u.Salt).FirstOrDefault();
+                if (salt == null)
                 {
-                    const string sql = @"SELECT * FROM Players 
-                                         WHERE UserName = {0} 
-                                         COLLATE NOCASE 
-                                         AND Password = {1}";
-
-                    player = session.Connection.Select<PlayerRecord>(sql, userName, password).FirstOrDefault();
+                    return null;
                 }
-                else
-                {
-                    player = session.Connection.Select<PlayerRecord>("UserName = {0} and Password = {1}", userName, password).FirstOrDefault();
-                }
+                var hashedPassword = User.Hash(salt, password);
+                return (from u in session.Query<User>()
+                        where u.UserName.Equals(userName) &&
+                              u.HashedPassword.Equals(hashedPassword)
+                        select u).FirstOrDefault();
             }
-
-            // If we found a player that matched that name/password pair, then authentication is successful.
-            return player != null;
         }
 
-        /// <summary>Gets a player record that is associated with the user name.</summary>
-        /// <param name="userName">The user name to look up a player.</param>
-        /// <returns>Returns a player record loaded with the player's data.</returns>
-        public static PlayerRecord GetPlayerByUserName(this RelationalRepository<PlayerRecord> repository, string userName)
+        public static bool UserNameExists(string userName)
         {
-            PlayerRecord player;
-
-            using (IDbCommand session = Helpers.OpenRelationalSession())
+            using (var session = Helpers.OpenDocumentSession())
             {
-                if ("sqlite".Equals(HelperConfigInfo.Instance.RelationalDataProviderName, StringComparison.OrdinalIgnoreCase))
-                {
-                    const string sql = @"SELECT * FROM Players 
-                                         WHERE UserName = {0} 
-                                         COLLATE NOCASE ";
-
-                    player = session.Connection.Select<PlayerRecord>(sql, userName).FirstOrDefault();
-                }
-                else
-                {
-                    player = session.Connection.QuerySingle<PlayerRecord>("UserName = {0}", userName);
-                }
+                return (from u in session.Query<User>()
+                        where u.UserName.Equals(userName)
+                        select u).Any();
             }
-
-            return player;
         }
 
         /// <summary>Gets a list of RoleRecords for a specific player</summary>
@@ -142,7 +116,7 @@ namespace WheelMUD.Data.Repositories
 
             using (IDbCommand session = Helpers.OpenRelationalSession())
             {
-                if ("sqlite".Equals(HelperConfigInfo.Instance.RelationalDataProviderName, StringComparison.OrdinalIgnoreCase))
+                if ("sqlite".Equals(AppConfigInfo.Instance.RelationalDataProviderName, StringComparison.OrdinalIgnoreCase))
                 {
                     var sql = new StringBuilder();
 
