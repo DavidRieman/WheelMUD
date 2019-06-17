@@ -205,7 +205,7 @@ namespace WheelMUD.Main
         /// <summary>Ensures that the database and such are present; copies the default if not.</summary>
         private static void EnsureDataIsPresent()
         {
-            if ("sqlite".Equals(HelperConfigInfo.Instance.RelationalDataProviderName, StringComparison.OrdinalIgnoreCase))
+            if ("sqlite".Equals(AppConfigInfo.Instance.RelationalDataProviderName, StringComparison.OrdinalIgnoreCase))
             {
                 // Only for SQLite: Make sure that the database is in the right place.
                 const string DatabaseName = "WheelMud.net.db";

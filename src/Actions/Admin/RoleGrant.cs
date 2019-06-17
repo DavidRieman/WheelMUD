@@ -54,7 +54,7 @@ namespace WheelMUD.Actions
                 {
                     Name = roleName
                 });
-                player.FindBehavior<PlayerBehavior>()?.SaveWholePlayer();
+                player.FindBehavior<PlayerBehavior>()?.SavePlayer();
                 sender.Write(player.Name + " has been granted the " + roleName + " role.", true);
             }
         }

@@ -19,6 +19,9 @@ namespace WheelMUD.Actions
     /// <summary>An action to set your status as 'inactive' to other players.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("password", CommandCategory.Configure)]
+    // TODO: #65: This should really take a series of stand-alone prompts, including: the Old Password, the New Password, and Confirm the New Password!
+    //       Perhaps the password change should only be implemented after a proper prompt queue is built. Alternatively, this could become only
+    //       supported from the character selection state, and have a way to get back there even when UserAccountIsPlayerCharacter is set.
     [ActionDescription("Change's your password. Usage: password Value ConfirmValue")]
     [ActionSecurity(SecurityRole.player)]
     public class Password : GameAction
@@ -41,16 +44,14 @@ namespace WheelMUD.Actions
 
             if (sender != null && sender.Thing != null)
             {
-                PlayerBehavior playerBehavior = sender.Thing.Behaviors.FindFirst<PlayerBehavior>();
-                if (playerBehavior != null)
+                /* TODO: #65: This is on the User object now.
                 {
-                    playerBehavior.SetPassword(this.NewPassword);
                     sender.Write("Password successfully changed.");
                 }
                 else
                 {
                     sender.Write("Unexpected error occurred changing password, please contact admin.");
-                }
+                }*/
             }
         }
 

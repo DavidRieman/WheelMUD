@@ -25,7 +25,6 @@ namespace WarriorRogueMage.CharacterCreation
     {
         private int longestRaceName;
         private string formattedRaces;
-        private GameRace selectedRace;
         private List<GameRace> gameRaces;
 
         /// <summary>Initializes a new instance of the <see cref="PickRaceState"/> class.</summary>
@@ -47,30 +46,24 @@ namespace WarriorRogueMage.CharacterCreation
 
             switch (currentCommand)
             {
-                case "clear":
-                    this.ClearRace();
-                    break;
                 case "view":
                     this.ViewRaceDescription(currentCommand);
-                    break;
-                case "done":
-                    this.ProcessDone();
                     break;
                 case "list":
                     this.RefreshScreen();
                     break;
                 default:
-                    string tentativeRaceName = this.GetCommardPart(currentCommand);
-
-                    if (tentativeRaceName == string.Empty)
+                    var race = this.GetRace(currentCommand);
+                    if (race != null)
                     {
-                        this.SetRace(currentCommand);
+                        var playerBehavior = this.Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
+                        playerBehavior.Race = race;
+                        this.StateMachine.HandleNextStep(this, StepStatus.Success);
                     }
                     else
                     {
-                        WrmChargenCommon.SendErrorMessage(this.Session, "Invalid command. Please use clear, view, list, or done.");
+                        WrmChargenCommon.SendErrorMessage(this.Session, "Invalid race. Try again, or use 'view [race]' or 'list'.");
                     }
-
                     break;
             }
         }
@@ -80,32 +73,11 @@ namespace WarriorRogueMage.CharacterCreation
             return "Select your character's race.\n> ";
         }
 
-        private void SetRace(string raceToSelect)
+        private GameRace GetRace(string raceName)
         {
-            CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
-            TextInfo textInfo = cultureInfo.TextInfo;
-
-            string currentRace = textInfo.ToTitleCase(raceToSelect);
-
-            GameRace currSelection = (from r in this.gameRaces
-                                      where r.Name == currentRace
-                                      select r).FirstOrDefault();
-
-            if (currSelection != null)
-            {
-                this.selectedRace = currSelection;
-            }
-            else
-            {
-                WrmChargenCommon.SendErrorMessage(this.Session, "That race does not exist.");
-            }
-
-            this.RefreshScreen();
-        }
-
-        private void ClearRace()
-        {
-            this.RefreshScreen();
+            return (from r in this.gameRaces
+                    where r.Name.Equals(raceName, StringComparison.OrdinalIgnoreCase)
+                    select r).FirstOrDefault();
         }
 
         private void ViewRaceDescription(string race)
@@ -135,22 +107,6 @@ namespace WarriorRogueMage.CharacterCreation
             else
             {
                 WrmChargenCommon.SendErrorMessage(this.Session, "That race does not exist.");
-            }
-        }
-
-        private void ProcessDone()
-        {
-            if (this.selectedRace != null)
-            {
-                var playerBehavior = this.StateMachine.NewCharacter.Behaviors.FindFirst<PlayerBehavior>();
-                playerBehavior.Race = this.selectedRace;
-
-                // Proceed to the next step.
-                this.StateMachine.HandleNextStep(this, StepStatus.Success);
-            }
-            else
-            {
-                WrmChargenCommon.SendErrorMessage(this.Session, "You must select a valid race before continuing.");
             }
         }
 
@@ -236,16 +192,12 @@ namespace WarriorRogueMage.CharacterCreation
             var sb = new StringBuilder();
             sb.AppendLine();
             sb.AppendLine();
-            string raceName = this.selectedRace != null ? this.selectedRace.Name : "(unselected)";
-            sb.AppendFormat("Your race is : {0}" + Environment.NewLine, raceName);
-            sb.AppendLine();
             sb.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
             sb.AppendLine(this.formattedRaces);
             sb.AppendLine("<%yellow%>=========================================================================");
             sb.AppendLine("To pick a race, just type the race's name. Example: human");
             sb.AppendLine("To view a races's description use the view command. Example: view orc");
-            sb.AppendLine("To see this screen again type list.");
-            sb.AppendLine("When you are done picking your race, type done.");
+            sb.AppendLine("To see this screen again type 'list'.");
             sb.AppendLine("=========================================================================<%n%>");
 
             this.Session.Write(sb.ToString(), sendPrompt);

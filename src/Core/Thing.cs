@@ -17,7 +17,6 @@ namespace WheelMUD.Core
     using System.Linq;
     using System.Xml.Serialization;
     using WheelMUD.Core.Events;
-    using WheelMUD.Data;
     using WheelMUD.Interfaces;
 
     /// <summary>A base class that pretty much any interactive thing within the game world is based on.</summary>
@@ -136,6 +135,38 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the parent of this thing, IE a container.</summary>
         [JsonIgnore]
         public Thing Parent { get; set; }
+
+#pragma warning disable IDE0051 // Remove unused private members
+        /// <summary>Gets or sets the parent of this thing via ID.</summary>
+        /// <remarks>
+        /// Primarily used for persistence to store and restore location without storing the whole parent.
+        /// E.G. the player thing can store the parent room Id without storing the whole room, and we will
+        /// automatically restore the player to that room upon loading the player.
+        /// This should NOT be used for normal cases of moving things from one owner to another, so keeping
+        /// this private should mean it only gets exercised by document restoration processes instead of
+        /// potentially getting misused by other systems.
+        /// Note this does NOT currently restore multiple parents, which shouldn't be applicable to the
+        /// base set of stored documents like players and worlds or areas.
+        /// </remarks>
+        private string ParentId
+#pragma warning restore IDE0051 // Remove unused private members
+        {
+            get
+            {
+                return this.Parent?.Id;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    this.Parent = null;
+                }
+                else if (this.Parent?.Id != value)
+                {
+                    this.Parent = ThingManager.Instance.FindThing(value);
+                }
+            }
+        }
 
         /// <summary>Gets a list of all parents of this thing, or an empty list if there are none.</summary>
         [JsonIgnore]
@@ -542,9 +573,7 @@ namespace WheelMUD.Core
         public GameAttribute FindGameAttribute(string name)
         {
             GameAttribute attribute;
-
             this.Attributes.TryGetValue(name, out attribute);
-
             return attribute;
         }
 
@@ -554,9 +583,7 @@ namespace WheelMUD.Core
         public T FindGameAttribute<T>() where T : GameAttribute
         {
             var attribList = new List<GameAttribute>(this.Attributes.Values);
-
             T attribute = attribList.OfType<T>().FirstOrDefault();
-
             return attribute;
         }
 
@@ -674,9 +701,7 @@ namespace WheelMUD.Core
         public void AddAttribute(GameAttribute gameAttribute)
         {
             gameAttribute.Parent = this;
-
             this.Attributes.Add(gameAttribute.Name, gameAttribute);
-
             gameAttribute.OnAdd();
         }
 
@@ -685,12 +710,10 @@ namespace WheelMUD.Core
         public void RemoveAttribute(GameAttribute gameAttribute)
         {
             gameAttribute.Parent = null;
-
             if (this.Attributes.ContainsKey(gameAttribute.Name))
             {
                 this.Attributes.Remove(gameAttribute.Name);
             }
-
             gameAttribute.OnRemove();
         }
 
@@ -708,12 +731,10 @@ namespace WheelMUD.Core
         public void RemoveStat(GameStat gameStat)
         {
             gameStat.Parent = null;
-
             if (this.Stats.ContainsKey(gameStat.Name))
             {
                 this.Stats.Remove(gameStat.Name);
             }
-
             gameStat.OnRemove();
         }
 

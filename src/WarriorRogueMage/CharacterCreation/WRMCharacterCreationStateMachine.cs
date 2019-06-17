@@ -65,14 +65,6 @@ namespace WarriorRogueMage.CharacterCreation
             }
             else if (current is GetNameState)
             {
-                return new PickGenderState(this.Session);
-            }
-            else if (current is PickGenderState)
-            {
-                return new GetDescriptionState(this.Session);
-            }
-            else if (current is GetDescriptionState)
-            {
                 return new GetPasswordState(this.Session);
             }
             else if (current is GetPasswordState)
@@ -80,6 +72,14 @@ namespace WarriorRogueMage.CharacterCreation
                 return new ConfirmPasswordState(this.Session);
             }
             else if (current is ConfirmPasswordState)
+            {
+                return new PickGenderState(this.Session);
+            }
+            else if (current is PickGenderState)
+            {
+                return new GetDescriptionState(this.Session);
+            }
+            else if (current is GetDescriptionState)
             {
                 return new SetAttributesState(this.Session);
             }

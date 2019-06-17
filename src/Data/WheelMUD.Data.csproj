@@ -150,6 +150,8 @@
     <Compile Include="Repositories\GeneralRepositoryExtensions.cs" />
     <Compile Include="Repositories\LocationRepositoryExtensions.cs" />
     <Compile Include="Repositories\PlayerRepositoryExtensions.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserTelnetSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

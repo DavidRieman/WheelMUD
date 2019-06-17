@@ -12,6 +12,7 @@ namespace WheelMUD.ConnectionStates
 {
     using System;
     using WheelMUD.Core;
+    using WheelMUD.Data;
 
     /// <summary>Character creation state used to confirm creation and entry into the game.</summary>
     public class ConfirmCreationEntryState : CharacterCreationSubState
@@ -29,6 +30,10 @@ namespace WheelMUD.ConnectionStates
         {
             if (command.ToLower() == "yes" || command.ToLower() == "y")
             {
+                this.Session.User = new User()
+                {
+                    AccountCreationDate = DateTime.Now,
+                };
                 this.StateMachine.HandleNextStep(this, StepStatus.Success);
             }
             else
@@ -39,7 +44,8 @@ namespace WheelMUD.ConnectionStates
 
         public override string BuildPrompt()
         {
-            return string.Format("Are you sure you wish to create a new character?{0}Yes/No> ", Environment.NewLine);
+            var creationType = AppConfigInfo.Instance.UserAccountIsPlayerCharacter ? "character" : "user account";
+            return string.Format("Are you sure you wish to create a new {0}?{1}Yes/No> ", creationType, Environment.NewLine);
         }
     }
 }

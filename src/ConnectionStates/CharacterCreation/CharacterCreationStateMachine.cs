@@ -21,7 +21,7 @@ namespace WheelMUD.ConnectionStates
             // If this is attached to a session, prepare a character for building upon.
             if (this.Session != null)
             {
-                this.NewCharacter = PlayerManager.PrepareBaseCharacter(session);
+                this.Session.Thing = PlayerManager.PrepareBaseCharacter(session);
                 this.HandleNextStep(null, StepStatus.Success);
             }
         }
@@ -31,9 +31,6 @@ namespace WheelMUD.ConnectionStates
 
         /// <summary>An event for the abortion of character creation.</summary>
         public event CharacterCreationAborted CharacterCreationAborted;
-
-        /// <summary>Gets or sets the new character being created.</summary>
-        public Thing NewCharacter { get; set; }
 
         /// <summary>Gets the session for the user who may be creating a character.</summary>
         public Session Session { get; private set; }
@@ -79,19 +76,13 @@ namespace WheelMUD.ConnectionStates
         /// <summary>Signals abortion of character creation.</summary>
         internal void AbortCreation()
         {
-            if (this.CharacterCreationAborted != null)
-            {
-                this.CharacterCreationAborted();
-            }
+            this.CharacterCreationAborted?.Invoke();
         }
 
         /// <summary>Signals completion of character creation.</summary>
         internal void OnCreationComplete()
         {
-            if (this.CharacterCreationCompleted != null)
-            {
-                this.CharacterCreationCompleted(this.NewCharacter);
-            }
+            this.CharacterCreationCompleted?.Invoke(this.Session);
         }
     }
 }

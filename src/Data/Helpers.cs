@@ -23,8 +23,8 @@ namespace WheelMUD.Data
         static Helpers()
         {
             var providerCache = new ProviderCache();
-            var configuredRelationalProviderName = HelperConfigInfo.Instance.RelationalDataProviderName;
-            var configuredDocumentStorageProviderName = HelperConfigInfo.Instance.DocumentDataProviderName;
+            var configuredRelationalProviderName = AppConfigInfo.Instance.RelationalDataProviderName;
+            var configuredDocumentStorageProviderName = AppConfigInfo.Instance.DocumentDataProviderName;
             configuredRelationalDatabaseProvider = (from provider in providerCache.RelationalDatabaseProviders
                                                     where provider.DatabaseName.Equals(configuredRelationalProviderName, StringComparison.InvariantCultureIgnoreCase)
                                                     select provider).FirstOrDefault();
@@ -51,7 +51,7 @@ namespace WheelMUD.Data
             {
                 if (sessionFactory == null)
                 {
-                    var connectionString = HelperConfigInfo.Instance.RelationalConnectionString;
+                    var connectionString = AppConfigInfo.Instance.RelationalConnectionString;
                     try
                     {
                         configuredRelationalDatabaseProvider.ConnectionString = connectionString;

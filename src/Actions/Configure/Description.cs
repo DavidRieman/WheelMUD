@@ -45,7 +45,7 @@ namespace WheelMUD.Actions
                     if (!string.IsNullOrEmpty(this.NewDescription))
                     {
                         entity.Description = this.NewDescription;
-                        entity.FindBehavior<PlayerBehavior>()?.SaveWholePlayer();
+                        entity.FindBehavior<PlayerBehavior>()?.SavePlayer();
                         sender.Write("Description successfully changed.");
                     }
                     else

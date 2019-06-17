@@ -13,6 +13,7 @@
 namespace WheelMUD.Data
 {
     using Raven.Client.Documents.Session;
+    using System.Linq;
 
     public class RavenDocumentSessionBridge : IBasicDocumentSession
     {
@@ -42,6 +43,11 @@ namespace WheelMUD.Data
         public T Load<T>(string id)
         {
             return this.documentSession.Load<T>(id);
+        }
+
+        public IOrderedQueryable<T> Query<T>()
+        {
+            return this.documentSession.Query<T>();
         }
 
         public void SaveChanges()

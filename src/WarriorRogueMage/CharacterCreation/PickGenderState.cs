@@ -75,7 +75,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void ProcessDone()
         {
-            var playerBehavior = this.StateMachine.NewCharacter.Behaviors.FindFirst<PlayerBehavior>();
+            var playerBehavior = this.Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
             playerBehavior.Gender = this.selectedGender;
             string doneMessage = string.Format("<%green%>The chosen gender is {0}.<%n%>" + Environment.NewLine, this.selectedGender.Name);
             this.Session.Write(doneMessage, false);
