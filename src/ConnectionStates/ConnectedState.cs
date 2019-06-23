@@ -12,6 +12,7 @@ namespace WheelMUD.ConnectionStates
 {
     using System;
     using WheelMUD.Core;
+    using WheelMUD.Data;
 
     /// <summary>The 'connected' session state.</summary>
     [ExportSessionState(100)]
@@ -50,8 +51,7 @@ namespace WheelMUD.ConnectionStates
                     this.Session.Connection.Disconnect();
                     break;
                 default:
-                    this.Session.UserName = command;
-                    this.Session.State = new LoginState(this.Session);
+                    this.Session.State = new LoginState(this.Session, command);
                     this.Session.WritePrompt();
                     break;
             }
@@ -61,7 +61,8 @@ namespace WheelMUD.ConnectionStates
         /// <returns>The current prompt.</returns>
         public override string BuildPrompt()
         {
-            return string.Format("Enter your character name or type NEW to create a new one.{0}> ", Environment.NewLine);
+            var creationType = AppConfigInfo.Instance.UserAccountIsPlayerCharacter ? "character name" : "user name";
+            return string.Format("Enter your {0} or type NEW to create a new one.{1}> ", creationType, Environment.NewLine);
         }
     }
 }

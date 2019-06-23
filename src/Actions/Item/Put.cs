@@ -46,17 +46,12 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
+            // TODO: Move item from one owner to another transactionally, if applicable.
             // @@@ TODO: Test, may be broken now... especially for only putting SOME of a stack...
             this.thing.Parent.Remove(this.thing);
             this.newParent.Add(this.thing);
 
-            Thing cont = (Thing)this.newParent;
-            cont.Save();
-
-            this.thing.Save();
-
-            // Bengecko - Reworked after reading more design docs on forums
-            string message = string.Format("You put {0} ({1}) in to the {2} ({3})", this.thing.FullName, this.thing.ID, cont.Name, cont.ID);
+            string message = string.Format("You put {0} in {1}", this.thing.FullName, this.newParent.Name);
             actionInput.Controller.Write(message);
         }
 

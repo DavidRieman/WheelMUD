@@ -29,28 +29,22 @@ namespace WheelMUD.Tests.Behaviors
             this.playerBehavior = new PlayerBehavior();
         }
 
-        /// <summary>Tests a password with spaces.</summary>
         [TestMethod]
         [Test]
-        public void TestPasswordWithSpaces()
+        public void TestAddAndRemoveFriends()
         {
-            string password = "correct horse battery staple";
+            Verify.AreEqual(this.playerBehavior.Friends.Count, 0);
+            this.playerBehavior.AddFriend("fufa");
+            Verify.AreEqual(this.playerBehavior.Friends.Count, 1);
+            this.playerBehavior.AddFriend("fufa");
+            Verify.AreEqual(this.playerBehavior.Friends.Count, 1);
+            this.playerBehavior.AddFriend("another");
+            Verify.AreEqual(this.playerBehavior.Friends.Count, 2);
 
-            this.playerBehavior.SetPassword(password);
-
-            Verify.AreSame(this.playerBehavior.Password, password);
-        }
-
-        /// <summary>Tests a password with outside spaces.</summary>
-        [TestMethod]
-        [Test]
-        public void TestPasswordWithOutsideSpaces()
-        {
-            string password = "  foo bar  ";
-
-            this.playerBehavior.SetPassword(password);
-
-            Verify.AreSame(this.playerBehavior.Password, password);
+            this.playerBehavior.RemoveFriend("invalid");
+            Verify.AreEqual(this.playerBehavior.Friends.Count, 2);
+            this.playerBehavior.RemoveFriend("fufa");
+            Verify.AreEqual(this.playerBehavior.Friends.Count, 1);
         }
     }
 }

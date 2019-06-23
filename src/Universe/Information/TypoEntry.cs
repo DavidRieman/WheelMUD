@@ -72,7 +72,7 @@ namespace WheelMUD.Universe.Information
         /// <summary>Save the typo to the database.</summary>
         public void Save()
         {
-            var typoRepository = new Repository<TypoRecord>();
+            var typoRepository = new RelationalRepository<TypoRecord>();
 
             var typoRecord = new TypoRecord
             {

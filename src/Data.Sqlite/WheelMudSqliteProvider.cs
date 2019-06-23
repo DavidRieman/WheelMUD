@@ -10,7 +10,6 @@
 
 namespace WheelMUD.Data.Sqlite
 {
-    using System;
     using System.ComponentModel.Composition;
     using System.Data;
     using System.IO;
@@ -18,8 +17,8 @@ namespace WheelMUD.Data.Sqlite
     using ServiceStack.OrmLite.Sqlite;
 
     /// <summary>ORMLite Sqlite provider for WheelMUD.</summary>
-    [Export(typeof(IWheelMudDbProvider))]
-    public class WheelMudSqliteProvider : IWheelMudDbProvider
+    [Export(typeof(IWheelMudRelationalDbProvider))]
+    public class WheelMudSqliteProvider : IWheelMudRelationalDbProvider
     {
         /// <summary>Initializes a new instance of the <see cref="WheelMudSqliteProvider"/> class.</summary>
         public WheelMudSqliteProvider()
@@ -33,21 +32,7 @@ namespace WheelMUD.Data.Sqlite
 
         public string ConnectionString { get; set; }
 
-        public string DatabaseName
-        {
-            get
-            {
-                return "SQLite";
-            }
-        }
-
-        public string ProviderNamespace
-        {
-            get
-            {
-                return "system.data.sqlite";
-            }
-        }
+        public string DatabaseName { get; } = "SQLite";
 
         public IDbConnection CreateDatabaseSession()
         {

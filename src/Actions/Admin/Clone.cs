@@ -39,11 +39,11 @@ namespace WheelMUD.Actions
             string itemID = actionInput.Params[0];
             IController sender = actionInput.Controller;
             Thing parent = sender.Thing.Parent;
-            Thing thing = parent.FindChild(t => t.ID == itemID);
+            Thing thing = parent.FindChild(t => t.Id == itemID);
             if (thing == null)
             {
                 parent = sender.Thing;
-                thing = parent.FindChild(t => t.ID == itemID);
+                thing = parent.FindChild(t => t.Id == itemID);
                 if (thing == null)
                 {
                     sender.Write(string.Format("Cannot find {0}.", itemID));
@@ -54,7 +54,7 @@ namespace WheelMUD.Actions
             Thing clonedThing = thing.Clone();
             parent.Add(clonedThing);
             var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
-            userControlledBehavior.Controller.Write("You clone " + thing.ID + ". New item is " + clonedThing.ID + ".");
+            userControlledBehavior.Controller.Write("You clone " + thing.Id + ". New item is " + clonedThing.Id + ".");
         }
 
         /// <summary>Checks against the guards for the command.</summary>

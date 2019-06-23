@@ -35,13 +35,13 @@ namespace WheelMUD.Tests.Behaviors
         public void Init()
         {
             // Create the basic actor instances and behavior for test.
-            this.witnessThing = new Thing() { Name = "WitnessThing", ID = TestThingID.Generate("testthing") };
-            this.actingThing = new Thing() { Name = "ActingThing", ID = TestThingID.Generate("testthing") };
-            this.openableThing = new Thing() { Name = "OpenableThing", ID = TestThingID.Generate("testthing") };
+            this.witnessThing = new Thing() { Name = "WitnessThing", Id = TestThingID.Generate("testthing") };
+            this.actingThing = new Thing() { Name = "ActingThing", Id = TestThingID.Generate("testthing") };
+            this.openableThing = new Thing() { Name = "OpenableThing", Id = TestThingID.Generate("testthing") };
             this.opensClosesBehavior = new OpensClosesBehavior();
 
             // Set up the actors inside another (which we'll call a "room" although it needn't actually be a room).
-            this.room = new Thing() { Name = "Room", ID = TestThingID.Generate("room") };
+            this.room = new Thing() { Name = "Room", Id = TestThingID.Generate("room") };
             this.room.Add(witnessThing);
             this.room.Add(actingThing);
             this.room.Add(openableThing);
@@ -132,10 +132,10 @@ namespace WheelMUD.Tests.Behaviors
         public void TestOpeningClosingAndMovementForExits()
         {
             // Create two one-way exits and two rooms to attach them to.
-            var openableExitA = new Thing() { Name = "OpenableExitA", ID = TestThingID.Generate("testthing") };
-            var openableExitB = new Thing() { Name = "OpenableExitB", ID = TestThingID.Generate("testthing") };
-            var roomA = new Thing(new RoomBehavior()) { Name = "Room A", ID = TestThingID.Generate("testroom") };
-            var roomB = new Thing(new RoomBehavior()) { Name = "Room B", ID = TestThingID.Generate("testroom") };
+            var openableExitA = new Thing() { Name = "OpenableExitA", Id = TestThingID.Generate("testthing") };
+            var openableExitB = new Thing() { Name = "OpenableExitB", Id = TestThingID.Generate("testthing") };
+            var roomA = new Thing(new RoomBehavior()) { Name = "Room A", Id = TestThingID.Generate("testroom") };
+            var roomB = new Thing(new RoomBehavior()) { Name = "Room B", Id = TestThingID.Generate("testroom") };
             roomA.Add(openableExitA);
             roomB.Add(openableExitB);
             
@@ -151,8 +151,8 @@ namespace WheelMUD.Tests.Behaviors
 
             // Rig up behaviors so the actor can move, and move from one A to B, and from B to A.
             this.actingThing.Behaviors.Add(new MovableBehavior());
-            exitBehaviorA.AddDestination("toB", roomB.ID);
-            exitBehaviorB.AddDestination("toA", roomA.ID);
+            exitBehaviorA.AddDestination("toB", roomB.Id);
+            exitBehaviorB.AddDestination("toA", roomA.Id);
             
             // Ensure that the actingThing cannot move through either exit while it is in default (closed) state.
             roomA.Add(this.actingThing);

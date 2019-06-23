@@ -69,8 +69,9 @@ namespace WheelMUD.Actions
 
             if (this.movableBehavior.Move(actor, actor, getMessage, null))
             {
-                actor.Save();
-                actor.Parent.Save();
+                // TODO: Transactionally move owners if applicable.
+                //actor.Save();
+                //actor.Parent.Save();
             }
         }
 

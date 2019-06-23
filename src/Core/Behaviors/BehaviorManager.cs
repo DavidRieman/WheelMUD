@@ -9,6 +9,7 @@
 
 namespace WheelMUD.Core
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -30,6 +31,7 @@ namespace WheelMUD.Core
         public Thing Parent { get; private set; }
 
         /// <summary>Gets a snapshot of all managed behaviors.</summary>
+        [JsonIgnore]
         public ReadOnlyCollection<Behavior> AllBehaviors
         {
             get
@@ -57,6 +59,23 @@ namespace WheelMUD.Core
         public virtual void Save()
         {
             throw new Exception("Each manager derived from BehaviorManager needs to implement its own save!");
+        }
+
+        /// <summary>Repair the parent relationship of this BehaviorManager and all its behaviors.</summary>
+        /// <remarks>
+        /// Things like deserialization won't necessarily restore all parent relationships correctly, for a freshly
+        /// loaded Thing, so this method provides a means to repair the parent relationship, once, right afterwards.
+        /// </remarks>
+        public void SetParent(Thing parent)
+        {
+            this.Parent = parent;
+            lock (this.ManagedBehaviors)
+            {
+                foreach (var behavior in this.ManagedBehaviors)
+                {
+                    behavior.Parent = parent;
+                }
+            }
         }
 
         /// <summary>Determines whether this instance houses items that can be stacked with items in the other behavior manager.</summary>

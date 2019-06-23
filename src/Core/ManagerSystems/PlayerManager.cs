@@ -13,9 +13,7 @@ namespace WheelMUD.Core
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using WheelMUD.Core.Events;
-    using WheelMUD.Data.RavenDb;
     using WheelMUD.Interfaces;
 
     /// <summary>High level manager that provides tracking and global collection of online players.</summary>
@@ -104,11 +102,7 @@ namespace WheelMUD.Core
         /// <param name="e">The <see cref="WheelMUD.Core.Events.GameEvent"/> instance containing the event data.</param>
         public static void OnPlayerLogIn(Thing player, GameEvent e)
         {
-            var eventHandler = GlobalPlayerLogInEvent;
-            if (eventHandler != null)
-            {
-                eventHandler(player.Parent, e);
-            }
+            GlobalPlayerLogInEvent?.Invoke(player.Parent, e);
         }
 
         /// <summary>Called when a player logs out, to raise the player log out events.</summary>
@@ -116,11 +110,7 @@ namespace WheelMUD.Core
         /// <param name="e">The event arguments.</param>
         public static void OnPlayerLogOut(Thing player, GameEvent e)
         {
-            var eventHandler = GlobalPlayerLogOutEvent;
-            if (eventHandler != null)
-            {
-                eventHandler(player.Parent, e);
-            }
+            GlobalPlayerLogOutEvent?.Invoke(player.Parent, e);
         }
 
         /// <summary>Called when a player is trying to log in, to raise the player log in request.</summary>
@@ -128,11 +118,7 @@ namespace WheelMUD.Core
         /// <param name="e">The event arguments.</param>
         public static void OnPlayerLogInRequest(Thing player, CancellableGameEvent e)
         {
-            var eventHandler = GlobalPlayerLogInRequest;
-            if (eventHandler != null)
-            {
-                eventHandler(player.Parent, e);
-            }
+            GlobalPlayerLogInRequest?.Invoke(player.Parent, e);
         }
 
         /// <summary>Called when a player is trying to log out, to raise the player log out request.</summary>
@@ -140,11 +126,7 @@ namespace WheelMUD.Core
         /// <param name="e">The event arguments.</param>
         public static void OnPlayerLogOutRequest(Thing player, CancellableGameEvent e)
         {
-            var eventHandler = GlobalPlayerLogOutRequest;
-            if (eventHandler != null)
-            {
-                eventHandler(player.Parent, e);
-            }
+            GlobalPlayerLogOutRequest?.Invoke(player.Parent, e);
         }
 
         /// <summary>Finds a player using the predicate passed.</summary>
@@ -185,7 +167,7 @@ namespace WheelMUD.Core
         {
             lock (this.lockObject)
             {
-                PlayerBehavior playerBehavior = this.playersList.Find(p => p.Parent.ID.Equals(id));
+                PlayerBehavior playerBehavior = this.playersList.Find(p => p.Parent.Id.Equals(id));
                 return playerBehavior.Parent;
             }
         }
@@ -194,9 +176,10 @@ namespace WheelMUD.Core
         /// <param name="session">The authenticated session.</param>
         public void OnSessionAuthenticated(Session session)
         {
-            // If there was already a connected player for this new, authentic user session, 
-            // kick the old one (as it may have been a prior disconnect or whatnot).
-            PlayerBehavior previousPlayer = this.FindLoggedInPlayer(session.UserName);
+            // If there was already a connected player for this new, authentic user session, kick the old
+            // one (as it may have been a prior disconnect or whatnot or even a different player character
+            // controlled by the same user account).
+            PlayerBehavior previousPlayer = this.FindLoggedInPlayer(session.User.UserName);
             if (previousPlayer != null)
             {
                 var msg = "Duplicate player match, kicking session id " + previousPlayer.SessionId;
@@ -214,144 +197,17 @@ namespace WheelMUD.Core
                 this.RemovePlayer(previousPlayer.Parent);
             }
 
-            bool wasPlayerMissingDocument = false;
-
             // If this session doesn't have a player thing attached yet, load it up.  Note that
             // for situations like character creation, we might already have our Thing, so we
             // don't want to load a duplicate version of the just-created player Thing.
             if (session.Thing == null)
             {
-                var playerBehavior = new PlayerBehavior();
-                playerBehavior.Load(session.UserName);
-
-                var player = new Thing(null)
-                {
-                    Name = playerBehavior.PlayerData.DisplayName
-                };
-
-                // Make sure that the playerBehavior has a parent set.
-                playerBehavior.Parent = player;
-
-                // Load game data from disk (RavenDb/NoSQL)
-                PlayerDocument pd = this.LoadPlayerDocument(playerBehavior.PlayerData.ID);
-                if (pd == null)
-                {
-                    // If we are here, this means that the player that we are trying to
-                    // load does not have a corresponding player document in the NoSQL
-                    // (RavenDb) store. Let's go and create a player document with default
-                    // values.
-                    player = PrepareBaseCharacter(session);
-                    player.Name = playerBehavior.PlayerData.DisplayName;
-                    playerBehavior.Parent = player;
-                    playerBehavior.CreateMissingPlayerDocument();
-
-                    var sb = new StringBuilder();
-
-                    sb.AppendLine("This character is missing gaming data.");
-                    sb.AppendFormat("The MUD engine is creating a default game settings for {0}.", playerBehavior.PlayerData.DisplayName);
-                    sb.Append(Environment.NewLine);
-                    sb.AppendLine("The system will now log you out. Please login again, to continue playing.");
-
-                    session.Write(sb.ToString());
-
-                    playerBehavior.LogOut();
-                }
-
-                // Get SensesBehavior and UserControlledBehavior from the PlayerDocument.
-                var sensesBehavior = pd.Behaviors.OfType<SensesBehavior>().FirstOrDefault();
-                var userControlledBehavior = pd.Behaviors.OfType<UserControlledBehavior>().FirstOrDefault();
-
-                // Setup the controlled behavior controller.
-                userControlledBehavior.Controller = session;
-
-                // Initialize the player behavior event processor.
-                playerBehavior.InitEventProcessor(sensesBehavior, userControlledBehavior);
-
-                // Get the player behavior with the game data
-                var persistedPlayerBehavior = pd.Behaviors.OfType<PlayerBehavior>().FirstOrDefault();
-
-                // Get data from the persisted player behavior and merge it into the manually created one
-                playerBehavior.Gender = persistedPlayerBehavior.Gender;
-                playerBehavior.Race = persistedPlayerBehavior.Race;
-                playerBehavior.SessionId = session.ID;
-                playerBehavior.Name = session.UserName;
-                playerBehavior.Prompt = pd.PlayerPrompt;
-                playerBehavior.RoleData = persistedPlayerBehavior.RoleData;
-                playerBehavior.ID = persistedPlayerBehavior.ID;
-
-                // We don't need the persisted player behavior anymore, so remove it
-                pd.Behaviors.Remove(persistedPlayerBehavior);
-
-                if (!wasPlayerMissingDocument)
-                {
-                    // Put all the persisted game data onto the right objects.
-                    this.TranslateFromPlayerDocument(ref player, pd);
-
-                    // Make sure to add the player behavior to the player Thing object.
-                    playerBehavior.Parent = player;
-                    player.Behaviors.Add(playerBehavior);
-                    player.ID = "player/" + playerBehavior.ID;
-                }
-
-                if (playerBehavior.LogIn(session))
-                {
-                    lock (this.lockObject)
-                    {
-                        if (!this.playersList.Contains(playerBehavior))
-                        {
-                            this.playersList.Add(playerBehavior);
-                        }
-                    }
-
-                    // Determine the screen buffer size.
-                    if (session.Connection != null)
-                    {
-                        if (userControlledBehavior.PagingRowLimit >= 0)
-                        {
-                            session.Connection.PagingRowLimit = userControlledBehavior.PagingRowLimit;
-                        }
-                        else
-                        {
-                            int terminalHeight = session.Terminal.Height;
-
-                            // If a broken client doesn't provide a valid terminal height, who knows
-                            // what it might contain. In that case, default to 0 (no paging).
-                            // 100 is an arbitrary realistic number. If this changes, the "buffer"
-                            // command should also be changed for consistency. Or define the
-                            // max/min as constants somewhere.
-                            if (terminalHeight >= 0 && terminalHeight <= 100)
-                            {
-                                session.Connection.PagingRowLimit = session.Terminal.Height;
-                            }
-                            else
-                            {
-                                session.Connection.PagingRowLimit = 0;
-                            }
-                        }
-                    }
-
-                    session.Thing = player;
-
-                    // @@@ HACK: Add player to Krondor's first room
-                    PlacesManager.Instance.World.Children[0].Children[0].Add(player);
-
-                    // Finally give the player some initial sensory feedback by having them look.
-                    CommandManager.Instance.EnqueueAction(new ActionInput("look", userControlledBehavior.Controller));
-                }
-                else
-                {
-                    // @@@ TODO: Login denied? Back out of the session, disconnect, etc.
-                    throw new NotImplementedException("Cancellation of login event is not yet supported.");
-                }
+                session.Write("User was authenticated but the player character could not be loaded.");
+                session.Write("Please contact an administrator. Disconnecting.");
+                session.Connection.Disconnect();
             }
 
-            // Finally, if the newly-logged in character replaced an old connection, notify the new 
-            // user of the problem.  We could also vary behavior/logging based on whether the IP 
-            // addresses match; same IP is safer to assume as replaced connection instead of breach.
-            if (previousPlayer != null)
-            {
-                // @@@ TODO: Implement
-            }
+            // TODO: Perhaps reset player command queue to have exactly one "look" command?
         }
 
         /// <summary>Called upon session disconnect.</summary>
@@ -403,50 +259,12 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>Load the player document for the specified player ID.</summary>
-        /// <param name="databaseId">The database ID of the player.</param>
-        /// <returns>The associated PlayerDocument, if there is one, else null.</returns>
-        private PlayerDocument LoadPlayerDocument(long databaseId)
-        {
-            return DocumentManager.LoadPlayerDocument(databaseId);
-        }
-
-        /// <summary>Translates from <see cref="PlayerDocument"/> to a <see cref="Thing"/>.</summary>
-        /// <param name="player">The player.</param>
-        /// <param name="playerDocument">The player document.</param>
-        private void TranslateFromPlayerDocument(ref Thing player, PlayerDocument playerDocument)
-        {
-            foreach (var persistedAsBehavior in playerDocument.Behaviors.ToArray())
-            {
-                player.Behaviors.Add(persistedAsBehavior as Behavior);
-            }
-
-            foreach (var persistedStat in playerDocument.Stats)
-            {
-                player.Stats.Add(persistedStat.Key, persistedStat.Value as GameStat);
-            }
-
-            foreach (var persistedSecondary in playerDocument.SecondaryStats)
-            {
-                player.Attributes.Add(persistedSecondary.Key, persistedSecondary.Value as GameAttribute);
-            }
-
-            foreach (var persistedSkill in playerDocument.Skills)
-            {
-                player.Skills.Add(persistedSkill.Key, persistedSkill.Value as GameSkill);
-            }
-
-            foreach (var persistedChild in playerDocument.SubThings)
-            {
-                player.Children.Add(persistedChild as Thing);
-            }
-        }
-
         /// <summary>Find a logged-in player by user name.</summary>
         /// <param name="userName">The user name to search for.</param>
         /// <returns>The PlayerBehavior of the user, if found, else null.</returns>
         private PlayerBehavior FindLoggedInPlayer(string userName)
         {
+            // TODO: #62: Find via user name instead of player names which match this user name.
             return this.FindPlayer(p => p.Parent.Name.Equals(userName, StringComparison.CurrentCultureIgnoreCase));
         }
 

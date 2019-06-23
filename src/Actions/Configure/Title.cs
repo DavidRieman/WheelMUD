@@ -43,9 +43,7 @@ namespace WheelMUD.Actions
                     else
                     {
                         player.Title = actionInput.Tail;
-                        player.Save();
-
-                        sender.Write("Title modified.");
+                        sender.Write("Your title is now: " + player.Title);
                     }
                 }
             }

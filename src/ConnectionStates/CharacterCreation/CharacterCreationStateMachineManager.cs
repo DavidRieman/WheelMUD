@@ -15,12 +15,10 @@ namespace WheelMUD.ConnectionStates
     using System.Linq;
     using System.Reflection;
     using WheelMUD.Core;
-    using WheelMUD.Data.Entities;
     using WheelMUD.Interfaces;
 
     /// <summary>A delegate for the completion of character creation.</summary>
-    /// <param name="data">The player data structure.</param>
-    public delegate void CharacterCreationCompleted(Thing data);
+    public delegate void CharacterCreationCompleted(Session session);
 
     /// <summary>A delegate for the abortion of character creation.</summary>
     public delegate void CharacterCreationAborted();
@@ -35,9 +33,6 @@ namespace WheelMUD.ConnectionStates
         /// <summary>The synchronization locking object.</summary>
         private static readonly object LockObject = new object();
 
-        /// <summary>The SessionStateManager singleton instance.</summary>
-        private static readonly CharacterCreationStateMachineManager SingletonInstance = new CharacterCreationStateMachineManager();
-        
         /// <summary>The default character creation state machine constructor, as identified during composition.</summary>
         private ConstructorInfo defaultCharacterCreationStateMachineConstructor;
 
@@ -46,12 +41,9 @@ namespace WheelMUD.ConnectionStates
         {
             this.Recompose();
         }
-        
+
         /// <summary>Gets the singleton instance of the <see cref="CharacterCreationStateMachineManager"/> class.</summary>
-        public static CharacterCreationStateMachineManager Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static CharacterCreationStateMachineManager Instance { get; } = new CharacterCreationStateMachineManager();
 
         /// <summary>Gets, via MEF composition, an enumerable collection of available state machine classes.</summary>
         [ImportMany]

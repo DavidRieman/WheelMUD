@@ -125,7 +125,7 @@ namespace WheelMUD.Core
         {
             lock (this.lockObject)
             {
-                Thing mobile = this.mobiles.Find(m => m.ID.Equals(id));
+                Thing mobile = this.mobiles.Find(m => m.Id.Equals(id));
                 return mobile;
             }
         }

@@ -60,12 +60,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NVelocity">
-      <HintPath>..\packages\NVelocity.1.0.3\lib\NVelocity.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core">
@@ -235,10 +229,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data.RavenDb\WheelMUD.Data.RavenDb.csproj">
-      <Project>{193A9077-B5F0-4EEF-AE98-D88C9CEF9B85}</Project>
-      <Name>WheelMUD.Data.RavenDb</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Data\WheelMUD.Data.csproj">
       <Project>{3772CFD7-5EA1-442C-9CD8-8AA3F7E608F8}</Project>
       <Name>WheelMUD.Data</Name>
@@ -257,7 +247,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="NVelocity">
+      <Version>1.0.3</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

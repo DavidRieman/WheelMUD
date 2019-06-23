@@ -68,12 +68,12 @@ namespace WheelMUD.Core
         /// <summary>Loads the exits for this room behavior.</summary>
         public void Load()
         {
-            var roomRepository = new Repository<RoomRecord>();
+            var roomRepository = new RelationalRepository<RoomRecord>();
 
             // Standard exits are simple DB records, so we need to load them specifically for this room;
             // non-standard exits should be loaded just like any other generic Thing.
             // @@@ TODO: Fix hack: http://www.wheelmud.net/tabid/59/aft/1622/Default.aspx
-            string roomNumber = this.Parent.ID.Replace("room/", string.Empty);
+            string roomNumber = this.Parent.Id.Replace("room/", string.Empty);
             long persistedRoomID = long.Parse(roomNumber);
             ICollection<ExitRecord> exits = roomRepository.LoadExitsForRoom(persistedRoomID);
 
@@ -88,7 +88,7 @@ namespace WheelMUD.Core
                 var exit = new Thing(exitBehavior, new MultipleParentsBehavior())
                 {
                     Name = "[StandardExit]",
-                    ID = "exit/" + exitRecord.ID,
+                    Id = "exit/" + exitRecord.ID,
                 };
                 
                 // Add the exit destinations.
@@ -123,7 +123,7 @@ namespace WheelMUD.Core
             // If this room is the secondary parent for a pending exit rigging, rig it up.
             lock (pendingExitRiggings)
             {
-                var matchedExitRiggings = this.FindMatchedPendingExitRiggings(this.Parent.ID);
+                var matchedExitRiggings = this.FindMatchedPendingExitRiggings(this.Parent.Id);
                 foreach (var matchedExitRigging in matchedExitRiggings)
                 {
                     this.Parent.Add(matchedExitRigging.ExitThing);

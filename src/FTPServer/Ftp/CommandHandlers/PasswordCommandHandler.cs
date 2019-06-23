@@ -21,9 +21,8 @@ namespace WheelMUD.Ftp.FtpCommands
         {
             string retval;
 
-            bool auth = PlayerRepositoryExtensions.Authenticate(this.ConnectionObject.User, message);
-
-            if (auth)
+            var user = PlayerRepositoryExtensions.Authenticate(this.ConnectionObject.User, message);
+            if (user != null)
             {
                 this.ConnectionObject.CreateFileSystem();
                 retval = this.GetMessage(220, "Password ok, FTP server ready");

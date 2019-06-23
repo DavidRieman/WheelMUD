@@ -63,8 +63,9 @@ namespace WheelMUD.Actions
             var actor = actionInput.Controller.Thing;
             if (this.movableBehavior.Move(this.dropLocation, actor, null, dropMessage))
             {
-                actor.Save();
-                this.dropLocation.Save();
+                // TODO: Transactionally save actors if applicable.
+                //actor.Save();
+                //this.dropLocation.Save();
             }
         }
 

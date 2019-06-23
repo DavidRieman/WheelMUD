@@ -35,7 +35,7 @@ namespace WheelMUD.Tests.WRMCombat
         [SetUp]
         public void Init()
         {
-            this.playerThing = new Thing() { Name = "PlayerThing", ID = TestThingID.Generate("testthing") };
+            this.playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
 
             var testBehavior = new TalentsBehavior(null);
             var warriorAttribute = new WarriorAttribute();

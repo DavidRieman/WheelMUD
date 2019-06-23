@@ -26,11 +26,10 @@ namespace WheelMUD.ConnectionStates
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {
-            var playerBehavior = this.StateMachine.NewCharacter.Behaviors.FindFirst<PlayerBehavior>();
-
             // Do not use the command parameter here. It is trimmed of whitespace, which will inhibit the use of passwords 
             // with whitespace on either end. Instead we need to respect the raw line of input for password entries.
-            playerBehavior.SetPassword(this.Session.Connection.LastRawInput);
+            this.Session.User.SetPassword(this.Session.Connection.LastRawInput);
+            this.Session.Connection.LastRawInput = null;
 
             this.StateMachine.HandleNextStep(this, StepStatus.Success);
         }

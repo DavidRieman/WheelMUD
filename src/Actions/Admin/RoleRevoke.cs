@@ -51,7 +51,7 @@ namespace WheelMUD.Actions
             if (existingRole != null)
             {
                 userControlledBehavior.Roles.Remove(existingRole);
-                player.Save();
+                player.FindBehavior<PlayerBehavior>()?.SavePlayer();
                 sender.Write(string.Format("{0} had the {1} role revoked.", player.Name, existingRole.Name), true);
             }
         }

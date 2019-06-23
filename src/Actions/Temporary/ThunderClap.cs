@@ -83,7 +83,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the target in the same room?
-            if (actionInput.Controller.Thing.Parent.ID != this.target.Parent.ID)
+            if (actionInput.Controller.Thing.Parent.Id != this.target.Parent.Id)
             {
                 return "You cannot see " + targetName + ".";
             }

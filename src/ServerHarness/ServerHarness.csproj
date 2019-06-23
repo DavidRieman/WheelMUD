@@ -88,14 +88,12 @@
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="Topshelf, Version=4.2.0.194, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Topshelf.4.2.0\lib\net452\Topshelf.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Commands\DebugExploreDocumentsCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\RunTestsCommand.cs" />
     <Compile Include="Commands\UpdateActionsCommand.cs" />
@@ -116,6 +114,10 @@
     <ProjectReference Include="..\Core\WheelMUD.Core.csproj">
       <Project>{DC4BD540-7DB4-41C9-8634-C2780F4C1590}</Project>
       <Name>WheelMUD.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data\WheelMUD.Data.csproj">
+      <Project>{3772cfd7-5ea1-442c-9cd8-8aa3f7e608f8}</Project>
+      <Name>WheelMUD.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Effects\WheelMUD.Effects.csproj">
       <Project>{4ED3B614-F28E-4CDD-9E25-57E68416BF2F}</Project>
@@ -156,7 +158,6 @@
     <None Include="mud.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
     <None Include="Tests\simple.testscript">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -198,6 +199,11 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Topshelf">
+      <Version>4.2.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

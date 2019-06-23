@@ -57,10 +57,6 @@ namespace WheelMUD.ConnectionStates
             }
             else if (current is GetNameState)
             {
-                return new GetDescriptionState(this.Session);
-            }
-            else if (current is GetDescriptionState)
-            {
                 return new GetPasswordState(this.Session);
             }
             else if (current is GetPasswordState)
@@ -68,6 +64,10 @@ namespace WheelMUD.ConnectionStates
                 return new ConfirmPasswordState(this.Session);
             }
             else if (current is ConfirmPasswordState)
+            {
+                return new GetDescriptionState(this.Session);
+            }
+            else if (current is GetDescriptionState)
             {
                 // We are done with character creation!
                 return null;

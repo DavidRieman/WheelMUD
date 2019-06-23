@@ -16,8 +16,8 @@ namespace WheelMUD.Data.SqlServer
     using ServiceStack.OrmLite.SqlServer;
 
     /// <summary>ORMLite Microsoft SQL Server provider for WheelMUD.</summary>
-    [Export(typeof(IWheelMudDbProvider))]
-    public class WheelMudSqlServerProvider : IWheelMudDbProvider
+    [Export(typeof(IWheelMudRelationalDbProvider))]
+    public class WheelMudSqlServerProvider : IWheelMudRelationalDbProvider
     {
         public WheelMudSqlServerProvider()
         {
@@ -30,15 +30,7 @@ namespace WheelMUD.Data.SqlServer
 
         public string ConnectionString { get; set; }
 
-        public string DatabaseName
-        {
-            get { return "Microsoft SQL Server"; }
-        }
-
-        public string ProviderNamespace
-        {
-            get { return "system.data.sqlclient"; }
-        }
+        public string DatabaseName { get; } = "Microsoft SQL Server";
 
         public IDbConnection CreateDatabaseSession()
         {

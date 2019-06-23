@@ -4,6 +4,8 @@ configuration:
 - Debug
 - Release
 platform: x86
+before_build:
+  - nuget restore src\WheelMUD.sln
 build:
   project: src\WheelMUD.sln
   verbosity: normal

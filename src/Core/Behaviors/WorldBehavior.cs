@@ -40,8 +40,8 @@ namespace WheelMUD.Core
         /// <summary>Loads areas into the world.</summary>
         public void Load()
         {
-            var areaRepository = new Repository<AreaRecord>();
-            ICollection<AreaRecord> areas = areaRepository.FetchAll();
+            var areaRepository = new RelationalRepository<AreaRecord>();
+            ICollection<AreaRecord> areas = areaRepository.GetAll();
 
             foreach (var areaRecord in areas)
             {
@@ -52,7 +52,7 @@ namespace WheelMUD.Core
                 var area = new Thing(areaBehavior)
                 {
                     Name = areaRecord.Name,
-                    ID = "area/" + areaRecord.ID,
+                    Id = "area/" + areaRecord.ID,
                 };
 
                 // Load this area and it's children.

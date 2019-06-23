@@ -26,7 +26,7 @@ namespace WheelMUD.ConnectionStates
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {
-            this.StateMachine.NewCharacter.Description = command;
+            this.Session.Thing.Description = command;
             this.StateMachine.HandleNextStep(this, StepStatus.Success);
         }
 

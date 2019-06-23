@@ -26,7 +26,7 @@ namespace WheelMUD.Core
     /// a Thing that has a PlayerBehavior (and likely a UserControlledBehavior, and so on).
     /// </remarks>
     [JsonObject(IsReference = true)]
-    public sealed class Thing : IThing, IPersistable, IDisposable
+    public sealed class Thing : IThing, IDisposable, IIdentifiable // IPersistable?
     {
         /// <summary>The synchronization locking object.</summary>
         private readonly object lockObject = new object();
@@ -45,6 +45,10 @@ namespace WheelMUD.Core
 
         /// <summary>The unique ID of this thing.</summary>
         private string id;
+
+        public Thing() : this(null)
+        {
+        }
 
         /// <summary>Initializes a new instance of the <see cref="Thing"/> class.</summary>
         /// <param name="behaviors">The behaviors.</param>
@@ -84,7 +88,7 @@ namespace WheelMUD.Core
         public ThingEventing Eventing { get; private set; }
 
         /// <summary>Gets or sets the unique ID of this thing.</summary>
-        public string ID
+        public string Id
         {
             // The ID should be a unique ID as per the DB, post-persisted.
             // @@@ Thing may also get a TemplateID added as we work out the templating story...
@@ -131,6 +135,38 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the parent of this thing, IE a container.</summary>
         [JsonIgnore]
         public Thing Parent { get; set; }
+
+#pragma warning disable IDE0051 // Remove unused private members
+        /// <summary>Gets or sets the parent of this thing via ID.</summary>
+        /// <remarks>
+        /// Primarily used for persistence to store and restore location without storing the whole parent.
+        /// E.G. the player thing can store the parent room Id without storing the whole room, and we will
+        /// automatically restore the player to that room upon loading the player.
+        /// This should NOT be used for normal cases of moving things from one owner to another, so keeping
+        /// this private should mean it only gets exercised by document restoration processes instead of
+        /// potentially getting misused by other systems.
+        /// Note this does NOT currently restore multiple parents, which shouldn't be applicable to the
+        /// base set of stored documents like players and worlds or areas.
+        /// </remarks>
+        private string ParentId
+#pragma warning restore IDE0051 // Remove unused private members
+        {
+            get
+            {
+                return this.Parent?.Id;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    this.Parent = null;
+                }
+                else if (this.Parent?.Id != value)
+                {
+                    this.Parent = ThingManager.Instance.FindThing(value);
+                }
+            }
+        }
 
         /// <summary>Gets a list of all parents of this thing, or an empty list if there are none.</summary>
         [JsonIgnore]
@@ -253,7 +289,7 @@ namespace WheelMUD.Core
         /// <returns>A string representation of this Thing instance.</returns>
         public override string ToString()
         {
-            return string.Format("{0} (ID: {1})", this.FullName, this.ID);
+            return string.Format("{0} (ID: {1})", this.FullName, this.Id);
         }
 
         /// <summary>Performs tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
@@ -263,7 +299,7 @@ namespace WheelMUD.Core
             // @@@ TODO: Dispose all our Children and Behaviors too (things should not be disposed lightly).
         }
 
-        /// <summary>Saves this Thing.</summary>
+        /* /// <summary>Saves this Thing.</summary>
         public void Save()
         {
             // If this thing is a player, use the player saving code instead of the generic
@@ -286,7 +322,7 @@ namespace WheelMUD.Core
                     ////throw new NotImplementedException();
                 }
             }
-        }
+        }*/
 
         /// <summary>Allows a caller to determine whether this thing can be detected by something's senses.</summary>
         /// <param name="senses">The sense manager.</param>
@@ -386,7 +422,7 @@ namespace WheelMUD.Core
                         property.SetValue(this, property.GetValue(existingThing, null), null);
                     }
 
-                    this.ID = null;
+                    this.Id = null;
                     this.Behaviors = (BehaviorManager)existingThing.Behaviors.Clone();
                 }
             }
@@ -421,7 +457,7 @@ namespace WheelMUD.Core
                 // the string exactly, else if that find call returns null, find any item ID 
                 // that starts with the specified string, else if that is null...
                 // @@@ Test: Does the ID check here work? long.Equals(string)?
-                Thing foundThing = this.Children.Find(i => i.ID.Equals(s)) ??
+                Thing foundThing = this.Children.Find(i => i.Id.Equals(s)) ??
                                    this.Children.Find(i => i.Name.ToLower().Equals(s)) ??
                                    this.Children.Find(i => i.Name.ToLower().StartsWith(s)) ??
                                    this.Children.Find(i => i.KeyWords.Contains(s));
@@ -537,9 +573,7 @@ namespace WheelMUD.Core
         public GameAttribute FindGameAttribute(string name)
         {
             GameAttribute attribute;
-
             this.Attributes.TryGetValue(name, out attribute);
-
             return attribute;
         }
 
@@ -549,9 +583,7 @@ namespace WheelMUD.Core
         public T FindGameAttribute<T>() where T : GameAttribute
         {
             var attribList = new List<GameAttribute>(this.Attributes.Values);
-
             T attribute = attribList.OfType<T>().FirstOrDefault();
-
             return attribute;
         }
 
@@ -669,9 +701,7 @@ namespace WheelMUD.Core
         public void AddAttribute(GameAttribute gameAttribute)
         {
             gameAttribute.Parent = this;
-
             this.Attributes.Add(gameAttribute.Name, gameAttribute);
-
             gameAttribute.OnAdd();
         }
 
@@ -680,12 +710,10 @@ namespace WheelMUD.Core
         public void RemoveAttribute(GameAttribute gameAttribute)
         {
             gameAttribute.Parent = null;
-
             if (this.Attributes.ContainsKey(gameAttribute.Name))
             {
                 this.Attributes.Remove(gameAttribute.Name);
             }
-
             gameAttribute.OnRemove();
         }
 
@@ -703,12 +731,10 @@ namespace WheelMUD.Core
         public void RemoveStat(GameStat gameStat)
         {
             gameStat.Parent = null;
-
             if (this.Stats.ContainsKey(gameStat.Name))
             {
                 this.Stats.Remove(gameStat.Name);
             }
-
             gameStat.OnRemove();
         }
 

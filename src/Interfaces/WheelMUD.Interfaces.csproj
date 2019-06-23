@@ -41,6 +41,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="IIdentifiable.cs" />
     <Compile Include="IPersistable.cs" />
     <Compile Include="IPersistsWithPlayer.cs" />
     <Compile Include="IRecomposable.cs" />

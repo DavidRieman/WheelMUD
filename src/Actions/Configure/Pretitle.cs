@@ -51,7 +51,7 @@ namespace WheelMUD.Actions
                 sender.Write(string.Format("Your old pretitle was \"{0}\" and is now \"{1}\".", this.oldPretitle, this.newPretitle));
             }
 
-            this.player.Save();
+            this.player.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 
         /// <summary>Checks against the guards for the command.</summary>

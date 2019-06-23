@@ -40,13 +40,12 @@ namespace WheelMUD.Actions
             if (sender != null && sender.Thing != null)
             {
                 Thing entity = sender.Thing;
-
                 if (entity != null)
                 {
                     if (!string.IsNullOrEmpty(this.NewDescription))
                     {
                         entity.Description = this.NewDescription;
-                        entity.Save();
+                        entity.FindBehavior<PlayerBehavior>()?.SavePlayer();
                         sender.Write("Description successfully changed.");
                     }
                     else

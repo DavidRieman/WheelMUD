@@ -11,25 +11,12 @@
 
 namespace WheelMUD.Data.RavenDb
 {
+    /* TODO: REMOVE WHEN CONVERTED BEHIND REPOSITORY
     using System;
     using System.Linq;
-
     /// <summary>Central class to host code that will load and save documents from the document database (RavenDb).</summary>
     public class DocumentManager
     {
-        /// <summary>Saves the player document.</summary>
-        /// <param name="playerDocument">The player document to be saved.</param>
-        public static void SavePlayerDocument(PlayerDocument playerDocument)
-        {
-            using (var ravenSession = DalUtils.GetRavenSession())
-            {
-                // RavenDB will automatically either insert a new document or update the
-                // existing document with this document ID, as appropriate.
-                ravenSession.Store(playerDocument);
-                ravenSession.SaveChanges();
-            }
-        }
-
         /// <summary>Loads the player document.</summary>
         /// <param name="databaseId">The database id.</param>
         /// <returns>The loaded PlayerDocument.</returns>
@@ -55,5 +42,5 @@ namespace WheelMUD.Data.RavenDb
                         select pd).FirstOrDefault();
             }
         }
-    }
+    }*/
 }

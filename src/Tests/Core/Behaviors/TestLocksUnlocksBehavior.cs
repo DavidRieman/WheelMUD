@@ -38,13 +38,13 @@ namespace WheelMUD.Tests.Behaviors
         public void Init()
         {
             // Create the basic actor instances and behavior for test.
-            this.witnessThing = new Thing() { Name = "WitnessThing", ID = TestThingID.Generate("testthing") };
-            this.actingThing = new Thing() { Name = "ActingThing", ID = TestThingID.Generate("testthing") };
-            this.lockableThing = new Thing() { Name = "LockableThing", ID = TestThingID.Generate("testthing") };
+            this.witnessThing = new Thing() { Name = "WitnessThing", Id = TestThingID.Generate("testthing") };
+            this.actingThing = new Thing() { Name = "ActingThing", Id = TestThingID.Generate("testthing") };
+            this.lockableThing = new Thing() { Name = "LockableThing", Id = TestThingID.Generate("testthing") };
             this.locksUnlocksBehavior = new LocksUnlocksBehavior();
 
             // Set up the actors inside another (which we'll call a "room" although it needn't actually be a room).
-            this.room = new Thing() { Name = "Room", ID = TestThingID.Generate("room") };
+            this.room = new Thing() { Name = "Room", Id = TestThingID.Generate("room") };
             this.room.Add(witnessThing);
             this.room.Add(actingThing);
             this.room.Add(lockableThing);

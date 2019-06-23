@@ -9,6 +9,7 @@ namespace WheelMUD.Data
 {
     using System;
     using System.Data;
+    using System.Linq;
 
     /// <summary>Helper methods for the WheelMUD.Data namespace.</summary>
     public class Helpers
@@ -16,32 +17,45 @@ namespace WheelMUD.Data
         /// <summary>The session factory variable.</summary>
         private static IDbConnection sessionFactory;
 
-        /// <summary>The database provider string value.</summary>
-        private static string provider;
+        private static IWheelMudRelationalDbProvider configuredRelationalDatabaseProvider;
+        private static IWheelMudDocumentStorageProvider configuredDocumentStorageProvider;
 
-        /// <summary>The database connection string variable.</summary>
-        private static string connectionString;
+        static Helpers()
+        {
+            var providerCache = new ProviderCache();
+            var configuredRelationalProviderName = AppConfigInfo.Instance.RelationalDataProviderName;
+            var configuredDocumentStorageProviderName = AppConfigInfo.Instance.DocumentDataProviderName;
+            configuredRelationalDatabaseProvider = (from provider in providerCache.RelationalDatabaseProviders
+                                                    where provider.DatabaseName.Equals(configuredRelationalProviderName, StringComparison.InvariantCultureIgnoreCase)
+                                                    select provider).FirstOrDefault();
+            if (configuredRelationalDatabaseProvider == null)
+            {
+                throw new DataException("Could not find the configured relational database provider: " + configuredRelationalProviderName);
+            }
+
+            configuredDocumentStorageProvider = (from provider in providerCache.DocumentStorageProviders
+                                                 where provider.Name.Equals(configuredDocumentStorageProviderName, StringComparison.InvariantCultureIgnoreCase)
+                                                 select provider).FirstOrDefault();
+            if (configuredDocumentStorageProvider == null)
+            {
+                throw new DataException("Could not find the configured document storage provider: " + configuredDocumentStorageProviderName);
+            }
+            configuredDocumentStorageProvider.Prepare();
+        }
 
         /// <summary>Gets the session factory.</summary>
         /// <value>The session factory.</value>
-        private static IDbConnection SessionFactory
+        private static IDbConnection RelationalSessionFactory
         {
             get
             {
                 if (sessionFactory == null)
                 {
-                    connectionString = HelperConfigInfo.Instance.ConnectionString;
-                    provider = HelperConfigInfo.Instance.Provider;
-
-                    var cache = new ProviderCache();
-
+                    var connectionString = AppConfigInfo.Instance.RelationalConnectionString;
                     try
                     {
-                        IWheelMudDbProvider factory;
-                        cache.Providers.TryGetValue(provider.ToLower(), out factory);
-                        factory.ConnectionString = connectionString;
-
-                        sessionFactory = factory.CreateDatabaseSession();
+                        configuredRelationalDatabaseProvider.ConnectionString = connectionString;
+                        sessionFactory = configuredRelationalDatabaseProvider.CreateDatabaseSession();
                     }
                     catch (Exception)
                     {
@@ -60,11 +74,11 @@ namespace WheelMUD.Data
 
         /// <summary>Opens a session for the current database provider.</summary>
         /// <returns>Returns a Session object.</returns>
-        public static IDbCommand OpenSession()
+        public static IDbCommand OpenRelationalSession()
         {
             try
             {
-                return SessionFactory.CreateCommand();
+                return RelationalSessionFactory.CreateCommand();
             }
             catch (NullReferenceException)
             {
@@ -74,31 +88,14 @@ namespace WheelMUD.Data
             }
         }
 
-        /// <summary>Gets the name of the current database provider.</summary>
-        /// <returns>Returns the current database provider name.</returns>
-        public static string GetCurrentProviderName()
+        public static IBasicDocumentSession OpenDocumentSession()
         {
-            HelperConfigInfo config = HelperConfigInfo.Instance;
-
-            return config.Provider;
+            return configuredDocumentStorageProvider.CreateDocumentSession();
         }
 
-        /// <summary>Gets the name of the current connection string.</summary>
-        /// <returns>Returns the name used as the key for the connection string.</returns>
-        public static string GetCurrentConnectionStringName()
+        public static void DebugExploreDocuments()
         {
-            HelperConfigInfo config = HelperConfigInfo.Instance;
-
-            return config.ConnectionStringName;
-        }
-
-        /// <summary>Gets the current connection string.</summary>
-        /// <returns>Returns the current connection string used to talk to the relational database.</returns>
-        public static string GetCurrentConnectionString()
-        {
-            HelperConfigInfo config = HelperConfigInfo.Instance;
-
-            return config.ConnectionString;
+            configuredDocumentStorageProvider.DebugExplore();
         }
     }
 }

@@ -65,7 +65,7 @@ namespace WheelMUD.Actions
                 sb.AppendLine("<%yellow%><%b%>Name: " + this.target.Name + " Title: " + this.target.Title + "<%n%>");
                 sb.AppendLine("Description: " + this.target.Description);
                 sb.AppendLine("Full Name: " + this.target.FullName);
-                sb.AppendLine("ID: " + this.target.ID);
+                sb.AppendLine("ID: " + this.target.Id);
                 sb.AppendLine("Type: " + this.target.GetType().Name); // identify npc ?
                 sb.AppendLine("Race: TBA      Guild: TBA     Class: TBA");
                 sb.AppendLine("Religion: TBA");
@@ -97,7 +97,7 @@ namespace WheelMUD.Actions
                 sb.AppendLine("<%yellow%><%b%>Name: " + this.target.Name + " Title: " + this.target.Title + "<%n%>");
                 sb.AppendLine("Description: " + this.target.Description);
                 sb.AppendLine("Full Name: " + this.target.FullName);
-                sb.AppendLine("ID: " + this.target.ID);
+                sb.AppendLine("ID: " + this.target.Id);
                 sb.AppendLine("Type: " + this.target.GetType().Name); // identify npc ?
                 sb.AppendLine("Race: TBA      Guild: TBA     Class: TBA");
                 sb.AppendLine("Religion: TBA");
