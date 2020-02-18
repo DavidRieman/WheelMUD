@@ -29,6 +29,13 @@ namespace WheelMUD.Data.RavenDb
             }
 
             EmbeddedServer.Instance.StartServer();
+
+            // Exceptions at the following line may be due to the RavenDBServer folder failing to get set up
+            // correctly and automatically in the applicable binDebug or binRelease folder. Check that the
+            // folder exists and contains a bunch of files, including Raven.Server.dll and so on.
+            // TODO: Soon after we port to .NET Core, we hope to upgrade RavenDB version as well; This seems
+            // like the new version will handle setting up embedded mode in a more consistent manner.
+            // Until then, you may want to keep a copy of the RavenDBServer folder handy for manual repairs.
             return EmbeddedServer.Instance.GetDocumentStore("Embedded");
         }
 
