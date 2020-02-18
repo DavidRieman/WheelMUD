@@ -1,76 +1,37 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6E3E8F00-493A-4521-BBBA-853B22295FB4}</ProjectGuid>
+    <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WheelMUD.Data.Sqlite</RootNamespace>
-    <AssemblyName>WheelMUD.Data.Sqlite</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\binDebug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisLogFile>bin\Debug\WheelMUD.Data.Sqlite.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\..\binRelease\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisLogFile>bin\Release\WheelMUD.Data.Sqlite.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WheelMudSqliteProvider.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core\WheelMUD.Core.csproj">
-      <Project>{DC4BD540-7DB4-41C9-8634-C2780F4C1590}</Project>
-      <Name>WheelMUD.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Data\WheelMUD.Data.csproj">
-      <Project>{3772CFD7-5EA1-442C-9CD8-8AA3F7E608F8}</Project>
-      <Name>WheelMUD.Data</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\Core\WheelMUD.Core.csproj" />
+    <ProjectReference Include="..\Data\WheelMUD.Data.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="sqlite3.dll">
@@ -78,6 +39,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="ServiceStack">
       <Version>3.9.70</Version>
     </PackageReference>
@@ -96,6 +58,6 @@
     <PackageReference Include="ServiceStack.Text">
       <Version>3.9.70</Version>
     </PackageReference>
+    <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,20 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <TargetFramework>net472</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DC4BD540-7DB4-41C9-8634-C2780F4C1590}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WheelMUD.Core</RootNamespace>
-    <AssemblyName>WheelMUD.Core</AssemblyName>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -32,184 +21,26 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>True</DebugSymbols>
     <OutputPath>..\..\binDebug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <WarningLevel>4</WarningLevel>
-    <Optimize>False</Optimize>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>..\..\binRelease\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>True</Optimize>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Core">
+    <Reference Update="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AAA_TEMP.cs" />
-    <Compile Include="ActionInput.cs" />
-    <Compile Include="Attributes\ActionAliasAttribute.cs" />
-    <Compile Include="Attributes\ActionDescriptionAttribute.cs" />
-    <Compile Include="Attributes\ActionSecurityAttribute.cs" />
-    <Compile Include="Attributes\ActionPrimaryAliasAttribute.cs" />
-    <Compile Include="Attributes\ActionExampleAttribute.cs" />
-    <Compile Include="Attributes\ExportSystemAttribute.cs" />
-    <Compile Include="Attributes\ExportActionAttribute.cs" />
-    <Compile Include="Attributes\PlayerPromptableAttribute.cs" />
-    <Compile Include="Behaviors\AreaBehavior.cs" />
-    <Compile Include="Behaviors\Behavior.cs" />
-    <Compile Include="Behaviors\BehaviorManager.cs" />
-    <Compile Include="Behaviors\EnterableExitableBehavior.cs" />
-    <Compile Include="Behaviors\FollowedBehavior.cs" />
-    <Compile Include="Behaviors\FollowingBehavior.cs" />
-    <Compile Include="Behaviors\LivingBehavior.cs" />
-    <Compile Include="Behaviors\ExitBehavior.cs" />
-    <Compile Include="Behaviors\MobileBehavior.cs" />
-    <Compile Include="Behaviors\MovableBehavior.cs" />
-    <Compile Include="Behaviors\MultipleParentsBehavior.cs" />
-    <Compile Include="Behaviors\OpensClosesBehavior.cs" />
-    <Compile Include="Behaviors\PlayerBehavior.cs" />
-    <Compile Include="Behaviors\RoomBehavior.cs" />
-    <Compile Include="Behaviors\UserControlledBehavior.cs" />
-    <Compile Include="Behaviors\WanderingBehavior.cs" />
-    <Compile Include="Behaviors\WorldBehavior.cs" />
-    <Compile Include="CommandSystem\Command.cs" />
-    <Compile Include="CommandSystem\CommandCreator.cs" />
-    <Compile Include="CommandSystem\CommandGuard.cs" />
-    <Compile Include="CommandSystem\CommandProcessor.cs" />
-    <Compile Include="CommandSystem\ContextAvailability.cs" />
-    <Compile Include="CommandSystem\ContextCommand.cs" />
-    <Compile Include="CommandSystem\GameAction.cs" />
-    <Compile Include="ContextualString.cs" />
-    <Compile Include="DefaultComposer.cs" />
-    <Compile Include="Dice.cs" />
-    <Compile Include="Die.cs" />
-    <Compile Include="Effect.cs" />
-    <Compile Include="Enums\Consciousness.cs" />
-    <Compile Include="Enums\GenderTypes.cs" />
-    <Compile Include="Enums\ParentRelationshipType.cs" />
-    <Compile Include="Enums\CommandCategoriesEnum.cs" />
-    <Compile Include="ConnectionArgs.cs" />
-    <Compile Include="ContextualStringBuilder.cs" />
-    <Compile Include="CoreManager.cs" />
-    <Compile Include="Enums\ConsumableType.cs" />
-    <Compile Include="Enums\BufferDirection.cs" />
-    <Compile Include="Enums\ParentTypes.cs" />
-    <Compile Include="Enums\WearLocations.cs" />
-    <Compile Include="Enums\RoomTypes.cs" />
-    <Compile Include="Enums\DiscoverableMudSystemType.cs" />
-    <Compile Include="Enums\SensoryType.cs" />
-    <Compile Include="Enums\SensoryTypeMeasurement.cs" />
-    <Compile Include="Enums\WeatherTypes.cs" />
-    <Compile Include="Events\AddChildEvent.cs" />
-    <Compile Include="Events\AttackEvent.cs" />
-    <Compile Include="Events\BasicSensoryEvent.cs" />
-    <Compile Include="Events\ChangeOwnerEvent.cs" />
-    <Compile Include="Events\DeathEvent.cs" />
-    <Compile Include="Events\EffectEvent.cs" />
-    <Compile Include="Events\EnterEvent.cs" />
-    <Compile Include="Events\EventBase.cs" />
-    <Compile Include="Events\EventHandlers.cs" />
-    <Compile Include="Events\EventProcessor.cs" />
-    <Compile Include="Events\EventScope.cs" />
-    <Compile Include="Events\FollowEvent.cs" />
-    <Compile Include="Events\KnockEvent.cs" />
-    <Compile Include="Events\LockUnlockEvent.cs" />
-    <Compile Include="Events\MoveEvent.cs" />
-    <Compile Include="Events\OpenCloseEvent.cs" />
-    <Compile Include="Events\PlayerLogInEvent.cs" />
-    <Compile Include="Events\PlayerLogOutEvent.cs" />
-    <Compile Include="Events\RemoveChildEvent.cs" />
-    <Compile Include="Events\SensoryEvent.cs" />
-    <Compile Include="Events\StatChangeEvent.cs" />
-    <Compile Include="Events\ThingEventing.cs" />
-    <Compile Include="Events\TimeEvent.cs" />
-    <Compile Include="Events\UnfollowEvent.cs" />
-    <Compile Include="Events\VerbalCommunicationEvent.cs" />
-    <Compile Include="Events\WieldUnwieldEvent.cs" />
-    <Compile Include="Exceptions\ExceptionExtensions.cs" />
-    <Compile Include="Exceptions\UnhandledExceptionHandler.cs" />
-    <Compile Include="GameEngine\GameCombatSession.cs" />
-    <Compile Include="GameEngine\ExportGameAttributeAttribute.cs" />
-    <Compile Include="GameEngine\ExportGameGenderAttribute.cs" />
-    <Compile Include="GameEngine\ExportGameModifierAttribute.cs" />
-    <Compile Include="GameEngine\ExportGameRaceAttribute.cs" />
-    <Compile Include="GameEngine\ExportGameRuleAttribute.cs" />
-    <Compile Include="GameEngine\ExportGameSkillAttribute.cs" />
-    <Compile Include="GameEngine\GameAttribute.cs" />
-    <Compile Include="GameEngine\GameGender.cs" />
-    <Compile Include="GameEngine\GameModifier.cs" />
-    <Compile Include="GameEngine\GameSkill.cs" />
-    <Compile Include="GameEngine\GameStat.cs" />
-    <Compile Include="GameEngine\GameSystemController.cs" />
-    <Compile Include="GameEngine\GameTable.cs" />
-    <Compile Include="GameEngine\GamingParty.cs" />
-    <Compile Include="GameEngine\Genders.cs" />
-    <Compile Include="GameEngine\GenericTableEntry.cs" />
-    <Compile Include="GameEngine\ICombat.cs" />
-    <Compile Include="GameEngine\RacialTemplate.cs" />
-    <Compile Include="GameEngine\TaskResolution.cs" />
-    <Compile Include="HelpTopic.cs" />
-    <Compile Include="Interfaces\IConnection.cs" />
-    <Compile Include="Interfaces\IController.cs" />
-    <Compile Include="Locators\BehaviorLocator.cs" />
-    <Compile Include="ManagerSystems\CommandManager.cs" />
-    <Compile Include="ManagerSystems\HelpManager.cs" />
-    <Compile Include="ManagerSystems\ManagerSystem.cs" />
-    <Compile Include="ManagerSystems\MobileManager.cs" />
-    <Compile Include="ManagerSystems\PlacesManager.cs" />
-    <Compile Include="ManagerSystems\PlayerManager.cs" />
-    <Compile Include="ManagerSystems\SessionManager.cs" />
-    <Compile Include="ManagerSystems\SystemExporter.cs" />
-    <Compile Include="ManagerSystems\ThingManager.cs" />
-    <Compile Include="ManagerSystems\TimeSystem.cs" />
-    <Compile Include="Security\MudIdentity.cs" />
-    <Compile Include="Security\MudPrincipal.cs" />
-    <Compile Include="Output\AnsiHandler.cs" />
-    <Compile Include="Output\BufferHandler.cs" />
-    <Compile Include="Output\OutputBuffer.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScriptingCommand.cs" />
-    <Compile Include="Senses\Sense.cs" />
-    <Compile Include="Senses\SenseManager.cs" />
-    <Compile Include="Senses\SensesBehavior.cs" />
-    <Compile Include="Senses\SensoryMessage.cs" />
-    <Compile Include="Session\DefaultState.cs" />
-    <Compile Include="Session\ExportSessionStateAttribute.cs" />
-    <Compile Include="Session\Session.cs" />
-    <Compile Include="Session\SessionState.cs" />
-    <Compile Include="Session\SessionStateManager.cs" />
-    <Compile Include="Stat.cs" />
-    <Compile Include="GameEngine\ExportGameStatAttribute.cs" />
-    <Compile Include="Thing.cs" />
-    <Compile Include="VariableProcessor.cs" />
-    <Compile Include="ViewEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -229,22 +60,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data\WheelMUD.Data.csproj">
-      <Project>{3772CFD7-5EA1-442C-9CD8-8AA3F7E608F8}</Project>
-      <Name>WheelMUD.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Interfaces\WheelMUD.Interfaces.csproj">
-      <Project>{3A5996F8-AFE7-411E-8CFD-09F72CC6C417}</Project>
-      <Name>WheelMUD.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Rules\WheelMUD.Rules.csproj">
-      <Project>{C755E05B-F375-43CE-A37A-82B5468F4CD1}</Project>
-      <Name>WheelMUD.Rules</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj">
-      <Project>{03849491-18F6-4AB2-8E8C-2B0ACE8EC035}</Project>
-      <Name>WheelMUD.Utilities</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\Data\WheelMUD.Data.csproj" />
+    <ProjectReference Include="..\Interfaces\WheelMUD.Interfaces.csproj" />
+    <ProjectReference Include="..\Rules\WheelMUD.Rules.csproj" />
+    <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
@@ -253,6 +72,10 @@
     <PackageReference Include="NVelocity">
       <Version>1.0.3</Version>
     </PackageReference>
+    <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Remove="Events\EventDelegates.cs" />
+    <Compile Remove="Events\WMEvent.cs" />
+  </ItemGroup>
 </Project>
