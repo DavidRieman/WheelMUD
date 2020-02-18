@@ -1,131 +1,46 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <TargetFramework>net472</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2C0AABE2-0B83-4F32-82C5-A0AF066AB34A}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WarriorRogueMage</RootNamespace>
-    <AssemblyName>WarriorRogueMage</AssemblyName>
-    <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>True</DebugSymbols>
     <OutputPath>..\..\binDebug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisLogFile>bin\Debug\WarriorRogueMage.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <WarningLevel>4</WarningLevel>
-    <Optimize>False</Optimize>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\..\binRelease\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>True</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisLogFile>bin\Release\WarriorRogueMage.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Core" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Actions\Admin\CreateWeapon.cs" />
-    <Compile Include="Actions\Unwield.cs" />
-    <Compile Include="Actions\Prompt.cs" />
-    <Compile Include="Actions\Spar.cs" />
-    <Compile Include="Actions\Wield.cs" />
-    <Compile Include="Behaviors\MountBehavior.cs" />
-    <Compile Include="Behaviors\TalentsBehavior.cs" />
-    <Compile Include="Behaviors\WieldableBehavior.cs" />
-    <Compile Include="Behaviors\WRMPlayerBehavior.cs" />
-    <Compile Include="CharacterCreation\PickGenderState.cs" />
-    <Compile Include="CharacterCreation\PickRaceState.cs" />
-    <Compile Include="CharacterCreation\PickSkillsState.cs" />
-    <Compile Include="CharacterCreation\PickTalentsState.cs" />
-    <Compile Include="CharacterCreation\SetAttributesState.cs" />
-    <Compile Include="CharacterCreation\WRMCharacterCreationStateMachine.cs" />
-    <Compile Include="CharacterCreation\WRMChargenCommon.cs" />
-    <Compile Include="Combat\WRMCombat.cs" />
-    <Compile Include="OtherGendersExample.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Behaviors\SkillsBehavior.cs" />
-    <Compile Include="Races\WRMRaces.cs" />
-    <Compile Include="Races\WRMRace.cs" />
-    <Compile Include="Rules\AddAttributeToStatRule.cs" />
-    <Compile Include="Rules\DecreaseStatRule.cs" />
-    <Compile Include="Rules\IncreaseStatRule.cs" />
-    <Compile Include="Rules\RollDieRule.cs" />
-    <Compile Include="Rules\SubstractAttributeFromStatRule.cs" />
-    <Compile Include="Skills\WRMSkills.cs" />
-    <Compile Include="Skills\WRMSkill.cs" />
-    <Compile Include="Attributes\WRMAttributes.cs" />
-    <Compile Include="Attributes\WRMAttribute.cs" />
-    <Compile Include="Stats\WRMStat.cs" />
-    <Compile Include="Stats\WRMStats.cs" />
-    <Compile Include="Talents\ExportTalentAttribute.cs" />
-    <Compile Include="Talents\Talent.cs" />
-    <Compile Include="Talents\TalentFinder.cs" />
-    <Compile Include="Talents\NormalTalent.cs" />
-    <Compile Include="Talents\RacialTalents.cs" />
-    <Compile Include="Talents\TalentType.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ConnectionStates\WheelMUD.ConnectionStates.csproj">
-      <Project>{1EDAA5FD-C255-4D5D-8E15-E717F60E55CF}</Project>
-      <Name>WheelMUD.ConnectionStates</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\WheelMUD.Core.csproj">
-      <Project>{DC4BD540-7DB4-41C9-8634-C2780F4C1590}</Project>
-      <Name>WheelMUD.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Interfaces\WheelMUD.Interfaces.csproj">
-      <Project>{3A5996F8-AFE7-411E-8CFD-09F72CC6C417}</Project>
-      <Name>WheelMUD.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Rules\WheelMUD.Rules.csproj">
-      <Project>{C755E05B-F375-43CE-A37A-82B5468F4CD1}</Project>
-      <Name>WheelMUD.Rules</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj">
-      <Project>{03849491-18F6-4AB2-8E8C-2B0ACE8EC035}</Project>
-      <Name>WheelMUD.Utilities</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\ConnectionStates\WheelMUD.ConnectionStates.csproj" />
+    <ProjectReference Include="..\Core\WheelMUD.Core.csproj" />
+    <ProjectReference Include="..\Interfaces\WheelMUD.Interfaces.csproj" />
+    <ProjectReference Include="..\Rules\WheelMUD.Rules.csproj" />
+    <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
       <Version>11.0.2</Version>
     </PackageReference>
+    <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

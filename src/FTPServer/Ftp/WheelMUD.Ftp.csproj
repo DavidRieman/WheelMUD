@@ -1,25 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3BFE4F46-3B33-4449-AA58-B2B2F6E0A464}</ProjectGuid>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <AssemblyKeyContainerName />
-    <AssemblyName>WheelMUD.Ftp</AssemblyName>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
     <OutputType>Library</OutputType>
-    <RootNamespace>WheelMUD.Ftp</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
     <OldToolsVersion>0.0</OldToolsVersion>
-    <UpgradeBackupLocation />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -35,198 +26,35 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>True</DebugSymbols>
     <OutputPath>..\..\..\binDebug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <FileAlignment>4096</FileAlignment>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <WarningLevel>4</WarningLevel>
-    <Optimize>False</Optimize>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>..\..\..\binRelease\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
-    <Optimize>True</Optimize>
     <FileAlignment>4096</FileAlignment>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <DebugType>none</DebugType>
-    <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System">
+    <Reference Update="System">
       <Name>System</Name>
     </Reference>
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Windows.Forms">
       <Name>System.Windows.Forms</Name>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandHandlers\AlloCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\AppendCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FtpConfigInfo.cs" />
-    <Compile Include="General\ArrayHelpers.cs" />
-    <Compile Include="General\General.cs" />
-    <Compile Include="General\LoadedClass.cs" />
-    <Compile Include="General\SocketHelpers.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\CdUpCommandHandler.cs" />
-    <Compile Include="CommandHandlers\CwdCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\DeleCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\FtpCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FtpConnectionData.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FtpConnectionObject.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FtpReplySocket.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FtpServer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FtpSocketHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FileSystem\Interfaces.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\ListCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\ListCommandHandlerBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\MakeDirectoryCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\MakeDirectoryCommandHandlerBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MessageHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\NlstCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\NoopCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\PasswordCommandHandler.cs">
-      <SubType>Code</SubType>
-      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
-    </Compile>
-    <Compile Include="CommandHandlers\PasvCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\PortCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\PwdCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\PwdCommandHandlerBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\QuitCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\RemoveDirectoryCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\RemoveDirectoryCommandHandlerBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\RenameCompleteCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\RenameStartCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\RetrCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\SizeCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FileSystem\StandardFileInfoObject.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FileSystem\StandardFileObject.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FileSystem\StandardFileSystemClassFactory.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FileSystem\StandardFileSystemObject.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\StoreCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\TypeCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\UserCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="UserData.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\XMkdCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\XPwdCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CommandHandlers\XRmdCommandHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\WheelMUD.Core.csproj">
-      <Project>{DC4BD540-7DB4-41C9-8634-C2780F4C1590}</Project>
-      <Name>WheelMUD.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Data\WheelMUD.Data.csproj">
-      <Project>{3772CFD7-5EA1-442C-9CD8-8AA3F7E608F8}</Project>
-      <Name>WheelMUD.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Interfaces\WheelMUD.Interfaces.csproj">
-      <Project>{3A5996F8-AFE7-411E-8CFD-09F72CC6C417}</Project>
-      <Name>WheelMUD.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Utilities\WheelMUD.Utilities.csproj">
-      <Project>{03849491-18F6-4AB2-8E8C-2B0ACE8EC035}</Project>
-      <Name>WheelMUD.Utilities</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\..\Core\WheelMUD.Core.csproj" />
+    <ProjectReference Include="..\..\Data\WheelMUD.Data.csproj" />
+    <ProjectReference Include="..\..\Interfaces\WheelMUD.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Utilities\WheelMUD.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -245,5 +73,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
+  </ItemGroup>
 </Project>
