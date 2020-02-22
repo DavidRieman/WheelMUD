@@ -11,13 +11,9 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using ServiceStack.DataAnnotations;
-
     /// <summary>Represents a single DayName row in the DayName table.</summary>
-    [Alias("DayNames")]
     public partial class DayNameRecord
     {
-        [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string DayName { get; set; }
     }

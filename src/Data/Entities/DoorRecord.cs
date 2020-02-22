@@ -11,13 +11,9 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using ServiceStack.DataAnnotations;
-
     /// <summary>Represents a single Door row in the Door table.</summary>
-    [Alias("Doors")]
     public partial class DoorRecord
     {
-        [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual long DoorSideAID { get; set; }
         public virtual long DoorSideBID { get; set; }

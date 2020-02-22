@@ -8,7 +8,6 @@
 namespace WheelMUD.Data.Entities
 {
     using System.Collections.Generic;
-    using ServiceStack.DataAnnotations;
 
     /// <summary>Custom code for the AreaRecord class.</summary>
     public partial class AreaRecord
@@ -20,7 +19,6 @@ namespace WheelMUD.Data.Entities
         }
 
         /// <summary>Gets or sets the rooms within the area.</summary>
-        [Ignore]
         public virtual Dictionary<long, RoomRecord> Rooms { get; set; }
     }
 }

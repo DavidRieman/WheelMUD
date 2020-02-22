@@ -11,13 +11,9 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using ServiceStack.DataAnnotations;
-
     /// <summary>Represents a single Area row in the Area table.</summary>
-    [Alias("Areas")]
     public partial class AreaRecord
     {
-        [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string UID { get; set; }
         public virtual string Name { get; set; }

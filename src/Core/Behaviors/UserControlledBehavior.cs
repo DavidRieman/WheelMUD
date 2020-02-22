@@ -73,8 +73,8 @@ namespace WheelMUD.Core
 
         /// <summary>Gets the view engine.</summary>
         /// <value>The view engine.</value>
-        [JsonIgnore]
-        public ViewEngine ViewEngine { get; private set; }
+        //[JsonIgnore]
+        //public ViewEngine ViewEngine { get; private set; }
 
         /// <summary>Gets the role of the specified name, if present.</summary>
         /// <param name="roleName">The name of the role to search for.</param>
@@ -90,7 +90,7 @@ namespace WheelMUD.Core
         protected override void SetDefaultProperties()
         {
             this.Controller = null;
-            this.ViewEngine = new ViewEngine();
+            //this.ViewEngine = new ViewEngine();
         }
     }
 }

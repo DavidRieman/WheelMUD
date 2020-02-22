@@ -7,7 +7,7 @@
 //   ORMLite Microsoft SQL Server provider for WheelMUD
 // </summary>
 //-----------------------------------------------------------------------------
-
+/*
 namespace WheelMUD.Data.SqlServer
 {
     using System.ComponentModel.Composition;
@@ -39,4 +39,4 @@ namespace WheelMUD.Data.SqlServer
             return connection;
         }
     }
-}
+}*/

@@ -3,13 +3,11 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
 {
+    /*
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -171,4 +169,5 @@ namespace WheelMUD.Core
             }
         }
     }
+    */
 }

@@ -11,13 +11,9 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using ServiceStack.DataAnnotations;
-
     /// <summary>Represents a single Player row in the Player table.</summary>
-    [Alias("Players")]
     public partial class PlayerRecord
     {
-        [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string UserName { get; set; }
         public virtual string Password { get; set; }

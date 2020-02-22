@@ -36,7 +36,6 @@ namespace WheelMUD.Data.Entities
     using ServiceStack.DataAnnotations;
 
     /// <summary>Represents a single <%=singularName%> row in the <%=singularName%> table.</summary>
-    [Alias("<%=SourceTable.Name%>")]
     public partial class <%=Inflector.ToTitleCase(singularName).Replace(" ","")%>Record 
     {
         <%  foreach(ColumnSchema column in SourceTable.Columns) { %>
@@ -56,7 +55,6 @@ public string CreatePropertyLine(ColumnSchema column)
 //    string primaryKeyName = dbInfo.GetTablePrimaryKey(string.Empty,SourceTable.Name);
 
     bool isId = false;
-    string attribute = "[AutoIncrement]";
     StringBuilder line = new StringBuilder();
     
     if(column.Name == "ID")

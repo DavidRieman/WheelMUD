@@ -7,7 +7,6 @@
 
 namespace WheelMUD.Data.Repositories
 {
-    using ServiceStack.OrmLite;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -60,7 +59,8 @@ namespace WheelMUD.Data.Repositories
 
             using (IDbCommand session = Helpers.OpenRelationalSession())
             {
-                return session.Connection.Select<RoleRecord>(sql, playerId);
+                //return session.Connection.Select<RoleRecord>(sql, playerId);
+                return new List<RoleRecord>();
             }
         }
 
@@ -102,7 +102,8 @@ namespace WheelMUD.Data.Repositories
 
             using (IDbCommand session = Helpers.OpenRelationalSession())
             {
-                return session.Connection.Select<PlayerRoleRecord>("PlayerID = {0}", id);
+                //return session.Connection.Select<PlayerRoleRecord>("PlayerID = {0}", id);
+                return new List<PlayerRoleRecord>();
             }
         }
 
@@ -124,11 +125,13 @@ namespace WheelMUD.Data.Repositories
                     sql.Append("WHERE Name = {0} ");
                     sql.Append(" COLLATE NOCASE ");
 
-                    roleRecord = session.Connection.Select<RoleRecord>(sql.ToString(), roleName).First();
+                    //roleRecord = session.Connection.Select<RoleRecord>(sql.ToString(), roleName).First();
+                    roleRecord = new RoleRecord();
                 }
                 else
                 {
-                    roleRecord = session.Connection.Select<RoleRecord>("Name = {0}", roleName).First();
+                    //roleRecord = session.Connection.Select<RoleRecord>("Name = {0}", roleName).First();
+                    roleRecord = new RoleRecord();
                 }
             }
 

@@ -98,7 +98,8 @@ namespace WheelMUD.Core
                     if (this.userControlledBehavior != null)
                     {
                         string parsedMessage = message.Message.Parse(this.userControlledBehavior.Parent);
-                        string output = this.userControlledBehavior.ViewEngine.RenderView(parsedMessage, context);
+                        //string output = this.userControlledBehavior.ViewEngine.RenderView(parsedMessage, context);
+                        string output = "@@@ FIX OUTPUT!";
                         return output;
                     }
                 }

@@ -66,7 +66,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -88,13 +88,14 @@ namespace WheelMUD.Actions
         private string TryLookAtThing(string thingToLookAt, Thing sender)
         {
             // @@@ TODO: Refactor ViewEngine to remove NVelicoty: https://wheelmud.codeplex.com/workitem/13348
-            var viewEngine = new ViewEngine();
+            //var viewEngine = new ViewEngine();
 
             // Look for target in the current room
             Thing thing = sender.Parent.FindChild(thingToLookAt);
             if (thing != null && this.sensesBehavior.CanPerceiveThing(thing))
             {
-                return viewEngine.RenderView(thing);
+                return "@@@ FIX RENDER THING: " + thing;
+                //return viewEngine.RenderView(thing);
             }
 
             // If no target found, see if it matches any of the room's visuals.
@@ -104,7 +105,8 @@ namespace WheelMUD.Actions
                 string visual = room.FindVisual(thingToLookAt);
                 if (!string.IsNullOrEmpty(visual))
                 {
-                    return viewEngine.RenderView(visual);
+                    return "@@@ FIX RENDER VIEW: " + visual;
+                    //return viewEngine.RenderView(visual);
                 }
             }
 
@@ -126,8 +128,9 @@ namespace WheelMUD.Actions
             };
 
             string viewTemplateName = MudEngineAttributes.Instance.RoomFormatingTemplateFile;
-            var viewEngine = new ViewEngine();
-            return viewEngine.RenderCachedView(viewTemplateName, context);
+            //var viewEngine = new ViewEngine();
+            //return viewEngine.RenderCachedView(viewTemplateName, context);
+            return "@@@ FIX LOOK AT ROOM";
         }
     }
 }
