@@ -172,13 +172,13 @@ namespace WheelMUD.Ftp
 
         private void InitialiseSocketHandler(TcpClient socket)
         {
-            var handler = new FtpSocketHandler(fileSystemClassFactory, id);
+            var handler = new FtpSocketHandler(this.fileSystemClassFactory, this.id);
             handler.Start(socket);
             this.connections.Add(handler);
-            handler.Closed += HandleClosed;
+            handler.Closed += this.HandleClosed;
             if (this.NewConnection != null)
             {
-                this.NewConnection(id);
+                this.NewConnection(this.id);
             }
         }
 
