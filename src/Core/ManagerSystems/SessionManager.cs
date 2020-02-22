@@ -149,8 +149,8 @@ namespace WheelMUD.Core
             string path = Path.Combine(Path.GetDirectoryName(name), "Files");
             path = Path.Combine(path, "SplashScreens");
 
-            var viewEngine = new ViewEngine();
-            viewEngine.AddContext("MudAttributes", MudEngineAttributes.Instance);
+            //var viewEngine = new ViewEngine();
+            //viewEngine.AddContext("MudAttributes", MudEngineAttributes.Instance);
 
             var dirInfo = new DirectoryInfo(path);
             var files = new List<FileInfo>(dirInfo.GetFiles());
@@ -161,7 +161,8 @@ namespace WheelMUD.Core
                 string splashContent = sr.ReadToEnd();
                 sr.Close();
 
-                string renderedScreen = viewEngine.RenderView(splashContent);
+                //string renderedScreen = viewEngine.RenderView(splashContent);
+                string renderedScreen = "@@@ FIX RENDERING: " + splashContent;
 
                 splashScreens.Add(renderedScreen);
                 this.SystemHost.UpdateSystemHost(this, string.Format("{0} has been loaded.", fileInfo.Name));

@@ -9,7 +9,6 @@ namespace WheelMUD.Data.Repositories
 {
     using System.Collections.Generic;
     using System.Data;
-    using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
 
     public static class LocationRepositoryExtensions
@@ -22,7 +21,8 @@ namespace WheelMUD.Data.Repositories
         {
             using (IDbCommand session = Helpers.OpenRelationalSession())
             {
-                return session.Connection.Select<RoomRecord>("AreaID = {0}", areaId);
+                //return session.Connection.Select<RoomRecord>("AreaID = {0}", areaId);
+                return new List<RoomRecord>();
             }
         }
 
@@ -34,7 +34,8 @@ namespace WheelMUD.Data.Repositories
             using (IDbCommand session = Helpers.OpenRelationalSession())
             {
                 // Return just "standard" exits, where this room is the primary owner.
-                return session.Connection.Select<ExitRecord>("ExitRoomAID = {0}", roomId);
+                //return session.Connection.Select<ExitRecord>("ExitRoomAID = {0}", roomId);
+                return new List<ExitRecord>();
             }
         }
     }

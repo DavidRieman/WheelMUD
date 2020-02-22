@@ -13,6 +13,7 @@ namespace WheelMUD.Main
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
+    //using System.ComponentModel.Composition;
     using System.Data;
     using System.IO;
     using System.Linq;
@@ -32,7 +33,7 @@ namespace WheelMUD.Main
         private readonly List<ISuperSystemSubscriber> subscribers = new List<ISuperSystemSubscriber>();
 
         /// <summary>The view engine.</summary>
-        private ViewEngine viewEngine;
+        //private ViewEngine viewEngine;
         
         /// <summary>Prevents a default instance of the <see cref="Application"/> class from being created.</summary>
         private Application()
@@ -189,7 +190,7 @@ namespace WheelMUD.Main
         {
             var path = Path.Combine(Configuration.GetDataStoragePath(), "ConsoleHelp.txt");
             var help = File.ReadAllText(path);
-            this.Notify(this.viewEngine.RenderView(help));
+            //this.Notify(this.viewEngine.RenderView(help));
         }
 
         /// <summary>Notify subscribers of the specified message.</summary>
@@ -252,8 +253,8 @@ namespace WheelMUD.Main
         /// <summary>Initializes the systems of this application.</summary>
         private void InitializeSystems()
         {
-            this.viewEngine = new ViewEngine { ReplaceNewLine = false };
-            this.viewEngine.AddContext("MudAttributes", MudEngineAttributes.Instance);
+            //this.viewEngine = new ViewEngine { ReplaceNewLine = false };
+            //this.viewEngine.AddContext("MudAttributes", MudEngineAttributes.Instance);
 
             this.Notify(this.DisplayStartup());
             this.Notify("Starting Application.");
@@ -310,7 +311,8 @@ namespace WheelMUD.Main
         {
             var filePath = Path.Combine(Configuration.GetDataStoragePath(), "ConsoleOpen.txt");
             var splash = File.ReadAllText(filePath);
-            return this.viewEngine.RenderView(splash);
+            //return this.viewEngine.RenderView(splash);
+            return "FIX STARTUP RENDER!";
         }
     }
 }

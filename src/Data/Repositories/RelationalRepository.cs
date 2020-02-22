@@ -9,7 +9,6 @@ namespace WheelMUD.Data.Repositories
 {
     using System.Collections.Generic;
     using System.Data;
-    using ServiceStack.OrmLite;
 
     /// <summary>Generic relational repository implementation for type T.</summary>
     public class RelationalRepository<T> where T : new()
@@ -19,9 +18,10 @@ namespace WheelMUD.Data.Repositories
             using (IDbCommand session = Helpers.OpenRelationalSession())
             using (IDbTransaction transaction = session.Connection.BeginTransaction())
             {
-                session.Connection.Save(obj);
-                transaction.Commit();
-                return session.Connection.GetLastInsertId();
+                //session.Connection.Save(obj);
+                //transaction.Commit();
+                //return session.Connection.GetLastInsertId();
+                return 0;
             }
         }
 
@@ -30,8 +30,8 @@ namespace WheelMUD.Data.Repositories
             using (IDbCommand session = Helpers.OpenRelationalSession())
             using (IDbTransaction transaction = session.Connection.BeginTransaction())
             {
-                session.Connection.Update(obj);
-                transaction.Commit();
+                //session.Connection.Update(obj);
+                //transaction.Commit();
             }
         }
 
@@ -40,22 +40,24 @@ namespace WheelMUD.Data.Repositories
             using (IDbCommand session = Helpers.OpenRelationalSession())
             using (IDbTransaction transaction = session.Connection.BeginTransaction())
             {
-                session.Connection.Delete(obj);
-                transaction.Commit();
+                //session.Connection.Delete(obj);
+                //transaction.Commit();
             }
         }
 
         public T GetById(long id)
         {
-            using (IDbCommand session = Helpers.OpenRelationalSession())
-                return session.Connection.SingleWhere<T>("ID = {0}", id);
+            //using (IDbCommand session = Helpers.OpenRelationalSession())
+            //    return session.Connection.SingleWhere<T>("ID = {0}", id);
+            return new T();
         }
 
         public T GetByName(string name)
         {
             using (IDbCommand session = Helpers.OpenRelationalSession())
             {
-                return session.Connection.SingleWhere<T>("Name = {0}", name);
+                //return session.Connection.SingleWhere<T>("Name = {0}", name);
+                return new T();
             }
         }
 
@@ -63,7 +65,8 @@ namespace WheelMUD.Data.Repositories
         {
             using (IDbCommand session = Helpers.OpenRelationalSession())
             {
-                return session.Connection.Select<T>();
+                //return session.Connection.Select<T>();
+                return new List<T>();
             }
         }
     }

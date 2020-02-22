@@ -9,7 +9,6 @@ namespace WheelMUD.Data.Repositories
 {
     using System.Collections.Generic;
     using System.Data;
-    using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
 
     public static class GeneralRepositoryExtensions
@@ -25,7 +24,8 @@ namespace WheelMUD.Data.Repositories
 
             using (IDbCommand session = Helpers.OpenRelationalSession())
             {
-                return session.Connection.Select<HelpTopicAliasRecord>(sql, helpTopicId);
+                //return session.Connection.Select<HelpTopicAliasRecord>(sql, helpTopicId);
+                return new List<HelpTopicAliasRecord>();
             }
         }
 
@@ -38,7 +38,8 @@ namespace WheelMUD.Data.Repositories
         {
             using (IDbCommand session = Helpers.OpenRelationalSession())
             {
-                return session.Connection.Select<MobRecord>("CurrentRoomID = {0}", roomId);
+                //return session.Connection.Select<MobRecord>("CurrentRoomID = {0}", roomId);
+                return new List<MobRecord>();
             }
         }
     }

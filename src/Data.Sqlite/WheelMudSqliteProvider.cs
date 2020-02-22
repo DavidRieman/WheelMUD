@@ -12,9 +12,8 @@ namespace WheelMUD.Data.Sqlite
 {
     using System.ComponentModel.Composition;
     using System.Data;
+    using System.Data.SQLite;
     using System.IO;
-    using ServiceStack.OrmLite;
-    using ServiceStack.OrmLite.Sqlite;
 
     /// <summary>ORMLite Sqlite provider for WheelMUD.</summary>
     [Export(typeof(IWheelMudRelationalDbProvider))]
@@ -37,8 +36,9 @@ namespace WheelMUD.Data.Sqlite
         public IDbConnection CreateDatabaseSession()
         {
             VerifyValidSqLiteFile(this.ConnectionString);
-            var connectionFactory = new OrmLiteConnectionFactory(this.ConnectionString, false, SqliteOrmLiteDialectProvider.Instance);
-            return connectionFactory.OpenDbConnection();
+            var connection = new SQLiteConnection(this.ConnectionString);
+            connection.Open();
+            return connection;
         }
 
         /// <summary>Verifies that the SQLite DB file specified in a connection string is somewhat valid.</summary>

@@ -11,13 +11,9 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using ServiceStack.DataAnnotations;
-
     /// <summary>Represents a single MXP row in the MXP table.</summary>
-    [Alias("MXP")]
     public partial class MxpRecord
     {
-        [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string ElementName { get; set; }
         public virtual string ElementDefinition { get; set; }

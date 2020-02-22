@@ -12,10 +12,7 @@ namespace WheelMUD.Data.RavenDb
 {
     using System;
     using System.IO;
-    using System.Linq;
-    using Raven.Client;
     using Raven.Client.Documents.Session;
-
     using WheelMUD.Utilities;
 
     /// <summary>Utilities for making the use of RavenDb easier.</summary>

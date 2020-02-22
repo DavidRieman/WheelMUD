@@ -11,13 +11,9 @@
 
 namespace WheelMUD.Data.Entities
 {
-    using ServiceStack.DataAnnotations;
-
     /// <summary>Represents a single PlayerChannel row in the PlayerChannel table.</summary>
-    [Alias("PlayerChannels")]
     public partial class PlayerChannelRecord
     {
-        [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual long PlayerID { get; set; }
         public virtual long ChannelID { get; set; }
