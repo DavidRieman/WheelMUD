@@ -19,11 +19,9 @@ namespace ServerHarness.Commands
 
     public class RunTestsCommand : IServerHarnessCommand
     {
-        private readonly string[] names = { "RUN", "RUN-TESTS", "run", "Run", "r" };
-
         public IEnumerable<string> Names
         {
-            get { return this.names; }
+            get { return new string[] { "RUN", "RUN-TESTS", "run", "Run", "r" }; }
         }
 
         public void Execute(Application app, MultiUpdater display, string[] words)
@@ -35,7 +33,13 @@ namespace ServerHarness.Commands
             }
 
             var failed = new List<string>();
-            string[] files = Directory.GetFiles(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "Tests", "*.testscript", SearchOption.AllDirectories);
+            var testsPath = Path.Combine(Environment.CurrentDirectory, "Tests");
+            string[] files = Directory.GetFiles(testsPath, "*.testscript", SearchOption.AllDirectories);
+            if (files.Length == 0)
+            {
+                display.Notify(">> FATAL ERROR. No tests were found.");
+                return;
+            }
 
             foreach (string file in files)
             {

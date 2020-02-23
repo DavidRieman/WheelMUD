@@ -11,9 +11,13 @@
 
 namespace WheelMUD.Data.Entities
 {
+    using ServiceStack.DataAnnotations;
+
     /// <summary>Represents a single MonthName row in the MonthName table.</summary>
+    [Alias("MonthNames")]
     public partial class MonthNameRecord
     {
+        [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string MonthName { get; set; }
     }

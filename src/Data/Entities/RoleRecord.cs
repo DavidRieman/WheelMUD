@@ -11,9 +11,13 @@
 
 namespace WheelMUD.Data.Entities
 {
+    using ServiceStack.DataAnnotations;
+
     /// <summary>Represents a single Role row in the Role table.</summary>
+    [Alias("Roles")]
     public partial class RoleRecord
     {
+        [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string Name { get; set; }
         public virtual int SecurityRoleMask { get; set; }

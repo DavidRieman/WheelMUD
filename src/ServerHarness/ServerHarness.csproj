@@ -19,48 +19,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Files\connectionstrings.config">
-      <Link>Files\connectionstrings.config</Link>
-    </None>
-    <None Include="..\Files\mud.config">
-      <Link>Files\mud.config</Link>
-    </None>
-    <None Include="..\Files\StandardEntityViewTemplate.vm">
-      <Link>Files\StandardEntityViewTemplate.vm</Link>
-    </None>
-    <None Include="..\Files\StandardRoomViewTemplate.vm">
-      <Link>Files\StandardRoomViewTemplate.vm</Link>
-    </None>
-    <None Include="..\Files\StandardRoomViewTemplate_Taliesen.vm">
-      <Link>Files\StandardRoomViewTemplate_Taliesen.vm</Link>
-    </None>
-    <None Update="mud.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Tests\simple.testscript">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\Files\ConsoleHelp.txt">
-      <Link>Files\ConsoleHelp.txt</Link>
-    </Content>
-    <Content Include="..\Files\ConsoleOpen.txt">
-      <Link>Files\ConsoleOpen.txt</Link>
-    </Content>
-    <Content Include="..\Files\Credits.txt">
-      <Link>Files\Credits.txt</Link>
-    </Content>
-    <Content Include="..\Files\SplashScreen.txt">
-      <Link>Files\SplashScreen.txt</Link>
-    </Content>
-    <Content Include="..\LICENSE.txt">
-      <Link>Files\LICENSE.txt</Link>
-    </Content>
     <Content Include="console.ico" />
-    <Content Include="Tests\readme_first.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <!-- TODO: Composition-discovered dependencies shouldn't be needed here. However, currently these projects

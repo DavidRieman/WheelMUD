@@ -11,9 +11,13 @@
 
 namespace WheelMUD.Data.Entities
 {
+    using ServiceStack.DataAnnotations;
+
     /// <summary>Represents a single IAC row in the IAC table.</summary>
+    [Alias("IAC")]
     public partial class IacRecord
     {
+        [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string Name { get; set; }
         public virtual int OptionCode { get; set; }

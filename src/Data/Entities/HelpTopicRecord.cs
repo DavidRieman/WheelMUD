@@ -11,9 +11,13 @@
 
 namespace WheelMUD.Data.Entities
 {
+    using ServiceStack.DataAnnotations;
+
     /// <summary>Represents a single HelpTopic row in the HelpTopic table.</summary>
+    [Alias("HelpTopics")]
     public partial class HelpTopicRecord
     {
+        [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string HelpTopic { get; set; }
         public virtual string Usage { get; set; }

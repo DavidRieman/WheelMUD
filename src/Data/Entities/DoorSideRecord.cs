@@ -11,9 +11,13 @@
 
 namespace WheelMUD.Data.Entities
 {
+    using ServiceStack.DataAnnotations;
+
     /// <summary>Represents a single DoorSide row in the DoorSide table.</summary>
+    [Alias("DoorSides")]
     public partial class DoorSideRecord
     {
+        [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string Name { get; set; }
         public virtual string Description { get; set; }
