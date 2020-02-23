@@ -61,9 +61,9 @@ namespace WheelMUD.Tests.Behaviors
             // being destroyed or whatnot as a race versus a user trying to activate it.)
             bool initialState = this.opensClosesBehavior.IsOpen;
             this.opensClosesBehavior.Close(this.actingThing);
-            Assert.Equals(initialState, this.opensClosesBehavior.IsOpen);
+            Assert.AreEqual(initialState, this.opensClosesBehavior.IsOpen);
             this.opensClosesBehavior.Open(this.actingThing);
-            Assert.Equals(initialState, this.opensClosesBehavior.IsOpen);
+            Assert.AreEqual(initialState, this.opensClosesBehavior.IsOpen);
         }
 
         /// <summary>Test normal OpensClosesBehavior operation.</summary>
