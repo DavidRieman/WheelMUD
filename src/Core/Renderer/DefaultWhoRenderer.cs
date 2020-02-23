@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Renderer
+namespace WheelMUD.Core
 {
     using System;
 
@@ -14,7 +14,7 @@ namespace WheelMUD.Core.Renderer
     /// The default "who" renderer may simply show all online players. One might wish to build a "who" renderer
     /// with higher priority to customize things like hiding invisible admins, showing AFK states, etc.
     /// </remarks>
-    [ExportWhoRenderer(0)]
+    [RendererExports.Who(0)]
     public class DefaultWhoRenderer : RendererDefinitions.Who
     {
         public override string Render(Thing player)

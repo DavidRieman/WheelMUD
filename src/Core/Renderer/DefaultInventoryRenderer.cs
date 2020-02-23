@@ -5,16 +5,16 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Renderer
+namespace WheelMUD.Core
 {
     using System;
 
-    [ExportInventoryRenderer(0)]
+    [RendererExports.Inventory(0)]
     public class DefaultInventoryRenderer : RendererDefinitions.Inventory
     {
         public override string Render(Thing player)
         {
-            throw new NotImplementedException();
+            return "TODO: RENDER INVENTORY FOR: " + player.Name;
         }
     }
 }

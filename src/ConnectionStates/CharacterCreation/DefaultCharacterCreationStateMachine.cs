@@ -13,7 +13,7 @@ namespace WheelMUD.ConnectionStates
     using WheelMUD.Core;
 
     /// <summary>Default state machine for creating a new character.</summary>
-    [ExportCharacterCreationStateMachine(100)]
+    [ExportCharacterCreationStateMachine(0)]
     public class DefaultCharacterCreationStateMachine : CharacterCreationStateMachine
     {
         /// <summary>Initializes a new instance of the <see cref="DefaultCharacterCreationStateMachine"/> class.</summary>

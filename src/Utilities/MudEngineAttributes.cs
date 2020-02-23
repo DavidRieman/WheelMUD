@@ -7,73 +7,43 @@
 
 namespace WheelMUD.Utilities
 {
-    using System;
     using System.IO;
     using System.Reflection;
-    //using Nini.Config;
 
     /// <summary>MUD Engine Attributes.</summary>
     public class MudEngineAttributes
     {
-        /// <summary>The MudEngineAttributes singleton instance.</summary>
-        private static readonly MudEngineAttributes SingletonInstance = new MudEngineAttributes();
-
-        /// <summary>The .NET configuration source.</summary>
-        //private readonly DotNetConfigSource config;
-
-        /// <summary>The version of the engine.</summary>
-        private string version;
-
-        /// <summary>The default room ID.</summary>
-        private int defaultRoomID;
-
         /// <summary>Prevents a default instance of the <see cref="MudEngineAttributes"/> class from being created.</summary>
         private MudEngineAttributes()
         {
-            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            path = Path.Combine(path, "mud.config");
-            //this.config = new DotNetConfigSource(path);
             this.GetConfigSettings();
         }
 
         /// <summary>Gets the singleton instance of the <see cref="MudEngineAttributes"/> class.</summary>
-        public static MudEngineAttributes Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static MudEngineAttributes Instance { get; } = new MudEngineAttributes();
 
         /// <summary>Gets the current version of the MUD.</summary>
-        public string Version
-        {
-            get { return this.version; }
-        }
+        /// <remarks>Potentially rendered in splash screens. Generates from assembly information (GlobalAssemblyInfo.cs if you don't have your own).</remarks>
+        public string Version { get; private set; }
 
         /// <summary>Gets or sets the default room ID.</summary>
         /// <value>The default room ID.</value>
-        public int DefaultRoomID
-        {
-            get { return this.defaultRoomID; }
-
-            set { this.defaultRoomID = value; }
-        }
+        public int DefaultRoomID { get; set; }
 
         /// <summary>Gets or sets the name of the MUD.</summary>
-        public string MudName { get; set; }
+        /// <remarks>Potentially rendered in splash screens. Configure via App.config.</remarks>
+        public string MudName { get; private set; }
 
         /// <summary>Gets or sets the telnet port.</summary>
         public int TelnetPort { get; set; }
 
+        /// <summary>Gets or sets the copyright for this MUD.</summary>
+        /// <remarks>Potentially rendered in splash screens. Configure via assembly information (GlobalAssemblyInfo.cs if you don't have your own).</remarks>
+        public string Copyright { get; private set; }
+
         /// <summary>Gets or sets the website for this MUD.</summary>
-        public string Website { get; set; }
-
-        /// <summary>Gets or sets the template file location that will be used to format the help text.</summary>
-        public string HelpTopicFormatingTemplateFile { get; set; }
-
-        /// <summary>Gets or sets the template file location that will be used to format the room text.</summary>
-        public string RoomFormatingTemplateFile { get; set; }
-
-        /// <summary>Gets or sets the template file location that will be used to format the entity's (NPC, Mobs) text.</summary>
-        public string EntityFormatingTemplateFile { get; set; }
+        /// <remarks>Potentially rendered in splash screens. Configure via App.config.</remarks>
+        public string Website { get; private set; }
 
         /// <summary>Gets or sets the root directory for the FTP server.</summary>
         public string FTPServerRootFolder { get; set; }
@@ -85,34 +55,6 @@ namespace WheelMUD.Utilities
         /// <summary>Gets or sets the name of the current rule set.</summary>
         /// <value>The name of the current rule set.</value>
         public string CurrentRuleSetName { get; set; }
-
-        /// <summary>Saves this instance.</summary>
-        /// <returns>Whether the Save method was successful or not.</returns>
-        public bool Save()
-        {
-            /* @@@ WHY DO WE SUPPORT THIS? Shouldn't we be hand-editing configs?
-            try
-            {
-                this.config.Configs["EngineAttributes"].Set("name", this.MudName);
-                this.config.Configs["EngineAttributes"].Set("port", this.TelnetPort);
-                this.config.Configs["EngineAttributes"].Set("website", this.Website);
-                this.config.Configs["UniverseAttributes"].Set("defaultroom", this.DefaultRoomID);
-                this.config.Configs["RuleSetAttributes"].Set("masterfile", this.MasterRuleSetFile);
-                this.config.Configs["RuleSetAttributes"].Set("currentruleset", this.CurrentRuleSetName);
-                this.config.Configs["Templates"].Set("roomviewtemplate", this.RoomFormatingTemplateFile);
-                this.config.Configs["Templates"].Set("entityviewtemplate", this.EntityFormatingTemplateFile);
-                this.config.Configs["Templates"].Set("helpviewtemplate", this.HelpTopicFormatingTemplateFile);
-                this.config.Configs["FTP"].Set("RootFolder", this.FTPServerRootFolder);
-                this.config.Save();
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(string.Format("MudEngineAttributes.Save()\n{0}", e.Message));
-            }
-            */
-            return false;
-        }
 
         /// <summary>Gets the configuration settings.</summary>
         private void GetConfigSettings()
@@ -132,16 +74,21 @@ namespace WheelMUD.Utilities
             this.FTPServerRootFolder = runDir;
             ////this.config.Configs["FTP"].GetString("RootFolder").Replace("%FTPRUNDIR%", runDir);
             */
-            this.MudName = "WheelMUD.net";
-            this.TelnetPort = 4000;
+
+            this.MudName = "WheelMUD";
+            this.TelnetPort = 4000; 
             this.Website = "www.wheelmud.net";
-            this.defaultRoomID = 1;
+            this.DefaultRoomID = 1;
+
+            // TODO: Discover active rules and stuff through Composition; Admin simply includes libraries they want active, with Priority export settings.
             this.MasterRuleSetFile = "WarriorRogueMageMaster.xml";
             this.CurrentRuleSetName = "Warrior, Rogue, and Mage";
-            this.RoomFormatingTemplateFile = "StandardHelpTopicViewTemplate.vm";
-            this.EntityFormatingTemplateFile = "StandardRoomViewTemplate.vm";
-            this.HelpTopicFormatingTemplateFile = "StandardEntityViewTemplate.vm";
-            this.version = this.GetType().Assembly.GetName().Version.ToString();
+
+            // Generally we want to pull information from the executing assembly (rather than core assemblies), so that a
+            // custom game solution/harness can apply their own assembly information.
+            var assembly = Assembly.GetExecutingAssembly();
+            this.Version = assembly.GetName().Version.ToString();
+            this.Copyright = assembly.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
         }
     }
 }

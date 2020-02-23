@@ -219,6 +219,10 @@ namespace WheelMUD.Server
                         new AsyncCallback(this.OnDataReceived),
                         null);
             }
+            catch (ObjectDisposedException)
+            {
+                this.OnConnectionDisconnect();
+            }
             catch (SocketException)
             {
                 this.OnConnectionDisconnect();

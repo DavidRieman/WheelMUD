@@ -5,13 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Renderer
+namespace WheelMUD.Core
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.Composition;
-    using System.Linq;
-    using WheelMUD.Interfaces;
 
     public class Renderer
     {
@@ -44,27 +41,27 @@ namespace WheelMUD.Core.Renderer
 
         /// <summary>Gets, via MEF composition, an enumerable collection of available Inventory renderers.</summary>
         [ImportMany]
-        public Lazy<RendererDefinitions.Inventory, ExportInventoryRendererAttribute>[] InventoryRenderers { get; private set; }
+        public Lazy<RendererDefinitions.Inventory, RendererExports.Inventory>[] InventoryRenderers { get; private set; }
 
         /// <summary>Gets, via MEF composition, an enumerable collection of available PerceivedRoom renderers.</summary>
         [ImportMany]
-        public Lazy<RendererDefinitions.PerceivedRoom, ExportPerceivedRoomRendererAttribute>[] PerceivedRoomRenderers { get; private set; }
+        public Lazy<RendererDefinitions.PerceivedRoom, RendererExports.PerceivedRoom>[] PerceivedRoomRenderers { get; private set; }
 
         /// <summary>Gets, via MEF composition, an enumerable collection of available PerceivedThing renderers.</summary>
         [ImportMany]
-        public Lazy<RendererDefinitions.PerceivedThing, ExportPerceivedThingRendererAttribute>[] PerceivedThingRenderers { get; private set; }
+        public Lazy<RendererDefinitions.PerceivedThing, RendererExports.PerceivedThing>[] PerceivedThingRenderers { get; private set; }
 
         /// <summary>Gets, via MEF composition, an enumerable collection of available Score renderers.</summary>
         [ImportMany]
-        public Lazy<RendererDefinitions.Score, ExportScoreRendererAttribute>[] ScoreRenderers { get; private set; }
+        public Lazy<RendererDefinitions.Score, RendererExports.Score>[] ScoreRenderers { get; private set; }
 
         /// <summary>Gets, via MEF composition, an enumerable collection of available SplashScreen renderers.</summary>
         [ImportMany]
-        public Lazy<RendererDefinitions.SplashScreen, ExportSplashScreenRendererAttribute>[] SplashScreenRenderers { get; private set; }
+        public Lazy<RendererDefinitions.SplashScreen, RendererExports.SplashScreen>[] SplashScreenRenderers { get; private set; }
 
         /// <summary>Gets, via MEF composition, an enumerable collection of available Who renderers.</summary>
         [ImportMany]
-        public Lazy<RendererDefinitions.Who, ExportWhoRendererAttribute>[] WhoRenderers { get; private set; }
+        public Lazy<RendererDefinitions.Who, RendererExports.Who>[] WhoRenderers { get; private set; }
 
         public string RenderInventory(Thing player)
         {
