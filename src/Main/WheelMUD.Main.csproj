@@ -1,12 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>Library</OutputType>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <OutputPath>..\..\binDebug</OutputPath>
@@ -28,6 +26,5 @@
     <ProjectReference Include="..\Server\WheelMUD.Server.csproj" />
     <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj" />
     <ProjectReference Include="..\Universe\WheelMUD.Universe.csproj" />
-    <Reference Include="System.ComponentModel.Composition" />
   </ItemGroup>
 </Project>

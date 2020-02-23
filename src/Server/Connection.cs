@@ -25,6 +25,10 @@ namespace WheelMUD.Server
     /// <summary>Represents a connection to a client.</summary>
     public class Connection : IConnection
     {
+        // After porting to .NET Core, it seems we are no longer able to use the 8-bit ASCII
+        // encoder "Encoding.GetEncoding(437)", so we went back to this 7-bit ASCII encoder.
+        private static Encoding CurrentEncoding = ASCIIEncoding.ASCII;
+
         /// <summary>The threshold, in characters, beyond which MCCP should be used.</summary>
         private const int MCCPThreshold = 100;
 
@@ -173,11 +177,7 @@ namespace WheelMUD.Server
             }
             else
             {
-                // Line below commented out by JFed 11/28/2011.  We lose the 8th bit with this encoding, which breaks special characters like ASCII art
-                // bytes = ASCIIEncoding.ASCII.GetBytes(data);
-
-                // Encoding using code page 437 (old 8bit default ascii).
-                bytes = Encoding.GetEncoding(437).GetBytes(data);
+                bytes = CurrentEncoding.GetBytes(data);
             }
 
             // Send the data.
