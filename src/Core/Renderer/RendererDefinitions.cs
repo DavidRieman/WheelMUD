@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Renderer
+namespace WheelMUD.Core
 {
     /// <summary>
     /// Provides definitions for the set of easily-overridden view renderers.

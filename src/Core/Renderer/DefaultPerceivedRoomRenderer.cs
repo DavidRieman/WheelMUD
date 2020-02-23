@@ -5,11 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Renderer
+namespace WheelMUD.Core
 {
-    using System;
-
-    [ExportPerceivedRoomRenderer(0)]
+    [RendererExports.PerceivedRoom(0)]
     public class DefaultPerceivedRoomRenderer : RendererDefinitions.PerceivedRoom
     {
         public override string Render(Thing viewer, Thing viewedRoom)

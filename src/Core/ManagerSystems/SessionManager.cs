@@ -12,22 +12,11 @@ namespace WheelMUD.Core
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
-    using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
-    using WheelMUD.Utilities;
 
     /// <summary>High level manager that provides tracking and global collection of all connected sessions.</summary>
     public class SessionManager : ManagerSystem
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static readonly SessionManager SingletonInstance = new SessionManager();
-
-        /// <summary>The login splash screen.</summary>
-        ////private static string splash;
-
-        private static List<string> splashScreens = new List<string>();
-
         /// <summary>Prevents a default instance of the <see cref="SessionManager"/> class from being created.</summary>
         private SessionManager()
         {
@@ -35,10 +24,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets the singleton instance of the <see cref="SessionManager"/> system.</summary>
-        public static SessionManager Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static SessionManager Instance { get; } = new SessionManager();
 
         /// <summary>Gets the dictionary of sessions.</summary>
         public Dictionary<string, Session> Sessions { get; private set; }
@@ -107,10 +93,6 @@ namespace WheelMUD.Core
         {
             this.SystemHost.UpdateSystemHost(this, "Starting...");
 
-            this.SystemHost.UpdateSystemHost(this, "Loading splash screens...");
-            this.LoadSplashScreens();
-            this.SystemHost.UpdateSystemHost(this, "Done loading splash screens.");
-
             this.SystemHost.UpdateSystemHost(this, "Started");
         }
 
@@ -127,48 +109,6 @@ namespace WheelMUD.Core
             this.SystemHost.UpdateSystemHost(this, "Stopped");
         }
 
-        /// <summary>Gets the splash screen, whether buffered or from file.</summary>
-        /// <returns>The contents of the splash screen.</returns>
-        private static string GetSplashScreen()
-        {
-            if (splashScreens.Count == 1)
-            {
-                return splashScreens[0];
-            }
-
-            var random = new Random();
-            int fileNum = random.Next(0, splashScreens.Count);
-
-            return splashScreens[fileNum];
-        }
-
-        /// <summary>Load the splash screens.</summary>
-        private void LoadSplashScreens()
-        {
-            string name = Configuration.GetDataStoragePath();
-            string path = Path.Combine(Path.GetDirectoryName(name), "Files");
-            path = Path.Combine(path, "SplashScreens");
-
-            //var viewEngine = new ViewEngine();
-            //viewEngine.AddContext("MudAttributes", MudEngineAttributes.Instance);
-
-            var dirInfo = new DirectoryInfo(path);
-            var files = new List<FileInfo>(dirInfo.GetFiles());
-
-            foreach (var fileInfo in files)
-            {
-                var sr = new StreamReader(fileInfo.FullName);
-                string splashContent = sr.ReadToEnd();
-                sr.Close();
-
-                //string renderedScreen = viewEngine.RenderView(splashContent);
-                string renderedScreen = "@@@ FIX RENDERING: " + splashContent;
-
-                splashScreens.Add(renderedScreen);
-                this.SystemHost.UpdateSystemHost(this, string.Format("{0} has been loaded.", fileInfo.Name));
-            }
-        }
-
         /// <summary>Creates a new session for the specified connection.</summary>
         /// <param name="connection">The connection.</param>
         /// <returns>A new Session for the connection.</returns>
@@ -178,7 +118,7 @@ namespace WheelMUD.Core
             connection.TelnetCodeHandler.BeginNegotiation();
 
             // Load our splash screen.
-            connection.Send(GetSplashScreen(), false, true);
+            connection.Send(Renderer.Instance.RenderSplashScreen(), false, true);
 
             // Create a new session for this connection.
             var session = new Session(connection);

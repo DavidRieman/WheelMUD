@@ -15,7 +15,7 @@ namespace WarriorRogueMage.CharacterCreation
     using WheelMUD.Core;
 
     /// <summary>Warrior, Rogue, Mage state machine for creating a new character.</summary>
-    [ExportCharacterCreationStateMachine(200)]
+    [ExportCharacterCreationStateMachine(100)]
     public class WRMCharacterCreationStateMachine : CharacterCreationStateMachine
     {
         /// <summary>Initializes a new instance of the <see cref="WRMCharacterCreationStateMachine" /> class.</summary>

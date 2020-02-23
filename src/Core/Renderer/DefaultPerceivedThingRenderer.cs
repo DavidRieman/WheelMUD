@@ -5,16 +5,16 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Renderer
+namespace WheelMUD.Core
 {
     using System;
 
-    [ExportPerceivedThingRenderer(0)]
+    [RendererExports.PerceivedThing(0)]
     public class DefaultPerceivedThingRenderer : RendererDefinitions.PerceivedThing
     {
         public override string Render(Thing viewer, Thing viewedThing)
         {
-            throw new NotImplementedException();
+            return "TODO: RENDER PERCEIVED THING: " + viewedThing.Name;
         }
     }
 }

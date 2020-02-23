@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Renderer
+namespace WheelMUD.Core
 {
     using System;
 
@@ -14,7 +14,7 @@ namespace WheelMUD.Core.Renderer
     /// The default score renderer is pretty basic. Game systems will generally be expected to replace this
     /// renderer with one that understands their game-specific stats, races, rules, and so on.
     /// </remarks>
-    [ExportScoreRenderer(0)]
+    [RendererExports.Score(0)]
     public class DefaultScoreRenderer : RendererDefinitions.Score
     {
         public override string Render(Thing player)
