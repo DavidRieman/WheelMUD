@@ -86,7 +86,7 @@ namespace WheelMUD.Core
 
         /// <summary>Registers the <see cref="HelpManager"/> system for export.</summary>
         /// <remarks>Assists with non-rebooting updates of the <see cref="HelpManager"/> system through MEF.</remarks>
-        [ExportSystem]
+        [ExportSystem(0)]
         public class HelpManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>

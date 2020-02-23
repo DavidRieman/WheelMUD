@@ -119,7 +119,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>A class for exporting/importing system singleton through MEF.</summary>
-        [ExportSystem]
+        [ExportSystem(0)]
         public class TimeSystemExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>

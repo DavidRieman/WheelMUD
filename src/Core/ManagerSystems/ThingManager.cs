@@ -190,7 +190,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Exporter for MEF.</summary>
-        [ExportSystem]
+        [ExportSystem(0)]
         public class ThingManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>

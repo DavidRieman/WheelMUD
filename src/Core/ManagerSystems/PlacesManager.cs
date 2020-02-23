@@ -61,7 +61,7 @@ namespace WheelMUD.Core
 
         /// <summary>Registers the <see cref="PlacesManager"/> system for export.</summary>
         /// <remarks>Assists with non-rebooting updates of the <see cref="PlacesManager"/> system through MEF.</remarks>
-        [ExportSystem]
+        [ExportSystem(0)]
         public class PlacesManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>

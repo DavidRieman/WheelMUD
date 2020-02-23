@@ -180,7 +180,7 @@ namespace WheelMUD.Server
         }
 
         /// <summary>MEF exporter for ServerManager.</summary>
-        [ExportSystem]
+        [ExportSystem(0)]
         public class ServerManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>

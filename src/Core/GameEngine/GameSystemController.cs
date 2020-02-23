@@ -139,8 +139,8 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Exports an instance of the GameSystemController to MEF.</summary>
-        [ExportSystem]
-        public class GameSystemManagerExporter : SystemExporter
+        [ExportSystem(0)]
+        public class GameSystemManagerExporter : SystemExporter, IExportWithPriority
         {
             /// <summary>Gets the singleton system instance.</summary>
             /// <returns>A new instance of the singleton system.</returns>
@@ -155,6 +155,14 @@ namespace WheelMUD.Core
             {
                 get { return typeof(GameSystemController); }
             }
+
+            /// <summary>Gets or sets the priority of the exported system instance. Only the highest priority version gets utilized.</summary>
+            /// <remarks>
+            /// Default exports (those that ship with WheelMUD core libraries) are priority 0, while an individual game system
+            /// may export things at priority 100, and one-off versions created specifically for a MUD instance should have a
+            /// higher priority than that. You could disable a customized version simply by setting the priority negative.
+            /// </remarks>
+            public int Priority { get; set; }
         }
     }
 }

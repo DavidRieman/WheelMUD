@@ -7,11 +7,13 @@
 
 namespace WheelMUD.Core
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition.Hosting;
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using WheelMUD.Interfaces;
 
     /// <summary>A class for simplifying common composition tasks.</summary>
     public static class DefaultComposer
@@ -33,7 +35,7 @@ namespace WheelMUD.Core
 
         /// <summary>
         /// Get just the latest distinct list of type instances from the set of freshly-imported types.
-        /// "Latest" is defined as the instance of a given full name whose type is defined in the 
+        /// "Latest" is defined as the instance of a given name whose type is defined in the
         /// most-recently-modified assembly.  For use immediately after composition and recomposition.
         /// </summary>
         /// <typeparam name="T">The imported type.</typeparam>
@@ -54,6 +56,20 @@ namespace WheelMUD.Core
             }
 
             return distinctInstances;
+        }
+
+        /// <summary>Get just the latest version of the highest-priority instances of an exported type.</summary>
+        /// <typeparam name="T">The instance type.</typeparam>
+        /// <typeparam name="Meta">The export metadata type.</typeparam>
+        /// <param name="importedTypesWithMetadata">The imported types, with metadata, to search for the latest priority version.</param>
+        /// <returns>The latest priority instance.</returns>
+        public static T GetLatestPriorityTypeInstance<T, Meta>(IEnumerable<Lazy<T, Meta>> importedTypesWithMetadata)
+            where Meta: IExportWithPriority
+        {
+            return (from exportData in importedTypesWithMetadata
+                    orderby exportData.Metadata.Priority descending,
+                            new FileInfo(exportData.Value.GetType().Module.FullyQualifiedName).LastWriteTime descending
+                    select exportData.Value).FirstOrDefault();
         }
     }
 }
