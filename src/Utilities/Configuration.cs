@@ -13,7 +13,6 @@ namespace WheelMUD.Utilities
     using System;
     using System.IO; 
     using System.Reflection;
-    using Nini.Config;
 
     /// <summary>Provides help methods for configuration code in the MUD engine.</summary>
     public class Configuration
@@ -27,7 +26,6 @@ namespace WheelMUD.Utilities
             string mudName = GetMudName();
             string mudPath = Path.Combine(rootPath, mudName);
             string fullPath = Path.Combine(mudPath, "Files");
-
             return fullPath;
         }
         
@@ -35,11 +33,11 @@ namespace WheelMUD.Utilities
         {
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             path = Path.Combine(path, "mud.config");
-            var config = new DotNetConfigSource(path);
-
-            string mudName = config.Configs["EngineAttributes"].GetString("name");
-
-            return mudName;
+            //var config = new DotNetConfigSource(path);
+            //string mudName = config.Configs["EngineAttributes"].GetString("name");
+            //return mudName;
+            // @@@ TODO: USE CONSISTENT CONFIG SOURCES; ELIMINATE mud.config AND USE JUST App.config?
+            return "HardCodedWheelMUD";
         }
     }
 }

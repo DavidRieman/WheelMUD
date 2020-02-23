@@ -7,10 +7,9 @@
 
 namespace WheelMUD.Utilities
 {
+    /* @@@ RETIRE UNTIL NEEDED? THIS LOG4NET REF MIGHT NOT BE COMPATIBLE AS IS WITH CORE
     using log4net;
     using log4net.Config;
-
-// @@@ RETIRE UNTIL NEEDED? THIS LOG4NET REF MIGHT NOT BE COMPATIBLE AS IS WITH CORE
 
     /// <summary>This will handle logging for all of WheelMUD using log4net ( http://logging.apache.org/log4net/ ).</summary>
     public class LoggingService
@@ -73,5 +72,5 @@ namespace WheelMUD.Utilities
                 }
             }
         }
-    }
+    }*/
 }

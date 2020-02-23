@@ -111,7 +111,9 @@ namespace WheelMUD.Main
                 }
                 else
                 {
-                    sourcePath = Path.GetDirectoryName(appDir);
+                    // The binDebug folder now houses a sub-folder like "netcoreapp3.1" so we need to go up
+                    // two levels to search for the starting system data.
+                    sourcePath = Path.GetDirectoryName(Path.GetDirectoryName(appDir));
                     sourcePath = Path.Combine(sourcePath + "\\systemdata\\Files\\");
                 }
 
@@ -234,7 +236,9 @@ namespace WheelMUD.Main
                     }
                     else
                     {
-                        sourcePath = Path.GetDirectoryName(appDir);
+                        // The binDebug folder now houses a sub-folder like "netcoreapp3.1" so we need to go up two
+                        // levels to search for the starting system data.
+                        sourcePath = Path.GetDirectoryName(Path.GetDirectoryName(appDir));
                         sourcePath = Path.Combine(sourcePath + "\\systemdata\\SQL\\SQLite", DatabaseName);
                     }
 

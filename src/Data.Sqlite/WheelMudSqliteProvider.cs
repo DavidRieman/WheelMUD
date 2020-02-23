@@ -52,7 +52,7 @@ namespace WheelMUD.Data.Sqlite
             // Example connection string: "Data Source=Files\WheelMud.net.db;Version=3;"
             // Everything between the '=' and the first ';' should be the file to check.
             string fileName = connectionStringForSqlite.Substring(connectionStringForSqlite.IndexOf('=') + 1);
-            fileName = fileName.Substring(0, fileName.IndexOf(';'));
+            fileName = fileName.Substring(0, fileName.IndexOf(';')).Trim();
             var fileInfo = new FileInfo(fileName);
             if (!fileInfo.Exists)
             {

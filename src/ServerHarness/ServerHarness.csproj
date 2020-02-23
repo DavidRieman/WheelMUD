@@ -1,37 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <OutputType>Exe</OutputType>
-    <AssemblyName>WheelMUD</AssemblyName>
-    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <ApplicationIcon>console.ico</ApplicationIcon>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <NoStdLib>False</NoStdLib>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <AssemblyName>WheelMUD</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <OutputPath>..\..\binDebug</OutputPath>
@@ -90,6 +63,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <!-- TODO: Composition-discovered dependencies shouldn't be needed here. However, currently these projects
+         fail to load their own dependencies now that we're upgraded to .NET Core, even after a full solution
+         rebuild (which ought to be getting all dependencies copied into the binDebug or binRelease folder). -->
+    <ProjectReference Include="..\Data.RavenDb\WheelMUD.Data.RavenDb.csproj" />
+    <ProjectReference Include="..\Data.Sqlite\WheelMUD.Data.Sqlite.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
     <PackageReference Include="Topshelf">
       <Version>4.2.0</Version>
     </PackageReference>
@@ -100,9 +81,5 @@
     <ProjectReference Include="..\Interfaces\WheelMUD.Interfaces.csproj" />
     <ProjectReference Include="..\Main\WheelMUD.Main.csproj" />
     <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Configuration.Install" />
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Web.Extensions" />
   </ItemGroup>
 </Project>

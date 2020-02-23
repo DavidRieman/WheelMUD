@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
@@ -11,6 +11,5 @@
     <ProjectReference Include="..\..\Interfaces\WheelMUD.Interfaces.csproj" />
     <ProjectReference Include="..\..\Universe\WheelMUD.Universe.csproj" />
     <ProjectReference Include="..\TestFramework\TestHelpers.csproj" />
-    <Reference Include="System.ComponentModel.Composition" />
   </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@ namespace WheelMUD.Utilities
     using System;
     using System.IO;
     using System.Reflection;
-    using Nini.Config;
+    //using Nini.Config;
 
     /// <summary>MUD Engine Attributes.</summary>
     public class MudEngineAttributes
@@ -19,7 +19,7 @@ namespace WheelMUD.Utilities
         private static readonly MudEngineAttributes SingletonInstance = new MudEngineAttributes();
 
         /// <summary>The .NET configuration source.</summary>
-        private readonly DotNetConfigSource config;
+        //private readonly DotNetConfigSource config;
 
         /// <summary>The version of the engine.</summary>
         private string version;
@@ -32,7 +32,7 @@ namespace WheelMUD.Utilities
         {
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             path = Path.Combine(path, "mud.config");
-            this.config = new DotNetConfigSource(path);
+            //this.config = new DotNetConfigSource(path);
             this.GetConfigSettings();
         }
 
@@ -90,6 +90,7 @@ namespace WheelMUD.Utilities
         /// <returns>Whether the Save method was successful or not.</returns>
         public bool Save()
         {
+            /* @@@ WHY DO WE SUPPORT THIS? Shouldn't we be hand-editing configs?
             try
             {
                 this.config.Configs["EngineAttributes"].Set("name", this.MudName);
@@ -102,7 +103,6 @@ namespace WheelMUD.Utilities
                 this.config.Configs["Templates"].Set("entityviewtemplate", this.EntityFormatingTemplateFile);
                 this.config.Configs["Templates"].Set("helpviewtemplate", this.HelpTopicFormatingTemplateFile);
                 this.config.Configs["FTP"].Set("RootFolder", this.FTPServerRootFolder);
-
                 this.config.Save();
                 return true;
             }
@@ -110,13 +110,14 @@ namespace WheelMUD.Utilities
             {
                 Console.WriteLine(string.Format("MudEngineAttributes.Save()\n{0}", e.Message));
             }
-
+            */
             return false;
         }
 
         /// <summary>Gets the configuration settings.</summary>
         private void GetConfigSettings()
         {
+            /* @@@ TODO: REPAIR - VIA APP.CONFIG INSTEAD OF MUD.CONFIG?
             this.MudName = this.config.Configs["EngineAttributes"].GetString("name");
             this.TelnetPort = this.config.Configs["EngineAttributes"].GetInt("port");
             this.Website = this.config.Configs["EngineAttributes"].GetString("website");
@@ -130,6 +131,17 @@ namespace WheelMUD.Utilities
             string runDir = Configuration.GetDataStoragePath();
             this.FTPServerRootFolder = runDir;
             ////this.config.Configs["FTP"].GetString("RootFolder").Replace("%FTPRUNDIR%", runDir);
+            */
+            this.MudName = "WheelMUD.net";
+            this.TelnetPort = 4000;
+            this.Website = "www.wheelmud.net";
+            this.defaultRoomID = 1;
+            this.MasterRuleSetFile = "WarriorRogueMageMaster.xml";
+            this.CurrentRuleSetName = "Warrior, Rogue, and Mage";
+            this.RoomFormatingTemplateFile = "StandardHelpTopicViewTemplate.vm";
+            this.EntityFormatingTemplateFile = "StandardRoomViewTemplate.vm";
+            this.HelpTopicFormatingTemplateFile = "StandardEntityViewTemplate.vm";
+            this.version = this.GetType().Assembly.GetName().Version.ToString();
         }
     }
 }
