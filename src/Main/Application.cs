@@ -50,7 +50,7 @@ namespace WheelMUD.Main
         /// <summary>Gets or sets the available systems.</summary>
         /// <value>The available systems.</value>
         [ImportMany]
-        private List<SystemExporter> AvailableSystems { get; set; }
+        private Lazy<SystemExporter, ExportSystemAttribute>[] AvailableSystems { get; set; }
 
         /// <summary>Dispose of any resources consumed by Application.</summary>
         public void Dispose()
@@ -290,19 +290,21 @@ namespace WheelMUD.Main
 
             // Find the Type of each distinct available system.  ToList forces LINQ to process immediately.
             var systems = new List<SystemExporter>();
-            var systemTypes = from s in this.AvailableSystems select s.SystemType;
-            var distinctTypeNames = (from t in systemTypes select t.FullName).Distinct().ToList();
+            var systemTypes = from s in this.AvailableSystems select s.Value.SystemType;
+            var distinctTypeNames = (from t in systemTypes select t.Name).Distinct().ToList();
 
             foreach (string systemTypeName in distinctTypeNames)
             {
                 // Add only the single most-recent version of this type (if there were more than one found).
                 SystemExporter systemToAdd = (from s in this.AvailableSystems
-                                              where s.SystemType.FullName == systemTypeName
-                                              orderby s.SystemType.Assembly.GetName().Version.Major descending,
-                                                      s.SystemType.Assembly.GetName().Version.Minor descending,
-                                                      s.SystemType.Assembly.GetName().Version.Build descending,
-                                                      s.SystemType.Assembly.GetName().Version.Revision descending
-                                              select s).FirstOrDefault();
+                                              let type = s.Value.SystemType
+                                              where type.Name == systemTypeName
+                                              orderby s.Metadata.Priority descending,
+                                                      type.Assembly.GetName().Version.Major descending,
+                                                      type.Assembly.GetName().Version.Minor descending,
+                                                      type.Assembly.GetName().Version.Build descending,
+                                                      type.Assembly.GetName().Version.Revision descending
+                                              select s.Value).FirstOrDefault();
                 systems.Add(systemToAdd);
             }
 

@@ -236,7 +236,7 @@ namespace WheelMUD.Core
 
         /// <summary>Registers the <see cref="SessionManager"/> system for export.</summary>
         /// <remarks>Assists with non-rebooting updates of the <see cref="SessionManager"/> system through MEF.</remarks>
-        [ExportSystem]
+        [ExportSystem(0)]
         public class SessionManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>

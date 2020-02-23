@@ -102,21 +102,12 @@ namespace WheelMUD.Core.Renderer
             DefaultComposer.Container.ComposeParts(this);
 
             // Search each of the renderers for the one which has the highest priority.
-            this.currentInventoryRenderer = this.FindActiveRenderer(this.InventoryRenderers);
-            this.currentPerceivedRoomRenderer = this.FindActiveRenderer(this.PerceivedRoomRenderers);
-            this.currentPerceivedThingRenderer = this.FindActiveRenderer(this.PerceivedThingRenderers);
-            this.currentScoreRenderer = this.FindActiveRenderer(this.ScoreRenderers);
-            this.currentSplashScreenRenderer = this.FindActiveRenderer(this.SplashScreenRenderers);
-            this.currentWhoRenderer = this.FindActiveRenderer(this.WhoRenderers);
-        }
-
-        private T FindActiveRenderer<T, U>(IEnumerable<Lazy<T, U>> renderers)
-            where U : IExportWithPriority
-        {
-            var priorityRenderer = (from renderer in renderers
-                                    orderby renderer.Metadata.Priority descending
-                                    select renderer.Value).First();
-            return priorityRenderer;
+            this.currentInventoryRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.InventoryRenderers);
+            this.currentPerceivedRoomRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.PerceivedRoomRenderers);
+            this.currentPerceivedThingRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.PerceivedThingRenderers);
+            this.currentScoreRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.ScoreRenderers);
+            this.currentSplashScreenRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.SplashScreenRenderers);
+            this.currentWhoRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.WhoRenderers);
         }
     }
 }

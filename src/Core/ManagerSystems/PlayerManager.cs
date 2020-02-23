@@ -269,7 +269,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Exports an instance of the PlayerManager singleton through MEF.</summary>
-        [ExportSystem]
+        [ExportSystem(0)]
         public class PlayerManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton instance of the <see cref="PlayerManager"/> class.</summary>

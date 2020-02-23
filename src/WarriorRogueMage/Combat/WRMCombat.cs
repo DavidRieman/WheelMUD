@@ -160,7 +160,7 @@ namespace WarriorRogueMage
         }
 
         /// <summary>Warrior, Rogue, Mage combat exporter class.</summary>
-        [ExportSystem]
+        [ExportSystem(100)]
         public class WrmCombatExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>

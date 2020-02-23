@@ -11,17 +11,37 @@
 namespace WheelMUD.Core
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.Composition;
+    using WheelMUD.Interfaces;
+    using WheelMUD.Utilities;
 
     /// <summary>An attribute to export SystemExporters with.</summary>
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class ExportSystemAttribute : ExportAttribute
+    public class ExportSystemAttribute : ExportAttribute, IExportWithPriority
     {
         /// <summary>Initializes a new instance of the ExportSystemAttribute class.</summary>
-        public ExportSystemAttribute()
+        /// <param name="systemPriority">The priority of this system export; The highest priority version wins.</param>
+        public ExportSystemAttribute(int systemPriority)
             : base(typeof(SystemExporter))
         {
+            this.Priority = systemPriority;
         }
+
+        /// <summary>Initializes a new instance of the ExportSystemAttribute class.</summary>
+        /// <param name="metadata">The metadata.</param>
+        public ExportSystemAttribute(IDictionary<string, object> metadata)
+        {
+            PropertyTools.SetProperties(this, metadata);
+        }
+
+        /// <summary>Gets or sets the priority of the exported instance. Only the highest priority version gets utilized.</summary>
+        /// <remarks>
+        /// Default exports (those that ship with WheelMUD core libraries) are priority 0, while an individual game system
+        /// may export things at priority 100, and one-off versions created specifically for a MUD instance should have a
+        /// higher priority than that. You could disable a customized version simply by setting the priority negative.
+        /// </remarks>
+        public int Priority { get; set; }
     }
 }
