@@ -47,11 +47,7 @@ namespace WheelMUD.ConnectionStates
 
         /// <summary>Gets, via MEF composition, an enumerable collection of available state machine classes.</summary>
         [ImportMany]
-        public Lazy<CharacterCreationStateMachine, ExportCharacterCreationStateMachineAttribute>[] CharacterCreationStateMachines 
-        {
-            get;
-            private set;
-        }
+        public Lazy<CharacterCreationStateMachine, ExportCharacterCreationStateMachineAttribute>[] CharacterCreationStateMachines { get; private set; }
 
         /// <summary>Creates the default character creation state machine.</summary>
         /// <param name="session">The session.</param>
@@ -77,7 +73,7 @@ namespace WheelMUD.ConnectionStates
                 // @@@ TODO: assembly version number could be used as orderby tiebreaker to help ensure
                 //     "latest" is always prioritized over an equal priority of an older version.
                 var defaultStateMachineType = (from s in this.CharacterCreationStateMachines
-                                               orderby s.Metadata.StateMachinePriority descending
+                                               orderby s.Metadata.Priority descending
                                                select s.Value.GetType()).First();
 
                 // Find the constructor of that type which takes a Session.  We'll use this info to 

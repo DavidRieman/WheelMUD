@@ -4,7 +4,7 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   A script to allow a player to look at their environment.
+//   A script to allow a player to look at things and at their environment.
 // </summary>
 //-----------------------------------------------------------------------------
 
@@ -12,11 +12,10 @@ namespace WheelMUD.Actions
 {
     using System.Collections;
     using System.Collections.Generic;
-
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
+    using WheelMUD.Core.Renderer;
     using WheelMUD.Interfaces;
-    using WheelMUD.Utilities;
 
     /// <summary>A command that allows a player to look at their environment.</summary>
     [ExportGameAction]
@@ -87,27 +86,29 @@ namespace WheelMUD.Actions
         /// <returns>Returns the rendered view.</returns>
         private string TryLookAtThing(string thingToLookAt, Thing sender)
         {
-            // @@@ TODO: Refactor ViewEngine to remove NVelicoty: https://wheelmud.codeplex.com/workitem/13348
-            //var viewEngine = new ViewEngine();
-
-            // Look for target in the current room
+            // Look for the target in the current room.
             Thing thing = sender.Parent.FindChild(thingToLookAt);
             if (thing != null && this.sensesBehavior.CanPerceiveThing(thing))
             {
-                return "@@@ FIX RENDER THING: " + thing;
-                //return viewEngine.RenderView(thing);
+                return Renderer.Instance.RenderPerceivedThing(sender, thing);
             }
 
-            // If no target found, see if it matches any of the room's visuals.
+            // If no target was found, see if it matches any of the room's visuals.
             var room = sender.Parent.FindBehavior<RoomBehavior>();
             if (room != null)
             {
                 string visual = room.FindVisual(thingToLookAt);
                 if (!string.IsNullOrEmpty(visual))
                 {
-                    return "@@@ FIX RENDER VIEW: " + visual;
-                    //return viewEngine.RenderView(visual);
+                    return visual;
                 }
+            }
+
+            // Otherwise, see if it is a thing the player has.
+            thing = sender.FindChild(thingToLookAt);
+            if (thing != null && this.sensesBehavior.CanPerceiveThing(thing))
+            {
+                return Renderer.Instance.RenderPerceivedThing(sender, thing);
             }
 
             // At this point, target was not found.
@@ -127,10 +128,7 @@ namespace WheelMUD.Actions
                 { "Items", this.sensesBehavior.PerceiveItems() }
             };
 
-            string viewTemplateName = MudEngineAttributes.Instance.RoomFormatingTemplateFile;
-            //var viewEngine = new ViewEngine();
-            //return viewEngine.RenderCachedView(viewTemplateName, context);
-            return "@@@ FIX LOOK AT ROOM";
+            return Renderer.Instance.RenderPerceivedRoom(sender, sender.Parent);
         }
     }
 }
