@@ -1,1 +1,0 @@
-C:\Dev\Tools\Nant\bin\nant -buildfile:wheelmud-binaries.build
