@@ -73,18 +73,13 @@ namespace WheelMUD.Tests.Behaviors
             this.victim2.Eventing.MovementEvent += (root, e) => { this.lastVictimEvent = e; };
         }
 
-        /// <summary>Test LocksUnlocksBehavior without an attached parent.</summary>
+        /// <summary>Test FollowingBehavior without an attached parent.</summary>
         [Test]
-        public void TestUnattachedFollowingBehavior()
+        public void TestUnattachedFollowingBehaviorCanNotTrackTargets()
         {
             var followingBehavior = new FollowingBehavior();
-            var initialState = followingBehavior.Target;
-
             followingBehavior.Target = this.victim1;
-            Assert.Equals(this.victim1, followingBehavior.Target);
-
-            followingBehavior.Target = null;
-            Assert.Equals(initialState, followingBehavior.Target);
+            Assert.AreEqual(null, followingBehavior.Target);
         }
 
         /// <summary>Verify that the default target is null.</summary>

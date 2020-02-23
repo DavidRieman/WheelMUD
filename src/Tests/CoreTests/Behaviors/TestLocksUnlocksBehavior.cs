@@ -62,9 +62,9 @@ namespace WheelMUD.Tests.Behaviors
             // being destroyed or whatnot as a race versus a user trying to activate it.)
             bool initialState = this.locksUnlocksBehavior.IsLocked;
             this.locksUnlocksBehavior.Lock(this.actingThing);
-            Assert.Equals(initialState, this.locksUnlocksBehavior.IsLocked);
+            Assert.AreEqual(initialState, this.locksUnlocksBehavior.IsLocked);
             this.locksUnlocksBehavior.Unlock(this.actingThing);
-            Assert.Equals(initialState, this.locksUnlocksBehavior.IsLocked);
+            Assert.AreEqual(initialState, this.locksUnlocksBehavior.IsLocked);
         }
 
         /// <summary>Test normal LocksUnlocksBehavior operation.</summary>
