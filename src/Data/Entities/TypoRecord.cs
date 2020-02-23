@@ -11,9 +11,13 @@
 
 namespace WheelMUD.Data.Entities
 {
+    using ServiceStack.DataAnnotations;
+
     /// <summary>Represents a single Typo row in the Typo table.summary>
+    [Alias("Typos")]
     public partial class TypoRecord
     {
+        [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string Note { get; set; }
         public virtual long SubmittedByPlayerID { get; set; }

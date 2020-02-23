@@ -11,7 +11,10 @@
 
 namespace WheelMUD.Data.Entities
 {
+    using ServiceStack.DataAnnotations;
+
     /// <summary>Represents a single ANSI row in the ANSI table.</summary>
+    [Alias("ANSI")]
     public partial class AnsiRecord
     {
         public virtual long ID { get; set; }

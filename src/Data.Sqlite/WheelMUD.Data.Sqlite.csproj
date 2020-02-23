@@ -19,7 +19,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112" />
+    <PackageReference Include="ServiceStack.OrmLite.Sqlite.Core" Version="5.8.0" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.112" />
     <ProjectReference Include="..\Core\WheelMUD.Core.csproj" />
     <ProjectReference Include="..\Data\WheelMUD.Data.csproj" />
   </ItemGroup>

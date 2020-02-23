@@ -11,9 +11,13 @@
 
 namespace WheelMUD.Data.Entities
 {
+    using ServiceStack.DataAnnotations;
+
     /// <summary>Represents a single MudChannel row in the MudChannel table.</summary>
+    [Alias("MudChannels")]
     public partial class MudChannelRecord
     {
+        [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string MudChannelName { get; set; }
     }

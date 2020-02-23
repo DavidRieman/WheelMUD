@@ -11,11 +11,14 @@
 
 namespace WheelMUD.Data.Entities
 {
+    using ServiceStack.DataAnnotations;
     using System;
 
     /// <summary>Represents a single BannedIPAddress row in the BannedIPAddress table.</summary>
+    [Alias("BannedIPAddresses")]
     public partial class BannedIpAddressRecord
     {
+        [AutoIncrement]
         public virtual long ID { get; set; }
         public virtual string StartIPAddress { get; set; }
         public virtual string EndIPAddress { get; set; }

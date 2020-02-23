@@ -3,16 +3,14 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   ORMLite Sqlite provider for WheelMUD
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Data.Sqlite
 {
+    using ServiceStack.OrmLite;
+    using ServiceStack.OrmLite.Sqlite;
     using System.ComponentModel.Composition;
     using System.Data;
-    using System.Data.SQLite;
     using System.IO;
 
     /// <summary>ORMLite Sqlite provider for WheelMUD.</summary>
@@ -36,9 +34,8 @@ namespace WheelMUD.Data.Sqlite
         public IDbConnection CreateDatabaseSession()
         {
             VerifyValidSqLiteFile(this.ConnectionString);
-            var connection = new SQLiteConnection(this.ConnectionString);
-            connection.Open();
-            return connection;
+            var connectionFactory = new OrmLiteConnectionFactory(this.ConnectionString, SqliteOrmLiteDialectProvider.Instance, true);
+            return connectionFactory.OpenDbConnection();
         }
 
         /// <summary>Verifies that the SQLite DB file specified in a connection string is somewhat valid.</summary>

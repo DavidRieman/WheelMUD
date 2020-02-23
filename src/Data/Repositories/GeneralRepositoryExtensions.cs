@@ -7,6 +7,7 @@
 
 namespace WheelMUD.Data.Repositories
 {
+    using ServiceStack.OrmLite;
     using System.Collections.Generic;
     using System.Data;
     using WheelMUD.Data.Entities;
@@ -22,11 +23,8 @@ namespace WheelMUD.Data.Repositories
                            FROM HelpTopicAliases 
                            WHERE HelpTopicID = {0}";
 
-            using (IDbCommand session = Helpers.OpenRelationalSession())
-            {
-                //return session.Connection.Select<HelpTopicAliasRecord>(sql, helpTopicId);
-                return new List<HelpTopicAliasRecord>();
-            }
+            using IDbCommand session = Helpers.OpenRelationalSession();
+            return session.Connection.Select<HelpTopicAliasRecord>(sql, helpTopicId);
         }
 
         // TODO: Generally we should create static spawner behaviors that exist in the world, which in turn spawn mobs,
@@ -36,11 +34,8 @@ namespace WheelMUD.Data.Repositories
         /// <returns>A list of mobile data structures for mobiles that start in this room.</returns>
         public static ICollection<MobRecord> GetMobsForRoom(this RelationalRepository<MobRecord> repository, long roomId)
         {
-            using (IDbCommand session = Helpers.OpenRelationalSession())
-            {
-                //return session.Connection.Select<MobRecord>("CurrentRoomID = {0}", roomId);
-                return new List<MobRecord>();
-            }
+            using IDbCommand session = Helpers.OpenRelationalSession();
+            return session.Connection.Select<MobRecord>(string.Format("CurrentRoomID = {0}", roomId));
         }
     }
 }
