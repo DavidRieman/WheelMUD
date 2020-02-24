@@ -10,14 +10,11 @@ namespace WarriorRogueMage
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Linq;
-
     using WheelMUD.Core;
     using WheelMUD.Interfaces;
 
     public class TalentFinder : IRecomposable
     {
-        private static readonly TalentFinder SingletonInstance = new TalentFinder();
-
         /// <summary>Prevents a default instance of the TalentFinder class from being created.</summary>
         private TalentFinder()
         {
@@ -25,10 +22,7 @@ namespace WarriorRogueMage
         }
 
         /// <summary>Gets the singleton instance of the TalentFinder class.</summary>
-        public static TalentFinder Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static TalentFinder Instance { get; } = new TalentFinder();
 
         public List<Talent> NormalTalents { get; private set; }
 

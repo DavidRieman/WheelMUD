@@ -14,8 +14,6 @@ namespace WheelMUD.Ftp
 
     public class UserData
     {
-        private static readonly UserData SingletonInstance = new UserData();
-
         private Hashtable mapUserToData = null;
 
         /// <summary>Initializes a new instance of the <see cref="UserData"/> class.</summary>
@@ -24,10 +22,7 @@ namespace WheelMUD.Ftp
             this.mapUserToData = new Hashtable();
         }
 
-        public static UserData Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static UserData Instance { get; } = new UserData();
 
         public string[] Users
         {
@@ -173,20 +168,9 @@ namespace WheelMUD.Ftp
         [Serializable]
         private class UserDataItem
         {
-            private string password = string.Empty;
-            private string startingDirectory = "C:\\";
+            public string Password { get; set; } = string.Empty;
 
-            public string Password
-            {
-                get { return this.password; }
-                set { this.password = value; }
-            }
-
-            public string StartingDirectory
-            {
-                get { return this.startingDirectory; }
-                set { this.startingDirectory = value; }
-            }
+            public string StartingDirectory { get; set; } = "C:\\";
         }
     }
 }

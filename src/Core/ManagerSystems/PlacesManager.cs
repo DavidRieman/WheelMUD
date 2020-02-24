@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   High level manager that provides tracking and global collection of all places.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -17,9 +14,6 @@ namespace WheelMUD.Core
     /// <summary>High level manager that provides tracking and global collection of all places.</summary>
     public class PlacesManager : ManagerSystem
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static readonly PlacesManager SingletonInstance = new PlacesManager();
-
         /// <summary>Prevents a default instance of the <see cref="PlacesManager"/> class from being created.</summary>
         private PlacesManager()
         {
@@ -32,10 +26,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets the singleton instance of the <see cref="PlacesManager"/> system.</summary>
-        public static PlacesManager Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static PlacesManager Instance { get; } = new PlacesManager();
 
         /// <summary>Gets the world.</summary>
         public Thing World { get; private set; }
@@ -65,16 +56,10 @@ namespace WheelMUD.Core
         public class PlacesManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>
-            public override ISystem Instance
-            {
-                get { return PlacesManager.Instance; }
-            }
+            public override ISystem Instance => PlacesManager.Instance;
 
             /// <summary>Gets the Type of this system.</summary>
-            public override Type SystemType
-            {
-                get { return typeof(PlacesManager); }
-            }
+            public override Type SystemType => typeof(PlacesManager);
         }
     }
 }

@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Controls the flow of data through the various server layers.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server
@@ -18,9 +15,6 @@ namespace WheelMUD.Server
     /// <summary>The ServerManager controls the flow of data through the various server layers.</summary>
     public class ServerManager : ManagerSystem
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static readonly ServerManager SingletonInstance = new ServerManager();
-
         /// <summary>The base server.</summary>
         private readonly BaseServer baseServer = new BaseServer();
 
@@ -47,10 +41,7 @@ namespace WheelMUD.Server
         }
 
         /// <summary>Gets the singleton instance of this ServerManager.</summary>
-        public static ServerManager Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static ServerManager Instance { get; } = new ServerManager();
 
         /// <summary>Gets the start time.</summary>
         public DateTime StartTime { get; private set; }
@@ -185,17 +176,11 @@ namespace WheelMUD.Server
         {
             /// <summary>Gets the singleton system instance.</summary>
             /// <returns>A new instance of the singleton system.</returns>
-            public override ISystem Instance
-            {
-                get { return ServerManager.Instance; }
-            }
+            public override ISystem Instance => ServerManager.Instance;
 
             /// <summary>Gets the Type of the singleton system, without instantiating it.</summary>
             /// <returns>The Type of the singleton system.</returns>
-            public override Type SystemType
-            {
-                get { return typeof(ServerManager); }
-            }
+            public override Type SystemType => typeof(ServerManager);
         }
     }
 }

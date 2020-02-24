@@ -19,9 +19,6 @@ namespace WheelMUD.Core
         /// <summary>The synchronization locking object.</summary>
         private static readonly object LockObject = new object();
 
-        /// <summary>The SessionStateManager singleton instance.</summary>
-        private static readonly SessionStateManager SingletonInstance = new SessionStateManager();
-
         /// <summary>The current default session state constructor (as found by MEF).</summary>
         private ConstructorInfo defaultSessionStateConstructor;
 
@@ -31,10 +28,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets the SessionStateManager singleton instance.</summary>
-        public static SessionStateManager Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static SessionStateManager Instance { get; } = new SessionStateManager();
 
         [ImportMany]
         public Lazy<SessionState, ExportSessionStateAttribute>[] SessionStates { get; set; }

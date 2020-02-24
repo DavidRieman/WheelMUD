@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   High level manager that provides tracking and global collection of all items.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -19,9 +16,6 @@ namespace WheelMUD.Core
     /// <summary>High level manager that provides maintains help information.</summary>
     public class HelpManager : ManagerSystem
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static readonly HelpManager SingletonInstance = new HelpManager();
-
         /// <summary>Prevents a default instance of the <see cref="HelpManager"/> class from being created.</summary>
         private HelpManager()
         {
@@ -30,10 +24,7 @@ namespace WheelMUD.Core
 
         /// <summary>Gets the singleton instance of HelpManager.</summary>
         /// <value>The HelpManager instance.</value>
-        public static HelpManager Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static HelpManager Instance { get; } = new HelpManager();
 
         /// <summary>Gets the complete list of HelpTopics that are loaded into memory.</summary>
         public List<HelpTopic> HelpTopics { get; private set; }
@@ -91,16 +82,10 @@ namespace WheelMUD.Core
         public class HelpManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>
-            public override ISystem Instance
-            {
-                get { return HelpManager.Instance; }
-            }
+            public override ISystem Instance => HelpManager.Instance;
 
             /// <summary>Gets the Type of this system.</summary>
-            public override Type SystemType
-            {
-                get { return typeof(HelpManager); }
-            }
+            public override Type SystemType => typeof(HelpManager);
         }
     }
 }

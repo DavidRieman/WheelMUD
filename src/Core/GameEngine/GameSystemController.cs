@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Top class for the GameEngine.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -16,12 +13,9 @@ namespace WheelMUD.Core
     using WheelMUD.Interfaces;
     using WheelMUD.Rules;
 
-    /// <summary>Controls the GamingEngine.</summary>
+    /// <summary>Controls the games systems.</summary>
     public class GameSystemController : ISystem, IRecomposable
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static readonly GameSystemController SingletonInstance = new GameSystemController();
-
         /// <summary>The host system that the GameEngine is subscribing to.</summary>
         private ISystemHost host;
 
@@ -32,10 +26,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets the singleton instance of the <see cref="GameSystemController"/> class.</summary>
-        public static GameSystemController Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static GameSystemController Instance { get; } = new GameSystemController();
 
         /// <summary>Gets or sets the game attributes used by the current gaming system.</summary>
         public List<GameAttribute> GameAttributes { get; set; }
@@ -144,17 +135,11 @@ namespace WheelMUD.Core
         {
             /// <summary>Gets the singleton system instance.</summary>
             /// <returns>A new instance of the singleton system.</returns>
-            public override ISystem Instance
-            {
-                get { return GameSystemController.Instance; }
-            }
+            public override ISystem Instance => GameSystemController.Instance;
 
             /// <summary>Gets the Type of the singleton system, without instantiating it.</summary>
             /// <returns>The Type of the singleton system.</returns>
-            public override Type SystemType
-            {
-                get { return typeof(GameSystemController); }
-            }
+            public override Type SystemType => typeof(GameSystemController);
 
             /// <summary>Gets or sets the priority of the exported system instance. Only the highest priority version gets utilized.</summary>
             /// <remarks>

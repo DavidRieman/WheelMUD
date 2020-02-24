@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   High level manager that provides tracking and global collection of all commands.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -21,9 +18,6 @@ namespace WheelMUD.Core
     /// <summary>High level manager that provides tracking and global collection of all commands.</summary>
     public class CommandManager : ManagerSystem, IRecomposable
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static readonly CommandManager SingletonInstance = new CommandManager();
-
         /// <summary>The master command list contains all aliases of all commands.</summary>
         private Dictionary<string, Command> masterCommandList = new Dictionary<string, Command>();
 
@@ -43,10 +37,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets the singleton instance of the <see cref="CommandManager"/> class.</summary>
-        public static CommandManager Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static CommandManager Instance { get; } = new CommandManager();
 
         /// <summary>Gets the master command list.</summary>
         public Dictionary<string, Command> MasterCommandList
@@ -203,16 +194,10 @@ namespace WheelMUD.Core
         public class CommandManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>
-            public override ISystem Instance
-            {
-                get { return CommandManager.Instance; }
-            }
+            public override ISystem Instance => CommandManager.Instance;
 
             /// <summary>Gets the Type of this system.</summary>
-            public override Type SystemType
-            {
-                get { return typeof(CommandManager); }
-            }
+            public override Type SystemType => typeof(CommandManager);
         }
     }
 }
