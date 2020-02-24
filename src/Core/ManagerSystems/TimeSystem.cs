@@ -38,20 +38,17 @@ namespace WheelMUD.Core
         private static readonly Lazy<TimeSystem> SingletonInstance = new Lazy<TimeSystem>(() => new TimeSystem());
 
         /// <summary>The callback queue.</summary>
-        private TimerQueue callbackQueue = new TimerQueue();
+        private readonly TimerQueue callbackQueue = new TimerQueue();
 
         /// <summary>The timer provides a "heartbeat".</summary>
         private Timer timer;
 
         /// <summary>The interval between ticks of the shared timer, in milliseconds.</summary>
         /// <remarks>TODO: Test and tweak the default for this value based on typical gameplay timer loads.</remarks>
-        private int interval = 250;
+        private readonly int interval = 250;
 
         /// <summary>Gets the singleton instance of this class.</summary>
-        public static TimeSystem Instance
-        {
-            get { return SingletonInstance.Value; }
-        }
+        public static TimeSystem Instance => SingletonInstance.Value;
 
         /// <summary>Start the time system.</summary>
         public override void Start()
@@ -124,17 +121,11 @@ namespace WheelMUD.Core
         {
             /// <summary>Gets the singleton system instance.</summary>
             /// <returns>A new instance of the singleton system.</returns>
-            public override ISystem Instance
-            {
-                get { return TimeSystem.Instance; }
-            }
+            public override ISystem Instance => TimeSystem.Instance;
 
             /// <summary>Gets the Type of the singleton system, without instantiating it.</summary>
             /// <returns>The Type of the singleton system.</returns>
-            public override Type SystemType
-            {
-                get { return typeof(TimeSystem); }
-            }
+            public override Type SystemType => typeof(TimeSystem);
         }
 
         /// <summary>

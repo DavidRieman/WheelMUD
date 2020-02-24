@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//    A locator class that deals with behaviors.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Locators
@@ -19,7 +16,6 @@ namespace WheelMUD.Core.Locators
     /// <summary>A locator class that deals with behaviors.</summary>
     public class BehaviorLocator : IServiceLocator
     {
-        private static readonly IServiceLocator SingletonInstance = new BehaviorLocator();
         private IDictionary<Type, object> instantiatedServices;
         private IDictionary<Type, Type> servicesType;
 
@@ -30,10 +26,7 @@ namespace WheelMUD.Core.Locators
         }
 
         /// <summary>Gets the singleton instance of the <see cref="BehaviorLocator"/> class.</summary>
-        public static IServiceLocator Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static IServiceLocator Instance { get; } = new BehaviorLocator();
 
         /// <summary>Registers the service.</summary>
         /// <typeparam name="T">Type signature of the behavior being registered.</typeparam>

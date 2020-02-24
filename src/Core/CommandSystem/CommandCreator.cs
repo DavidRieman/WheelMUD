@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Turns an action into a command script for execution on the queue.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.CommandSystem
@@ -26,11 +23,8 @@ namespace WheelMUD.CommandSystem
     /// <summary>Creates ScriptingCommands based on the provided Actions.</summary>
     public class CommandCreator
     {
-        /// <summary>The CommandCreator singleton instance.</summary>
-        private static readonly CommandCreator SingletonInstance = new CommandCreator();
-
         /// <summary>The response given for a player's attempted but unrecognized command.</summary>
-        private static string unknownCommandResponse = "Huh?";
+        private static readonly string unknownCommandResponse = "Huh?";
 
         /// <summary>Prevents a default instance of the CommandCreator class from being created.</summary>
         private CommandCreator()
@@ -38,10 +32,7 @@ namespace WheelMUD.CommandSystem
         }
 
         /// <summary>Gets the singleton instance of the CommandCreator class.</summary>
-        public static CommandCreator Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static CommandCreator Instance { get; } = new CommandCreator();
 
         /// <summary>Creates a scripting command from action input.</summary>
         /// <param name="actionInput">The action input to transform into a ScriptingCommand instance.</param>

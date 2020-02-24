@@ -3,16 +3,12 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   High level manager that provides tracking and global collection of *online* players.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
@@ -23,9 +19,6 @@ namespace WheelMUD.Core
     /// </remarks>
     public class PlayerManager : ManagerSystem
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static readonly PlayerManager SingletonInstance = new PlayerManager();
-
         /// <summary>A list of managed players.</summary>
         private readonly List<PlayerBehavior> playersList = new List<PlayerBehavior>();
 
@@ -48,10 +41,7 @@ namespace WheelMUD.Core
 
         /// <summary>Gets the singleton instance of the PlayerManager.</summary>
         /// <value>The instance.</value>
-        public static PlayerManager Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static PlayerManager Instance { get; } = new PlayerManager();
 
         /// <summary>Gets a read only collection of the players currently online.</summary>
         public ICollection<PlayerBehavior> Players
@@ -273,17 +263,11 @@ namespace WheelMUD.Core
         public class PlayerManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton instance of the <see cref="PlayerManager"/> class.</summary>
-            public override ISystem Instance
-            {
-                get { return PlayerManager.Instance; }
-            }
+            public override ISystem Instance => PlayerManager.Instance;
 
             /// <summary>Gets the Type of the singleton system, without instantiating it.</summary>
             /// <returns>The Type of the singleton system.</returns>
-            public override Type SystemType
-            {
-                get { return typeof(PlayerManager); }
-            }
+            public override Type SystemType => typeof(PlayerManager);
         }
     }
 }

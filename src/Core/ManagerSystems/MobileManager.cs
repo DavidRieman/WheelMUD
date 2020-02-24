@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   The mobiles manager class.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -21,9 +18,6 @@ namespace WheelMUD.Core
     /// </remarks>
     public class MobileManager : ManagerSystem
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static readonly MobileManager SingletonInstance = new MobileManager();
-
         /// <summary>The list of managed mobiles.</summary>
         private readonly List<Thing> mobiles = new List<Thing>();
 
@@ -33,10 +27,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets the singleton instance of the MobileManager class.</summary>
-        public static MobileManager Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static MobileManager Instance { get; } = new MobileManager();
 
         /// <summary>Called when an action has been received, the manager can then put the action onto the queue.</summary>
         /// <param name="sender">The entity sending the action.</param>
@@ -146,16 +137,10 @@ namespace WheelMUD.Core
         public class MobileManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>
-            public override ISystem Instance
-            {
-                get { return MobileManager.Instance; }
-            }
+            public override ISystem Instance => MobileManager.Instance;
 
             /// <summary>Gets the Type of this system.</summary>
-            public override Type SystemType
-            {
-                get { return typeof(MobileManager); }
-            }
+            public override Type SystemType => typeof(MobileManager);
         }
     }
 }
