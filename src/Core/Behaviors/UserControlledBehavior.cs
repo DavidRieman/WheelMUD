@@ -71,11 +71,6 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the number of rows this user's client can handle displaying as a single "page".</summary>
         public int PagingRowLimit { get; set; }
 
-        /// <summary>Gets the view engine.</summary>
-        /// <value>The view engine.</value>
-        //[JsonIgnore]
-        //public ViewEngine ViewEngine { get; private set; }
-
         /// <summary>Gets the role of the specified name, if present.</summary>
         /// <param name="roleName">The name of the role to search for.</param>
         /// <returns>The Role, if this user has it, else null.</returns>
@@ -90,7 +85,6 @@ namespace WheelMUD.Core
         protected override void SetDefaultProperties()
         {
             this.Controller = null;
-            //this.ViewEngine = new ViewEngine();
         }
     }
 }

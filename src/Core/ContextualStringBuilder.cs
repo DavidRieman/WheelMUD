@@ -49,8 +49,6 @@ namespace WheelMUD.Core
     /// <summary>Contextual string builder.</summary>
     public class ContextualStringBuilder
     {
-        ////private readonly StringBuilder sb = new StringBuilder();
-
         /// <summary>A list of contextually-constrained strings, used to build output.</summary>
         private readonly List<ContextualString> texts = new List<ContextualString>();
 
@@ -61,7 +59,6 @@ namespace WheelMUD.Core
         {
             this.Originator = originator;
             this.Receiver = receiver;
-            this.ViewEngineContext = new Hashtable();
         }
 
         /// <summary>Gets the originator.</summary>
@@ -69,9 +66,6 @@ namespace WheelMUD.Core
 
         /// <summary>Gets the receiver.</summary>
         public Thing Receiver { get; private set; }
-
-        /// <summary>Gets the view engine context.</summary>
-        public Hashtable ViewEngineContext { get; private set; }
 
         /// <summary>Append the specified text, within the specified context only.</summary>
         /// <param name="text">The text to append.</param>

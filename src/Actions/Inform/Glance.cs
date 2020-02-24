@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to have a quick look at your surroundings.
-//   @@@ TODO: Implement
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -51,7 +47,7 @@ namespace WheelMUD.Actions
             IController sender = actionInput.Controller;
             var message = new SensoryMessage(SensoryType.Sight, 100, this.BuildGlance(sender.Thing));
             var sensoryEvent = new SensoryEvent(sender.Thing, message);
-            sender.Thing.Eventing.OnMiscellaneousEvent(sensoryEvent, EventScope.SelfDown);
+            sender.Thing.Eventing.OnMiscellaneousEvent(sensoryEvent, EventScope.SelfOnly);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -59,7 +55,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -86,7 +82,7 @@ namespace WheelMUD.Actions
             var perceivedEntities = this.sensesBehavior.PerceiveEntities();
             var perceivedItems = this.sensesBehavior.PerceiveItems();
 
-            glanceString.Append("You seem to be in a " + sender.Parent.Name + ".  ", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+            glanceString.Append($"You are in <%red%>{sender.Parent.Name}<%n%>.  ", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
 
             if (perceivedItems.Count != 0)
             {
@@ -94,22 +90,22 @@ namespace WheelMUD.Actions
                 {
                     if (perceivedExits.Count != 0)
                     {
-                        glanceString.Append("It appears there are various items, figures, and exits in this room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("There are various items, figures, and exits here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                     else
                     {
-                        glanceString.Append("It appears there are various items, and figures in this room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("There are various items, and figures here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                 }
                 else
                 {
                     if (perceivedExits.Count != 0)
                     {
-                        glanceString.Append("It appears there are various items, and exits in this room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("There are various items, and exits here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                     else
                     {
-                        glanceString.Append("It appears there are various items in this room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("There are various items here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                 }
             }
@@ -119,22 +115,22 @@ namespace WheelMUD.Actions
                 {
                     if (perceivedExits.Count != 0)
                     {
-                        glanceString.Append("It appears there are various figures, and exits in this room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("There are various figures, and exits here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                     else
                     {
-                        glanceString.Append("It appears there are various figures in this room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("There are various figures here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                 }
                 else
                 {
                     if (perceivedExits.Count != 0)
                     {
-                        glanceString.Append("It appears there are various exits in this room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("There are various exits here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                     else
                     {
-                        glanceString.Append("You don't see anything in the room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("You don't see anything here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                 }
             }

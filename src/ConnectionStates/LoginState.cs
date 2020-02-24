@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   The 'login' session state.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.ConnectionStates
@@ -50,6 +47,7 @@ namespace WheelMUD.ConnectionStates
                         this.Session.Thing = DocumentRepository<Thing>.Load(characterId);
                         this.Session.Thing.Behaviors.SetParent(this.Session.Thing);
                         this.Session.Thing.Behaviors.FindFirst<PlayerBehavior>().LogIn(this.Session);
+                        this.Session.Thing.Behaviors.FindFirst<UserControlledBehavior>().Controller = this.Session;
                         this.Session.AuthenticateSession();
                         this.Session.State = new PlayingState(this.Session);
                     }

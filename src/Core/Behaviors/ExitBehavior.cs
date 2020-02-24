@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -166,7 +164,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
-        public override void OnAddBehavior()
+        protected override void OnAddBehavior()
         {
             // @@@ TODO: Greatly simplify: use shared logic with ParentMovementEvent! React to OnRemoveBehavior too!
             // When adding this behavior to an exit Thing, if that thing has a parent, rig up the appropriate
@@ -192,7 +190,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent)</summary>
-        public override void OnRemoveBehavior()
+        protected override void OnRemoveBehavior()
         {
             // When removing this behavior from a thing, we need to unrig any context commands we added to it.
             string commandText = this.GetExitCommandFrom(this.Parent);
@@ -320,7 +318,7 @@ namespace WheelMUD.Core
             /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
             public override string Guards(ActionInput actionInput)
             {
-                string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+                string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
                 if (commonFailure != null)
                 {
                     return commonFailure;

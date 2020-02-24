@@ -86,7 +86,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent.)</summary>
-        public override void OnAddBehavior()
+        protected override void OnAddBehavior()
         {
             // Once our WorldBehavior is attached to a thing, ensure that thing isn't currently a
             // child of anything else, and don't let that happen later either.

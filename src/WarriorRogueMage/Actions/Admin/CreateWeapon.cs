@@ -3,17 +3,11 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command that allows an admin to create a simple weapon for testing.
-// </summary>
 // -----------------------------------------------------------------------
 
 namespace WheelMUD.Actions.Temporary
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using WarriorRogueMage.Behaviors;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
@@ -65,7 +59,7 @@ namespace WheelMUD.Actions.Temporary
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

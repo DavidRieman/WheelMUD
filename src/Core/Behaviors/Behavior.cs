@@ -41,17 +41,37 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the ID for this behavior instance.</summary>
         public long ID { get; set; }
 
-        /// <summary>Gets or sets the parent of this behavior instance.</summary>
+        /// <summary>Gets the parent of this behavior instance.</summary>
+        /// <remarks>Use SetParent to set or change the parent.</remarks>
         [JsonIgnore]
-        public Thing Parent { get; set; }
+        public Thing Parent { get; private set; }
+
+        public void SetParent(Thing newParent)
+        {
+            // Ignore SetParent requests that are already satisfied; avoid redundant eventing.
+            if (this.Parent != newParent)
+            {
+                if (this.Parent != null)
+                {
+                    this.OnRemoveBehavior();
+                }
+                this.Parent = newParent;
+                if (newParent != null)
+                {
+                    this.OnAddBehavior();
+                }
+            }
+        }
 
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
-        public virtual void OnAddBehavior()
+        /// <remarks>Especially helpful for registering to relevant parent events.</remarks>
+        protected virtual void OnAddBehavior()
         {
         }
 
         /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent)</summary>
-        public virtual void OnRemoveBehavior()
+        /// <remarks>Especially helpful for unregistering from relevant parent events.</remarks>
+        protected virtual void OnRemoveBehavior()
         {
         }
 

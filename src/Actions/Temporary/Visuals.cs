@@ -106,7 +106,6 @@ namespace WheelMUD.Actions.Temporary
                     output.Append(string.Format("No visuals found for {0} [{1}].", this.roomName, this.roomId));
                 }
 
-                //// HACK: Using sender.Write() for now to avoid the ViewEngine stripping newlines.
                 this.sender.Write(output.ToString());
 
                 // No need to raise event.
@@ -123,7 +122,7 @@ namespace WheelMUD.Actions.Temporary
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

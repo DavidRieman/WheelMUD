@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -44,7 +42,7 @@ namespace WheelMUD.Core
         public bool IsOpen { get; private set; }
 
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent.)</summary>
-        public override void OnAddBehavior()
+        protected override void OnAddBehavior()
         {
             // When adding this behavior to a Thing, register relevant movement events so we can cancel
             // the movement of anything through our parent Thing while our parent Thing is "closed".
@@ -66,7 +64,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent.)</summary>
-        public override void OnRemoveBehavior()
+        protected override void OnRemoveBehavior()
         {
             var parent = this.Parent;
             if (parent != null)
@@ -75,8 +73,6 @@ namespace WheelMUD.Core
                 parent.Commands.Remove(OpenString);
                 parent.Commands.Remove(CloseString);
             }
-
-            base.OnRemoveBehavior();
         }
 
         /// <summary>Attempt to open this behavior's parent, via the specified opener.</summary>
@@ -205,7 +201,7 @@ namespace WheelMUD.Core
             /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
             public override string Guards(ActionInput actionInput)
             {
-                string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+                string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
                 if (commonFailure != null)
                 {
                     return commonFailure;

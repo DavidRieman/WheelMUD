@@ -3,23 +3,19 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An event processor for a Player.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
 {
     using System;
-    using System.Collections;
     using WheelMUD.Core.Events;
 
     /// <summary>An event processor for a Player.</summary>
     public class PlayerEventProcessor : IDisposable
     {
-        private PlayerBehavior playerBehavior;
-        private SensesBehavior sensesBehavior;
-        private UserControlledBehavior userControlledBehavior;
+        private readonly PlayerBehavior playerBehavior;
+        private readonly SensesBehavior sensesBehavior;
+        private readonly UserControlledBehavior userControlledBehavior;
 
         /// <summary>Initializes a new instance of the <see cref="PlayerEventProcessor"/> class.</summary>
         /// <param name="playerBehavior">The player behavior.</param>
@@ -32,17 +28,26 @@ namespace WheelMUD.Core
             this.userControlledBehavior = userControlledBehavior;
         }
 
-        /// <summary>Attaches player-related events such as combat, movement, and communication.</summary>
+        /// <summary>Attaches all player-related events such as combat, movement, and communication.</summary>
         public void AttachEvents()
         {
-            Thing player = this.playerBehavior.Parent;
-
             // Prepare to handle receiving all relevant sensory events (not requests) which have 
             // happened within the player's perception, and relay the sensory message to the player.
+            Thing player = this.playerBehavior.Parent;
             player.Eventing.CombatEvent += this.ProcessEvent;
             player.Eventing.MovementEvent += this.ProcessEvent;
             player.Eventing.CommunicationEvent += this.ProcessEvent;
             player.Eventing.MiscellaneousEvent += this.ProcessEvent;
+        }
+
+        /// <summary>Detaches all player-related events such as combat, movement, and communication.</summary>
+        public void DetachEvents()
+        {
+            Thing player = this.playerBehavior.Parent;
+            player.Eventing.CombatEvent -= this.ProcessEvent;
+            player.Eventing.MovementEvent -= this.ProcessEvent;
+            player.Eventing.CommunicationEvent -= this.ProcessEvent;
+            player.Eventing.MiscellaneousEvent -= this.ProcessEvent;
         }
 
         /// <summary>Process a specified event.</summary>
@@ -69,10 +74,10 @@ namespace WheelMUD.Core
                 Thing player = this.playerBehavior.Parent;
                 if (player != null)
                 {
-                    player.Eventing.CombatEvent -= new GameEventHandler(this.ProcessEvent);
-                    player.Eventing.MovementEvent -= new GameEventHandler(this.ProcessEvent);
-                    player.Eventing.CommunicationEvent -= new GameEventHandler(this.ProcessEvent);
-                    player.Eventing.MiscellaneousEvent -= new GameEventHandler(this.ProcessEvent);
+                    player.Eventing.CombatEvent -= this.ProcessEvent;
+                    player.Eventing.MovementEvent -= this.ProcessEvent;
+                    player.Eventing.CommunicationEvent -= this.ProcessEvent;
+                    player.Eventing.MiscellaneousEvent -= this.ProcessEvent;
                 }
             }
         }
@@ -82,27 +87,9 @@ namespace WheelMUD.Core
         /// <returns>The rendered view of this sensory message.</returns>
         private string ProcessMessage(SensoryMessage message)
         {
-            if (this.sensesBehavior.Senses.CanProcessSensoryMessage(message))
+            if (this.sensesBehavior.Senses.CanProcessSensoryMessage(message) && message.Message != null && this.userControlledBehavior != null)
             {
-                // Build the contexts from those added to the sensory message builder 
-                // and those added to the sensory message.
-                Hashtable context = message.Context;
-
-                if (message.Message != null)
-                {
-                    foreach (DictionaryEntry entry in message.Message.ViewEngineContext)
-                    {
-                        context.Add(entry.Key, entry.Value);
-                    }
-
-                    if (this.userControlledBehavior != null)
-                    {
-                        string parsedMessage = message.Message.Parse(this.userControlledBehavior.Parent);
-                        //string output = this.userControlledBehavior.ViewEngine.RenderView(parsedMessage, context);
-                        string output = "@@@ FIX OUTPUT!";
-                        return output;
-                    }
-                }
+                return message.Message.Parse(this.userControlledBehavior.Parent);
             }
 
             return string.Empty;

@@ -73,7 +73,7 @@ namespace WheelMUD.Core
             {
                 foreach (var behavior in this.ManagedBehaviors)
                 {
-                    behavior.Parent = parent;
+                    behavior.SetParent(parent);
                 }
             }
         }
@@ -120,8 +120,7 @@ namespace WheelMUD.Core
                 if (!this.ManagedBehaviors.Contains(newBehavior))
                 {
                     this.ManagedBehaviors.Add(newBehavior);
-                    newBehavior.Parent = this.Parent;
-                    newBehavior.OnAddBehavior();
+                    newBehavior.SetParent(this.Parent);
                 }
             }
         }
@@ -135,8 +134,7 @@ namespace WheelMUD.Core
                 if (this.ManagedBehaviors.Contains(behavior))
                 {
                     this.ManagedBehaviors.Remove(behavior);
-                    behavior.OnRemoveBehavior();
-                    behavior.Parent = null;
+                    behavior.SetParent(null);
                 }
             }
         }

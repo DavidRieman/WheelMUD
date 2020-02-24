@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Universe
@@ -45,7 +43,7 @@ namespace WheelMUD.Universe
         public bool IsLocked { get; private set; }
 
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
-        public override void OnAddBehavior()
+        protected override void OnAddBehavior()
         {
             var parent = this.Parent;
             if (parent != null)
@@ -202,7 +200,7 @@ namespace WheelMUD.Universe
             /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
             public override string Guards(ActionInput actionInput)
             {
-                string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+                string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
                 if (commonFailure != null)
                 {
                     return commonFailure;
