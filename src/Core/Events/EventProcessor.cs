@@ -33,7 +33,7 @@ namespace WheelMUD.Core
         {
             // Prepare to handle receiving all relevant sensory events (not requests) which have 
             // happened within the player's perception, and relay the sensory message to the player.
-            Thing player = this.playerBehavior.Parent;
+            var player = this.playerBehavior.Parent;
             player.Eventing.CombatEvent += this.ProcessEvent;
             player.Eventing.MovementEvent += this.ProcessEvent;
             player.Eventing.CommunicationEvent += this.ProcessEvent;
@@ -43,7 +43,7 @@ namespace WheelMUD.Core
         /// <summary>Detaches all player-related events such as combat, movement, and communication.</summary>
         public void DetachEvents()
         {
-            Thing player = this.playerBehavior.Parent;
+            var player = this.playerBehavior.Parent;
             player.Eventing.CombatEvent -= this.ProcessEvent;
             player.Eventing.MovementEvent -= this.ProcessEvent;
             player.Eventing.CommunicationEvent -= this.ProcessEvent;
@@ -71,7 +71,7 @@ namespace WheelMUD.Core
         {
             if (this.playerBehavior != null)
             {
-                Thing player = this.playerBehavior.Parent;
+                var player = this.playerBehavior.Parent;
                 if (player != null)
                 {
                     player.Eventing.CombatEvent -= this.ProcessEvent;
@@ -94,20 +94,5 @@ namespace WheelMUD.Core
 
             return string.Empty;
         }
-
-        /* @@@ FIX?
-        /// <summary>Process the specified DebugEvent.</summary>
-        /// <param name="debugEvent">The DebugEvent to be processed.</param>
-        private void ProcessDebugEvent(DebugEvent debugEvent)
-        {
-            if (this.sensesBehavior.Senses.CanProcessSensoryMessage(debugEvent.Message))
-            {
-                string message = this.ProcessMessage(debugEvent.Message);
-                if (!string.IsNullOrEmpty(message))
-                {
-                    this.userControlledBehavior.Controller.Write(string.Format("(debug - {0}) - {1}", debugEvent.ActiveThing.Name, message));
-                }
-            }
-        }*/
     }
 }

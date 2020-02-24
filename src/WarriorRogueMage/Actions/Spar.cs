@@ -56,7 +56,7 @@ namespace WarriorRogueMage.Actions
         /// <returns>An error message describing the failure for the user, or null if all guards pass.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

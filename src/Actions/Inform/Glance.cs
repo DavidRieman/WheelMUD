@@ -35,16 +35,8 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            // Simply send a sensory event to the glancer; if they can see it, they'll get the output.
-            // @@@ TODO: For advanced scenarios, this might want to somehow restrict the event from cascading; 
-            //     IE if a tiny pixie character is inside a human player's backpack, they shouldn't receive 
-            //     the human player's glance output.  (As is the event cascades and all Children get it too).
-            //     Alternatively, the sense processor can look at the ActiveThing and the sense type to decide
-            //     whether to echo the output; IE said pixie might still get Sound-based simple sensory event
-            //     output even though they aren't in the same location; they may hear it through the backpack.
-            // @@@ Actually, BuildGlance might cause the print to only occur to the sender anyway due to the
-            //     usage of ContextualStringUsage.OnlyWhenBeingPassedToReceiver; needs testing!
-            IController sender = actionInput.Controller;
+            // Simply send a sensory event to the glancer; If they can see it, they'll get the output.
+            var sender = actionInput.Controller;
             var message = new SensoryMessage(SensoryType.Sight, 100, this.BuildGlance(sender.Thing));
             var sensoryEvent = new SensoryEvent(sender.Thing, message);
             sender.Thing.Eventing.OnMiscellaneousEvent(sensoryEvent, EventScope.SelfOnly);
