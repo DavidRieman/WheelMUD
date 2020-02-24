@@ -3,16 +3,11 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Main entry point for the application.
-// </summary>
 //-----------------------------------------------------------------------------
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using ServerHarness.Commands;
 using Topshelf;
 using WheelMUD.Main;
 
@@ -77,14 +72,12 @@ namespace ServerHarness
             app.SubscribeToSystem(display);
             app.Start();
 
-            // TODO: GitHub #58: Reflect implementers of IServerHarnessCommand to keep this automatically up to date
-            IServerHarnessCommand[] commandObjects =
-            {
-                new HelpCommand(), new UpdateActionsCommand(), new RunTestsCommand(), new DebugExploreDocumentsCommand()
-            };
-            var commands = new Dictionary<string, IServerHarnessCommand>();
+            bool done = false;
+            var exitCommand = new DynamicServerHarnessCommand(() => done = true, new string[] { "SHUTDOWN", "EXIT" }, "Shuts down the game instance and server harness.");
+            ServerHarnessCommands.DynamicCommands.Add(exitCommand);
 
-            foreach (var cmdObj in commandObjects)
+            var commands = new Dictionary<string, IServerHarnessCommand>();
+            foreach (var cmdObj in ServerHarnessCommands.AllCommands)
             {
                 foreach (var name in cmdObj.Names)
                 {
@@ -92,7 +85,7 @@ namespace ServerHarness
                 }
             }
 
-            while (true)
+            while (!done)
             {
                 var input = Console.ReadLine();
                 if (string.IsNullOrEmpty(input))
@@ -101,11 +94,6 @@ namespace ServerHarness
                 }
 
                 var words = input.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                if ("shutdown".Equals(words[0], StringComparison.OrdinalIgnoreCase))
-                {
-                    break;
-                }
-
                 var command = FindCommand(commands, words[0]);
                 if (command != null)
                 {

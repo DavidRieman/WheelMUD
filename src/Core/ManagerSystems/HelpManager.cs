@@ -14,6 +14,7 @@ namespace WheelMUD.Core
     using System.Collections.Generic;
     using System.IO;
     using WheelMUD.Interfaces;
+    using WheelMUD.Utilities;
 
     /// <summary>High level manager that provides maintains help information.</summary>
     public class HelpManager : ManagerSystem
@@ -42,7 +43,7 @@ namespace WheelMUD.Core
         {
             this.SystemHost.UpdateSystemHost(this, "Starting...");
 
-            string dataRoot = Utilities.Configuration.GetDataStoragePath();
+            string dataRoot = GameConfiguration.DataStoragePath;
             string helpDir = Path.Combine(dataRoot, "Help");
 
             if (!Directory.Exists(helpDir))

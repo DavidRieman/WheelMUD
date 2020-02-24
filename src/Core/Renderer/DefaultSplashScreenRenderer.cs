@@ -26,9 +26,8 @@ namespace WheelMUD.Core
         /// <summary>Load the splash screens.</summary>
         private static void LoadSplashScreens()
         {
-            string name = Configuration.GetDataStoragePath();
-            string path = Path.Combine(Path.GetDirectoryName(name), "Files");
-            path = Path.Combine(path, "SplashScreens");
+            string dir = Path.GetDirectoryName(GameConfiguration.DataStoragePath);
+            string path = Path.Combine(dir, "Files", "SplashScreens");
 
             var dirInfo = new DirectoryInfo(path);
             var files = new List<FileInfo>(dirInfo.GetFiles());
@@ -41,12 +40,11 @@ namespace WheelMUD.Core
                     splashContent = streamReader.ReadToEnd();
                 }
 
-                var attributes = MudEngineAttributes.Instance;
                 string renderedScreen = string.Format(splashContent,
-                    attributes.MudName,    // {0} in splash screen files
-                    attributes.Version,    // {1} in splash screen files
-                    attributes.Website,    // {2} in splash screen files
-                    attributes.Copyright); // {3} in splash sceren files
+                    GameConfiguration.Name,    // {0} in splash screen files
+                    GameConfiguration.Version,     // {1} in splash screen files
+                    GameConfiguration.Website,     // {2} in splash screen files
+                    GameConfiguration.Copyright);  // {3} in splash sceren files
 
                 splashScreens.Add(renderedScreen);
             }
@@ -56,7 +54,7 @@ namespace WheelMUD.Core
         {
             if (!splashScreens.Any())
             {
-                return $"Welcome to {MudEngineAttributes.Instance.MudName}.<%nl%>";
+                return $"Welcome to {GameConfiguration.Name}.<%nl%>";
             }
 
             var random = new Random();

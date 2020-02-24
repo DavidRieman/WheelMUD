@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Finger individual player or npc ?.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -14,7 +11,6 @@ namespace WheelMUD.Actions
     using System.Globalization;
     using System.Text;
     using System.Threading;
-
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Utilities;
@@ -117,7 +113,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -144,7 +140,7 @@ namespace WheelMUD.Actions
                 //this.target = PlayerBehavior.Load(targetName);
                 if (this.target == null)
                 {
-                    return targetName + " has never visited " + MudEngineAttributes.Instance.MudName + ".";
+                    return targetName + " has never visited " + GameConfiguration.Name + ".";
                 }
             }
 

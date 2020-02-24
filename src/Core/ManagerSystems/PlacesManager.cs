@@ -27,7 +27,7 @@ namespace WheelMUD.Core
             this.WorldBehavior = new WorldBehavior();
             this.World = new Thing(this.WorldBehavior)
             {
-                Name = MudEngineAttributes.Instance.MudName
+                Name = GameConfiguration.Name
             };
         }
 

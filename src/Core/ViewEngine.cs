@@ -150,7 +150,7 @@ namespace WheelMUD.Core
         /// <returns>the contents of the template file.</returns>
         private static string LoadTemplate(string templateName)
         {
-            string fileName = Path.Combine(Configuration.GetDataStoragePath(), templateName);
+            string fileName = Path.Combine(Configuration.DataStoragePath, templateName);
             if (!File.Exists(fileName))
             {
                 return string.Empty;

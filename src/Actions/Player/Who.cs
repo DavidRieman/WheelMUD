@@ -30,7 +30,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             string div = string.Empty;
-            string mudName = MudEngineAttributes.Instance.MudName;
+            string mudName = GameConfiguration.Name;
             string mudNameLine = "                                ";
             string plural = string.Empty;
             string plural1 = string.Empty;

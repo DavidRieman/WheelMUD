@@ -326,7 +326,7 @@ namespace WheelMUD.Core
         {
             // TODO: Cache a weak reference to the Thing and acquire/reacquire when needed?
             return (from t in ThingManager.Instance.Things
-                    where t.Id == "room/" + MudEngineAttributes.Instance.DefaultRoomID
+                    where t.Id == "room/" + GameConfiguration.DefaultRoomID
                     select t).FirstOrDefault();
         }
 

@@ -22,20 +22,16 @@ namespace WheelMUD.Data.RavenDb
         /// <returns>The path to the folder where the RavenDb data is stored.</returns>
         public static string GetDbPath()
         {
-            string root = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            string mudName = MudEngineAttributes.Instance.MudName;
+            var root = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            var fullPath = Path.Combine(root, "WheelMUD", GameConfiguration.Name, "DocumentDatabase");
 
-            root = Path.Combine(root, "WheelMUD");
-            root = Path.Combine(root, mudName);
-            root = Path.Combine(root, "DocumentDatabase");
-
-            if (!Directory.Exists(root))
+            if (!Directory.Exists(fullPath))
             {
-                Directory.CreateDirectory(root);
+                Directory.CreateDirectory(fullPath);
                 CreateIndexes();
             }
 
-            return root;
+            return fullPath;
         }
 
         /// <summary>Gets the raven session.</summary>
