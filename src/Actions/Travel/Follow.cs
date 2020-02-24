@@ -2,12 +2,9 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to start following another player or mobile whenever they move.
-// </summary>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Actions.Travel
+namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -16,7 +13,7 @@ namespace WheelMUD.Actions.Travel
     using WheelMUD.Core.Behaviors;
     using WheelMUD.Interfaces;
 
-    /// <summary>An action to start following another player or mobile whenever they move.</summary>
+    /// <summary>An action to start following another player or mobile around.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("follow", CommandCategory.Travel)]
     [ActionDescription("Begin following a friend or foe whenever they move.")]

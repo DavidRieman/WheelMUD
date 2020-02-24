@@ -34,15 +34,6 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Initializes a new instance of the PlayerBehavior class.</summary>
-        /// <param name="sensesBehavior">The senses Behavior.</param>
-        /// <param name="userControlledBehavior">The user Controlled Behavior.</param>
-        public PlayerBehavior(SensesBehavior sensesBehavior, UserControlledBehavior userControlledBehavior)
-            : this()
-        {
-            this.EventProcessor = new PlayerEventProcessor(this, sensesBehavior, userControlledBehavior);
-        }
-
-        /// <summary>Initializes a new instance of the PlayerBehavior class.</summary>
         /// <param name="instanceId">The instance ID.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
         public PlayerBehavior(long instanceId, Dictionary<string, object> instanceProperties)
@@ -277,17 +268,22 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
-        public override void OnAddBehavior()
+        protected override void OnAddBehavior()
         {
+            var sensesBehavior = this.Parent.Behaviors.FindFirst<SensesBehavior>();
+            var userControlledBehavior = this.Parent.Behaviors.FindFirst<UserControlledBehavior>();
+            this.EventProcessor = new PlayerEventProcessor(this, sensesBehavior, userControlledBehavior);
             this.EventProcessor.AttachEvents();
         }
 
-        /// <summary>Initializes a PlayerEventProcessor for this player.</summary>
-        /// <param name="sensesBehavior">A valid SensesBehavior which has already been created for this player.</param>
-        /// <param name="userControlledBehavior">A valid UserControlledBehavior which has already been created for this player.</param>
-        internal void InitEventProcessor(SensesBehavior sensesBehavior, UserControlledBehavior userControlledBehavior)
+        protected override void OnRemoveBehavior()
         {
-            this.EventProcessor = new PlayerEventProcessor(this, sensesBehavior, userControlledBehavior);
+            if (this.EventProcessor != null)
+            {
+                this.EventProcessor.DetachEvents();
+                this.EventProcessor.Dispose();
+                this.EventProcessor = null;
+            }
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>

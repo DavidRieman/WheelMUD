@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to sit down and rest.
-//   @@@ TODO: Implement
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions

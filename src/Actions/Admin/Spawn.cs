@@ -3,23 +3,17 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Command to spawn a mobile NPC for testing.
-//   TODO: Expose more options than just the name.
-// </summary>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Actions.Admin
+namespace WheelMUD.Actions
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
     /// <summary>Command to spawn a mobile NPC for testing.</summary>
+    /// <remarks>TODO: Expose more options than just the name.</remarks>
     [ExportGameAction]
     [ActionPrimaryAlias("spawn", CommandCategory.Admin)]
     [ActionDescription("Spawns a mobile NPC for testing.\r\nUsage: spawn (name)")]
@@ -61,7 +55,7 @@ namespace WheelMUD.Actions.Admin
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

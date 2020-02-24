@@ -73,7 +73,7 @@ namespace WheelMUD.Core
             {
                 foreach (var behavior in behaviors)
                 {
-                    behavior.Parent = this;
+                    behavior.SetParent(this);
                     this.Behaviors.Add(behavior);
                 }
             }

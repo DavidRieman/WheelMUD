@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   The base class for in-game events.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Events
@@ -71,7 +68,7 @@ namespace WheelMUD.Core.Events
             if (!string.IsNullOrEmpty(cancelMessage) && !this.sentCancelMessage)
             {
                 // Write up to one cancellation message directly to the user/initiator if appropriate.
-                var userControlledBehavior = ActiveThing.Behaviors.FindFirst<UserControlledBehavior>();
+                var userControlledBehavior = this.ActiveThing.Behaviors.FindFirst<UserControlledBehavior>();
                 if (userControlledBehavior != null && userControlledBehavior.Controller != null)
                 {
                     userControlledBehavior.Controller.Write(cancelMessage);

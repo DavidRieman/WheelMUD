@@ -57,14 +57,8 @@ namespace WheelMUD.Core
             var movableBehavior = new MovableBehavior();
             var livingBehavior = new LivingBehavior();
             var sensesBehavior = new SensesBehavior();
-            var userControlledBehavior = new UserControlledBehavior()
-            {
-                Controller = session,
-            };
-            var playerBehavior = new PlayerBehavior(sensesBehavior, userControlledBehavior)
-            {
-                SessionId = session.ID,
-            };
+            var userControlledBehavior = new UserControlledBehavior() { Controller = session };
+            var playerBehavior = new PlayerBehavior() { SessionId = session.ID };
 
             var player = new Thing(livingBehavior, sensesBehavior, userControlledBehavior, playerBehavior, movableBehavior);
 

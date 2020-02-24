@@ -18,23 +18,9 @@ namespace WheelMUD.Core
         /// <summary>The synchronization locking object.</summary>
         private readonly object lockObject = new object();
 
-        /// <summary>The collection of managed senses.</summary>
-        private Dictionary<SensoryType, Sense> senses = new Dictionary<SensoryType, Sense>();
-
         /// <summary>Gets or sets the internal dictionary of senses.</summary>
         /// <remarks>This is needed so that the senses can be saved to the document database.</remarks>
-        public Dictionary<SensoryType, Sense> SenseDictionary
-        {
-            get
-            {
-                return this.senses;
-            }
-
-            set
-            {
-                this.senses = value;
-            }
-        }
+        public Dictionary<SensoryType, Sense> SenseDictionary { get; set; } = new Dictionary<SensoryType, Sense>();
 
         /// <summary>Provide array-style indexing for the managed senses.</summary>
         /// <param name="index">The senses index.</param>
@@ -43,12 +29,12 @@ namespace WheelMUD.Core
         {
             get
             {
-                return this.senses[index];
+                return this.SenseDictionary[index];
             }
 
             set
             {
-                this.senses[index] = value;
+                this.SenseDictionary[index] = value;
             }
         }
 
@@ -58,7 +44,7 @@ namespace WheelMUD.Core
         {
             lock (this.lockObject)
             {
-                this.senses.Add(sense.SensoryType, sense);
+                this.SenseDictionary.Add(sense.SensoryType, sense);
             }
         }
 
@@ -68,7 +54,7 @@ namespace WheelMUD.Core
         {
             lock (this.lockObject)
             {
-                this.senses.Remove(sense.SensoryType);
+                this.SenseDictionary.Remove(sense.SensoryType);
             }
         }
 
@@ -77,7 +63,7 @@ namespace WheelMUD.Core
         /// <returns>True if the collection of senses contains this sense, else false.</returns>
         public bool Contains(Sense sense)
         {
-            return this.senses.ContainsKey(sense.SensoryType);
+            return this.SenseDictionary.ContainsKey(sense.SensoryType);
         }
 
         /// <summary>Determines if the collection of senses contain the specified sense.</summary>
@@ -87,7 +73,7 @@ namespace WheelMUD.Core
         {
             lock (this.lockObject)
             {
-                return this.senses.ContainsKey(senseType);
+                return this.SenseDictionary.ContainsKey(senseType);
             }
         }
 
@@ -95,21 +81,21 @@ namespace WheelMUD.Core
         /// <returns>The total count of all senses.</returns>
         public int Count()
         {
-            return this.senses.Count;
+            return this.SenseDictionary.Count;
         }
 
         /// <summary>Gets an enumerator for the senses.</summary>
         /// <returns>An enumerator for the senses.</returns>
         public IEnumerator<Sense> GetEnumerator()
         {
-            return this.senses.Values.GetEnumerator();
+            return this.SenseDictionary.Values.GetEnumerator();
         }
 
         /// <summary>Gets the dictionary of senses.</summary>
         /// <returns>A dictionary of senses.</returns>
         public Dictionary<SensoryType, Sense> GetSenses()
         {
-            return this.senses;
+            return this.SenseDictionary;
         }
 
         /// <summary>Determine if the specified sensory message can be processed.</summary>
@@ -117,10 +103,10 @@ namespace WheelMUD.Core
         /// <returns>True if it can be processed, else false.</returns>
         public bool CanProcessSensoryMessage(SensoryMessage message)
         {
-            if (this.senses.ContainsKey(message.TargetedSense) &&
-                this.senses[message.TargetedSense].LowThreshold <= message.MessageStrength &&
-                this.senses[message.TargetedSense].HighThreshold >= message.MessageStrength &&
-                this.senses[message.TargetedSense].Enabled)
+            if (this.SenseDictionary.ContainsKey(message.TargetedSense) &&
+                this.SenseDictionary[message.TargetedSense].LowThreshold <= message.MessageStrength &&
+                this.SenseDictionary[message.TargetedSense].HighThreshold >= message.MessageStrength &&
+                this.SenseDictionary[message.TargetedSense].Enabled)
             {
                 return true;
             }

@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Behavior that deals with a player's talents.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage.Behaviors
@@ -28,7 +25,7 @@ namespace WarriorRogueMage.Behaviors
         public List<Talent> ManagedTalents { get; set; }
 
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
-        public override void OnAddBehavior()
+        protected override void OnAddBehavior()
         {
             // When adding this behavior to a Thing, register relevant movement events so we can cancel
             // the movement of anything through our parent Thing while our parent Thing is "closed".
@@ -50,14 +47,13 @@ namespace WarriorRogueMage.Behaviors
         }
 
         /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent.)</summary>
-        public override void OnRemoveBehavior()
+        protected override void OnRemoveBehavior()
         {
             var parent = this.Parent;
             if (parent != null)
             {
-                // Make sure to "unhook" all children talents from the
-                // player Thing object. Otherwise we could have a memory leak,
-                // and/or weird errors.
+                // Make sure to "unhook" all children talents from the player Thing object.
+                // Otherwise we could have a memory leak, and/or weird errors.
                 foreach (var managedTalent in this.ManagedTalents)
                 {
                     managedTalent.PlayerThing = null;

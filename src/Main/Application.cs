@@ -29,9 +29,6 @@ namespace WheelMUD.Main
         /// <summary>A list of subscribers of this super system.</summary>
         private readonly List<ISuperSystemSubscriber> subscribers = new List<ISuperSystemSubscriber>();
 
-        /// <summary>The view engine.</summary>
-        //private ViewEngine viewEngine;
-        
         /// <summary>Prevents a default instance of the <see cref="Application"/> class from being created.</summary>
         private Application()
         {

@@ -87,11 +87,10 @@ namespace WheelMUD.Core.Behaviors
         }
 
         /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent.)</summary>
-        public override void OnRemoveBehavior()
+        protected override void OnRemoveBehavior()
         {
             // Setting Target to null ensures the MovementEvent handler is removed.
             this.Target = null;
-            base.OnRemoveBehavior();
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
