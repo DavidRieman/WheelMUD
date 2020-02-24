@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   The core application, which can be housed in a console, service, etc.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Main
@@ -13,11 +10,11 @@ namespace WheelMUD.Main
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
-    //using System.ComponentModel.Composition;
     using System.Data;
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Data;
     using WheelMUD.Interfaces;
@@ -98,9 +95,8 @@ namespace WheelMUD.Main
             }
 
             string appDir = appFile.Directory.FullName;
-            string destDir = Configuration.GetDataStoragePath();
 
-            if (!Directory.Exists(destDir))
+            if (!Directory.Exists(GameConfiguration.DataStoragePath))
             {
                 // If the database file doesn't exist, try to copy the original source.
                 string sourcePath = null;
@@ -117,7 +113,7 @@ namespace WheelMUD.Main
                     sourcePath = Path.Combine(sourcePath + "\\systemdata\\Files\\");
                 }
 
-                DirectoryCopy(sourcePath, destDir, true);
+                DirectoryCopy(sourcePath, GameConfiguration.DataStoragePath, true);
             }
 
             // TODO: Create a link in the bin folder to the program data folder, for administrative convenience.
@@ -187,14 +183,6 @@ namespace WheelMUD.Main
             this.Notify(sender.GetType().Name + " - " + msg);
         }
 
-        /// <summary>Temporary help system just so that we have something here if the person types help at the console.</summary>
-        public void DisplayHelp()
-        {
-            var path = Path.Combine(Configuration.GetDataStoragePath(), "ConsoleHelp.txt");
-            var help = File.ReadAllText(path);
-            //this.Notify(this.viewEngine.RenderView(help));
-        }
-
         /// <summary>Notify subscribers of the specified message.</summary>
         /// <param name="message">The message to pass along.</param>
         public void Notify(string message)
@@ -221,8 +209,7 @@ namespace WheelMUD.Main
                 }
 
                 string appDir = appFile.Directory.FullName;
-                string destDir = Configuration.GetDataStoragePath();
-                string destPath = Path.Combine(destDir, DatabaseName);
+                string destPath = Path.Combine(GameConfiguration.DataStoragePath, DatabaseName);
 
                 if (!File.Exists(destPath))
                 {
@@ -257,9 +244,6 @@ namespace WheelMUD.Main
         /// <summary>Initializes the systems of this application.</summary>
         private void InitializeSystems()
         {
-            //this.viewEngine = new ViewEngine { ReplaceNewLine = false };
-            //this.viewEngine.AddContext("MudAttributes", MudEngineAttributes.Instance);
-
             this.Notify(this.DisplayStartup());
             this.Notify("Starting Application.");
 
@@ -315,10 +299,9 @@ namespace WheelMUD.Main
         /// <returns>The startup splash screen text.</returns>
         private string DisplayStartup()
         {
-            var filePath = Path.Combine(Configuration.GetDataStoragePath(), "ConsoleOpen.txt");
+            var filePath = Path.Combine(GameConfiguration.DataStoragePath, "ConsoleOpen.txt");
             var splash = File.ReadAllText(filePath);
-            //return this.viewEngine.RenderView(splash);
-            return "FIX STARTUP RENDER!";
+            return "FIX STARTUP RENDER: " + splash;
         }
     }
 }

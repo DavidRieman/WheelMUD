@@ -15,6 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
+    using WheelMUD.Utilities;
 
     /// <summary>A command to look up help information from the help system.</summary>
     [ExportGameAction]
@@ -94,7 +95,7 @@ namespace WheelMUD.Actions
                 }
 
                 // Display help splash screen if available
-                string name = Utilities.Configuration.GetDataStoragePath();
+                string name = GameConfiguration.DataStoragePath;
                 string path = Path.Combine(Path.GetDirectoryName(name), "Files");
 
                 try

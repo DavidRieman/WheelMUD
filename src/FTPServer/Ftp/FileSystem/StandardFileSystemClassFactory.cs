@@ -18,7 +18,7 @@ namespace WheelMUD.Ftp.FileSystem
             ////    return new StandardFileSystemObject(UserData.Instance.GetUserStartingDirectory(user));
             ////}
 
-            string serverFolder = MudEngineAttributes.Instance.FTPServerRootFolder;
+            string serverFolder = GameConfiguration.GetAppConfigString("FTPServerRootFolder");
             return new StandardFileSystemObject(serverFolder);
         }
     }

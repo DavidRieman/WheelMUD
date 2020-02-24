@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command to send a message directly to one entity.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -69,7 +66,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -79,7 +76,7 @@ namespace WheelMUD.Actions
             // string targetName = command.Action.Tail.Trim().ToLower();
             string targetName = actionInput.Params[0].Trim().ToLower();
 
-            // TODO: InterMUD support? string mudName = MudEngineAttributes.Instance.MudName;
+            // TODO: InterMUD support? string mudName = GameConfiguration.GameName;
 
             // Rule: Target must be an entity. @@@ REMOVE CHECK?
             this.target = GameAction.GetPlayerOrMobile(targetName);

@@ -3,12 +3,9 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Command to run integration tests.
-// </summary>
 //-----------------------------------------------------------------------------
 
-namespace ServerHarness.Commands
+namespace ServerHarness
 {
     using System;
     using System.Collections.Generic;
@@ -17,12 +14,12 @@ namespace ServerHarness.Commands
     using System.Threading;
     using WheelMUD.Main;
 
+    /// <summary>Command to run all integration tests.</summary>
     public class RunTestsCommand : IServerHarnessCommand
     {
-        public IEnumerable<string> Names
-        {
-            get { return new string[] { "RUN", "RUN-TESTS", "run", "Run", "r" }; }
-        }
+        public string Description => "Runs all present integration tests against this server.";
+
+        public IEnumerable<string> Names => new string[] { "RUN", "RUN-TESTS", "run", "Run", "r" };
 
         public void Execute(Application app, MultiUpdater display, string[] words)
         {
