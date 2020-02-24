@@ -7,14 +7,12 @@
 
 namespace WheelMUD.Core
 {
-    using System;
-
     [RendererExports.PerceivedThing(0)]
     public class DefaultPerceivedThingRenderer : RendererDefinitions.PerceivedThing
     {
         public override string Render(Thing viewer, Thing viewedThing)
         {
-            return "TODO: RENDER PERCEIVED THING: " + viewedThing.Name;
+            return $"<%cyan%><%b%>{viewedThing.Name}<%n%><%nl%>{viewedThing.Description}<%nl%>";
         }
     }
 }

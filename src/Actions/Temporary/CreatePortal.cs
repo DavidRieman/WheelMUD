@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command that allows an admin to create a portal.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -19,6 +16,7 @@ namespace WheelMUD.Actions
     /// <summary>A command that allows an admin to create a portal.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("create portal", CommandCategory.Admin)]
+    [ActionAlias("createportal", CommandCategory.Admin)]
     [ActionDescription("@@@ Temp command.")]
     [ActionSecurity(SecurityRole.fullAdmin)]
     public class CreatePortal : GameAction

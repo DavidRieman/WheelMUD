@@ -18,17 +18,14 @@ namespace WheelMUD.Core
     /// <summary>High level manager that provides tracking and global collection of all commands.</summary>
     public class CommandManager : ManagerSystem, IRecomposable
     {
-        /// <summary>The master command list contains all aliases of all commands.</summary>
-        private Dictionary<string, Command> masterCommandList = new Dictionary<string, Command>();
-
         /// <summary>The master primary command list contains only the primary aliases of commands.</summary>
         private Dictionary<string, Command> primaryCommandList = new Dictionary<string, Command>();
 
         /// <summary>The queue of actions yet to be processed.</summary>
-        private Queue<ActionInput> actionQueue = new Queue<ActionInput>();
+        private readonly Queue<ActionInput> actionQueue = new Queue<ActionInput>();
 
         /// <summary>The list of CommandProcessor workers.</summary>
-        private List<CommandProcessor> commandProcessors = new List<CommandProcessor>();
+        private readonly List<CommandProcessor> commandProcessors = new List<CommandProcessor>();
         
         /// <summary>Prevents a default instance of the <see cref="CommandManager"/> class from being created.</summary>
         private CommandManager()
@@ -39,11 +36,8 @@ namespace WheelMUD.Core
         /// <summary>Gets the singleton instance of the <see cref="CommandManager"/> class.</summary>
         public static CommandManager Instance { get; } = new CommandManager();
 
-        /// <summary>Gets the master command list.</summary>
-        public Dictionary<string, Command> MasterCommandList
-        {
-            get { return this.masterCommandList; }
-        }
+        /// <summary>Gets the master command list, containing all aliases of all commands.</summary>
+        public Dictionary<string, Command> MasterCommandList { get; private set; } = new Dictionary<string, Command>();
 
         /// <summary>Gets or sets, through MEF composition, the available GameAction classes.</summary>
         [ImportMany]
@@ -110,7 +104,7 @@ namespace WheelMUD.Core
             }
 
             this.primaryCommandList = newPrimaryCommandList;
-            this.masterCommandList = newMasterCommandList;
+            this.MasterCommandList = newMasterCommandList;
         }
 
         /// <summary>Starts this system.</summary>
@@ -119,6 +113,11 @@ namespace WheelMUD.Core
             this.SystemHost.UpdateSystemHost(this, "Starting...");
 
             // @@@ TODO: Test > 1, then allow total command processors to be configurable.
+            //  This will take a significant effort to work out any race conditions which may leave
+            //  things with multiple parents (essentially duplication bugs), deadlocks should we try
+            //  to use multiple locks for transaction-like parenting changes, and so on. (We may need
+            //  to end up using a fairly global lock for any Parent changes, etc. Note that the Thing
+            //  locks in place now on getters and setters are definitely not effective / sufficient.)
             int totalCommandProcessors = 1;
             for (int i = 0; i < totalCommandProcessors; i++)
             {

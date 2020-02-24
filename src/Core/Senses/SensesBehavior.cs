@@ -143,9 +143,10 @@ namespace WheelMUD.Core
         /// <returns>true if the thing can be perceived; otherwise false.</returns>
         public bool CanPerceiveThing(Thing thing)
         {
-            // @@@ Doesn't seem like this should be bound only by this entity's location?
-            //     What about detecting something in a bag, etc?
-            return this.Parent.FindChild(t => t == thing) != null && thing.IsDetectableBySense(this.Senses);
+            // The sensing thing should be able to perceive its own things, as well as things at their same room.
+            bool isLocal = this.Parent.FindChild(t => t == thing) != null ||
+                (this.Parent.Parent != null && this.Parent.Parent.FindChild(t => t == thing) != null);
+            return isLocal && thing.IsDetectableBySense(this.Senses);
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>

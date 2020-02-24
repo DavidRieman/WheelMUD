@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command that allows an admin to create a consumable.
-//   Modified on 4/25/2010 by Feverdream (Add use of all enumerated consumable types.)
-// </summary>
 //-----------------------------------------------------------------------------
 
 /* Disabled: Create Consumable shouldn't be a specific command. Instead, we want to have a templating system that

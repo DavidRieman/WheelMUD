@@ -456,8 +456,7 @@ namespace WheelMUD.Core
                 // Try to find the item in this collection by seeing if any item ID matches 
                 // the string exactly, else if that find call returns null, find any item ID 
                 // that starts with the specified string, else if that is null...
-                // @@@ Test: Does the ID check here work? long.Equals(string)?
-                Thing foundThing = this.Children.Find(i => i.Id.Equals(s)) ??
+                Thing foundThing = this.Children.Find(i => i.Id != null && i.Id.Equals(s)) ??
                                    this.Children.Find(i => i.Name.ToLower().Equals(s)) ??
                                    this.Children.Find(i => i.Name.ToLower().StartsWith(s)) ??
                                    this.Children.Find(i => i.KeyWords.Contains(s));
