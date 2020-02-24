@@ -116,14 +116,6 @@ namespace WheelMUD.Actions
         /// <returns>Returns the text of the rendered room template.</returns>
         private string LookAtRoom(Thing sender)
         {
-            var context = new Hashtable
-            {
-                { "Room", sender.Parent },
-                { "Exits", this.sensesBehavior.PerceiveExits() },
-                { "Entities", this.sensesBehavior.PerceiveEntities() },
-                { "Items", this.sensesBehavior.PerceiveItems() }
-            };
-
             return Renderer.Instance.RenderPerceivedRoom(sender, sender.Parent);
         }
     }

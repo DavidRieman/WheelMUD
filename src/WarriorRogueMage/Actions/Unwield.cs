@@ -77,7 +77,7 @@ namespace WarriorRogueMage.Actions
             IController sender = actionInput.Controller;
             Thing wielder = sender.Thing;
 
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

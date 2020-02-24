@@ -3,32 +3,23 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A behavior that indicates who the player/mob is currently following.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Behaviors
 {
     using Newtonsoft.Json;
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using WheelMUD.Core.Events;
     using WheelMUD.Utilities;
 
-    /// <summary>
-    /// <para>
+    /// <summary>A behavior for an entity to follow another target entity around.</summary>
+    /// <remarks>
     /// The FollowingBehavior is applied to a player or mobile thing that is following another
     /// entity in the game. This could occur when one player follows another player, or perhaps
     /// when a monster is chasing its prey.
-    /// </para>
-    /// <para>
     /// The FollowingBehavior class exposes a Target property, which points to the thing being
     /// followed. It is currently only possible to follow one target at a time.
-    /// </para>
-    /// </summary>
+    /// </remarks>
     public class FollowingBehavior : Behavior
     {
         private SimpleWeakReference<Thing> target;
