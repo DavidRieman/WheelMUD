@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A script that allows a player to look at something.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions

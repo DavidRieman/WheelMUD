@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command that allows an admin to create a potion.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -20,6 +17,7 @@ namespace WheelMUD.Actions
     /// <summary>A command that allows an admin to create a potion.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("create potion", CommandCategory.Admin)]
+    [ActionAlias("createpotion", CommandCategory.Admin)]
     [ActionDescription("@@@ Temp command.")]
     [ActionSecurity(SecurityRole.fullAdmin)]
     public class CreatePotion : GameAction
@@ -30,8 +28,7 @@ namespace WheelMUD.Actions
             CommonGuards.InitiatorMustBeAlive, 
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
-            CommonGuards.InitiatorMustBeMobile,
-            CommonGuards.RequiresAtLeastOneArgument
+            CommonGuards.InitiatorMustBeMobile
         };
 
         /// <summary>Executes the command.</summary>
@@ -46,7 +43,12 @@ namespace WheelMUD.Actions
                 MaxSips = 50,
                 SipsLeft = 50,
                 Duration = new TimeSpan(0, 0, 15),
-            });
+            })
+            {
+                Name = "A colourful potion",
+                Description = "This colourful potion is bubbling slowly.",
+                KeyWords = new List<string>() { "potion", "colourful" }
+            };
 
             sender.Thing.Parent.Children.Add(potionItem);
 

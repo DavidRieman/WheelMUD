@@ -7,7 +7,6 @@
 
 namespace WheelMUD.Actions
 {
-    using System.Collections;
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
