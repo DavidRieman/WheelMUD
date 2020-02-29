@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Provides a dice system (random number generator) to the world.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -15,19 +12,12 @@ namespace WheelMUD.Core
     /// <summary>DiceService provides a dice system (random number generator) to the world.</summary>
     public class DiceService
     {
-        /// <summary>The synchronization locking object.</summary>
-        private static readonly object lockObject = new object();
-        
-        /// <summary>The singleton instance of the DiceService.</summary>
-        private static DiceService instance = null;
-
         /// <summary>The random number generator.</summary>
-        private Random rand;
+        private Random Random { get; } = new Random();
 
         /// <summary>Prevents a default instance of the DiceService class from being created.</summary>
         private DiceService()
         {
-            this.rand = new Random();
         }
 
         /// <summary>Gets the singleton instance of the DiceService.</summary>
@@ -38,7 +28,7 @@ namespace WheelMUD.Core
         /// <returns>A new die object.</returns>
         public Die GetDie(int numSides)
         {
-            return new Die(numSides, this.rand);
+            return new Die(numSides, this.Random);
         }
     }
 }
