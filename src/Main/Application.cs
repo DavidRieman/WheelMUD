@@ -23,9 +23,6 @@ namespace WheelMUD.Main
     /// <summary>The core application, which can be housed in a console, service, etc.</summary>
     public class Application : ISuperSystem, ISuperSystemSubscriber
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static Application instance = new Application();
-
         /// <summary>A list of subscribers of this super system.</summary>
         private readonly List<ISuperSystemSubscriber> subscribers = new List<ISuperSystemSubscriber>();
 
@@ -36,10 +33,7 @@ namespace WheelMUD.Main
         }
 
         /// <summary>Gets the singleton instance of this <see cref="Application"/>.</summary>
-        public static Application Instance
-        {
-            get { return instance; }
-        }
+        public static Application Instance { get; } = new Application();
 
         /// <summary>Gets or sets the available systems.</summary>
         /// <value>The available systems.</value>
@@ -190,6 +184,39 @@ namespace WheelMUD.Main
             }
         }
 
+        public string BasicAdministrativeGameInfo
+        {
+            get
+            {
+                var sb = new StringBuilder();
+                string fancyLine = "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
+                sb.AppendLine(fancyLine);
+                sb.AppendLine($"  Active Game:  {GameConfiguration.Name}  version {GameConfiguration.Version}");
+                if (!string.IsNullOrWhiteSpace(GameConfiguration.Website))
+                {
+                    sb.AppendLine($"Game Website: {GameConfiguration.Website}");
+                }
+                sb.AppendLine(fancyLine);
+                sb.AppendLine("This game is built from a base of WheelMUD. For more information about the base");
+                sb.AppendLine("game engine, visit: https://github.com/WheelMUD/WheelMUD");
+                sb.AppendLine();
+                sb.AppendLine("This application runs the game server. When running as a console program, it");
+                sb.AppendLine("provides an adminstrative command prompt. Type \"HELP\" to list the commands.");
+                sb.AppendLine();
+                sb.AppendLine("If Windows prompts you for networking access options, you may wish to allow all");
+                sb.AppendLine("access if you want to let additional computers/players join the game instance.");
+                sb.AppendLine();
+                sb.AppendLine("To connect to the game server as a player, you need a telnet client. From this");
+                sb.AppendLine("machine you can connect to an IP address of the local machine at port " + GameConfiguration.TelnetPort);
+                sb.AppendLine("For example, if you are using Windows and install the basic \"Telnet Client\"");
+                sb.AppendLine("option through \"Turn Windows features on or off\", you can open a command");
+                sb.AppendLine("prompt and type this command:  telnet 127.0.0.1 " + GameConfiguration.TelnetPort);
+                sb.AppendLine("Or you could use the command:  telnet localhost " + GameConfiguration.TelnetPort);
+                sb.AppendLine();
+                return sb.ToString();
+            }
+        }
+
         /// <summary>Ensures that the database and such are present; copies the default if not.</summary>
         private static void EnsureDataIsPresent()
         {
@@ -292,13 +319,14 @@ namespace WheelMUD.Main
             return systems;
         }
 
-        /// <summary>Display startup texts.</summary>
+        /// <summary>Display startup texts for the game administrator.</summary>
         /// <returns>The startup splash screen text.</returns>
         private string DisplayStartup()
         {
-            var filePath = Path.Combine(GameConfiguration.DataStoragePath, "ConsoleOpen.txt");
-            var splash = File.ReadAllText(filePath);
-            return "FIX STARTUP RENDER: " + splash;
+            var sb = new StringBuilder();
+            sb.AppendLine("Starting up... " + DateTime.Now.ToString());
+            sb.AppendLine(this.BasicAdministrativeGameInfo);
+            return sb.ToString();
         }
     }
 }
