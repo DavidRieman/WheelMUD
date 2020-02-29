@@ -14,6 +14,7 @@ namespace WheelMUD.Ftp
     using WheelMUD.Ftp.FileSystem;
     using WheelMUD.Ftp.General;
     using WheelMUD.Interfaces;
+    using WheelMUD.Utilities;
 
     /// <summary>Listens for incoming connections and accepts them.</summary>
     /// <remarks>Incoming socket connections are then passed to the socket handling class (FtpSocketHandler).</remarks>
@@ -64,9 +65,17 @@ namespace WheelMUD.Ftp
 
         public void Start()
         {
-            this.host.UpdateSystemHost(this, "Starting...");
-            this.Start(21);
-            this.host.UpdateSystemHost(this, "Started");
+            int port = GameConfiguration.TryGetAppConfigInt("FtpPort", 0);
+            if (port > 0)
+            {
+                this.host.UpdateSystemHost(this, "Starting...");
+                this.Start();
+                this.host.UpdateSystemHost(this, "Started");
+            }
+            else
+            {
+                this.host.UpdateSystemHost(this, "Omitting FTP support.");
+            }
         }
 
         public void Stop()
@@ -83,8 +92,14 @@ namespace WheelMUD.Ftp
                 }
             }
 
-            this.serverSocketListener.Stop();
-            this.serverThread.Join();
+            if (this.serverSocketListener != null)
+            {
+                this.serverSocketListener.Stop();
+            }
+            if (this.serverThread != null)
+            {
+                this.serverThread.Join();
+            }
 
             this.host.UpdateSystemHost(this, "Stopped");
         }

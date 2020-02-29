@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Instantiates and houses one RavenDB document store through a singleton.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Data.RavenDb

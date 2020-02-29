@@ -96,5 +96,10 @@ namespace WheelMUD.Utilities
         {
             return ConfigurationManager.AppSettings[appSettingsName];
         }
+
+        public static int TryGetAppConfigInt(string appSettingsName, int defaultValue)
+        {
+            return int.TryParse(ConfigurationManager.AppSettings[appSettingsName], out int result) ? result : defaultValue;
+        }
     }
 }
