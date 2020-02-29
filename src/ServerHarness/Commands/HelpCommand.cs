@@ -33,19 +33,10 @@ namespace ServerHarness
         /// <summary>Present the console command-line "HELP" response to the administrator.</summary>
         private string DisplayHelp()
         {
-            string fancyLine = "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
-            var sb = new StringBuilder();
-            sb.AppendLine(fancyLine);
-            sb.AppendLine($"  Active Game:  {GameConfiguration.Name}  version {GameConfiguration.Version}");
-            if (!string.IsNullOrWhiteSpace(GameConfiguration.Website))
-            {
-                sb.AppendLine($"Game Website: {GameConfiguration.Website}");
-            }
-            sb.AppendLine(fancyLine);
-            sb.AppendLine("This game is built from a base of WheelMUD. For more information about the");
-            sb.AppendLine("base game engine, visit: https://github.com/WheelMUD/WheelMUD");
-            sb.AppendLine();
+            var sb = new StringBuilder(Application.Instance.BasicAdministrativeGameInfo);
+            sb.AppendLine("==================================");
             sb.AppendLine("Available administrative commands:");
+            sb.AppendLine("==================================");
             foreach (var command in ServerHarnessCommands.AllCommands)
             {
                 sb.AppendLine($"{command.Names.First(),16} - {command.Description}");

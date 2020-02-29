@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A rollable die.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -19,12 +16,12 @@ namespace WheelMUD.Core
         private int numberSides = 4;
 
         /// <summary>The random number generator.</summary>
-        private Random rand;
+        private readonly Random rand;
 
         /// <summary>Initializes a new instance of the <see cref="Die"/> class.</summary>
         /// <param name="numberSides">The total sides of the die, IE 4 will yield die rolls of 1 through 4.</param>
         /// <param name="randomGenerator">The random number generator.</param>
-        public Die(int numberSides, ref Random randomGenerator)
+        public Die(int numberSides, Random randomGenerator)
         {
             this.numberSides = numberSides;
             this.rand = randomGenerator;

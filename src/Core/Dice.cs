@@ -22,37 +22,23 @@ namespace WheelMUD.Core
         private static DiceService instance = null;
 
         /// <summary>The random number generator.</summary>
-        private static Random rand;
+        private Random rand;
 
         /// <summary>Prevents a default instance of the DiceService class from being created.</summary>
         private DiceService()
         {
+            this.rand = new Random();
         }
 
         /// <summary>Gets the singleton instance of the DiceService.</summary>
-        public static DiceService Instance
-        {
-            get
-            {
-                lock (DiceService.lockObject)
-                {
-                    if (DiceService.instance == null)
-                    {
-                        DiceService.instance = new DiceService();
-                        DiceService.rand = new Random();
-                    }
-                    
-                    return DiceService.instance;
-                }
-            }
-        }
+        public static DiceService Instance { get; } = new DiceService();
 
         /// <summary>Creates a new die.</summary>
         /// <param name="numSides">The number of sides the die has.</param>
         /// <returns>A new die object.</returns>
         public Die GetDie(int numSides)
         {
-            return new Die(numSides, ref rand);
+            return new Die(numSides, this.rand);
         }
     }
 }

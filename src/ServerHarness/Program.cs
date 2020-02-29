@@ -106,9 +106,6 @@ namespace ServerHarness
             }
 
             app.Stop();
-
-            display.Notify("Press enter to quit...");
-            Console.ReadLine();
         }
 
         private static IServerHarnessCommand FindCommand(IDictionary<string, IServerHarnessCommand> commands, string commandName)
