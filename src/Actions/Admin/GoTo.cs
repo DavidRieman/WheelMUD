@@ -67,17 +67,18 @@ namespace WheelMUD.Actions
                 }
             }
 
+            var adminName = sender.Thing.Name;
             var leaveContextMessage = new ContextualString(sender.Thing, sender.Thing.Parent)
             {
                 ToOriginator = null,
-                ToReceiver = @"$ActiveThing.Name disappears into nothingness.",
-                ToOthers = @"$ActiveThing.Name disappears into nothingness.",
+                ToReceiver = $"{adminName} disappears into nothingness.",
+                ToOthers = $"{adminName} disappears into nothingness.",
             };
             var arriveContextMessage = new ContextualString(sender.Thing, targetPlace)
             {
-                ToOriginator = "You teleport to " + targetPlace.Name + ".",
-                ToReceiver = @"$ActiveThing.Name appears from nothingness.",
-                ToOthers = @"$ActiveThing.Name appears from nothingness.",
+                ToOriginator = $"You teleported to {targetPlace.Name}.",
+                ToReceiver = $"{adminName} appears from nothingness.",
+                ToOthers = $"{adminName} appears from nothingness.",
             };
             var leaveMessage = new SensoryMessage(SensoryType.Sight, 100, leaveContextMessage);
             var arriveMessage = new SensoryMessage(SensoryType.Sight, 100, arriveContextMessage);

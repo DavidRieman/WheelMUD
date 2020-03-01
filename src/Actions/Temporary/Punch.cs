@@ -150,22 +150,22 @@ namespace WheelMUD.Actions
             {
                 message = new ContextualString(attacker, target)
                 {
-                    ToOriginator = @"You punch $ActiveThing.Name for $Damage health.",
-                    ToReceiver = @"$Aggressor.Name punches you for $Damage health.",
-                    ToOthers = @"$Aggressor.Name punches $ActiveThing.Name for $Damage health.",
+                    ToOriginator = $"You punch {target.Name} for {damage} health.",
+                    ToReceiver = $"{attacker.Name} punches you for {damage} health.",
+                    ToOthers = $"{attacker.Name} punches {target.Name} for {damage} health.",
                 };
             }
             else
             {
                 message = new ContextualString(attacker, target)
                 {
-                    ToOriginator = @"You attempt to punch $ActiveThing.Name, but miss.",
-                    ToReceiver = @"$Aggressor.Name attempts to punch you, but misses.",
-                    ToOthers = @"$Aggressor.Name attempts to punch $ActiveThing.Name, but misses.",
+                    ToOriginator = $"You attempt to punch {target.Name}, but miss.",
+                    ToReceiver = $"{attacker.Name} attempts to punch you, but misses.",
+                    ToOthers = $"{attacker.Name} attempts to punch {target.Name}, but misses.",
                 };
             }
-            
-            return new SensoryMessage(SensoryType.Sight, 100, message, new Hashtable { { "Damage", damage } });
+
+            return new SensoryMessage(SensoryType.Sight, 100, message);
         }
     }
 }

@@ -41,18 +41,18 @@ namespace WheelMUD.Core
         {
             // Tracking parents for our attached thing only makes sense if we are indeed attached to a thing.
             // (Avoid race conditions against behavior attachment by using a temporary reference to this.Parent).
-            var parent = this.Parent;
-            if (parent != null)
+            var thing = this.Parent;
+            if (thing != null)
             {
-                // If the object we apply to (AKA our parent) does not have a parent yet, simply set it.
-                if (parent.Parent == null)
+                // If the object we apply to does not have a primary Parent yet, simply Add it to set Parent.
+                if (thing.Parent == null)
                 {
-                    parent.Parent = newParent;
+                    thing.RigParentUnsafe(newParent);
                     return;
                 }
 
-                // Go through our current secondary parents, and if we don't already track this as
-                // a parent, then add it.
+                // Go through our current secondary parents, and if we don't already track this as one of the
+                // parents, then add it.
                 if (this.SecondaryParents.Contains(newParent))
                 {
                     return;
@@ -68,15 +68,16 @@ namespace WheelMUD.Core
         {
             // Tracking parents for our attached thing only makes sense if we are indeed attached to a thing.
             // (Avoid race conditions against behavior attachment by using a temporary reference to this.Parent).
-            var parent = this.Parent;
-            if (parent != null)
+            var thing = this.Parent;
+            if (thing != null)
             {
-                // If the object we apply to (AKA our parent) has the parent being removed as it's primary parent, 
-                // we should promote one of the secondary parents, if any, to be the new primary parent. (If there
-                // are no remaining secondary parents to promote, this correctly sets the primary parent to null.)
-                if (parent.Parent == oldParent)
+                // If our thing has the parent being removed as it's primary parent, we need to shift one of the
+                // remaining secondary parents to be the primary parent, removing it from the secondary parents.
+                // (If there are no remaining secondary parents, this will correctly set the Parent as null.)
+                if (thing.Parent == oldParent)
                 {
-                    parent.Parent = (from p in this.SecondaryParents where p != oldParent select p).FirstOrDefault();
+                    var newPrimaryParent = (from p in this.SecondaryParents where p != oldParent select p).FirstOrDefault();
+                    thing.RigParentUnsafe(newPrimaryParent);
                 }
 
                 // Remove this oldParent from our tracked parents (if tracked).

@@ -53,7 +53,7 @@ namespace WheelMUD.Actions
                     sb.AppendLine("Your Friends:");
                     foreach (string friendName in this.playerBehavior.Friends)
                     {
-                        string status = PlayerManager.Instance.FindPlayerByName(friendName, false) == null ? "Offline" : "Online";
+                        string status = PlayerManager.Instance.FindLoadedPlayerByName(friendName, false) == null ? "Offline" : "Online";
                         sb.AppendLine(string.Format("{0} [{1}]", friendName, status));
                     }
 
@@ -72,7 +72,7 @@ namespace WheelMUD.Actions
             }
 
             string targetedFriendName = actionInput.Params[1].ToLower();
-            Thing targetFriend = PlayerManager.Instance.FindPlayerByName(targetedFriendName, false);
+            Thing targetFriend = PlayerManager.Instance.FindLoadedPlayerByName(targetedFriendName, false);
             
             if (actionInput.Params[0].ToLower() == "add")
             {

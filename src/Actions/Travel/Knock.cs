@@ -48,19 +48,19 @@ namespace WheelMUD.Actions
             IController sender = actionInput.Controller;
             var thisRoomMessage = new ContextualString(sender.Thing, this.target)
             {
-                ToOriginator = @"You knock on $ActiveThing.Name.",
-                ToOthers = @"$Knocker.Name knocks on $ActiveThing.Name.",
-                ToReceiver = @"$Knocker.Name knocks on you.",
+                ToOriginator = $"You knock on {this.target.Name}.",
+                ToOthers = $"{sender.Thing.Name} knocks on {this.target.Name}.",
+                ToReceiver = $"{sender.Thing.Name} knocks on you.",
             };
             var nextRoomMessage = new ContextualString(sender.Thing, this.target)
             {
                 ToOriginator = null,
-                ToOthers = @"Someone knocks on $ActiveThing.Name.",
+                ToOthers = $"Someone knocks on {this.target.Name}.",
                 ToReceiver = null,
             };
 
             // Create sensory messages.
-            var thisRoomSM = new SensoryMessage(SensoryType.Sight | SensoryType.Hearing, 100, thisRoomMessage, new Hashtable { { "Knocker", sender.Thing } });
+            var thisRoomSM = new SensoryMessage(SensoryType.Sight | SensoryType.Hearing, 100, thisRoomMessage);
             var nextRoomSM = new SensoryMessage(SensoryType.Hearing, 100, nextRoomMessage);
 
             // Generate our knock events.

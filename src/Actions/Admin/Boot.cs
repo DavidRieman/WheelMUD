@@ -60,7 +60,7 @@ namespace WheelMUD.Actions
             }
 
             string playerName = actionInput.Tail;
-            this.PlayerToBoot = PlayerManager.Instance.FindPlayerByName(playerName, false);
+            this.PlayerToBoot = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
             if (this.PlayerToBoot != null)
             {
                 this.playerBehavior = this.PlayerToBoot.Behaviors.FindFirst<PlayerBehavior>();

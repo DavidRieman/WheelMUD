@@ -57,9 +57,9 @@ namespace WheelMUD.Actions
             // * Mobile who matches the name exactly.
             // * Player who matches the partial name.
             // * Mobile who matches the partial name.
-            return PlayerManager.Instance.FindPlayerByName(entityName, false) ??
+            return PlayerManager.Instance.FindLoadedPlayerByName(entityName, false) ??
                    MobileManager.Instance.FindMobileByName(entityName, false) ??
-                   PlayerManager.Instance.FindPlayerByName(entityName, true) ??
+                   PlayerManager.Instance.FindLoadedPlayerByName(entityName, true) ??
                    MobileManager.Instance.FindMobileByName(entityName, true);
         }
 

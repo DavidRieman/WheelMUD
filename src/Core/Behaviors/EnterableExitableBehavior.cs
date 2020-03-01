@@ -66,9 +66,9 @@ namespace WheelMUD.Core
                 100,
                 new ContextualString(actor, this.Parent)
                 {
-                    ToOriginator = @"You enter $TargetThing.Name.",
-                    ToReceiver = @"$ActiveThing.Name enters you.",
-                    ToOthers = @"$ActiveThing.Name enters $TargetThing.Name.",
+                    ToOriginator = $"You enter {this.Parent.Name}.",
+                    ToReceiver = $"{actor.Name} enters you.",
+                    ToOthers = $"{actor.Name} enters {this.Parent.Name}.",
                 });
 
             movableBehavior.Move(this.Parent, this.Parent, message, message);

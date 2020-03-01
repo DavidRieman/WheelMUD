@@ -37,7 +37,7 @@ namespace WheelMUD.Server
             this.inputParser.InputReceived += this.CommandServer_OnInputReceived;
 
             // Set up to respond to player log out events by closing those connections.
-            PlayerManager.GlobalPlayerLogOutEvent += this.PlayerManager_GlobalPlayerLogOutEvent;
+            PlayerManager.Instance.GlobalPlayerLogOutEvent += this.PlayerManager_GlobalPlayerLogOutEvent;
         }
 
         /// <summary>Gets the singleton instance of this ServerManager.</summary>
@@ -50,14 +50,10 @@ namespace WheelMUD.Server
         public override void Start()
         {
             this.SystemHost.UpdateSystemHost(this, "Starting...");
-
             this.baseServer.SubscribeToSystem(this);
             this.baseServer.Start();
-
             this.telnetServer.Start();
-
             this.SystemHost.UpdateSystemHost(this, "Started on port " + this.baseServer.Port);
-
             this.StartTime = DateTime.Now;
         }
 

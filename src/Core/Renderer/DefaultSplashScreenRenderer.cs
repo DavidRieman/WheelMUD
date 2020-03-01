@@ -41,10 +41,10 @@ namespace WheelMUD.Core
                 }
 
                 string renderedScreen = string.Format(splashContent,
-                    GameConfiguration.Name,    // {0} in splash screen files
+                    GameConfiguration.Name,        // {0} in splash screen files
                     GameConfiguration.Version,     // {1} in splash screen files
                     GameConfiguration.Website,     // {2} in splash screen files
-                    GameConfiguration.Copyright);  // {3} in splash sceren files
+                    GameConfiguration.Copyright);  // {3} in splash screen files
 
                 splashScreens.Add(renderedScreen);
             }

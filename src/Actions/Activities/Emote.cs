@@ -36,7 +36,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string emoteString = string.Format("<*$ActiveThing.Name {0}>", actionInput.Tail);
+            string emoteString = $"<*{sender.Thing.Name} {actionInput.Tail}>";
 
             var contextualString = new ContextualString(sender.Thing, sender.Thing.Parent)
             {

@@ -79,10 +79,7 @@ namespace WheelMUD.Core
                 }
             }
 
-            if (session != null)
-            {
-                session.ProcessCommand(input);
-            }
+            session?.ProcessCommand(input);
         }
 
         /// <summary>Starts this system's individual components.</summary>

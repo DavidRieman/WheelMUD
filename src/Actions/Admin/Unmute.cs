@@ -58,7 +58,7 @@ namespace WheelMUD.Actions
 
             // Make sure the target exists.
             string playerName = actionInput.Params[0];
-            this.playerToUnmute = PlayerManager.Instance.FindPlayerByName(playerName, false);
+            this.playerToUnmute = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
             if (this.playerToUnmute == null)
             {
                 return string.Format("The player named \"{0}\" could not be found.", playerName);

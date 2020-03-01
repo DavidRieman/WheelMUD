@@ -139,14 +139,14 @@ namespace WheelMUD.Core
             var leaveContextMessage = new ContextualString(thingToMove, thingToMove.Parent)
             {
                 ToOriginator = null,
-                ToReceiver = @"$ActiveThing.Name moves " + dir + ".",
-                ToOthers = @"$ActiveThing.Name moves " + dir + ".",
+                ToReceiver = $"{thingToMove.Name} moves {dir}.",
+                ToOthers = $"{thingToMove.Name} moves {dir}.",
             };
             var arriveContextMessage = new ContextualString(thingToMove, destination)
             {
-                ToOriginator = @"You move " + dir + " to $GoingTo.Name.",
-                ToReceiver = @"$ActiveThing.Name arrives, heading " + dir + ".",
-                ToOthers = @"$ActiveThing.Name arrives, heading " + dir + ".",
+                ToOriginator = $"You move {dir} to {destination.Name}.",
+                ToReceiver = $"{thingToMove.Name} arrives, heading {dir}.",
+                ToOthers = $"{thingToMove.Name} arrives, heading {dir}.",
             };
             var leaveMessage = new SensoryMessage(SensoryType.Sight, 100, leaveContextMessage);
             var arriveMessage = new SensoryMessage(SensoryType.Sight, 100, arriveContextMessage);

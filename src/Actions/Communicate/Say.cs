@@ -39,9 +39,9 @@ namespace WheelMUD.Actions
             IController sender = actionInput.Controller;
             var contextMessage = new ContextualString(sender.Thing, sender.Thing.Parent)
             {
-                ToOriginator = @"You say: " + this.sayText,
-                ToReceiver = @"$ActiveThing.Name says: " + this.sayText,
-                ToOthers = @"$ActiveThing.Name says: " + this.sayText,
+                ToOriginator = $"You say: {this.sayText}",
+                ToReceiver = $"{sender.Thing.Name} says: {this.sayText}",
+                ToOthers = $"{sender.Thing.Name} says: {this.sayText}",
             };
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 

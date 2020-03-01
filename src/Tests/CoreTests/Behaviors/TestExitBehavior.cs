@@ -47,7 +47,8 @@ namespace WheelMUD.Tests.Behaviors
             Assert.AreNotSame(this.exitBehavior.GetDestination(this.roomB), this.roomA);
             
             // Create an unmovable actor, and ensure that said actor cannot move through.
-            this.actor = new Thing() { Name = "Actor", Parent = this.roomA };
+            this.actor = new Thing() { Name = "Actor" };
+            this.roomA.Add(this.actor);
             this.exitBehavior.MoveThrough(this.actor);
             Assert.AreSame(this.actor.Parent, this.roomA);
 
@@ -61,7 +62,7 @@ namespace WheelMUD.Tests.Behaviors
             Assert.AreSame(this.actor.Parent, this.roomB);
 
             // @@@ TODO: Place the actor back in room A, and try using the context command to move it?
-            this.actor.Parent = this.roomA;
+            this.roomA.Add(this.actor);
         }
 
         /// <summary>Test behaviors of a two-way exit.</summary>
@@ -84,7 +85,8 @@ namespace WheelMUD.Tests.Behaviors
             Assert.AreSame(this.exitBehavior.GetDestination(this.roomB), this.roomA);
 
             // Create an unmovable actor, and ensure that said actor cannot move through.
-            this.actor = new Thing() { Name = "Actor", Parent = this.roomA, Id = TestThingID.Generate("testactor") };
+            this.actor = new Thing() { Name = "Actor", Id = TestThingID.Generate("testactor") };
+            this.roomA.Add(this.actor);
             this.exitBehavior.MoveThrough(this.actor);
             Assert.AreSame(this.actor.Parent, this.roomA);
 

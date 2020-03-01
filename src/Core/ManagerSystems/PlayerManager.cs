@@ -12,14 +12,10 @@ namespace WheelMUD.Core
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
-    /// <summary>High level manager that provides tracking and global collection of online players.</summary>
-    /// <remarks>
-    /// Following what is still the standard C# event pattern.
-    /// http://blogs.msdn.com/b/cburrows/archive/2010/03/30/events-get-a-little-overhaul-in-c-4-afterward-effective-events.aspx
-    /// </remarks>
+    /// <summary>High level manager that provides tracking and global collection of online (and linkdead but still-loaded) players.</summary>
     public class PlayerManager : ManagerSystem
     {
-        /// <summary>A list of managed players.</summary>
+        /// <summary>A list of managed, loaded players.</summary>
         private readonly List<PlayerBehavior> playersList = new List<PlayerBehavior>();
 
         /// <summary>Prevents a default instance of the <see cref="PlayerManager"/> class from being created.</summary>
@@ -28,16 +24,16 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Global player log-in request handler.</summary>
-        public static event CancellableGameEventHandler GlobalPlayerLogInRequest;
+        public event CancellableGameEventHandler GlobalPlayerLogInRequest;
 
         /// <summary>Global player log-out request handler.</summary>
-        public static event CancellableGameEventHandler GlobalPlayerLogOutRequest;
+        public event CancellableGameEventHandler GlobalPlayerLogOutRequest;
 
         /// <summary>Global player log-in event handler.</summary>
-        public static event GameEventHandler GlobalPlayerLogInEvent;
+        public event GameEventHandler GlobalPlayerLogInEvent;
 
         /// <summary>Global player log-out event handler.</summary>
-        public static event GameEventHandler GlobalPlayerLogOutEvent;
+        public event GameEventHandler GlobalPlayerLogOutEvent;
 
         /// <summary>Gets the singleton instance of the PlayerManager.</summary>
         /// <value>The instance.</value>
@@ -46,7 +42,13 @@ namespace WheelMUD.Core
         /// <summary>Gets a read only collection of the players currently online.</summary>
         public ICollection<PlayerBehavior> Players
         {
-            get { return this.playersList.FindAll(p => p.Parent.Name.Length > 0).AsReadOnly(); }
+            get 
+            {
+                lock (this.playersList)
+                {
+                    return this.playersList.FindAll(p => p.Parent.Name.Length > 0).AsReadOnly();
+                }
+            }
         }
 
         /// <summary>Prepares the base character.</summary>
@@ -59,9 +61,7 @@ namespace WheelMUD.Core
             var sensesBehavior = new SensesBehavior();
             var userControlledBehavior = new UserControlledBehavior() { Controller = session };
             var playerBehavior = new PlayerBehavior() { SessionId = session.ID };
-
             var player = new Thing(livingBehavior, sensesBehavior, userControlledBehavior, playerBehavior, movableBehavior);
-
             var game = GameSystemController.Instance;
 
             // Load the default stats for the current gaming system
@@ -84,33 +84,34 @@ namespace WheelMUD.Core
         /// <summary>Called when a player logs in, to raise the player log in events.</summary>
         /// <param name="player">The player.</param>
         /// <param name="e">The <see cref="WheelMUD.Core.Events.GameEvent"/> instance containing the event data.</param>
-        public static void OnPlayerLogIn(Thing player, GameEvent e)
+        public void OnPlayerLogIn(Thing player, GameEvent e)
         {
-            GlobalPlayerLogInEvent?.Invoke(player.Parent, e);
+            this.GlobalPlayerLogInEvent?.Invoke(player.Parent, e);
         }
 
         /// <summary>Called when a player logs out, to raise the player log out events.</summary>
         /// <param name="player">The player.</param>
         /// <param name="e">The event arguments.</param>
-        public static void OnPlayerLogOut(Thing player, GameEvent e)
+        public void OnPlayerLogOut(Thing player, GameEvent e)
         {
-            GlobalPlayerLogOutEvent?.Invoke(player.Parent, e);
+            this.GlobalPlayerLogOutEvent?.Invoke(player.Parent, e);
+            this.RemovePlayer(player);
         }
 
         /// <summary>Called when a player is trying to log in, to raise the player log in request.</summary>
         /// <param name="player">The player.</param>
         /// <param name="e">The event arguments.</param>
-        public static void OnPlayerLogInRequest(Thing player, CancellableGameEvent e)
+        public void OnPlayerLogInRequest(Thing player, CancellableGameEvent e)
         {
-            GlobalPlayerLogInRequest?.Invoke(player.Parent, e);
+            this.GlobalPlayerLogInRequest?.Invoke(player.Parent, e);
         }
 
         /// <summary>Called when a player is trying to log out, to raise the player log out request.</summary>
         /// <param name="player">The player.</param>
         /// <param name="e">The event arguments.</param>
-        public static void OnPlayerLogOutRequest(Thing player, CancellableGameEvent e)
+        public void OnPlayerLogOutRequest(Thing player, CancellableGameEvent e)
         {
-            GlobalPlayerLogOutRequest?.Invoke(player.Parent, e);
+            this.GlobalPlayerLogOutRequest?.Invoke(player.Parent, e);
         }
 
         /// <summary>Finds a player using the predicate passed.</summary>
@@ -118,42 +119,26 @@ namespace WheelMUD.Core
         /// <returns>The player found.</returns>
         public PlayerBehavior FindPlayer(Predicate<PlayerBehavior> predicate)
         {
-            lock (this.lockObject)
+            lock (this.playersList)
             {
                 return this.playersList.Find(predicate);
             }
         }
 
-        /// <summary>Finds a player using a name or part name.</summary>
+        /// <summary>Finds a loaded player using a name or part name.</summary>
         /// <param name="name">The name of the player to return.</param>
-        /// <param name="partialMatch">Used to indicate whether the search criteria can look at just the start of the name.</param>
-        /// <returns>The IPlayer found.</returns>
-        public Thing FindPlayerByName(string name, bool partialMatch)
+        /// <param name="allowPartialMatch">Used to indicate whether the search criteria can look at just the start of the name.</param>
+        /// <returns>The player Thing found, or null if not found.</returns>
+        public Thing FindLoadedPlayerByName(string name, bool allowPartialMatch)
         {
             name = name.ToLower();
-
-            lock (this.lockObject)
+            var playerBehavior = this.FindPlayer(p => p.Parent.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+            if (playerBehavior == null && allowPartialMatch)
             {
-                PlayerBehavior playerBehavior = this.playersList.Find(p => p.Parent.Name.ToLower().Equals(name, StringComparison.InvariantCultureIgnoreCase));
-                if (playerBehavior == null && partialMatch)
-                {
-                    playerBehavior = this.playersList.Find(p => p.Parent.Name.ToLower().StartsWith(name));
-                }
-
-                return playerBehavior == null ? null : playerBehavior.Parent;
+                playerBehavior = this.FindPlayer(p => p.Parent.Name.StartsWith(name, StringComparison.InvariantCultureIgnoreCase));
             }
-        }
 
-        /// <summary>Finds the player by their ID.</summary>
-        /// <param name="id">Identifier for the player.</param>
-        /// <returns>Player object</returns>
-        public Thing FindPlayerById(string id)
-        {
-            lock (this.lockObject)
-            {
-                PlayerBehavior playerBehavior = this.playersList.Find(p => p.Parent.Id.Equals(id));
-                return playerBehavior.Parent;
-            }
+            return playerBehavior?.Parent;
         }
 
         /// <summary>Called upon authentication of a session.</summary>
@@ -163,10 +148,13 @@ namespace WheelMUD.Core
             // If there was already a connected player for this new, authentic user session, kick the old
             // one (as it may have been a prior disconnect or whatnot or even a different player character
             // controlled by the same user account).
+            // TODO: We can probably handle this more gracefully (without the extra logouts and messaging
+            //       the room about it and so on) by having the login process notice the target player is
+            //       already in the world sooner, and more directly taking fresh control of THAT Thing.
             PlayerBehavior previousPlayer = this.FindLoggedInPlayer(session.User.UserName);
             if (previousPlayer != null)
             {
-                var msg = "Duplicate player match, kicking session id " + previousPlayer.SessionId;
+                var msg = $"Duplicate player match, kicking session id {previousPlayer.SessionId} and keeping {session.ID}";
                 this.SystemHost.UpdateSystemHost(this, msg);
 
                 var existingUserControlledBehavior = previousPlayer.Parent.Behaviors.FindFirst<UserControlledBehavior>();
@@ -175,11 +163,12 @@ namespace WheelMUD.Core
                     existingUserControlledBehavior.Controller.Write("Another connection has logged in as you; closing this connection.");
                 }
 
-                // @@@ TEST: Ensure this closes the connection correctly, etc; used to be rigged 
-                //     dangerously directly through the ServerManager.
                 previousPlayer.LogOut();
                 this.RemovePlayer(previousPlayer.Parent);
             }
+
+            // Track this player in the loaded players list.
+            this.AddPlayer(session.Thing);
 
             // If this session doesn't have a player thing attached yet, load it up.  Note that
             // for situations like character creation, we might already have our Thing, so we
@@ -198,14 +187,18 @@ namespace WheelMUD.Core
         /// <param name="session">The disconnected session.</param>
         public void OnSessionDisconnected(Session session)
         {
-            PlayerBehavior playerBehavior = this.playersList.Find(p => p.SessionId.Equals(session.ID));
-            if (playerBehavior != null)
+            // For now we're just going to immediately log out a player who disconnects.
+            // TODO: Session disconnect should not necessarily remove the player from the world immediately, as
+            //       this could be used to cheat out of imminent death, etc.  Instead the player object should
+            //       linger around a while, uncontrolled, before removal.  Mark the player as "linkdead" though.
+            if (session.Thing != null)
             {
-                // For now we're just going to log out a player who disconnects.
-                // @@@ TODO: Session disconnect should not necessarily remove the player from the world
-                //     immediately, as this can be used to avoid imminent death from mobs, etc.  Instead
-                //     the player object could linger for a while even uncontrolled before removal.
-                playerBehavior.LogOut();
+                var playerBehavior = session.Thing.FindBehavior<PlayerBehavior>();
+                if (playerBehavior != null && playerBehavior.SessionId != null)
+                {
+                    playerBehavior.LogOut();
+                    playerBehavior.SessionId = null;
+                }
             }
         }
 
@@ -221,12 +214,24 @@ namespace WheelMUD.Core
         {
             this.SystemHost.UpdateSystemHost(this, "Stopping...");
 
-            lock (this.lockObject)
+            lock (this.playersList)
             {
                 this.playersList.Clear();
             }
 
             this.SystemHost.UpdateSystemHost(this, "Stopped.");
+        }
+
+        private void AddPlayer(Thing player)
+        {
+            var playerBehavior = player.FindBehavior<PlayerBehavior>();
+            lock (this.playersList)
+            {
+                if (playerBehavior != null && !this.playersList.Contains(playerBehavior))
+                {
+                    this.playersList.Add(playerBehavior);
+                }
+            }
         }
 
         /// <summary>Remove the specified player from the PlayerManager.</summary>
@@ -236,7 +241,7 @@ namespace WheelMUD.Core
             var playerBehavior = player.Behaviors.FindFirst<PlayerBehavior>();
             if (playerBehavior != null)
             {
-                lock (this.lockObject)
+                lock (this.playersList)
                 {
                     this.playersList.Remove(playerBehavior);
                 }
