@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to prevent a player from communicating.
-//   Justin LeCheminant 2009
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -15,11 +11,16 @@ namespace WheelMUD.Actions
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
     using WheelMUD.Effects;
     using WheelMUD.Interfaces;
 
-    /// <summary>An action to prevent a player from communicating.</summary>
+    /// <summary>An administrative action to block a player from communicating verbally.</summary>
+    /// <remarks>
+    /// Generally used to halt speech that is not in line with the game's terms of service (e.g. abusive speech).
+    /// TODO: Track when the state was instantiated, and build in a permanent option (just a "massive" duration?),
+    ///       reason tracking, and a way to list all mute characters with their mute reasons, las IP address, and
+    ///       so on for detecting trends like players creating new characters to get back at it, etc?
+    /// </remarks>
     [ExportGameAction]
     [ActionPrimaryAlias("mute", CommandCategory.Admin)]
     [ActionAlias("silence", CommandCategory.Admin)]
@@ -48,14 +49,13 @@ namespace WheelMUD.Actions
             // Strings to be displayed when the effect is applied/removed.
             var muteString = new ContextualString(sender.Thing, this.playerToMute)
             {
-                ToOriginator = "You mute $Target.",
-                ToReceiver = "You are muted by $ActiveThing.",
-                ToOthers = "$ActiveThing mutes $Target."
+                ToOriginator = $"You mute {this.playerToMute.Name} for duration {this.muteDuration}.",
+                ToReceiver = $"You are now mute. Please reflect on recent choices.",
             };
             var unmuteString = new ContextualString(sender.Thing, this.playerToMute)
             {
-                ToOriginator = "$Target is no longer mute.",
-                ToReceiver = "You are no longer mute."
+                ToOriginator = $"{this.playerToMute.Name} is no longer mute.",
+                ToReceiver = $"You are no longer mute."
             };
 
             // Turn the above sets of strings into sensory messages.
@@ -93,9 +93,8 @@ namespace WheelMUD.Actions
             if (actionInput.Params.Length > 1)
             {
                 string timeString = actionInput.Tail.Substring(actionInput.Params[0].Length);
-                double timeInMinutes;
 
-                if (double.TryParse(timeString, out timeInMinutes))
+                if (double.TryParse(timeString, out double timeInMinutes))
                 {
                     this.muteDuration = TimeSpan.FromMinutes(timeInMinutes);
                 }

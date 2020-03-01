@@ -99,6 +99,10 @@ namespace WheelMUD.Universe
 
             // Use a temporary ref to our own parent to avoid race conditions like sudden parent removal.
             var thisThing = this.Parent;
+            if (thisThing == null)
+            {
+                return; // Abort if the behavior is unattached (e.g. being destroyed).
+            }
             
             if (newLockedState && thisThing != null)
             {
@@ -112,26 +116,25 @@ namespace WheelMUD.Universe
             }
 
             // Prepare the Lock/Unlock game event for sending as a request, and if not cancelled, again as an event.
-            var csb = new ContextualStringBuilder(actor, this.Parent);
-            csb.Append(@"You " + verb + " $TargetThing.Name.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
-            csb.Append(@"$ActiveThing.Name " + verb + "s you.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
-            csb.Append(@"$ActiveThing.Name " + verb + "s $TargetThing.Name.", ContextualStringUsage.WhenNotBeingPassedToReceiverOrOriginator);
-            var message = new SensoryMessage(SensoryType.Sight, 100, csb);
-            var e = new LockUnlockEvent(this.Parent, false, actor, message);
+            var contextMessage = new ContextualString(actor, thisThing)
+            {
+                ToOriginator = $"You {verb} {thisThing.Name}.",
+                ToReceiver = $"{actor.Name} {verb}s you.",
+                ToOthers = $"{actor.Name} {verb}s {thisThing.Name}.",
+            };
+            var message = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
+            var e = new LockUnlockEvent(thisThing, false, actor, message);
 
             // Broadcast the Lock or Unlock Request and carry on if nothing cancelled it.
-            if (thisThing != null)
+            // Broadcast from the parents of the lockable/unlockable thing (IE a room or inventory where the lockable resides).
+            thisThing.Eventing.OnMiscellaneousRequest(e, EventScope.ParentsDown);
+            if (!e.IsCancelled)
             {
-                // Broadcast from the parents of the lockable/unlockable thing (IE a room or inventory where the lockable resides).
-                thisThing.Eventing.OnMiscellaneousRequest(e, EventScope.ParentsDown);
-                if (!e.IsCancelled)
-                {
-                    // Lock or Unlock the thing.
-                    this.IsLocked = newLockedState;
+                // Lock or Unlock the thing.
+                this.IsLocked = newLockedState;
 
-                    // Broadcast the Lock or Unlock event.
-                    thisThing.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
-                }
+                // Broadcast the Lock or Unlock event.
+                thisThing.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
             }
         }
 
