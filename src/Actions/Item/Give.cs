@@ -64,16 +64,16 @@ namespace WheelMUD.Actions
 
             var contextMessage = new ContextualString(sender.Thing, this.target)
             {
-                ToOriginator = string.Format("You gave $Item.Name to {0}.", this.target),
-                ToReceiver = "$ActiveThing.Name gave you $Item.Name.",
-                ToOthers = string.Format("$ActiveThing.Name gave $Item.Name to {0}.", this.target),
+                ToOriginator = $"You gave {this.thing.Name} to {this.target}.",
+                ToReceiver = $"{sender.Thing.Name} gave you {this.thing.Name}.",
+                ToOthers = $"{sender.Thing.Name} gave {this.thing.Name} to {this.target.Name}.",
             };
             var message = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
             // Try to move the thing from the sender to the target; this handles eventing and whatnot for us.
             if (!this.movableBehavior.Move(this.target, sender.Thing, null, message))
             {
-                sender.Write(string.Format("Failed to give {0} to {1}.", this.thing.Name, this.target.Name));
+                sender.Write($"Failed to give {this.thing.Name} to {this.target.Name}.");
             }
         }
 

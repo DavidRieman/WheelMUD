@@ -54,9 +54,9 @@ namespace WheelMUD.Actions
 
             var contextMessage = new ContextualString(sender.Thing, this.thingToDrop.Parent)
             {
-                ToOriginator = "You drop up $Thing.Name.",
-                ToReceiver = "$ActiveThing.Name drops $Thing.Name in you.",
-                ToOthers = "$ActiveThing.Name drops $Thing.Name.",
+                ToOriginator = $"You drop up {this.thingToDrop.Name}.",
+                ToReceiver = $"{sender.Thing.Name} drops $Thing.Name in you.",
+                ToOthers = $"{sender.Thing.Name} drops $Thing.Name.",
             };
             var dropMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 

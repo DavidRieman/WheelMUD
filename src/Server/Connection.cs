@@ -273,10 +273,7 @@ namespace WheelMUD.Server
                     else
                     {
                         // Raise the Data Received Event. Signals that some data has arrived.
-                        if (this.DataReceived != null)
-                        {
-                            this.DataReceived(this, new ConnectionArgs(this));
-                        }
+                        this.DataReceived?.Invoke(this, new ConnectionArgs(this));
 
                         // Continue the waiting for data on the Socket
                         this.ListenForData();

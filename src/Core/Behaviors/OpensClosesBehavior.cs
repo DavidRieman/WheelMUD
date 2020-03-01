@@ -133,11 +133,13 @@ namespace WheelMUD.Core
             }
 
             // Prepare the Close/Open game event for sending as a request, and if not cancelled, again as an event.
-            var csb = new ContextualStringBuilder(actor, this.Parent);
-            csb.Append(@"You " + verb + " $TargetThing.Name.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
-            csb.Append(@"$ActiveThing.Name " + verb + "s you.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
-            csb.Append(@"$ActiveThing.Name " + verb + "s $TargetThing.Name.", ContextualStringUsage.WhenNotBeingPassedToReceiverOrOriginator);
-            var message = new SensoryMessage(SensoryType.Sight, 100, csb);
+            var contextMessage = new ContextualString(actor, this.Parent)
+            {
+                ToOriginator = $"You {verb} {this.Parent.Name}.",
+                ToReceiver = $"{actor.Name} {verb}s you.",
+                ToOthers = $"{actor.Name} {verb}s {this.Parent.Name}.",
+            };
+            var message = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
             var e = new OpenCloseEvent(this.Parent, newOpenedState, actor, message);
 
             // Broadcast the Open or Close Request and carry on if nothing cancelled it.

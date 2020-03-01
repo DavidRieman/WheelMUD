@@ -42,7 +42,8 @@ namespace WheelMUD.Utilities
             // so that a custom game solution/harness can apply their own assembly information.
             var assembly = Assembly.GetExecutingAssembly();
             Version = assembly.GetName().Version.ToString();
-            Copyright = assembly.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
+            // Can't assume that a Telnet client can render the © character.
+            Copyright = assembly.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright.Replace("©", "(c)");
 
             // Additional work to modify raw settings should generally be done once and cached, as follows.
             string root = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);

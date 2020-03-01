@@ -120,15 +120,10 @@ namespace WheelMUD.Actions
             }
 
             var args = actionInput.Params;
-
             string targetString = args[0];
-
             string statString = args[1];
-            
             this.modType = args[2].ToLower().Trim();
-            
             string amountString = args[3];
-
             string durationString = null;
             if (args.Length > 4)
             {
@@ -136,7 +131,7 @@ namespace WheelMUD.Actions
             }
 
             // Find the player.
-            this.target = PlayerManager.Instance.FindPlayerByName(targetString, true);
+            this.target = PlayerManager.Instance.FindLoadedPlayerByName(targetString, true);
             if (this.target == null)
             {
                 return string.Format("Could not find a target named {0}.", targetString);

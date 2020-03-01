@@ -179,8 +179,9 @@ namespace WheelMUD.Core.Behaviors
         {
             var message = new ContextualString(self, newTarget)
             {
-                ToOriginator = "You start following $Target.Name.",
-                ToReceiver = "$ActiveThing.Name starts following you."
+                ToOriginator = $"You start following {newTarget.Name}.",
+                ToReceiver = $"{self.Name} starts following you.",
+                ToOthers = $"{self.Name} starts following {newTarget.Name}.",
             };
 
             return new SensoryMessage(SensoryType.Sight, 100, message);
@@ -190,8 +191,8 @@ namespace WheelMUD.Core.Behaviors
         {
             var message = new ContextualString(self, oldTarget)
             {
-                ToOriginator = "You stop following $Target.Name.",
-                ToReceiver = "$ActiveThing.Name stops following you."
+                ToOriginator = $"You stop following {oldTarget.Name}.",
+                ToReceiver = $"{self.Name} stops following you.",
             };
 
             return new SensoryMessage(SensoryType.Sight, 100, message);
@@ -201,8 +202,8 @@ namespace WheelMUD.Core.Behaviors
         {
             var message = new ContextualString(self, this.Target)
             {
-                ToReceiver = "$ActiveThing.Name arrives, following you.",
-                ToOthers = "$ActiveThing.Name arrives, following " + this.Target.Name + "."
+                ToReceiver = $"{self.Name} arrives, following you.",
+                ToOthers = $"{self.Name} arrives, following {this.Target.Name}.",
             };
 
             return new SensoryMessage(SensoryType.Sight, 100, message);
@@ -212,8 +213,8 @@ namespace WheelMUD.Core.Behaviors
         {
             var message = new ContextualString(self, this.Target)
             {
-                ToOriginator = "You follow " + this.Target.Name + ".",
-                ToOthers = "$ActiveThing.Name leaves, following " + this.Target.Name + "."
+                ToOriginator = $"You follow {this.Target.Name}.",
+                ToOthers = $"{self.Name} leaves, following {this.Target.Name}."
             };
 
             return new SensoryMessage(SensoryType.Sight, 100, message);

@@ -37,7 +37,8 @@ namespace WheelMUD.Actions
             var thing = new Thing();
             thing.Id = "0";
             thing.Name = mobName;
-            thing.Parent = sender.Thing.Parent;
+            var targetRoom = sender.Thing.Parent;
+            targetRoom.Add(thing);
             thing.Stats["HP"] = new GameStat(sender, "Hit Points", "HP", null, 10, 0, 10, true);
 
             thing.Behaviors.Add(new MobileBehavior());

@@ -133,8 +133,9 @@ namespace WheelMUD.Core
         public string Description { get; set; }
 
         /// <summary>Gets or sets the parent of this thing, IE a container.</summary>
+        /// <remarks>To set a Thing's parent, instead use newParentThing.Add(this) to rig up all relationships correctly.</remarks>
         [JsonIgnore]
-        public Thing Parent { get; set; }
+        public Thing Parent { get; private set; }
 
 #pragma warning disable IDE0051 // Remove unused private members
         /// <summary>Gets or sets the parent of this thing via ID.</summary>
@@ -614,6 +615,11 @@ namespace WheelMUD.Core
         {
             // No two threads may add/remove any combination of the parent/sub-thing at the same time,
             // in order to prevent race conditions resulting in thing-disconnection/duplication/etc.
+            // TODO: May need to pick a consistent order to apply the locks (like locking the lowest
+            //       alphabetical thing ID's lock first) to prevent possible deadlocks.
+            // TODO: The whole MultipleParentsBehavior may be too complicated for our actual use cases,
+            //       and we should consider a lighter approach that doesn't track multiple parents, but
+            //       simply lets the thing be a child of multiple locations.
             lock (this.lockObject)
             {
                 lock (thing.lockObject)
@@ -676,6 +682,19 @@ namespace WheelMUD.Core
             }
 
             return false;
+        }
+
+        /// <summary>Sets the Thing's Parent. DO NOT USE.</summary>
+        /// <remarks>
+        /// Generally you should use newParent.Add(newChild) or oldParent.Remove(oldChild) instead.
+        /// This function is marked "unsafe" because it only performs one part of the parent-child updates that are usually required.
+        /// For example, if you set player.RigParentUnsafe(room), the player object may behave as if it is in the room, but other players and
+        /// mobs would not be able to perceive the player as one of the children of the room, because the room's children won't be updated.
+        /// </remarks>
+        /// <param name="newParent"></param>
+        public void RigParentUnsafe(Thing newParent)
+        {
+            this.Parent = newParent;
         }
 
         /// <summary>Adds this Thing to a parent.</summary>

@@ -40,9 +40,9 @@ namespace WheelMUD.Actions
             IController sender = actionInput.Controller;
             var contextMessage = new ContextualString(sender.Thing, this.target)
             {
-                ToOriginator = "You cast ThunderClap at $ActiveThing.Name!",
-                ToReceiver = "$Aggressor.Name casts ThunderClap at you, you only hear a ringing in your ears now.",
-                ToOthers = "You hear $Aggressor.Name cast ThunderClap at $ActiveThing.Name!  It was very loud.",
+                ToOriginator = $"You cast ThunderClap at {this.target.Name}!",
+                ToReceiver = $"{sender.Thing.Name} casts ThunderClap at you. You only hear a ringing in your ears now.",
+                ToOthers = $"You hear {sender.Thing.Name} cast ThunderClap at {this.target.Name}! It was very loud.",
             }; 
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 

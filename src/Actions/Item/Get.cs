@@ -61,9 +61,9 @@ namespace WheelMUD.Actions
             // @@@ TODO: Fix Implementation of numberToGet
             var contextMessage = new ContextualString(actor, this.thingToGet.Parent)
             {
-                ToOriginator = "You pick up $Thing.Name.",
-                ToReceiver = "$ActiveThing.Name takes $Thing.Name from you.",
-                ToOthers = "$ActiveThing.Name picks up $Thing.Name.",
+                ToOriginator = $"You pick up {this.thingToGet}.",
+                ToReceiver = $"{actor.Name} takes {this.thingToGet} from you.",
+                ToOthers = $"{actor.Name} picks up {this.thingToGet.Name}.",
             };
             var getMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 

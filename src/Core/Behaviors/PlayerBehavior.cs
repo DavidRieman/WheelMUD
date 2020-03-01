@@ -129,8 +129,8 @@ namespace WheelMUD.Core
         /// <summary>Releases unmanaged and, optionally, managed resources.</summary>
         public void Dispose()
         {
-            PlayerManager.GlobalPlayerLogInEvent -= this.ProcessPlayerLogInEvent;
-            PlayerManager.GlobalPlayerLogOutEvent -= this.ProcessPlayerLogOutEvent;
+            PlayerManager.Instance.GlobalPlayerLogInEvent -= this.ProcessPlayerLogInEvent;
+            PlayerManager.Instance.GlobalPlayerLogOutEvent -= this.ProcessPlayerLogOutEvent;
             if (this.EventProcessor != null)
             {
                 this.EventProcessor.Dispose();
@@ -183,8 +183,8 @@ namespace WheelMUD.Core
 
             // Prepare a login request and event.
             var csb = new ContextualStringBuilder(player, targetPlayerStartingPosition);
-            csb.Append(@"$ActiveThing.Name enters the world.", ContextualStringUsage.WhenNotBeingPassedToOriginator);
-            csb.Append(@"You enter the world.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
+            csb.Append($"{session.Thing.Name} enters the world.", ContextualStringUsage.WhenNotBeingPassedToOriginator);
+            csb.Append($"You enter the world.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
             var message = new SensoryMessage(SensoryType.Sight, 100, csb);
             var e = new PlayerLogInEvent(player, message);
 
@@ -192,12 +192,12 @@ namespace WheelMUD.Core
             player.Eventing.OnMiscellaneousRequest(e, EventScope.ParentsDown);
 
             // Also broadcast the request to any registered global listeners.
-            PlayerManager.OnPlayerLogInRequest(player, e);
+            PlayerManager.Instance.OnPlayerLogInRequest(player, e);
 
             // If nothing canceled this event request, carry on with the login.
             if (!e.IsCancelled)
             {
-                player.Parent = targetPlayerStartingPosition;
+                targetPlayerStartingPosition.Add(player);
 
                 DateTime universalTime = DateTime.Now.ToUniversalTime();
                 this.PlayerData.LastLogin = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";
@@ -209,7 +209,7 @@ namespace WheelMUD.Core
                 // Broadcast that the player successfully logged in, to their login location.
                 player.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
                 
-                PlayerManager.OnPlayerLogIn(player, e);
+                PlayerManager.Instance.OnPlayerLogIn(player, e);
 
                 return true;
             }
@@ -236,8 +236,8 @@ namespace WheelMUD.Core
 
             // Prepare a logout request and event.
             var csb = new ContextualStringBuilder(player, player.Parent);
-            csb.Append(@"$ActiveThing.Name exits the world.", ContextualStringUsage.WhenNotBeingPassedToOriginator);
-            csb.Append(@"You exit the world.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
+            csb.Append($"{player.Name} exits the world.", ContextualStringUsage.WhenNotBeingPassedToOriginator);
+            csb.Append($"You exit the world.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
             var message = new SensoryMessage(SensoryType.Sight, 100, csb);
             var e = new PlayerLogOutEvent(player, message);
 
@@ -245,7 +245,7 @@ namespace WheelMUD.Core
             player.Eventing.OnMiscellaneousRequest(e, EventScope.ParentsDown);
 
             // Also broadcast the request to any registered global listeners.
-            PlayerManager.OnPlayerLogOutRequest(player, e);
+            PlayerManager.Instance.OnPlayerLogOutRequest(player, e);
 
             // If nothing canceled this event request, carry on with the logout.
             if (!e.IsCancelled)
@@ -259,7 +259,7 @@ namespace WheelMUD.Core
 
                 // Broadcast that the player successfully logged out, to their parent (IE room).
                 player.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
-                PlayerManager.OnPlayerLogOut(player, e);
+                PlayerManager.Instance.OnPlayerLogOut(player, e);
 
                 return true;
             }
@@ -292,8 +292,8 @@ namespace WheelMUD.Core
             this.SessionId = null;
             this.friends = new List<string>();
 
-            PlayerManager.GlobalPlayerLogInEvent += this.ProcessPlayerLogInEvent;
-            PlayerManager.GlobalPlayerLogOutEvent += this.ProcessPlayerLogOutEvent;
+            PlayerManager.Instance.GlobalPlayerLogInEvent += this.ProcessPlayerLogInEvent;
+            PlayerManager.Instance.GlobalPlayerLogOutEvent += this.ProcessPlayerLogOutEvent;
         }
 
         private void ProcessPlayerLogInEvent(Thing root, GameEvent e)

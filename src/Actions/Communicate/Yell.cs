@@ -122,9 +122,9 @@ namespace WheelMUD.Actions
         {
             var contextMessage = new ContextualString(entity, null)
             {
-                ToOriginator = "You yell: " + this.yellSentence,
-                ToReceiver = "You hear $ActiveThing.Name yell: " + this.yellSentence,
-                ToOthers = "You hear $ActiveThing.Name yell: " + this.yellSentence,
+                ToOriginator = $"You yell: {this.yellSentence}",
+                ToReceiver = $"You hear {entity.Name} yell: {this.yellSentence}",
+                ToOthers = $"You hear {entity.Name} yell: {this.yellSentence}",
             };
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 
