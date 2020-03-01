@@ -132,6 +132,12 @@ namespace WheelMUD.Core
                 return;
             }
 
+            // If we're unattached (e.g. a race with destruction), just abort the attempt to open or close.
+            if (this.Parent == null)
+            {
+                return;
+            }
+
             // Prepare the Close/Open game event for sending as a request, and if not cancelled, again as an event.
             var contextMessage = new ContextualString(actor, this.Parent)
             {

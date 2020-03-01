@@ -140,27 +140,25 @@ namespace WheelMUD.Tests.Behaviors
             this.ClearTrackedEvents();
             var followingBehavior = new FollowingBehavior();
             this.stalker1.Behaviors.Add(followingBehavior);
+            Assert.AreEqual(this.lastWitnessEvent, null);
+            Assert.AreEqual(this.lastStalkerEvent, null);
+            Assert.AreEqual(this.lastVictimEvent, null);
+            
             followingBehavior.Target = this.victim1;
-
-            string witnessMessage = this.lastWitnessEvent.SensoryMessage.Message.Parse(this.witness);
-            Assert.IsTrue(string.IsNullOrEmpty(witnessMessage));
-
-            string stalkerMessage = this.lastStalkerEvent.SensoryMessage.Message.Parse(this.stalker1);
-            Assert.IsTrue(stalkerMessage.Contains("You start following "));
-
-            string victimMessage = this.lastVictimEvent.SensoryMessage.Message.Parse(this.victim1);
-            Assert.IsTrue(victimMessage.Contains(" starts following you."));
+            var witnessMessage = this.lastWitnessEvent.SensoryMessage.Message.Parse(this.witness);
+            var stalkerMessage = this.lastStalkerEvent.SensoryMessage.Message.Parse(this.stalker1);
+            var victimMessage = this.lastVictimEvent.SensoryMessage.Message.Parse(this.victim1);
+            Assert.AreEqual(witnessMessage, "Stalker1 starts following Victim1.");
+            Assert.AreEqual(stalkerMessage, "You start following Victim1.");
+            Assert.AreEqual(victimMessage, "Stalker1 starts following you.");
 
             followingBehavior.Target = null;
-
             witnessMessage = this.lastWitnessEvent.SensoryMessage.Message.Parse(this.witness);
-            Assert.IsTrue(string.IsNullOrEmpty(witnessMessage));
-
             stalkerMessage = this.lastStalkerEvent.SensoryMessage.Message.Parse(this.stalker1);
-            Assert.IsTrue(stalkerMessage.Contains("You stop following "));
-
             victimMessage = this.lastVictimEvent.SensoryMessage.Message.Parse(this.victim1);
-            Assert.IsTrue(victimMessage.Contains(" stops following you."));
+            Assert.IsTrue(string.IsNullOrEmpty(witnessMessage));
+            Assert.AreEqual(stalkerMessage, "You stop following Victim1.");
+            Assert.AreEqual(victimMessage, "Stalker1 stops following you.");
         }
 
         /// <summary>Tests the garbage collected target.</summary>
