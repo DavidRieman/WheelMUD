@@ -143,9 +143,11 @@ namespace WheelMUD.Core
         /// <returns>true if the thing can be perceived; otherwise false.</returns>
         public bool CanPerceiveThing(Thing thing)
         {
-            // The sensing thing should be able to perceive its own things, as well as things at their same room.
-            bool isLocal = this.Parent.FindChild(t => t == thing) != null ||
-                (this.Parent.Parent != null && this.Parent.Parent.FindChild(t => t == thing) != null);
+            // Distance-size, the perceiving thing should be able to perceive the place it is in (e.g. room), other
+            // things in the same place, and its own things (e.g. inventory items).
+            bool isLocal = this.Parent.Parent == thing ||
+                (this.Parent.Parent != null && this.Parent.Parent.FindChild(t => t == thing) != null) ||
+                this.Parent.FindChild(t => t == thing) != null;
             return isLocal && thing.IsDetectableBySense(this.Senses);
         }
 

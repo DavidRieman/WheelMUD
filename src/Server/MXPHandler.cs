@@ -123,12 +123,12 @@ namespace WheelMUD.Server
             string[] words = mxpOption.VersionResponseBuffer.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string word in words)
             {
-                if (word.Trim().StartsWith("version", StringComparison.InvariantCultureIgnoreCase))
+                if (word.Trim().StartsWith("version", StringComparison.OrdinalIgnoreCase))
                 {
                     string[] parts = word.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
                     sender.Terminal.Version = parts[1].Trim().TrimEnd(new[] { '>' }).Trim(new[] { '"' });
                 }
-                else if (word.Trim().StartsWith("client", StringComparison.InvariantCultureIgnoreCase))
+                else if (word.Trim().StartsWith("client", StringComparison.OrdinalIgnoreCase))
                 {
                     string[] parts = word.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
                     sender.Terminal.Client = parts[1].Trim().TrimEnd(new[] { '>' }).Trim(new[] { '"' }).ToLower();

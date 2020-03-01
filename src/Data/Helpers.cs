@@ -26,7 +26,7 @@ namespace WheelMUD.Data
             var configuredRelationalProviderName = AppConfigInfo.Instance.RelationalDataProviderName;
             var configuredDocumentStorageProviderName = AppConfigInfo.Instance.DocumentDataProviderName;
             configuredRelationalDatabaseProvider = (from provider in providerCache.RelationalDatabaseProviders
-                                                    where provider.DatabaseName.Equals(configuredRelationalProviderName, StringComparison.InvariantCultureIgnoreCase)
+                                                    where provider.DatabaseName.Equals(configuredRelationalProviderName, StringComparison.OrdinalIgnoreCase)
                                                     select provider).FirstOrDefault();
             if (configuredRelationalDatabaseProvider == null)
             {
@@ -34,7 +34,7 @@ namespace WheelMUD.Data
             }
 
             configuredDocumentStorageProvider = (from provider in providerCache.DocumentStorageProviders
-                                                 where provider.Name.Equals(configuredDocumentStorageProviderName, StringComparison.InvariantCultureIgnoreCase)
+                                                 where provider.Name.Equals(configuredDocumentStorageProviderName, StringComparison.OrdinalIgnoreCase)
                                                  select provider).FirstOrDefault();
             if (configuredDocumentStorageProvider == null)
             {

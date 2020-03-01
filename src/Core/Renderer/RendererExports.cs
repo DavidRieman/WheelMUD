@@ -37,9 +37,31 @@ namespace WheelMUD.Core
             }
         }
 
+        /// <summary>Class for exporting a HelpCommand renderer for composition into the WheelMUD framework.</summary>
+        public class HelpCommand : BaseExportAttribute
+        {
+            public HelpCommand(int rendererPriority) : base(rendererPriority, typeof(RendererDefinitions.HelpCommand)) { }
+
+            public HelpCommand(IDictionary<string, object> metadata) : base(metadata) { }
+        }
+
+        /// <summary>Class for exporting a HelpTopic renderer for composition into the WheelMUD framework.</summary>
+        public class HelpTopic : BaseExportAttribute
+        {
+            public HelpTopic(int rendererPriority) : base(rendererPriority, typeof(RendererDefinitions.HelpTopic)) { }
+
+            public HelpTopic(IDictionary<string, object> metadata) : base(metadata) { }
+        }
+
+        /// <summary>Class for exporting a HelpTopics renderer for composition into the WheelMUD framework.</summary>
+        public class HelpTopics : BaseExportAttribute
+        {
+            public HelpTopics(int rendererPriority) : base(rendererPriority, typeof(RendererDefinitions.HelpTopics)) { }
+
+            public HelpTopics(IDictionary<string, object> metadata) : base(metadata) { }
+        }
+
         /// <summary>Class for exporting an Inventory renderer for composition into the WheelMUD framework.</summary>
-        [MetadataAttribute]
-        [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
         public class Inventory : BaseExportAttribute
         {
             /// <summary>Initializes a new instance of the class.</summary>
@@ -52,8 +74,6 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Class for exporting a PerceivedRoom renderer for composition into the WheelMUD framework.</summary>
-        [MetadataAttribute]
-        [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
         public class PerceivedRoom : BaseExportAttribute
         {
             /// <summary>Initializes a new instance of the class.</summary>
@@ -66,8 +86,6 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Class for exporting a PerceivedThing renderer for composition into the WheelMUD framework.</summary>
-        [MetadataAttribute]
-        [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
         public class PerceivedThing : BaseExportAttribute
         {
             /// <summary>Initializes a new instance of the class.</summary>
@@ -80,8 +98,6 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Class for exporting a Score renderer for composition into the WheelMUD framework.</summary>
-        [MetadataAttribute]
-        [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
         public class Score : BaseExportAttribute
         {
             /// <summary>Initializes a new instance of the class.</summary>
@@ -94,8 +110,6 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Class for exporting a SplashScreen renderer for composition into the WheelMUD framework.</summary>
-        [MetadataAttribute]
-        [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
         public class SplashScreen : BaseExportAttribute
         {
             /// <summary>Initializes a new instance of the class.</summary>
@@ -108,8 +122,6 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Class for exporting a Who renderer for composition into the WheelMUD framework.</summary>
-        [MetadataAttribute]
-        [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
         public class Who : BaseExportAttribute
         {
             /// <summary>Initializes a new instance of the class.</summary>

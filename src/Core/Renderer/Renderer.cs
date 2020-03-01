@@ -9,6 +9,7 @@ namespace WheelMUD.Core
 {
     using System;
     using System.ComponentModel.Composition;
+    using WheelMUD.Interfaces;
 
     public class Renderer
     {
@@ -20,6 +21,15 @@ namespace WheelMUD.Core
         {
             this.Recompose();
         }
+
+        /// <summary>The current HelpCommand renderer.</summary>
+        private RendererDefinitions.HelpCommand currentHelpCommandRenderer;
+
+        /// <summary>The current HelpTopic renderer.</summary>
+        private RendererDefinitions.HelpTopic currentHelpTopicRenderer;
+
+        /// <summary>The current HelpTopics renderer.</summary>
+        private RendererDefinitions.HelpTopics currentHelpTopicsRenderer;
 
         /// <summary>The current Inventory renderer.</summary>
         private RendererDefinitions.Inventory currentInventoryRenderer;
@@ -38,6 +48,18 @@ namespace WheelMUD.Core
 
         /// <summary>The current Who renderer.</summary>
         private RendererDefinitions.Who currentWhoRenderer;
+
+        /// <summary>Gets, via MEF composition, an enumerable collection of available HelpCommand renderers.</summary>
+        [ImportMany]
+        public Lazy<RendererDefinitions.HelpCommand, RendererExports.HelpCommand>[] HelpCommandRenderers { get; private set; }
+
+        /// <summary>Gets, via MEF composition, an enumerable collection of available HelpTopic renderers.</summary>
+        [ImportMany]
+        public Lazy<RendererDefinitions.HelpTopic, RendererExports.HelpTopic>[] HelpTopicRenderers { get; private set; }
+
+        /// <summary>Gets, via MEF composition, an enumerable collection of available HelpTopics renderers.</summary>
+        [ImportMany]
+        public Lazy<RendererDefinitions.HelpTopics, RendererExports.HelpTopics>[] HelpTopicsRenderers { get; private set; }
 
         /// <summary>Gets, via MEF composition, an enumerable collection of available Inventory renderers.</summary>
         [ImportMany]
@@ -62,6 +84,21 @@ namespace WheelMUD.Core
         /// <summary>Gets, via MEF composition, an enumerable collection of available Who renderers.</summary>
         [ImportMany]
         public Lazy<RendererDefinitions.Who, RendererExports.Who>[] WhoRenderers { get; private set; }
+
+        public string RenderHelpCommand(ITerminal terminal, Command command)
+        {
+            return this.currentHelpCommandRenderer.Render(terminal, command);
+        }
+
+        public string RenderHelpTopic(ITerminal terminal, HelpTopic helpTopic)
+        {
+            return this.currentHelpTopicRenderer.Render(terminal, helpTopic);
+        }
+
+        public string RenderHelpTopics(ITerminal terminal)
+        {
+            return this.currentHelpTopicsRenderer.Render(terminal);
+        }
 
         public string RenderInventory(Thing player)
         {
@@ -99,6 +136,9 @@ namespace WheelMUD.Core
             DefaultComposer.Container.ComposeParts(this);
 
             // Search each of the renderers for the one which has the highest priority.
+            this.currentHelpCommandRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.HelpCommandRenderers);
+            this.currentHelpTopicRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.HelpTopicRenderers);
+            this.currentHelpTopicsRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.HelpTopicsRenderers);
             this.currentInventoryRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.InventoryRenderers);
             this.currentPerceivedRoomRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.PerceivedRoomRenderers);
             this.currentPerceivedThingRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.PerceivedThingRenderers);

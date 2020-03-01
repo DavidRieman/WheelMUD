@@ -16,7 +16,8 @@ namespace WheelMUD.Actions
     /// <remarks>TODO: Expose more options than just the name.</remarks>
     [ExportGameAction]
     [ActionPrimaryAlias("spawn", CommandCategory.Admin)]
-    [ActionDescription("Spawns a mobile NPC for testing.\r\nUsage: spawn (name)")]
+    [ActionDescription("Spawns a mobile NPC for testing.")]
+    [ActionExample("spawn Bob")]
     [ActionSecurity(SecurityRole.fullAdmin)]
     public class Spawn : GameAction
     {
