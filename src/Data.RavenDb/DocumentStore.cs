@@ -20,7 +20,7 @@ namespace WheelMUD.Data.RavenDb
             // to initialize the DocumentStore remotely instead of via an EmbeddedServer.  For implementation
             // details, see: https://demo.ravendb.net/demos/basics/the-document-store
             // and: https://ravendb.net/docs/article-page/3.0/Csharp/client-api/setting-up-connection-string
-            if (!"embedded".Equals(AppConfigInfo.Instance.DocumentConnectionString, StringComparison.InvariantCultureIgnoreCase))
+            if (!"embedded".Equals(AppConfigInfo.Instance.DocumentConnectionString, StringComparison.OrdinalIgnoreCase))
             {
                 throw new NotImplementedException("WheelMUD.Data.RavenDb only supports embedded mode.");
             }

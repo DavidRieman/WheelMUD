@@ -18,10 +18,10 @@ namespace WheelMUD.Core
             this.Aliases = aliases;
         }
 
-        /// <summary>Gets the aliases used for this help topic.</summary>
+        /// <summary>Gets the contents of this help topic.</summary>
         public string Contents { get; private set; }
 
-        /// <summary>Gets the contents of this help topic.</summary>
+        /// <summary>Gets the aliases used for this help topic.</summary>
         public List<string> Aliases { get; private set; }
     }
 }

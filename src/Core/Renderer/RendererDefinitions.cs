@@ -7,6 +7,8 @@
 
 namespace WheelMUD.Core
 {
+    using WheelMUD.Interfaces;
+
     /// <summary>
     /// Provides definitions for the set of easily-overridden view renderers.
     /// There will be a default renderer for each of these housed here in WheelMUD.Core.
@@ -14,6 +16,21 @@ namespace WheelMUD.Core
     /// </summary>
     public static class RendererDefinitions
     {
+        public abstract class HelpCommand
+        {
+            public abstract string Render(ITerminal terminal, Command command);
+        }
+
+        public abstract class HelpTopic
+        {
+            public abstract string Render(ITerminal terminal, Core.HelpTopic helpTopic);
+        }
+
+        public abstract class HelpTopics
+        {
+            public abstract string Render(ITerminal terminal);
+        }
+
         public abstract class Inventory
         {
             public abstract string Render(Thing player);

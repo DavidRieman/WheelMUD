@@ -73,9 +73,9 @@ namespace WheelMUD.Actions
             string commaSeparatedList = BuildCommaSeparatedList(movedThingNames);
             var contextMessage = new ContextualString(sender.Thing, this.destinationParent)
             {
-                ToOriginator = string.Format("You move {0} from {1} into {2}", commaSeparatedList, this.sourceContainer.Name, this.destinationParent.Name),
-                ToReceiver = string.Format("$ActiveThings.Name moves {0} from {1} into you.", commaSeparatedList, this.sourceContainer.Name),
-                ToOthers = string.Format("$ActiveThings.Name moves {0} from {1} into {2}.", commaSeparatedList, this.sourceContainer.Name, this.destinationParent.Name),
+                ToOriginator = $"You move {commaSeparatedList} from {this.sourceContainer.Name} into {this.destinationParent.Name}",
+                ToReceiver = $"{sender.Thing.Name} moves {commaSeparatedList} from {this.sourceContainer.Name} into you.",
+                ToOthers = $"{sender.Thing.Name} moves {commaSeparatedList} from {this.sourceContainer.Name} into {this.destinationParent.Name}.",
             };
             var message = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 

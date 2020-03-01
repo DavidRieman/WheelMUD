@@ -132,10 +132,10 @@ namespace WheelMUD.Core
         public Thing FindLoadedPlayerByName(string name, bool allowPartialMatch)
         {
             name = name.ToLower();
-            var playerBehavior = this.FindPlayer(p => p.Parent.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+            var playerBehavior = this.FindPlayer(p => p.Parent.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             if (playerBehavior == null && allowPartialMatch)
             {
-                playerBehavior = this.FindPlayer(p => p.Parent.Name.StartsWith(name, StringComparison.InvariantCultureIgnoreCase));
+                playerBehavior = this.FindPlayer(p => p.Parent.Name.StartsWith(name, StringComparison.OrdinalIgnoreCase));
             }
 
             return playerBehavior?.Parent;
