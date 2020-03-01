@@ -7,7 +7,7 @@
 
 namespace WheelMUD.Core
 {
-    using System;
+    using System.Text;
 
     /// <summary>The default Score renderer.</summary>
     /// <remarks>
@@ -19,7 +19,13 @@ namespace WheelMUD.Core
     {
         public override string Render(Thing player)
         {
-            return "TODO: MOVE SCORE RENDER HERE: " + player.Name;
+            // Pretty basic placeholder. Most game systems will probably want to define their own stats systems
+            // and races and attributes and so on, and provide a more traditional "score" breakdown of the
+            // current character state as pertains to the actual game system.
+            var livingBehavior = player.FindBehavior<LivingBehavior>();
+            var sb = new StringBuilder();
+            sb.AppendLine($"{player.Name}. You are {livingBehavior.Consciousness}");
+            return sb.ToString();
         }
     }
 }

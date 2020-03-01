@@ -8,7 +8,6 @@
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
-    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
@@ -45,10 +44,10 @@ namespace WheelMUD.Actions
                 return;
             }
 
-            // Unique case. Use 'here' to list the contents of the room.
+            // Unique case. Try to perceive the room (and its contents) instead; same as "look".
             if (searchString == "here")
             {
-                sender.Write(this.ListRoomItems(parent));
+                sender.Write(Renderer.Instance.RenderPerceivedRoom(sender.Thing, parent));
                 return;
             }
 
@@ -57,12 +56,11 @@ namespace WheelMUD.Actions
             Thing thing = parent.FindChild(searchString) ?? sender.Thing.FindChild(searchString);
             if (thing != null)
             {
-                // @@@ TODO: Send a SensoryEvent?
-                sender.Write(thing.Description);
+                sender.Write(Renderer.Instance.RenderPerceivedThing(sender.Thing, thing));
             }
             else
             {
-                sender.Write("You cannot find " + searchString + ".");
+                sender.Write($"You cannot find {searchString}.");
             }
         }
 
@@ -78,23 +76,6 @@ namespace WheelMUD.Actions
             }
 
             return null;
-        }
-
-        /// <summary>Builds a string listing the items that are in the specified room.</summary>
-        /// <param name="room">The room whose items we care about.</param>
-        /// <returns>A string listing the items that are in the specified room.</returns>
-        private string ListRoomItems(Thing room)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            foreach (Thing thing in room.Children)
-            {
-                // @@@ TODO: Only list Items here...? ItemBehavior? CarryableBehavior?
-                sb.Append(thing.Id.ToString().PadRight(20));
-                sb.AppendLine(thing.FullName);
-            }
-            
-            return sb.ToString();
         }
     }
 }

@@ -12,7 +12,12 @@ namespace WheelMUD.Core
     {
         public override string Render(Thing viewer, Thing viewedThing)
         {
-            return $"<%cyan%><%b%>{viewedThing.Name}<%n%><%nl%>{viewedThing.Description}<%nl%>";
+            var senses = viewer.FindBehavior<SensesBehavior>();
+            if (senses.CanPerceiveThing(viewedThing))
+            {
+                return $"You examine <%cyan%><%b%>{viewedThing.Name}<%n%>:<%nl%>{viewedThing.Description}<%nl%>";
+            }
+            return "You cannot perceive that thing.";
         }
     }
 }

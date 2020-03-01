@@ -80,7 +80,7 @@ namespace WheelMUD.Core
 
         public string RenderScore(Thing player)
         {
-            return this.currentInventoryRenderer.Render(player);
+            return this.currentScoreRenderer.Render(player);
         }
 
         public string RenderSplashScreen()

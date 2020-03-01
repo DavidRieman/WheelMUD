@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   The 'connected' session state.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.ConnectionStates
@@ -15,7 +12,7 @@ namespace WheelMUD.ConnectionStates
     using WheelMUD.Data;
 
     /// <summary>The 'connected' session state.</summary>
-    [ExportSessionState(100)]
+    [ExportSessionState(0)]
     public class ConnectedState : SessionState
     {
         /// <summary>Initializes a new instance of the <see cref="ConnectedState"/> class.</summary>
