@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Universe
@@ -67,12 +65,14 @@ namespace WheelMUD.Universe
             }
 
             // Send a sensory event for entering the portal.
-            ContextualStringBuilder enterStringBuilder = new ContextualStringBuilder(enteringEntity, enteringEntity);
-            enterStringBuilder.Append(@"You step into a portal.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
-            enterStringBuilder.Append(@"$ActiveThing.Name steps into a portal.", ContextualStringUsage.WhenNotBeingPassedToOriginator);
-
+            var leaveMessage = new ContextualString(enteringEntity, enteringEntity)
+            {
+                ToOriginator = $"You step into {this.Parent.Name}.",
+                ToReceiver = $"{actor.Name} steps into you.",
+                ToOthers = $"{actor.Name} steps into {this.Parent.Name}.",
+            };
             Thing parent = enteringEntity.Parent;
-            SensoryMessage enterMessage = new SensoryMessage(SensoryType.Sight, 100, enterStringBuilder);
+            SensoryMessage enterMessage = new SensoryMessage(SensoryType.Sight, 100, leaveMessage);
             SensoryEvent enterEvent = new SensoryEvent(enteringEntity, parent, enterMessage);
             parent.EventBroadcaster.Broadcast(enterEvent);
 
@@ -82,20 +82,26 @@ namespace WheelMUD.Universe
             if (moved)
             {
                 // If entity moved to the other side, send a sensory event to depict the arrival.
-                ContextualStringBuilder exitStringBuilder = new ContextualStringBuilder(enteringEntity, enteringEntity);
-                exitStringBuilder.Append(@"You step out of a portal, into a new location.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
-                exitStringBuilder.Append(@"$ActiveThing.Name steps out of a portal.", ContextualStringUsage.WhenNotBeingPassedToOriginator);
-                SensoryMessage exitMessage = new SensoryMessage(SensoryType.Sight, 100, exitStringBuilder);
+                var arriveMessage = new ContextualString(enteringEntity, enteringEntity)
+                {
+                    ToOriginator = $"You step out of {this.Parent.Name}, into {this.exitLocation.Name}.",
+                    ToReceiver = $"{actor.Name} steps out of you.",
+                    ToOthers = $"{actor.Name} steps out of {this.Parent.Name}.",
+                }
+                SensoryMessage exitMessage = new SensoryMessage(SensoryType.Sight, 100, arriveMessage);
                 SensoryEvent exitEvent = new SensoryEvent(enteringEntity, this.exitLocation, exitMessage);
                 this.exitLocation.EventBroadcaster.Broadcast(exitEvent);
             }
             else
             {
                 // If entity failed to emerge at the other side, send a sensory event to describe the failure.
-                ContextualStringBuilder cancelStringBuilder = new ContextualStringBuilder(enteringEntity, enteringEntity);
-                cancelStringBuilder.Append(@"The portal seems to be inactive.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
-                cancelStringBuilder.Append(@"$ActiveThing.Name could not pass through a portal.", ContextualStringUsage.WhenNotBeingPassedToOriginator);
-                SensoryMessage cancelMessage = new SensoryMessage(SensoryType.Sight, 100, cancelStringBuilder);
+                var failedMessage = new ContextualString(enteringEntity, enteringEntity)
+                {
+                    ToOriginator = $"{this.Parent.Name} seems to be inactive.",
+                    ToReceiver = $"{actor.Name} tried to move through you, but couldn't.",
+                    ToOthers = $"{actor.Name} could not pass through {this.Parent.Name}.",
+                }
+                SensoryMessage cancelMessage = new SensoryMessage(SensoryType.Sight, 100, failedMessage);
                 SensoryEvent cancelEvent = new SensoryEvent(enteringEntity, parent, cancelMessage);
                 parent.EventBroadcaster.Broadcast(cancelEvent);
             }

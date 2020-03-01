@@ -132,37 +132,32 @@ namespace WheelMUD.Core
                 return;
             }
 
-            // If we're unattached (e.g. a race with destruction), just abort the attempt to open or close.
-            if (this.Parent == null)
+            var thisThing = this.Parent;
+            if (thisThing == null)
             {
-                return;
+                return; // Abort if the behavior is unattached (e.g. being destroyed).
             }
 
             // Prepare the Close/Open game event for sending as a request, and if not cancelled, again as an event.
-            var contextMessage = new ContextualString(actor, this.Parent)
+            var contextMessage = new ContextualString(actor, thisThing)
             {
-                ToOriginator = $"You {verb} {this.Parent.Name}.",
+                ToOriginator = $"You {verb} {thisThing.Name}.",
                 ToReceiver = $"{actor.Name} {verb}s you.",
-                ToOthers = $"{actor.Name} {verb}s {this.Parent.Name}.",
+                ToOthers = $"{actor.Name} {verb}s {thisThing.Name}.",
             };
             var message = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
-            var e = new OpenCloseEvent(this.Parent, newOpenedState, actor, message);
+            var e = new OpenCloseEvent(thisThing, newOpenedState, actor, message);
 
             // Broadcast the Open or Close Request and carry on if nothing cancelled it.
-            // Use a temporary ref to our own parent to avoid race conditions like sudden parent removal.
-            var thisThing = this.Parent;
-            if (thisThing != null)
+            // Broadcast from the parents of the openable/closable thing (IE the rooms an openable exit is attached to).
+            thisThing.Eventing.OnMiscellaneousRequest(e, EventScope.ParentsDown);
+            if (!e.IsCancelled)
             {
-                // Broadcast from the parents of the openable/closable thing (IE the rooms an openable exit is attached to).
-                thisThing.Eventing.OnMiscellaneousRequest(e, EventScope.ParentsDown);
-                if (!e.IsCancelled)
-                {
-                    // Open or Close the thing.
-                    this.IsOpen = newOpenedState;
+                // Open or Close the thing.
+                this.IsOpen = newOpenedState;
 
-                    // Broadcast the Open or Close event.
-                    thisThing.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
-                }
+                // Broadcast the Open or Close event.
+                thisThing.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
             }
         }
 

@@ -59,9 +59,6 @@ namespace WheelMUD.Server
         /// <summary>A 'data sent' event raised by the server.</summary>
         public event EventHandler<ConnectionArgs> DataSent;
 
-        /// <summary>An 'input received' event raised by the server.</summary>
-        public event InputReceivedEventHandler InputReceived;
-
         /// <summary>Gets or sets which port this server listens to for incoming connections.</summary>
         public int Port { get; set; }
 
@@ -70,20 +67,11 @@ namespace WheelMUD.Server
         {
             try
             {
-                // Create the listening socket...
-                this.mainSocket = new Socket(
-                        AddressFamily.InterNetwork,
-                        SocketType.Stream,
-                        ProtocolType.Tcp);
+                // Create the listening socket, prepare it, and start accepting incoming connections.
+                this.mainSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 var localIP = new IPEndPoint(IPAddress.Any, this.Port);
-
-                // Bind to local IP Address...
                 this.mainSocket.Bind(localIP);
-
-                // Start listening...
                 this.mainSocket.Listen(4);
-
-                // Create the call back for any client connections...
                 this.mainSocket.BeginAccept(this.OnClientConnect, null);
             }
             catch (SocketException se)

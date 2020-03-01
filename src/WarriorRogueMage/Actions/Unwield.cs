@@ -53,10 +53,9 @@ namespace WarriorRogueMage.Actions
 
             var contextMessage = new ContextualString(sender.Thing, this.itemToUnwield.Parent)
             {
-                ToOriginator = "You unwield the $WieldedItem.Name.",
-                ToOthers = "$ActiveThing.Name unwields a $WieldedItem.Name.",
+                ToOriginator = $"You unwield {this.itemToUnwield.Name}.",
+                ToOthers = $"{sender.Thing.Name} unwields {this.itemToUnwield.Name}.",
             };
-
             var sensoryMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
             var unwieldEvent = new WieldUnwieldEvent(this.itemToUnwield, true, sender.Thing, sensoryMessage);
