@@ -3,16 +3,11 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Script to list the items in a player's inventory.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
@@ -38,17 +33,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Your Inventory");
-            sb.Append(Environment.NewLine);
-
-            foreach (Thing item in sender.Thing.Children)
-            {
-                sb.Append(item.Id.ToString().PadRight(20));
-                sb.AppendLine(item.FullName);
-            }
-
-            sender.Write(sb.ToString().Trim());
+            sender.Write(Renderer.Instance.RenderInventory(sender.Thing));
         }
 
         /// <summary>Checks against the guards for the command.</summary>

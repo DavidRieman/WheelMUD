@@ -11,7 +11,6 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
 
     /// <summary>An action to have a quick look at your surroundings.</summary>
     [ExportGameAction]

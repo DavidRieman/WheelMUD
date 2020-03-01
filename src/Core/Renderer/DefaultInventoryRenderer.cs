@@ -8,13 +8,35 @@
 namespace WheelMUD.Core
 {
     using System;
+    using System.Text;
 
     [RendererExports.Inventory(0)]
     public class DefaultInventoryRenderer : RendererDefinitions.Inventory
     {
         public override string Render(Thing player)
         {
-            return "TODO: RENDER INVENTORY FOR: " + player.Name;
+            var senses = player.FindBehavior<SensesBehavior>();
+            var sb = new StringBuilder();
+
+            bool hasNoticedSomething = false;
+            foreach (var presentThing in player.Children)
+            {
+                if (senses.CanPerceiveThing(presentThing))
+                {
+                    if (!hasNoticedSomething)
+                    {
+                        sb.AppendLine($"<%yellow%>Searching your inventory, you find:<%n%>");
+                        hasNoticedSomething = true;
+                    }
+                    sb.AppendLine($"  <%magenta%>{presentThing.FullName}<%n%>");
+                }
+            }
+            if (!hasNoticedSomething)
+            {
+                sb.AppendLine($"<%yellow%>You found no inventory.<%n%>");
+            }
+
+            return sb.ToString();
         }
     }
 }
