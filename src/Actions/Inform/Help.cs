@@ -9,19 +9,16 @@ namespace WheelMUD.Actions
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
-    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
-    using WheelMUD.Utilities;
 
     /// <summary>A command to look up help information from the help system.</summary>
     [ExportGameAction]
     [ActionPrimaryAlias("help", CommandCategory.Inform)]
     [ActionDescription("Display help text for a command or topic.")]
-    [ActionExample("Example: help look")]
+    [ActionExample("help look - retrieves help for the \"look\" command.")]
     [ActionSecurity(SecurityRole.all)]
     public class Help : GameAction
     {

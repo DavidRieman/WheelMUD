@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   This is the low level connection object that is assigned to a user when they connect.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server
@@ -23,11 +20,12 @@ namespace WheelMUD.Server
     using WheelMUD.Server.Telnet;
 
     /// <summary>Represents a connection to a client.</summary>
+    /// <remarks>This is the low level connection object that is assigned to a user when they connect.</remarks>
     public class Connection : IConnection
     {
         // After porting to .NET Core, it seems we are no longer able to use the 8-bit ASCII
         // encoder "Encoding.GetEncoding(437)", so we went back to this 7-bit ASCII encoder.
-        private static Encoding CurrentEncoding = ASCIIEncoding.ASCII;
+        public static readonly Encoding CurrentEncoding = ASCIIEncoding.ASCII;
 
         /// <summary>The threshold, in characters, beyond which MCCP should be used.</summary>
         private const int MCCPThreshold = 100;
