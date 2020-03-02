@@ -21,7 +21,7 @@ namespace WheelMUD.Core
         public override string Render(Thing activePlayer)
         {
             string mudName = GameConfiguration.Name;
-            string mudNameLine = "                                ";
+            string mudNameLine = "                                "; // TODO: Dynamic centering instead, if we want centering!
             string plural = string.Empty;
             var sb = new StringBuilder();
 
@@ -46,25 +46,10 @@ namespace WheelMUD.Core
             sb.AppendLine("The following player" + plural + " " + plural1 + " currently online:");
             foreach (PlayerBehavior player in PlayerManager.Instance.Players)
             {
-                // TODO: I used string literal to handle "" issue is there a neater approach?
-                sb.AppendFormat(@"<%mxpsecureline%><send ""finger {0}|tell {0}"" ""|finger|tell"">{0}</send>", player.Parent.Name);
-                sb.AppendFormat(" - {0}", player.Parent.Name);
-
-                // Add in AFK message
-                if (player.IsAFK)
-                {
-                    sb.Append(" (afk");
-
-                    if (!string.IsNullOrEmpty(player.AFKReason))
-                    {
-                        sb.AppendFormat(": {0}", player.AFKReason);
-                    }
-
-                    sb.Append(")");
-                }
-
-                // End with a newline char
-                sb.Append("<%nl%>");
+                // TODO: "tell {0}" is not a good menu command; possibly friend add/remove, invite to group, hailing, and so on.
+                var playerName = player.Parent.Name;
+                var playerState = this.GetPlayerState(player);
+                sb.AppendLine($"<%mxpsecureline%><send \"finger {playerName}|tell {playerName}\" \"|finger|tell\">{playerName}</send> - {player.Parent.FullName} {playerState}");
             }
 
             sb.AppendLine();
@@ -73,6 +58,17 @@ namespace WheelMUD.Core
             sb.AppendLine();
             sb.AppendLine(div);
             return sb.ToString();
+        }
+
+        private string GetPlayerState(PlayerBehavior player)
+        {
+            // TODO: Maybe player state changes like AFK/Linkdead should just cause a recalculation of the player's FullName
+            //       to include the details? Could be more efficient and enforce consistency with room perception, too.
+            if (!player.IsAFK)
+            {
+                return string.Empty;
+            }
+            return string.IsNullOrEmpty(player.AFKReason) ? "(<%yellow%>AFK<%n%>)" : $"(<%yellow%>AFK<%n%>: {player.AFKReason})";
         }
     }
 }

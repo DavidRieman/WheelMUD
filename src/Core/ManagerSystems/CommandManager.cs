@@ -152,7 +152,9 @@ namespace WheelMUD.Core
             List<Command> commands = new List<Command>();
             foreach (Command command in this.primaryCommandList.Values)
             {
-                // @@@ IFF this controller/entity has sufficient privileges to use the command, add it
+                // TODO: IFF this controller/entity has sufficient privileges to use the command, add it.
+                // TODO: We could cache any built map of privelege-set to commands-list (so long as we invalidate
+                //       it whenever we recompose commands from MEF.)
                 commands.Add(command);
             }
 

@@ -8,6 +8,7 @@
 namespace WheelMUD.Core
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using WheelMUD.Interfaces;
 
@@ -21,6 +22,12 @@ namespace WheelMUD.Core
         {
             this.Recompose();
         }
+
+        /// <summary>The current CommandsCategories renderer.</summary>
+        private RendererDefinitions.CommandsCategories currentCommandsCategoriesRenderer;
+
+        /// <summary>The current CommandsList renderer.</summary>
+        private RendererDefinitions.CommandsList currentCommandsListRenderer;
 
         /// <summary>The current HelpCommand renderer.</summary>
         private RendererDefinitions.HelpCommand currentHelpCommandRenderer;
@@ -48,6 +55,14 @@ namespace WheelMUD.Core
 
         /// <summary>The current Who renderer.</summary>
         private RendererDefinitions.Who currentWhoRenderer;
+
+        /// <summary>Gets, via MEF composition, an enumerable collection of available CommandsCategories renderers.</summary>
+        [ImportMany]
+        public Lazy<RendererDefinitions.CommandsCategories, RendererExports.CommandsCategories>[] CommandsCategoriesRenderers { get; private set; }
+
+        /// <summary>Gets, via MEF composition, an enumerable collection of available CommandsList renderers.</summary>
+        [ImportMany]
+        public Lazy<RendererDefinitions.CommandsList, RendererExports.CommandsList>[] CommandsListRenderers { get; private set; }
 
         /// <summary>Gets, via MEF composition, an enumerable collection of available HelpCommand renderers.</summary>
         [ImportMany]
@@ -84,6 +99,16 @@ namespace WheelMUD.Core
         /// <summary>Gets, via MEF composition, an enumerable collection of available Who renderers.</summary>
         [ImportMany]
         public Lazy<RendererDefinitions.Who, RendererExports.Who>[] WhoRenderers { get; private set; }
+
+        public string RenderCommandsCategories(ITerminal terminal, IEnumerable<Command> commands)
+        {
+            return this.currentCommandsCategoriesRenderer.Render(terminal, commands);
+        }
+
+        public string RenderCommandsList(ITerminal terminal, IEnumerable<Command> commands, string categoryName)
+        {
+            return this.currentCommandsListRenderer.Render(terminal, commands, categoryName);
+        }
 
         public string RenderHelpCommand(ITerminal terminal, Command command)
         {
@@ -136,6 +161,8 @@ namespace WheelMUD.Core
             DefaultComposer.Container.ComposeParts(this);
 
             // Search each of the renderers for the one which has the highest priority.
+            this.currentCommandsCategoriesRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.CommandsCategoriesRenderers);
+            this.currentCommandsListRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.CommandsListRenderers);
             this.currentHelpCommandRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.HelpCommandRenderers);
             this.currentHelpTopicRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.HelpTopicRenderers);
             this.currentHelpTopicsRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.HelpTopicsRenderers);

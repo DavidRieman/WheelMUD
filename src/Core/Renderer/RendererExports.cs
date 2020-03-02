@@ -37,6 +37,22 @@ namespace WheelMUD.Core
             }
         }
 
+        /// <summary>Class for exporting a CommandsCategories renderer for composition into the WheelMUD framework.</summary>
+        public class CommandsCategories : BaseExportAttribute
+        {
+            public CommandsCategories(int rendererPriority) : base(rendererPriority, typeof(RendererDefinitions.CommandsCategories)) { }
+
+            public CommandsCategories(IDictionary<string, object> metadata) : base(metadata) { }
+        }
+
+        /// <summary>Class for exporting a CommandsList renderer for composition into the WheelMUD framework.</summary>
+        public class CommandsList : BaseExportAttribute
+        {
+            public CommandsList(int rendererPriority) : base(rendererPriority, typeof(RendererDefinitions.CommandsList)) { }
+
+            public CommandsList(IDictionary<string, object> metadata) : base(metadata) { }
+        }
+
         /// <summary>Class for exporting a HelpCommand renderer for composition into the WheelMUD framework.</summary>
         public class HelpCommand : BaseExportAttribute
         {

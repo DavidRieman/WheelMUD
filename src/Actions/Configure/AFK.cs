@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to set your status as 'inactive' to other players.
-//   @@@ TODO: Implement.  Other actions should automatically unset.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -20,7 +16,7 @@ namespace WheelMUD.Actions
     /// <summary>Sets your status as AFK to other players.  Optional reason can be specified (eg. AFK Back in 5).</summary>
     /// <remarks>Added a length limiter on the AFK reason to ensure it doesn't gum out anything displaying the message.</remarks>
     [ExportGameAction]
-    [ActionPrimaryAlias("AFK", CommandCategory.Configure)]
+    [ActionPrimaryAlias("afk", CommandCategory.Configure)]
     [ActionAlias("inactive", CommandCategory.Configure)]
     [ActionDescription("Sets your status as afk to other players.  Optional reason can be specified (eg. AFK Back in 5).")]
     [ActionSecurity(SecurityRole.player)]
@@ -85,10 +81,9 @@ namespace WheelMUD.Actions
                 return commonFailure;
             }
 
-            // Rule: Prevent talking to yourself.
             if (actionInput.Tail.Length > MAXREASONLENGTH)
             {
-                return string.Format("That's too wordy.  Let's keep it to {0} characters.", MAXREASONLENGTH);
+                return $"That's too wordy.  Let's keep it to {MAXREASONLENGTH} characters.";
             }
 
             return null;
