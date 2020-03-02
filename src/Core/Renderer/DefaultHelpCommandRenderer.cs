@@ -7,7 +7,6 @@
 
 namespace WheelMUD.Core
 {
-    using System;
     using System.Text;
     using WheelMUD.Interfaces;
 
@@ -22,13 +21,13 @@ namespace WheelMUD.Core
             {
                 sb.AppendLine(command.Description);
             }
-            // TODO: Add command.Usage?  Rename Example to "Examples"?
+            // TODO: Add command.Usage?  Rename Example to "Examples" as string[]?
             if (!string.IsNullOrWhiteSpace(command.Example))
             {
-                sb.AppendLine($"<%yellow%>Example Usage<%n%>:");
+                sb.AppendLine($"<%yellow%>USAGE<%n%>:");
                 sb.AppendLine(command.Example);
             }
-            // TODO: Add command.SeeAlso?
+            // TODO: Add command.SeeAlso as string[]?
             return sb.ToString();
         }
     }

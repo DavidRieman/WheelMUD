@@ -36,54 +36,24 @@ namespace WheelMUD.Actions
         {
             IController sender = actionInput.Controller;
             string requestedCategory = actionInput.Tail.ToLower();
+            var terminal = (actionInput.Controller as Session).Terminal;
 
             // Get a command array of all commands available to this controller
-            List<Command> commands = CommandManager.Instance.GetCommandsForController(sender);
+            var commands = CommandManager.Instance.GetCommandsForController(sender);
 
-            var output = new StringBuilder();
-            CommandCategory category = CommandCategory.None;
-            Enum.TryParse(requestedCategory, true, out category);
-
-            if (requestedCategory == "all" || category != CommandCategory.None)
+            if (requestedCategory == "all")
             {
-                if (category == CommandCategory.None)
-                {
-                    output.AppendLine("All commands:");
-                }
-                else
-                {
-                    output.AppendFormat("{0} commands:\n", category.ToString());
-                }
-
-                // Sort and then output commands in this category
-                commands.Sort((Command a, Command b) => a.Name.CompareTo(b.Name));
-                foreach (Command c in commands)
-                {
-                    if (c.Category.HasFlag(category))
-                    {
-                        output.AppendFormat("{0}{1}\n", c.Name.PadRight(15), c.Description);
-                    }
-                }
+                sender.Write(Renderer.Instance.RenderCommandsList(terminal, commands, "All"));
+            }
+            else if (Enum.TryParse(requestedCategory, true, out CommandCategory category))
+            {
+                var commandsInCategory = from c in commands where c.Category.HasFlag(category) select c;
+                sender.Write(Renderer.Instance.RenderCommandsList(terminal, commandsInCategory, category.ToString()));
             }
             else
             {
-                // Build a list of categories for the commands available to this player.
-                output.AppendLine("Please specify a command category:\nAll");
-
-                foreach (CommandCategory c in Enum.GetValues(typeof(CommandCategory)))
-                {
-                    if (c != CommandCategory.None)
-                    {
-                        List<Command> matchingcommands = commands.FindAll(c2 => c2.Category.HasFlag(c));
-                        if (matchingcommands.Count() > 0)
-                        {
-                            output.AppendFormat("{0} ({1})\n", c.ToString(), matchingcommands.Count());
-                        }
-                    }
-                }
+                sender.Write(Renderer.Instance.RenderCommandsCategories(terminal, commands));
             }
-
-            sender.Write(output.ToString());
         }
 
         /// <summary>Checks against the guards for the command.</summary>

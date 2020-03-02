@@ -7,6 +7,7 @@
 
 namespace WheelMUD.Core
 {
+    using System.Collections.Generic;
     using WheelMUD.Interfaces;
 
     /// <summary>
@@ -16,6 +17,16 @@ namespace WheelMUD.Core
     /// </summary>
     public static class RendererDefinitions
     {
+        public abstract class CommandsCategories
+        {
+            public abstract string Render(ITerminal terminal, IEnumerable<Command> commands);
+        }
+
+        public abstract class CommandsList
+        {
+            public abstract string Render(ITerminal terminal, IEnumerable<Command> commands, string categoryName);
+        }
+
         public abstract class HelpCommand
         {
             public abstract string Render(ITerminal terminal, Command command);
