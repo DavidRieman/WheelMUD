@@ -21,7 +21,7 @@ namespace WheelMUD.Server
         {
             byte[] bytes = Connection.CurrentEncoding.GetBytes(data);
             byte[] returnBytes;
-            
+
             using var stream = new MemoryStream();
             using var compressedStream = new DeflaterOutputStream(stream);
             compressedStream.Write(bytes, 0, bytes.Length);

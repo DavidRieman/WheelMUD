@@ -11,6 +11,7 @@ namespace ServerHarness
     using WheelMUD.Data;
     using WheelMUD.Main;
 
+    [ExportServerHarnessCommand]
     public class DebugExploreDocumentsCommand : IServerHarnessCommand
     {
         public string Description => "Opens the configured document database tool for manual data exploration and minupulation.";

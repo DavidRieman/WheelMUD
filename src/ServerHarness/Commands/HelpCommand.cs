@@ -11,9 +11,9 @@ namespace ServerHarness
     using System.Linq;
     using System.Text;
     using WheelMUD.Main;
-    using WheelMUD.Utilities;
 
     /// <summary>Handle the 'help' command as specified by the administrator from the console.</summary>
+    [ExportServerHarnessCommand]
     public class HelpCommand : IServerHarnessCommand
     {
         public string Description => "Retrieve basic help for this ServerHarness, including a list of commands.";
@@ -37,7 +37,7 @@ namespace ServerHarness
             sb.AppendLine("==================================");
             sb.AppendLine("Available administrative commands:");
             sb.AppendLine("==================================");
-            foreach (var command in ServerHarnessCommands.AllCommands)
+            foreach (var command in ServerHarnessCommands.Instance.AllCommands)
             {
                 sb.AppendLine($"{command.Names.First(),16} - {command.Description}");
             }

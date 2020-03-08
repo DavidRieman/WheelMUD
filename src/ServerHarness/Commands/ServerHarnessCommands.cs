@@ -8,26 +8,49 @@
 namespace ServerHarness
 {
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
     using System.Linq;
+    using WheelMUD.Core;
+    using WheelMUD.Interfaces;
 
-    public class ServerHarnessCommands
+    public class ServerHarnessCommands : IRecomposable
     {
-        static ServerHarnessCommands()
+        /// <summary>Gets the singleton instance of the ServerHarnessCommands class.</summary>
+        public static ServerHarnessCommands Instance { get; } = new ServerHarnessCommands();
+
+        /// <summary>Prevents a default instance of the ServerHarnessCommands class from being created.</summary>
+        private ServerHarnessCommands()
         {
-            // TODO: Compose, per below (potentially using DefaultComposer).
+            this.Recompose();
         }
 
-        // TODO: GitHub #58: Use MEF to compose implementers of IServerHarnessCommand to keep this automatically up to date.
-        private static IServerHarnessCommand[] ComposedCommands => new IServerHarnessCommand[]
-        {
-            new HelpCommand(), new UpdateActionsCommand(), new RunTestsCommand(), new DebugExploreDocumentsCommand()
-        };
+        /// <summary>Gets, via MEF composition, a list of available server harness commands.</summary>
+        [ImportMany]
+        private List<IServerHarnessCommand> ComposedCommands { get; set; }
 
-        public static List<DynamicServerHarnessCommand> DynamicCommands { get; private set; } = new List<DynamicServerHarnessCommand>();
+        /// <summary>Provides a place to register commands that are formed dynamically at runtime (such as a means to exit the server harness).</summary>
+        public List<DynamicServerHarnessCommand> DynamicCommands { get; private set; } = new List<DynamicServerHarnessCommand>();
 
-        public static IServerHarnessCommand[] AllCommands
+        /// <summary>Retrieves an array of all available server harness commands (including those found with MEF and dynamically).</summary>
+        public IServerHarnessCommand[] AllCommands
         {
-            get { return ComposedCommands.Union(DynamicCommands).ToArray(); }
+            get
+            {
+                lock (this)
+                {
+                    return (from command in this.ComposedCommands.Union(this.DynamicCommands)
+                            orderby command.Names.First()
+                            select command).ToArray();
+                }
+            }
+        }
+
+        public void Recompose()
+        {
+            lock (this)
+            {
+                DefaultComposer.Container.ComposeParts(this);
+            }
         }
     }
 }

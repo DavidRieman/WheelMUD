@@ -15,6 +15,7 @@ namespace ServerHarness
     using WheelMUD.Main;
 
     /// <summary>Command to run all integration tests.</summary>
+    [ExportServerHarnessCommand]
     public class RunTestsCommand : IServerHarnessCommand
     {
         public string Description => "Runs all present integration tests against this server.";
