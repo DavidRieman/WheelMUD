@@ -74,10 +74,10 @@ namespace ServerHarness
 
             bool done = false;
             var exitCommand = new DynamicServerHarnessCommand(() => done = true, new string[] { "SHUTDOWN", "EXIT" }, "Shuts down the game instance and server harness.");
-            ServerHarnessCommands.DynamicCommands.Add(exitCommand);
+            ServerHarnessCommands.Instance.DynamicCommands.Add(exitCommand);
 
             var commands = new Dictionary<string, IServerHarnessCommand>();
-            foreach (var cmdObj in ServerHarnessCommands.AllCommands)
+            foreach (var cmdObj in ServerHarnessCommands.Instance.AllCommands)
             {
                 foreach (var name in cmdObj.Names)
                 {
