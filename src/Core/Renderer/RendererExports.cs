@@ -27,6 +27,7 @@ namespace WheelMUD.Core
             }
 
             /// <summary>Gets or sets the priority of the exported renderer; the renderer with the highest priority will be used.</summary>
+            /// <remarks>See DefaultComposer for detailed usage information.</remarks>
             public int Priority { get; set; }
 
             /// <summary>Initializes a new instance of the class.</summary>

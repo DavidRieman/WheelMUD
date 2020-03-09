@@ -8,17 +8,26 @@
 namespace WheelMUD.Core
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.Composition;
+    using WheelMUD.Interfaces;
+    using WheelMUD.Utilities;
 
     /// <summary>An [ExportGameAttribute] attribute to mark GameAttributes for export through MEF.</summary>
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class ExportGameAttributeAttribute : ExportAttribute
+    public class ExportGameAttributeAttribute : ExportAttribute, IExportWithPriority
     {
         /// <summary>Initializes a new instance of the ExportGameAttributeAttribute class.</summary>
-        public ExportGameAttributeAttribute()
-            : base(typeof(GameAttribute))
-        {
-        }
+        public ExportGameAttributeAttribute(int priority)
+            : base(typeof(GameAttribute)) => this.Priority = priority;
+
+        /// <summary>Initializes a new instance of the ExportGameAttributeAttribute class.</summary>
+        /// <param name="metadata">The metadata.</param>
+        public ExportGameAttributeAttribute(IDictionary<string, object> metadata) => PropertyTools.SetProperties(this, metadata);
+
+        /// <summary>Gets or sets the priority of the exported game attribute; the attribute with the highest priority will be the used attribute.</summary>
+        /// <remarks>See DefaultComposer for detailed usage information.</remarks>
+        public int Priority { get; set; }
     }
 }

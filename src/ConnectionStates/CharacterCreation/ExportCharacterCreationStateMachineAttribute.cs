@@ -34,7 +34,7 @@ namespace WheelMUD.ConnectionStates
         }
 
         /// <summary>Gets or sets the priority of the exported state; the state with the highest priority will be the default initial state.</summary>
-        /// <remarks>Do not exceed ConnectedState's priority (100 ATM) unless the state you're exporting is intended to replace ConnectedState.</remarks>
+        /// <remarks>See DefaultComposer for detailed usage information.</remarks>
         public int Priority { get; set; }
     }
 }

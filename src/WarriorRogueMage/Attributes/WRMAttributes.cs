@@ -10,7 +10,7 @@ namespace WarriorRogueMage.Attributes
     using WheelMUD.Core;
 
     /// <summary>Warrior Attribute.</summary>
-    [ExportGameAttribute]
+    [ExportGameAttribute(100)]
     public class WarriorAttribute : WRMAttribute
     {
         /// <summary>Initializes a new instance of the <see cref="WarriorAttribute"/> class.</summary>
@@ -26,7 +26,7 @@ namespace WarriorRogueMage.Attributes
     }
 
     /// <summary>Rogue Attribute.</summary>
-    [ExportGameAttribute]
+    [ExportGameAttribute(100)]
     public class RogueAttribute : WRMAttribute
     {
         /// <summary>Initializes a new instance of the <see cref="RogueAttribute"/> class.</summary>
@@ -36,7 +36,7 @@ namespace WarriorRogueMage.Attributes
     }
 
     /// <summary>Mage Attribute.</summary>
-    [ExportGameAttribute]
+    [ExportGameAttribute(100)]
     public class MageAttribute : WRMAttribute
     {
         /// <summary>Initializes a new instance of the <see cref="MageAttribute"/> class.</summary>
