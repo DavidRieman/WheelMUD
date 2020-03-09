@@ -3,15 +3,11 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Initiates non-lethal combat.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage.Actions
 {
     using System.Collections.Generic;
-
     using WheelMUD.Actions;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
@@ -19,7 +15,8 @@ namespace WarriorRogueMage.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>Initiates non-lethal combat.</summary>
-    [ExportGameAction]
+    /// <remarks>TODO: Implement or retire? Doesn't seem to do anything right now...</remarks>
+    [ExportGameAction(100)]
     [ActionPrimaryAlias("spar", CommandCategory.Combat)]
     [ActionDescription("Initiates a bout of non-lethal combat.")]
     [ActionSecurity(SecurityRole.player)]
@@ -39,11 +36,11 @@ namespace WarriorRogueMage.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            var contextMessage = new ContextualString(sender.Thing, sender.Thing)
+            var contextMessage = new ContextualString(sender.Thing, null)
             {
                 ToOriginator = "You have entered the combat state.",
-                ToReceiver = "You see $Aggressor.Name shift into a combat stance.",
-                ToOthers = "You see $Aggressor.Name shift into a combat stance.",
+                ToReceiver = $"You see {sender.Thing.Name} shift into a combat stance.",
+                ToOthers = $"You see {sender.Thing.Name} shift into a combat stance.",
             };
 
             var sm = new SensoryMessage(SensoryType.Debug, 100, contextMessage);

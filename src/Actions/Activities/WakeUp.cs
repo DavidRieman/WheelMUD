@@ -3,11 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to awaken and stand up.
-//   @@@ TODO: Implement
-//   @@@ TODO: maybe allow other players to awaken you if you gave trust permissions...
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -17,7 +12,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>An action to awaken and stand up.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("wake up", CommandCategory.Activities)]
     [ActionAlias("wake", CommandCategory.Activities)]
     [ActionAlias("awaken", CommandCategory.Activities)]
@@ -36,6 +31,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             // @@@ TODO: Implement.
+            // @@@ TODO: maybe allow other players to awaken you if you gave trust permissions...
         }
 
         /// <summary>Checks against the guards for the command.</summary>

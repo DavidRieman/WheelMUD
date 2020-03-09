@@ -12,7 +12,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>A command to list the characters who are currently in-game.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("who", CommandCategory.Player)]
     [ActionDescription("See or query who is online.")]
     [ActionSecurity(SecurityRole.player)]

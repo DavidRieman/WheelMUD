@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to wield a weapon in your second hand.
-//   @@@ TODO: Implement
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -16,10 +12,10 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>An action to wield a weapon in your second hand.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("dual wield", CommandCategory.Item)]
     [ActionAlias("dualwield", CommandCategory.Item)]
-    [ActionAlias("dual", CommandCategory.Item)]
+    [ActionAlias("dual", CommandCategory.Item)] // TODO: Add "offhand"?
     [ActionDescription("Wield a weapon in your second hand.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
     public class DualWield : GameAction

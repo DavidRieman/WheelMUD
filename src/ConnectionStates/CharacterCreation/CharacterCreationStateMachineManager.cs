@@ -3,16 +3,12 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   The character creation state machine manager.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.ConnectionStates
 {
     using System;
     using System.ComponentModel.Composition;
-    using System.Linq;
     using System.Reflection;
     using WheelMUD.Core;
     using WheelMUD.Interfaces;
@@ -27,7 +23,7 @@ namespace WheelMUD.ConnectionStates
     /// <param name="prompt">The new prompt.</param>
     public delegate void CharacterCreationChangePrompt(string prompt);
 
-    /// <summary>The character creation handler.</summary>
+    /// <summary>The character creation state machine handler.</summary>
     public class CharacterCreationStateMachineManager : IRecomposable
     {
         /// <summary>The synchronization locking object.</summary>
@@ -69,17 +65,10 @@ namespace WheelMUD.ConnectionStates
             {
                 DefaultComposer.Container.ComposeParts(this);
 
-                // Search the CharacterCreationStateMachines for the one which has the highest priority.
-                // @@@ TODO: assembly version number could be used as orderby tiebreaker to help ensure
-                //     "latest" is always prioritized over an equal priority of an older version.
-                var defaultStateMachineType = (from s in this.CharacterCreationStateMachines
-                                               orderby s.Metadata.Priority descending
-                                               select s.Value.GetType()).First();
-
-                // Find the constructor of that type which takes a Session.  We'll use this info to 
-                // quickly create the default CharacterCreationStateMachines for character creators.
+                // Find the constructor of the current priority character creation state machine that takes a Session parameter.
+                // We'll use this info to quickly create each CharacterCreationStateMachines instance for new character creation sessions.
                 var constructorTypes = new Type[] { typeof(Session) };
-                this.defaultCharacterCreationStateMachineConstructor = defaultStateMachineType.GetConstructor(constructorTypes);
+                this.defaultCharacterCreationStateMachineConstructor = DefaultComposer.GetLatestPriorityTypeConstructor(this.CharacterCreationStateMachines, constructorTypes);
             }
         }
     }

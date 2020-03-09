@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to fill a liquid container from a large source of liquid.
-//   @@@ TODO: Implement.  For example, from fountains or pools in the room.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -18,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Universe;
 
     /// <summary>An action to fill a liquid container from a large source of liquid.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("fill", CommandCategory.Item)]
     [ActionDescription("Fill a liquid container from a large source of liquid.")]
     [ActionSecurity(SecurityRole.player)]

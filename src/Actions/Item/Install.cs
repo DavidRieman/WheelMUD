@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to install an thing adornment
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -15,7 +12,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>Installs a Thing Adornment.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("Install", CommandCategory.Item)]
     [ActionDescription("Installs an subassembly into a larger item.  Like removing the lock from a door.  Usage: install key lock in door")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

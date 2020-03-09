@@ -12,7 +12,7 @@ namespace ServerHarness
     using WheelMUD.Main;
 
     /// <summary>Command to recompose (reload and update) the CommandManager Actions.</summary>
-    [ExportServerHarnessCommand]
+    [ExportServerHarnessCommand(0)]
     public class UpdateActionsCommand : IServerHarnessCommand
     {
         public string Description => "Recomposes the CommandManager system's actions. Game actions performed afterwards will use new code from dropped-in, updated DLLs.";

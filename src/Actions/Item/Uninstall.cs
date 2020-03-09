@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to uninstall a thing adornment
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -15,7 +12,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>Uninstalls a Thing Adornment.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("Uninstall", CommandCategory.Item)]
     [ActionDescription("Removes an subassembly from a larger item.  Like removing the lock from a door.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

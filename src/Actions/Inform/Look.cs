@@ -13,7 +13,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command that allows a player to look at things and their environment.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("look", CommandCategory.Inform)]
     [ActionAlias("l", CommandCategory.Inform)]
     [ActionDescription("Look at the room, item, person, or monster.")]

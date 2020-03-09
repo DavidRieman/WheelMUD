@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to empty a liquid container.
-//   @@@ TODO: Implement.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -21,8 +17,8 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
     using WheelMUD.Universe;
 
-    /// <summary>An action to empty a liquid container.</summary>
-    [ExportGameAction]
+    /// <summary>An action to empty a container.</summary>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("empty", CommandCategory.Item)]
     [ActionAlias("pour out", CommandCategory.Item)]
     [ActionDescription("Empties a container. Usage empty container target")]

@@ -21,7 +21,7 @@ namespace WheelMUD.Actions
     ///       reason tracking, and a way to list all mute characters with their mute reasons, las IP address, and
     ///       so on for detecting trends like players creating new characters to get back at it, etc?
     /// </remarks>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("mute", CommandCategory.Admin)]
     [ActionAlias("silence", CommandCategory.Admin)]
     [ActionDescription("Prevent a player from communicating.")]

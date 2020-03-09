@@ -12,7 +12,7 @@ namespace WheelMUD.Actions.Temporary
     using WheelMUD.Core.Attributes;
 
     /// <summary>A temporary command to blind an entity. (Just blinds yourself for now.)</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("blind", CommandCategory.Temporary)]
     [ActionDescription("@@@ Temp command.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

@@ -13,7 +13,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Events;
 
     /// <summary>An action to have a quick look at your surroundings.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("glance", CommandCategory.Inform)]
     [ActionAlias("quick look", CommandCategory.Inform)]
     [ActionAlias("quicklook", CommandCategory.Inform)]

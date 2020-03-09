@@ -2,10 +2,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   State machine for creating a new character using Warrior, Rogue, and Mage
-//   rules.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage.CharacterCreation

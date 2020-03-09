@@ -13,7 +13,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command to quit the game, and disconnect gracefully.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("quit", CommandCategory.Activities)]
     [ActionAlias("qq", CommandCategory.Activities)]
     [ActionDescription("Leave the game.")]

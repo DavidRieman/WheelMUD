@@ -15,7 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command to look up help information from the help system.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("help", CommandCategory.Inform)]
     [ActionDescription("Display help text for a command or topic.")]
     [ActionExample("help look - retrieves help for the \"look\" command.")]

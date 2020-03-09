@@ -3,11 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Command to add, remove, or display the "visuals" associated 
-//   with a room. Visuals are like pseudo-items that can be looked at, e.g. to
-//   provide clues or just to enhance the room.
-// </summary>
 // -----------------------------------------------------------------------
 
 namespace WheelMUD.Actions.Temporary
@@ -24,7 +19,7 @@ namespace WheelMUD.Actions.Temporary
     /// room. Visuals are like pseudo-items that can be looked at, e.g. to
     /// provide clues or just to enhance the room.
     /// </summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("visuals", CommandCategory.Temporary)]
     [ActionDescription("Add or remove a visual item/description to the current room.")]
     [ActionExample("Examples:\r\n  visuals add tree The tree is tall.\r\n  visuals remove tree\r\n  visuals show")]

@@ -14,7 +14,7 @@ namespace WheelMUD.Actions
 
     /// <summary>Command to spawn a mobile NPC for testing.</summary>
     /// <remarks>TODO: Expose more options than just the name.</remarks>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("spawn", CommandCategory.Admin)]
     [ActionDescription("Spawns a mobile NPC for testing.")]
     [ActionExample("spawn Bob")]

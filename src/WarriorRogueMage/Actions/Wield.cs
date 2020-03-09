@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to wield a weapon in your primary hand.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage.Actions
@@ -19,7 +16,7 @@ namespace WarriorRogueMage.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>An action to wield a weapon in your primary hand.</summary>
-    [ExportGameAction]
+    [ExportGameAction(100)]
     [ActionPrimaryAlias("wield", CommandCategory.Item)]
     [ActionDescription("Wield a weapon in your primary hand.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

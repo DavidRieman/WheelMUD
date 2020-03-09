@@ -13,7 +13,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command to list the items in a player's inventory.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("inventory", CommandCategory.Item)]
     [ActionAlias("inv", CommandCategory.Item)]
     [ActionAlias("i", CommandCategory.Item)]

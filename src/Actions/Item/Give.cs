@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command that lets a character give items to a character or a mob.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -15,7 +12,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>Allows the caller to attempt to give something from their inventory to another entity.</summary>
+    /// <summary>Command to give something from your inventory to another entity.</summary>
     /// <remarks>
     /// Some accepted command form examples are as follows:
     ///  "give sword to Karak"
@@ -23,7 +20,7 @@ namespace WheelMUD.Actions
     ///  "give 10 coins to Karak"
     ///  "give 10 coins Karak"
     /// </remarks>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("give", CommandCategory.Item | CommandCategory.Player)]
     [ActionDescription("Give an item to a character or monster.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

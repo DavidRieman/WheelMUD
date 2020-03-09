@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A base class that represents an instance of an Action.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -99,7 +96,7 @@ namespace WheelMUD.Actions
             // should be able to use ANY command while "not in a room" which generally shouldn't occur?)
             if (sender.Thing.Parent == null)
             {
-                return "You can't do that while you are not in a room.";
+                return "You can't do that while you are not in the world.";
             }
 
             // Rule: Is the initiator a player?
@@ -111,13 +108,13 @@ namespace WheelMUD.Actions
             // Rule: Is at least two arguments supplied?
             if (guards.Contains(CommonGuards.RequiresAtLeastTwoArguments) && actionInput.Params.Length < 2)
             {
-                return string.Format("This command needs more than that. (Use 'help {0}' for details.)", actionInput.Noun);
+                return $"This command needs more than that. (Use 'help {actionInput.Noun}' for details.)";
             }
 
             // Rule: Is at least one argument supplied?
             if (guards.Contains(CommonGuards.RequiresAtLeastOneArgument) && actionInput.Params.Length <= 0)
             {
-                return string.Format("This command needs more than that. (Use 'help {0}' for details.)", actionInput.Noun);
+                return $"This command needs more than that. (Use 'help {actionInput.Noun}' for details.)";
             }
 
             // Rule: Is the initiator alive?
