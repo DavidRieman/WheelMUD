@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to hold something with your second hand.
-//   @@@ TODO: Implement
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -16,7 +12,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>An action to hold something with your second hand.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("hold", CommandCategory.Item)]
     [ActionDescription("Hold something with your second hand.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

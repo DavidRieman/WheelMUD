@@ -19,7 +19,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command that allows an admin to create a consumable.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("create consumable", CommandCategory.Admin)]
     [ActionDescription("@@@ Temp command.")]
     [ActionSecurity(SecurityRole.fullAdmin)]

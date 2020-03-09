@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to disconnect a player from the game.
-//   @@@ TODO: Implement
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -17,7 +13,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>An action to disconnect a player from the game.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("boot", CommandCategory.Admin)]
     [ActionDescription("Disconnect a player from the game.")]
     [ActionSecurity(SecurityRole.fullAdmin)]

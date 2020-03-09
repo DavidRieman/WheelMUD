@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Lists all commands.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -18,8 +15,8 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>List all commands.</summary>
-    [ExportGameAction]
+    /// <summary>A command to list all commands. Can list by category.</summary>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("commands", CommandCategory.Inform)]
     [ActionDescription("List the available commands.")]
     [ActionSecurity(SecurityRole.all)]

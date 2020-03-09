@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   @@@ Temporary script to test the stat effects.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -17,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>@@@ Temporary script to test the stat effects.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("increase stat", CommandCategory.Admin)]
     [ActionAlias("increasestat", CommandCategory.Admin)]
     [ActionDescription("@@@ Temp command.")]

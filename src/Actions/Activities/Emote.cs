@@ -14,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command that allows a player to emote.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("emote", CommandCategory.Activities)]
     [ActionAlias("em", CommandCategory.Activities)]
     [ActionDescription("Emote in freeform.")]

@@ -14,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Universe;
 
     /// <summary>A command that allows an admin to create a portal.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("create portal", CommandCategory.Admin)]
     [ActionAlias("createportal", CommandCategory.Admin)]
     [ActionDescription("@@@ Temp command.")]

@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   @@@ Temporary script to attempt some combat.
-// </summary>
 //-----------------------------------------------------------------------------
 
 // @@@ BUG: The prompt immediately following taking damage does not reflect the 
@@ -25,7 +22,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>@@@ A temporary command to attempt some combat.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("punch", CommandCategory.Temporary)]
     [ActionDescription("@@@ Temp command.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

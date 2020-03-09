@@ -27,12 +27,11 @@ namespace WheelMUD.Tests.Session
             DefaultComposer.Container = new CompositionContainer();
             DefaultComposer.Container.ComposeExportedValue<SessionState>(new FakeSessionState());
         }
-        
+
         /// <summary>Test that the initial SessionState, upon establishing a fake connection, is FakeSessionState.</summary>
         [Test]
         public void TestInitialConnectionStateIsNotDefaultState()
         {
-            string endl = Environment.NewLine;
             var connection = new FakeConnection();
             var session = new Session(connection);
             Assert.AreEqual(session.State.GetType(), typeof(FakeSessionState));

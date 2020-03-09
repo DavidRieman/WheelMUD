@@ -15,7 +15,7 @@ namespace WheelMUD.Actions
 
     /// <summary>Sets your status as AFK to other players.  Optional reason can be specified (eg. AFK Back in 5).</summary>
     /// <remarks>Added a length limiter on the AFK reason to ensure it doesn't gum out anything displaying the message.</remarks>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("afk", CommandCategory.Configure)]
     [ActionAlias("inactive", CommandCategory.Configure)]
     [ActionDescription("Sets your status as afk to other players.  Optional reason can be specified (eg. AFK Back in 5).")]

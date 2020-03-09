@@ -41,7 +41,7 @@ namespace WheelMUD.Core
 
         /// <summary>Gets or sets, through MEF composition, the available GameAction classes.</summary>
         [ImportMany]
-        private List<GameAction> Commands { get; set; }
+        private List<Lazy<GameAction, ExportGameActionAttribute>> GameActions { get; set; }
 
         /// <summary>Recompose the <see cref="CommandManager"/> system.</summary>
         public void Recompose()
@@ -57,7 +57,7 @@ namespace WheelMUD.Core
             var newPrimaryCommandList = new Dictionary<string, Command>();
             var newMasterCommandList = new Dictionary<string, Command>();
 
-            var actionTypes = from c in this.Commands select c.GetType();
+            var actionTypes = DefaultComposer.GetLatestDistinctPriorityTypes(this.GameActions);
             foreach (Type type in actionTypes)
             {
                 // Find the description of this command.

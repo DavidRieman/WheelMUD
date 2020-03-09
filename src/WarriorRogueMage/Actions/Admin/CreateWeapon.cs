@@ -14,7 +14,7 @@ namespace WheelMUD.Actions.Temporary
     using WheelMUD.Interfaces;
 
     /// <summary>A command that allows an admin to create a simple weapon for testing.</summary>
-    [ExportGameAction]
+    [ExportGameAction(100)]
     [ActionPrimaryAlias("create weapon", CommandCategory.Admin)]
     [ActionDescription("@@@ Temp command to create a simple weapon for testing.")]
     [ActionSecurity(SecurityRole.fullAdmin)]

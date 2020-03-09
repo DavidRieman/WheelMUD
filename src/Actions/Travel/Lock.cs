@@ -2,10 +2,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to lock a door or unlock a container.
-//   @@@ TODO: Implement
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -15,7 +11,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>An action to lock a door or unlock a container.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("lock", CommandCategory.Travel | CommandCategory.Item)]
     [ActionDescription("Lock a door or unlock a container.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

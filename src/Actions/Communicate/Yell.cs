@@ -15,7 +15,7 @@ namespace WheelMUD.Actions
 
     /// <summary>Allows a player to communicate across several rooms to all entities.</summary>
     /// <remarks>yell hey you!</remarks>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("yell", CommandCategory.Communicate)]
     [ActionAlias("shout", CommandCategory.Communicate)]
     [ActionDescription("Yell something to the surrounding area.")]

@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to set your status as 'inactive' to other players.
-//   @@@ TODO: Implement.  Other actions should automatically unset.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -16,8 +12,8 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>An action to set your status as 'inactive' to other players.</summary>
-    [ExportGameAction]
+    /// <summary>An action to set your login password.</summary>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("password", CommandCategory.Configure)]
     // TODO: #65: This should really take a series of stand-alone prompts, including: the Old Password, the New Password, and Confirm the New Password!
     //       Perhaps the password change should only be implemented after a proper prompt queue is built. Alternatively, this could become only

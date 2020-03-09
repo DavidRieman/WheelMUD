@@ -15,7 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Effects;
     using WheelMUD.Interfaces;
 
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("ThunderClap", CommandCategory.Temporary)]
     [ActionDescription("@@@ Temp command.")]
     [ActionSecurity(SecurityRole.player)]

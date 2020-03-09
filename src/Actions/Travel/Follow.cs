@@ -14,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>An action to start following another player or mobile around.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("follow", CommandCategory.Travel)]
     [ActionDescription("Begin following a friend or foe whenever they move.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

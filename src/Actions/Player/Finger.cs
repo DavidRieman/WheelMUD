@@ -16,7 +16,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Utilities;
 
     /// <summary>A command that gathers various information about an entity.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("finger", CommandCategory.Player)]
     [ActionAlias("whois", CommandCategory.Player)]
     [ActionAlias("who is", CommandCategory.Player)]

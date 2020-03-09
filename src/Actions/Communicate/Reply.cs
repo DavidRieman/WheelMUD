@@ -12,7 +12,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>An action to reply to the last thing you were told.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("reply", CommandCategory.Communicate)]
     [ActionAlias("re", CommandCategory.Communicate)]
     [ActionDescription("Reply to the last thing you were told.")]

@@ -15,7 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>An action to show detailed information about your attributes.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("attributes", CommandCategory.Inform)]
     [ActionAlias("attrib", CommandCategory.Inform)]
     [ActionAlias("stats", CommandCategory.Inform)]

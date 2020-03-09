@@ -3,11 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to sell an item to a shop.
-//   @@@ TODO: Implement
-//   @@@ TODO: context-sensitive "sell" command does "shop sell" when at a shop
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -17,7 +12,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>An action to sell an item to a shop.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("shop sell", CommandCategory.Commercial)]
     [ActionDescription("Sell an item to a shop.")]
     [ActionSecurity(SecurityRole.player)]
@@ -38,6 +33,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             // @@@ TODO: Implement.
+            // @@@ TODO: context-sensitive "sell" command does "shop sell" when at a shop
         }
 
         /// <summary>Checks against the guards for the command.</summary>

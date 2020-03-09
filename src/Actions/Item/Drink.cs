@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command script to allow the drinking of "drinkable" items.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -17,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Universe;
 
     /// <summary>A command script to allow the drinking of "drinkable" items.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("drink", CommandCategory.Item)]
     [ActionAlias("sip", CommandCategory.Item)]
     [ActionAlias("quaff", CommandCategory.Item)]

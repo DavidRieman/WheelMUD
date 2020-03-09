@@ -13,7 +13,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>Action for the actor to jump.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("jump", CommandCategory.Temporary)]
     [ActionDescription("@@@ Temp command.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

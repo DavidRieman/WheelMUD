@@ -14,7 +14,7 @@ namespace WheelMUD.Actions
 
     /// <summary>A command to list the player's character sheet.</summary>
     /// <remarks>@@@ TODO: Implement beyond 'Attributes.cs' functionality.</remarks>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("score", CommandCategory.Player)]
     [ActionAlias("character sheet", CommandCategory.Player)]
     [ActionAlias("charactersheet", CommandCategory.Player)]

@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// Removes the mute effect from someone prior to its normal expiration.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -16,7 +13,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Effects;
 
     /// <summary>Removes the mute effect from someone prior to its normal expiration.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("unmute", CommandCategory.Admin)]
     [ActionDescription("Removes the mute effect from someone prior to its normal expiration.")]
     [ActionSecurity(SecurityRole.fullAdmin | SecurityRole.minorAdmin)]

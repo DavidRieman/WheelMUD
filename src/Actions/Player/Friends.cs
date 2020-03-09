@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command to allow a player to manage their friends list.
-//   Currently friends lists are not saved!
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -19,7 +15,8 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command to manipulate a players friends list.</summary>
-    [ExportGameAction]
+    /// <remarks>TODO: Persistence!</remarks>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("friends", CommandCategory.Player)]
     [ActionAlias("friend", CommandCategory.Player)]
     [ActionDescription("Add or remove friends from your friends list.")]

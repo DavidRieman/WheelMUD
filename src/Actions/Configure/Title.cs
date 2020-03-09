@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command to set a player's title.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -16,7 +13,13 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command to set a player's title.</summary>
-    [ExportGameAction]
+    /// <remarks>
+    /// TODO: Maybe use an App.config flag to decide if this command should be something users do for themselves,
+    ///   or an admin only command by default. Of course, a game system may wish to replace this with a system for
+    ///   earning specific pre-set titles depending on in-game progress (e.g. dragon-slayer), for the command to
+    ///   be available to the player but only selecting from an earned list of titles. SEE Pretitle.cs as well.
+    /// </remarks>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("title", CommandCategory.Player)]
     [ActionAlias("set title", CommandCategory.Player)]
     [ActionDescription("Set or view your title.")]

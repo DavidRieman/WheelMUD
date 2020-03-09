@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   @@@ Temporary script to to get out of a web.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -18,7 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>@@@ Temporary script to to get out of a web.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("struggle", CommandCategory.Temporary)]
     [ActionDescription("@@@ Temp command.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

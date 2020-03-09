@@ -44,12 +44,11 @@ namespace WheelMUD.Core
         public static List<T> GetLatestDistinctTypeInstances<T>(IEnumerable<T> importedTypes)
         {
             var distinctInstances = new List<T>();
-            var distinctTypeNames = (from g in importedTypes
-                                     select g.GetType().FullName).Distinct();
+            var distinctTypeNames = importedTypes.Select(t => t.GetType().Name).Distinct();
             foreach (var distinctTypeName in distinctTypeNames)
             {
                 var latestMatching = (from g in importedTypes
-                                      where g.GetType().FullName == distinctTypeName
+                                      where g.GetType().Name == distinctTypeName
                                       orderby new FileInfo(g.GetType().Module.FullyQualifiedName).LastWriteTime descending
                                       select g).FirstOrDefault();
                 distinctInstances.Add(latestMatching);
@@ -67,9 +66,24 @@ namespace WheelMUD.Core
             where Meta: IExportWithPriority
         {
             return (from exportData in importedTypesWithMetadata
+                    where exportData.Metadata.Priority >= 0
                     orderby exportData.Metadata.Priority descending,
                             new FileInfo(exportData.Value.GetType().Module.FullyQualifiedName).LastWriteTime descending
                     select exportData.Value).FirstOrDefault();
+        }
+
+        public static List<Type> GetLatestDistinctPriorityTypes<T, Meta>(IEnumerable<Lazy<T, Meta>> importedTypesWithMetadata)
+            where Meta : IExportWithPriority
+        {
+            var distinctTypeNames = importedTypesWithMetadata.Select(t => t.Value.GetType().Name).Distinct();
+            return (from typeName in distinctTypeNames
+                    select GetLatestPriorityTypeInstance<T, Meta>(importedTypesWithMetadata.Where(t => t.Value.GetType().Name == typeName)).GetType()).ToList();
+        }
+
+        public static ConstructorInfo GetLatestPriorityTypeConstructor<T, Meta>(IEnumerable<Lazy<T, Meta>> importedTypesWithMetadata, Type[] constructorTypes)
+            where Meta : IExportWithPriority
+        {
+            return GetLatestPriorityTypeInstance(importedTypesWithMetadata).GetType().GetConstructor(constructorTypes);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command to send a message directly to one entity.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("tell", CommandCategory.Communicate)]
     [ActionAlias("t", CommandCategory.Communicate)]
     [ActionDescription("Tell something to a character or monster.")]

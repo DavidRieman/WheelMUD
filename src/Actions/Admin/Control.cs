@@ -3,11 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to take control of a mobile or player.
-//   @@@ TODO: Implement
-//   @@@ TODO: fullAdmins ok to take control of players, minorAdmins only mobiles?
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -17,7 +12,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>An action to take control of a mobile or player.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("control", CommandCategory.Admin)]
     [ActionAlias("possess", CommandCategory.Admin)]
     [ActionDescription("Take control of a mobile or player.")]
@@ -35,6 +30,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             // @@@ TODO: Implement.
+            // @@@ TODO: fullAdmins ok to take control of players, minorAdmins only mobiles?
         }
 
         /// <summary>Checks against the guards for the command.</summary>

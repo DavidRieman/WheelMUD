@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command that allows a player chop a tree.
-// </summary>
 //-----------------------------------------------------------------------------
 
 // @@@ TODO: Some concept of 'busy' or 'replacing your queued action' needs to 
@@ -27,7 +24,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>A command to chop at a tree.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("chop", CommandCategory.Temporary)]
     [ActionDescription("@@@ Temp command.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

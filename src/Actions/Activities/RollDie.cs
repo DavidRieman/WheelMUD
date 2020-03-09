@@ -14,7 +14,7 @@ namespace WheelMUD.Actions
 
     /// <summary>Temporary script to test the dice system.</summary>
     /// <remarks>TODO: Adjust to be a handy command for role-playing and so on; Generate a room sensory event?</remarks>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("roll", CommandCategory.Activities)]
     [ActionDescription("Roll a die or dice.")]
     [ActionSecurity(SecurityRole.player)]

@@ -13,7 +13,7 @@ namespace ServerHarness
     using WheelMUD.Main;
 
     /// <summary>Handle the 'help' command as specified by the administrator from the console.</summary>
-    [ExportServerHarnessCommand]
+    [ExportServerHarnessCommand(0)]
     public class HelpCommand : IServerHarnessCommand
     {
         public string Description => "Retrieve basic help for this ServerHarness, including a list of commands.";

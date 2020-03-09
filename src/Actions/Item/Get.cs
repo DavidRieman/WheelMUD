@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command that allows a player to get items from the room they are in or from a 
-//   container within their inventory.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -17,8 +13,8 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
     using WheelMUD.Universe;
 
-    /// <summary>Action to pick something up from the room, or move something from a container within their inventory to their inventory.</summary>
-    [ExportGameAction]
+    /// <summary>Action to pick something up from the room, or move something from an inventory container to their inventory.</summary>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("get", CommandCategory.Item)]
     [ActionAlias("take", CommandCategory.Item)]
     [ActionDescription("Get an object from a room or from a container.")]
