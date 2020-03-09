@@ -26,6 +26,7 @@ namespace ServerHarness
         }
 
         /// <summary>Gets or sets the priority of the exported command; the command with the highest priority will be the one loaded.</summary>
+        /// <remarks>See DefaultComposer for detailed usage information.</remarks>
         public int Priority { get; set; }
     }
 }

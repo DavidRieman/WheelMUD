@@ -57,7 +57,7 @@ namespace WheelMUD.Core
             var newPrimaryCommandList = new Dictionary<string, Command>();
             var newMasterCommandList = new Dictionary<string, Command>();
 
-            var actionTypes = DefaultComposer.GetLatestDistinctPriorityTypes(this.GameActions);
+            var actionTypes = DefaultComposer.GetTypes(this.GameActions);
             foreach (Type type in actionTypes)
             {
                 // Find the description of this command.

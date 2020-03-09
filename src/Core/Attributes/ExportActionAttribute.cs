@@ -35,11 +35,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets or sets the priority of the exported game action; the action with the highest priority will be the used action.</summary>
-        /// <remarks>
-        /// Default exports (those that ship with WheelMUD core libraries) are priority 0, while an individual game system
-        /// may export things at priority 100, and one-off versions created specifically for a MUD instance should have a
-        /// higher priority than that. You could disable a customized version simply by setting the priority negative.
-        /// </remarks>
+        /// <remarks>See DefaultComposer for detailed usage information.</remarks>
         public int Priority { get; set; }
     }
 }

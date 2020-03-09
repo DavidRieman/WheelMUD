@@ -64,19 +64,9 @@ namespace WheelMUD.Core
             var player = new Thing(livingBehavior, sensesBehavior, userControlledBehavior, playerBehavior, movableBehavior);
             var game = GameSystemController.Instance;
 
-            // Load the default stats for the current gaming system
-            foreach (var gameStat in game.GameStats)
-            {
-                var currStat = new GameStat(session, gameStat.Name, gameStat.Abbreviation, gameStat.Formula, gameStat.Value, gameStat.MinValue, gameStat.MaxValue, gameStat.Visible);
-                player.Stats.Add(currStat.Abbreviation, currStat);
-            }
-
-            // Load the secondary stats\attributes for the current gaming system
-            foreach (var attribute in game.GameAttributes)
-            {
-                var newAttribute = new GameAttribute(session, attribute.Name, attribute.Abbreviation, attribute.Formula, attribute.Value, attribute.MinValue, attribute.MaxValue, attribute.Visible);
-                player.Attributes.Add(newAttribute.Abbreviation, newAttribute);
-            }
+            // Load a fresh set of stats and attributes classes for the current gaming system.
+            player.Attributes = game.CloneGameAttributes();
+            player.Stats = game.CloneGameStats();
 
             return player;
         }

@@ -68,7 +68,7 @@ namespace WheelMUD.ConnectionStates
                 // Find the constructor of the current priority character creation state machine that takes a Session parameter.
                 // We'll use this info to quickly create each CharacterCreationStateMachines instance for new character creation sessions.
                 var constructorTypes = new Type[] { typeof(Session) };
-                this.defaultCharacterCreationStateMachineConstructor = DefaultComposer.GetLatestPriorityTypeConstructor(this.CharacterCreationStateMachines, constructorTypes);
+                this.defaultCharacterCreationStateMachineConstructor = DefaultComposer.GetConstructor(this.CharacterCreationStateMachines, constructorTypes);
             }
         }
     }

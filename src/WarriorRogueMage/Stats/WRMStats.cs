@@ -10,7 +10,7 @@ namespace WarriorRogueMage.Stats
     using WheelMUD.Core;
 
     /// <summary>Fate Stat.</summary>
-    [ExportGameStat]
+    [ExportGameStat(100)]
     public class FateStat : WRMStat
     {
         /// <summary>Initializes a new instance of the <see cref="FateStat"/> class.</summary>
@@ -20,7 +20,7 @@ namespace WarriorRogueMage.Stats
     }
 
     /// <summary>Defense Stat.</summary>
-    [ExportGameStat]
+    [ExportGameStat(100)]
     public class DefenseStat : WRMStat
     {
         /// <summary>Initializes a new instance of the <see cref="DefenseStat"/> class.</summary>
@@ -30,7 +30,7 @@ namespace WarriorRogueMage.Stats
     }
 
     /// <summary>Armor Penalty Stat.</summary>
-    [ExportGameStat]
+    [ExportGameStat(100)]
     public class ArmorPenaltyStat : WRMStat
     {
         /// <summary>Initializes a new instance of the <see cref="ArmorPenaltyStat"/> class.</summary>
@@ -40,7 +40,7 @@ namespace WarriorRogueMage.Stats
     }
 
     /// <summary>Attack Stat.</summary>
-    [ExportGameStat]
+    [ExportGameStat(100)]
     public class AttackStat : WRMStat
     {
         /// <summary>Initializes a new instance of the <see cref="AttackStat"/> class.</summary>
@@ -50,7 +50,7 @@ namespace WarriorRogueMage.Stats
     }
 
     /// <summary>Damage Stat.</summary>
-    [ExportGameStat]
+    [ExportGameStat(100)]
     public class DamageStat : WRMStat
     {
         /// <summary>Initializes a new instance of the <see cref="DamageStat"/> class.</summary>
@@ -60,7 +60,7 @@ namespace WarriorRogueMage.Stats
     }
 
     /// <summary>Wield Maximum Stat.</summary>
-    [ExportGameStat]
+    [ExportGameStat(100)]
     public class WeaponWieldMaximumStat : WRMStat
     {
         /// <summary>Initializes a new instance of the <see cref="WeaponWieldMaximumStat"/> class.</summary>
@@ -70,7 +70,7 @@ namespace WarriorRogueMage.Stats
     }
 
     /// <summary>Hit Points Stat.</summary>
-    [ExportGameStat]
+    [ExportGameStat(100)]
     public class HitPointsStat : WRMStat
     {
         /// <summary>Initializes a new instance of the <see cref="HitPointsStat"/> class.</summary>
@@ -80,7 +80,7 @@ namespace WarriorRogueMage.Stats
     }
 
     /// <summary>Mana Stat.</summary>
-    [ExportGameStat]
+    [ExportGameStat(100)]
     public class ManaStat : WRMStat
     {
         /// <summary>Initializes a new instance of the <see cref="ManaStat"/> class.</summary>
@@ -90,7 +90,7 @@ namespace WarriorRogueMage.Stats
     }
 
     /// <summary>Initiative Stat.</summary>
-    [ExportGameStat]
+    [ExportGameStat(100)]
     public class InitiativeStat : WRMStat
     {
         /// <summary>Initializes a new instance of the <see cref="InitiativeStat"/> class.</summary>
@@ -100,7 +100,7 @@ namespace WarriorRogueMage.Stats
     }
 
     /// <summary>Hunter Stat.</summary>
-    [ExportGameStat]
+    [ExportGameStat(100)]
     public class HunterStat : WRMStat
     {
         /// <summary>Initializes a new instance of the <see cref="HunterStat"/> class.</summary>
@@ -110,7 +110,7 @@ namespace WarriorRogueMage.Stats
     }
 
     /// <summary>Familiar Stat.</summary>
-    [ExportGameStat]
+    [ExportGameStat(100)]
     public class FamiliarStat : WRMStat
     {
         /// <summary>Initializes a new instance of the <see cref="FamiliarStat"/> class.</summary>

@@ -161,17 +161,17 @@ namespace WheelMUD.Core
             DefaultComposer.Container.ComposeParts(this);
 
             // Search each of the renderers for the one which has the highest priority.
-            this.currentCommandsCategoriesRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.CommandsCategoriesRenderers);
-            this.currentCommandsListRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.CommandsListRenderers);
-            this.currentHelpCommandRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.HelpCommandRenderers);
-            this.currentHelpTopicRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.HelpTopicRenderers);
-            this.currentHelpTopicsRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.HelpTopicsRenderers);
-            this.currentInventoryRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.InventoryRenderers);
-            this.currentPerceivedRoomRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.PerceivedRoomRenderers);
-            this.currentPerceivedThingRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.PerceivedThingRenderers);
-            this.currentScoreRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.ScoreRenderers);
-            this.currentSplashScreenRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.SplashScreenRenderers);
-            this.currentWhoRenderer = DefaultComposer.GetLatestPriorityTypeInstance(this.WhoRenderers);
+            this.currentCommandsCategoriesRenderer = DefaultComposer.GetInstance(this.CommandsCategoriesRenderers);
+            this.currentCommandsListRenderer = DefaultComposer.GetInstance(this.CommandsListRenderers);
+            this.currentHelpCommandRenderer = DefaultComposer.GetInstance(this.HelpCommandRenderers);
+            this.currentHelpTopicRenderer = DefaultComposer.GetInstance(this.HelpTopicRenderers);
+            this.currentHelpTopicsRenderer = DefaultComposer.GetInstance(this.HelpTopicsRenderers);
+            this.currentInventoryRenderer = DefaultComposer.GetInstance(this.InventoryRenderers);
+            this.currentPerceivedRoomRenderer = DefaultComposer.GetInstance(this.PerceivedRoomRenderers);
+            this.currentPerceivedThingRenderer = DefaultComposer.GetInstance(this.PerceivedThingRenderers);
+            this.currentScoreRenderer = DefaultComposer.GetInstance(this.ScoreRenderers);
+            this.currentSplashScreenRenderer = DefaultComposer.GetInstance(this.SplashScreenRenderers);
+            this.currentWhoRenderer = DefaultComposer.GetInstance(this.WhoRenderers);
         }
     }
 }
