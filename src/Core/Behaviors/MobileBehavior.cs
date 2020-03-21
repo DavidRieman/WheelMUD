@@ -54,13 +54,13 @@ namespace WheelMUD.Core
             }
         }
 
-        // @@@ TODO: After moving, do this.ProcessSurroundings();
+        // TODO: After moving, do this.ProcessSurroundings();
 
-        /* @@@ TODO: Ensure mobile entities are loaded just like any other entity...
+        /* TODO: Ensure mobile entities are loaded just like any other entity...
         /// <summary>Loads the mobile.</summary>
         public void Load()
         {
-            // @@@ TODO: Stuff should be loaded from the Data Layer instead of using temp values.
+            // TODO: Stuff should be loaded from the Data Layer instead of using temp values.
             this.Stats.Add("health", new StatHP(Controller, 100, 100));
             this.Stats.Add("power", new Stat(Controller, "Power", 100, 0, 100, true));
             this.Stats.Add("strength", new Stat(Controller, "Srength", 40, 0, 100, true));

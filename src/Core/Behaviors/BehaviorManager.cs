@@ -83,7 +83,7 @@ namespace WheelMUD.Core
         /// <returns>true if items in this instance can stack with items from the specified other behavior manager; otherwise, false.</returns>
         public bool CanStack(BehaviorManager otherBehaviorManager)
         {
-            // @@@ TODO: Determine whether these BehaviorManagers house item-stackably-identical behavior instances.
+            // TODO: Determine whether these BehaviorManagers house item-stackably-identical behavior instances.
             //// throw new NotImplementedException();
 
             return false;
@@ -143,7 +143,7 @@ namespace WheelMUD.Core
         /// <param name="existingManager">The manager whose behaviors we are to clone.</param>
         protected void CloneBehaviors(BehaviorManager existingManager)
         {
-            // @@@ TODO: Update comment to use a relevant example.
+            // TODO: Update comment to use a relevant example.
             // When cloning a behavior manager, we want a new set of behaviors that are based 
             // on the existing behaviors;  if one object instance's behaviors change (IE a 
             // player spends some gold so their Currency StackableItemBehavior reduces its 

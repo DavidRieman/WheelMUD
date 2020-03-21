@@ -29,8 +29,8 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            // @@@ TODO: Implement.
-            // @@@ TODO: fullAdmins ok to take control of players, minorAdmins only mobiles?
+            // TODO: Implement.
+            // TODO: fullAdmins ok to take control of players, minorAdmins only mobiles?
         }
 
         /// <summary>Checks against the guards for the command.</summary>

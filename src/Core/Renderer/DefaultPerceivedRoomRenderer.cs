@@ -35,7 +35,7 @@ namespace WheelMUD.Core
             bool hasNoticedSomething = false;
             foreach (var presentThing in room.Children)
             {
-                if (senses.CanPerceiveThing(presentThing))
+                if (senses.CanPerceiveThing(presentThing) && presentThing != viewer)
                 {
                     if (!hasNoticedSomething)
                     {

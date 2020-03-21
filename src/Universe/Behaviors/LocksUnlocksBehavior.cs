@@ -9,6 +9,7 @@ namespace WheelMUD.Universe
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using WheelMUD.Actions;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
@@ -57,6 +58,8 @@ namespace WheelMUD.Universe
                 var contextAvailability = ContextAvailability.ToSiblings | ContextAvailability.ToChildren;
                 var lockContextCommand = new ContextCommand(this.commands, LockString, contextAvailability, SecurityRole.all);
                 var unlockContextCommand = new ContextCommand(this.commands, UnlockString, contextAvailability, SecurityRole.all);
+                Debug.Assert(!parent.Commands.ContainsKey(LockString), "The Thing this LocksUnlocksBehavior attached to already had a Lock command.");
+                Debug.Assert(!parent.Commands.ContainsKey(UnlockString), "The Thing this LocksUnlocksBehavior attached to already had an Unlock command.");
                 parent.Commands.Add(LockString, lockContextCommand);
                 parent.Commands.Add(UnlockString, unlockContextCommand);
             }

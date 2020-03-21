@@ -35,7 +35,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            // @@@ TODO: Inform the player by sending a non-sensory event
+            // TODO: Inform the player by sending a non-sensory event
             ////connection.Send("You have been booted from the server.");
             this.playerBehavior.LogOut(); 
 

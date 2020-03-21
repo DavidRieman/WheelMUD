@@ -3,16 +3,13 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A primary action alias attribute.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Attributes
 {
     using System;
 
-    /// <summary>The attribute that goes above the primary alias for an action.</summary>
+    /// <summary>The attribute which marks a player prompting system.</summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class PlayerPromptableAttribute : Attribute
     {

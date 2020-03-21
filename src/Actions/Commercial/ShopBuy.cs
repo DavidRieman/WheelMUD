@@ -33,9 +33,9 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            // @@@ TODO: Implement.
-            // @@@ TODO: context-sensitive "buy" command does "shop buy" when at a shop
-            // @@@ TODO: context-sensitive "purchase" command does "shop purchase" when at a shop
+            // TODO: Implement.
+            // TODO: context-sensitive "buy" command does "shop buy" when at a shop.
+            // TODO: context-sensitive "purchase" command does "shop purchase" when at a shop.
         }
 
         /// <summary>Checks against the guards for the command.</summary>

@@ -16,7 +16,7 @@ namespace WheelMUD.Core
 
     /// <summary>High level manager that provides tracking and global collection of all Thing instances.</summary>
     /// <remarks>
-    /// @@@ TODO: Provide search ability of registered Things through LINQ rather than, 
+    /// TODO: Provide search ability of registered Things through LINQ rather than, 
     /// or in addition to, specific-purpose search methods.
     /// </remarks>
     public class ThingManager : ManagerSystem

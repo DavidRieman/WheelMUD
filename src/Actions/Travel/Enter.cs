@@ -16,7 +16,7 @@ namespace WheelMUD.Actions
 
     /// <summary>A command that allows a player to enter a Thing.</summary>
     /// <remarks>
-    /// @@@ TODO: An "enter" action should only be present through a ContextCommand added by an EnterableBehavior,
+    /// TODO: An "enter" action should only be present through a ContextCommand added by an EnterableBehavior,
     ///           like how OpensClosesBehavior handles it; move action to be EnterableBehavior.cs private class?
     /// </remarks>
     [ExportGameAction(0)]
@@ -58,10 +58,10 @@ namespace WheelMUD.Actions
             }
 
             // Rule: A thing must be singly targeted.
-            // @@@ TODO: Try to find a single target according to the specified identifiers.  If more than one thing
-            //           meets the identifiers then use a disambiguation targeting system to try to narrow to one thing.
-            // @@@ TODO: This sort of find pattern may become common; maybe we need to simplify 
-            //           to having a Thing method which does this?  IE "List<Thing> FindChildren<T>(string id)"?
+            // TODO: Try to find a single target according to the specified identifiers.  If more than one thing
+            //       meets the identifiers then use a disambiguation targeting system to try to narrow to one thing.
+            // TODO: This sort of find pattern may become common; maybe we need to simplify 
+            //       to having a Thing method which does this?  IE "List<Thing> FindChildren<T>(string id)"?
             Predicate<Thing> findPredicate = (Thing t) => t.Behaviors.FindFirst<EnterableExitableBehavior>() != null;
             List<Thing> enterableThings = sender.Thing.Parent.FindAllChildren(findPredicate);
 

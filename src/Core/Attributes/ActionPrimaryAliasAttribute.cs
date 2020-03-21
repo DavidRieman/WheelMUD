@@ -3,16 +3,13 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A primary action alias attribute.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Attributes
 {
     using System;
 
-    /// <summary>The attribute that goes above the primary alias for an action.</summary>
+    /// <summary>The attribute that attaches the primary alias to an action.</summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ActionPrimaryAliasAttribute : Attribute
     {

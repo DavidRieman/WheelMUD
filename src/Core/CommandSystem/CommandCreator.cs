@@ -7,6 +7,7 @@
 
 namespace WheelMUD.CommandSystem
 {
+    using System.Linq;
     using WheelMUD.Actions;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
@@ -88,49 +89,13 @@ namespace WheelMUD.CommandSystem
             }
 
             // Find the first valid command of this name and of applicable context, if any.
-            // Check the sender's current parent for such a context command applicable to it's children.
             Thing sender = actionInput.Controller.Thing;
-            if (sender.Parent.Commands.ContainsKey(commandAlias) &&
-                (sender.Parent.Commands[commandAlias].Availability & ContextAvailability.ToChildren) != ContextAvailability.ToNone)
+            var contextCommand = CommandManager.Instance.GetContextCommands(sender, commandAlias).FirstOrDefault();
+            if (contextCommand == null)
             {
-                return this.CreateContextCommand(actionInput, commandAlias, sender.Parent);
+                return null;
             }
 
-            // Else check the sender's self for such a context command applicable to itself.
-            if (sender.Commands.ContainsKey(commandAlias) &&
-                (sender.Commands[commandAlias].Availability & ContextAvailability.ToSelf) != ContextAvailability.ToNone)
-            {
-                return this.CreateContextCommand(actionInput, commandAlias, sender);
-            }
-
-            // Else check the sender's siblings for such a context command applicable to it's siblings.
-            foreach (Thing sibling in sender.Parent.Children)
-            {
-                if (sibling != sender && 
-                    sibling.Commands.ContainsKey(commandAlias) &&
-                    (sibling.Commands[commandAlias].Availability & ContextAvailability.ToSiblings) != ContextAvailability.ToNone)
-                {
-                    return this.CreateContextCommand(actionInput, commandAlias, sibling);
-                }
-            }
-
-            // Else check the sender's children for such a context command applicable to it's parent.
-            // (Note that this should work for children with MultipleParentsBehavior too.)
-            foreach (Thing child in sender.Children)
-            {
-                if (child.Commands.ContainsKey(commandAlias) && 
-                    (child.Commands[commandAlias].Availability & ContextAvailability.ToParent) != ContextAvailability.ToNone)
-                {
-                    return this.CreateContextCommand(actionInput, commandAlias, child);
-                }
-            }
-
-            return null;
-        }
-
-        private ScriptingCommand CreateContextCommand(ActionInput actionInput, string commandAlias, Thing actionOwner)
-        {
-            ContextCommand contextCommand = actionOwner.Commands[commandAlias];
             var executeDelegate = new CommandScriptExecuteDelegate(contextCommand.CommandScript.Execute);
             var guardsDelegate = new CommandScriptGuardsDelegate(contextCommand.CommandScript.Guards);
             return new ScriptingCommand(contextCommand.CommandKey, executeDelegate, guardsDelegate, SecurityRole.all, actionInput);

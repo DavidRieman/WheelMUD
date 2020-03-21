@@ -46,15 +46,15 @@ namespace WheelMUD.Actions
         {
             // Remove the item from its current container.
             // We have to do this before we attempt to add it because of the event subscriptions.
-            // @@@ TODO: Test, this may be broken now...
+            // TODO: Test, this may be broken now...
             var actor = actionInput.Controller.Thing;
             if (this.numberToGet <= 0)
             {
                 this.numberToGet = 1;
             }
 
-            // @@@ TODO: Prevent item duplication from specifying large numbers, or races for same item, etc.
-            // @@@ TODO: Fix Implementation of numberToGet
+            // TODO: Prevent item duplication from specifying large numbers, or races for same item, etc.
+            // TODO: Fix Implementation of numberToGet.
             var contextMessage = new ContextualString(actor, this.thingToGet.Parent)
             {
                 ToOriginator = $"You pick up {this.thingToGet}.",

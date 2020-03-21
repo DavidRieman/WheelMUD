@@ -62,7 +62,7 @@ namespace WheelMUD.Actions
                 return commonFailure;
             }
 
-            // @@@ TODO: Use temporary change of command context for verification, much like '
+            // TODO: Use temporary change of command context for verification (rather than single line confirmation).
             if (actionInput.Params.Length == 2)
             {
                 string password1 = actionInput.Params[0];

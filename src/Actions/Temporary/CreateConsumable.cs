@@ -79,7 +79,7 @@ namespace WheelMUD.Actions
             consumable.Id = "0";
             consumable.Behaviors.Add(new MovableBehavior());
 
-            // @@@ TODO: Instead:
+            // TODO: Instead:
             ////Thing consumable = new Thing(new ConsumableBehavior()
             ////{
             ////    ConsumableType = ct;

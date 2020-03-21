@@ -83,7 +83,7 @@ namespace WheelMUD.Actions
             // If we successfully move (IE the move may get cancelled if the user doesn't have permission
             // to enter a particular location, some other behavior cancels it, etc), then perform a 'look'
             // command to get immediate feedback about the new location.
-            // @@@ TODO: This should not 'enqueue' a command since, should the player have a bunch of 
+            // TODO: This should not 'enqueue' a command since, should the player have a bunch of 
             //     other commands entered, the 'look' feedback will not immediately accompany the 'goto' 
             //     command results like it should.
             var movableBehavior = sender.Thing.FindBehavior<MovableBehavior>();

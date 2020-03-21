@@ -48,7 +48,7 @@ namespace WheelMUD.Actions
             PlayerBehavior playerBehavior = this.target.Behaviors.FindFirst<PlayerBehavior>();
             if (playerBehavior != null)
             {
-                // @@@ TODO: Mine this data in a less invasive/dangerous way; maybe the PlayerBehavior
+                // TODO: Mine this data in a less invasive/dangerous way; maybe the PlayerBehavior
                 //     gets properties assigned for their last IP address upon connecting, etc..
                 ////string sessionId = playerBehavior.SessionId;
                 ////IConnection connection = bridge.ServerManager.GetConnection(sessionId);
