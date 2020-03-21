@@ -40,10 +40,10 @@ namespace WheelMUD.CommandSystem
             {
                 // @@@ TODO: Ascertain the ACTUAL player's specific permissions, so we can 
                 //     check for fullAdmin, fullBuilder, etc, instead of assuming just 
-                //     'SecurityRole.player'
+                //     'SecurityRole.player' (SEE ALSO CommandManager for another...)
                 SecurityRole playerRoles = SecurityRole.player | SecurityRole.minorBuilder | 
                         SecurityRole.fullBuilder | SecurityRole.minorAdmin | SecurityRole.fullAdmin;
-                
+
                 // If any of the command's security roles and the player's security roles 
                 // overlap (such as the command is marked with 'minorBuilder' and the 
                 // player has the 'minorBuilder' flag) then we permit the command.
@@ -51,7 +51,7 @@ namespace WheelMUD.CommandSystem
                 {
                     return null;
                 }
-                
+
                 // Otherwise, this player does not have permission; we do not want to 
                 // check the mobile/item/room security role on players, so we're done.
                 return string.Format("You do not have permission to use '{0}' right now.", command.Name);
@@ -64,7 +64,7 @@ namespace WheelMUD.CommandSystem
                 {
                     return null;
                 }
-                
+
                 return string.Format("A mobile can not use '{0}' right now!", command.Name); 
             }
 

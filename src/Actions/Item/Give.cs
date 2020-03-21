@@ -52,7 +52,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             // Remove the item from the character's posession.
-            // @@@ TODO: Test, this may be broken now... esp for numberToGive != max
+            // TODO: Test, this may be broken now... esp for numberToGive != max
             IController sender = actionInput.Controller;
             if (this.numberToGive > 0 && this.thing != null)
             {

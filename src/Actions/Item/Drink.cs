@@ -57,7 +57,7 @@ namespace WheelMUD.Actions
             }
             
             // Rule: Do we have an item matching in our inventory?
-            // @@@ TODO: Support drinking from, for instance, a fountain sitting in the room.
+            // TODO: Support drinking from, for instance, a fountain sitting in the room.
             string itemIdentifier = actionInput.Tail.Trim();
             this.thingToDrink = sender.Thing.FindChild(itemIdentifier.ToLower());
             if (this.thingToDrink == null)

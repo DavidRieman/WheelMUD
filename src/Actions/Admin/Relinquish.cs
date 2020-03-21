@@ -29,10 +29,9 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            // @@@ TODO: Implement.
-            // @@@ TODO - special - might want to be available to players, depending on 
-            //     how security for actions is done during possession...  but probably 
-            //     shouldn't appear in the help list.
+            // TODO: Implement.
+            // TODO: This or similar might also want to be available to players, depending on how security for actions
+            //       gets done during possession or for pets... Perhaps to be applied through context commands?
         }
 
         /// <summary>Checks against the guards for the command.</summary>

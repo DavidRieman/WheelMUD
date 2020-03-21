@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   The ActionSecurity attribute can be assigned to Actions to restrict the 
-//   action from being utilized by users who do not have the right permissions.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Attributes
@@ -91,6 +87,7 @@ namespace WheelMUD.Core.Attributes
     }
 
     /// <summary>An action security attribute.</summary>
+    /// <remarks>Assigned to Actions to permit the action only to users who have the requisite SecurityRole.</remarks>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ActionSecurityAttribute : Attribute
     {

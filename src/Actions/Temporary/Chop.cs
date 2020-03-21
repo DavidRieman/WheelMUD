@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-// @@@ TODO: Some concept of 'busy' or 'replacing your queued action' needs to 
+// TODO: Some concept of 'busy' or 'replacing your queued action' needs to 
 // be implemented if this is an action model we want to keep.  For instance, 
 // right now one can use a macro to type 'chop tree' a 10 times instantly, and 
 // thus gathers 10 times as much when the 2 seconds timer has elapsed.  Locking 
@@ -26,7 +26,7 @@ namespace WheelMUD.Actions
     /// <summary>A command to chop at a tree.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("chop", CommandCategory.Temporary)]
-    [ActionDescription("@@@ Temp command.")]
+    [ActionDescription("Chop something like a tree or log.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
     public class Chop : GameAction
     {
@@ -46,7 +46,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            /* @@@ Shouldn't use controller.write, should implement Request+Event pattern, plus the
+            /* TODO: Avoid controller.write; should implement Request+Event pattern, plus the
              * notes as described at the top of this file...
             if (command.ActionInput.Context == null)
             {
@@ -58,7 +58,7 @@ namespace WheelMUD.Actions
             }
             else if ((int)command.ActionInput.Context == 1)
             {
-                // @@@ TODO: Use consumable provider behavior to do the chopping.
+                // TODO: Use consumable provider behavior to do the chopping.
                 //Item wood = this.tree.Chop();
                 //sender.Thing.Parent.Children.Add(wood);
                 //sender.Thing.Controller.Write("You chop some wood from the tree.");
@@ -78,7 +78,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Did they specify a tree to chop?
-            // @@@ TODO: Better thing finders...
+            // TODO: Better thing finders...
             Thing parent = actionInput.Controller.Thing.Parent;
             Thing thing = parent.Children.Find(t => t.Name.Equals(actionInput.Params[0], StringComparison.CurrentCultureIgnoreCase));
             if (thing == null)
@@ -86,7 +86,7 @@ namespace WheelMUD.Actions
                 return string.Format("{0} is not here.", actionInput.Params[0]);
             }
 
-            // @@@ TODO: Detect ConsumableProviderBehavior on the item, and detect if it is choppable.
+            // TODO: Detect ConsumableProviderBehavior on the item, and detect if it is choppable.
             //if (!(item is Item))
             //{
             //    return string.Format("{0} is not a tree.", actionInput.Params[0]);

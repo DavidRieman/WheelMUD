@@ -46,7 +46,7 @@ namespace WheelMUD.Actions
                 DestinationThingID = this.targetPlace.Id,
             });
 
-            // @@@ TODO: Should not be needed after OLC and instant-spawn commands which should work
+            // TODO: Should not be needed after OLC and instant-spawn commands which should work
             // for any type of Thing; not just portals.  Spawning (either way) should use the Request
             // and Event pattern.
             sender.Thing.Parent.Add(portalItem);

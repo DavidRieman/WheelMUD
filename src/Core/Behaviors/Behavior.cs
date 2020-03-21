@@ -31,7 +31,7 @@ namespace WheelMUD.Core
             // persistence of the behavior or whatnot) then restore those as actual properties.
             if (instanceProperties != null)
             {
-                // @@@ TODO: Test w/behavior persistence implementation...
+                // TODO: Test w/behavior persistence implementation...
                 // Adjusted as per feedback from thread:
                 // http://www.wheelmud.net/Forums/tabid/59/aff/8/aft/1487/afv/topic/afpgj/2/Default.aspx
                 PropertyTools.SetProperties(this, instanceProperties);
@@ -97,8 +97,8 @@ namespace WheelMUD.Core
             {
                 // All Items should be cloneable, and most derived classes should find it sufficient 
                 // to allow this base Item.Clone to take care of all the cloning.
-                // @@@ TODO: Test this.  Especially if any properties have indexers.
-                // @@@ TODO: Make sure this deep-copies things like behaviors.
+                // TODO: Test this.  Especially if any properties have indexers.
+                // TODO: Make sure this deep-copies things like behaviors.
                 var properties = this.GetType().GetProperties();
                 foreach (var property in properties)
                 {

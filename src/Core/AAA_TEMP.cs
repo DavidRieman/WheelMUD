@@ -141,14 +141,14 @@ namespace WheelMUD.Universe.Beings
         }
 
         /// <summary>Load this player.</summary>
-        /// <remarks>@@@ TODO: This should all happen at the base Thing and Behavior (for PlayerBehavior or whatnot)</remarks>
+        /// <remarks>TODO: This should all happen at the base Thing and Behavior (for PlayerBehavior or whatnot).</remarks>
         /// <param name="repository"> The player repository.</param>
         private void LoadChildObjects(PlayerRepository repository)
         {
             var session = Controller as Session;
 
             // Load the stats for the player.
-            // @@@ TODO: Load the stats from some sort of configuration store. RuleSet System?
+            // TODO: Load the stats from some sort of configuration store. RuleSet System?
             this.Stats.Add("health", new StatHP(Controller, 100, 100));
             this.Stats.Add("mana", new StatHP(Controller, 100, 100));
             this.Stats.Add("power", new Stat(Controller, "Power", 100, 0, 100, true));
@@ -778,8 +778,8 @@ namespace WheelMUD.Universe.Things
             this.potionBehavior = this.BehaviorManager.FindFirst<PotionItemBehavior>();
             if (this.potionBehavior == null)
             {
-                // @@@ TODO: Loud warning if a Potion doesn't have an associated PotionItemBehavior, 
-                //           but for now, until DAL reflects Behaviors properly, we'll default a test one.
+                // TODO: Loud warning if a Potion doesn't have an associated PotionItemBehavior, 
+                //       but for now, until DAL reflects Behaviors properly, we'll default a test one.
                 this.potionBehavior = new PotionItemBehavior();
                 this.potionBehavior.MaxSips = 5;
                 this.potionBehavior.SipsLeft = 2;
@@ -1163,7 +1163,7 @@ namespace WheelMUD.Universe.Things
             this.IsAdornment = false;
             this.Name = this.consumableType.ToString();
 
-            // @@@ TODO: Implement
+            // TODO: Implement.
         }
     }
 }
@@ -1403,7 +1403,7 @@ namespace WheelMUD.Universe.Things.Locks
 {
     /// <summary>Base class for locks.</summary>
     /// <typeparam name="T"> Type of key </typeparam>
-    /// @@@ TODO: Replace with LocksUnlocksBehavior which can attach to any Thing we wish to be lockable...
+    /// <remarks>TODO: Replace with LocksUnlocksBehavior which can attach to any Thing we wish to be lockable...</remarks>
     public abstract class AbstractLock : Thing, IThingAdornment
     {
         /// <summary>Gets or sets a value indicating whether the lock is open or closed.</summary>
@@ -1464,13 +1464,13 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is there a portal in the room?
-            // @@@ TODO: This sort of find pattern may become common; maybe we need to simplify 
-            //           to having a Thing method which does this?  IE "List<Thing> FindChildren<T>()"?
-            // @@@ TODO: Only target a portal which is a keyword match rather than iterating portals
-            // @@@ TODO: Use a disambiguation targeting system should multiple matches be found.
-            //           Note that the keyword really shouldn't have to be "portal" nor should "enter"
-            //           command be tied only to Portals.  Maybe use an EnterableBehavior which has a
-            //           configurable parameter to describe the transport, etc?
+            // TODO: This sort of find pattern may become common; maybe we need to simplify 
+            //       to having a Thing method which does this?  IE "List<Thing> FindChildren<T>()"?
+            // TODO: Only target a portal which is a keyword match rather than iterating portals
+            // TODO: Use a disambiguation targeting system should multiple matches be found.
+            //       Note that the keyword really shouldn't have to be "portal" nor should "enter"
+            //       command be tied only to Portals.  Maybe use an EnterableBehavior which has a
+            //       configurable parameter to describe the transport, etc?
             Predicate<Thing> findPortalsPredicate = (Thing t) => t.BehaviorManager.FindFirst<PortalBehavior>() != null;
             List<Thing> portals = sender.Thing.Parent.FindAllChildren(findPortalsPredicate);
             
@@ -1628,7 +1628,7 @@ namespace WheelMUD.Universe.MobileBuilders
         /// <param name="mobList">The entity container of mobiles.</param>
         private static void ProcessMobList(IEnumerable<MobRecord> mobs, IEntityContainer mobList)
         {
-            // @@@ TODO: Remove - mobile shouldn't need a BuilderController
+            // TODO: Remove - mobile shouldn't need a BuilderController.
             //var director = new MobileDirector();
             //foreach (MobRecord mds in mobs)
             //{
@@ -1729,7 +1729,7 @@ public interface IEventObserver
                 {
                     ItemBehaviorRecord itemBehaviorRecord = new ItemBehaviorRecord
                     {
-                        // @@@ TODO: Track behavior by its name for reflection/MEF usage.
+                        // TODO: Track behavior by its name for reflection/MEF usage.
                         //ItemBehaviorTypeID = (long)behavior.ItemBehaviorType,
                         ItemID = this.ItemId
                     };

@@ -130,18 +130,18 @@ namespace WheelMUD.Actions
                 return string.Format("The {0} is already empty.", this.sourceContainer.Name);
             }
 
-            // @@@ Not possible? If so, default to the current container's parent instead of failing?
+            // TODO: Test; Not possible? If so, default to the current container's parent instead of failing?
             Debug.Assert(!string.IsNullOrEmpty(destinationParentName));
 
             if (destinationParentName.Equals("ground", StringComparison.CurrentCultureIgnoreCase) ||
                 destinationParentName.Equals("out", StringComparison.CurrentCultureIgnoreCase))
             {
-                // @@@ TODO: Test, this may be broken...
+                // TODO: Test, this may be broken...
                 this.destinationParent = sender.Thing.Parent;
             }
             else
             {
-                // @@@ TODO: Allow targeting of containers in same place, like chests and whatnot?
+                // TODO: Allow targeting of containers in same place, like chests and whatnot?
                 Thing destinationThing = sender.Thing.Children.Find(t => t.Name == destinationParentName.ToLower());
                 if (destinationThing == null)
                 {

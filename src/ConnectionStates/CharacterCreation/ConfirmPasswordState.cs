@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Character creation state used to confirm a password for the new character.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.ConnectionStates

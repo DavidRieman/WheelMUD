@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Changes the state of the player, so that the MUD engine can do combat.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.ConnectionStates

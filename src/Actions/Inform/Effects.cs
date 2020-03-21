@@ -28,8 +28,8 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            // @@@ TODO: Allow admins to check effects on target?
-            /* @@@ FIX?
+            // TODO: Allow admins to check effects on target?
+            /* TODO: FIX?
             var sb = new StringBuilder();
 
             string line = "+" + string.Empty.PadRight(70, '-') + "+";

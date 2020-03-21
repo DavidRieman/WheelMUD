@@ -9,6 +9,7 @@ namespace WheelMUD.Core
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using WheelMUD.Actions;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Events;
@@ -56,6 +57,8 @@ namespace WheelMUD.Core
                 var contextAvailability = ContextAvailability.ToSiblings | ContextAvailability.ToChildren;
                 var openContextCommand = new ContextCommand(this.commands, OpenString, contextAvailability, SecurityRole.all);
                 var closeContextCommand = new ContextCommand(this.commands, CloseString, contextAvailability, SecurityRole.all);
+                Debug.Assert(!parent.Commands.ContainsKey(OpenString), "The Thing this OpensClosesBehavior attached to already had an Open command.");
+                Debug.Assert(!parent.Commands.ContainsKey(CloseString), "The Thing this OpensClosesBehavior attached to already had a Close command.");
                 parent.Commands.Add(OpenString, openContextCommand);
                 parent.Commands.Add(CloseString, closeContextCommand);
             }

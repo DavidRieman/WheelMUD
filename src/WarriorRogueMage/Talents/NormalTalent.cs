@@ -58,8 +58,9 @@ namespace WarriorRogueMage
         /// <summary>Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing)</summary>
         public override void OnAddTalent()
         {
-            new IncreaseStatRule().Execute(this.PlayerThing, "Damage", 2);
-            new IncreaseStatRule().Execute(this.PlayerThing, "Attack", 2);
+            // @@@ DANGEROUS PERMANENT MODS - CHANGE TO EFFECTS - SEE IncreaseStatRule FOR NEEDED REVAMP
+            //new IncreaseStatRule().Execute(this.PlayerThing, "Damage", 2);
+            //new IncreaseStatRule().Execute(this.PlayerThing, "Attack", 2);
 
             base.OnAddTalent();
         }

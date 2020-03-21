@@ -39,7 +39,7 @@ namespace WheelMUD.Actions
             ////                         new TimeSpan(0, 1, 0, 0));
             ////sender.Thing.Effects.AddEffect(new Unbalance(), new TimeSpan(0, 0, 3));
 
-            // @@@ TODO: Should use Request and Event pattern and avoid direct Controller.Writes
+            // TODO: Should use Request and Event pattern and avoid direct Controller.Writes.
             //var userControlledBehavior = sender.Thing.BehaviorManager.FindFirst<UserControlledBehavior>();
             //userControlledBehavior.Controller.Write("You cast a web over " + this.target.Name);
             //this.target.Controller.Write(sender.Thing.Name + " casts a web over you");

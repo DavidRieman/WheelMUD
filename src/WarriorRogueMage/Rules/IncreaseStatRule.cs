@@ -42,9 +42,11 @@ namespace WarriorRogueMage.Rules
 
         private static void FindStat(string statNameToFind)
         {
-            var statToFind = parentThing.FindGameStat(statNameToFind);
-
-            var stat = (WRMStat)Convert.ChangeType(statToFind, typeof(WRMStat));
+            // @@@ THE CONVERSIONS HERE AND IN ATTRIBUTE RULES ARE SO BROKEN
+            //   NEED TO AVOID PERMANENTLY CHANGING THE BASE STATS - SO DANGEROUS
+            //   NEED TO HAVE A WAY TO ATTACH EFFECTS TO THE STATS, IN A WAY THAT ONLY OPTIONALLY ALLOWS DUPLICATES OF NAME (like stacking combat effects)
+            //   Then it won't be as risky to ensure we have the relevant effect of a unique name applied, like 
+            var stat = parentThing.FindGameStat(statNameToFind);
 
             privateStat = (GameStat)Convert.ChangeType(parentThing.FindGameStat(stat.Name), typeof(GameStat));
         }

@@ -2,10 +2,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Enumeration of possible step statuses. This type is passed to the
-//   character creation state machine to decide on the course of action
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.ConnectionStates

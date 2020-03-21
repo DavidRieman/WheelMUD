@@ -71,7 +71,7 @@ namespace WheelMUD.Actions
 
         /// <summary>This recursively traverses the rooms, stopping when TTL reaches 0, calling YellAtRoom at each stop.</summary>
         /// <remarks>
-        /// @@@ TODO: This traversal logic should be centralized for reuse, taking an origin place, function, and options like whether
+        /// TODO: This traversal logic should be centralized for reuse, taking an origin place, function, and options like whether
         ///     to go through closed exits. See 'Future Potential' at: https://wheelmud.codeplex.com/wikipage?title=Sensory%20Messages
         /// </remarks>
         /// <param name="place">The current place (generally a room) to work from.</param>
@@ -104,8 +104,8 @@ namespace WheelMUD.Actions
                     }
                 }
 
-                // @@@ TODO: Consider traversing into portal destinations and the like?
-                // @@@ TODO: AmbientSenseBehavior or DrownSenseBehavior or whatnot, so one can make an ambient
+                // TODO: Consider traversing into portal destinations and the like?
+                // TODO: AmbientSenseBehavior or DrownSenseBehavior or whatnot, so one can make an ambient
                 //     noise which drowns out the tail end of a quieting yell under the ambient noise, etc.
             }
             else

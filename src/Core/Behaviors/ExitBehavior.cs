@@ -8,6 +8,7 @@
 namespace WheelMUD.Core
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using WheelMUD.Actions;
     using WheelMUD.Core.Attributes;
@@ -25,13 +26,13 @@ namespace WheelMUD.Core
     /// </summary>
     public class ExitBehavior : Behavior
     {
-        // @@@ Add attribute and persistence code to save certain marked private properties like this;
-        //     IE we don't want to expose the whole dictionary publically since we have things to do
-        //     while rigging up new destinations
+        // TODO: Add attribute and persistence code to save certain marked private properties like this;
+        //       IE we don't want to expose the whole dictionary publically since we have things to do
+        //       while rigging up new destinations.
         private List<DestinationInfo> destinations;
 
         /// <summary>The context command handler for this exit.</summary>
-        private ExitBehaviorCommands commands;
+        private readonly ExitBehaviorCommands commands;
 
         /// <summary>Initializes a new instance of the ExitBehavior class.</summary>
         public ExitBehavior()
@@ -108,7 +109,7 @@ namespace WheelMUD.Core
             var movableBehavior = thingToMove.Behaviors.FindFirst<MovableBehavior>();
             if (movableBehavior == null)
             {
-                // @@@ TODO: Add messaging to thingToMove?
+                // TODO: Add messaging to thingToMove?
                 return false;
             }
 
@@ -131,7 +132,7 @@ namespace WheelMUD.Core
             Thing destination = destinationInfo.CachedTarget.Target;
             if (destination == null)
             {
-                // @@@ TODO: Add messaging to thingToMove?
+                // TODO: Add messaging to thingToMove?
                 return false;
             }
 
@@ -160,18 +161,18 @@ namespace WheelMUD.Core
         public string GetExitCommandFrom(Thing fromLocation)
         {
             var destination = this.GetDestinationFrom(fromLocation.Id);
-            return destination != null ? destination.ExitCommand : null;
+            return destination?.ExitCommand;
         }
 
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
         protected override void OnAddBehavior()
         {
-            // @@@ TODO: Greatly simplify: use shared logic with ParentMovementEvent! React to OnRemoveBehavior too!
+            // TODO: Greatly simplify: use shared logic with ParentMovementEvent! React to OnRemoveBehavior too!
             // When adding this behavior to an exit Thing, if that thing has a parent, rig up the appropriate
             // context command for that place to reach the other.
             if (this.Parent.Parent != null)
             {
-                // @@@ TODO: Reuse the same functionality as the movement event handler for command rigging (if we can).
+                // TODO: Reuse the same functionality as the movement event handler for command rigging (if we can).
                 this.ParentMovementEventHandler(this.Parent, null);
             }
 
@@ -244,9 +245,13 @@ namespace WheelMUD.Core
             if (!string.IsNullOrEmpty(mainExitCommand))
             {
                 var contextCommand = new ContextCommand(this.commands, mainExitCommand, ContextAvailability.ToChildren, SecurityRole.all);
+                // TODO: OLC should take care to avoid duplicate exits in a room, but we might need more advanced protections to prevent needing
+                //       multiple context commands of the same alias from having to be attached to one Thing. (Try to keep fast command-finding.)
+                Debug.Assert(!location.Commands.ContainsKey(mainExitCommand), "The Thing this ExitBehavior attached to already had command: " + mainExitCommand);
                 location.Commands.Add(mainExitCommand, contextCommand);
                 if (!string.IsNullOrEmpty(secondExitAlias))
                 {
+                    Debug.Assert(!location.Commands.ContainsKey(secondExitAlias), "The Thing this ExitBehavior attached to already had command: " + secondExitAlias);
                     location.Commands.Add(secondExitAlias, contextCommand);
                 }
             }
@@ -295,7 +300,7 @@ namespace WheelMUD.Core
             };
 
             /// <summary>The ExitBehavior this class belongs to.</summary>
-            private ExitBehavior exitBehavior;
+            private readonly ExitBehavior exitBehavior;
 
             /// <summary>Initializes a new instance of the ExitBehaviorCommands class.</summary>
             /// <param name="exitBehavior">The ExitBehavior this class belongs to.</param>

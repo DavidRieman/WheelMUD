@@ -150,10 +150,7 @@ namespace WheelMUD.Core
         public void ExecuteAction(ActionInput actionInput)
         {
             this.LastActionInput = actionInput;
-            if (this.ActionReceived != null)
-            {
-                this.ActionReceived((IController)this, actionInput);
-            }
+            this.ActionReceived?.Invoke((IController)this, actionInput);
         }
 
         /// <summary>Subscribe to receive system updates from this system.</summary>

@@ -10,6 +10,7 @@ namespace WheelMUD.Core
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
+    using System.Diagnostics;
     using System.Linq;
     using WheelMUD.Actions;
     using WheelMUD.Core.Attributes;
@@ -103,8 +104,13 @@ namespace WheelMUD.Core
                 }
             }
 
-            this.primaryCommandList = newPrimaryCommandList;
-            this.MasterCommandList = newMasterCommandList;
+            // Avoid replacing our lists while another thread is iterating them.
+            // TODO: Exposing MasterCommandList this way is very likely NOT thread-safe. Change to a lock-protected getter?
+            lock (this)
+            {
+                this.primaryCommandList = newPrimaryCommandList;
+                this.MasterCommandList = newMasterCommandList;
+            }
         }
 
         /// <summary>Starts this system.</summary>
@@ -112,7 +118,7 @@ namespace WheelMUD.Core
         {
             this.SystemHost.UpdateSystemHost(this, "Starting...");
 
-            // @@@ TODO: Test > 1, then allow total command processors to be configurable.
+            // TODO: Test > 1, then allow total command processors to be configurable.
             //  This will take a significant effort to work out any race conditions which may leave
             //  things with multiple parents (essentially duplication bugs), deadlocks should we try
             //  to use multiple locks for transaction-like parenting changes, and so on. (We may need
@@ -149,28 +155,82 @@ namespace WheelMUD.Core
         /// <returns>A list of commands that the controller has permissions to execute.</returns>
         public List<Command> GetCommandsForController(IController controller)
         {
-            List<Command> commands = new List<Command>();
-            foreach (Command command in this.primaryCommandList.Values)
+            lock (this)
             {
-                // TODO: IFF this controller/entity has sufficient privileges to use the command, add it.
+                // TODO: IFF this controller/entity has privileges to use the command, add it. (LINQ query, ToList?)
                 // TODO: We could cache any built map of privelege-set to commands-list (so long as we invalidate
                 //       it whenever we recompose commands from MEF.)
-                commands.Add(command);
+                List<Command> commands = new List<Command>();
+                foreach (Command command in this.primaryCommandList.Values)
+                {
+                    commands.Add(command);
+                }
+
+                return commands;
+            }
+        }
+
+        public IEnumerable<ContextCommand> GetContextCommands(Thing sender, string alias)
+        {
+            // TODO: Ascertain the ACTUAL sender's specific permissions, so we can check for fullAdmin, fullBuilder, and
+            //       so on, instead of assuming just 'SecurityRole.player' (SEE ALSO CommandGuard.cs for another case...)
+            SecurityRole playerRoles = SecurityRole.player | SecurityRole.minorBuilder | SecurityRole.fullBuilder | SecurityRole.minorAdmin | SecurityRole.fullAdmin;
+            return this.GetPossibleContextCommands(sender, alias, playerRoles).Where(cmd => cmd != null);
+        }
+
+        private IEnumerable<ContextCommand> GetPossibleContextCommands(Thing sender, string alias, SecurityRole senderRoles)
+        {
+            // The order we return commands establishes the priority order, with the highest priority returned first.
+            // Check the sender's current parent (like the "room") for such a context command applicable to its children.
+            if (sender.Parent.Commands.TryGetValue(alias, out ContextCommand cmd) &&
+                (cmd.Availability & ContextAvailability.ToChildren) != ContextAvailability.ToNone &&
+                (cmd.SecurityRole & senderRoles) != SecurityRole.none)
+            {
+                yield return cmd;
             }
 
-            return commands;
+            // Else check the sender itself for such a context command applicable to use itself (such as a context command
+            // granted by a Behavior or Effect currently on the parent).
+            if (sender.Commands.TryGetValue(alias, out cmd) &&
+                (cmd.Availability & ContextAvailability.ToSelf) != ContextAvailability.ToNone &&
+                (cmd.SecurityRole & senderRoles) != SecurityRole.none)
+            {
+                yield return cmd;
+            }
+
+            // Else check siblings of the sender (like other Things in the Room) for a context command applicable to its siblings.
+            foreach (Thing sibling in sender.Parent.Children)
+            {
+                if (sibling != sender &&
+                    sibling.Commands.TryGetValue(alias, out cmd) &&
+                    (cmd.Availability & ContextAvailability.ToSiblings) != ContextAvailability.ToNone &&
+                    (cmd.SecurityRole & senderRoles) != SecurityRole.none)
+                {
+                    yield return cmd;
+                }
+            }
+
+            // Else check children of the sender (like inventory items that grant commands/powers) for such a context command
+            // applicable to their parent. (Note that this needs to work for children with MultipleParentsBehavior too.)
+            foreach (Thing child in sender.Children)
+            {
+                if (child.Commands.TryGetValue(alias, out cmd) &&
+                    (cmd.Availability & ContextAvailability.ToParent) != ContextAvailability.ToNone &&
+                    (cmd.SecurityRole & senderRoles) != SecurityRole.none)
+                {
+                    yield return cmd;
+                }
+            }
         }
 
         /// <summary>Places an action onto the queue for execution.</summary>
         /// <param name="actionInput">The action input to enqueue.</param>
         public void EnqueueAction(ActionInput actionInput)
         {
-            if (actionInput != null)
+            Debug.Assert(actionInput != null);
+            lock (this.actionQueue)
             {
-                lock (this.actionQueue)
-                {
-                    this.actionQueue.Enqueue(actionInput);
-                }
+                this.actionQueue.Enqueue(actionInput);
             }
         }
 

@@ -71,7 +71,7 @@ namespace WheelMUD.Actions
                     return;
                 }
 
-                // @@@ TODO: Get and display more details from FillFrom about failure cases?
+                // TODO: Get and display more details from FillFrom about failure cases?
                 destinationHoldsLiquidBehavior.FillFrom(sender, sourceHoldsLiquidBehavior);
             }
         }
@@ -159,7 +159,7 @@ namespace WheelMUD.Actions
 
                 // Rule: Do we have an item matching the one specified in our inventory?
                 // If not then does the room have a container with the name.
-                // @@@ This search method is probably broken.
+                // TODO: Investigate; This search method is probably broken.
                 this.sourceContainer = sender.Thing.Children.Find(t => t.Name == this.sourceContainerName.ToLower());
                 if (this.sourceContainer == null)
                 {
@@ -178,7 +178,7 @@ namespace WheelMUD.Actions
                     return string.Format("The {0} does not hold anything to fill the {1} with.", this.sourceContainerName, this.destinationContainerName);
                 }
 
-                // @@@ TODO: HoldsLiquidBehavior?
+                // TODO: HoldsLiquidBehavior?
 
                 // Rule: Is the item open?
                 OpensClosesBehavior opensClosesBehavior = this.sourceContainer.Behaviors.FindFirst<OpensClosesBehavior>();
