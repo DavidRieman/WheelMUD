@@ -113,7 +113,7 @@ namespace WheelMUD.Core
                     var movementEvent = e as MovementEvent;
                     if (movementEvent != null && movementEvent.GoingVia == this.Parent)
                     {
-                        // @@@ TODO: If the actor also cannot perceive our parent properly, perhaps broadcast
+                        // TODO: If the actor also cannot perceive our parent properly, perhaps broadcast
                         //     a sensory event like "Dude blindly ran into a door."
                         string message = string.Format("You cannot move through {0} since it is closed!", this.Parent.Name);
                         movementEvent.Cancel(message);
@@ -131,7 +131,7 @@ namespace WheelMUD.Core
             // If we're already in the desired opened/closed state, we're already done with state changes.
             if (newOpenedState == this.IsOpen)
             {
-                // @@@ TODO: Message to the actor that it is already open/closed.
+                // TODO: Message to the actor that it is already open/closed.
                 return;
             }
 
@@ -170,7 +170,7 @@ namespace WheelMUD.Core
             /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
             private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
             {
-                CommonGuards.InitiatorMustBeAlive, 
+                CommonGuards.InitiatorMustBeAlive,
                 CommonGuards.InitiatorMustBeConscious,
                 CommonGuards.InitiatorMustBeBalanced,
                 CommonGuards.InitiatorMustBeMobile,

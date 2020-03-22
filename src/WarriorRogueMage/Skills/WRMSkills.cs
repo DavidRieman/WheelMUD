@@ -28,8 +28,8 @@ namespace WarriorRogueMage.Skills
     {
         /// <summary>Initializes a new instance of the <see cref="SkillAlchemy"/> class.</summary>
         public SkillAlchemy() : base(
-            "Alchemy", 
-            "MAG", 
+            "Alchemy",
+            "MAG",
             "Training in creating and identifying potions and salves.")
         {
         }
@@ -41,8 +41,8 @@ namespace WarriorRogueMage.Skills
     {
         /// <summary>Initializes a new instance of the <see cref="SkillAthletics"/> class.</summary>
         public SkillAthletics() : base(
-            "Athletics", 
-            "WAR", 
+            "Athletics",
+            "WAR",
             "Training in swimming, running, and jumping.")
         {
         }
@@ -54,8 +54,8 @@ namespace WarriorRogueMage.Skills
     {
         /// <summary>Initializes a new instance of the <see cref="SkillAwareness"/> class.</summary>
         public SkillAwareness() : base(
-            "Awareness", 
-            "MAG", 
+            "Awareness",
+            "MAG",
             "This skill is a measure of a character's awareness of his surroundings.")
         {
         }
@@ -67,8 +67,8 @@ namespace WarriorRogueMage.Skills
     {
         /// <summary>Initializes a new instance of the <see cref="SkillAxes"/> class.</summary>
         public SkillAxes() : base(
-            "Axes", 
-            "WAR", 
+            "Axes",
+            "WAR",
             "Training with axes.")
         {
         }
@@ -80,8 +80,8 @@ namespace WarriorRogueMage.Skills
     {
         /// <summary>Initializes a new instance of the <see cref="SkillBlunt"/> class.</summary>
         public SkillBlunt() : base(
-            "Blunt", 
-            "WAR", 
+            "Blunt",
+            "WAR",
             "Training in all blunt weapons including maces and staves.")
         {
         }

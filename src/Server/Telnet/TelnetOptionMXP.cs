@@ -76,7 +76,7 @@ namespace WheelMUD.Server.Telnet
                 this.Connection.Send(AnsiHandler.Parse("<%mxpsecureline%><VERSION>"), true);
                 this.AwaitingVersionResponse = true;
 
-                // @@@ TODO: Send our mxp headers.
+                // TODO: Send our mxp headers.
             }
         }
     }

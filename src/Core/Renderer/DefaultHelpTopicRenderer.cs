@@ -28,7 +28,7 @@ namespace WheelMUD.Core
             }
             else
             {
-                // @@@ TODO: Output without MXP syntax!
+                // TODO: Output without MXP syntax!
                 return "TODO: RENDER TOPIC: " + helpTopic.Contents;
             }
         }

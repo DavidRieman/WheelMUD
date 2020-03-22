@@ -47,7 +47,7 @@ namespace WheelMUD.Universe
         /// <param name="e">The cancellable event/request arguments.</param>
         private void Parent_MovementRequest(Thing root, CancellableGameEvent e)
         {
-            // @@@ TODO: When our parent Thing gets an Arrive request (such as when a thing is attempting to enter an
+            // TODO: When our parent Thing gets an Arrive request (such as when a thing is attempting to enter an
             // enterable portal), we want to cancel the event and replace it with our own movement request to enter the
             // portal's target location.
         }
@@ -61,7 +61,7 @@ namespace WheelMUD.Universe
             // If the current exit isn't rigged up to the current destination, rig it up.
             if (this.exitLocation == null || this.exitLocation.Id != this.DestinationThingID)
             {
-//@@@ Repair: this.exitLocation = world.FindThing(this.DestinationThingID);
+                // TODO Repair: this.exitLocation = world.FindThing(this.DestinationThingID);
             }
 
             // Send a sensory event for entering the portal.

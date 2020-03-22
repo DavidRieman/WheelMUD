@@ -13,7 +13,7 @@ namespace WheelMUD.Core
 
     /// <summary>The mobiles manager class.</summary>
     /// <remarks>
-    /// @@@ TODO: Provide search ability of registered 'mobiles' through LINQ rather than, 
+    /// TODO: Provide search ability of registered 'mobiles' through LINQ rather than, 
     /// or in addition to, specific-purpose search methods.
     /// </remarks>
     public class MobileManager : ManagerSystem
@@ -121,7 +121,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /* @@@ ?
+        /* TODO: What was this?
         /// <summary>This method is called when a mobile receives an action.</summary>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="actionInput">The action input received.</param>

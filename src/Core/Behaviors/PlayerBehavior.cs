@@ -24,7 +24,7 @@ namespace WheelMUD.Core
         private readonly object friendsLock = new object();
 
         /// <summary>Gets the friends of this player.</summary>
-        private List<string> friends = new List<string>(); 
+        private List<string> friends = new List<string>();
 
         /// <summary>Initializes a new instance of the <see cref="PlayerBehavior"/> class.</summary>
         public PlayerBehavior()
@@ -50,7 +50,7 @@ namespace WheelMUD.Core
         /// For example the character creation system is one of those systems.
         /// </remarks>
         [JsonIgnore]
-        public string Name 
+        public string Name
         {
             get { return this.PlayerData.DisplayName; }
             set { this.PlayerData.DisplayName = value; }
@@ -208,7 +208,7 @@ namespace WheelMUD.Core
 
                 // Broadcast that the player successfully logged in, to their login location.
                 player.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
-                
+
                 PlayerManager.Instance.OnPlayerLogIn(player, e);
 
                 return true;

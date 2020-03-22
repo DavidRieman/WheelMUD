@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Behavior that deals with a mounts in the game, i.e. Horses, Mules, Ostriches, etc.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage.Behaviors
@@ -14,12 +11,12 @@ namespace WarriorRogueMage.Behaviors
     using System.Collections.Generic;
     using WheelMUD.Core;
 
-    /// <summary>A behavior to house mount-related functionality.</summary>
+    /// <summary>A behavior to house mount-related functionality (such as for horses, mules, motorcycles, and so on).</summary>
     public class MountBehavior : Behavior
     {
         /// <summary>Initializes a new instance of the MountBehavior class.</summary>
         /// <param name="instanceProperties">Dictionary of properties to spawn this behavior instance with, if any.</param>
-        public MountBehavior(Dictionary<string, object> instanceProperties)  : base(instanceProperties)
+        public MountBehavior(Dictionary<string, object> instanceProperties) : base(instanceProperties)
         {
         }
 

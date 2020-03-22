@@ -7,12 +7,12 @@
 
 namespace WheelMUD.Tests.Session
 {
+    using NUnit.Framework;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.ComponentModel.Composition.Hosting;
     using System.Text;
-    using NUnit.Framework;
     using WheelMUD.Core;
     using WheelMUD.Interfaces;
 

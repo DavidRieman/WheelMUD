@@ -62,10 +62,9 @@ namespace WheelMUD.Core
         /// <summary>Start the CoreManager.</summary>
         public void Start()
         {
-            // Load the initial plugins and such; note that ATM CoreManager itself is not 
-            // recomposable, but the idea is to allow individual subsystems/plugins to 
-            // recompose on the fly w/out server reboots, etc.  @@@ TODO: Implement file
-            // system watcher on the execution directory to trigger auto-recompositions.
+            // Load the initial plugins and such; note that ATM CoreManager itself is not recomposable, but the idea
+            // is to allow individual subsystems/plugins to  recompose on the fly w/out server reboots, etc.
+            // TODO: Implement file system watcher on the execution directory to trigger auto-recompositions.
             DefaultComposer.Container.ComposeParts(this);
 
             this.SubscribeToSystems();

@@ -22,7 +22,7 @@ namespace WheelMUD.Core
         {
             set
             {
-                // @@@ TODO: remove existing ToOriginator appends, if any.
+                // TODO: remove existing ToOriginator appends, if any.
                 base.Append(value, ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
             }
         }
@@ -31,7 +31,7 @@ namespace WheelMUD.Core
         {
             set
             {
-                // @@@ TODO: remove existing ToReceiver appends, if any.
+                // TODO: remove existing ToReceiver appends, if any.
                 base.Append(value, ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
             }
         }
@@ -40,7 +40,7 @@ namespace WheelMUD.Core
         {
             set
             {
-                // @@@ TODO: remove existing ToOthers appends, if any.
+                // TODO: remove existing ToOthers appends, if any.
                 base.Append(value, ContextualStringUsage.WhenNotBeingPassedToReceiverOrOriginator);
             }
         }

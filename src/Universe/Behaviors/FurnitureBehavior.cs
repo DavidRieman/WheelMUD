@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Universe
@@ -14,7 +12,7 @@ namespace WheelMUD.Universe
 
     /// <summary>FlammableBehavior adds the ability to an object to be treated as furniture.</summary>
     /// <remarks>
-    /// @@@ TODO: Revisit this behavior... perhaps "furniture" is not a great scope for behavior here; perhaps we could have
+    /// TODO: Revisit this behavior... perhaps "furniture" is not a great scope for behavior here; perhaps we could have
     /// distinct behaviors for things like being able to sit and/or sleep on a thing, add an ObscuresExitBehavior, etc...
     /// </remarks>
     public class FurnitureBehavior : Behavior

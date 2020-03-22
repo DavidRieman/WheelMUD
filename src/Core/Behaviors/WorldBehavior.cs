@@ -16,10 +16,10 @@ namespace WheelMUD.Core
     /// <summary>Represents a world in the MUD.</summary>
     public class WorldBehavior : Behavior
     {
-        // @@@ TODO: Register to static RoomBehavior.RoomCreated events or something to keep updated?
-        // @@@ HMM, what about Template ID vs. instance ID (IE able to have instanced rooms or multiple 
-        //     instances of a given vehicle which has a RoomBehavior, etc)
-        // @@@ Also, consider whether such caches should use SimpleWeakReferences instead of references.
+        // TODO: Register to static RoomBehavior.RoomCreated events or something to keep updated?
+        //       But what about Template ID vs. instance ID (IE able to have instanced rooms or multiple 
+        //       instances of a given vehicle which has a RoomBehavior, etc)
+        //       Also, consider whether such caches should use SimpleWeakReferences instead of references.
         ////private readonly Dictionary<long, RoomBehavior> roomsCache;
 
         /// <summary>Initializes a new instance of the WorldBehavior class.</summary>
@@ -64,7 +64,7 @@ namespace WheelMUD.Core
         /// <summary>Searches for a given room and returns it if found.</summary>
         /// <param name="roomId">The room ID.</param>
         /// <returns>The Room found.</returns>
-        public Thing FindRoom(long roomId)
+        public Thing FindRoom(string roomId)
         {
             ////foreach (KeyValuePair<long, Thing> kvp in this.Areas)
             ////{

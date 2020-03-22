@@ -9,8 +9,6 @@
 // TODO: Some of these need special behaviors or circumstances and need specific non-modifier code too.
 namespace WarriorRogueMage
 {
-    using WheelMUD.Core;
-
     /// <summary>Armored Caster Talent.</summary>
     [ExportTalent]
     public class ArmoredCasterTalent : Talent

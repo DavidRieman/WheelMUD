@@ -7,7 +7,6 @@
 
 namespace WheelMUD.Actions
 {
-    using System.Collections;
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
@@ -24,7 +23,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -112,7 +111,7 @@ namespace WheelMUD.Actions
             return "Try knocking on a door instead.";
         }
 
-        /* @@@ TODO: Allow Knocking on any specified Thing; based on that thing, it may relay the
+        /* TODO: Allow Knocking on any specified Thing; based on that thing, it may relay the
          * sensory event to just the current room, if it has an ExitBehavior and an OpensClosesBehavior
          * (IE it is a physical door rather than just a connection or portal) relays the event to both 
          * sides.  The event of course relays through all Children so a container's contents (or a 
@@ -167,7 +166,7 @@ namespace WheelMUD.Actions
         /// <returns>True if a door was found, else false.</returns>
         private string CheckForDoor(ActionInput actionInput)
         {
-            /* @@@ TODO: Fix
+            /* TODO: Fix
             // Rule: Is the next parameter a valid direction?
             IController sender = actionInput.Controller;
             string dir = actionInput.Params[1].ToLower();

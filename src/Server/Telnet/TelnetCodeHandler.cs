@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Class that handles the delegation of processing telnet option codes.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server.Telnet
@@ -30,6 +27,7 @@ namespace WheelMUD.Server.Telnet
     }
 
     /// <summary>The telnet code handler class.</summary>
+    /// <remarks>Handles the delegation of processing telnet option codes</remarks>
     public class TelnetCodeHandler : ITelnetCodeHandler
     {
         /// <summary>The buffer.</summary>
@@ -97,25 +95,25 @@ namespace WheelMUD.Server.Telnet
         {
             lock (this.lockObject)
             {
-                ITelnetOption naws = this.telnetOptions.Find(delegate(ITelnetOption o) { return o.Name.Equals("naws"); });
+                ITelnetOption naws = this.telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("naws"); });
                 if (naws != null)
                 {
                     naws.Enable();
                 }
 
-                ITelnetOption termType = this.telnetOptions.Find(delegate(ITelnetOption o) { return o.Name.Equals("termtype"); });
+                ITelnetOption termType = this.telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("termtype"); });
                 if (termType != null)
                 {
                     termType.Enable();
                 }
 
-                ITelnetOption mxp = this.telnetOptions.Find(delegate(ITelnetOption o) { return o.Name.Equals("mxp"); });
+                ITelnetOption mxp = this.telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("mxp"); });
                 if (mxp != null)
                 {
                     mxp.Enable();
                 }
 
-                ITelnetOption mccp = this.telnetOptions.Find(delegate(ITelnetOption o) { return o.Name.Equals("compress2"); });
+                ITelnetOption mccp = this.telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("compress2"); });
                 if (mccp != null)
                 {
                     mccp.Enable();

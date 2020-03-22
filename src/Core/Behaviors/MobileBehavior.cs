@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -12,7 +10,7 @@ namespace WheelMUD.Core
     using System.Collections.Generic;
     using WheelMUD.Core.Events;
 
-    /// <summary>@@@ Might be better renamed to AIBrainBehavior or something...?</summary>
+    /// <summary>TODO: Might be better renamed to AIBrainBehavior or something...?</summary>
     public class MobileBehavior : Behavior
     {
         /// <summary>Initializes a new instance of the MobileBehavior class.</summary>
@@ -41,8 +39,8 @@ namespace WheelMUD.Core
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            // @@@ For now, rigging MobileBehavior back up to all events like Mobile used to; I don't
-            //     want to mess with AI too much right now especially since Fasta is working on it.
+            // TODO: For now, rigging MobileBehavior back up to all events like Mobile used to; I don't
+            //       want to mess with AI too much right now especially since Fasta is working on it.
             // Prepare to handle receiving all relevant sensory events (not requests) which have 
             // happened within the player's perception, and relay the sensory message to the player.
             if (this.Parent != null)

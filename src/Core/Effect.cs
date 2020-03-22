@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A base class that represents time-sensitive Behaviors, known here as Effects.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Effects
@@ -13,10 +10,10 @@ namespace WheelMUD.Effects
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Timers;
     using WheelMUD.Core;
 
-    /// <summary>Abstract base class for all effects.</summary>
+    /// <summary>Abstract base class for all time-based effects.</summary>
+    /// <remarks>Effects are behaviors that have time-based expiration properties.</remarks>
     public abstract class Effect : Behavior
     {
         /// <summary>Initializes a new instance of the <see cref="Effect" /> class.</summary>

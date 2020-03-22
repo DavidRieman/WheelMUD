@@ -7,7 +7,6 @@
 
 namespace WheelMUD.Core
 {
-    using System.Linq;
     using System.Text;
 
     [RendererExports.PerceivedRoom(0)]

@@ -3,15 +3,10 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Context-sensitive string builder, used to customize the output that any 
-//   given entity can receive for a message.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
 {
-    using System.Collections;
     using System.Collections.Generic;
 
     //// <ns></ns> - encloses elements to be parsed only if the string is NOT being passed to the sender
@@ -47,6 +42,7 @@ namespace WheelMUD.Core
     }
 
     /// <summary>Contextual string builder.</summary>
+    /// <remarks>Used to customize the output that any given entity can receive for a message.</remarks>
     public class ContextualStringBuilder
     {
         /// <summary>A list of contextually-constrained strings, used to build output.</summary>

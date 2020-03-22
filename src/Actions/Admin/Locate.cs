@@ -32,7 +32,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            Thing entity = GameAction.GetPlayerOrMobile(sender.LastActionInput.Tail);
+            Thing entity = GetPlayerOrMobile(sender.LastActionInput.Tail);
 
             if (entity != null)
             {

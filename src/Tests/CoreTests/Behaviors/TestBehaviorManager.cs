@@ -3,14 +3,12 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Tests.Behaviors
 {
-    using System;
     using NUnit.Framework;
+    using System;
     using WheelMUD.Core;
 
     /// <summary>Tests for the BehaviorManager class.</summary>

@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Class that handles the echo telnet option code.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server.Telnet
@@ -21,7 +18,7 @@ namespace WheelMUD.Server.Telnet
             : base("echo", 1, wantOption, connection)
         {
         }
-        
+
         /// <summary>Process the sub negotiation.</summary>
         /// <param name="data">The data to process.</param>
         public override void ProcessSubNegotiation(byte[] data)

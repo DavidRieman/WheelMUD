@@ -57,7 +57,7 @@ namespace WheelMUD.Actions
                 totalMemory = (ulong)mo["totalphysicalmemory"] / 1024;
                 sb.AppendLine("Physical Ram : " + totalMemory.ToString());
             }
-            
+
             sb.AppendLine(div);
             query1 = new ManagementObjectSearcher("SELECT * FROM Win32_process where NAME = '" + appName + "'");
             queryCollection1 = query1.Get();
@@ -76,7 +76,7 @@ namespace WheelMUD.Actions
             {
                 sb.AppendLine("This Server lives in:" + mo["caption"].ToString());
             }
-            
+
             actionInput.Controller.Write(sb.ToString().TrimEnd(null));
         }
 

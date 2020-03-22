@@ -7,7 +7,6 @@
 
 namespace WheelMUD.Core
 {
-    using System;
     using System.Text;
 
     [RendererExports.Inventory(0)]

@@ -21,7 +21,7 @@ namespace WheelMUD.Actions
     [ActionPrimaryAlias("create currency", CommandCategory.Admin)]
     [ActionAlias("create money", CommandCategory.Admin)]
     [ActionAlias("create gold", CommandCategory.Admin)]
-    [ActionDescription("Creates an amount of currency.")]
+    [ActionDescription("Temporary test command. Creates an amount of currency.")]
     [ActionSecurity(SecurityRole.fullAdmin)]
     internal class CreateCurrency : Action
     {

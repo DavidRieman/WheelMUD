@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   This class handles data coming in over a connection, it checks to see if the data is
-//   an action and if so notifies the interested parties for processing.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server
@@ -16,7 +12,8 @@ namespace WheelMUD.Server
     using WheelMUD.Core;
     using WheelMUD.Interfaces;
 
-    /// <summary>The input parser.</summary>
+    /// <summary>The input parser handles data coming in over a connection.</summary>
+    /// <remarks>Checks to see if the data is an action and if so notifies the interested parties for processing.</remarks>
     public class InputParser
     {
         /// <summary>The character sequence used to designate a new line.</summary>
@@ -91,7 +88,7 @@ namespace WheelMUD.Server
                     {
                         // Fill the last input buffer.
                         sender.LastRawInput = currentInput;
-                        
+
                         // Raise the input received event.
                         this.RaiseInputReceived(new ConnectionArgs(sender), currentInput.Trim());
                     }
@@ -157,10 +154,7 @@ namespace WheelMUD.Server
         /// <param name="action">The text that was received</param>
         private void RaiseInputReceived(ConnectionArgs connectionArgs, string action)
         {
-            if (this.InputReceived != null)
-            {
-                this.InputReceived(this, connectionArgs, action);
-            }
+            this.InputReceived?.Invoke(this, connectionArgs, action);
         }
     }
 }

@@ -7,7 +7,6 @@
 
 namespace WheelMUD.Core
 {
-    using System;
     using System.Text;
     using WheelMUD.Interfaces;
 

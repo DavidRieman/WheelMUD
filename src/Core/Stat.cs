@@ -124,7 +124,7 @@ namespace WheelMUD.Core
         public bool Visible { get; private set; }
 
         /// <summary>Gets or sets the parent Thing this stat belongs to.</summary>
-        /// <remarks>@@@ TODO: IMPLEMENT OnAdd AND OnRemove REACTIONS WHEN CHANGING PARENT AS PER BEHAVIORS!</remarks>
+        /// <remarks>TODO: IMPLEMENT OnAdd AND OnRemove REACTIONS WHEN CHANGING PARENT AS PER BEHAVIORS!</remarks>
         [JsonIgnore]
         public Thing Parent { get; set; }
 

@@ -29,7 +29,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -40,7 +40,7 @@ namespace WheelMUD.Actions
         private Thing thing = null;
 
         private MovableBehavior movableBehavior;
-        
+
         /// <summary>The quantity of item to be given (if specified, from a stack of items).</summary>
         private int numberToGive = 0;
 
@@ -93,7 +93,7 @@ namespace WheelMUD.Actions
             if (int.TryParse(actionInput.Params[0], out this.numberToGive))
             {
                 itemParam = 1;
-                
+
                 // If the user specified a number, but it is less than 1, error!
                 if (this.numberToGive < 1)
                 {
@@ -127,8 +127,8 @@ namespace WheelMUD.Actions
                 return "You must specify someone to give that to.";
             }
 
-            // @@@ Shared targeting code should be used, and this rule should be implemented like:
-            //     if (this.target == sender.Thing) ...
+            // TODO: Shared targeting code should be used, and this rule should be implemented like:
+            //       if (this.target == sender.Thing) ...
             // Rule: The giver cannot also be the receiver.
             if (targetName == "me")
             {
@@ -136,7 +136,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the target an entity?
-            this.target = GameAction.GetPlayerOrMobile(targetName);
+            this.target = GetPlayerOrMobile(targetName);
             if (this.target == null)
             {
                 return "You cannot see " + targetName + ".";

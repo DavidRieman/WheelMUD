@@ -160,8 +160,8 @@ namespace WheelMUD.Ftp
 
         private string GetDefaultPath()
         {
-            // @@@ TODO: Study usage and repair using proper temp data storage area, rather than relying
-            //     on System.Windows.Forms for: Path.Combine(Application.StartupPath, "Users.dat");
+            // TODO: Study usage and repair using proper temp data storage area, rather than relying
+            //       on System.Windows.Forms for: Path.Combine(Application.StartupPath, "Users.dat");
             return string.Empty;
         }
 

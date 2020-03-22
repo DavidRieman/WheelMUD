@@ -8,7 +8,6 @@
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
-    using System.Linq;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
@@ -36,7 +35,7 @@ namespace WheelMUD.Actions
             string roleName = normalizedParams[0];
             string playerName = normalizedParams[1];
 
-            Thing player = GameAction.GetPlayerOrMobile(playerName);
+            Thing player = GetPlayerOrMobile(playerName);
             if (player == null)
             {
                 // If the player is not online, then try to load the player from the database.
@@ -68,7 +67,7 @@ namespace WheelMUD.Actions
             string roleName = normalizedParams[0];
             string playerName = normalizedParams[1];
 
-            Thing player = GameAction.GetPlayerOrMobile(playerName);
+            Thing player = GetPlayerOrMobile(playerName);
             if (player == null)
             {
                 // If the player is not online, then load the player from the database.
@@ -80,7 +79,7 @@ namespace WheelMUD.Actions
             {
                 return string.Format("The player {0} does not exist.", playerName);
             }
-            
+
             // Rule: The player cannot already have the role.
             var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
             var existingRole = userControlledBehavior.FindRole(roleName);

@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Runs data through our series of data filters for correct presentation on the client.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server
@@ -14,7 +11,7 @@ namespace WheelMUD.Server
     using WheelMUD.Core.Enums;
     using WheelMUD.Core.Output;
 
-    /// <summary>The data formatter.</summary>
+    /// <summary>The data formatter. Runs data through our series of data filters for correct presentation on the client.</summary>
     internal static class DataFormatter
     {
         /// <summary>Runs the data through our presentation handlers.</summary>

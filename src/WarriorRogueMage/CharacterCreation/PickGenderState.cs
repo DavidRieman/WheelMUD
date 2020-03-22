@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Character creation state used to set the player's gender.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage.CharacterCreation
@@ -32,7 +29,7 @@ namespace WarriorRogueMage.CharacterCreation
         /// <summary>ProcessInput is used to receive the user input during this state.</summary>
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
-        { 
+        {
             if (!string.IsNullOrEmpty(command) && this.SetGender(command))
             {
                 this.ProcessDone();

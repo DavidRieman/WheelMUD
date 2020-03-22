@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Tests.Behaviors
@@ -12,7 +10,7 @@ namespace WheelMUD.Tests.Behaviors
     using NUnit.Framework;
     using WheelMUD.Core;
     using WheelMUD.Core.Events;
-    
+
     /// <summary>Tests for the OpensClosesBehavior class.</summary>
     [TestFixture]
     public class TestOpensClosesBehavior
@@ -44,7 +42,7 @@ namespace WheelMUD.Tests.Behaviors
             this.room.Add(this.witnessThing);
             this.room.Add(this.actingThing);
             this.room.Add(this.openableThing);
-            
+
             // Prepare to verify correct eventing occurs.
             this.witnessThing.Eventing.MiscellaneousRequest += (root, e) => { this.lastWitnessRequest = e; };
             this.witnessThing.Eventing.MiscellaneousEvent += (root, e) => { this.lastWitnessEvent = e; };
@@ -83,7 +81,7 @@ namespace WheelMUD.Tests.Behaviors
             // Verify that no event occurred (but any potentially-cancelled requests are irrelevant).
             Assert.IsTrue(this.lastWitnessEvent == null);
             Assert.IsTrue(this.lastActorEvent == null);
-            
+
             // Opening a closed thing => open.
             this.ClearTrackedEvents();
             this.opensClosesBehavior.Open(this.actingThing);
@@ -99,7 +97,7 @@ namespace WheelMUD.Tests.Behaviors
             Assert.IsTrue(witnessMessage.Contains("opens"));
             string actorMessage = this.lastActorEvent.SensoryMessage.Message.Parse(this.actingThing);
             Assert.IsTrue(actorMessage.Contains("You open"));
-            
+
             // Opening an open thing => open.
             this.ClearTrackedEvents();
             this.opensClosesBehavior.Open(this.actingThing);
@@ -108,7 +106,7 @@ namespace WheelMUD.Tests.Behaviors
             // Verify that no event occurred (but any potentially-cancelled requests are irrelevant).
             Assert.IsTrue(this.lastWitnessEvent == null);
             Assert.IsTrue(this.lastActorEvent == null);
-            
+
             // Closing an open thing => closed.
             this.ClearTrackedEvents();
             this.opensClosesBehavior.Close(this.actingThing);
@@ -137,7 +135,7 @@ namespace WheelMUD.Tests.Behaviors
             var roomB = new Thing(new RoomBehavior()) { Name = "Room B", Id = TestThingID.Generate("testroom") };
             roomA.Add(openableExitA);
             roomB.Add(openableExitB);
-            
+
             // Attach ExitBehavior and OpensClosesBehaviors in different orders though, to verify in test that 
             // eventing and such work correctly regardless of attachment order.
             var exitBehaviorA = new ExitBehavior();
@@ -152,12 +150,12 @@ namespace WheelMUD.Tests.Behaviors
             this.actingThing.Behaviors.Add(new MovableBehavior());
             exitBehaviorA.AddDestination("toB", roomB.Id);
             exitBehaviorB.AddDestination("toA", roomA.Id);
-            
+
             // Ensure that the actingThing cannot move through either exit while it is in default (closed) state.
             roomA.Add(this.actingThing);
             exitBehaviorA.MoveThrough(this.actingThing);
             Assert.AreSame(roomA, this.actingThing.Parent);
-            
+
             roomB.Add(this.actingThing);
             exitBehaviorB.MoveThrough(this.actingThing);
             Assert.AreSame(roomB, this.actingThing.Parent);

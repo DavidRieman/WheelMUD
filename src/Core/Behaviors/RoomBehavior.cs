@@ -72,7 +72,8 @@ namespace WheelMUD.Core
 
             // Standard exits are simple DB records, so we need to load them specifically for this room;
             // non-standard exits should be loaded just like any other generic Thing.
-            // @@@ TODO: Fix hack: http://www.wheelmud.net/tabid/59/aft/1622/Default.aspx
+            // TODO: These should come as part of the world areas with the document repository, so that
+            //       exit Things could get customized with brand new Behaviors without difficulty, etc.
             string roomNumber = this.Parent.Id.Replace("room/", string.Empty);
             long persistedRoomID = long.Parse(roomNumber);
             ICollection<ExitRecord> exits = roomRepository.LoadExitsForRoom(persistedRoomID);
@@ -90,7 +91,7 @@ namespace WheelMUD.Core
                     Name = "[StandardExit]",
                     Id = "exit/" + exitRecord.ID,
                 };
-                
+
                 // Add the exit destinations.
                 string exitRoomA = "room/" + exitRecord.ExitRoomAID.ToString(CultureInfo.InvariantCulture);
                 string exitRoomB = "room/" + exitRecord.ExitRoomBID.ToString(CultureInfo.InvariantCulture);

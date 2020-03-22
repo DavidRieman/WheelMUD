@@ -21,7 +21,7 @@ namespace WheelMUD.Actions
     /// <summary>A command that allows an admin to create a consumable.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("create consumable", CommandCategory.Admin)]
-    [ActionDescription("@@@ Temp command.")]
+    [ActionDescription("Temporary test command. Create a consumable.")]
     [ActionSecurity(SecurityRole.fullAdmin)]
     public class CreateConsumable : GameAction
     {
@@ -51,7 +51,6 @@ namespace WheelMUD.Actions
             // Our consumable.
             ConsumableType ct = ConsumableType.Unknown;
 
-            // @@@ Create shouldn't specifically 
             var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
             try
             {
@@ -95,7 +94,7 @@ namespace WheelMUD.Actions
                 userControlledBehavior.Controller.Write(string.Format("You create a {0} consumable.", mat));
             }
 
-            // Add the new item to the room. @@@ Shouldn't this create to the Entity inventory?
+            // Add the new item to the room. TODO: Shouldn't this create to the Entity inventory instead?
             sender.Thing.Parent.Add(consumable);
         }
 

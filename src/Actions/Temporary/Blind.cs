@@ -14,23 +14,23 @@ namespace WheelMUD.Actions.Temporary
     /// <summary>A temporary command to blind an entity. (Just blinds yourself for now.)</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("blind", CommandCategory.Temporary)]
-    [ActionDescription("@@@ Temp command.")]
+    [ActionDescription("Temporary test command. Blinds an entity.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
     public class Blind : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
-            CommonGuards.InitiatorMustBeBalanced 
+            CommonGuards.InitiatorMustBeBalanced
         };
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            /* @@@ Add an AltersSensesEffect or whatnot instead of modifying permanent senses!
+            /* TODO: Add an AltersSensesEffect or whatnot instead of modifying permanent senses!
             if (sender.Thing.Senses.Contains(SensoryType.Sight))
             {
                 sender.Thing.Senses[SensoryType.Sight].Enabled = false;

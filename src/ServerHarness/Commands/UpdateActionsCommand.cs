@@ -21,7 +21,7 @@ namespace ServerHarness
 
         public void Execute(Application app, MultiUpdater display, string[] words)
         {
-            // @@@ TODO: Test, migrate to file system watcher (at the Application layer) instead?
+            // TODO: Test, migrate to file system watcher (at the Application layer) instead?
             CommandManager.Instance.Recompose();
         }
     }

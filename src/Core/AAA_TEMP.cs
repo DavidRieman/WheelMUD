@@ -6,12 +6,12 @@
 // <summary>
 //   TEMP CONTENT FROM REMOVED FILES - FOR TEMPORARY SLN SEARCHABILITY ONLY WHILE
 //   TRANSITIONING CODE TO NEW BEHAVIORS, EVENTS, MEF, ETC.
-//   @@@ DO NOT REMOVE UNTIL EACH PART IS DEFINITELY REPLACED/PROVEN WITH BEHAVIORS ETC.
+//   DO NOT REMOVE UNTIL EACH PART IS DEFINITELY REPLACED/PROVEN WITH BEHAVIORS ETC.
 // </summary>
 //-----------------------------------------------------------------------------
 
 // Extracted from Things.cs:
-/* @@@ TODO: Replace with a ProvidesConsumableBehavior
+/* TODO: Replace with a ProvidesConsumableBehavior
 /// <summary>An interface defining a ConsumableProvider.</summary>
 public interface IConsumableProvider : IItem
 {
@@ -21,7 +21,7 @@ public interface IConsumableProvider : IItem
     /// <summary>Gets the number of resources left.</summary>
     int NumberOfResources { get; }
 
-    /// <summary>@@@ Huh? Chop is only for wood...?</summary>
+    /// <summary>Huh? Chop is only for wood...?</summary>
     /// <returns>A Consumable yeilded by the action.</returns>
     IConsumable Chop();
 }*/
@@ -288,7 +288,7 @@ namespace WheelMUD.Effects
         public abstract void Remove();
 
         /// <summary>Called when the effect expires.</summary>
-        /// <param name="state">@@@ What is this?</param>
+        /// <param name="state">TODO: What is this?</param>
         protected abstract void TickElapsed(object state);
 
         /// <summary>Raises the Effect Elapsed event.</summary>
@@ -418,8 +418,7 @@ namespace WheelMUD.Effects
 }*/
 
 // Removed DoorOpenReaction.cs:
-/* @@@ If desired to re-implement, consider as SuctionDoorBehavior or whatnot
- * http://www.wheelmud.net/Forums/tabid/59/aff/14/aft/604/afv/topic/afpgj/1/Default.aspx
+/* TODO: If desired to re-implement, consider as SuctionDoorBehavior or whatnot.
 namespace WheelMUD.EventReactions
 {
     /// <summary>Example of a reaction script, this sucks the player that opened a door out of the room and through the exit.</summary>
@@ -483,7 +482,7 @@ namespace WheelMUD.EventReactions
         /// <returns>A string containing the direction of the exit.</returns>
         private static string GetDirectionOfExit(Thing player, Thing exit)
         {
-            // @@@ FIX?
+            // TODO: FIX?
             //foreach (KeyValuePair<string, Exit> kvp in player.Parent.Exits)
             //{
             //    if (kvp.Value.Door.Id == exit.Door.Id)
@@ -537,7 +536,7 @@ namespace WheelMUD.Universe
             get { return string.Format("{0} {1} {2}", this.SingularPrefix, this.Name, this.PluralSuffix).Trim(); }
         }
 
-        /* @@@ TODO Make base thing save then extract this example
+        /* TODO: Make base thing save then extract this example
         /// <summary>Saves the item record.  Written this way to make sure it isn't called directly.</summary>
         public override void Save()
         {
@@ -562,10 +561,10 @@ namespace WheelMUD.Universe
 
 // Removed RelayEvent.cs:
 // <summary>
-//   @@@ A temporary example of a reaction script, that simply broadcasts to entities in the room
-//   that it has detected an event.
+// TODO: A temporary example of a reaction script, that simply broadcasts to entities in the room
+// that it has detected an event.
 // </summary>
-/* @@@ Build a RelaySenseBehavior or whatnot...
+/* TODO: Build a RelaySenseBehavior or whatnot...
 namespace WheelMUD.EventReactions
 {
     /// <summary>Example of a reaction script, that simply broadcasts to entities in the room that it has detected an event.</summary>
@@ -585,7 +584,7 @@ namespace WheelMUD.EventReactions
 
             foreach (Thing thing in sender.Parent.Children)
             {
-                // @@@ use EntityBehavior or whatnot instead of 'as Entity'
+                // TODO: Use EntityBehavior or whatnot instead of 'as Entity'
                 var entity = thing as Entity;
                 if (entity != null)
                 {
@@ -597,14 +596,12 @@ namespace WheelMUD.EventReactions
 }*/
 
 // Removed ListeningDevice.cs:
-// <summary>
-//   @@@ A temporary example of an item that responds to world events.
-// </summary>
+// <summary>TODO: A temporary example of an item that responds to world events.</summary>
 /*
 namespace WheelMUD.Universe.Things
 {
-    /// <summary>@@@ A temporary example of an item that responds to world events.</summary>
-     @@@ TODO: Implement as a more generic RelaysSenseBehavior or whatnot...
+    /// <summary>TODO: A temporary example of an item that responds to world events.</summary>
+    TODO: Implement as a more generic RelaysSenseBehavior or whatnot...
     public class ListeningDevice : Item
     {
         public ListeningDevice()
@@ -619,7 +616,6 @@ namespace WheelMUD.Universe.Things
             {
                 Description = "A tiny listening device",
                 Name = "listening device",
-                ID = DiceService.Instance.GetDie(9999).Roll(),
                 KeyWords = new List<string> { "device", "listening device", "listeningdevice", "bug" },
                 SingularPrefix = string.Empty,
                 PluralSuffix = string.Empty,
@@ -807,7 +803,7 @@ namespace WheelMUD.Universe.Things
 /*
 namespace WheelMUD.Universe.Things
 {
-    /// <summary>@@@ DESCRIBE</summary>
+    /// <summary>TODO: DESCRIBE</summary>
     public class Furniture : Thing //AbstractContainer
     {
         /// <summary>Gets or sets the description of the item</summary>
@@ -1141,7 +1137,7 @@ namespace WheelMUD.Universe.Things
 /*
 namespace WheelMUD.Universe.Things
 {
-    /// <summary>A consumable. @@@ TODO: Replace with Items which merely have a ConsumableBehavior.</summary>
+    /// <summary>A consumable. TODO: Replace with Items which merely have a ConsumableBehavior.</summary>
     public class Consumable : Thing
     {
         /// <summary>The type of consumable this Thing is.</summary>
@@ -1154,7 +1150,7 @@ namespace WheelMUD.Universe.Things
         }
 
         /// <summary>Initializes a new instance of the Consumable class.</summary>
-        /// <param name="consumableType">@@@ DESCRIBE</param>
+        /// <param name="consumableType">TODO: DESCRIBE</param>
         public Consumable(ConsumableType consumableType)
             : base()
         {
@@ -1208,9 +1204,9 @@ namespace WheelMUD.Universe.Things
 
         /// <summary>Override to stop you from picking a tree up.</summary>
         /// <returns>False to indicate you can't get this object.</returns>
-        //@@@ Instead, a Tree should be given a CannotPickUpBehavior or whatnot (by default), as it 
-        //    should be possible to have a potted baby Tree or whatnot that you CAN pick up.  Maybe
-        //    said tree is still choppable but has a very small yield? (but that's beside the point)
+        // TODO: Instead, a Tree should be given a CannotPickUpBehavior or whatnot (by default), as it 
+        //       should be possible to have a potted baby Tree or whatnot that you CAN pick up.  Maybe
+        //       said tree is still choppable but has a very small yield? (but that's beside the point)
         //public override bool RemoveFromContainer()
         //{
         //    return false;
@@ -1423,7 +1419,7 @@ namespace WheelMUD.Universe.Things.Locks
 */
 
 // Removed EnterPortal.cs:
-/* @@@ REMOVE - Enter.cs instead should suffice
+/* TODO: REMOVE - Enter.cs instead should suffice
 namespace WheelMUD.Actions
 {
     /// <summary>A command that allows a player to enter a portal item.</summary>
@@ -1491,7 +1487,7 @@ namespace WheelMUD.Actions
 }*/
 
 // Removed Deaf.cs
-/* @@@ Re-implement as an AlterSenseEffect : EffectBase : Behavior w/duration
+/* TODO: Re-implement as an AlterSenseEffect : EffectBase : Behavior w/duration
 namespace WheelMUD.Effects
 {
     public class DeafEffect : EffectBase
@@ -1535,7 +1531,7 @@ namespace WheelMUD.Effects
 */
 
 // Removed BasicGuardianBuilder.cs:
-/* @@@ Extract the useful bits...
+/* TODO: Extract the useful bits...
 namespace WheelMUD.Universe.MobileBuilders
 {
     /// <summary>The basic guardian builder.</summary>
@@ -1557,8 +1553,7 @@ namespace WheelMUD.Universe.MobileBuilders
             this.mds = mob;
         }
 
-        /// <summary>Use the Mobile constructor to create a mobile. @@@ This seems awkward...</summary>
-        /// <param name="args">@@@ Unused?</param>
+        /// <summary>Use the Mobile constructor to create a mobile. TODO: This seems awkward...</summary>
         public void UseMobileConstructor(Dictionary<string, object> args)
         {
             this.mob = new Mobile(this.brain, CoreManager.Instance.PlacesManager.World, this.mds);

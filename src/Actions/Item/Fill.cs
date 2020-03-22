@@ -23,7 +23,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -122,7 +122,7 @@ namespace WheelMUD.Actions
 
                 // Rule: Do we have an item matching the one specified in our inventory?
                 // If not then does the room have a container with the name.
-                // @@@ This Find pattern is probably broken...
+                // TODO: Fix: This Find pattern is probably broken...
                 this.destinationContainer = sender.Thing.Children.Find(t => t.Name == this.destinationContainerName.ToLower());
                 if (this.destinationContainer == null)
                 {

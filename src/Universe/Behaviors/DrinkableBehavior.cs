@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Universe
@@ -34,9 +32,9 @@ namespace WheelMUD.Universe
         /// <param name="drinker">The thing trying to take a drink.</param>
         public void Drink(Thing drinker)
         {
-            // @@@ Implement - destroy parent thing (reduce count) by an appropriate amount (1 for now?)
-            // @@@ Also, check for parent item has a drink reaction (IE behavior for implementing potion-
-            //     like effects upon the drinking of it), and implement said reactions.
+            // TODO: Implement - destroy parent thing (reduce count) by an appropriate amount (1 for now?)
+            // TODO: Also, check for parent item has a drink reaction (IE behavior for implementing potion-
+            //       like effects upon the drinking of it), and implement said reactions.
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>

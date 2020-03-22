@@ -148,7 +148,7 @@ namespace WheelMUD.Actions.Temporary
                 case "show":
                     // Ensure "show" syntax has no additional arguments.
                     return (this.argCount > 1) ? usageText : null;
-                
+
                 default:
                     // Handle case for "visuals aalkdsfj lkajf" etc.
                     return usageText;

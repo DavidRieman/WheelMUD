@@ -28,7 +28,7 @@ namespace WheelMUD.Server
         /// <returns>The modified version of the original text, with line breaks inserted.</returns>
         public static string Parse(string originalText, int maxWidth)
         {
-            // @@@ Next line is a hack. Needs replacing.
+            // TODO: Next line is a hack. Needs replacing.
             originalText = originalText.Replace("<%nl%>", Environment.NewLine);
 
             List<string> replacedTags = new List<string>();

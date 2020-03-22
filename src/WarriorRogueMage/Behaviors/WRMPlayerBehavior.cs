@@ -7,12 +7,11 @@
 
 namespace WarriorRogueMage.Behaviors
 {
-    using System.Reflection;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
 
     /// <summary>Behavior which defines a Warrior Rogue and Mage player.</summary>
-    /// <remarks>@@@ TODO: <see href="http://www.WheelMUD.net/Forums/tabid/59/aft/1663/Default.aspx#2873"/></remarks>
+    /// <remarks>TODO: <see href="http://www.WheelMUD.net/Forums/tabid/59/aft/1663/Default.aspx#2873"/></remarks>
     public class WRMPlayerBehavior : PlayerBehavior
     {
         /// <summary>Gets the Fate statistic of this player, in a format suitable for display in a Prompt.</summary>
@@ -34,7 +33,7 @@ namespace WarriorRogueMage.Behaviors
 
             if (prompt != null && prompt.Contains("%"))  // Quick check, we can skip parsing if we have no chance of tokens
             {
-                // @@@ TODO: This routine needs optimization
+                // TODO: This routine needs optimization
                 // Find all PlayerPromptables and replace their tokens with values if they exist in the supplied prompt string
                 foreach (MethodInfo m in GetType().GetMethods())
                 {

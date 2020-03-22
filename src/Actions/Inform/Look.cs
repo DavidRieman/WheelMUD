@@ -23,7 +23,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious
         };
 
@@ -110,7 +110,7 @@ namespace WheelMUD.Actions
             return string.Empty;
         }
 
-        /// <summary>Looks at room. @@@ Move to SensesBehavior?</summary>
+        /// <summary>Looks at room. TODO: Move to SensesBehavior?</summary>
         /// <param name="sender">The sender.</param>
         /// <returns>Returns the text of the rendered room template.</returns>
         private string LookAtRoom(Thing sender)

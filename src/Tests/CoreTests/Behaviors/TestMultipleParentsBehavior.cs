@@ -3,15 +3,13 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Tests.Behaviors
 {
     using NUnit.Framework;
     using WheelMUD.Core;
-    
+
     /// <summary>Tests for the MultipleParentsBehavior class.</summary>
     [TestFixture]
     public class TestMultipleParentsBehavior
@@ -90,7 +88,7 @@ namespace WheelMUD.Tests.Behaviors
             Assert.IsTrue(!this.parent2.Children.Contains(this.child));
             Assert.IsTrue(this.child.Parent == this.parent1);
             this.parent2.Add(this.child);
-            
+
             // Verify we can remove the item from a primary parent, and a secondary parent becomes the primary.
             this.parent1.Remove(this.child);
             Assert.IsTrue(!this.parent1.Children.Contains(this.child));

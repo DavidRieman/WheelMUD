@@ -27,7 +27,7 @@ namespace WheelMUD.Core
 
         /// <summary>The list of CommandProcessor workers.</summary>
         private readonly List<CommandProcessor> commandProcessors = new List<CommandProcessor>();
-        
+
         /// <summary>Prevents a default instance of the <see cref="CommandManager"/> class from being created.</summary>
         private CommandManager()
         {

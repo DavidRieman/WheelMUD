@@ -49,7 +49,7 @@ namespace WheelMUD.Actions
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 
             var tellEvent = new VerbalCommunicationEvent(sender.Thing, sm, VerbalCommunicationType.Tell);
-            
+
             // Make sure both the user is allowed to do the tell and the target is allowed to receive it.
             this.target.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
             sender.Thing.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
@@ -78,8 +78,8 @@ namespace WheelMUD.Actions
 
             // TODO: InterMUD support? string mudName = GameConfiguration.GameName;
 
-            // Rule: Target must be an entity. @@@ REMOVE CHECK?
-            this.target = GameAction.GetPlayerOrMobile(targetName);
+            // Rule: Target must be an entity. TODO: REMOVE CHECK?
+            this.target = GetPlayerOrMobile(targetName);
             if (this.target == null)
             {
                 // Make first char Upper?  IE textInfo.ToTitleCase.
@@ -104,7 +104,7 @@ namespace WheelMUD.Actions
             // which was used to identify this.entity already.
             int firstCommandLength = actionInput.Params[0].Length;
             this.sentence = actionInput.Tail.Substring(firstCommandLength).Trim();
-            
+
             return null;
         }
 

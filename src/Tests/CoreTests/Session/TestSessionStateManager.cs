@@ -7,9 +7,9 @@
 
 namespace WheelMUD.Tests.Session
 {
+    using NUnit.Framework;
     using System.ComponentModel.Composition;
     using System.ComponentModel.Composition.Hosting;
-    using NUnit.Framework;
     using WheelMUD.Core;
 
     /// <summary>Tests the Session class.</summary>
@@ -23,7 +23,7 @@ namespace WheelMUD.Tests.Session
             DefaultComposer.Container = new CompositionContainer();
             DefaultComposer.Container.ComposeExportedValue<SessionState>(new TestSession.FakeSessionState());
         }
-        
+
         /// <summary>Test that automatic composition during singleton instantiation establishes at least one SessionState object.</summary>
         [Test]
         public void TestCompositionFindsSessionStates()

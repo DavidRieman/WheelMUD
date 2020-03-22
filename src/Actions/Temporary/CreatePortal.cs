@@ -17,14 +17,14 @@ namespace WheelMUD.Actions
     [ExportGameAction(0)]
     [ActionPrimaryAlias("create portal", CommandCategory.Admin)]
     [ActionAlias("createportal", CommandCategory.Admin)]
-    [ActionDescription("@@@ Temp command.")]
+    [ActionDescription("Temporary test command. Creates a portal.")]
     [ActionSecurity(SecurityRole.fullAdmin)]
     public class CreatePortal : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -33,7 +33,7 @@ namespace WheelMUD.Actions
 
         /// <summary>The current room that the player is within.</summary>
         private Thing targetPlace = null;
-        
+
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
@@ -77,14 +77,14 @@ namespace WheelMUD.Actions
             if (string.IsNullOrEmpty(roomToGet))
             {
                 // Its not a number so it could be an entity... try it.
-                this.targetPlace = GameAction.GetPlayerOrMobile(actionInput.Params[0]);
+                this.targetPlace = GetPlayerOrMobile(actionInput.Params[0]);
                 if (this.targetPlace == null)
                 {
                     return "Could not convert " + actionInput.Params[0] + " to a room number.";
                 }
             }
 
-//            this.targetRoom = bridge.World.FindRoom(roomToGet);
+            this.targetPlace = PlacesManager.Instance.WorldBehavior.FindRoom(roomToGet);
             if (this.targetPlace == null)
             {
                 return string.Format("Could not find the room {0}.", roomToGet);

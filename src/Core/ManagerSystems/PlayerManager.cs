@@ -42,7 +42,7 @@ namespace WheelMUD.Core
         /// <summary>Gets a read only collection of the players currently online.</summary>
         public ICollection<PlayerBehavior> Players
         {
-            get 
+            get
             {
                 lock (this.playersList)
                 {

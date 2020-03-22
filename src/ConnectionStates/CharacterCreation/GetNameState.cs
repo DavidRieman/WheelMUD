@@ -163,7 +163,7 @@ namespace WheelMUD.ConnectionStates
                     newUserName = newUserName.Substring(0, 1).ToUpper() + newUserName.Substring(1);
                 }
             }
-            
+
             return true;
         }
     }

@@ -3,15 +3,12 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Flagged Enum to denote possible Genders.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Enums
 {
     using System;
-    
+
     /// <summary>All of the different Genders possible. Used for Mobs, Players, and maybe other Things.</summary>
     [Flags]
     public enum GenderTypes : byte

@@ -3,15 +3,10 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Event associated with effects - added, removed, expired, etc.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Events
 {
-    using System.Linq;
-
     /// <summary>Event associated with effects - added, removed, expired, etc.</summary>
     public class EffectEvent : CancellableGameEvent
     {

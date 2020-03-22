@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Tests the TalentsBehavior class.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Tests.Behaviors
@@ -17,6 +14,7 @@ namespace WheelMUD.Tests.Behaviors
     using WarriorRogueMage.Stats;
     using WheelMUD.Core;
 
+    /// <summary>Tests the TalentsBehavior class.</summary>
     [TestFixture]
     public class TestTalentsBehavior
     {
@@ -37,7 +35,7 @@ namespace WheelMUD.Tests.Behaviors
             this.playerThing.Behaviors.Add(testBehavior);
             Assert.IsNotNull(this.playerThing.Behaviors.FindFirst<TalentsBehavior>());
             this.playerThing.Behaviors.Remove(testBehavior);
-        } 
+        }
 
         [Test]
         public void AddTalentBeforeBehaviorParentSetTest()

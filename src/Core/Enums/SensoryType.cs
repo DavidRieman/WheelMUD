@@ -3,18 +3,14 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Enum of accepted Senses that are usable.
-//   Edited by Feverdream @ 4/24/2010 to add missing XRay Vision and Magnified Vision values.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
 {
     using System;
 
-    /// <summary>Sensory types.</summary>
-    /// <remarks>@@@ TODO: Sonar? Extensibility?</remarks>
+    /// <summary>Sensory types, for contextual perception systems.</summary>
+    /// <remarks>TODO: Sonar? Extensibility?</remarks>
     [Flags]
     public enum SensoryType
     {

@@ -24,7 +24,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -84,8 +84,8 @@ namespace WheelMUD.Actions
             }
 
             // Check to see if the first word is a number.
-            // @@@ Is TryParse meant to be used this way? Character analysis may be better. I worry that
-            //     this might be throwing a caught exception upon each fail, which is a typical case here.
+            // TODO: Is TryParse meant to be used this way? Character analysis may be better. I worry that
+            //       this might be throwing a caught exception upon each fail, which is a typical case here.
             int.TryParse(actionInput.Params[0], out this.numberToGet);
 
             int itemParam = 0;
@@ -149,8 +149,8 @@ namespace WheelMUD.Actions
                     return string.Format("{0} is not able to hold {1}.", foundContainer.Name, itemName);
                 }
 
-                // @@@ Removed OpensClosesBehavior check here... Test to ensure that 'get' is blocked by the
-                //     OpensClosesBehavior receiving and cancelling the relevant events and message is good...
+                // TODO: Removed OpensClosesBehavior check here... Test to ensure that 'get' is blocked by the
+                //       OpensClosesBehavior receiving and cancelling the relevant events and message is good...
 
                 targetParent = foundContainer;
             }
@@ -179,7 +179,7 @@ namespace WheelMUD.Actions
             {
                 return this.thingToGet.Name + " does not appear to be movable.";
             }
-            
+
             return null;
         }
     }

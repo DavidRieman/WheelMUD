@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Universe
@@ -33,7 +31,7 @@ namespace WheelMUD.Universe
 
         public void FillFrom(IController sender, HoldsLiquidBehavior source)
         {
-            // @@@ If this behavior's thing has no room left, abort.
+            // TODO: If this behavior's thing has no room left, abort.
             // sender.Write(string.Format("The {0} is full and no more can be added to it.", this.destinationContainerName));
 
             // Iterate through the source thing's Children to find the first Liquid thing.
@@ -53,10 +51,10 @@ namespace WheelMUD.Universe
                 return;
             }
 
-            // @@@ Maybe prevent the mixing of liquids or whatnot by default...
+            // TODO: Maybe prevent the mixing of liquids or whatnot by default...
             // sender.Write("You cannot mix the two different types of liquids.");
 
-            // @@@ Determine the maximum amount we can take from that liquid stack.
+            // TODO: Determine the maximum amount we can take from that liquid stack.
 
             // Move that liquid stack over into this liquid-holder.
             if (this.Parent.Add(liquidBehavior.Parent))
@@ -68,7 +66,7 @@ namespace WheelMUD.Universe
                     source.Parent.Name);
                 sender.Write(message);
 
-                // @@@ If the source is now empty, sender.Write that the source is empty.
+                // TODO: If the source is now empty, sender.Write that the source is empty.
             }
 
             return;

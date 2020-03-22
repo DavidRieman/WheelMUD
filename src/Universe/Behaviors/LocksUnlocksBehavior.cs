@@ -96,7 +96,7 @@ namespace WheelMUD.Universe
             // If we're already in the desired locked/unlocked state, we're already done with state changes.
             if (newLockedState == this.IsLocked)
             {
-                // @@@ TODO: Message to the actor that it is already locked/unlocked.
+                // TODO: Message to the actor that it is already locked/unlocked.
                 return;
             }
 
@@ -106,14 +106,14 @@ namespace WheelMUD.Universe
             {
                 return; // Abort if the behavior is unattached (e.g. being destroyed).
             }
-            
+
             if (newLockedState && thisThing != null)
             {
                 // If we are attempting to lock an opened thing, cancel the lock attempt.
                 var opensClosesBehavior = thisThing.Behaviors.FindFirst<OpensClosesBehavior>();
                 if (opensClosesBehavior != null && opensClosesBehavior.IsOpen)
                 {
-                    // @@@ TODO: Message to the actor that they can't lock an open thing.
+                    // TODO: Message to the actor that they can't lock an open thing.
                     return;
                 }
             }
@@ -169,7 +169,7 @@ namespace WheelMUD.Universe
             /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
             private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
             {
-                CommonGuards.InitiatorMustBeAlive, 
+                CommonGuards.InitiatorMustBeAlive,
                 CommonGuards.InitiatorMustBeConscious,
                 CommonGuards.InitiatorMustBeBalanced,
                 CommonGuards.InitiatorMustBeMobile,

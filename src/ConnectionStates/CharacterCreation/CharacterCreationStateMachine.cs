@@ -17,7 +17,7 @@ namespace WheelMUD.ConnectionStates
         public CharacterCreationStateMachine(Session session)
         {
             this.Session = session;
-            
+
             // If this is attached to a session, prepare a character for building upon.
             if (this.Session != null)
             {

@@ -70,7 +70,7 @@ namespace WheelMUD.Actions
 
             string targetedFriendName = actionInput.Params[1].ToLower();
             Thing targetFriend = PlayerManager.Instance.FindLoadedPlayerByName(targetedFriendName, false);
-            
+
             if (actionInput.Params[0].ToLower() == "add")
             {
                 this.AddFriend(sender, targetFriend);
