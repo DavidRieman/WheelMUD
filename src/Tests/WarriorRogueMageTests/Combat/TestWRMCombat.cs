@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Tests the WRMCombat class
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Tests.WRMCombat
@@ -18,7 +15,7 @@ namespace WheelMUD.Tests.WRMCombat
     using WarriorRogueMage.Stats;
     using WheelMUD.Core;
 
-    /// <summary>This is a test class for WRMCombatTest and is intended to contain all WRMCombatTest Unit Tests.</summary>
+    /// <summary>Test class for unit and integration tests of WRM combat situations.</summary>
     [TestFixture]
     public class TestWrmCombat
     {

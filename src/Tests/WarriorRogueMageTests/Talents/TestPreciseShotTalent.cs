@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Tests the TalentPreciseShot class.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Tests.Talents
@@ -63,20 +60,6 @@ namespace WheelMUD.Tests.Talents
             Assert.IsTrue(behavior.ManagedTalents.Contains(preciseShot));
             Assert.IsNotNull(behavior.FindFirst<PreciseShotTalent>().PlayerThing);
             behavior.RemoveTalent(preciseShot);
-        }
-
-        /// <summary>Tests the precise shot talent auto set rule.</summary>
-        [Test]
-        public void TestPreciseShotTalentAutosetRule()
-        {
-            var preciseShot = new PreciseShotTalent();
-            var behavior = this.playerThing.Behaviors.FindFirst<TalentsBehavior>();
-            var damageStat = this.playerThing.FindGameStat("Damage");
-            int oldDamaveValue = damageStat.Value;
-            behavior.AddTalent(preciseShot);
-            Assert.AreNotEqual(oldDamaveValue, damageStat.Value);
-            behavior.RemoveTalent(preciseShot);
-            Assert.AreEqual(oldDamaveValue, damageStat.Value);
         }
     }
 }

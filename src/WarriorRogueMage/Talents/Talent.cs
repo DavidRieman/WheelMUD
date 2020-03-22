@@ -16,20 +16,20 @@ namespace WarriorRogueMage
     /// <summary>Class to represent the basic Talent in the Warrior, Rogue, and Mage game system.</summary>
     public class Talent : IEquatable<Talent>
     {
-        // @@@ TODO: 'rules' is placeholder.  Either implement Rules differently (maybe a GameRule class)
-        //           or use actual code for their effects in the individual classes! (Karak would prefer)
+        // TODO: Talents and such should not make permanent modifications to base stats. This is being redesigned.
+        //       Perhaps we will end up with a system to register class instances to an Active Modifiers list, to
+        //       all get called on for turning a "base" value into "current" value any time we're about to use it.
+        //       See: https://github.com/WheelMud/WheelMUD/issues/49
 
         /// <summary>Initializes a new instance of the <see cref="Talent"/> class.</summary>
         /// <param name="name">The name.</param>
         /// <param name="description">The description.</param>
         /// <param name="talentType">Type of the talent.</param>
-        /// <param name="rules">The rules.</param>
-        public Talent(string name, string description, TalentType talentType, params string[] rules)
+        public Talent(string name, string description, TalentType talentType)
         {
             this.Name = name;
             this.Description = description;
             this.TalentType = talentType;
-            this.Rules = rules.ToList();
         }
 
         /// <summary>Initializes a new instance of the <see cref="Talent"/> class.</summary>

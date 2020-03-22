@@ -5,9 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+// TODO: Implement modifiers. See: https://github.com/WheelMud/WheelMUD/issues/49 for details.
+// TODO: Some of these need special behaviors or circumstances and need specific non-modifier code too.
 namespace WarriorRogueMage
 {
-    using WarriorRogueMage.Rules;
     using WheelMUD.Core;
 
     /// <summary>Armored Caster Talent.</summary>
@@ -19,8 +20,7 @@ namespace WarriorRogueMage
             : base(
                 "Armored Caster",
                 "You may reduce the armor penalty by 2. May be taken more than once.",
-                TalentType.Normal,
-            "<rule type=\"decrease\">ARMORPENALTY-2</rule>")
+                TalentType.Normal) // TODO: ARMORPENALTY-2
         {
         }
     }
@@ -34,8 +34,7 @@ namespace WarriorRogueMage
             : base(
                 "Blood Mage",
                 "You may use hit points instead of mana when casting spells. You may use your HP for some or all of the cost of a spell when it is cast.",
-                TalentType.Normal,
-            "<rule type=\"assign\">HP</rule>")
+                TalentType.Normal)
         {
         }
     }
@@ -49,28 +48,19 @@ namespace WarriorRogueMage
             : base(
                 "Champion",
                 "Select a cause. You get a +2 bonus on attack and damage rolls against enemies of that cause. May be taken more than once.",
-                TalentType.Normal,
-            "<rule type=\"increase\">ATTACK+2</rule>",
-            "<rule type=\"increase\">DAMAGE+2</rule>")
+                TalentType.Normal) // TODO: ATTACK+2, DAMAGE+2
         {
         }
 
         /// <summary>Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing)</summary>
         public override void OnAddTalent()
         {
-            // @@@ DANGEROUS PERMANENT MODS - CHANGE TO EFFECTS - SEE IncreaseStatRule FOR NEEDED REVAMP
-            //new IncreaseStatRule().Execute(this.PlayerThing, "Damage", 2);
-            //new IncreaseStatRule().Execute(this.PlayerThing, "Attack", 2);
-
             base.OnAddTalent();
         }
 
         /// <summary>Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing)</summary>
         public override void OnRemoveTalent()
         {
-            new DecreaseStatRule().Execute(this.PlayerThing, "Damage", 2);
-            new DecreaseStatRule().Execute(this.PlayerThing, "Attack", 2);
-
             base.OnRemoveTalent();
         }
     }
@@ -84,24 +74,19 @@ namespace WarriorRogueMage
             : base(
                 "Channeler",
                 "You may add your Mage attribute level to your magic attack damage once per combat.",
-                TalentType.Normal,
-            "<rule type=\"increase\">DAMAGE+MAGE</rule>")
+                TalentType.Normal) // TODO: DAMAGE+MAGE (but needs to track last combat target, check which kind of damage)
         {
         }
 
         /// <summary>Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing)</summary>
         public override void OnAddTalent()
         {
-            new AddAttributeToStatRule<GameAttribute, GameStat>().Execute(this.PlayerThing, "Mage", "Damage");
-
             base.OnAddTalent();
         }
 
         /// <summary>Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing)</summary>
         public override void OnRemoveTalent()
         {
-            new SubstractStatFromAttributeRule<GameAttribute, GameStat>().Execute(this.PlayerThing, "Mage", "Damage");
-
             base.OnRemoveTalent();
         }
     }
@@ -113,7 +98,9 @@ namespace WarriorRogueMage
         /// <summary>Initializes a new instance of the <see cref="CraftsmanTalent"/> class.</summary>
         public CraftsmanTalent()
             : base(
-                "Craftsman", "You are trained in a craft like blacksmithing, carpentry or bowmaking.", TalentType.Normal)
+                "Craftsman",
+                "You are trained in a craft like blacksmithing, carpentry or bowmaking.",
+                TalentType.Normal) // TODO: Perhaps adds context commands to player?
         {
         }
     }
@@ -127,8 +114,7 @@ namespace WarriorRogueMage
             : base(
                 "Dual Wielding",
                 "You may wield a weapon in your off-hand without penalty. Does not grant and extra attack.",
-                TalentType.Normal,
-            "<rule type=\"assign\">WEAPONWIELDMAX=2</rule>")
+                TalentType.Normal) // TODO: WEAPONWIELDMAX=2, or implement another way?
         {
         }
     }
@@ -142,8 +128,7 @@ namespace WarriorRogueMage
             : base(
                 "Familiar",
                 "You have a small animal like a cat or falcon as a pet that can do some simple tricks.",
-                TalentType.Normal,
-            "<rule type=\"assign\">FAMILIAR=1</rule>")
+                TalentType.Normal) // TODO: FAMILIAR=1, or implement another way?
         {
         }
     }
@@ -157,8 +142,7 @@ namespace WarriorRogueMage
             : base(
                 "Henchman",
                 "You are followed by a henchman who caries your equipment and treasure around and may be asked to perform tasks.",
-                TalentType.Normal,
-            "<rule type=\"increase\">HENCHMAN+1</rule>")
+                TalentType.Normal) // TODO: HENCHMAN+1, or implement another way?
         {
         }
     }
@@ -172,8 +156,7 @@ namespace WarriorRogueMage
             : base(
                 "Hunter",
                 "You are are a trained hunter and may live off the land easily. When given enough time, you can provide enough food to feed a party of four.",
-                TalentType.Normal,
-            "<rule type=\"assign\">HUNTER=True</rule>")
+                TalentType.Normal) // TODO: Perhaps adds context commands to player?
         {
         }
     }
@@ -209,24 +192,19 @@ namespace WarriorRogueMage
             : base(
                 "Massive Attack",
                 "You can add your Warrior attribute level to your melee attack damage once per combat.",
-                TalentType.Normal,
-            "<rule type=\"increase\">DAMAGE+WARRIOR</rule>")
+                TalentType.Normal) // TODO: DAMAGE+WARRIOR (but needs to track last combat target, check which kind of damage)
         {
         }
 
         /// <summary>Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing.)</summary>
         public override void OnAddTalent()
         {
-            new AddAttributeToStatRule<GameAttribute, GameStat>().Execute(this.PlayerThing, "Warrior", "Damage");
-
             base.OnAddTalent();
         }
 
         /// <summary>Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing.)</summary>
         public override void OnRemoveTalent()
         {
-            new SubstractStatFromAttributeRule<GameAttribute, GameStat>().Execute(this.PlayerThing, "Warrior", "Damage");
-
             base.OnRemoveTalent();
         }
     }
@@ -240,24 +218,19 @@ namespace WarriorRogueMage
             : base(
                 "Precise Shot",
                 "You can add your Rogue attribute level to your ranged attack damage once per combat.",
-                TalentType.Normal,
-            "<rule type=\"increase\">DAMAGE+ROGUE</rule>")
+                TalentType.Normal) // TODO: DAMAGE+ROGUE (but needs to track last combat target, check which kind of damage)
         {
         }
 
         /// <summary>Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing.)</summary>
         public override void OnAddTalent()
         {
-            new AddAttributeToStatRule<GameAttribute, GameStat>().Execute(this.PlayerThing, "Rogue", "Damage");
-
             base.OnAddTalent();
         }
 
         /// <summary>Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing.)</summary>
         public override void OnRemoveTalent()
         {
-            new SubstractStatFromAttributeRule<GameAttribute, GameStat>().Execute(this.PlayerThing, "Rogue", "Damage");
-
             base.OnRemoveTalent();
         }
     }
@@ -271,10 +244,8 @@ namespace WarriorRogueMage
             : base(
                 "Sailor",
                 "You are trained in steering a boat or sailing ship and don't get any penalties for fighting on a sea vessel.",
-                TalentType.Normal,
-            "<rule type=\"assign\">SEANAUSEA=False</rule>")
+                TalentType.Normal) // TODO: Add contextual commands for this player, and custom boost for offsetting penalties?
         {
-            // @@@ TODO: Use an Effect object?
         }
     }
 
@@ -287,17 +258,8 @@ namespace WarriorRogueMage
             : base(
                 "Sixth Sense",
                 "You may roll a die before any ambush or other situation where you are about to be surprised. If you roll 4+, you are not surprised and may act first.",
-                TalentType.Normal,
-            "<rule type=\"assign\">INITIATIVE = (1d6 => 4)</rule>")
+                TalentType.Normal) // TODO: Custom implementation, or just a massive modifier half the time to initiative stat checks?
         {
-        }
-
-        /// <summary>Called when the game engine, or other systems, need to activate the talent.</summary>
-        /// <remarks>Some talents are not automatic and can only be used/activated in certain situations.</remarks>
-        public override void OnActivateTalent()
-        {
-            ////new RollDieRule("1d6").Execute(this.PlayerThing, "Initiative", 4);
-            base.OnActivateTalent();
         }
     }
 
@@ -308,12 +270,10 @@ namespace WarriorRogueMage
         /// <summary>Initializes a new instance of the <see cref="ToughAsNailsTalent"/> class.</summary>
         public ToughAsNailsTalent()
             : base(
-            "Tough As Nails",
+                "Tough As Nails",
                 "Damage you take from an individual attack is reduced by 2.",
-                TalentType.Normal,
-            "<rule type=\"subtract\">RECIEVEDDAMAGE-2</rule>")
+                TalentType.Normal) // TODO: RECIEVEDDAMAGE-2 or DAMAGEREDUCTION stat?
         {
-            // @@@ TODO: Use an Effect object?
         }
     }
 }

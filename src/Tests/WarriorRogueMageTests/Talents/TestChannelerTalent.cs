@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Tests the TalentChanneler class.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Tests.Talents
@@ -67,25 +64,6 @@ namespace WheelMUD.Tests.Talents
             Assert.IsNotNull(behavior.FindFirst<ChannelerTalent>().PlayerThing);
 
             behavior.RemoveTalent(channeler);
-        }
-
-        /// <summary>Tests the channeler talent auto set rule.</summary>
-        [Test]
-        public void TestChannelerTalentAutosetRule()
-        {
-            var channeler = new ChannelerTalent();
-
-            var behavior = this.playerThing.Behaviors.FindFirst<TalentsBehavior>();
-            var damageStat = this.playerThing.FindGameStat("Damage");
-            int oldDamaveValue = damageStat.Value;
-
-            behavior.AddTalent(channeler);
-
-            Assert.AreNotEqual(oldDamaveValue, damageStat.Value);
-
-            behavior.RemoveTalent(channeler);
-
-            Assert.AreEqual(oldDamaveValue, damageStat.Value);
         }
     }
 }
