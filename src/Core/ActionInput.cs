@@ -3,11 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A base action input command. This is created whenever input is detected on 
-//   the sockets, or action input is created by mobile AI.
-//   The text is parsed so that it can be presented to the command system easily.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core

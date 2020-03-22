@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Tests the TalentMassiveAttack class.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Tests.Talents
@@ -65,21 +62,6 @@ namespace WheelMUD.Tests.Talents
             Assert.IsNotNull(behavior.FindFirst<MassiveAttackTalent>().PlayerThing);
 
             behavior.RemoveTalent(massiveAttack);
-        }
-
-        /// <summary>Tests the massive attack talent auto set rule.</summary>
-        [Test]
-        public void TestMassiveAttackTalentAutosetRule()
-        {
-            var massiveAttack = new MassiveAttackTalent();
-            var behavior = this.playerThing.Behaviors.FindFirst<TalentsBehavior>();
-            var damageStat = this.playerThing.FindGameStat("Damage");
-            int oldDamaveValue = damageStat.Value;
-
-            behavior.AddTalent(massiveAttack);
-            Assert.AreNotEqual(oldDamaveValue, damageStat.Value);
-            behavior.RemoveTalent(massiveAttack);
-            Assert.AreEqual(oldDamaveValue, damageStat.Value);
         }
     }
 }

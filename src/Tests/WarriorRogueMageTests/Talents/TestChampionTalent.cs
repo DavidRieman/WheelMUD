@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Tests the Champion talent.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Tests.Talents
@@ -17,6 +14,7 @@ namespace WheelMUD.Tests.Talents
     using WarriorRogueMage.Stats;
     using WheelMUD.Core;
 
+    // <summary>Tests the Champion talent.</summary>
     [TestFixture]
     public class TestChampionTalent
     {
@@ -68,31 +66,6 @@ namespace WheelMUD.Tests.Talents
             Assert.IsNotNull(behavior.FindFirst<ChampionTalent>().PlayerThing);
 
             behavior.RemoveTalent(champion);
-        }
-
-        /// <summary>Tests the champion talent auto set rule.</summary>
-        [Test]
-        public void TestChampionTalentAutosetRule()
-        {
-            var champion = new ChampionTalent();
-
-            var behavior = this.playerThing.Behaviors.FindFirst<TalentsBehavior>();
-            
-            var attackStat = this.playerThing.FindGameStat("Attack");
-            int oldAttackValue = attackStat.Value;
-            
-            var damageStat = this.playerThing.FindGameStat("Damage");
-            int oldDamageValue = damageStat.Value;
-
-            behavior.AddTalent(champion);
-
-            Assert.AreNotEqual(oldAttackValue, attackStat.Value);
-            Assert.AreNotEqual(oldDamageValue, damageStat.Value);
-
-            behavior.RemoveTalent(champion);
-
-            Assert.AreEqual(oldAttackValue, attackStat.Value);
-            Assert.AreEqual(oldDamageValue, damageStat.Value);
         }
     }
 }
