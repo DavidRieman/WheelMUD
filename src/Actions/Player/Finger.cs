@@ -125,11 +125,11 @@ namespace WheelMUD.Actions
             string targetName = textInfo.ToTitleCase(actionInput.Tail.Trim().ToLower());
 
             // Rule: Is the target an entity?
-            this.target = GameAction.GetPlayerOrMobile(targetName);
+            this.target = GetPlayerOrMobile(targetName);
             if (this.target == null)
             {
                 // Now we need to look for the user in the database.
-                // @@@ What if the player is offline? Player.Load probably adds them to the world, etc...
+                // TODO: What if the player is offline? Player.Load probably adds them to the world, etc...
                 //     This seems quite bad.  TEST!  Ideally we should be able to get the info of an off-
                 //     line player BUT if the player logs in between say, our Guards and Execute getting
                 //     run, we still want nothing strange to result, we don't want this to generate any

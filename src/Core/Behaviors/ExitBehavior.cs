@@ -47,7 +47,7 @@ namespace WheelMUD.Core
         public ExitBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.commands = new ExitBehaviorCommands(this); 
+            this.commands = new ExitBehaviorCommands(this);
             this.ID = instanceID;
         }
 
@@ -120,7 +120,7 @@ namespace WheelMUD.Core
                 // There was no destination reachable from the thing's starting location.
                 return false;
             }
-            
+
             // If the target location hasn't been cached already, try to do so now.
             if (destinationInfo.CachedTarget == null || destinationInfo.CachedTarget.Target == null)
             {
@@ -224,7 +224,7 @@ namespace WheelMUD.Core
                 string oldExitCommand = this.GetExitCommandFrom(removeChildEvent.OldParent);
                 removeChildEvent.OldParent.Commands.Remove(oldExitCommand);
             }
-            
+
             // If our parent (the thing with exit behavior) was placed in something (like a room)...
             var addChildEvent = e as AddChildEvent;
             if (addChildEvent != null &&
@@ -293,7 +293,7 @@ namespace WheelMUD.Core
             /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
             private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
             {
-                CommonGuards.InitiatorMustBeAlive, 
+                CommonGuards.InitiatorMustBeAlive,
                 CommonGuards.InitiatorMustBeConscious,
                 CommonGuards.InitiatorMustBeBalanced,
                 CommonGuards.InitiatorMustBeMobile

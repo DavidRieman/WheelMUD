@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Handles MUD Extension Protocol (MXP) data.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server
@@ -137,13 +134,13 @@ namespace WheelMUD.Server
 
             mxpOption.VersionResponseBuffer = string.Empty;
 
-            // @@@ This is a hack. zmud 6.16 doesn't support MCCP correctly but responds that it does.
+            // TODO: This is a hack. zmud 6.16 doesn't support MCCP correctly but responds that it does.
             // We should disable the option here.
             if (sender.Terminal.Client == "zmud" && sender.Terminal.Version == "6.16")
             {
                 ITelnetOption mccpOption =
                     sender.TelnetCodeHandler.TelnetOptions.Find(
-                        delegate(ITelnetOption o) { return o.Name.Equals("compress2"); });
+                        delegate (ITelnetOption o) { return o.Name.Equals("compress2"); });
                 if (mccpOption != null)
                 {
                     mccpOption.Disable();

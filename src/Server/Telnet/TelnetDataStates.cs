@@ -14,13 +14,13 @@ namespace WheelMUD.Server.Telnet
     /// <summary>The connection telnet state.</summary>
     internal abstract class ConnectionTelnetState
     {
-        /// <summary>@@@ What is this?</summary>
+        /// <summary>TODO: What is this?</summary>
         internal const int IAC = 255;
 
-        /// <summary>@@@ What is this?</summary>
+        /// <summary>TODO: What is this?</summary>
         internal const int SB = 250;
 
-        /// <summary>@@@ What is this?</summary>
+        /// <summary>TODO: What is this?</summary>
         internal const int SE = 240;
 
         /// <summary>Initializes a new instance of the ConnectionTelnetState class.</summary>

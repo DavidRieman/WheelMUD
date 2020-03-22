@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Character creation state used to set the player's race.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage.CharacterCreation

@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   This class decorates the base server, providing telnet facilities to the application.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server
@@ -14,6 +11,7 @@ namespace WheelMUD.Server
     using WheelMUD.Interfaces;
 
     /// <summary>A telnet server.</summary>
+    /// <remarks>This class decorates the base server, providing telnet facilities to the application.</remarks>
     public class TelnetServer : ISubSystem
     {
         /// <summary>The subscribed sub system host.</summary>
@@ -78,7 +76,7 @@ namespace WheelMUD.Server
                     }
                 }
             }
-            
+
             return buffer.ToArray();
         }
     }

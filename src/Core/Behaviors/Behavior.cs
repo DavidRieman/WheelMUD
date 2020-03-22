@@ -83,7 +83,7 @@ namespace WheelMUD.Core
         {
             Type t = this.GetType();
 
-            ////@@@ EXPERIMENT OPTIONS:
+            ////TODO: EXPERIMENT OPTIONS:
             ////newBehavior.CloneProperties(this);
             ////newBehavior = (Behavior)this.MemberwiseClone();
 

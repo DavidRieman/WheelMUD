@@ -3,16 +3,13 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server.Telnet
 {
     using WheelMUD.Interfaces;
-    
-    /// <summary>@@@ What is this?</summary>
+
+    /// <summary>TODO: What is this?</summary>
     internal class ConnectionTelnetStateOptionCode : ConnectionTelnetState
     {
         /// <summary>The option code.</summary>
@@ -32,7 +29,7 @@ namespace WheelMUD.Server.Telnet
         public override void ProcessInput(byte data)
         {
             // If the data is not one of our implemented options then we reset back.
-            TelnetOption option = (TelnetOption)Parent.TelnetOptions.Find(delegate(ITelnetOption o) { return o.OptionCode == data; });
+            TelnetOption option = (TelnetOption)Parent.TelnetOptions.Find(delegate (ITelnetOption o) { return o.OptionCode == data; });
             if (option == null)
             {
                 // We have received an option code that we dont recognise, so we create a temporary

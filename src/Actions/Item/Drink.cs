@@ -25,11 +25,11 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
-            CommonGuards.InitiatorMustBeBalanced, 
-            CommonGuards.RequiresAtLeastOneArgument 
+            CommonGuards.InitiatorMustBeAlive,
+            CommonGuards.InitiatorMustBeBalanced,
+            CommonGuards.RequiresAtLeastOneArgument
         };
-        
+
         /// <summary>The drinkable item we are to 'drink' from.</summary>
         private Thing thingToDrink = null;
 
@@ -55,7 +55,7 @@ namespace WheelMUD.Actions
             {
                 return commonFailure;
             }
-            
+
             // Rule: Do we have an item matching in our inventory?
             // TODO: Support drinking from, for instance, a fountain sitting in the room.
             string itemIdentifier = actionInput.Tail.Trim();

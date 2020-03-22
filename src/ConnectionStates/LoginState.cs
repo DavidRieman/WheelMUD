@@ -9,7 +9,6 @@ namespace WheelMUD.ConnectionStates
 {
     using System;
     using WheelMUD.Core;
-    using WheelMUD.Core.Events;
     using WheelMUD.Data;
     using WheelMUD.Data.Repositories;
 

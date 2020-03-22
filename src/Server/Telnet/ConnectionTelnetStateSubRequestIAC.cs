@@ -3,16 +3,13 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server.Telnet
 {
     using WheelMUD.Interfaces;
-    
-    /// <summary>@@@ What is this?</summary>
+
+    /// <summary>TODO: What is this?</summary>
     internal class ConnectionTelnetStateSubRequestIAC : ConnectionTelnetState
     {
         /// <summary>Initializes a new instance of the ConnectionTelnetStateSubRequestIAC class.</summary>
@@ -42,7 +39,7 @@ namespace WheelMUD.Server.Telnet
                     Parent.SubRequestBuffer.RemoveAt(0);
 
                     // Find the related option.
-                    TelnetOption option = (TelnetOption)Parent.TelnetOptions.Find(delegate(ITelnetOption o) { return o.OptionCode == optionCode; });
+                    TelnetOption option = (TelnetOption)Parent.TelnetOptions.Find(delegate (ITelnetOption o) { return o.OptionCode == optionCode; });
                     if (option == null)
                     {
                         // We have received an option code that we dont recognise, so we create a temporary

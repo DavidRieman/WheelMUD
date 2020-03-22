@@ -28,7 +28,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -96,7 +96,7 @@ namespace WheelMUD.Actions
             string destinationParentName = null;
             if (actionInput.Params.Length > 1)
             {
-                // @@@ Hmm, maybe action input should have a means of automatically stripping words like this or "the" etc?
+                // TODO: Maybe action input should have a means of automatically stripping words like this or "the" etc?
                 if (actionInput.Params.Length > 2 &&
                     (actionInput.Params[1].Equals("into", StringComparison.CurrentCultureIgnoreCase) ||
                      actionInput.Params[1].Equals("onto", StringComparison.CurrentCultureIgnoreCase)))
@@ -160,7 +160,7 @@ namespace WheelMUD.Actions
             return null;
         }
 
-        // @@@ Test and move to a string utilities class or extension method of some sort?
+        // TODO: Test and move to a string utilities class or extension method of some sort?
         private static string BuildCommaSeparatedList(IEnumerable<string> things)
         {
             string result = string.Empty;
@@ -172,7 +172,7 @@ namespace WheelMUD.Actions
                 if (countLeft > 1)
                 {
                     result += ", ";
-                } 
+                }
                 else if (countLeft == 1)
                 {
                     result += ", and ";

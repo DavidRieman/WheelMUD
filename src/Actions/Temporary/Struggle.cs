@@ -14,17 +14,17 @@ namespace WheelMUD.Actions
     using WheelMUD.Effects;
     using WheelMUD.Interfaces;
 
-    /// <summary>@@@ Temporary script to to get out of a web.</summary>
+    /// <summary>Temporary script to to get out of a web.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("struggle", CommandCategory.Temporary)]
-    [ActionDescription("@@@ Temp command.")]
+    [ActionDescription("Temporary test command. Struggles out of a web.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
     public class Struggle : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious
         };
 
@@ -39,7 +39,7 @@ namespace WheelMUD.Actions
             Die die = DiceService.Instance.GetDie(10);
 
             // Die has to be > 5 to get out
-            // @@@ If this were non-temporary, it should be using events instead of Write.
+            // If this were non-temporary, it should be using events instead of Write.
             var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
             if (die.Roll() > 5)
             {

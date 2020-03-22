@@ -23,7 +23,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -132,14 +132,14 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the container open?
-            // @@@ If it has OpenableBehavior, is it currently opened?
+            // TODO: If it has OpenableBehavior, is it currently opened?
             //if (((Container)foundItem).OpenState == OpenState.Closed)
             //{
             //    return containerName + " is closed.";
             //}
 
-            // Rule: @@@ If this item has a CapacityBehavior (or maybe just ContainerBehavior), does it have room left?
-            
+            // TODO: Rule: If this item has a CapacityBehavior (or maybe just ContainerBehavior), does it have room left?
+
             // Rule: Do we have a matching item in our inventory?
             this.thing = sender.Thing.Children.Find(i => i.Name == itemName.ToLower());
             if (this.thing == null)

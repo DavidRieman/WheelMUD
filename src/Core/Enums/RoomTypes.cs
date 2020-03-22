@@ -3,16 +3,17 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Enum of accepted room types that are usable.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
 {
     using System;
-    
+
     /// <summary>Room types.</summary>
+    /// <remarks>
+    /// TODO: Attach these to RoomBehavior (defaulting as None)? Revise or consider a few common needs as booleans, etc?
+    /// TODO: These could be used to determine if weather events are printed for players at the location, etc.
+    /// </remarks>
     [Flags]
     public enum RoomType : uint
     {
@@ -76,40 +77,40 @@ namespace WheelMUD.Core
         /// <summary>Not as big as Endless, but big.</summary>
         Large = 262144,
 
-        /// <summary>A room built from metal: RoomType.Indoors | RoomType.Dry</summary>
-        MetalRoom = RoomType.Indoors | RoomType.Dry,
+        /// <summary>A room built from metal: Indoors | Dry</summary>
+        MetalRoom = Indoors | Dry,
 
-        /// <summary>A room built from stone: RoomType.Indoors | RoomType.Mountains</summary>
-        StoneRoom = RoomType.Indoors | RoomType.Mountains,
+        /// <summary>A room built from stone: Indoors | Mountains</summary>
+        StoneRoom = Indoors | Mountains,
 
-        /// <summary>A room built from wood: RoomType.Indoors | RoomType.Forest</summary>
-        WoodRoom = RoomType.Indoors | RoomType.Forest,
+        /// <summary>A room built from wood: Indoors | Forest</summary>
+        WoodRoom = Indoors | Forest,
 
-        /// <summary>Sewer: RoomType.Indoors | RoomType.Cave | RoomType.River</summary>
-        Sewer = RoomType.Indoors | RoomType.Cave | RoomType.River,
+        /// <summary>Sewer: Indoors | Cave | River</summary>
+        Sewer = Indoors | Cave | River,
 
-        /// <summary>A tree branch large enough to walk on:  RoomType.Forest | RoomType.Surface</summary>
-        TreeSurface = RoomType.Forest | RoomType.Surface,
+        /// <summary>A tree branch large enough to walk on:  Forest | Surface</summary>
+        TreeSurface = Forest | Surface,
 
-        /// <summary>Alpine Biom room type: RoomType.Mountains | RoomType.Forest | RoomType.Snowy</summary>
-        Alpine = RoomType.Mountains | RoomType.Forest | RoomType.Snowy,
+        /// <summary>Alpine biome room type: Mountains | Forest | Snowy</summary>
+        Alpine = Mountains | Forest | Snowy,
 
-        /// <summary>Tundra Biom room type: RoomType.Plains | RoomType.Snowy | RoomType.Dry</summary>
-        Tundra = RoomType.Plains | RoomType.Snowy | RoomType.Dry,
+        /// <summary>Tundra biome room type: Plains | Snowy | Dry</summary>
+        Tundra = Plains | Snowy | Dry,
 
-        /// <summary>Chaparral Biom room type  (Wild West scenery): RoomType.Dry | RoomType.Plains | RoomType.Hills</summary>
-        Chaparral = RoomType.Dry | RoomType.Plains | RoomType.Hills,
+        /// <summary>Chaparral bimoe room type  (Wild West scenery): Dry | Plains | Hills</summary>
+        Chaparral = Dry | Plains | Hills,
 
-        /// <summary>Savanna Biom room type (African Plains): RoomType.Dry | RoomType.Plains</summary>
-        Savanna = RoomType.Dry | RoomType.Plains,
+        /// <summary>Savanna biome room type (African Plains): Dry | Plains</summary>
+        Savanna = Dry | Plains,
 
-        /// <summary>Rainforest Biom room type (South America): RoomType.Forest | RoomType.Humid</summary>
-        Rainforest = RoomType.Forest | RoomType.Humid,
+        /// <summary>Rainforest biome room type (South America): Forest | Humid</summary>
+        Rainforest = Forest | Humid,
 
-        /// <summary>Swamp Biom room type (wet marsh): RoomType.Plains | RoomType.Humid</summary>
-        Swamp = RoomType.Plains | RoomType.Humid,
+        /// <summary>Swamp biome room type (wet marsh): Plains | Humid</summary>
+        Swamp = Plains | Humid,
 
-        /// <summary>Taiga Biom room type (Mountain Forest): RoomType.Forest | RoomType.Mountains</summary>
-        Taiga = RoomType.Forest | RoomType.Mountains
+        /// <summary>Taiga biome room type (Mountain Forest): Forest | Mountains</summary>
+        Taiga = Forest | Mountains
     }
 }

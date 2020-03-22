@@ -40,7 +40,7 @@ namespace WheelMUD.CommandSystem
         /// <returns>A new ScriptingCommand instance for the specified input, if found, else null.</returns>
         public ScriptingCommand Create(ActionInput actionInput)
         {
-            // @@@ TODO: Build targeting into command selection when there are multiple valid targets; IE if multiple
+            // TODO: Build targeting into command selection when there are multiple valid targets; IE if multiple
             //     openable things registered an "open" context command, then if the user said "open door" then we
             //     want to select the context command attached to the closest match for "door" as our command; if
             //     there are still multiple targets, we can start a conflict resolution prompt, etc.  Individual non-

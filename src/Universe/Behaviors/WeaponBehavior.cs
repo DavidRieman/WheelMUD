@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Base class for Weapon Behavior.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Universe
@@ -15,8 +12,8 @@ namespace WheelMUD.Universe
 
     /// <summary>A weapon behavior adds the ability to wield and attack with the host Thing.</summary>
     /// <remarks>
-    /// @@@ TODO: Add an interface for all behaviors which make statistical adjustments, to assist with recalculations?
-    /// @@@ TODO: Perhaps remove concepts like 'MinimumStrength' from core behaviors, instead
+    /// TODO: Add an interface for all behaviors which make statistical adjustments, to assist with recalculations?
+    /// TODO: Perhaps remove concepts like 'MinimumStrength' from core behaviors, instead
     /// this could be accomplished with a GameWeaponBehavior, and/or global game system event 
     /// handlers which enforce such rules at time of the wield request's processing...
     /// </remarks>

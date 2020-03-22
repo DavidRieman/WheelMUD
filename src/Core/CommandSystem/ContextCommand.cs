@@ -11,7 +11,7 @@ namespace WheelMUD.Core
     using WheelMUD.Core.Attributes;
 
     /// <summary>A ContextCommand is like a Command but simpler, and can only be executed in temporary/certain contexts.</summary>
-    /// <remarks>@@@ TODO: Add description/details or whatnot, and have help system list any currently-applicable context commands.</remarks>
+    /// <remarks>TODO: Add description/details or whatnot, and have help system list any currently-applicable context commands.</remarks>
     public class ContextCommand
     {
         /// <summary>Initializes a new instance of the <see cref="ContextCommand"/> class.</summary>
@@ -21,8 +21,8 @@ namespace WheelMUD.Core
         /// <param name="securityRole">The security role.</param>
         public ContextCommand(
             GameAction commandScript,
-            string commandKey, 
-            ContextAvailability availability, 
+            string commandKey,
+            ContextAvailability availability,
             SecurityRole securityRole)
         {
             this.CommandScript = commandScript;

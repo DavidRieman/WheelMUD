@@ -235,7 +235,7 @@ namespace WheelMUD.Core.Output
         /// <returns>A string with all special tags replaced with matching ANSI codes.</returns>
         public static string Parse(string parseString)
         {
-            //@@@ TODO: Replace with regex and separate ANSI from MXP.
+            // TODO: Replace with regex and separate ANSI from MXP.
             string newString = parseString;
 
             if (newString != null)

@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Universe
@@ -45,9 +43,9 @@ namespace WheelMUD.Universe
         /// <returns>A new Liquid item.</returns>
         public Thing GenerateLiquid(double quantity, string units)
         {
-            // @@@ TODO: Remove LiquidSourceBehavior and implement appropriate Spawners and
-            //     maybe an item template for a Thing with ContainerBehavior and an appropriate
-            //     Spawner to fill up to a maximum amount of water, periodically.
+            // TODO: Remove LiquidSourceBehavior and implement appropriate Spawners and
+            //       maybe an item template for a Thing with ContainerBehavior and an appropriate
+            //       Spawner to fill up to a maximum amount of water, periodically.
             return null;
         }
 

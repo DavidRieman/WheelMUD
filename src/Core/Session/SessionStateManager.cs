@@ -50,8 +50,8 @@ namespace WheelMUD.Core
                 DefaultComposer.Container.ComposeParts(this);
 
                 // Search the SessionStates for the one which has the highest priority.
-                // @@@ TODO: assembly version number could be used as orderby tiebreaker to help ensure
-                //     "latest" is always prioritized over an equal StatePriority of an older version.
+                // TODO: assembly version number could be used as orderby tiebreaker to help ensure
+                //       "latest" is always prioritized over an equal StatePriority of an older version.
                 Type defaultSessionStateType;
                 if (this.SessionStates.Length > 0)
                 {

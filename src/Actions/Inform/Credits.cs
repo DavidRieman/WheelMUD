@@ -33,14 +33,14 @@ namespace WheelMUD.Actions
 
         /// <summary>The synchronization locking object.</summary>
         private static object cacheLockObject = new object();
-        
+
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
             var parameters = actionInput.Params;
-            
+
             // Ensure two 'credits' commands at the same time do not race for shared cache, etc.
             lock (cacheLockObject)
             {

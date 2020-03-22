@@ -15,7 +15,7 @@ namespace WheelMUD.ConnectionStates
     {
         /// <summary>Initializes a new instance of the <see cref="DefaultCharacterCreationStateMachine"/> class.</summary>
         /// <param name="session">The session.</param>
-        public DefaultCharacterCreationStateMachine(Session session) 
+        public DefaultCharacterCreationStateMachine(Session session)
             : base(session)
         {
         }

@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   High level manager that provides tracking and global collection of Things.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core

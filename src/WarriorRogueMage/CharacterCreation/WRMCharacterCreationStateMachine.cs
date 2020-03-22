@@ -16,7 +16,7 @@ namespace WarriorRogueMage.CharacterCreation
     {
         /// <summary>Initializes a new instance of the <see cref="WRMCharacterCreationStateMachine" /> class.</summary>
         /// <param name="session">The session.</param>
-        public WRMCharacterCreationStateMachine(Session session) 
+        public WRMCharacterCreationStateMachine(Session session)
             : base(session)
         {
         }

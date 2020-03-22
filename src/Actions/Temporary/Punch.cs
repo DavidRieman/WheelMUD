@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-// @@@ BUG: The prompt immediately following taking damage does not reflect the 
+// TODO: FIX: The prompt immediately following taking damage does not reflect the 
 // player's new health total.  Although a SetPrompt command does not exist yet, 
 // one can change the player's SessionState.Prompt value via the debugger to 
 // something like "[health] [maxhealth]>" to test this out.
@@ -13,7 +13,6 @@
 namespace WheelMUD.Actions
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
@@ -21,17 +20,17 @@ namespace WheelMUD.Actions
     using WheelMUD.Effects;
     using WheelMUD.Interfaces;
 
-    /// <summary>@@@ A temporary command to attempt some combat.</summary>
+    /// <summary>A temporary command to attempt some combat.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("punch", CommandCategory.Temporary)]
-    [ActionDescription("@@@ Temp command.")]
+    [ActionDescription("Temporary test command. Punch a target.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
     public class Punch : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -97,7 +96,7 @@ namespace WheelMUD.Actions
 
             // Find the most appropriate matching target.
             string targetName = actionInput.Tail.Trim().ToLower();
-            this.target = GameAction.GetPlayerOrMobile(targetName);
+            this.target = GetPlayerOrMobile(targetName);
 
             // Rule: Is the target an entity?
             if (this.target == null)

@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Command guard helper methods.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.CommandSystem
@@ -28,7 +25,7 @@ namespace WheelMUD.CommandSystem
                 // attribute for your new GameAction class.
                 return string.Format("Nobody can use '{0}' right now!", command.Name);
             }
-            
+
             Thing entity = command.ActionInput.Controller.Thing;
             if (entity == null)
             {
@@ -38,10 +35,10 @@ namespace WheelMUD.CommandSystem
             PlayerBehavior player = entity.Behaviors.FindFirst<PlayerBehavior>();
             if (player != null)
             {
-                // @@@ TODO: Ascertain the ACTUAL player's specific permissions, so we can 
-                //     check for fullAdmin, fullBuilder, etc, instead of assuming just 
-                //     'SecurityRole.player' (SEE ALSO CommandManager for another...)
-                SecurityRole playerRoles = SecurityRole.player | SecurityRole.minorBuilder | 
+                // TODO: Ascertain the ACTUAL player's specific permissions, so we can 
+                //       check for fullAdmin, fullBuilder, etc, instead of assuming just 
+                //       'SecurityRole.player' (SEE ALSO CommandManager for another...)
+                SecurityRole playerRoles = SecurityRole.player | SecurityRole.minorBuilder |
                         SecurityRole.fullBuilder | SecurityRole.minorAdmin | SecurityRole.fullAdmin;
 
                 // If any of the command's security roles and the player's security roles 
@@ -65,7 +62,7 @@ namespace WheelMUD.CommandSystem
                     return null;
                 }
 
-                return string.Format("A mobile can not use '{0}' right now!", command.Name); 
+                return string.Format("A mobile can not use '{0}' right now!", command.Name);
             }
 
             RoomBehavior room = entity.Behaviors.FindFirst<RoomBehavior>();
@@ -78,9 +75,9 @@ namespace WheelMUD.CommandSystem
 
                 return string.Format("A room can not use '{0}' right now!", command.Name);
             }
-            
-            // @@@ For now, everything else which doesn't meet any above category will need the 'item' security 
-            //     role. (Do we need an ItemBehavior or is there something else relevant... CanPickupBehavior etc?)
+
+            // TODO: For now, everything else which doesn't meet any above category will need the 'item' security 
+            //       role. (Do we need an ItemBehavior or is there something else relevant... CanPickupBehavior etc?)
             if ((command.SecurityRole & SecurityRole.item) != SecurityRole.none)
             {
                 return null;

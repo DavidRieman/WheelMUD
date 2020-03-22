@@ -86,7 +86,7 @@ namespace WheelMUD.Core
         /// <typeparam name="T">The imported type.</typeparam>
         /// <param name="importedTypes">The set of imported type instances.</param>
         /// <returns>The "latest" distinct list of type instances.</returns>
-        /// <remarks>@@@ TODO: DEPRECATED - Try to replace with Priority versions only.</remarks>
+        /// <remarks>TODO: DEPRECATED - Try to replace with Priority versions only.</remarks>
         public static List<T> GetNonPrioritizedInstances<T>(IEnumerable<T> importedTypes)
         {
             var distinctInstances = new List<T>();
@@ -115,7 +115,7 @@ namespace WheelMUD.Core
         /// <param name="importedTypesWithMetadata">The imported types, with metadata, to search for the latest priority version.</param>
         /// <returns>The latest priority instance.</returns>
         public static T GetInstance<T, Meta>(IEnumerable<Lazy<T, Meta>> importedTypesWithMetadata)
-            where Meta: IExportWithPriority
+            where Meta : IExportWithPriority
         {
             return (from exportData in importedTypesWithMetadata
                     where exportData.Metadata.Priority >= 0
@@ -140,7 +140,7 @@ namespace WheelMUD.Core
         }
 
         public static List<T> GetInstances<T, Meta>(IEnumerable<Lazy<T, Meta>> importedTypesWithMetadata)
-            where Meta: IExportWithPriority
+            where Meta : IExportWithPriority
         {
             var distinctTypeNames = importedTypesWithMetadata.Select(t => t.Value.GetType().Name).Distinct();
             return (from typeName in distinctTypeNames

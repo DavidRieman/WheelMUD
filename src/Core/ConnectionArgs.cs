@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -22,7 +19,7 @@ namespace WheelMUD.Core
         {
             this.Connection = connection;
         }
-        
+
         /// <summary>Gets the connection.</summary>
         public IConnection Connection { get; private set; }
     }

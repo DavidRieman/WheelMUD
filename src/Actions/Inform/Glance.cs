@@ -24,7 +24,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious
         };
 
@@ -58,7 +58,7 @@ namespace WheelMUD.Actions
             {
                 return "You are incapable of perceiving anything.";
             }
-            
+
             return null;
         }
 

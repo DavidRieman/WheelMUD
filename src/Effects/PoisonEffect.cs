@@ -28,20 +28,20 @@ namespace WheelMUD.Effects
             this.ID = instanceID;
         }
 
-        /* @@@ TODO: Rework against new Effect class and time/tick events.
-        /// <summary>@@Temporary code for now...this will change.</summary>
+        /* TODO: Rework against new Effect class and time/tick events.
+        /// <summary>Temporary code for now...this will change.</summary>
         private int numOfTicks;
 
-        /// <summary>@@Temporary code for now...this will change.</summary>
+        /// <summary>Temporary code for now...this will change.</summary>
         private TimeSpan timeBetweenTicks = new TimeSpan(0, 0, 1);
 
-        /// <summary>@@Temporary code for now...this will change.</summary>
+        /// <summary>Temporary code for now...this will change.</summary>
         private TimeSpan totalTime;
 
-        /// <summary>@@Temporary code for now...this will change.</summary>
+        /// <summary>Temporary code for now...this will change.</summary>
         private IStat health = null;
 
-        /// <summary>@@Temporary code for now...this will change.</summary>
+        /// <summary>Temporary code for now...this will change.</summary>
         /// <param name="duration">duration 12</param>
         public override void Apply(TimeSpan duration)
         {

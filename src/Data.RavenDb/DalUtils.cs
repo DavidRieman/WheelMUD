@@ -10,9 +10,9 @@
 
 namespace WheelMUD.Data.RavenDb
 {
+    using Raven.Client.Documents.Session;
     using System;
     using System.IO;
-    using Raven.Client.Documents.Session;
     using WheelMUD.Utilities;
 
     /// <summary>Utilities for making the use of RavenDb easier.</summary>
@@ -46,7 +46,7 @@ namespace WheelMUD.Data.RavenDb
         /// <summary>Creates the needed indexes, if they don't exist.</summary>
         public static void CreateIndexes()
         {
-            /* @@@ REPAIR INDEXES https://demo.ravendb.net/demos/related-documents/index-related-documents
+            /* TODO: REPAIR INDEXES https://demo.ravendb.net/demos/related-documents/index-related-documents
              * using (var store = DocumentStore.Instance)
             {
                 store.DatabaseCommands.PutIndex(

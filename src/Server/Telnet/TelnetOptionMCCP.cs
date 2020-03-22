@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Class that handles the subnegotiation of an MCCP (Compression) telnet option code.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server.Telnet
@@ -20,7 +17,7 @@ namespace WheelMUD.Server.Telnet
             : base("compress2", 86, wantOption, connection)
         {
         }
-        
+
         /// <summary>Process the sub negotiation.</summary>
         /// <param name="data">The data to process.</param>
         public override void ProcessSubNegotiation(byte[] data)

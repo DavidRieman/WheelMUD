@@ -43,7 +43,7 @@ namespace WheelMUD.Tests.Talents
 
             rogueAttribute.Parent = this.playerThing;
             this.playerThing.AddAttribute(mageAttribute);
-            
+
             warriorAttribute.SetValue(10, this.playerThing);
             rogueAttribute.SetValue(10, this.playerThing);
             mageAttribute.SetValue(10, this.playerThing);

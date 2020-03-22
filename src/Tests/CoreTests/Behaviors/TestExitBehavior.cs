@@ -3,15 +3,13 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Tests.Behaviors
 {
     using NUnit.Framework;
     using WheelMUD.Core;
-    
+
     /// <summary>Tests for the ExitBehavior class.</summary>
     [TestFixture]
     public class TestExitBehavior
@@ -45,7 +43,7 @@ namespace WheelMUD.Tests.Behaviors
             Assert.AreSame(this.exitBehavior.GetDestination(this.roomA), this.roomB);
             Assert.AreSame(this.exitBehavior.GetDestination(this.roomA), this.roomB);
             Assert.AreNotSame(this.exitBehavior.GetDestination(this.roomB), this.roomA);
-            
+
             // Create an unmovable actor, and ensure that said actor cannot move through.
             this.actor = new Thing() { Name = "Actor" };
             this.roomA.Add(this.actor);
@@ -61,7 +59,7 @@ namespace WheelMUD.Tests.Behaviors
             this.exitBehavior.MoveThrough(this.actor);
             Assert.AreSame(this.actor.Parent, this.roomB);
 
-            // @@@ TODO: Place the actor back in room A, and try using the context command to move it?
+            // TODO: Place the actor back in room A, and try using the context command to move it?
             this.roomA.Add(this.actor);
         }
 
@@ -77,7 +75,7 @@ namespace WheelMUD.Tests.Behaviors
             // Ensure there are no destinations before rigging them up.
             Assert.AreSame(this.exitBehavior.GetDestination(this.roomA), null);
             Assert.AreSame(this.exitBehavior.GetDestination(this.roomB), null);
-            
+
             // Rig the exits and ensure both got rigged up to the correct destinations.
             this.exitBehavior.AddDestination("north", this.roomB.Id);
             this.exitBehavior.AddDestination("south", this.roomA.Id);
@@ -99,8 +97,8 @@ namespace WheelMUD.Tests.Behaviors
             this.exitBehavior.MoveThrough(this.actor);
             Assert.AreSame(this.actor.Parent, this.roomA);
 
-            // @@@ TODO: Ensure the actor does not move through when using the wrong context command?
-            // @@@ TODO: Ensure the actor moves through both ways when using correct context commands?
+            // TODO: Ensure the actor does not move through when using the wrong context command?
+            // TODO: Ensure the actor moves through both ways when using correct context commands?
         }
     }
 }

@@ -37,7 +37,7 @@ namespace WheelMUD.Actions
         {
             // TODO: Inform the player by sending a non-sensory event
             ////connection.Send("You have been booted from the server.");
-            this.playerBehavior.LogOut(); 
+            this.playerBehavior.LogOut();
 
             // Inform the admin
             IController sender = actionInput.Controller;

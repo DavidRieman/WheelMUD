@@ -60,14 +60,6 @@ namespace WheelMUD.Actions
                    MobileManager.Instance.FindMobileByName(entityName, true);
         }
 
-        /// <summary>Gets a room for the specified ID.</summary>
-        /// <param name="roomId">The ID of the room to find.</param>
-        /// <returns>Room if a room is found, otherwise null</returns>
-        public static Thing GetRoom(long roomId)
-        {
-            return PlacesManager.Instance.WorldBehavior.FindRoom(roomId);
-        }
-
         /// <summary>Executes the command.</summary>
         /// <remarks>Verify that the Guards pass first.</remarks>
         /// <param name="actionInput">The full input specified for executing the command.</param>
@@ -92,7 +84,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the initiator in a room?
-            // (@@@ Note that this guard was found on some commands, but I know of no situation where the user
+            // (TODO: Note that this guard was found on some commands, but I know of no situation where the user
             // should be able to use ANY command while "not in a room" which generally shouldn't occur?)
             if (sender.Thing.Parent == null)
             {

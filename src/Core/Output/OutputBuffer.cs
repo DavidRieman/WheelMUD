@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   This class provides a server side output buffer, IE it wraps the text to
-//   a predefined number of lines.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Output
@@ -14,24 +10,18 @@ namespace WheelMUD.Core.Output
     using System.Collections.Generic;
     using WheelMUD.Core.Enums;
 
-    /// <summary>Output buffer.</summary>
+    /// <summary>OutputBuffer provides a server side output buffer.</summary>
+    /// <remarks>Used for paging, to avoid flooding users with too many lines in one go.</remarks>
     public class OutputBuffer
     {
         /// <summary>Current location in the buffer.</summary>
         private readonly object lockObject = new object();
 
         /// <summary>List of output rows.</summary>
-        private List<string> outputBuffer;
-
-        /// <summary>Current location in the buffer.</summary>
-        private int currentLocation;
+        private readonly List<string> outputBuffer = new List<string>();
 
         /// <summary>Initializes a new instance of the <see cref="OutputBuffer"/> class.</summary>
-        public OutputBuffer()
-        {
-            this.outputBuffer = new List<string>();
-            this.currentLocation = 0;
-        }
+        public OutputBuffer() { }
 
         /// <summary>Gets the total length of the output buffer.</summary>
         public int Length
@@ -40,10 +30,7 @@ namespace WheelMUD.Core.Output
         }
 
         /// <summary>Gets the current location in the output buffer.</summary>
-        public int CurrentLocation
-        {
-            get { return this.currentLocation; }
-        }
+        public int CurrentLocation { get; private set; } = 0;
 
         /// <summary>Gets a value indicating whether there is more data available.</summary>
         public bool HasMoreData
@@ -54,7 +41,7 @@ namespace WheelMUD.Core.Output
                 {
                     int length = this.outputBuffer.Count;
 
-                    if (length > 0 && this.currentLocation < length)
+                    if (length > 0 && this.CurrentLocation < length)
                     {
                         return true;
                     }
@@ -93,7 +80,7 @@ namespace WheelMUD.Core.Output
             lock (this.lockObject)
             {
                 this.outputBuffer.Clear();
-                this.currentLocation = 0;
+                this.CurrentLocation = 0;
             }
         }
 
@@ -105,7 +92,7 @@ namespace WheelMUD.Core.Output
         {
             lock (this.lockObject)
             {
-                int start = this.currentLocation;
+                int start = this.CurrentLocation;
                 int end = 0;
 
                 switch (bufferDirection)
@@ -148,7 +135,7 @@ namespace WheelMUD.Core.Output
                     output[i - start] = this.outputBuffer[i];
                 }
 
-                this.currentLocation = end;
+                this.CurrentLocation = end;
                 return output;
             }
         }

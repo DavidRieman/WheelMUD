@@ -16,9 +16,9 @@ namespace WheelMUD.Effects
 
     /// <summary>An effect which alters a thing's ability to sense (positively or negatively).</summary>
     /// <remarks>
-    /// @@@ TODO: Add a concept of 'current' values of sense capabilities etc to SenseManager or whatnot (not 
-    ///  just the base capabilities nor should we ever touch those base values) - the current senses manager 
-    ///  could subscribe to events which add/remove things like AlterSenseEffect and recalculate accordingly.
+    /// TODO: Add a concept of 'current' values of sense capabilities etc to SenseManager or whatnot (not 
+    /// just the base capabilities nor should we ever touch those base values) - the current senses manager 
+    /// could subscribe to events which add/remove things like AlterSenseEffect and recalculate accordingly.
     /// </remarks>
     public class AlterSenseEffect : Effect
     {

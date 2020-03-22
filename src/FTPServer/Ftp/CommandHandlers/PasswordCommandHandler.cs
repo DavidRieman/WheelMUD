@@ -7,7 +7,6 @@
 
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using WheelMUD.Data.Entities;
     using WheelMUD.Data.Repositories;
 
     public class PasswordCommandHandler : FtpCommandHandler

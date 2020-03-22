@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Test cases for FollowingBehavior.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Tests.Behaviors
@@ -118,7 +115,7 @@ namespace WheelMUD.Tests.Behaviors
 
             Assert.IsNull(this.lastVictimRequest);
             Assert.IsNull(this.lastVictimEvent);
-            
+
             var followingBehavior = new FollowingBehavior();
             this.stalker1.Behaviors.Add(followingBehavior);
             followingBehavior.Target = this.victim1;
@@ -143,7 +140,7 @@ namespace WheelMUD.Tests.Behaviors
             Assert.AreEqual(this.lastWitnessEvent, null);
             Assert.AreEqual(this.lastStalkerEvent, null);
             Assert.AreEqual(this.lastVictimEvent, null);
-            
+
             followingBehavior.Target = this.victim1;
             var witnessMessage = this.lastWitnessEvent.SensoryMessage.Message.Parse(this.witness);
             var stalkerMessage = this.lastStalkerEvent.SensoryMessage.Message.Parse(this.stalker1);

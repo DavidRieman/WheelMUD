@@ -84,17 +84,17 @@ namespace WheelMUD.Core
         /// <returns>A list of perceived entities.</returns>
         public IList<Thing> PerceiveEntities()
         {
-            // @@@ TODO: Refactor the perceive categories... players, mobs, items, exits, etc.
+            // TODO: Refactor the perceive categories... players, mobs, items, exits, etc.
             if (this.Parent != null)
             {
                 var outEntities = new List<Thing>();
-                
-                // @@@ TODO: Change Parent.Parent to a predicate that will find RoomBehaviors. This is a an ugly hack that needs to go away.
+
+                // TODO: Change Parent.Parent to a predicate that will find RoomBehaviors. This is a an ugly hack that needs to go away.
                 var entities = this.Parent.Parent.FindAllChildren(t => t.HasBehavior<PlayerBehavior>() || t.HasBehavior<MobileBehavior>());
 
                 foreach (Thing thing in entities)
                 {
-                    // @@@ ADD: '&& thing has EntityBehavior' or whatnot...
+                    // TODO: Add '&& thing has EntityBehavior' or whatnot...
                     if (thing != this.Parent && thing.IsDetectableBySense(this.Senses))
                     {
                         outEntities.Add(thing);
@@ -120,7 +120,7 @@ namespace WheelMUD.Core
                     var items = new List<Thing>();
                     foreach (Thing item in room.Children)
                     {
-                        // @@@ Use something like 'has ItemBehavior' instead?
+                        // TODO: Use something like 'has ItemBehavior' instead?
                         if (item.IsDetectableBySense(this.Senses) &&
                             !item.HasBehavior<ExitBehavior>() &&
                             !item.HasBehavior<PlayerBehavior>() &&
@@ -161,7 +161,7 @@ namespace WheelMUD.Core
         /// <summary>Load the senses of the entity.</summary>
         private void LoadDefaultSenses()
         {
-            // @@@ TODO: Each sense's details should be persistable/designable per race, etc.
+            // TODO: Each sense's details should be persistable/designable per race, etc.
             this.Senses.AddSense(new Sense()
             {
                 SensoryType = SensoryType.Hearing,

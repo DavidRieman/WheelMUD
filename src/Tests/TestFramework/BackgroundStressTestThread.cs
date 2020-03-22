@@ -3,14 +3,11 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Tests
 {
     using System;
-    using System.Linq;
 
     /// <summary>A background test thread, for stress testing purposes.</summary>
     public class BackgroundStressTestThread : BackgroundTestThread

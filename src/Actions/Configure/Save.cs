@@ -28,7 +28,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SavePlayer(); 
+            actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 
         /// <summary>Checks against the guards for the command.</summary>

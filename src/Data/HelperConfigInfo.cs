@@ -3,18 +3,15 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//  Class to simplify reading application and data configuration information.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Data
 {
     using System.Configuration;
     using System.IO;
-    using GameConfiguration = WheelMUD.Utilities.GameConfiguration;
+    using WheelMUD.Utilities;
 
-    /// <summary>Class to read connection string configuration info for the NHibernate Session in the Helpers.cs class.</summary>
+    /// <summary>Class to simplify reading application and data configuration information.</summary>
     public class AppConfigInfo
     {
         /// <summary>Prevents a default instance of the <see cref="AppConfigInfo"/> class from being created.</summary>

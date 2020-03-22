@@ -66,7 +66,7 @@ namespace WheelMUD.Actions
                     // Store in Universal time in order to convert to others local time
                     playerBehavior.WhenWentAFK = DateTime.Now.ToUniversalTime();
                     playerBehavior.AFKReason = afkReason;
-                }                
+                }
             }
         }
 

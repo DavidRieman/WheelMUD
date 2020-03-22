@@ -106,7 +106,7 @@ namespace WheelMUD.Actions
             string targetFullName = actionInput.Tail.Trim().ToLower();
 
             // Try to find the target either by all the parameter text or by just the first parameter.
-            this.target = GameAction.GetPlayerOrMobile(targetFullName) ?? GameAction.GetPlayerOrMobile(targetName);
+            this.target = GetPlayerOrMobile(targetFullName) ?? GetPlayerOrMobile(targetName);
 
             // Rule: Is the target an entity?
             if (this.target == null)

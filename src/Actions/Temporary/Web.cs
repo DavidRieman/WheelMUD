@@ -12,17 +12,17 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>@@@ Temporary script to demonstrate a web effect.</summary>
+    /// <summary>Temporary command to demonstrate a web effect.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("web", CommandCategory.Temporary)]
-    [ActionDescription("@@@ Temp command.")]
+    [ActionDescription("Temporary test command. Webs a target.")]
     [ActionSecurity(SecurityRole.player)]
     public class Web : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile
@@ -60,7 +60,7 @@ namespace WheelMUD.Actions
             string targetName = actionInput.Tail.Trim().ToLower();
 
             // Rule: Do we have a target?
-            this.target = GameAction.GetPlayerOrMobile(targetName);
+            this.target = GetPlayerOrMobile(targetName);
             if (this.target == null)
             {
                 return "You cannot see " + targetName + ".";

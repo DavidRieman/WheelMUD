@@ -26,9 +26,9 @@ namespace WheelMUD.Core
 
         public ExportSessionStateAttribute(IDictionary<string, object> metadata)
         {
-            // @@@ TODO: Replace this loop with a generic reusable method using reflection to automatically
-            //           find and fill in the properties by key, with the values.  IE reuse the methods that
-            //           the properties persistence code will be using...
+            // TODO: Replace this loop with a generic reusable method using reflection to automatically
+            //       find and fill in the properties by key, with the values.  IE reuse the methods that
+            //       the properties persistence code will be using...
             foreach (var key in metadata.Keys)
             {
                 switch (key.ToLower())

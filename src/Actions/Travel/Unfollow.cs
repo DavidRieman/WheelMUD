@@ -23,7 +23,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -36,7 +36,7 @@ namespace WheelMUD.Actions
             IController sender = actionInput.Controller;
 
             var myBehaviors = sender.Thing.Behaviors;
-        
+
             var followingBehavior = myBehaviors.FindFirst<FollowingBehavior>();
             if (followingBehavior != null)
             {

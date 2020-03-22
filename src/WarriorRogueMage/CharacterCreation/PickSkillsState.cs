@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Character creation state used to set the initial skills for the player.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage.CharacterCreation
@@ -171,7 +168,7 @@ namespace WarriorRogueMage.CharacterCreation
                 skillQueue.Enqueue(gameSkill);
             }
 
-            // @@@ TODO: The columns calculations and such look wrong...
+            // TODO: The columns calculations and such look wrong...
             for (int i = 0; i < rows; i++)
             {
                 string skill1 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);

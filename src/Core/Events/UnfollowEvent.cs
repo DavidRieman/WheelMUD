@@ -1,10 +1,8 @@
-﻿// <copyright file="UnfollowEvent.cs" company="WheelMUD Development Team">
+﻿//-----------------------------------------------------------------------------
+// <copyright file="UnfollowEvent.cs" company="WheelMUD Development Team">
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Event associated with the "unfollow" command
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Events

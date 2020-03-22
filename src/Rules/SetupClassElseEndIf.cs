@@ -3,9 +3,6 @@
 //   Copyright (c) athoma13. See RulesEngine_License.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Rule Engine
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Rules
@@ -51,7 +48,7 @@ namespace WheelMUD.Rules
             this.rulesRulesEngine.RegisterRule(rule, Utilities.ReturnSelf<T>(), expression);
             return this;
         }
-        
+
         public SetupClassElseEndIf<T, R1, ENDIF> Setup<R1>(Expression<Func<T, R1>> expression)
         {
             return new SetupClassElseEndIf<T, R1, ENDIF>(this.rulesRulesEngine, parent, expression);

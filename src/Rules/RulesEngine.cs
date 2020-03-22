@@ -3,10 +3,6 @@
 //   Copyright (c) athoma13. See RulesEngine_License.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Rule Engine
-// </summary>
-
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Rules
@@ -67,7 +63,7 @@ namespace WheelMUD.Rules
             {
                 throw new ArgumentNullException("basedOn");
             }
-            
+
             var registry = basedOn.registry.Clone();
             this.ExpressionCache = basedOn.ExpressionCache;
             foreach (var type in types)

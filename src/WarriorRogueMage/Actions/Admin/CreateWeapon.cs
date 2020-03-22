@@ -16,7 +16,7 @@ namespace WheelMUD.Actions.Temporary
     /// <summary>A command that allows an admin to create a simple weapon for testing.</summary>
     [ExportGameAction(100)]
     [ActionPrimaryAlias("create weapon", CommandCategory.Admin)]
-    [ActionDescription("@@@ Temp command to create a simple weapon for testing.")]
+    [ActionDescription("Temporary command to create a simple weapon for testing.")]
     [ActionSecurity(SecurityRole.fullAdmin)]
     public class CreateWeapon : GameAction
     {
