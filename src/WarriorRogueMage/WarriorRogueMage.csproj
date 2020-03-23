@@ -17,7 +17,6 @@
     <ProjectReference Include="..\ConnectionStates\WheelMUD.ConnectionStates.csproj" />
     <ProjectReference Include="..\Core\WheelMUD.Core.csproj" />
     <ProjectReference Include="..\Interfaces\WheelMUD.Interfaces.csproj" />
-    <ProjectReference Include="..\Rules\WheelMUD.Rules.csproj" />
     <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj" />
   </ItemGroup>
 </Project>

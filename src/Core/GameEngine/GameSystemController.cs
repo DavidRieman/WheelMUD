@@ -13,7 +13,6 @@ namespace WheelMUD.Core
     using System.Linq;
     using System.Reflection;
     using WheelMUD.Interfaces;
-    using WheelMUD.Rules;
 
     /// <summary>Controls the games systems.</summary>
     public class GameSystemController : ISystem, IRecomposable
@@ -40,10 +39,6 @@ namespace WheelMUD.Core
 
         /// <summary>Gets or sets the racial templates.</summary>
         public List<GameRace> GameRaces { get; set; }
-
-        /// <summary>Gets or sets a list of rules associated with the current gaming system.</summary>
-        /// <remarks>This is a generic store for rules that don't fit into a specific category.</remarks>
-        public List<GameRule> GameRules { get; set; }
 
         /// <summary>Gets or sets the game skills for the current gaming system.</summary>
         public List<GameSkill> GameSkills { get; set; }
@@ -72,11 +67,6 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets an imported list of the racial templates.</summary>
         [ImportMany]
         private List<GameRace> ImportedGameRaces { get; set; }
-
-        /// <summary>Gets or sets an imported list of rules associated with the current gaming system.</summary>
-        /// <remarks>This is a generic store for rules that don't fit into a specific category.</remarks>
-        [ImportMany]
-        private List<GameRule> ImportedGameRules { get; set; }
 
         /// <summary>Gets or sets an imported list of the game skills for the current gaming system.</summary>
         [ImportMany]
@@ -130,7 +120,6 @@ namespace WheelMUD.Core
                 this.GameGenders = DefaultComposer.GetNonPrioritizedInstances(this.ImportedGameGenders);
                 this.GameModifiers = DefaultComposer.GetNonPrioritizedInstances(this.ImportedGameModifiers);
                 this.GameRaces = DefaultComposer.GetNonPrioritizedInstances(this.ImportedGameRaces);
-                this.GameRules = DefaultComposer.GetNonPrioritizedInstances(this.ImportedGameRules);
                 this.GameSkills = DefaultComposer.GetNonPrioritizedInstances(this.ImportedGameSkills);
                 this.GameStatConstructors = DefaultComposer.GetConstructors(this.ImportedGameStats, NoTypes);
             }

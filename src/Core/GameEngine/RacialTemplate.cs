@@ -22,10 +22,6 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the racial stats.</summary>
         public List<GameStat> RacialStats { get; set; }
 
-        /// <summary>Gets or sets the racial custom tables.</summary>
-        /// <remarks>This is where anything that doesn't have an obvious place goes.</remarks>
-        public Dictionary<string, GameTable> RacialCustomTables { get; set; }
-
         /// <summary>Gets or sets the racial attributes.</summary>
         public List<GameAttribute> RacialAttributes { get; set; }
 
