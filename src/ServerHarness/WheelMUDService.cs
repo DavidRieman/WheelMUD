@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   The WheelMUD Server Windows Service.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace ServerHarness
@@ -14,6 +11,7 @@ namespace ServerHarness
     using Topshelf;
     using WheelMUD.Main;
 
+    /// <summary>The WheelMUD Server Windows Service.</summary>
     public class WheelMudService : ServiceControl
     {
         /// <summary>The application.</summary>

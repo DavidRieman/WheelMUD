@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Event raised when an item is wielded or unwielded.
-// </summary>
 // -----------------------------------------------------------------------
 
 namespace WheelMUD.Core.Events

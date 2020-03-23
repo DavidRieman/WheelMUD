@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Generic interface for a combat system in a gaming system.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core

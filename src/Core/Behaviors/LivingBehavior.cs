@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A behavior defining traits specific to living beings (IE players and mobiles).
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core

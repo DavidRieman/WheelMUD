@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Represents an event that is broadcast when a time period has elapsed.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Events

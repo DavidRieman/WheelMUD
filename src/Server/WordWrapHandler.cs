@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   This class wraps the output at the desired width.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server

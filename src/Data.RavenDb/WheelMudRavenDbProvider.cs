@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Raven DB provider for WheelMUD
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Data.RavenDb
@@ -14,6 +11,8 @@ namespace WheelMUD.Data.RavenDb
     using System.ComponentModel.Composition;
     using System.Threading.Tasks;
 
+    /// <summary>Raven DB provider for WheelMUD.</summary>
+    /// <remarks>To use RavenDB as your document database provider, configure DocumentDataProviderName in your App.config to be RavenDB.</remarks>
     [Export(typeof(IWheelMudDocumentStorageProvider))]
     public class WheelMudRavenDbProvider : IWheelMudDocumentStorageProvider
     {

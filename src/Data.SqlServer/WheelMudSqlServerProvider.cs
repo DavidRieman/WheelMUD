@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   ORMLite Microsoft SQL Server provider for WheelMUD
-// </summary>
 //-----------------------------------------------------------------------------
 /*
 namespace WheelMUD.Data.SqlServer

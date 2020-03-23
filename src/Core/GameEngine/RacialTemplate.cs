@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Class that will hold a game racial template.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core

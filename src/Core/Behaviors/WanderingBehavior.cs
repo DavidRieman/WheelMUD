@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Behavior that allows NPC to wander randomly, thus becoming a mobile.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core

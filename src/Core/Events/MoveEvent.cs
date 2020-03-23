@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A movement event.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Events
@@ -58,7 +55,7 @@ namespace WheelMUD.Core.Events
         public Thing GoingVia { get; private set; }
     }
 
-    /// <summary>A movment event specifically associated with leaving a location.</summary>
+    /// <summary>A movement event specifically associated with leaving a location.</summary>
     public class LeaveEvent : MovementEvent
     {
         /// <summary>Initializes a new instance of the <see cref="LeaveEvent"/> class.</summary>

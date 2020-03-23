@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Logs notifications to a multiple notifications updaters.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace ServerHarness
@@ -13,7 +10,7 @@ namespace ServerHarness
     using System.Collections.Generic;
     using WheelMUD.Interfaces;
 
-    /// <summary>Multiple notifications updater.</summary>
+    /// <summary>Logs notifications to a multiple notifications updaters.</summary>
     public class MultiUpdater : ISuperSystemSubscriber
     {
         /// <summary>All notifiers utilized by this MultiUpdater.</summary>
@@ -29,35 +26,35 @@ namespace ServerHarness
         /// <summary>Finalizes an instance of the MultiUpdater class.</summary>
         ~MultiUpdater()
         {
-            Dispose();
+            this.Dispose();
         }
 
         /// <summary>Dispose of all resources utilized by this MultiUpdater.</summary>
         public void Dispose()
         {
-            if (notifiers == null)
+            if (this.notifiers == null)
             {
                 return;
             }
 
-            foreach (var notifier in notifiers)
+            foreach (var notifier in this.notifiers)
             {
                 notifier.Dispose();
             }
 
-            notifiers = null;
+            this.notifiers = null;
         }
 
         /// <summary>Notify user of the specified message via logging to a text file.</summary>
         /// <param name="message">The message to pass along.</param>
         public void Notify(string message)
         {
-            if (notifiers == null)
+            if (this.notifiers == null)
             {
                 return;
             }
 
-            foreach (var notifier in notifiers)
+            foreach (var notifier in this.notifiers)
             {
                 notifier.Notify(message);
             }

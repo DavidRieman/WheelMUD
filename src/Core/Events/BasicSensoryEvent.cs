@@ -3,14 +3,11 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   BaseSensoryEvent - an event designed to be observed by an entity's senses.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Events
 {
-    /// <summary>A basic sensory event.</summary>
+    /// <summary>A basic sensory event. Designed to be observed by senses of an entity.</summary>
     public class BasicSensoryEvent : GameEvent
     {
         /// <summary>Initializes a new instance of the BasicSensoryEvent class.</summary>

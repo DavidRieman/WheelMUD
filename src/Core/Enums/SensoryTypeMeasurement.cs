@@ -3,15 +3,17 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   An enum used for making senses more granular. This holds what
-//   measurements are allowed to use when dealing with sensory levels.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Enums
 {
-    /// <summary>Replace this with this class summary.</summary>
+    /// <summary>An enum used for making senses more granular.</summary>
+    /// <remarks>
+    /// This holds what measurements are allowed to use when dealing with sensory levels.
+    /// TODO: This is probably too sciency for random builders and developers to have to think about. An abstract scale
+    ///       like 0-100 for "how easy to perceive" with a given sense type (hearing/vision and so on) should suffice
+    ///       for the basic Core systems.
+    /// </remarks>
     public enum SensoryTypeMeasurement
     {
         /// <summary>Used for debugging.</summary>

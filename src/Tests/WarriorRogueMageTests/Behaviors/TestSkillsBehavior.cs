@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Permissive License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Testing the WRM SkillsBehavior
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Tests.Behaviors
@@ -15,7 +12,7 @@ namespace WheelMUD.Tests.Behaviors
     using WarriorRogueMage.Skills;
     using WheelMUD.Core;
 
-    /// <summary>Replace this with this class summary.</summary>
+    /// <summary>Tests the WRM SkillsBehavior.</summary>
     [TestFixture]
     public class TestSkillsBehavior
     {

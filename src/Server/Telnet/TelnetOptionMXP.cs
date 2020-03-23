@@ -3,16 +3,13 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Class that handles the subnegotiation of the MUD eXtension Protocol (MXP) telnet option code.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server.Telnet
 {
     using WheelMUD.Core.Output;
 
-    /// <summary>Class that handles the sub-negotiation of the MXP telnet option code.</summary>
+    /// <summary>Class that handles the sub-negotiation of the MUD eXtension Protocol (MXP) telnet option code.</summary>
     internal class TelnetOptionMXP : TelnetOption
     {
         /// <summary>Initializes a new instance of the TelnetOptionMXP class.</summary>
