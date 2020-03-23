@@ -14,21 +14,17 @@ namespace WheelMUD.Data.Repositories
     {
         public static void Save(T obj)
         {
-            using (var session = Helpers.OpenDocumentSession())
-            {
-                // RavenDB will automatically either insert a new document or update the
-                // existing document with this document ID, as appropriate.
-                session.Store(obj);
-                session.SaveChanges();
-            }
+            using var session = Helpers.OpenDocumentSession();
+            // RavenDB will automatically either insert a new document or update the
+            // existing document with this document ID, as appropriate.
+            session.Store(obj);
+            session.SaveChanges();
         }
 
         public static T Load(string id)
         {
-            using (var session = Helpers.OpenDocumentSession())
-            {
-                return session.Load<T>(id);
-            }
+            using var session = Helpers.OpenDocumentSession();
+            return session.Load<T>(id);
         }
     }
 }

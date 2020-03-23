@@ -8,6 +8,20 @@
 namespace WheelMUD.Core.Attributes
 {
     using System;
+    using System.Linq;
+
+    public static class SecurityRoleHelpers
+    {
+        /// <summary>Provides a convenient way to iterate each meaningful individual (non-aggregated) security role that a user can have.</summary>
+        public static SecurityRole[] IndividualSecurityRoles { get; }
+
+        static SecurityRoleHelpers()
+        {
+            IndividualSecurityRoles = (from role in (SecurityRole[])Enum.GetValues(typeof(SecurityRole))
+                                       where role != SecurityRole.none && role != SecurityRole.all
+                                       select role).ToArray();
+        }
+    }
 
     /// <summary>
     /// SecurityRole can be used with bitwise logic.  For instance, to have a command that 
@@ -26,7 +40,7 @@ namespace WheelMUD.Core.Attributes
     /// and the like;  instead just use [ActionSecurity(SecurityRole.minorBuilder)].
     /// </remarks>
     [Flags]
-    public enum SecurityRole
+    public enum SecurityRole : uint
     {
         /// <summary>Commands flagged with 'SecurityRole.none' can not be executed.</summary>
         /// <remarks>This should not be used on actual commands.</remarks>
@@ -49,8 +63,8 @@ namespace WheelMUD.Core.Attributes
 
         /// <summary>Commands flagged with this role are available to brand new tutorial players.</summary>
         /// <remarks>
-        /// This may be used to lock out advanced commands until a tutorial is completed, or to provide
-        /// tutorial-specific commands such as opting-out of the tutorial / marking it completed early.
+        /// This could be used to lock out advanced commands until a tutorial is completed, or to provide
+        /// tutorial-only commands such as warping past the tutorial / marking it completed early.
         /// </remarks>
         tutorialPlayer = 0x0010,
 
@@ -83,7 +97,7 @@ namespace WheelMUD.Core.Attributes
         fullAdmin = 0x2000,
 
         /// <summary>Commands flagged with this role are available to everyone and everything.</summary>
-        all = 0xFFFF
+        all = 0xFFFFFFFF
     }
 
     /// <summary>An action security attribute.</summary>

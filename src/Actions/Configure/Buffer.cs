@@ -155,11 +155,11 @@ namespace WheelMUD.Actions
         {
             if (this.userControlledBehavior.PagingRowLimit == -1)
             {
-                this.sender.Write(string.Format("Your screen buffer size is 'auto' (currently {0} lines).", this.session.Terminal.Height));
+                this.sender.Write($"Your screen buffer size is 'auto' (currently {this.session.Terminal.Height} lines).");
             }
             else
             {
-                this.sender.Write(string.Format("Your screen buffer is {0} lines.", this.userControlledBehavior.PagingRowLimit));
+                this.sender.Write($"Your screen buffer is {this.userControlledBehavior.PagingRowLimit} lines.");
             }
         }
     }

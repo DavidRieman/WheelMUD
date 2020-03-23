@@ -32,19 +32,12 @@ namespace WheelMUD.CommandSystem
                 return "You must exist before issuing commands!";
             }
 
-            PlayerBehavior player = entity.Behaviors.FindFirst<PlayerBehavior>();
-            if (player != null)
+            var user = entity.Behaviors.FindFirst<UserControlledBehavior>();
+            if (user != null)
             {
-                // TODO: Ascertain the ACTUAL player's specific permissions, so we can 
-                //       check for fullAdmin, fullBuilder, etc, instead of assuming just 
-                //       'SecurityRole.player' (SEE ALSO CommandManager for another...)
-                SecurityRole playerRoles = SecurityRole.player | SecurityRole.minorBuilder |
-                        SecurityRole.fullBuilder | SecurityRole.minorAdmin | SecurityRole.fullAdmin;
-
-                // If any of the command's security roles and the player's security roles 
-                // overlap (such as the command is marked with 'minorBuilder' and the 
-                // player has the 'minorBuilder' flag) then we permit the command.
-                if ((command.SecurityRole & playerRoles) != SecurityRole.none)
+                // If any of the command security roles and the user security roles overlap (such as the command is
+                // marked with 'minorBuilder' and the user has the 'minorBuilder' flag) then we permit the command.
+                if ((command.SecurityRole & user.SecurityRoles) != SecurityRole.none)
                 {
                     return null;
                 }

@@ -7,6 +7,7 @@
 
 namespace WheelMUD.Actions
 {
+    using System;
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
@@ -20,6 +21,9 @@ namespace WheelMUD.Actions
     [ActionSecurity(SecurityRole.fullAdmin)]
     public class RoleRevoke : GameAction
     {
+        private Thing player;
+        private SecurityRole role;
+
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
@@ -31,25 +35,12 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string[] normalizedParams = NormalizeParameters(sender);
-            string roleName = normalizedParams[0];
-            string playerName = normalizedParams[1];
-
-            Thing player = GetPlayerOrMobile(playerName);
-            if (player == null)
-            {
-                // If the player is not online, then try to load the player from the database.
-                ////player = PlayerBehavior.Load(playerName);
-            }
-
-            var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
-            var existingRole = userControlledBehavior.FindRole(roleName);
-            if (existingRole != null)
-            {
-                userControlledBehavior.Roles.Remove(existingRole);
-                player.FindBehavior<PlayerBehavior>()?.SavePlayer();
-                sender.Write(string.Format("{0} had the {1} role revoked.", player.Name, existingRole.Name), true);
-            }
+            var userControlledBehavior = this.player.Behaviors.FindFirst<UserControlledBehavior>();
+            userControlledBehavior.SecurityRoles &= ~this.role;
+            sender.Write($"{this.player.Name} has been revoked the {this.role.ToString()} role.");
+            sender.Write($"{this.player.Name} is now: {userControlledBehavior.SecurityRoles}.");
+            // TODO: Should this notify the target user too?
+            this.player.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -67,25 +58,19 @@ namespace WheelMUD.Actions
             string roleName = normalizedParams[0];
             string playerName = normalizedParams[1];
 
-            Thing player = GetPlayerOrMobile(playerName);
-            if (player == null)
+            // Rule: The targeted player must exist and be online. (For safety, this must be a full name match only.)
+            // TODO: Consider a mode where the player document exists in the DB is enough; add ability to modify said doc.
+            this.player = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
+            if (this.player == null)
             {
-                // If the player is not online, then load the player from the database.
-                ////player = PlayerBehavior.Load(playerName);
+                return $"The player '{playerName}' does not seem to be online. (Exact name must be used for role changes.)";
             }
 
-            // Rule: The targeted player must exist.
-            if (player == null)
+            // Rule: The roleName must be a valid role.
+            if (!Enum.TryParse(roleName, true, out this.role))
             {
-                return string.Format("The player {0} does not exist.", playerName);
-            }
-
-            // Rule: The player cannot already have the role.
-            var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
-            var existingRole = userControlledBehavior.FindRole(roleName);
-            if (existingRole == null)
-            {
-                return string.Format("{0} does not have the {1} role.", player.Name, roleName);
+                string rolesList = string.Join(", ", SecurityRoleHelpers.IndividualSecurityRoles);
+                return $"The role '{roleName}' is not a valid role. Try one of: {rolesList}";
             }
 
             return null;

@@ -7,6 +7,7 @@
 
 namespace WheelMUD.Actions
 {
+    using System;
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
@@ -20,6 +21,9 @@ namespace WheelMUD.Actions
     [ActionSecurity(SecurityRole.fullAdmin)]
     public class RoleGrant : GameAction
     {
+        private Thing player;
+        private SecurityRole role;
+
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
@@ -31,28 +35,12 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string[] normalizedParams = NormalizeParameters(sender);
-            string roleName = normalizedParams[0];
-            string playerName = normalizedParams[1];
-
-            Thing player = GetPlayerOrMobile(playerName);
-            if (player == null)
-            {
-                // If the player is not online, then try to load the player from the database.
-                ////player = PlayerBehavior.Load(playerName);
-            }
-
-            var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
-            var existingRole = userControlledBehavior.FindRole(roleName);
-            if (existingRole == null)
-            {
-                userControlledBehavior.Roles.Add(new Role()
-                {
-                    Name = roleName
-                });
-                player.FindBehavior<PlayerBehavior>()?.SavePlayer();
-                sender.Write(player.Name + " has been granted the " + roleName + " role.", true);
-            }
+            var userControlledBehavior = this.player.Behaviors.FindFirst<UserControlledBehavior>();
+            userControlledBehavior.SecurityRoles |= this.role;
+            sender.Write($"{this.player.Name} has been granted the {this.role.ToString()} role.");
+            sender.Write($"{this.player.Name} is now: {userControlledBehavior.SecurityRoles}.");
+            // TODO: Should this notify the target user too?
+            this.player.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -70,39 +58,22 @@ namespace WheelMUD.Actions
             string roleName = normalizedParams[0];
             string playerName = normalizedParams[1];
 
-            Thing player = GetPlayerOrMobile(playerName);
-            if (player == null)
+            // Rule: The targeted player must exist and be online. (For safety, this must be a full name match only.)
+            // TODO: Consider a mode where the player document exists in the DB is enough; add ability to modify said doc.
+            this.player = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
+            if (this.player == null)
             {
-                // If the player is not online, then load the player from the database
-                ////player = PlayerBehavior.Load(playerName);
+                return $"The player '{playerName}' does not seem to be online. (Exact name must be used for role changes.)";
             }
 
-            // Rule: The targeted player must exist.
-            if (player == null)
+            // Rule: The roleName must be a valid role.
+            if (!Enum.TryParse(roleName, true, out this.role))
             {
-                return string.Format("The player {0} does not exist.", playerName);
-            }
-
-            // Rule: The player cannot already have the role.
-            var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
-            var existingRole = userControlledBehavior.FindRole(roleName);
-            if (existingRole != null)
-            {
-                return string.Format("{0} already has the {1} role.", player.Name, roleName);
+                string rolesList = string.Join(", ", SecurityRoleHelpers.IndividualSecurityRoles);
+                return $"The role '{roleName}' is not a valid role. Try one of: {rolesList}";
             }
 
             return null;
-        }
-
-        /// <summary>Custom Contains function for a generic list.</summary>
-        /// <remarks>Added since the .NET framework doesn't have one for generic lists.</remarks>
-        /// <param name="list">The list to process.</param>
-        /// <param name="value">The string value to search for.</param>
-        /// <returns>True if the list contains the value, false if it doesn't.</returns>
-        private static bool Contains(List<string> list, string value)
-        {
-            var v = value.ToLower();
-            return null != list.Find(str => str.ToLower().Equals(v));
         }
 
         /// <summary>Cleans up the parameters, so that it is easier to work with.</summary>

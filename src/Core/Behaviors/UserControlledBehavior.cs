@@ -8,8 +8,10 @@
 namespace WheelMUD.Core
 {
     using Newtonsoft.Json;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
     /// <summary>A security role.</summary>
@@ -54,13 +56,8 @@ namespace WheelMUD.Core
             // multiple rooms, etc.)
         }
 
-        //// TODO: Clean up Roles to remove DAL-bound RoleRecords and such...?
-        ///// <summary>Gets the current list of <see cref="RoleRecord"/> associated with this player.</summary>
-        ////public List<RoleRecord> RoleRecords { get; private set; }
-
-        /// <summary>Gets the current list of <see cref="Role"/> names associated with this user.</summary>
-        [JsonIgnore]
-        public List<Role> Roles { get; private set; }
+        /// <summary>Gets the combined set of security roles associated with this user.</summary>
+        public SecurityRole SecurityRoles { get; set; }
 
         /// <summary>Gets or sets the controller of the Thing.</summary>
         [JsonIgnore]
@@ -69,14 +66,22 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the number of rows this user's client can handle displaying as a single "page".</summary>
         public int PagingRowLimit { get; set; }
 
-        /// <summary>Gets the role of the specified name, if present.</summary>
-        /// <param name="roleName">The name of the role to search for.</param>
-        /// <returns>The Role, if this user has it, else null.</returns>
-        public Role FindRole(string roleName)
+        /// <summary>Gets the human-readable list of role names attached to this user-controlled thing.</summary>
+        public IEnumerable<string> GetRoleNames()
         {
-            return (from r in this.Roles
-                    where string.Equals(r.Name, roleName, System.StringComparison.CurrentCultureIgnoreCase)
-                    select r).FirstOrDefault();
+            return from role in this.GetIndividualSecurityRoles() select role.ToString();
+        }
+
+        /// <summary>Gets the individual security roles associated with this user.</summary>
+        public IEnumerable<SecurityRole> GetIndividualSecurityRoles()
+        {
+            foreach (var role in SecurityRoleHelpers.IndividualSecurityRoles)
+            {
+                if ((this.SecurityRoles & role) != SecurityRole.none)
+                {
+                    yield return role;
+                }
+            }
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
