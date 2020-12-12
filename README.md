@@ -22,9 +22,9 @@ Here's the short version of the setup instructions, mainly for seasoned develope
 See [Getting Started](Documentation/GettingStarted.md) from the [Documentation](Documentation/README.md) pages for a more thorough walk-through to get up and running.
 
 ## GitHub Processes
-* Feel free to introduce yourself and ask questions and such in the Issues section. General banter will likely eventually be closed, after any issues/bugs/tasks have been diligently extracted to separate, tracked issues.
-* Please comment on an issue if you plan to take it on, so we do not accidentally duplicate efforts.
-* Pull requests should generally target WheelMud/WheelMUD.
+* Feel free to introduce yourself and ask questions and such in at the [Welcome Thread](https://github.com/DavidRieman/WheelMUD/discussions/20) in Discussions.
+* Please comment on an issue if you plan to take it on, so we do not accidentally duplicate efforts. We are also starting to experiment with the GitHub Projects tab, so feel free to check that out.
+* Pull requests should generally target DavidRieman/WheelMUD.
 
 ## License
 Microsoft Public License (MS-PL). [Read Here](src/LICENSE.txt).
