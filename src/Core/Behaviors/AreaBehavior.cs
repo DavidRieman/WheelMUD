@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -15,8 +13,11 @@ namespace WheelMUD.Core
 
     /// <summary>Behavior which defines a game area.</summary>
     /// <remarks>
-    /// @@@ ATM an Area doesn't do anything special. Later it can be used for area-based builder 
-    /// permissions,maybe some respawn/instancing rules specific to the area, etc.
+    /// ATM an Area doesn't do anything special.
+    /// TODO: This could get used as the base level "document" loaded for a section of the game world, to give
+    ///       the ability to still load most of the world when some sub-section fails, etc.
+    /// TODO: This could apply area-based builder permissions (defining who can modify the descendants), perhaps
+    ///       with eventing that would cancel OLC modification requests that aren't from a permitted builder.
     /// </remarks>
     public class AreaBehavior : Behavior
     {
@@ -30,15 +31,12 @@ namespace WheelMUD.Core
         public void Load()
         {
             var areaRepository = new RelationalRepository<AreaRecord>();
-
-            // @@@ TODO: Fix hack: http://www.wheelmud.net/tabid/59/aft/1622/Default.aspx
             string areaNumber = this.Parent.Id.Replace("area/", string.Empty);
             long persistedAreaID = long.Parse(areaNumber);
             ICollection<RoomRecord> rooms = areaRepository.GetRoomsForArea(persistedAreaID);
 
             foreach (var roomRecord in rooms)
             {
-                // @@@ TODO: Fix hack: http://www.wheelmud.net/tabid/59/aft/1622/Default.aspx
                 var roomBehavior = new RoomBehavior()
                 {
                     ID = roomRecord.ID,

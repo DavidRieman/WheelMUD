@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command that lets a character give items to a character or a mob.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -15,7 +12,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>Allows the caller to attempt to give something from their inventory to another entity.</summary>
+    /// <summary>Command to give something from your inventory to another entity.</summary>
     /// <remarks>
     /// Some accepted command form examples are as follows:
     ///  "give sword to Karak"
@@ -23,7 +20,7 @@ namespace WheelMUD.Actions
     ///  "give 10 coins to Karak"
     ///  "give 10 coins Karak"
     /// </remarks>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("give", CommandCategory.Item | CommandCategory.Player)]
     [ActionDescription("Give an item to a character or monster.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
@@ -32,7 +29,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -43,7 +40,7 @@ namespace WheelMUD.Actions
         private Thing thing = null;
 
         private MovableBehavior movableBehavior;
-        
+
         /// <summary>The quantity of item to be given (if specified, from a stack of items).</summary>
         private int numberToGive = 0;
 
@@ -55,7 +52,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             // Remove the item from the character's posession.
-            // @@@ TODO: Test, this may be broken now... esp for numberToGive != max
+            // TODO: Test, this may be broken now... esp for numberToGive != max
             IController sender = actionInput.Controller;
             if (this.numberToGive > 0 && this.thing != null)
             {
@@ -64,16 +61,16 @@ namespace WheelMUD.Actions
 
             var contextMessage = new ContextualString(sender.Thing, this.target)
             {
-                ToOriginator = string.Format("You gave $Item.Name to {0}.", this.target),
-                ToReceiver = "$ActiveThing.Name gave you $Item.Name.",
-                ToOthers = string.Format("$ActiveThing.Name gave $Item.Name to {0}.", this.target),
+                ToOriginator = $"You gave {this.thing.Name} to {this.target}.",
+                ToReceiver = $"{sender.Thing.Name} gave you {this.thing.Name}.",
+                ToOthers = $"{sender.Thing.Name} gave {this.thing.Name} to {this.target.Name}.",
             };
             var message = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
             // Try to move the thing from the sender to the target; this handles eventing and whatnot for us.
             if (!this.movableBehavior.Move(this.target, sender.Thing, null, message))
             {
-                sender.Write(string.Format("Failed to give {0} to {1}.", this.thing.Name, this.target.Name));
+                sender.Write($"Failed to give {this.thing.Name} to {this.target.Name}.");
             }
         }
 
@@ -83,7 +80,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -96,7 +93,7 @@ namespace WheelMUD.Actions
             if (int.TryParse(actionInput.Params[0], out this.numberToGive))
             {
                 itemParam = 1;
-                
+
                 // If the user specified a number, but it is less than 1, error!
                 if (this.numberToGive < 1)
                 {
@@ -130,8 +127,8 @@ namespace WheelMUD.Actions
                 return "You must specify someone to give that to.";
             }
 
-            // @@@ Shared targeting code should be used, and this rule should be implemented like:
-            //     if (this.target == sender.Thing) ...
+            // TODO: Shared targeting code should be used, and this rule should be implemented like:
+            //       if (this.target == sender.Thing) ...
             // Rule: The giver cannot also be the receiver.
             if (targetName == "me")
             {
@@ -139,7 +136,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the target an entity?
-            this.target = GameAction.GetPlayerOrMobile(targetName);
+            this.target = GetPlayerOrMobile(targetName);
             if (this.target == null)
             {
                 return "You cannot see " + targetName + ".";

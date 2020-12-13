@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -152,7 +150,7 @@ namespace WheelMUD.Core
                     Debugger.Break();
                 }
 
-                // @@@ FIX: this.host..UpdateSubSystemHost(this, message);
+                // TODO: FIX: this.host..UpdateSubSystemHost(this, message);
                 if (controller != null)
                 {
 #if DEBUG

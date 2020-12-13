@@ -31,7 +31,7 @@ namespace WheelMUD.Ftp
 
         public bool Login(string password)
         {
-            var fileSystem = this.fileSystemClassFactory.Create(User, password);
+            var fileSystem = this.fileSystemClassFactory.Create(this.User, password);
             if (fileSystem == null)
             {
                 return false;
@@ -43,7 +43,7 @@ namespace WheelMUD.Ftp
 
         public bool CreateFileSystem()
         {
-            var fileSystem = this.fileSystemClassFactory.Create(User, string.Empty);
+            var fileSystem = this.fileSystemClassFactory.Create(this.User, string.Empty);
             if (fileSystem == null)
             {
                 return false;

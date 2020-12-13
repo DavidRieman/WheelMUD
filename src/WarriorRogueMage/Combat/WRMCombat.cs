@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Warrior, Rogue, Mage based combat.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage
@@ -13,16 +10,12 @@ namespace WarriorRogueMage
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
     using WheelMUD.Core;
     using WheelMUD.Interfaces;
 
     /// <summary>Basic combat system for Warrior, Rogue, and Mage RPG system.</summary>
     public class WrmCombat : ISystem, ICombat
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static WrmCombat singletonInstance = new WrmCombat();
-
         /// <summary>The combat queue that contains all combatants.</summary>
         private Queue combatQueue;
 
@@ -34,10 +27,7 @@ namespace WarriorRogueMage
 
         /// <summary>Gets the singleton instance.</summary>
         /// <value>The instance.</value>
-        public static WrmCombat Instance
-        {
-            get { return singletonInstance; }
-        }
+        public static WrmCombat Instance { get; } = new WrmCombat();
 
         /// <summary>Gets or sets the combat session.</summary>
         /// <value>The combat session.</value>
@@ -160,23 +150,17 @@ namespace WarriorRogueMage
         }
 
         /// <summary>Warrior, Rogue, Mage combat exporter class.</summary>
-        [ExportSystem]
+        [ExportSystem(100)]
         public class WrmCombatExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>
             /// <value></value>
             /// <returns>A new instance of the singleton system.</returns>
-            public override ISystem Instance
-            {
-                get { return WrmCombat.Instance; }
-            }
+            public override ISystem Instance => WrmCombat.Instance;
 
             /// <summary>Gets the Type of the singleton system, without instantiating it.</summary>
             /// <returns>The Type of the singleton system.</returns>
-            public override Type SystemType
-            {
-                get { return typeof(WrmCombat); }
-            }
+            public override Type SystemType => typeof(WrmCombat);
         }
     }
 }

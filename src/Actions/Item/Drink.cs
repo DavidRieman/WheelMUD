@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command script to allow the drinking of "drinkable" items.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -17,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Universe;
 
     /// <summary>A command script to allow the drinking of "drinkable" items.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("drink", CommandCategory.Item)]
     [ActionAlias("sip", CommandCategory.Item)]
     [ActionAlias("quaff", CommandCategory.Item)]
@@ -28,11 +25,11 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
-            CommonGuards.InitiatorMustBeBalanced, 
-            CommonGuards.RequiresAtLeastOneArgument 
+            CommonGuards.InitiatorMustBeAlive,
+            CommonGuards.InitiatorMustBeBalanced,
+            CommonGuards.RequiresAtLeastOneArgument
         };
-        
+
         /// <summary>The drinkable item we are to 'drink' from.</summary>
         private Thing thingToDrink = null;
 
@@ -53,14 +50,14 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
-            
+
             // Rule: Do we have an item matching in our inventory?
-            // @@@ TODO: Support drinking from, for instance, a fountain sitting in the room.
+            // TODO: Support drinking from, for instance, a fountain sitting in the room.
             string itemIdentifier = actionInput.Tail.Trim();
             this.thingToDrink = sender.Thing.FindChild(itemIdentifier.ToLower());
             if (this.thingToDrink == null)

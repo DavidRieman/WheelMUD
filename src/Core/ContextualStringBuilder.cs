@@ -3,15 +3,10 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Context-sensitive string builder, used to customize the output that any 
-//   given entity can receive for a message.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
 {
-    using System.Collections;
     using System.Collections.Generic;
 
     //// <ns></ns> - encloses elements to be parsed only if the string is NOT being passed to the sender
@@ -47,10 +42,9 @@ namespace WheelMUD.Core
     }
 
     /// <summary>Contextual string builder.</summary>
+    /// <remarks>Used to customize the output that any given entity can receive for a message.</remarks>
     public class ContextualStringBuilder
     {
-        ////private readonly StringBuilder sb = new StringBuilder();
-
         /// <summary>A list of contextually-constrained strings, used to build output.</summary>
         private readonly List<ContextualString> texts = new List<ContextualString>();
 
@@ -61,7 +55,6 @@ namespace WheelMUD.Core
         {
             this.Originator = originator;
             this.Receiver = receiver;
-            this.ViewEngineContext = new Hashtable();
         }
 
         /// <summary>Gets the originator.</summary>
@@ -69,9 +62,6 @@ namespace WheelMUD.Core
 
         /// <summary>Gets the receiver.</summary>
         public Thing Receiver { get; private set; }
-
-        /// <summary>Gets the view engine context.</summary>
-        public Hashtable ViewEngineContext { get; private set; }
 
         /// <summary>Append the specified text, within the specified context only.</summary>
         /// <param name="text">The text to append.</param>

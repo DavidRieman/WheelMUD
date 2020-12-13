@@ -2,9 +2,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Default state machine for creating a new character
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.ConnectionStates
@@ -13,12 +10,12 @@ namespace WheelMUD.ConnectionStates
     using WheelMUD.Core;
 
     /// <summary>Default state machine for creating a new character.</summary>
-    [ExportCharacterCreationStateMachine(100)]
+    [ExportCharacterCreationStateMachine(0)]
     public class DefaultCharacterCreationStateMachine : CharacterCreationStateMachine
     {
         /// <summary>Initializes a new instance of the <see cref="DefaultCharacterCreationStateMachine"/> class.</summary>
         /// <param name="session">The session.</param>
-        public DefaultCharacterCreationStateMachine(Session session) 
+        public DefaultCharacterCreationStateMachine(Session session)
             : base(session)
         {
         }

@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command to allow a player to manage their friends list.
-//   Currently friends lists are not saved!
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -19,7 +15,8 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command to manipulate a players friends list.</summary>
-    [ExportGameAction]
+    /// <remarks>TODO: Persistence!</remarks>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("friends", CommandCategory.Player)]
     [ActionAlias("friend", CommandCategory.Player)]
     [ActionDescription("Add or remove friends from your friends list.")]
@@ -53,7 +50,7 @@ namespace WheelMUD.Actions
                     sb.AppendLine("Your Friends:");
                     foreach (string friendName in this.playerBehavior.Friends)
                     {
-                        string status = PlayerManager.Instance.FindPlayerByName(friendName, false) == null ? "Offline" : "Online";
+                        string status = PlayerManager.Instance.FindLoadedPlayerByName(friendName, false) == null ? "Offline" : "Online";
                         sb.AppendLine(string.Format("{0} [{1}]", friendName, status));
                     }
 
@@ -72,8 +69,8 @@ namespace WheelMUD.Actions
             }
 
             string targetedFriendName = actionInput.Params[1].ToLower();
-            Thing targetFriend = PlayerManager.Instance.FindPlayerByName(targetedFriendName, false);
-            
+            Thing targetFriend = PlayerManager.Instance.FindLoadedPlayerByName(targetedFriendName, false);
+
             if (actionInput.Params[0].ToLower() == "add")
             {
                 this.AddFriend(sender, targetFriend);
@@ -89,7 +86,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

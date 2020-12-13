@@ -7,9 +7,9 @@
 
 namespace WheelMUD.Data.Repositories
 {
+    using ServiceStack.OrmLite;
     using System.Collections.Generic;
     using System.Data;
-    using ServiceStack.OrmLite;
     using WheelMUD.Data.Entities;
 
     public static class LocationRepositoryExtensions
@@ -20,10 +20,8 @@ namespace WheelMUD.Data.Repositories
         /// <returns>Returns an collection of RoomRecord objects.</returns>
         public static ICollection<RoomRecord> GetRoomsForArea(this RelationalRepository<AreaRecord> repository, long areaId)
         {
-            using (IDbCommand session = Helpers.OpenRelationalSession())
-            {
-                return session.Connection.Select<RoomRecord>("AreaID = {0}", areaId);
-            }
+            using IDbCommand session = Helpers.OpenRelationalSession();
+            return session.Connection.Select<RoomRecord>(string.Format("AreaID = {0}", areaId));
         }
 
         /// <summary>Loads the exits for a room.</summary>
@@ -31,11 +29,9 @@ namespace WheelMUD.Data.Repositories
         /// <returns>Returns a collection of ExitRecord objects.</returns>
         public static ICollection<ExitRecord> LoadExitsForRoom(this RelationalRepository<RoomRecord> repository, long roomId)
         {
-            using (IDbCommand session = Helpers.OpenRelationalSession())
-            {
-                // Return just "standard" exits, where this room is the primary owner.
-                return session.Connection.Select<ExitRecord>("ExitRoomAID = {0}", roomId);
-            }
+            // Return just "standard" exits, where this room is the primary owner.
+            using IDbCommand session = Helpers.OpenRelationalSession();
+            return session.Connection.Select<ExitRecord>(string.Format("ExitRoomAID = {0}", roomId));
         }
     }
 }

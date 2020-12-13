@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command to set a player's title.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -16,7 +13,13 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command to set a player's title.</summary>
-    [ExportGameAction]
+    /// <remarks>
+    /// TODO: Maybe use an App.config flag to decide if this command should be something users do for themselves,
+    ///   or an admin only command by default. Of course, a game system may wish to replace this with a system for
+    ///   earning specific pre-set pretitles depending on in-game progress (e.g. getting knighted), for the 
+    ///   command to available to the player but only selecting one from an earned list. SEE Title.cs as well.
+    /// </remarks>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("pretitle", CommandCategory.Player)]
     [ActionAlias("set pretitle", CommandCategory.Player)]
     [ActionDescription("Set or view your pretitle.")]
@@ -44,11 +47,11 @@ namespace WheelMUD.Actions
 
             if (string.IsNullOrEmpty(this.newPretitle))
             {
-                sender.Write(string.Format("Your old pretitle was \"{0}\" and is now removed.", this.oldPretitle));
+                sender.Write($"Your old pretitle was \"{this.oldPretitle}\" and is now removed.");
             }
             else
             {
-                sender.Write(string.Format("Your old pretitle was \"{0}\" and is now \"{1}\".", this.oldPretitle, this.newPretitle));
+                sender.Write($"Your old pretitle was \"{this.oldPretitle}\" and is now \"{this.newPretitle}\".");
             }
 
             this.player.FindBehavior<PlayerBehavior>()?.SavePlayer();
@@ -60,7 +63,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -82,7 +85,7 @@ namespace WheelMUD.Actions
                 }
             }
 
-            //// One could implement 'no color' or 'no swearing' or 'no non-alpha character' rules here, etc.
+            // TODO: May want to implement 'no color' or 'no swearing' or 'no non-alpha character' rules here, etc.
 
             return null;
         }

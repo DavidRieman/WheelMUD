@@ -1,0 +1,11 @@
+WheelMUD may make use of technologies with additional or special licensing restrictions, as follows:
+
+=== RavenDB ===
+Depending on your application configuration, WheelMUD may make use of RavenDB technology.
+You may need to acquire an appropriate license to use RavenDB technology in a manner beyond evaluation, especially for commercial usages.
+See: http://www.ravendb.net/licensing
+
+=== ServiceStack ===
+Depending on your application configuration, WheelMUD may make use of ServiceStack technology.
+You may need to acquire an appropriate license to use ServiceStack technology in a manner beyond evaluation, especially for commercial usages.
+See: https://servicestack.net/terms

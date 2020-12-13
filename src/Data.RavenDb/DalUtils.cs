@@ -10,12 +10,9 @@
 
 namespace WheelMUD.Data.RavenDb
 {
+    using Raven.Client.Documents.Session;
     using System;
     using System.IO;
-    using System.Linq;
-    using Raven.Client;
-    using Raven.Client.Documents.Session;
-
     using WheelMUD.Utilities;
 
     /// <summary>Utilities for making the use of RavenDb easier.</summary>
@@ -25,20 +22,16 @@ namespace WheelMUD.Data.RavenDb
         /// <returns>The path to the folder where the RavenDb data is stored.</returns>
         public static string GetDbPath()
         {
-            string root = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            string mudName = MudEngineAttributes.Instance.MudName;
+            var root = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            var fullPath = Path.Combine(root, "WheelMUD", GameConfiguration.Name, "DocumentDatabase");
 
-            root = Path.Combine(root, "WheelMUD");
-            root = Path.Combine(root, mudName);
-            root = Path.Combine(root, "DocumentDatabase");
-
-            if (!Directory.Exists(root))
+            if (!Directory.Exists(fullPath))
             {
-                Directory.CreateDirectory(root);
+                Directory.CreateDirectory(fullPath);
                 CreateIndexes();
             }
 
-            return root;
+            return fullPath;
         }
 
         /// <summary>Gets the raven session.</summary>
@@ -53,7 +46,7 @@ namespace WheelMUD.Data.RavenDb
         /// <summary>Creates the needed indexes, if they don't exist.</summary>
         public static void CreateIndexes()
         {
-            /* @@@ REPAIR INDEXES https://demo.ravendb.net/demos/related-documents/index-related-documents
+            /* TODO: REPAIR INDEXES https://demo.ravendb.net/demos/related-documents/index-related-documents
              * using (var store = DocumentStore.Instance)
             {
                 store.DatabaseCommands.PutIndex(

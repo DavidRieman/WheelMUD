@@ -3,17 +3,11 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Enables an object to be wielded by a player or mobile NPC.
-// </summary>
 // -----------------------------------------------------------------------
 
 namespace WarriorRogueMage.Behaviors
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Core.Events;
 

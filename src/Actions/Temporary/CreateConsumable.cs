@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command that allows an admin to create a consumable.
-//   Modified on 4/25/2010 by Feverdream (Add use of all enumerated consumable types.)
-// </summary>
 //-----------------------------------------------------------------------------
 
 /* Disabled: Create Consumable shouldn't be a specific command. Instead, we want to have a templating system that
@@ -23,9 +19,9 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command that allows an admin to create a consumable.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("create consumable", CommandCategory.Admin)]
-    [ActionDescription("@@@ Temp command.")]
+    [ActionDescription("Temporary test command. Create a consumable.")]
     [ActionSecurity(SecurityRole.fullAdmin)]
     public class CreateConsumable : GameAction
     {
@@ -55,7 +51,6 @@ namespace WheelMUD.Actions
             // Our consumable.
             ConsumableType ct = ConsumableType.Unknown;
 
-            // @@@ Create shouldn't specifically 
             var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
             try
             {
@@ -83,7 +78,7 @@ namespace WheelMUD.Actions
             consumable.Id = "0";
             consumable.Behaviors.Add(new MovableBehavior());
 
-            // @@@ TODO: Instead:
+            // TODO: Instead:
             ////Thing consumable = new Thing(new ConsumableBehavior()
             ////{
             ////    ConsumableType = ct;
@@ -99,7 +94,7 @@ namespace WheelMUD.Actions
                 userControlledBehavior.Controller.Write(string.Format("You create a {0} consumable.", mat));
             }
 
-            // Add the new item to the room. @@@ Shouldn't this create to the Entity inventory?
+            // Add the new item to the room. TODO: Shouldn't this create to the Entity inventory instead?
             sender.Thing.Parent.Add(consumable);
         }
 
@@ -108,7 +103,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

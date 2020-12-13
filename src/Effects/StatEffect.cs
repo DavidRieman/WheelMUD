@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An effect to alter a stat on a thing.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Effects
@@ -95,7 +92,7 @@ namespace WheelMUD.Effects
 
         /// <summary>Applies the effect to its host.</summary>
         /// <remarks>Preconditions: this.Parent.Attributes must not be null if this.Parent is not null.</remarks>
-        public override void OnAddBehavior()
+        protected override void OnAddBehavior()
         {
             // Create and broadcast the event notifying players that the effect was applied.
             var addEvent = new EffectEvent(this.ActiveThing, this.Parent, this.SensoryMessage);
@@ -109,8 +106,6 @@ namespace WheelMUD.Effects
             // after EndTime is reached.
             this.RemoveStatEvent = new TimeEvent(this.ActiveThing, this.Expire, this.EndTime, this.ExpirationMessage);
             TimeSystem.Instance.ScheduleEvent(this.RemoveStatEvent);
-
-            base.OnAddBehavior();
         }
 
         /// <summary>The method that is called when an effect is to be removed.</summary>
@@ -119,7 +114,7 @@ namespace WheelMUD.Effects
         /// Preconditions: this.Parent.Attributes must not be null if this.Parent is not null.
         /// this.Stat must not be null - provide defaults in this.SetDefaultProperties().
         /// </remarks>
-        public override void OnRemoveBehavior()
+        protected override void OnRemoveBehavior()
         {
             // Broadcast the removal event that we previously created in OnAddBehavior.
             this.ActiveThing.Eventing.OnCommunicationRequest(this.RemoveStatEvent, EventScope.ParentsDown);
@@ -135,8 +130,6 @@ namespace WheelMUD.Effects
             {
                 this.RemoveStatEvent.Cancel(string.Empty);
             }
-
-            base.OnRemoveBehavior();
         }
 
         /// <summary>Sets the default properties of this effect instance. Duration is given a default TimeSpan.</summary>

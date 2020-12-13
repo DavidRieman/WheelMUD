@@ -13,9 +13,9 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>Action for the actor to jump.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("jump", CommandCategory.Temporary)]
-    [ActionDescription("@@@ Temp command.")]
+    [ActionDescription("Temporary test command. Jump.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
     public class Jump : GameAction
     {
@@ -45,7 +45,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

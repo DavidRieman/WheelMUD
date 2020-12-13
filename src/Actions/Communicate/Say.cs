@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Communicate with others in the same location.
-//// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -17,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>Communicate with others in the same location.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("say", CommandCategory.Communicate)]
     [ActionAlias("'", CommandCategory.Communicate)]
     [ActionAlias("\"", CommandCategory.Communicate)]
@@ -28,13 +25,13 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.RequiresAtLeastOneArgument
         };
 
         private string sayText;
-        
+
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
@@ -42,9 +39,9 @@ namespace WheelMUD.Actions
             IController sender = actionInput.Controller;
             var contextMessage = new ContextualString(sender.Thing, sender.Thing.Parent)
             {
-                ToOriginator = @"You say: " + this.sayText,
-                ToReceiver = @"$ActiveThing.Name says: " + this.sayText,
-                ToOthers = @"$ActiveThing.Name says: " + this.sayText,
+                ToOriginator = $"You say: {this.sayText}",
+                ToReceiver = $"{sender.Thing.Name} says: {this.sayText}",
+                ToOthers = $"{sender.Thing.Name} says: {this.sayText}",
             };
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 
@@ -61,7 +58,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

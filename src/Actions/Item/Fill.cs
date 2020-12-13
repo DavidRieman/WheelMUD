@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to fill a liquid container from a large source of liquid.
-//   @@@ TODO: Implement.  For example, from fountains or pools in the room.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -18,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Universe;
 
     /// <summary>An action to fill a liquid container from a large source of liquid.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("fill", CommandCategory.Item)]
     [ActionDescription("Fill a liquid container from a large source of liquid.")]
     [ActionSecurity(SecurityRole.player)]
@@ -27,7 +23,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -75,7 +71,7 @@ namespace WheelMUD.Actions
                     return;
                 }
 
-                // @@@ TODO: Get and display more details from FillFrom about failure cases?
+                // TODO: Get and display more details from FillFrom about failure cases?
                 destinationHoldsLiquidBehavior.FillFrom(sender, sourceHoldsLiquidBehavior);
             }
         }
@@ -86,7 +82,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -126,7 +122,7 @@ namespace WheelMUD.Actions
 
                 // Rule: Do we have an item matching the one specified in our inventory?
                 // If not then does the room have a container with the name.
-                // @@@ This Find pattern is probably broken...
+                // TODO: Fix: This Find pattern is probably broken...
                 this.destinationContainer = sender.Thing.Children.Find(t => t.Name == this.destinationContainerName.ToLower());
                 if (this.destinationContainer == null)
                 {
@@ -163,7 +159,7 @@ namespace WheelMUD.Actions
 
                 // Rule: Do we have an item matching the one specified in our inventory?
                 // If not then does the room have a container with the name.
-                // @@@ This search method is probably broken.
+                // TODO: Investigate; This search method is probably broken.
                 this.sourceContainer = sender.Thing.Children.Find(t => t.Name == this.sourceContainerName.ToLower());
                 if (this.sourceContainer == null)
                 {
@@ -182,7 +178,7 @@ namespace WheelMUD.Actions
                     return string.Format("The {0} does not hold anything to fill the {1} with.", this.sourceContainerName, this.destinationContainerName);
                 }
 
-                // @@@ TODO: HoldsLiquidBehavior?
+                // TODO: HoldsLiquidBehavior?
 
                 // Rule: Is the item open?
                 OpensClosesBehavior opensClosesBehavior = this.sourceContainer.Behaviors.FindFirst<OpensClosesBehavior>();

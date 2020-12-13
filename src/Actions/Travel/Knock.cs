@@ -3,14 +3,10 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to knock on a door.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
 {
-    using System.Collections;
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
@@ -18,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>An action to knock on a door.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("knock", CommandCategory.Travel)]
     [ActionDescription("Knock on a door.")]
     [ActionSecurity(SecurityRole.player)]
@@ -27,7 +23,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -48,19 +44,19 @@ namespace WheelMUD.Actions
             IController sender = actionInput.Controller;
             var thisRoomMessage = new ContextualString(sender.Thing, this.target)
             {
-                ToOriginator = @"You knock on $ActiveThing.Name.",
-                ToOthers = @"$Knocker.Name knocks on $ActiveThing.Name.",
-                ToReceiver = @"$Knocker.Name knocks on you.",
+                ToOriginator = $"You knock on {this.target.Name}.",
+                ToOthers = $"{sender.Thing.Name} knocks on {this.target.Name}.",
+                ToReceiver = $"{sender.Thing.Name} knocks on you.",
             };
             var nextRoomMessage = new ContextualString(sender.Thing, this.target)
             {
                 ToOriginator = null,
-                ToOthers = @"Someone knocks on $ActiveThing.Name.",
+                ToOthers = $"Someone knocks on {this.target.Name}.",
                 ToReceiver = null,
             };
 
             // Create sensory messages.
-            var thisRoomSM = new SensoryMessage(SensoryType.Sight | SensoryType.Hearing, 100, thisRoomMessage, new Hashtable { { "Knocker", sender.Thing } });
+            var thisRoomSM = new SensoryMessage(SensoryType.Sight | SensoryType.Hearing, 100, thisRoomMessage);
             var nextRoomSM = new SensoryMessage(SensoryType.Hearing, 100, nextRoomMessage);
 
             // Generate our knock events.
@@ -88,7 +84,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -115,7 +111,7 @@ namespace WheelMUD.Actions
             return "Try knocking on a door instead.";
         }
 
-        /* @@@ TODO: Allow Knocking on any specified Thing; based on that thing, it may relay the
+        /* TODO: Allow Knocking on any specified Thing; based on that thing, it may relay the
          * sensory event to just the current room, if it has an ExitBehavior and an OpensClosesBehavior
          * (IE it is a physical door rather than just a connection or portal) relays the event to both 
          * sides.  The event of course relays through all Children so a container's contents (or a 
@@ -170,7 +166,7 @@ namespace WheelMUD.Actions
         /// <returns>True if a door was found, else false.</returns>
         private string CheckForDoor(ActionInput actionInput)
         {
-            /* @@@ TODO: Fix
+            /* TODO: Fix
             // Rule: Is the next parameter a valid direction?
             IController sender = actionInput.Controller;
             string dir = actionInput.Params[1].ToLower();

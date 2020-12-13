@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A player's session.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -33,7 +30,7 @@ namespace WheelMUD.Core
             {
                 this.Connection = connection;
                 this.State = SessionStateManager.Instance.CreateDefaultState(this);
-                
+
                 // The very first time we create a session, it couldn't write the prompt due to this.State
                 // not being set during that SessionState's construction, so force a prompt print here.
                 this.Write(string.Empty, true);
@@ -64,8 +61,8 @@ namespace WheelMUD.Core
         public Thing Thing { get; set; }
 
         /// <summary>Gets the living behavior of the player attached to this session.</summary>
-        public LivingBehavior LivingBehavior 
-        { 
+        public LivingBehavior LivingBehavior
+        {
             get { return this.Thing != null ? this.Thing.Behaviors.FindFirst<LivingBehavior>() : null; }
         }
 
@@ -108,7 +105,7 @@ namespace WheelMUD.Core
             {
                 this.Connection.Send(this.State.BuildPrompt());
             }
-            
+
             this.AtPrompt = true;
         }
 
@@ -138,7 +135,7 @@ namespace WheelMUD.Core
                 {
                     data = data + Environment.NewLine + prompt;
                 }
-                
+
                 this.AtPrompt = true;
             }
 
@@ -150,10 +147,7 @@ namespace WheelMUD.Core
         public void ExecuteAction(ActionInput actionInput)
         {
             this.LastActionInput = actionInput;
-            if (this.ActionReceived != null)
-            {
-                this.ActionReceived((IController)this, actionInput);
-            }
+            this.ActionReceived?.Invoke((IController)this, actionInput);
         }
 
         /// <summary>Subscribe to receive system updates from this system.</summary>

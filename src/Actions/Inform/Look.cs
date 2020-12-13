@@ -3,23 +3,17 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A script to allow a player to look at their environment.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
 {
-    using System.Collections;
     using System.Collections.Generic;
-
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
-    using WheelMUD.Utilities;
 
-    /// <summary>A command that allows a player to look at their environment.</summary>
-    [ExportGameAction]
+    /// <summary>A command that allows a player to look at things and their environment.</summary>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("look", CommandCategory.Inform)]
     [ActionAlias("l", CommandCategory.Inform)]
     [ActionDescription("Look at the room, item, person, or monster.")]
@@ -29,7 +23,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious
         };
 
@@ -66,7 +60,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -87,47 +81,41 @@ namespace WheelMUD.Actions
         /// <returns>Returns the rendered view.</returns>
         private string TryLookAtThing(string thingToLookAt, Thing sender)
         {
-            // @@@ TODO: Refactor ViewEngine to remove NVelicoty: https://wheelmud.codeplex.com/workitem/13348
-            var viewEngine = new ViewEngine();
-
-            // Look for target in the current room
+            // Look for the target in the current room.
             Thing thing = sender.Parent.FindChild(thingToLookAt);
             if (thing != null && this.sensesBehavior.CanPerceiveThing(thing))
             {
-                return viewEngine.RenderView(thing);
+                return Renderer.Instance.RenderPerceivedThing(sender, thing);
             }
 
-            // If no target found, see if it matches any of the room's visuals.
+            // If no target was found, see if it matches any of the room's visuals.
             var room = sender.Parent.FindBehavior<RoomBehavior>();
             if (room != null)
             {
                 string visual = room.FindVisual(thingToLookAt);
                 if (!string.IsNullOrEmpty(visual))
                 {
-                    return viewEngine.RenderView(visual);
+                    return visual;
                 }
+            }
+
+            // Otherwise, see if it is a thing the player has.
+            thing = sender.FindChild(thingToLookAt);
+            if (thing != null && this.sensesBehavior.CanPerceiveThing(thing))
+            {
+                return Renderer.Instance.RenderPerceivedThing(sender, thing);
             }
 
             // At this point, target was not found.
             return string.Empty;
         }
 
-        /// <summary>Looks at room. @@@ Move to SensesBehavior?</summary>
+        /// <summary>Looks at room. TODO: Move to SensesBehavior?</summary>
         /// <param name="sender">The sender.</param>
         /// <returns>Returns the text of the rendered room template.</returns>
         private string LookAtRoom(Thing sender)
         {
-            var context = new Hashtable
-            {
-                { "Room", sender.Parent },
-                { "Exits", this.sensesBehavior.PerceiveExits() },
-                { "Entities", this.sensesBehavior.PerceiveEntities() },
-                { "Items", this.sensesBehavior.PerceiveItems() }
-            };
-
-            string viewTemplateName = MudEngineAttributes.Instance.RoomFormatingTemplateFile;
-            var viewEngine = new ViewEngine();
-            return viewEngine.RenderCachedView(viewTemplateName, context);
+            return Renderer.Instance.RenderPerceivedRoom(sender, sender.Parent);
         }
     }
 }

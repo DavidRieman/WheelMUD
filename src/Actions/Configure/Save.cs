@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to save your game.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -15,7 +12,8 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>An action to save your game.</summary>
-    [ExportGameAction]
+    /// <remarks>TODO: Add auto-save system, allowing this to be an optional command.</remarks>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("save", CommandCategory.Configure)]
     [ActionDescription("Save your game.")]
     [ActionSecurity(SecurityRole.player)]
@@ -30,7 +28,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SavePlayer(); 
+            actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 
         /// <summary>Checks against the guards for the command.</summary>

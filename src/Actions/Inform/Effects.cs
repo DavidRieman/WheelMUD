@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to list the description of known effects upon you.
-//   @@@ TODO: Implement
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -16,7 +12,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>An action to list the description of known effects upon you.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("effects", CommandCategory.Inform)]
     [ActionAlias("effect", CommandCategory.Inform)]
     [ActionDescription("List the description of known effects upon you.")]
@@ -32,8 +28,8 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            // @@@ TODO: Allow admins to check effects on target?
-            /* @@@ FIX?
+            // TODO: Allow admins to check effects on target?
+            /* TODO: FIX?
             var sb = new StringBuilder();
 
             string line = "+" + string.Empty.PadRight(70, '-') + "+";
@@ -78,7 +74,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

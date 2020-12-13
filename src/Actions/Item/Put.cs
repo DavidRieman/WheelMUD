@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A script to allow the moving of items from an inventory to a container.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -17,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Universe;
 
     /// <summary>A command for moving items from an inventory to a container.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("put", CommandCategory.Item)]
     [ActionDescription("Put an object into a container.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
@@ -26,7 +23,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -47,7 +44,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             // TODO: Move item from one owner to another transactionally, if applicable.
-            // @@@ TODO: Test, may be broken now... especially for only putting SOME of a stack...
+            // TODO: Test, may be broken now... especially for only putting SOME of a stack...
             this.thing.Parent.Remove(this.thing);
             this.newParent.Add(this.thing);
 
@@ -61,7 +58,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -135,14 +132,14 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the container open?
-            // @@@ If it has OpenableBehavior, is it currently opened?
+            // TODO: If it has OpenableBehavior, is it currently opened?
             //if (((Container)foundItem).OpenState == OpenState.Closed)
             //{
             //    return containerName + " is closed.";
             //}
 
-            // Rule: @@@ If this item has a CapacityBehavior (or maybe just ContainerBehavior), does it have room left?
-            
+            // TODO: Rule: If this item has a CapacityBehavior (or maybe just ContainerBehavior), does it have room left?
+
             // Rule: Do we have a matching item in our inventory?
             this.thing = sender.Thing.Children.Find(i => i.Name == itemName.ToLower());
             if (this.thing == null)

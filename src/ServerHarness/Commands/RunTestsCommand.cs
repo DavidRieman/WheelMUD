@@ -3,12 +3,9 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Command to run integration tests.
-// </summary>
 //-----------------------------------------------------------------------------
 
-namespace ServerHarness.Commands
+namespace ServerHarness
 {
     using System;
     using System.Collections.Generic;
@@ -17,14 +14,13 @@ namespace ServerHarness.Commands
     using System.Threading;
     using WheelMUD.Main;
 
+    /// <summary>Command to run all integration tests.</summary>
+    [ExportServerHarnessCommand(0)]
     public class RunTestsCommand : IServerHarnessCommand
     {
-        private readonly string[] names = { "RUN", "RUN-TESTS", "run", "Run", "r" };
+        public string Description => "Runs all present integration tests against this server.";
 
-        public IEnumerable<string> Names
-        {
-            get { return this.names; }
-        }
+        public IEnumerable<string> Names => new string[] { "RUN", "RUN-TESTS", "run", "Run", "r" };
 
         public void Execute(Application app, MultiUpdater display, string[] words)
         {
@@ -35,7 +31,13 @@ namespace ServerHarness.Commands
             }
 
             var failed = new List<string>();
-            string[] files = Directory.GetFiles(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "Tests", "*.testscript", SearchOption.AllDirectories);
+            var testsPath = Path.Combine(Environment.CurrentDirectory, "Tests");
+            string[] files = Directory.GetFiles(testsPath, "*.testscript", SearchOption.AllDirectories);
+            if (files.Length == 0)
+            {
+                display.Notify(">> FATAL ERROR. No tests were found.");
+                return;
+            }
 
             foreach (string file in files)
             {

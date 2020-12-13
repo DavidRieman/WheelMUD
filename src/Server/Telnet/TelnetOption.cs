@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A class that represents a telnet option and is able to negotiate itself with the client.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server.Telnet
@@ -26,7 +23,7 @@ namespace WheelMUD.Server.Telnet
             this.OptionCode = optionCode;
             this.WantOption = wantOption;
             this.Connection = connection;
-            
+
             // Initialize the default values for all automatic properties of this class
             // that need to be something other than zero or null.
             this.UsState = TelnetOptionState.NO;
@@ -125,19 +122,19 @@ namespace WheelMUD.Server.Telnet
                         this.HimSubState = TelnetQueueState.OPPOSITE;
                     }
                     else
-                    { 
+                    {
                     }
-                    
+
                     break;
                 case TelnetOptionState.WANTYES:
                     if (this.HimSubState == TelnetQueueState.EMPTY)
-                    { 
+                    {
                     }
                     else
                     {
                         this.HimSubState = TelnetQueueState.EMPTY;
                     }
-                    
+
                     break;
             }
         }
@@ -172,7 +169,7 @@ namespace WheelMUD.Server.Telnet
                     {
                         this.HimSubState = TelnetQueueState.EMPTY;
                     }
-                    
+
                     break;
                 case TelnetOptionState.WANTYES:
                     if (this.HimSubState == TelnetQueueState.EMPTY)
@@ -182,7 +179,7 @@ namespace WheelMUD.Server.Telnet
                     else
                     {
                     }
-                    
+
                     break;
             }
         }
@@ -214,7 +211,7 @@ namespace WheelMUD.Server.Telnet
                         // Send DONT.
                         this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DONT, (byte)this.OptionCode });
                     }
-                    
+
                     break;
                 case TelnetOptionState.YES:
                     break;
@@ -228,7 +225,7 @@ namespace WheelMUD.Server.Telnet
                         this.HimState = TelnetOptionState.YES;
                         this.HimSubState = TelnetQueueState.EMPTY;
                     }
-                    
+
                     break;
                 case TelnetOptionState.WANTYES:
                     if (this.HimSubState == TelnetQueueState.EMPTY)
@@ -242,7 +239,7 @@ namespace WheelMUD.Server.Telnet
                         this.HimSubState = TelnetQueueState.EMPTY;
                         this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DONT, (byte)this.OptionCode });
                     }
-                    
+
                     break;
             }
 
@@ -286,7 +283,7 @@ namespace WheelMUD.Server.Telnet
                         this.HimState = TelnetOptionState.WANTYES;
                         this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DO, (byte)this.OptionCode });
                     }
-                    
+
                     break;
                 case TelnetOptionState.WANTYES:
                     if (this.HimSubState == TelnetQueueState.EMPTY)
@@ -298,7 +295,7 @@ namespace WheelMUD.Server.Telnet
                         this.HimState = TelnetOptionState.NO;
                         this.HimSubState = TelnetQueueState.EMPTY;
                     }
-                    
+
                     break;
             }
 
@@ -335,7 +332,7 @@ namespace WheelMUD.Server.Telnet
                         // SEND DONT
                         this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WONT, (byte)this.OptionCode });
                     }
-                    
+
                     break;
                 case TelnetOptionState.YES:
                     break;
@@ -349,7 +346,7 @@ namespace WheelMUD.Server.Telnet
                         this.UsState = TelnetOptionState.YES;
                         this.UsSubState = TelnetQueueState.EMPTY;
                     }
-                    
+
                     break;
                 case TelnetOptionState.WANTYES:
                     if (this.UsSubState == TelnetQueueState.EMPTY)
@@ -363,10 +360,10 @@ namespace WheelMUD.Server.Telnet
                         this.UsSubState = TelnetQueueState.EMPTY;
                         Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WONT, (byte)this.OptionCode });
                     }
-                    
+
                     break;
             }
-            
+
             if (this.UsState == TelnetOptionState.YES)
             {
                 this.HimState = TelnetOptionState.YES;
@@ -407,7 +404,7 @@ namespace WheelMUD.Server.Telnet
                         this.UsSubState = TelnetQueueState.EMPTY;
                         this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WILL, (byte)this.OptionCode });
                     }
-                    
+
                     break;
                 case TelnetOptionState.WANTYES:
                     if (this.UsSubState == TelnetQueueState.EMPTY)
@@ -419,7 +416,7 @@ namespace WheelMUD.Server.Telnet
                         this.UsState = TelnetOptionState.NO;
                         this.UsSubState = TelnetQueueState.EMPTY;
                     }
-                    
+
                     break;
             }
 

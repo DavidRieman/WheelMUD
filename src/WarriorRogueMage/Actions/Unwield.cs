@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to unwield a weapon.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage.Actions
@@ -19,7 +16,7 @@ namespace WarriorRogueMage.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>An action to unwield a weapon.</summary>
-    [ExportGameAction]
+    [ExportGameAction(100)]
     [ActionPrimaryAlias("unwield", CommandCategory.Item)]
     [ActionDescription("Unwield a weapon.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
@@ -28,7 +25,7 @@ namespace WarriorRogueMage.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -53,10 +50,9 @@ namespace WarriorRogueMage.Actions
 
             var contextMessage = new ContextualString(sender.Thing, this.itemToUnwield.Parent)
             {
-                ToOriginator = "You unwield the $WieldedItem.Name.",
-                ToOthers = "$ActiveThing.Name unwields a $WieldedItem.Name.",
+                ToOriginator = $"You unwield {this.itemToUnwield.Name}.",
+                ToOthers = $"{sender.Thing.Name} unwields {this.itemToUnwield.Name}.",
             };
-
             var sensoryMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
             var unwieldEvent = new WieldUnwieldEvent(this.itemToUnwield, true, sender.Thing, sensoryMessage);
@@ -77,7 +73,7 @@ namespace WarriorRogueMage.Actions
             IController sender = actionInput.Controller;
             Thing wielder = sender.Thing;
 
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

@@ -1,7 +1,8 @@
-WheelMUD
-https://github.com/WheelMud/WheelMUD (Formerly http://www.wheelmud.net or http://www.codeplex.com/wheelmud)
-
-Copyright (c) 2007-2015 WheelMUD Development Team
+----------------------------------------------------------------------
+WheelMUD - https://github.com/WheelMud/WheelMUD
+(Formerly http://www.wheelmud.net or http://www.codeplex.com/wheelmud)
+Copyright (c) 2007-2020 WheelMUD Development Team
+----------------------------------------------------------------------
 
 Microsoft Public License (MS-PL)
 

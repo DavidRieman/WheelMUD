@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A base class that anything within the world inherits from.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -73,7 +70,7 @@ namespace WheelMUD.Core
             {
                 foreach (var behavior in behaviors)
                 {
-                    behavior.Parent = this;
+                    behavior.SetParent(this);
                     this.Behaviors.Add(behavior);
                 }
             }
@@ -91,7 +88,7 @@ namespace WheelMUD.Core
         public string Id
         {
             // The ID should be a unique ID as per the DB, post-persisted.
-            // @@@ Thing may also get a TemplateID added as we work out the templating story...
+            // TODO: Thing may also get a TemplateID added as we work out the templating story...
             get
             {
                 // Avoid races with retrieving ID while it is in the process of changing.
@@ -133,8 +130,9 @@ namespace WheelMUD.Core
         public string Description { get; set; }
 
         /// <summary>Gets or sets the parent of this thing, IE a container.</summary>
+        /// <remarks>To set a Thing's parent, instead use newParentThing.Add(this) to rig up all relationships correctly.</remarks>
         [JsonIgnore]
-        public Thing Parent { get; set; }
+        public Thing Parent { get; private set; }
 
 #pragma warning disable IDE0051 // Remove unused private members
         /// <summary>Gets or sets the parent of this thing via ID.</summary>
@@ -268,14 +266,14 @@ namespace WheelMUD.Core
         public List<Thing> Children { get; set; }
 
         /// <summary>Gets or sets the ID of the template this Thing is based on.</summary>
-        /// <remarks>@@@ TODO: 'set' should be private once the Builders are finished being extracted!</remarks>
+        /// <remarks>TODO: 'set' should be private once the Builders are finished being extracted!</remarks>
         public string TemplateId { get; set; }
 
         /// <summary>Gets the behavior manager for this item.</summary>
         public BehaviorManager Behaviors { get; private set; }
 
-        // @@@ Only let internal Combine and such alter the Count directly?
-        // @@@ TODO: All Things may be a stack (when count>0) it's up to us to split 
+        // TODO: Only let internal Combine and such alter the Count directly?
+        // TODO: All Things may be a stack (when count>0) it's up to us to split 
         // automatically at appropriate times, etc.
         public int Count { get; private set; }
 
@@ -295,8 +293,8 @@ namespace WheelMUD.Core
         /// <summary>Performs tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
         {
-            // @@@ TODO: Unregister from all things we subscribed to (just the current parent, individual behaviors may differ).
-            // @@@ TODO: Dispose all our Children and Behaviors too (things should not be disposed lightly).
+            // TODO: Unregister from all things we subscribed to (just the current parent, individual behaviors may differ).
+            // TODO: Dispose all our Children and Behaviors too (things should not be disposed lightly).
         }
 
         /* /// <summary>Saves this Thing.</summary>
@@ -311,8 +309,8 @@ namespace WheelMUD.Core
             }
             else
             {
-                // @@@ TODO: If a thing is asked to save, see if it is a child/subchild of a player, and if so, save the player instead?
-                // @@@ TODO: Implement saving of core thing -> saving of housed Behaviors too.
+                // TODO: If a thing is asked to save, see if it is a child/subchild of a player, and if so, save the player instead?
+                // TODO: Implement saving of core thing -> saving of housed Behaviors too.
                 if (this.Parent.HasBehavior<PlayerBehavior>())
                 {
                     this.Parent.Behaviors.FindFirst<PlayerBehavior>().SaveWholePlayer();
@@ -339,7 +337,7 @@ namespace WheelMUD.Core
         {
             if (this.TemplateId == thing.TemplateId && this.Name == thing.Name && this.FullName == thing.FullName)
             {
-                // @@@ TODO: Better logic to see differing properties on housed behaviors, etc...
+                // TODO: Better logic to see differing properties on housed behaviors, etc...
                 if (this.Behaviors.CanStack(thing.Behaviors))
                 {
                     // throw new NotImplementedException();
@@ -363,7 +361,7 @@ namespace WheelMUD.Core
         /// <returns>true on success, false otherwise.</returns>
         public bool SaveAsXml(Stream w)
         {
-            // @@@ TODO: Ensure this saves the housed behaviors too.
+            // TODO: Ensure this saves the housed behaviors too.
             if (w == null || !w.CanWrite)
             {
                 return false;
@@ -413,8 +411,8 @@ namespace WheelMUD.Core
                 {
                     // All Items should be cloneable, and most derived classes should find it sufficient 
                     // to allow this base Item.Clone to take care of all the cloning.
-                    // @@@ TODO: Test this.  Especially if any properties have indexers.
-                    // @@@ TODO: Make sure this deep-copies things like behaviors.
+                    // TODO: Test this.  Especially if any properties have indexers.
+                    // TODO: Make sure this deep-copies things like behaviors.
                     var properties = this.GetType().GetProperties();
 
                     foreach (var property in properties)
@@ -456,8 +454,7 @@ namespace WheelMUD.Core
                 // Try to find the item in this collection by seeing if any item ID matches 
                 // the string exactly, else if that find call returns null, find any item ID 
                 // that starts with the specified string, else if that is null...
-                // @@@ Test: Does the ID check here work? long.Equals(string)?
-                Thing foundThing = this.Children.Find(i => i.Id.Equals(s)) ??
+                Thing foundThing = this.Children.Find(i => i.Id != null && i.Id.Equals(s)) ??
                                    this.Children.Find(i => i.Name.ToLower().Equals(s)) ??
                                    this.Children.Find(i => i.Name.ToLower().StartsWith(s)) ??
                                    this.Children.Find(i => i.KeyWords.Contains(s));
@@ -494,11 +491,11 @@ namespace WheelMUD.Core
         /// <returns>List of Items.</returns>
         public List<Thing> FindAllChildren(Predicate<Thing> predicate)
         {
-            // @@@ TODO: Why are these locking?  If this is to avoid iteration of Children while it may 
-            //           also be modified by another thread, it fails to do so, as the user can access/change
-            //           the public this.Children list directly.  We may need a private this.children member 
-            //           and only allow specific access to children via our public methods which would return
-            //           new lists with the appropriate members (instead of sharing the actual list).
+            // TODO: Why are these locking?  If this is to avoid iteration of Children while it may 
+            //       also be modified by another thread, it fails to do so, as the user can access/change
+            //       the public this.Children list directly.  We may need a private this.children member 
+            //       and only allow specific access to children via our public methods which would return
+            //       new lists with the appropriate members (instead of sharing the actual list).
             lock (this.lockObject)
             {
                 return this.Children.FindAll(predicate);
@@ -607,14 +604,19 @@ namespace WheelMUD.Core
             return skill;
         }
 
-        // @@@ All things (world, room, item, mob, etc), should all potentially have sub-things
-        //     but it should be up to the code which moves things about to do so intelligently
-        //     (IE should not allow adding an Area inside a Room, etc.)  These can be prevented
-        //     either explicitly here, or preferably via event request cancellation.
+        // TODO: All things (world, room, item, mob, etc), should all potentially have sub-things
+        //       but it should be up to the code which moves things about to do so intelligently
+        //       (IE should not allow adding an Area inside a Room, etc.)  These can be prevented
+        //       either explicitly here, or preferably via event request cancellation.
         public bool Add(Thing thing)
         {
             // No two threads may add/remove any combination of the parent/sub-thing at the same time,
             // in order to prevent race conditions resulting in thing-disconnection/duplication/etc.
+            // TODO: May need to pick a consistent order to apply the locks (like locking the lowest
+            //       alphabetical thing ID's lock first) to prevent possible deadlocks.
+            // TODO: The whole MultipleParentsBehavior may be too complicated for our actual use cases,
+            //       and we should consider a lighter approach that doesn't track multiple parents, but
+            //       simply lets the thing be a child of multiple locations.
             lock (this.lockObject)
             {
                 lock (thing.lockObject)
@@ -677,6 +679,19 @@ namespace WheelMUD.Core
             }
 
             return false;
+        }
+
+        /// <summary>Sets the Thing's Parent. DO NOT USE.</summary>
+        /// <remarks>
+        /// Generally you should use newParent.Add(newChild) or oldParent.Remove(oldChild) instead.
+        /// This function is marked "unsafe" because it only performs one part of the parent-child updates that are usually required.
+        /// For example, if you set player.RigParentUnsafe(room), the player object may behave as if it is in the room, but other players and
+        /// mobs would not be able to perceive the player as one of the children of the room, because the room's children won't be updated.
+        /// </remarks>
+        /// <param name="newParent"></param>
+        public void RigParentUnsafe(Thing newParent)
+        {
+            this.Parent = newParent;
         }
 
         /// <summary>Adds this Thing to a parent.</summary>
@@ -753,10 +768,9 @@ namespace WheelMUD.Core
                         return thing;
                     }
 
-                    // @@@ TODO: better stacking: produce a remainder thing and return it, in
-                    //     cases where a maximum stack count would be exceeded.  Also, take into
-                    //     account potentially different Behaviors attached to the objects in 
-                    //     the CanStack method!
+                    // TODO: Better stacking: produce a remainder thing and return it, in cases where a maximum stack count
+                    //       would be exceeded.  Also, take into account potentially different Behaviors attached to the
+                    //       objects in the CanStack method!
                     this.Count += thing.Count;
                     return null;
                 }

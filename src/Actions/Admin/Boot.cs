@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to disconnect a player from the game.
-//   @@@ TODO: Implement
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -17,7 +13,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>An action to disconnect a player from the game.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("boot", CommandCategory.Admin)]
     [ActionDescription("Disconnect a player from the game.")]
     [ActionSecurity(SecurityRole.fullAdmin)]
@@ -39,9 +35,9 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            // @@@ TODO: Inform the player by sending a non-sensory event
+            // TODO: Inform the player by sending a non-sensory event
             ////connection.Send("You have been booted from the server.");
-            this.playerBehavior.LogOut(); 
+            this.playerBehavior.LogOut();
 
             // Inform the admin
             IController sender = actionInput.Controller;
@@ -53,14 +49,14 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             string playerName = actionInput.Tail;
-            this.PlayerToBoot = PlayerManager.Instance.FindPlayerByName(playerName, false);
+            this.PlayerToBoot = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
             if (this.PlayerToBoot != null)
             {
                 this.playerBehavior = this.PlayerToBoot.Behaviors.FindFirst<PlayerBehavior>();

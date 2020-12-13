@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A base class that represents an instance of an Action.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -57,18 +54,10 @@ namespace WheelMUD.Actions
             // * Mobile who matches the name exactly.
             // * Player who matches the partial name.
             // * Mobile who matches the partial name.
-            return PlayerManager.Instance.FindPlayerByName(entityName, false) ??
+            return PlayerManager.Instance.FindLoadedPlayerByName(entityName, false) ??
                    MobileManager.Instance.FindMobileByName(entityName, false) ??
-                   PlayerManager.Instance.FindPlayerByName(entityName, true) ??
+                   PlayerManager.Instance.FindLoadedPlayerByName(entityName, true) ??
                    MobileManager.Instance.FindMobileByName(entityName, true);
-        }
-
-        /// <summary>Gets a room for the specified ID.</summary>
-        /// <param name="roomId">The ID of the room to find.</param>
-        /// <returns>Room if a room is found, otherwise null</returns>
-        public static Thing GetRoom(long roomId)
-        {
-            return PlacesManager.Instance.WorldBehavior.FindRoom(roomId);
         }
 
         /// <summary>Executes the command.</summary>
@@ -95,11 +84,11 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the initiator in a room?
-            // (@@@ Note that this guard was found on some commands, but I know of no situation where the user
+            // (TODO: Note that this guard was found on some commands, but I know of no situation where the user
             // should be able to use ANY command while "not in a room" which generally shouldn't occur?)
             if (sender.Thing.Parent == null)
             {
-                return "You can't do that while you are not in a room.";
+                return "You can't do that while you are not in the world.";
             }
 
             // Rule: Is the initiator a player?
@@ -111,13 +100,13 @@ namespace WheelMUD.Actions
             // Rule: Is at least two arguments supplied?
             if (guards.Contains(CommonGuards.RequiresAtLeastTwoArguments) && actionInput.Params.Length < 2)
             {
-                return string.Format("This command needs more than that. (Use 'help {0}' for details.)", actionInput.Noun);
+                return $"This command needs more than that. (Use 'help {actionInput.Noun}' for details.)";
             }
 
             // Rule: Is at least one argument supplied?
             if (guards.Contains(CommonGuards.RequiresAtLeastOneArgument) && actionInput.Params.Length <= 0)
             {
-                return string.Format("This command needs more than that. (Use 'help {0}' for details.)", actionInput.Noun);
+                return $"This command needs more than that. (Use 'help {actionInput.Noun}' for details.)";
             }
 
             // Rule: Is the initiator alive?

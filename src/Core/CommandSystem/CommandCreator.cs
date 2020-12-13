@@ -3,13 +3,11 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Turns an action into a command script for execution on the queue.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.CommandSystem
 {
+    using System.Linq;
     using WheelMUD.Actions;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
@@ -26,11 +24,8 @@ namespace WheelMUD.CommandSystem
     /// <summary>Creates ScriptingCommands based on the provided Actions.</summary>
     public class CommandCreator
     {
-        /// <summary>The CommandCreator singleton instance.</summary>
-        private static readonly CommandCreator SingletonInstance = new CommandCreator();
-
         /// <summary>The response given for a player's attempted but unrecognized command.</summary>
-        private static string unknownCommandResponse = "Huh?";
+        private static readonly string unknownCommandResponse = "Huh?";
 
         /// <summary>Prevents a default instance of the CommandCreator class from being created.</summary>
         private CommandCreator()
@@ -38,17 +33,14 @@ namespace WheelMUD.CommandSystem
         }
 
         /// <summary>Gets the singleton instance of the CommandCreator class.</summary>
-        public static CommandCreator Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static CommandCreator Instance { get; } = new CommandCreator();
 
         /// <summary>Creates a scripting command from action input.</summary>
         /// <param name="actionInput">The action input to transform into a ScriptingCommand instance.</param>
         /// <returns>A new ScriptingCommand instance for the specified input, if found, else null.</returns>
         public ScriptingCommand Create(ActionInput actionInput)
         {
-            // @@@ TODO: Build targeting into command selection when there are multiple valid targets; IE if multiple
+            // TODO: Build targeting into command selection when there are multiple valid targets; IE if multiple
             //     openable things registered an "open" context command, then if the user said "open door" then we
             //     want to select the context command attached to the closest match for "door" as our command; if
             //     there are still multiple targets, we can start a conflict resolution prompt, etc.  Individual non-
@@ -97,49 +89,13 @@ namespace WheelMUD.CommandSystem
             }
 
             // Find the first valid command of this name and of applicable context, if any.
-            // Check the sender's current parent for such a context command applicable to it's children.
             Thing sender = actionInput.Controller.Thing;
-            if (sender.Parent.Commands.ContainsKey(commandAlias) &&
-                (sender.Parent.Commands[commandAlias].Availability & ContextAvailability.ToChildren) != ContextAvailability.ToNone)
+            var contextCommand = CommandManager.Instance.GetContextCommands(sender, commandAlias).FirstOrDefault();
+            if (contextCommand == null)
             {
-                return this.CreateContextCommand(actionInput, commandAlias, sender.Parent);
+                return null;
             }
 
-            // Else check the sender's self for such a context command applicable to itself.
-            if (sender.Commands.ContainsKey(commandAlias) &&
-                (sender.Commands[commandAlias].Availability & ContextAvailability.ToSelf) != ContextAvailability.ToNone)
-            {
-                return this.CreateContextCommand(actionInput, commandAlias, sender);
-            }
-
-            // Else check the sender's siblings for such a context command applicable to it's siblings.
-            foreach (Thing sibling in sender.Parent.Children)
-            {
-                if (sibling != sender && 
-                    sibling.Commands.ContainsKey(commandAlias) &&
-                    (sibling.Commands[commandAlias].Availability & ContextAvailability.ToSiblings) != ContextAvailability.ToNone)
-                {
-                    return this.CreateContextCommand(actionInput, commandAlias, sibling);
-                }
-            }
-
-            // Else check the sender's children for such a context command applicable to it's parent.
-            // (Note that this should work for children with MultipleParentsBehavior too.)
-            foreach (Thing child in sender.Children)
-            {
-                if (child.Commands.ContainsKey(commandAlias) && 
-                    (child.Commands[commandAlias].Availability & ContextAvailability.ToParent) != ContextAvailability.ToNone)
-                {
-                    return this.CreateContextCommand(actionInput, commandAlias, child);
-                }
-            }
-
-            return null;
-        }
-
-        private ScriptingCommand CreateContextCommand(ActionInput actionInput, string commandAlias, Thing actionOwner)
-        {
-            ContextCommand contextCommand = actionOwner.Commands[commandAlias];
             var executeDelegate = new CommandScriptExecuteDelegate(contextCommand.CommandScript.Execute);
             var guardsDelegate = new CommandScriptGuardsDelegate(contextCommand.CommandScript.Guards);
             return new ScriptingCommand(contextCommand.CommandKey, executeDelegate, guardsDelegate, SecurityRole.all, actionInput);

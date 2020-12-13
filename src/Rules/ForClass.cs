@@ -37,7 +37,7 @@ namespace WheelMUD.Rules
         {
             return new SetupClass<T, R>(this.rulesRulesEngine, this, expression);
         }
-        
+
         public ForClass<T> MustPassRule(IRule<T> rule)
         {
             Expression<Func<T, T>> expression = t => t;

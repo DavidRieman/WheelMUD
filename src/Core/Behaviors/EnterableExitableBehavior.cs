@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -14,8 +12,8 @@ namespace WheelMUD.Core
     /// <summary>EnterableExitableBehavior provides the ability for the parent Thing to be entered.</summary>
     /// <remarks>
     /// Entering/exiting simply reuses the MovableBehavior to move an actor. 
-    /// @@@ TODO: Consider removing as the new flexible ExitBehavior probably completely covers this 
-    ///     behavior simply by having "exit" or "enter" be the commands registered?
+    /// TODO: Consider removing as the new flexible ExitBehavior probably completely covers this 
+    ///       behavior simply by having "exit" or "enter" be the commands registered?
     /// </remarks>
     public class EnterableExitableBehavior : Behavior
     {
@@ -35,14 +33,14 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets the exit command.</summary>
-        /// <remarks>@@@ TODO: Should these be customizable and register context commands?</remarks>
+        /// <remarks>TODO: Should these be customizable and register context commands?</remarks>
         public string ExitCommand
         {
             get { return "exit"; }
         }
 
         /// <summary>Gets the enter command.</summary>
-        /// <remarks>@@@ TODO: Should these be customizable and register context commands?</remarks>
+        /// <remarks>TODO: Should these be customizable and register context commands?</remarks>
         public string EnterCommand
         {
             get { return "enter"; }
@@ -66,9 +64,9 @@ namespace WheelMUD.Core
                 100,
                 new ContextualString(actor, this.Parent)
                 {
-                    ToOriginator = @"You enter $TargetThing.Name.",
-                    ToReceiver = @"$ActiveThing.Name enters you.",
-                    ToOthers = @"$ActiveThing.Name enters $TargetThing.Name.",
+                    ToOriginator = $"You enter {this.Parent.Name}.",
+                    ToReceiver = $"{actor.Name} enters you.",
+                    ToOthers = $"{actor.Name} enters {this.Parent.Name}.",
                 });
 
             movableBehavior.Move(this.Parent, this.Parent, message, message);

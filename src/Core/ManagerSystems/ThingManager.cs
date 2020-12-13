@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   High level manager that provides tracking and global collection of all Thing instances.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -19,7 +16,7 @@ namespace WheelMUD.Core
 
     /// <summary>High level manager that provides tracking and global collection of all Thing instances.</summary>
     /// <remarks>
-    /// @@@ TODO: Provide search ability of registered Things through LINQ rather than, 
+    /// TODO: Provide search ability of registered Things through LINQ rather than, 
     /// or in addition to, specific-purpose search methods.
     /// </remarks>
     public class ThingManager : ManagerSystem
@@ -36,16 +33,10 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets the singleton <see cref="ThingManager"/> instance.</summary>
-        public static ThingManager Instance
-        {
-            get { return SingletonInstance.Value; }
-        }
+        public static ThingManager Instance => SingletonInstance.Value;
 
         /// <summary>Gets the collection of things.</summary>
-        public ICollection<Thing> Things
-        {
-            get { return this.things.Values.ToList().AsReadOnly(); }
-        }
+        public ICollection<Thing> Things => this.things.Values.ToList().AsReadOnly();
 
         /// <summary>Determines whether a Thing is currently spawned in the world given the item id.</summary>
         /// <param name="thingID">The Thing ID to search for.</param>
@@ -190,22 +181,16 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Exporter for MEF.</summary>
-        [ExportSystem]
+        [ExportSystem(0)]
         public class ThingManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>
             /// <returns>A new instance of the singleton system.</returns>
-            public override ISystem Instance
-            {
-                get { return ThingManager.Instance; }
-            }
+            public override ISystem Instance => ThingManager.Instance;
 
             /// <summary>Gets the Type of the singleton system, without instantiating it.</summary>
             /// <returns>The Type of the singleton system.</returns>
-            public override Type SystemType
-            {
-                get { return typeof(ThingManager); }
-            }
+            public override Type SystemType => typeof(ThingManager);
         }
     }
 }

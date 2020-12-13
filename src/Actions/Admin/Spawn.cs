@@ -3,26 +3,21 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Command to spawn a mobile NPC for testing.
-//   TODO: Expose more options than just the name.
-// </summary>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Actions.Admin
+namespace WheelMUD.Actions
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
     /// <summary>Command to spawn a mobile NPC for testing.</summary>
-    [ExportGameAction]
+    /// <remarks>TODO: Expose more options than just the name.</remarks>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("spawn", CommandCategory.Admin)]
-    [ActionDescription("Spawns a mobile NPC for testing.\r\nUsage: spawn (name)")]
+    [ActionDescription("Spawns a mobile NPC for testing.")]
+    [ActionExample("spawn Bob")]
     [ActionSecurity(SecurityRole.fullAdmin)]
     public class Spawn : GameAction
     {
@@ -43,7 +38,8 @@ namespace WheelMUD.Actions.Admin
             var thing = new Thing();
             thing.Id = "0";
             thing.Name = mobName;
-            thing.Parent = sender.Thing.Parent;
+            var targetRoom = sender.Thing.Parent;
+            targetRoom.Add(thing);
             thing.Stats["HP"] = new GameStat(sender, "Hit Points", "HP", null, 10, 0, 10, true);
 
             thing.Behaviors.Add(new MobileBehavior());
@@ -61,7 +57,7 @@ namespace WheelMUD.Actions.Admin
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

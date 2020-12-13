@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   High level manager that provides tracking and global collection of all commands.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -13,6 +10,7 @@ namespace WheelMUD.Core
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
+    using System.Diagnostics;
     using System.Linq;
     using WheelMUD.Actions;
     using WheelMUD.Core.Attributes;
@@ -21,21 +19,15 @@ namespace WheelMUD.Core
     /// <summary>High level manager that provides tracking and global collection of all commands.</summary>
     public class CommandManager : ManagerSystem, IRecomposable
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static readonly CommandManager SingletonInstance = new CommandManager();
-
-        /// <summary>The master command list contains all aliases of all commands.</summary>
-        private Dictionary<string, Command> masterCommandList = new Dictionary<string, Command>();
-
         /// <summary>The master primary command list contains only the primary aliases of commands.</summary>
         private Dictionary<string, Command> primaryCommandList = new Dictionary<string, Command>();
 
         /// <summary>The queue of actions yet to be processed.</summary>
-        private Queue<ActionInput> actionQueue = new Queue<ActionInput>();
+        private readonly Queue<ActionInput> actionQueue = new Queue<ActionInput>();
 
         /// <summary>The list of CommandProcessor workers.</summary>
-        private List<CommandProcessor> commandProcessors = new List<CommandProcessor>();
-        
+        private readonly List<CommandProcessor> commandProcessors = new List<CommandProcessor>();
+
         /// <summary>Prevents a default instance of the <see cref="CommandManager"/> class from being created.</summary>
         private CommandManager()
         {
@@ -43,20 +35,14 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets the singleton instance of the <see cref="CommandManager"/> class.</summary>
-        public static CommandManager Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static CommandManager Instance { get; } = new CommandManager();
 
-        /// <summary>Gets the master command list.</summary>
-        public Dictionary<string, Command> MasterCommandList
-        {
-            get { return this.masterCommandList; }
-        }
+        /// <summary>Gets the master command list, containing all aliases of all commands.</summary>
+        public Dictionary<string, Command> MasterCommandList { get; private set; } = new Dictionary<string, Command>();
 
         /// <summary>Gets or sets, through MEF composition, the available GameAction classes.</summary>
         [ImportMany]
-        private List<GameAction> Commands { get; set; }
+        private List<Lazy<GameAction, ExportGameActionAttribute>> GameActions { get; set; }
 
         /// <summary>Recompose the <see cref="CommandManager"/> system.</summary>
         public void Recompose()
@@ -72,7 +58,7 @@ namespace WheelMUD.Core
             var newPrimaryCommandList = new Dictionary<string, Command>();
             var newMasterCommandList = new Dictionary<string, Command>();
 
-            var actionTypes = from c in this.Commands select c.GetType();
+            var actionTypes = DefaultComposer.GetTypes(this.GameActions);
             foreach (Type type in actionTypes)
             {
                 // Find the description of this command.
@@ -118,8 +104,13 @@ namespace WheelMUD.Core
                 }
             }
 
-            this.primaryCommandList = newPrimaryCommandList;
-            this.masterCommandList = newMasterCommandList;
+            // Avoid replacing our lists while another thread is iterating them.
+            // TODO: Exposing MasterCommandList this way is very likely NOT thread-safe. Change to a lock-protected getter?
+            lock (this)
+            {
+                this.primaryCommandList = newPrimaryCommandList;
+                this.MasterCommandList = newMasterCommandList;
+            }
         }
 
         /// <summary>Starts this system.</summary>
@@ -127,7 +118,12 @@ namespace WheelMUD.Core
         {
             this.SystemHost.UpdateSystemHost(this, "Starting...");
 
-            // @@@ TODO: Test > 1, then allow total command processors to be configurable.
+            // TODO: Test > 1, then allow total command processors to be configurable.
+            //  This will take a significant effort to work out any race conditions which may leave
+            //  things with multiple parents (essentially duplication bugs), deadlocks should we try
+            //  to use multiple locks for transaction-like parenting changes, and so on. (We may need
+            //  to end up using a fairly global lock for any Parent changes, etc. Note that the Thing
+            //  locks in place now on getters and setters are definitely not effective / sufficient.)
             int totalCommandProcessors = 1;
             for (int i = 0; i < totalCommandProcessors; i++)
             {
@@ -159,26 +155,82 @@ namespace WheelMUD.Core
         /// <returns>A list of commands that the controller has permissions to execute.</returns>
         public List<Command> GetCommandsForController(IController controller)
         {
-            List<Command> commands = new List<Command>();
-            foreach (Command command in this.primaryCommandList.Values)
+            lock (this)
             {
-                // @@@ IFF this controller/entity has sufficient privileges to use the command, add it
-                commands.Add(command);
+                // TODO: IFF this controller/entity has privileges to use the command, add it. (LINQ query, ToList?)
+                // TODO: We could cache any built map of privelege-set to commands-list (so long as we invalidate
+                //       it whenever we recompose commands from MEF.)
+                List<Command> commands = new List<Command>();
+                foreach (Command command in this.primaryCommandList.Values)
+                {
+                    commands.Add(command);
+                }
+
+                return commands;
+            }
+        }
+
+        public IEnumerable<ContextCommand> GetContextCommands(Thing sender, string alias)
+        {
+            // TODO: Ascertain the ACTUAL sender's specific permissions, so we can check for fullAdmin, fullBuilder, and
+            //       so on, instead of assuming just 'SecurityRole.player' (SEE ALSO CommandGuard.cs for another case...)
+            SecurityRole playerRoles = SecurityRole.player | SecurityRole.minorBuilder | SecurityRole.fullBuilder | SecurityRole.minorAdmin | SecurityRole.fullAdmin;
+            return this.GetPossibleContextCommands(sender, alias, playerRoles).Where(cmd => cmd != null);
+        }
+
+        private IEnumerable<ContextCommand> GetPossibleContextCommands(Thing sender, string alias, SecurityRole senderRoles)
+        {
+            // The order we return commands establishes the priority order, with the highest priority returned first.
+            // Check the sender's current parent (like the "room") for such a context command applicable to its children.
+            if (sender.Parent.Commands.TryGetValue(alias, out ContextCommand cmd) &&
+                (cmd.Availability & ContextAvailability.ToChildren) != ContextAvailability.ToNone &&
+                (cmd.SecurityRole & senderRoles) != SecurityRole.none)
+            {
+                yield return cmd;
             }
 
-            return commands;
+            // Else check the sender itself for such a context command applicable to use itself (such as a context command
+            // granted by a Behavior or Effect currently on the parent).
+            if (sender.Commands.TryGetValue(alias, out cmd) &&
+                (cmd.Availability & ContextAvailability.ToSelf) != ContextAvailability.ToNone &&
+                (cmd.SecurityRole & senderRoles) != SecurityRole.none)
+            {
+                yield return cmd;
+            }
+
+            // Else check siblings of the sender (like other Things in the Room) for a context command applicable to its siblings.
+            foreach (Thing sibling in sender.Parent.Children)
+            {
+                if (sibling != sender &&
+                    sibling.Commands.TryGetValue(alias, out cmd) &&
+                    (cmd.Availability & ContextAvailability.ToSiblings) != ContextAvailability.ToNone &&
+                    (cmd.SecurityRole & senderRoles) != SecurityRole.none)
+                {
+                    yield return cmd;
+                }
+            }
+
+            // Else check children of the sender (like inventory items that grant commands/powers) for such a context command
+            // applicable to their parent. (Note that this needs to work for children with MultipleParentsBehavior too.)
+            foreach (Thing child in sender.Children)
+            {
+                if (child.Commands.TryGetValue(alias, out cmd) &&
+                    (cmd.Availability & ContextAvailability.ToParent) != ContextAvailability.ToNone &&
+                    (cmd.SecurityRole & senderRoles) != SecurityRole.none)
+                {
+                    yield return cmd;
+                }
+            }
         }
 
         /// <summary>Places an action onto the queue for execution.</summary>
         /// <param name="actionInput">The action input to enqueue.</param>
         public void EnqueueAction(ActionInput actionInput)
         {
-            if (actionInput != null)
+            Debug.Assert(actionInput != null);
+            lock (this.actionQueue)
             {
-                lock (this.actionQueue)
-                {
-                    this.actionQueue.Enqueue(actionInput);
-                }
+                this.actionQueue.Enqueue(actionInput);
             }
         }
 
@@ -199,20 +251,14 @@ namespace WheelMUD.Core
 
         /// <summary>Registers the <see cref="CommandManager"/> system for export.</summary>
         /// <remarks>Assists with non-rebooting updates of the <see cref="CommandManager"/> system through MEF.</remarks>
-        [ExportSystem]
+        [ExportSystem(0)]
         public class CommandManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>
-            public override ISystem Instance
-            {
-                get { return CommandManager.Instance; }
-            }
+            public override ISystem Instance => CommandManager.Instance;
 
             /// <summary>Gets the Type of this system.</summary>
-            public override Type SystemType
-            {
-                get { return typeof(CommandManager); }
-            }
+            public override Type SystemType => typeof(CommandManager);
         }
     }
 }

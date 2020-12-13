@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -73,7 +71,7 @@ namespace WheelMUD.Core
             {
                 foreach (var behavior in this.ManagedBehaviors)
                 {
-                    behavior.Parent = parent;
+                    behavior.SetParent(parent);
                 }
             }
         }
@@ -83,7 +81,7 @@ namespace WheelMUD.Core
         /// <returns>true if items in this instance can stack with items from the specified other behavior manager; otherwise, false.</returns>
         public bool CanStack(BehaviorManager otherBehaviorManager)
         {
-            // @@@ TODO: Determine whether these BehaviorManagers house item-stackably-identical behavior instances.
+            // TODO: Determine whether these BehaviorManagers house item-stackably-identical behavior instances.
             //// throw new NotImplementedException();
 
             return false;
@@ -120,8 +118,7 @@ namespace WheelMUD.Core
                 if (!this.ManagedBehaviors.Contains(newBehavior))
                 {
                     this.ManagedBehaviors.Add(newBehavior);
-                    newBehavior.Parent = this.Parent;
-                    newBehavior.OnAddBehavior();
+                    newBehavior.SetParent(this.Parent);
                 }
             }
         }
@@ -135,8 +132,7 @@ namespace WheelMUD.Core
                 if (this.ManagedBehaviors.Contains(behavior))
                 {
                     this.ManagedBehaviors.Remove(behavior);
-                    behavior.OnRemoveBehavior();
-                    behavior.Parent = null;
+                    behavior.SetParent(null);
                 }
             }
         }
@@ -145,7 +141,7 @@ namespace WheelMUD.Core
         /// <param name="existingManager">The manager whose behaviors we are to clone.</param>
         protected void CloneBehaviors(BehaviorManager existingManager)
         {
-            // @@@ TODO: Update comment to use a relevant example.
+            // TODO: Update comment to use a relevant example.
             // When cloning a behavior manager, we want a new set of behaviors that are based 
             // on the existing behaviors;  if one object instance's behaviors change (IE a 
             // player spends some gold so their Currency StackableItemBehavior reduces its 

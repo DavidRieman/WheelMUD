@@ -3,23 +3,20 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command to see the current in-game and server times.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
     /// <summary>A command to see the current in-game and server times.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("time", CommandCategory.Inform)]
+    [ActionAlias("date", CommandCategory.Inform)]
     [ActionAlias("clock", CommandCategory.Inform)]
     [ActionDescription("Get the game time, server time, and local time.")]
     [ActionSecurity(SecurityRole.player)]
@@ -35,12 +32,8 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Game time is: ");
-           // @@@ Broken: sb.AppendLine(bridge.World.TimeSystem.Now);
-            sb.Append("Real world server time is: ");
-            sb.AppendLine(DateTime.Now.ToString());
-            sender.Write(sb.ToString());
+            // TODO: Fix: sender.Write($"The current game time is: {bridge.World.TimeSystem.Now}");
+            sender.Write($"The real world server time is: {DateTime.Now.ToString()}");
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -48,7 +41,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

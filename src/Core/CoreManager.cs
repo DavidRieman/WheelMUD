@@ -22,9 +22,6 @@ namespace WheelMUD.Core
     /// </summary>
     public class CoreManager : ISuperSystem
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static CoreManager instance = new CoreManager();
-
         /// <summary>The list of super system subscribers.</summary>
         private readonly List<ISuperSystemSubscriber> subscribers = new List<ISuperSystemSubscriber>();
 
@@ -34,10 +31,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets the CoreManager singleton instance.</summary>
-        public static CoreManager Instance
-        {
-            get { return CoreManager.instance; }
-        }
+        public static CoreManager Instance { get; } = new CoreManager();
 
         /// <summary>Gets or sets a list of system plug-ins.</summary>
         [ImportMany(typeof(ISystemPlugIn))]
@@ -68,10 +62,9 @@ namespace WheelMUD.Core
         /// <summary>Start the CoreManager.</summary>
         public void Start()
         {
-            // Load the initial plugins and such; note that ATM CoreManager itself is not 
-            // recomposable, but the idea is to allow individual subsystems/plugins to 
-            // recompose on the fly w/out server reboots, etc.  @@@ TODO: Implement file
-            // system watcher on the execution directory to trigger auto-recompositions.
+            // Load the initial plugins and such; note that ATM CoreManager itself is not recomposable, but the idea
+            // is to allow individual subsystems/plugins to  recompose on the fly w/out server reboots, etc.
+            // TODO: Implement file system watcher on the execution directory to trigger auto-recompositions.
             DefaultComposer.Container.ComposeParts(this);
 
             this.SubscribeToSystems();

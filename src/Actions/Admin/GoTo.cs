@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command that allows a player move to the room Id or entity specified.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -16,7 +13,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command that allows a player move to the room Id or entity specified.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("goto", CommandCategory.Admin)]
     [ActionAlias("go to", CommandCategory.Admin)]
     [ActionDescription("Go to the specified entity or room number.")]
@@ -26,7 +23,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -67,17 +64,18 @@ namespace WheelMUD.Actions
                 }
             }
 
+            var adminName = sender.Thing.Name;
             var leaveContextMessage = new ContextualString(sender.Thing, sender.Thing.Parent)
             {
                 ToOriginator = null,
-                ToReceiver = @"$ActiveThing.Name disappears into nothingness.",
-                ToOthers = @"$ActiveThing.Name disappears into nothingness.",
+                ToReceiver = $"{adminName} disappears into nothingness.",
+                ToOthers = $"{adminName} disappears into nothingness.",
             };
             var arriveContextMessage = new ContextualString(sender.Thing, targetPlace)
             {
-                ToOriginator = "You teleport to " + targetPlace.Name + ".",
-                ToReceiver = @"$ActiveThing.Name appears from nothingness.",
-                ToOthers = @"$ActiveThing.Name appears from nothingness.",
+                ToOriginator = $"You teleported to {targetPlace.Name}.",
+                ToReceiver = $"{adminName} appears from nothingness.",
+                ToOthers = $"{adminName} appears from nothingness.",
             };
             var leaveMessage = new SensoryMessage(SensoryType.Sight, 100, leaveContextMessage);
             var arriveMessage = new SensoryMessage(SensoryType.Sight, 100, arriveContextMessage);
@@ -85,7 +83,7 @@ namespace WheelMUD.Actions
             // If we successfully move (IE the move may get cancelled if the user doesn't have permission
             // to enter a particular location, some other behavior cancels it, etc), then perform a 'look'
             // command to get immediate feedback about the new location.
-            // @@@ TODO: This should not 'enqueue' a command since, should the player have a bunch of 
+            // TODO: This should not 'enqueue' a command since, should the player have a bunch of 
             //     other commands entered, the 'look' feedback will not immediately accompany the 'goto' 
             //     command results like it should.
             var movableBehavior = sender.Thing.FindBehavior<MovableBehavior>();
@@ -101,7 +99,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

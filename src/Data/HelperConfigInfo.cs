@@ -3,18 +3,15 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//  Class to simplify reading application and data configuration information.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Data
 {
     using System.Configuration;
     using System.IO;
-    using Configuration = WheelMUD.Utilities.Configuration;
+    using WheelMUD.Utilities;
 
-    /// <summary>Class to read connection string configuration info for the NHibernate Session in the Helpers.cs class.</summary>
+    /// <summary>Class to simplify reading application and data configuration information.</summary>
     public class AppConfigInfo
     {
         /// <summary>Prevents a default instance of the <see cref="AppConfigInfo"/> class from being created.</summary>
@@ -59,8 +56,8 @@ namespace WheelMUD.Data
         /// <summary>Gets the configuration settings.</summary>
         private void GetConfigSettings()
         {
-            this.UserAccountIsPlayerCharacter = this.GetBool("UserAccountIsPlayerCharacter");
-            this.PlayerCharacterNamesMustUseSingleCapital = this.GetBool("PlayerCharacterNamesMustUseSingleCapital");
+            this.UserAccountIsPlayerCharacter = GameConfiguration.GetAppConfigBool("UserAccountIsPlayerCharacter");
+            this.PlayerCharacterNamesMustUseSingleCapital = GameConfiguration.GetAppConfigBool("PlayerCharacterNamesMustUseSingleCapital");
 
             var relationalSettings = this.GetConnectionStringSettings("RelationalDataProviderName", "WheelMUDSQLite");
             var documentSettings = this.GetConnectionStringSettings("DocumentDataProviderName", "RavenDB");
@@ -71,14 +68,9 @@ namespace WheelMUD.Data
 
             // Replace any tokens like {DataDir} in the connection strings with evaluated values.
             // This prevents new administrators from having to adjust App.config for user-specific paths.
-            var dataDir = Configuration.GetDataStoragePath() + Path.DirectorySeparatorChar;
+            var dataDir = GameConfiguration.DataStoragePath + Path.DirectorySeparatorChar;
             this.RelationalConnectionString = this.RelationalConnectionString.Replace("{DataDir}", dataDir);
             this.DocumentConnectionString = this.DocumentConnectionString.Replace("{DataDir}", dataDir);
-        }
-
-        private bool GetBool(string appSettingsName)
-        {
-            return bool.Parse(ConfigurationManager.AppSettings[appSettingsName]);
         }
     }
 }

@@ -3,11 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Command to add, remove, or display the "visuals" associated 
-//   with a room. Visuals are like pseudo-items that can be looked at, e.g. to
-//   provide clues or just to enhance the room.
-// </summary>
 // -----------------------------------------------------------------------
 
 namespace WheelMUD.Actions.Temporary
@@ -24,7 +19,7 @@ namespace WheelMUD.Actions.Temporary
     /// room. Visuals are like pseudo-items that can be looked at, e.g. to
     /// provide clues or just to enhance the room.
     /// </summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("visuals", CommandCategory.Temporary)]
     [ActionDescription("Add or remove a visual item/description to the current room.")]
     [ActionExample("Examples:\r\n  visuals add tree The tree is tall.\r\n  visuals remove tree\r\n  visuals show")]
@@ -106,7 +101,6 @@ namespace WheelMUD.Actions.Temporary
                     output.Append(string.Format("No visuals found for {0} [{1}].", this.roomName, this.roomId));
                 }
 
-                //// HACK: Using sender.Write() for now to avoid the ViewEngine stripping newlines.
                 this.sender.Write(output.ToString());
 
                 // No need to raise event.
@@ -123,7 +117,7 @@ namespace WheelMUD.Actions.Temporary
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -154,7 +148,7 @@ namespace WheelMUD.Actions.Temporary
                 case "show":
                     // Ensure "show" syntax has no additional arguments.
                     return (this.argCount > 1) ? usageText : null;
-                
+
                 default:
                     // Handle case for "visuals aalkdsfj lkajf" etc.
                     return usageText;

@@ -3,11 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A behavior that indicates who is currently following the player or mob.
-//   Currently not too useful, but this is the companion to FollowingBehavior,
-//   which leads to movement when following someone.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Behaviors

@@ -15,7 +15,7 @@ namespace WheelMUD.Actions
 
     /// <summary>Allows a player to communicate across several rooms to all entities.</summary>
     /// <remarks>yell hey you!</remarks>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("yell", CommandCategory.Communicate)]
     [ActionAlias("shout", CommandCategory.Communicate)]
     [ActionDescription("Yell something to the surrounding area.")]
@@ -58,7 +58,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -71,7 +71,7 @@ namespace WheelMUD.Actions
 
         /// <summary>This recursively traverses the rooms, stopping when TTL reaches 0, calling YellAtRoom at each stop.</summary>
         /// <remarks>
-        /// @@@ TODO: This traversal logic should be centralized for reuse, taking an origin place, function, and options like whether
+        /// TODO: This traversal logic should be centralized for reuse, taking an origin place, function, and options like whether
         ///     to go through closed exits. See 'Future Potential' at: https://wheelmud.codeplex.com/wikipage?title=Sensory%20Messages
         /// </remarks>
         /// <param name="place">The current place (generally a room) to work from.</param>
@@ -104,8 +104,8 @@ namespace WheelMUD.Actions
                     }
                 }
 
-                // @@@ TODO: Consider traversing into portal destinations and the like?
-                // @@@ TODO: AmbientSenseBehavior or DrownSenseBehavior or whatnot, so one can make an ambient
+                // TODO: Consider traversing into portal destinations and the like?
+                // TODO: AmbientSenseBehavior or DrownSenseBehavior or whatnot, so one can make an ambient
                 //     noise which drowns out the tail end of a quieting yell under the ambient noise, etc.
             }
             else
@@ -122,9 +122,9 @@ namespace WheelMUD.Actions
         {
             var contextMessage = new ContextualString(entity, null)
             {
-                ToOriginator = "You yell: " + this.yellSentence,
-                ToReceiver = "You hear $ActiveThing.Name yell: " + this.yellSentence,
-                ToOthers = "You hear $ActiveThing.Name yell: " + this.yellSentence,
+                ToOriginator = $"You yell: {this.yellSentence}",
+                ToReceiver = $"You hear {entity.Name} yell: {this.yellSentence}",
+                ToOthers = $"You hear {entity.Name} yell: {this.yellSentence}",
             };
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 

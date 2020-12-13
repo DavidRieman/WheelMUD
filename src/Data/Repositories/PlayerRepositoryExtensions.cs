@@ -12,7 +12,6 @@ namespace WheelMUD.Data.Repositories
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using System.Text;
     using WheelMUD.Data.Entities;
 
     public static class PlayerRepositoryExtensions
@@ -58,12 +57,9 @@ namespace WheelMUD.Data.Repositories
                                  ON pr.RoleID = r.ID 
                                  WHERE pr.PlayerID = {0}";
 
-            using (IDbCommand session = Helpers.OpenRelationalSession())
-            {
-                return session.Connection.Select<RoleRecord>(sql, playerId);
-            }
+            using IDbCommand session = Helpers.OpenRelationalSession();
+            return session.Connection.Select<RoleRecord>(sql, playerId);
         }
-
 
         /// <summary>Deletes a list of roles from a player.</summary>
         /// <param name="playerId">The id of the player that will have roles removed.</param>
@@ -98,14 +94,9 @@ namespace WheelMUD.Data.Repositories
         /// <returns>A list of PlayerRoleRecord objects.</returns>
         public static ICollection<PlayerRoleRecord> FetchAllPlayerRoleRecordsForPlayer(this RelationalRepository<PlayerRoleRecord> repository, long playerId)
         {
-            long id = playerId;
-
-            using (IDbCommand session = Helpers.OpenRelationalSession())
-            {
-                return session.Connection.Select<PlayerRoleRecord>("PlayerID = {0}", id);
-            }
+            using IDbCommand session = Helpers.OpenRelationalSession();
+            return session.Connection.Select<PlayerRoleRecord>(string.Format("PlayerID = {0}", playerId));
         }
-
 
         /// <summary>Gets a role record that is associated with the role name.</summary>
         /// <param name="roleName">The user name to look up a role.</param>
@@ -118,17 +109,12 @@ namespace WheelMUD.Data.Repositories
             {
                 if ("sqlite".Equals(AppConfigInfo.Instance.RelationalDataProviderName, StringComparison.OrdinalIgnoreCase))
                 {
-                    var sql = new StringBuilder();
-
-                    sql.Append("SELECT * FROM Roles ");
-                    sql.Append("WHERE Name = {0} ");
-                    sql.Append(" COLLATE NOCASE ");
-
-                    roleRecord = session.Connection.Select<RoleRecord>(sql.ToString(), roleName).First();
+                    var query = "SELECT * FROM Roles WHERE Name = {0} COLLATE NOCASE ";
+                    roleRecord = session.Connection.Select<RoleRecord>(query, roleName).First();
                 }
                 else
                 {
-                    roleRecord = session.Connection.Select<RoleRecord>("Name = {0}", roleName).First();
+                    roleRecord = session.Connection.Select<RoleRecord>(string.Format("Name = {0}", roleName)).First();
                 }
             }
 

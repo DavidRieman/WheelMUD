@@ -3,32 +3,23 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A behavior that indicates who the player/mob is currently following.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Behaviors
 {
     using Newtonsoft.Json;
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using WheelMUD.Core.Events;
     using WheelMUD.Utilities;
 
-    /// <summary>
-    /// <para>
+    /// <summary>A behavior for an entity to follow another target entity around.</summary>
+    /// <remarks>
     /// The FollowingBehavior is applied to a player or mobile thing that is following another
     /// entity in the game. This could occur when one player follows another player, or perhaps
     /// when a monster is chasing its prey.
-    /// </para>
-    /// <para>
     /// The FollowingBehavior class exposes a Target property, which points to the thing being
     /// followed. It is currently only possible to follow one target at a time.
-    /// </para>
-    /// </summary>
+    /// </remarks>
     public class FollowingBehavior : Behavior
     {
         private SimpleWeakReference<Thing> target;
@@ -87,11 +78,10 @@ namespace WheelMUD.Core.Behaviors
         }
 
         /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent.)</summary>
-        public override void OnRemoveBehavior()
+        protected override void OnRemoveBehavior()
         {
             // Setting Target to null ensures the MovementEvent handler is removed.
             this.Target = null;
-            base.OnRemoveBehavior();
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
@@ -189,8 +179,9 @@ namespace WheelMUD.Core.Behaviors
         {
             var message = new ContextualString(self, newTarget)
             {
-                ToOriginator = "You start following $Target.Name.",
-                ToReceiver = "$ActiveThing.Name starts following you."
+                ToOriginator = $"You start following {newTarget.Name}.",
+                ToReceiver = $"{self.Name} starts following you.",
+                ToOthers = $"{self.Name} starts following {newTarget.Name}.",
             };
 
             return new SensoryMessage(SensoryType.Sight, 100, message);
@@ -200,8 +191,8 @@ namespace WheelMUD.Core.Behaviors
         {
             var message = new ContextualString(self, oldTarget)
             {
-                ToOriginator = "You stop following $Target.Name.",
-                ToReceiver = "$ActiveThing.Name stops following you."
+                ToOriginator = $"You stop following {oldTarget.Name}.",
+                ToReceiver = $"{self.Name} stops following you.",
             };
 
             return new SensoryMessage(SensoryType.Sight, 100, message);
@@ -211,8 +202,8 @@ namespace WheelMUD.Core.Behaviors
         {
             var message = new ContextualString(self, this.Target)
             {
-                ToReceiver = "$ActiveThing.Name arrives, following you.",
-                ToOthers = "$ActiveThing.Name arrives, following " + this.Target.Name + "."
+                ToReceiver = $"{self.Name} arrives, following you.",
+                ToOthers = $"{self.Name} arrives, following {this.Target.Name}.",
             };
 
             return new SensoryMessage(SensoryType.Sight, 100, message);
@@ -222,8 +213,8 @@ namespace WheelMUD.Core.Behaviors
         {
             var message = new ContextualString(self, this.Target)
             {
-                ToOriginator = "You follow " + this.Target.Name + ".",
-                ToOthers = "$ActiveThing.Name leaves, following " + this.Target.Name + "."
+                ToOriginator = $"You follow {this.Target.Name}.",
+                ToOthers = $"{self.Name} leaves, following {this.Target.Name}."
             };
 
             return new SensoryMessage(SensoryType.Sight, 100, message);

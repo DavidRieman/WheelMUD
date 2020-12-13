@@ -3,14 +3,13 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using WheelMUD.Actions;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Events;
@@ -44,7 +43,7 @@ namespace WheelMUD.Core
         public bool IsOpen { get; private set; }
 
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent.)</summary>
-        public override void OnAddBehavior()
+        protected override void OnAddBehavior()
         {
             // When adding this behavior to a Thing, register relevant movement events so we can cancel
             // the movement of anything through our parent Thing while our parent Thing is "closed".
@@ -58,6 +57,8 @@ namespace WheelMUD.Core
                 var contextAvailability = ContextAvailability.ToSiblings | ContextAvailability.ToChildren;
                 var openContextCommand = new ContextCommand(this.commands, OpenString, contextAvailability, SecurityRole.all);
                 var closeContextCommand = new ContextCommand(this.commands, CloseString, contextAvailability, SecurityRole.all);
+                Debug.Assert(!parent.Commands.ContainsKey(OpenString), "The Thing this OpensClosesBehavior attached to already had an Open command.");
+                Debug.Assert(!parent.Commands.ContainsKey(CloseString), "The Thing this OpensClosesBehavior attached to already had a Close command.");
                 parent.Commands.Add(OpenString, openContextCommand);
                 parent.Commands.Add(CloseString, closeContextCommand);
             }
@@ -66,7 +67,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent.)</summary>
-        public override void OnRemoveBehavior()
+        protected override void OnRemoveBehavior()
         {
             var parent = this.Parent;
             if (parent != null)
@@ -75,8 +76,6 @@ namespace WheelMUD.Core
                 parent.Commands.Remove(OpenString);
                 parent.Commands.Remove(CloseString);
             }
-
-            base.OnRemoveBehavior();
         }
 
         /// <summary>Attempt to open this behavior's parent, via the specified opener.</summary>
@@ -114,7 +113,7 @@ namespace WheelMUD.Core
                     var movementEvent = e as MovementEvent;
                     if (movementEvent != null && movementEvent.GoingVia == this.Parent)
                     {
-                        // @@@ TODO: If the actor also cannot perceive our parent properly, perhaps broadcast
+                        // TODO: If the actor also cannot perceive our parent properly, perhaps broadcast
                         //     a sensory event like "Dude blindly ran into a door."
                         string message = string.Format("You cannot move through {0} since it is closed!", this.Parent.Name);
                         movementEvent.Cancel(message);
@@ -132,33 +131,36 @@ namespace WheelMUD.Core
             // If we're already in the desired opened/closed state, we're already done with state changes.
             if (newOpenedState == this.IsOpen)
             {
-                // @@@ TODO: Message to the actor that it is already open/closed.
+                // TODO: Message to the actor that it is already open/closed.
                 return;
             }
 
+            var thisThing = this.Parent;
+            if (thisThing == null)
+            {
+                return; // Abort if the behavior is unattached (e.g. being destroyed).
+            }
+
             // Prepare the Close/Open game event for sending as a request, and if not cancelled, again as an event.
-            var csb = new ContextualStringBuilder(actor, this.Parent);
-            csb.Append(@"You " + verb + " $TargetThing.Name.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
-            csb.Append(@"$ActiveThing.Name " + verb + "s you.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
-            csb.Append(@"$ActiveThing.Name " + verb + "s $TargetThing.Name.", ContextualStringUsage.WhenNotBeingPassedToReceiverOrOriginator);
-            var message = new SensoryMessage(SensoryType.Sight, 100, csb);
-            var e = new OpenCloseEvent(this.Parent, newOpenedState, actor, message);
+            var contextMessage = new ContextualString(actor, thisThing)
+            {
+                ToOriginator = $"You {verb} {thisThing.Name}.",
+                ToReceiver = $"{actor.Name} {verb}s you.",
+                ToOthers = $"{actor.Name} {verb}s {thisThing.Name}.",
+            };
+            var message = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
+            var e = new OpenCloseEvent(thisThing, newOpenedState, actor, message);
 
             // Broadcast the Open or Close Request and carry on if nothing cancelled it.
-            // Use a temporary ref to our own parent to avoid race conditions like sudden parent removal.
-            var thisThing = this.Parent;
-            if (thisThing != null)
+            // Broadcast from the parents of the openable/closable thing (IE the rooms an openable exit is attached to).
+            thisThing.Eventing.OnMiscellaneousRequest(e, EventScope.ParentsDown);
+            if (!e.IsCancelled)
             {
-                // Broadcast from the parents of the openable/closable thing (IE the rooms an openable exit is attached to).
-                thisThing.Eventing.OnMiscellaneousRequest(e, EventScope.ParentsDown);
-                if (!e.IsCancelled)
-                {
-                    // Open or Close the thing.
-                    this.IsOpen = newOpenedState;
+                // Open or Close the thing.
+                this.IsOpen = newOpenedState;
 
-                    // Broadcast the Open or Close event.
-                    thisThing.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
-                }
+                // Broadcast the Open or Close event.
+                thisThing.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
             }
         }
 
@@ -168,7 +170,7 @@ namespace WheelMUD.Core
             /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
             private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
             {
-                CommonGuards.InitiatorMustBeAlive, 
+                CommonGuards.InitiatorMustBeAlive,
                 CommonGuards.InitiatorMustBeConscious,
                 CommonGuards.InitiatorMustBeBalanced,
                 CommonGuards.InitiatorMustBeMobile,
@@ -205,7 +207,7 @@ namespace WheelMUD.Core
             /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
             public override string Guards(ActionInput actionInput)
             {
-                string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+                string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
                 if (commonFailure != null)
                 {
                     return commonFailure;

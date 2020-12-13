@@ -3,14 +3,12 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command that allows an admin to create currency.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
 {
-    /* @@@ This command will be unnecessary with proper OLC item creation, etc...
+    // TODO: Finish replacing with proper OLC item creation (with templates applying a CurrencyBehavior).
+    /*
     using System.Collections.Generic;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
@@ -23,7 +21,7 @@ namespace WheelMUD.Actions
     [ActionPrimaryAlias("create currency", CommandCategory.Admin)]
     [ActionAlias("create money", CommandCategory.Admin)]
     [ActionAlias("create gold", CommandCategory.Admin)]
-    [ActionDescription("@@@ Temp command.")]
+    [ActionDescription("Temporary test command. Creates an amount of currency.")]
     [ActionSecurity(SecurityRole.fullAdmin)]
     internal class CreateCurrency : Action
     {
@@ -47,9 +45,9 @@ namespace WheelMUD.Actions
             {
                 Count = amount,
             };
-            
+
             sender.Thing.Parent.Add(currency);
-            sender.Thing.Controller.Write(string.Format("You create {0}.", currency.Description));
+            sender.Thing.Controller.Write($"You create {currency.Description}.");
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -57,7 +55,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

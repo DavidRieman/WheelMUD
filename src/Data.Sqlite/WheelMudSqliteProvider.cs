@@ -3,18 +3,15 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   ORMLite Sqlite provider for WheelMUD
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Data.Sqlite
 {
+    using ServiceStack.OrmLite;
+    using ServiceStack.OrmLite.Sqlite;
     using System.ComponentModel.Composition;
     using System.Data;
     using System.IO;
-    using ServiceStack.OrmLite;
-    using ServiceStack.OrmLite.Sqlite;
 
     /// <summary>ORMLite Sqlite provider for WheelMUD.</summary>
     [Export(typeof(IWheelMudRelationalDbProvider))]
@@ -37,7 +34,7 @@ namespace WheelMUD.Data.Sqlite
         public IDbConnection CreateDatabaseSession()
         {
             VerifyValidSqLiteFile(this.ConnectionString);
-            var connectionFactory = new OrmLiteConnectionFactory(this.ConnectionString, false, SqliteOrmLiteDialectProvider.Instance);
+            var connectionFactory = new OrmLiteConnectionFactory(this.ConnectionString, SqliteOrmLiteDialectProvider.Instance, true);
             return connectionFactory.OpenDbConnection();
         }
 
@@ -52,7 +49,7 @@ namespace WheelMUD.Data.Sqlite
             // Example connection string: "Data Source=Files\WheelMud.net.db;Version=3;"
             // Everything between the '=' and the first ';' should be the file to check.
             string fileName = connectionStringForSqlite.Substring(connectionStringForSqlite.IndexOf('=') + 1);
-            fileName = fileName.Substring(0, fileName.IndexOf(';'));
+            fileName = fileName.Substring(0, fileName.IndexOf(';')).Trim();
             var fileInfo = new FileInfo(fileName);
             if (!fileInfo.Exists)
             {

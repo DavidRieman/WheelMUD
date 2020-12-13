@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A mute effect.
-//   By Justin LeCheminant December 2009
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Effects
@@ -72,7 +68,7 @@ namespace WheelMUD.Effects
         /// the Unmute method, and adds it to the TimeSystem scheduler to call
         /// after the duration time has passed.
         /// </remarks>
-        public override void OnAddBehavior()
+        protected override void OnAddBehavior()
         {
             // While this effect is attached to its parent, it denies all verbal communications from it.
             this.Interceptor = new CancellableGameEventHandler(this.DenyCommunicationRequest);
@@ -95,7 +91,7 @@ namespace WheelMUD.Effects
         }
 
         /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent.)</summary>
-        public override void OnRemoveBehavior()
+        protected override void OnRemoveBehavior()
         {
             // Stop intercepting communication events.
             this.Parent.Eventing.CommunicationRequest -= this.Interceptor;

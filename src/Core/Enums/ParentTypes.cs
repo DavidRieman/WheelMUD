@@ -9,8 +9,8 @@ namespace WheelMUD.Core.Enums
 {
     /// <summary>The types of parents that exits in WheelMUD.</summary>
     /// <remarks>
-    /// @@@ For now this should mirror the ParentType[s] table, until such a time as 
-    ///     types are detected/loaded automatically and this enum becomes irrelevant.
+    /// TODO: For now this should mirror the ParentType[s] table, until such a time as 
+    ///       types are detected/loaded automatically and this enum becomes irrelevant.
     /// </remarks>
     public enum ParentTypes
     {

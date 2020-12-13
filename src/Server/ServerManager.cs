@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Controls the flow of data through the various server layers.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server
@@ -18,9 +15,6 @@ namespace WheelMUD.Server
     /// <summary>The ServerManager controls the flow of data through the various server layers.</summary>
     public class ServerManager : ManagerSystem
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static readonly ServerManager SingletonInstance = new ServerManager();
-
         /// <summary>The base server.</summary>
         private readonly BaseServer baseServer = new BaseServer();
 
@@ -43,14 +37,11 @@ namespace WheelMUD.Server
             this.inputParser.InputReceived += this.CommandServer_OnInputReceived;
 
             // Set up to respond to player log out events by closing those connections.
-            PlayerManager.GlobalPlayerLogOutEvent += this.PlayerManager_GlobalPlayerLogOutEvent;
+            PlayerManager.Instance.GlobalPlayerLogOutEvent += this.PlayerManager_GlobalPlayerLogOutEvent;
         }
 
         /// <summary>Gets the singleton instance of this ServerManager.</summary>
-        public static ServerManager Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static ServerManager Instance { get; } = new ServerManager();
 
         /// <summary>Gets the start time.</summary>
         public DateTime StartTime { get; private set; }
@@ -59,14 +50,10 @@ namespace WheelMUD.Server
         public override void Start()
         {
             this.SystemHost.UpdateSystemHost(this, "Starting...");
-
             this.baseServer.SubscribeToSystem(this);
             this.baseServer.Start();
-
             this.telnetServer.Start();
-
             this.SystemHost.UpdateSystemHost(this, "Started on port " + this.baseServer.Port);
-
             this.StartTime = DateTime.Now;
         }
 
@@ -180,22 +167,16 @@ namespace WheelMUD.Server
         }
 
         /// <summary>MEF exporter for ServerManager.</summary>
-        [ExportSystem]
+        [ExportSystem(0)]
         public class ServerManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>
             /// <returns>A new instance of the singleton system.</returns>
-            public override ISystem Instance
-            {
-                get { return ServerManager.Instance; }
-            }
+            public override ISystem Instance => ServerManager.Instance;
 
             /// <summary>Gets the Type of the singleton system, without instantiating it.</summary>
             /// <returns>The Type of the singleton system.</returns>
-            public override Type SystemType
-            {
-                get { return typeof(ServerManager); }
-            }
+            public override Type SystemType => typeof(ServerManager);
         }
     }
 }

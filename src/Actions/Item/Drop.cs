@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command to drop an object from the player inventory to the room.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -17,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command to drop an object from the player inventory to the room.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("drop", CommandCategory.Item)]
     [ActionDescription("Drop an object from your inventory.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
@@ -26,7 +23,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -54,9 +51,9 @@ namespace WheelMUD.Actions
 
             var contextMessage = new ContextualString(sender.Thing, this.thingToDrop.Parent)
             {
-                ToOriginator = "You drop up $Thing.Name.",
-                ToReceiver = "$ActiveThing.Name drops $Thing.Name in you.",
-                ToOthers = "$ActiveThing.Name drops $Thing.Name.",
+                ToOriginator = $"You drop up {this.thingToDrop.Name}.",
+                ToReceiver = $"{sender.Thing.Name} drops $Thing.Name in you.",
+                ToOthers = $"{sender.Thing.Name} drops $Thing.Name.",
             };
             var dropMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
@@ -75,7 +72,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

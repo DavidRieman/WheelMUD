@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Lists the credits for the game.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -18,7 +15,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>Action description here.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("credits", CommandCategory.Inform)]
     [ActionAlias("immlist", CommandCategory.Inform)]
     [ActionAlias("wizlist", CommandCategory.Inform)]
@@ -36,14 +33,14 @@ namespace WheelMUD.Actions
 
         /// <summary>The synchronization locking object.</summary>
         private static object cacheLockObject = new object();
-        
+
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
             var parameters = actionInput.Params;
-            
+
             // Ensure two 'credits' commands at the same time do not race for shared cache, etc.
             lock (cacheLockObject)
             {
@@ -72,7 +69,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

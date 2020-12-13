@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to set your status as 'inactive' to other players.
-//   @@@ TODO: Implement.  Other actions should automatically unset.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -16,8 +12,8 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
-    /// <summary>An action to set your status as 'inactive' to other players.</summary>
-    [ExportGameAction]
+    /// <summary>An action to set your login password.</summary>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("password", CommandCategory.Configure)]
     // TODO: #65: This should really take a series of stand-alone prompts, including: the Old Password, the New Password, and Confirm the New Password!
     //       Perhaps the password change should only be implemented after a proper prompt queue is built. Alternatively, this could become only
@@ -60,13 +56,13 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            // @@@ TODO: Use temporary change of command context for verification, much like '
+            // TODO: Use temporary change of command context for verification (rather than single line confirmation).
             if (actionInput.Params.Length == 2)
             {
                 string password1 = actionInput.Params[0];

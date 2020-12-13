@@ -3,21 +3,17 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to remove a role from a player.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
-    using System.Linq;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
     /// <summary>An action to grant a role to a player.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("role revoke", CommandCategory.Admin)]
     [ActionAlias("rolerevoke", CommandCategory.Admin)]
     [ActionDescription("Removes a role from a player.")]
@@ -39,7 +35,7 @@ namespace WheelMUD.Actions
             string roleName = normalizedParams[0];
             string playerName = normalizedParams[1];
 
-            Thing player = GameAction.GetPlayerOrMobile(playerName);
+            Thing player = GetPlayerOrMobile(playerName);
             if (player == null)
             {
                 // If the player is not online, then try to load the player from the database.
@@ -61,7 +57,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -71,7 +67,7 @@ namespace WheelMUD.Actions
             string roleName = normalizedParams[0];
             string playerName = normalizedParams[1];
 
-            Thing player = GameAction.GetPlayerOrMobile(playerName);
+            Thing player = GetPlayerOrMobile(playerName);
             if (player == null)
             {
                 // If the player is not online, then load the player from the database.
@@ -83,7 +79,7 @@ namespace WheelMUD.Actions
             {
                 return string.Format("The player {0} does not exist.", playerName);
             }
-            
+
             // Rule: The player cannot already have the role.
             var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
             var existingRole = userControlledBehavior.FindRole(roleName);

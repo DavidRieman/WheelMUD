@@ -31,7 +31,7 @@ namespace WheelMUD.Core
             // persistence of the behavior or whatnot) then restore those as actual properties.
             if (instanceProperties != null)
             {
-                // @@@ TODO: Test w/behavior persistence implementation...
+                // TODO: Test w/behavior persistence implementation...
                 // Adjusted as per feedback from thread:
                 // http://www.wheelmud.net/Forums/tabid/59/aff/8/aft/1487/afv/topic/afpgj/2/Default.aspx
                 PropertyTools.SetProperties(this, instanceProperties);
@@ -41,17 +41,37 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the ID for this behavior instance.</summary>
         public long ID { get; set; }
 
-        /// <summary>Gets or sets the parent of this behavior instance.</summary>
+        /// <summary>Gets the parent of this behavior instance.</summary>
+        /// <remarks>Use SetParent to set or change the parent.</remarks>
         [JsonIgnore]
-        public Thing Parent { get; set; }
+        public Thing Parent { get; private set; }
+
+        public void SetParent(Thing newParent)
+        {
+            // Ignore SetParent requests that are already satisfied; avoid redundant eventing.
+            if (this.Parent != newParent)
+            {
+                if (this.Parent != null)
+                {
+                    this.OnRemoveBehavior();
+                }
+                this.Parent = newParent;
+                if (newParent != null)
+                {
+                    this.OnAddBehavior();
+                }
+            }
+        }
 
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
-        public virtual void OnAddBehavior()
+        /// <remarks>Especially helpful for registering to relevant parent events.</remarks>
+        protected virtual void OnAddBehavior()
         {
         }
 
         /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent)</summary>
-        public virtual void OnRemoveBehavior()
+        /// <remarks>Especially helpful for unregistering from relevant parent events.</remarks>
+        protected virtual void OnRemoveBehavior()
         {
         }
 
@@ -63,7 +83,7 @@ namespace WheelMUD.Core
         {
             Type t = this.GetType();
 
-            ////@@@ EXPERIMENT OPTIONS:
+            ////TODO: EXPERIMENT OPTIONS:
             ////newBehavior.CloneProperties(this);
             ////newBehavior = (Behavior)this.MemberwiseClone();
 
@@ -77,8 +97,8 @@ namespace WheelMUD.Core
             {
                 // All Items should be cloneable, and most derived classes should find it sufficient 
                 // to allow this base Item.Clone to take care of all the cloning.
-                // @@@ TODO: Test this.  Especially if any properties have indexers.
-                // @@@ TODO: Make sure this deep-copies things like behaviors.
+                // TODO: Test this.  Especially if any properties have indexers.
+                // TODO: Make sure this deep-copies things like behaviors.
                 var properties = this.GetType().GetProperties();
                 foreach (var property in properties)
                 {

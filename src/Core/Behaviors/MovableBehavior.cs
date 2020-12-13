@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -30,14 +28,14 @@ namespace WheelMUD.Core
             this.ID = instanceId;
         }
 
-        // @@@ OpensClosesBehavior needs to listen for movement events and set e.Cancel if the transition object
-        //     is closed at the time.
+        // TODO: OpensClosesBehavior needs to listen for movement events and set e.Cancel if the transition object
+        //       is closed at the time.
 
         /// <summary>Move the entity to the specified destination.</summary>
         /// <param name="destination">
-        /// @@@ TODO: The destination to move the entity to; if the destination has an ExitBehavior then this Thing is
-        /// automatically moved to the other destination of the exit (IE an adjacent room, portal destination,
-        /// or inside/outside of a vehicle, et cetera).
+        /// TODO: The destination to move the entity to; if the destination has an ExitBehavior then this Thing is
+        ///       automatically moved to the other destination of the exit (IE an adjacent room, portal destination,
+        ///       or inside/outside of a vehicle, et cetera).
         /// </param>
         /// <param name="goingVia">The thing we are travelling via (IE an Exit, an Enterable thing, etc.)</param>
         /// <param name="leavingMessage">A sensory message describing this sort of 'leaving' movement.</param>
@@ -64,7 +62,7 @@ namespace WheelMUD.Core
                     actor.RemoveFromParents();
                     destination.Add(actor);
 
-                    // @@@ TODO: Ensure these automatically enqueue a save.
+                    // TODO: Ensure these automatically enqueue a save.
                     destination.Eventing.OnMovementEvent(arriveEvent, EventScope.SelfDown);
                     return true;
                 }
@@ -79,9 +77,9 @@ namespace WheelMUD.Core
         /// <returns>True if the entity sucessfully moved, else false.</returns>
         public virtual bool MoveInDirection(string direction)
         {
-            // @@@ TODO: Probably should be context-sensitive commands that are rigged
-            //     up by the ExitBehavior, so this shouldn't be needed?
-            // @@@ TODO: Send a movement Request, then if not Cancelled, a movement Event.
+            // TODO: Probably should be context-sensitive commands that are rigged
+            //       up by the ExitBehavior, so this shouldn't be needed?
+            // TODO: Send a movement Request, then if not Cancelled, a movement Event.
             //direction = direction.ToLower();
             //Thing currentRoom = this.Parent;
             //if (currentRoom.Children.ContainsKey(direction))

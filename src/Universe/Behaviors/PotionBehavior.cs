@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Universe
@@ -55,7 +53,7 @@ namespace WheelMUD.Universe
                 return;
             }
 
-            /* @@@ TODO: Turn all Effects into Behaviors with Duration and re-implement.
+            /* TODO: Turn all Effects into Behaviors with Duration and re-implement.
             StatEffect effect;
 
             if (entity.Effects.TryCreateEffect<StatEffect>(entity, out effect))
@@ -67,7 +65,7 @@ namespace WheelMUD.Universe
             */
             this.SipsLeft--;
 
-            ////this.Save(); @@@ Bring back as Save from base class?
+            ////this.Save(); TODO: Bring back as Save from base class?
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>

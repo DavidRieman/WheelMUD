@@ -2,10 +2,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   State machine for creating a new character using Warrior, Rogue, and Mage
-//   rules.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage.CharacterCreation
@@ -15,12 +11,12 @@ namespace WarriorRogueMage.CharacterCreation
     using WheelMUD.Core;
 
     /// <summary>Warrior, Rogue, Mage state machine for creating a new character.</summary>
-    [ExportCharacterCreationStateMachine(200)]
+    [ExportCharacterCreationStateMachine(100)]
     public class WRMCharacterCreationStateMachine : CharacterCreationStateMachine
     {
         /// <summary>Initializes a new instance of the <see cref="WRMCharacterCreationStateMachine" /> class.</summary>
         /// <param name="session">The session.</param>
-        public WRMCharacterCreationStateMachine(Session session) 
+        public WRMCharacterCreationStateMachine(Session session)
             : base(session)
         {
         }

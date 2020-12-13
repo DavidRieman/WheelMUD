@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Character creation state used to set the initial talents for the player.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage.CharacterCreation
@@ -60,7 +57,7 @@ namespace WarriorRogueMage.CharacterCreation
                     var talent = this.GetTalent(currentCommand);
                     if (talent != null)
                     {
-                        // @@@ TODO: Save talent to a WRM-specific Behavior?
+                        // TODO: Save talent to a WRM-specific Behavior?
                         this.StateMachine.HandleNextStep(this, StepStatus.Success);
                     }
                     else

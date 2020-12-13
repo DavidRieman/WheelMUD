@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to have a quick look at your surroundings.
-//   @@@ TODO: Implement
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -15,10 +11,9 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
 
     /// <summary>An action to have a quick look at your surroundings.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("glance", CommandCategory.Inform)]
     [ActionAlias("quick look", CommandCategory.Inform)]
     [ActionAlias("quicklook", CommandCategory.Inform)]
@@ -29,7 +24,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious
         };
 
@@ -39,19 +34,11 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            // Simply send a sensory event to the glancer; if they can see it, they'll get the output.
-            // @@@ TODO: For advanced scenarios, this might want to somehow restrict the event from cascading; 
-            //     IE if a tiny pixie character is inside a human player's backpack, they shouldn't receive 
-            //     the human player's glance output.  (As is the event cascades and all Children get it too).
-            //     Alternatively, the sense processor can look at the ActiveThing and the sense type to decide
-            //     whether to echo the output; IE said pixie might still get Sound-based simple sensory event
-            //     output even though they aren't in the same location; they may hear it through the backpack.
-            // @@@ Actually, BuildGlance might cause the print to only occur to the sender anyway due to the
-            //     usage of ContextualStringUsage.OnlyWhenBeingPassedToReceiver; needs testing!
-            IController sender = actionInput.Controller;
+            // Simply send a sensory event to the glancer; If they can see it, they'll get the output.
+            var sender = actionInput.Controller;
             var message = new SensoryMessage(SensoryType.Sight, 100, this.BuildGlance(sender.Thing));
             var sensoryEvent = new SensoryEvent(sender.Thing, message);
-            sender.Thing.Eventing.OnMiscellaneousEvent(sensoryEvent, EventScope.SelfDown);
+            sender.Thing.Eventing.OnMiscellaneousEvent(sensoryEvent, EventScope.SelfOnly);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -59,7 +46,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -71,7 +58,7 @@ namespace WheelMUD.Actions
             {
                 return "You are incapable of perceiving anything.";
             }
-            
+
             return null;
         }
 
@@ -86,7 +73,7 @@ namespace WheelMUD.Actions
             var perceivedEntities = this.sensesBehavior.PerceiveEntities();
             var perceivedItems = this.sensesBehavior.PerceiveItems();
 
-            glanceString.Append("You seem to be in a " + sender.Parent.Name + ".  ", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+            glanceString.Append($"You are in <%red%>{sender.Parent.Name}<%n%>.  ", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
 
             if (perceivedItems.Count != 0)
             {
@@ -94,22 +81,22 @@ namespace WheelMUD.Actions
                 {
                     if (perceivedExits.Count != 0)
                     {
-                        glanceString.Append("It appears there are various items, figures, and exits in this room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("There are various items, figures, and exits here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                     else
                     {
-                        glanceString.Append("It appears there are various items, and figures in this room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("There are various items, and figures here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                 }
                 else
                 {
                     if (perceivedExits.Count != 0)
                     {
-                        glanceString.Append("It appears there are various items, and exits in this room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("There are various items, and exits here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                     else
                     {
-                        glanceString.Append("It appears there are various items in this room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("There are various items here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                 }
             }
@@ -119,22 +106,22 @@ namespace WheelMUD.Actions
                 {
                     if (perceivedExits.Count != 0)
                     {
-                        glanceString.Append("It appears there are various figures, and exits in this room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("There are various figures, and exits here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                     else
                     {
-                        glanceString.Append("It appears there are various figures in this room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("There are various figures here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                 }
                 else
                 {
                     if (perceivedExits.Count != 0)
                     {
-                        glanceString.Append("It appears there are various exits in this room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("There are various exits here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                     else
                     {
-                        glanceString.Append("You don't see anything in the room.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
+                        glanceString.Append("You don't see anything here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                     }
                 }
             }

@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -12,7 +10,7 @@ namespace WheelMUD.Core
     using System.Collections.Generic;
     using WheelMUD.Core.Events;
 
-    /// <summary>@@@ Might be better renamed to AIBrainBehavior or something...?</summary>
+    /// <summary>TODO: Might be better renamed to AIBrainBehavior or something...?</summary>
     public class MobileBehavior : Behavior
     {
         /// <summary>Initializes a new instance of the MobileBehavior class.</summary>
@@ -41,8 +39,8 @@ namespace WheelMUD.Core
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            // @@@ For now, rigging MobileBehavior back up to all events like Mobile used to; I don't
-            //     want to mess with AI too much right now especially since Fasta is working on it.
+            // TODO: For now, rigging MobileBehavior back up to all events like Mobile used to; I don't
+            //       want to mess with AI too much right now especially since Fasta is working on it.
             // Prepare to handle receiving all relevant sensory events (not requests) which have 
             // happened within the player's perception, and relay the sensory message to the player.
             if (this.Parent != null)
@@ -54,13 +52,13 @@ namespace WheelMUD.Core
             }
         }
 
-        // @@@ TODO: After moving, do this.ProcessSurroundings();
+        // TODO: After moving, do this.ProcessSurroundings();
 
-        /* @@@ TODO: Ensure mobile entities are loaded just like any other entity...
+        /* TODO: Ensure mobile entities are loaded just like any other entity...
         /// <summary>Loads the mobile.</summary>
         public void Load()
         {
-            // @@@ TODO: Stuff should be loaded from the Data Layer instead of using temp values.
+            // TODO: Stuff should be loaded from the Data Layer instead of using temp values.
             this.Stats.Add("health", new StatHP(Controller, 100, 100));
             this.Stats.Add("power", new Stat(Controller, "Power", 100, 0, 100, true));
             this.Stats.Add("strength", new Stat(Controller, "Srength", 40, 0, 100, true));

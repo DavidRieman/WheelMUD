@@ -38,10 +38,10 @@ namespace WheelMUD.Ftp
         {
             this.clientSocket = socket;
 
-            this.connectionCommands = new FtpConnectionObject(fileSystemClassFactory, Id, socket);
+            this.connectionCommands = new FtpConnectionObject(this.fileSystemClassFactory, this.Id, socket);
 
-            this.mainThread = new Thread(ThreadRun);
-            this.mainThread.Name = "ThreadRun:" + Id;
+            this.mainThread = new Thread(this.ThreadRun);
+            this.mainThread.Name = "ThreadRun:" + this.Id;
             this.mainThread.Start();
         }
 
@@ -99,7 +99,7 @@ namespace WheelMUD.Ftp
 
         private void CloseSocket()
         {
-            FtpServerMessageHandler.SendMessage(Id, "Connection closed");
+            FtpServerMessageHandler.SendMessage(this.Id, "Connection closed");
 
             if (this.clientSocket.Connected)
             {

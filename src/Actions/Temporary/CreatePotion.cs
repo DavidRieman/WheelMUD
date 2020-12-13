@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command that allows an admin to create a potion.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -18,20 +15,20 @@ namespace WheelMUD.Actions
     using WheelMUD.Universe;
 
     /// <summary>A command that allows an admin to create a potion.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("create potion", CommandCategory.Admin)]
-    [ActionDescription("@@@ Temp command.")]
+    [ActionAlias("createpotion", CommandCategory.Admin)]
+    [ActionDescription("Temporary test command. Creates a potion.")]
     [ActionSecurity(SecurityRole.fullAdmin)]
     public class CreatePotion : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
-            CommonGuards.InitiatorMustBeMobile,
-            CommonGuards.RequiresAtLeastOneArgument
+            CommonGuards.InitiatorMustBeMobile
         };
 
         /// <summary>Executes the command.</summary>
@@ -46,7 +43,12 @@ namespace WheelMUD.Actions
                 MaxSips = 50,
                 SipsLeft = 50,
                 Duration = new TimeSpan(0, 0, 15),
-            });
+            })
+            {
+                Name = "A colourful potion",
+                Description = "This colourful potion is bubbling slowly.",
+                KeyWords = new List<string>() { "potion", "colourful" }
+            };
 
             sender.Thing.Parent.Children.Add(potionItem);
 
@@ -59,7 +61,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

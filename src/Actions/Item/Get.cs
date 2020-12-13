@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command that allows a player to get items from the room they are in or from a 
-//   container within their inventory.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -17,8 +13,8 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
     using WheelMUD.Universe;
 
-    /// <summary>Action to pick something up from the room, or move something from a container within their inventory to their inventory.</summary>
-    [ExportGameAction]
+    /// <summary>Action to pick something up from the room, or move something from an inventory container to their inventory.</summary>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("get", CommandCategory.Item)]
     [ActionAlias("take", CommandCategory.Item)]
     [ActionDescription("Get an object from a room or from a container.")]
@@ -28,7 +24,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -50,20 +46,20 @@ namespace WheelMUD.Actions
         {
             // Remove the item from its current container.
             // We have to do this before we attempt to add it because of the event subscriptions.
-            // @@@ TODO: Test, this may be broken now...
+            // TODO: Test, this may be broken now...
             var actor = actionInput.Controller.Thing;
             if (this.numberToGet <= 0)
             {
                 this.numberToGet = 1;
             }
 
-            // @@@ TODO: Prevent item duplication from specifying large numbers, or races for same item, etc.
-            // @@@ TODO: Fix Implementation of numberToGet
+            // TODO: Prevent item duplication from specifying large numbers, or races for same item, etc.
+            // TODO: Fix Implementation of numberToGet.
             var contextMessage = new ContextualString(actor, this.thingToGet.Parent)
             {
-                ToOriginator = "You pick up $Thing.Name.",
-                ToReceiver = "$ActiveThing.Name takes $Thing.Name from you.",
-                ToOthers = "$ActiveThing.Name picks up $Thing.Name.",
+                ToOriginator = $"You pick up {this.thingToGet}.",
+                ToReceiver = $"{actor.Name} takes {this.thingToGet} from you.",
+                ToOthers = $"{actor.Name} picks up {this.thingToGet.Name}.",
             };
             var getMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
@@ -81,15 +77,15 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             // Check to see if the first word is a number.
-            // @@@ Is TryParse meant to be used this way? Character analysis may be better. I worry that
-            //     this might be throwing a caught exception upon each fail, which is a typical case here.
+            // TODO: Is TryParse meant to be used this way? Character analysis may be better. I worry that
+            //       this might be throwing a caught exception upon each fail, which is a typical case here.
             int.TryParse(actionInput.Params[0], out this.numberToGet);
 
             int itemParam = 0;
@@ -153,8 +149,8 @@ namespace WheelMUD.Actions
                     return string.Format("{0} is not able to hold {1}.", foundContainer.Name, itemName);
                 }
 
-                // @@@ Removed OpensClosesBehavior check here... Test to ensure that 'get' is blocked by the
-                //     OpensClosesBehavior receiving and cancelling the relevant events and message is good...
+                // TODO: Removed OpensClosesBehavior check here... Test to ensure that 'get' is blocked by the
+                //       OpensClosesBehavior receiving and cancelling the relevant events and message is good...
 
                 targetParent = foundContainer;
             }
@@ -183,7 +179,7 @@ namespace WheelMUD.Actions
             {
                 return this.thingToGet.Name + " does not appear to be movable.";
             }
-            
+
             return null;
         }
     }

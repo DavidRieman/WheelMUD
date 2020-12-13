@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -18,10 +16,10 @@ namespace WheelMUD.Actions
 
     /// <summary>A command that allows a player to enter a Thing.</summary>
     /// <remarks>
-    /// @@@ TODO: An "enter" action should only be present through a ContextCommand added by an EnterableBehavior,
+    /// TODO: An "enter" action should only be present through a ContextCommand added by an EnterableBehavior,
     ///           like how OpensClosesBehavior handles it; move action to be EnterableBehavior.cs private class?
     /// </remarks>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("enter", CommandCategory.Travel)]
     [ActionDescription("Enter a thing.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
@@ -30,7 +28,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -53,17 +51,17 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             // Rule: A thing must be singly targeted.
-            // @@@ TODO: Try to find a single target according to the specified identifiers.  If more than one thing
-            //           meets the identifiers then use a disambiguation targeting system to try to narrow to one thing.
-            // @@@ TODO: This sort of find pattern may become common; maybe we need to simplify 
-            //           to having a Thing method which does this?  IE "List<Thing> FindChildren<T>(string id)"?
+            // TODO: Try to find a single target according to the specified identifiers.  If more than one thing
+            //       meets the identifiers then use a disambiguation targeting system to try to narrow to one thing.
+            // TODO: This sort of find pattern may become common; maybe we need to simplify 
+            //       to having a Thing method which does this?  IE "List<Thing> FindChildren<T>(string id)"?
             Predicate<Thing> findPredicate = (Thing t) => t.Behaviors.FindFirst<EnterableExitableBehavior>() != null;
             List<Thing> enterableThings = sender.Thing.Parent.FindAllChildren(findPredicate);
 

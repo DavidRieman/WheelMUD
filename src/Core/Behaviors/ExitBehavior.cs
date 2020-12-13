@@ -3,13 +3,12 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using WheelMUD.Actions;
     using WheelMUD.Core.Attributes;
@@ -27,13 +26,13 @@ namespace WheelMUD.Core
     /// </summary>
     public class ExitBehavior : Behavior
     {
-        // @@@ Add attribute and persistence code to save certain marked private properties like this;
-        //     IE we don't want to expose the whole dictionary publically since we have things to do
-        //     while rigging up new destinations
+        // TODO: Add attribute and persistence code to save certain marked private properties like this;
+        //       IE we don't want to expose the whole dictionary publically since we have things to do
+        //       while rigging up new destinations.
         private List<DestinationInfo> destinations;
 
         /// <summary>The context command handler for this exit.</summary>
-        private ExitBehaviorCommands commands;
+        private readonly ExitBehaviorCommands commands;
 
         /// <summary>Initializes a new instance of the ExitBehavior class.</summary>
         public ExitBehavior()
@@ -48,7 +47,7 @@ namespace WheelMUD.Core
         public ExitBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.commands = new ExitBehaviorCommands(this); 
+            this.commands = new ExitBehaviorCommands(this);
             this.ID = instanceID;
         }
 
@@ -110,7 +109,7 @@ namespace WheelMUD.Core
             var movableBehavior = thingToMove.Behaviors.FindFirst<MovableBehavior>();
             if (movableBehavior == null)
             {
-                // @@@ TODO: Add messaging to thingToMove?
+                // TODO: Add messaging to thingToMove?
                 return false;
             }
 
@@ -121,7 +120,7 @@ namespace WheelMUD.Core
                 // There was no destination reachable from the thing's starting location.
                 return false;
             }
-            
+
             // If the target location hasn't been cached already, try to do so now.
             if (destinationInfo.CachedTarget == null || destinationInfo.CachedTarget.Target == null)
             {
@@ -133,7 +132,7 @@ namespace WheelMUD.Core
             Thing destination = destinationInfo.CachedTarget.Target;
             if (destination == null)
             {
-                // @@@ TODO: Add messaging to thingToMove?
+                // TODO: Add messaging to thingToMove?
                 return false;
             }
 
@@ -141,14 +140,14 @@ namespace WheelMUD.Core
             var leaveContextMessage = new ContextualString(thingToMove, thingToMove.Parent)
             {
                 ToOriginator = null,
-                ToReceiver = @"$ActiveThing.Name moves " + dir + ".",
-                ToOthers = @"$ActiveThing.Name moves " + dir + ".",
+                ToReceiver = $"{thingToMove.Name} moves {dir}.",
+                ToOthers = $"{thingToMove.Name} moves {dir}.",
             };
             var arriveContextMessage = new ContextualString(thingToMove, destination)
             {
-                ToOriginator = @"You move " + dir + " to $GoingTo.Name.",
-                ToReceiver = @"$ActiveThing.Name arrives, heading " + dir + ".",
-                ToOthers = @"$ActiveThing.Name arrives, heading " + dir + ".",
+                ToOriginator = $"You move {dir} to {destination.Name}.",
+                ToReceiver = $"{thingToMove.Name} arrives, heading {dir}.",
+                ToOthers = $"{thingToMove.Name} arrives, heading {dir}.",
             };
             var leaveMessage = new SensoryMessage(SensoryType.Sight, 100, leaveContextMessage);
             var arriveMessage = new SensoryMessage(SensoryType.Sight, 100, arriveContextMessage);
@@ -162,18 +161,18 @@ namespace WheelMUD.Core
         public string GetExitCommandFrom(Thing fromLocation)
         {
             var destination = this.GetDestinationFrom(fromLocation.Id);
-            return destination != null ? destination.ExitCommand : null;
+            return destination?.ExitCommand;
         }
 
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
-        public override void OnAddBehavior()
+        protected override void OnAddBehavior()
         {
-            // @@@ TODO: Greatly simplify: use shared logic with ParentMovementEvent! React to OnRemoveBehavior too!
+            // TODO: Greatly simplify: use shared logic with ParentMovementEvent! React to OnRemoveBehavior too!
             // When adding this behavior to an exit Thing, if that thing has a parent, rig up the appropriate
             // context command for that place to reach the other.
             if (this.Parent.Parent != null)
             {
-                // @@@ TODO: Reuse the same functionality as the movement event handler for command rigging (if we can).
+                // TODO: Reuse the same functionality as the movement event handler for command rigging (if we can).
                 this.ParentMovementEventHandler(this.Parent, null);
             }
 
@@ -192,7 +191,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent)</summary>
-        public override void OnRemoveBehavior()
+        protected override void OnRemoveBehavior()
         {
             // When removing this behavior from a thing, we need to unrig any context commands we added to it.
             string commandText = this.GetExitCommandFrom(this.Parent);
@@ -225,7 +224,7 @@ namespace WheelMUD.Core
                 string oldExitCommand = this.GetExitCommandFrom(removeChildEvent.OldParent);
                 removeChildEvent.OldParent.Commands.Remove(oldExitCommand);
             }
-            
+
             // If our parent (the thing with exit behavior) was placed in something (like a room)...
             var addChildEvent = e as AddChildEvent;
             if (addChildEvent != null &&
@@ -246,9 +245,13 @@ namespace WheelMUD.Core
             if (!string.IsNullOrEmpty(mainExitCommand))
             {
                 var contextCommand = new ContextCommand(this.commands, mainExitCommand, ContextAvailability.ToChildren, SecurityRole.all);
+                // TODO: OLC should take care to avoid duplicate exits in a room, but we might need more advanced protections to prevent needing
+                //       multiple context commands of the same alias from having to be attached to one Thing. (Try to keep fast command-finding.)
+                Debug.Assert(!location.Commands.ContainsKey(mainExitCommand), "The Thing this ExitBehavior attached to already had command: " + mainExitCommand);
                 location.Commands.Add(mainExitCommand, contextCommand);
                 if (!string.IsNullOrEmpty(secondExitAlias))
                 {
+                    Debug.Assert(!location.Commands.ContainsKey(secondExitAlias), "The Thing this ExitBehavior attached to already had command: " + secondExitAlias);
                     location.Commands.Add(secondExitAlias, contextCommand);
                 }
             }
@@ -290,14 +293,14 @@ namespace WheelMUD.Core
             /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
             private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
             {
-                CommonGuards.InitiatorMustBeAlive, 
+                CommonGuards.InitiatorMustBeAlive,
                 CommonGuards.InitiatorMustBeConscious,
                 CommonGuards.InitiatorMustBeBalanced,
                 CommonGuards.InitiatorMustBeMobile
             };
 
             /// <summary>The ExitBehavior this class belongs to.</summary>
-            private ExitBehavior exitBehavior;
+            private readonly ExitBehavior exitBehavior;
 
             /// <summary>Initializes a new instance of the ExitBehaviorCommands class.</summary>
             /// <param name="exitBehavior">The ExitBehavior this class belongs to.</param>
@@ -320,7 +323,7 @@ namespace WheelMUD.Core
             /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
             public override string Guards(ActionInput actionInput)
             {
-                string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+                string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
                 if (commonFailure != null)
                 {
                     return commonFailure;

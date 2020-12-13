@@ -24,22 +24,13 @@ namespace WheelMUD.Core
         private readonly object friendsLock = new object();
 
         /// <summary>Gets the friends of this player.</summary>
-        private List<string> friends = new List<string>(); 
+        private List<string> friends = new List<string>();
 
         /// <summary>Initializes a new instance of the <see cref="PlayerBehavior"/> class.</summary>
         public PlayerBehavior()
             : base(null)
         {
             this.PlayerData = new PlayerRecord();
-        }
-
-        /// <summary>Initializes a new instance of the PlayerBehavior class.</summary>
-        /// <param name="sensesBehavior">The senses Behavior.</param>
-        /// <param name="userControlledBehavior">The user Controlled Behavior.</param>
-        public PlayerBehavior(SensesBehavior sensesBehavior, UserControlledBehavior userControlledBehavior)
-            : this()
-        {
-            this.EventProcessor = new PlayerEventProcessor(this, sensesBehavior, userControlledBehavior);
         }
 
         /// <summary>Initializes a new instance of the PlayerBehavior class.</summary>
@@ -59,7 +50,7 @@ namespace WheelMUD.Core
         /// For example the character creation system is one of those systems.
         /// </remarks>
         [JsonIgnore]
-        public string Name 
+        public string Name
         {
             get { return this.PlayerData.DisplayName; }
             set { this.PlayerData.DisplayName = value; }
@@ -138,8 +129,8 @@ namespace WheelMUD.Core
         /// <summary>Releases unmanaged and, optionally, managed resources.</summary>
         public void Dispose()
         {
-            PlayerManager.GlobalPlayerLogInEvent -= this.ProcessPlayerLogInEvent;
-            PlayerManager.GlobalPlayerLogOutEvent -= this.ProcessPlayerLogOutEvent;
+            PlayerManager.Instance.GlobalPlayerLogInEvent -= this.ProcessPlayerLogInEvent;
+            PlayerManager.Instance.GlobalPlayerLogOutEvent -= this.ProcessPlayerLogOutEvent;
             if (this.EventProcessor != null)
             {
                 this.EventProcessor.Dispose();
@@ -192,8 +183,8 @@ namespace WheelMUD.Core
 
             // Prepare a login request and event.
             var csb = new ContextualStringBuilder(player, targetPlayerStartingPosition);
-            csb.Append(@"$ActiveThing.Name enters the world.", ContextualStringUsage.WhenNotBeingPassedToOriginator);
-            csb.Append(@"You enter the world.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
+            csb.Append($"{session.Thing.Name} enters the world.", ContextualStringUsage.WhenNotBeingPassedToOriginator);
+            csb.Append($"You enter the world.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
             var message = new SensoryMessage(SensoryType.Sight, 100, csb);
             var e = new PlayerLogInEvent(player, message);
 
@@ -201,12 +192,12 @@ namespace WheelMUD.Core
             player.Eventing.OnMiscellaneousRequest(e, EventScope.ParentsDown);
 
             // Also broadcast the request to any registered global listeners.
-            PlayerManager.OnPlayerLogInRequest(player, e);
+            PlayerManager.Instance.OnPlayerLogInRequest(player, e);
 
             // If nothing canceled this event request, carry on with the login.
             if (!e.IsCancelled)
             {
-                player.Parent = targetPlayerStartingPosition;
+                targetPlayerStartingPosition.Add(player);
 
                 DateTime universalTime = DateTime.Now.ToUniversalTime();
                 this.PlayerData.LastLogin = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";
@@ -217,8 +208,8 @@ namespace WheelMUD.Core
 
                 // Broadcast that the player successfully logged in, to their login location.
                 player.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
-                
-                PlayerManager.OnPlayerLogIn(player, e);
+
+                PlayerManager.Instance.OnPlayerLogIn(player, e);
 
                 return true;
             }
@@ -245,8 +236,8 @@ namespace WheelMUD.Core
 
             // Prepare a logout request and event.
             var csb = new ContextualStringBuilder(player, player.Parent);
-            csb.Append(@"$ActiveThing.Name exits the world.", ContextualStringUsage.WhenNotBeingPassedToOriginator);
-            csb.Append(@"You exit the world.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
+            csb.Append($"{player.Name} exits the world.", ContextualStringUsage.WhenNotBeingPassedToOriginator);
+            csb.Append($"You exit the world.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
             var message = new SensoryMessage(SensoryType.Sight, 100, csb);
             var e = new PlayerLogOutEvent(player, message);
 
@@ -254,7 +245,7 @@ namespace WheelMUD.Core
             player.Eventing.OnMiscellaneousRequest(e, EventScope.ParentsDown);
 
             // Also broadcast the request to any registered global listeners.
-            PlayerManager.OnPlayerLogOutRequest(player, e);
+            PlayerManager.Instance.OnPlayerLogOutRequest(player, e);
 
             // If nothing canceled this event request, carry on with the logout.
             if (!e.IsCancelled)
@@ -268,7 +259,7 @@ namespace WheelMUD.Core
 
                 // Broadcast that the player successfully logged out, to their parent (IE room).
                 player.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
-                PlayerManager.OnPlayerLogOut(player, e);
+                PlayerManager.Instance.OnPlayerLogOut(player, e);
 
                 return true;
             }
@@ -277,17 +268,22 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
-        public override void OnAddBehavior()
+        protected override void OnAddBehavior()
         {
+            var sensesBehavior = this.Parent.Behaviors.FindFirst<SensesBehavior>();
+            var userControlledBehavior = this.Parent.Behaviors.FindFirst<UserControlledBehavior>();
+            this.EventProcessor = new PlayerEventProcessor(this, sensesBehavior, userControlledBehavior);
             this.EventProcessor.AttachEvents();
         }
 
-        /// <summary>Initializes a PlayerEventProcessor for this player.</summary>
-        /// <param name="sensesBehavior">A valid SensesBehavior which has already been created for this player.</param>
-        /// <param name="userControlledBehavior">A valid UserControlledBehavior which has already been created for this player.</param>
-        internal void InitEventProcessor(SensesBehavior sensesBehavior, UserControlledBehavior userControlledBehavior)
+        protected override void OnRemoveBehavior()
         {
-            this.EventProcessor = new PlayerEventProcessor(this, sensesBehavior, userControlledBehavior);
+            if (this.EventProcessor != null)
+            {
+                this.EventProcessor.DetachEvents();
+                this.EventProcessor.Dispose();
+                this.EventProcessor = null;
+            }
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
@@ -296,8 +292,8 @@ namespace WheelMUD.Core
             this.SessionId = null;
             this.friends = new List<string>();
 
-            PlayerManager.GlobalPlayerLogInEvent += this.ProcessPlayerLogInEvent;
-            PlayerManager.GlobalPlayerLogOutEvent += this.ProcessPlayerLogOutEvent;
+            PlayerManager.Instance.GlobalPlayerLogInEvent += this.ProcessPlayerLogInEvent;
+            PlayerManager.Instance.GlobalPlayerLogOutEvent += this.ProcessPlayerLogOutEvent;
         }
 
         private void ProcessPlayerLogInEvent(Thing root, GameEvent e)
@@ -326,7 +322,7 @@ namespace WheelMUD.Core
         {
             // TODO: Cache a weak reference to the Thing and acquire/reacquire when needed?
             return (from t in ThingManager.Instance.Things
-                    where t.Id == "room/" + MudEngineAttributes.Instance.DefaultRoomID
+                    where t.Id == "room/" + GameConfiguration.DefaultRoomID
                     select t).FirstOrDefault();
         }
 

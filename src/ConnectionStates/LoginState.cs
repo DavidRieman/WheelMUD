@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   The 'login' session state.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.ConnectionStates
@@ -49,9 +46,22 @@ namespace WheelMUD.ConnectionStates
                         var characterId = this.Session.User.PlayerCharacterIds[0];
                         this.Session.Thing = DocumentRepository<Thing>.Load(characterId);
                         this.Session.Thing.Behaviors.SetParent(this.Session.Thing);
-                        this.Session.Thing.Behaviors.FindFirst<PlayerBehavior>().LogIn(this.Session);
-                        this.Session.AuthenticateSession();
-                        this.Session.State = new PlayingState(this.Session);
+                        var playerBehavior = this.Session.Thing.FindBehavior<PlayerBehavior>();
+                        if (playerBehavior != null)
+                        {
+                            this.Session.Thing.Behaviors.FindFirst<UserControlledBehavior>().Controller = this.Session;
+                            playerBehavior.LogIn(this.Session);
+                            this.Session.AuthenticateSession();
+                            this.Session.State = new PlayingState(this.Session);
+
+                        }
+                        else
+                        {
+                            this.Session.Write("This character player state is broken. You may need to contact an admin for a possible recovery attempt.");
+                            this.Session.InformSubscribedSystem(this.Session.ID + " failed to load due to missing player behavior.");
+                            this.Session.State = new ConnectedState(this.Session);
+                            this.Session.WritePrompt();
+                        }
                     }
                 }
                 else

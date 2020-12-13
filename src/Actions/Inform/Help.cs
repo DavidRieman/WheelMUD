@@ -9,18 +9,16 @@ namespace WheelMUD.Actions
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
-    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
     /// <summary>A command to look up help information from the help system.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("help", CommandCategory.Inform)]
     [ActionDescription("Display help text for a command or topic.")]
-    [ActionExample("Example: help look")]
+    [ActionExample("help look - retrieves help for the \"look\" command.")]
     [ActionSecurity(SecurityRole.all)]
     public class Help : GameAction
     {
@@ -29,86 +27,49 @@ namespace WheelMUD.Actions
         {
         };
 
-        /// <summary>A value indicating whether MXP may be used during this command's output.</summary>
-        private bool useMXP;
-
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commandTail = actionInput.Tail.ToLower().Trim();
+            var terminal = (actionInput.Controller as Session).Terminal;
+            var commandTail = actionInput.Tail;
 
-            if (commandTail == string.Empty)
+            // If no arguments were given, render the help topics list.
+            if (string.IsNullOrWhiteSpace(commandTail))
             {
-                commandTail = "0";
+                sender.Write(Renderer.Instance.RenderHelpTopics(terminal));
+                return;
             }
 
-            // First we check to see if the help topic is in the help manager
+            // Check to see if the help topic is in the help manager.
             HelpTopic helpTopic = HelpManager.Instance.FindHelpTopic(commandTail);
             if (helpTopic != null)
             {
-                if (this.useMXP)
-                {
-                    var sb = new StringBuilder();
-                    foreach (string line in helpTopic.Contents.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
-                    {
-                        sb.AppendLine("<%mxpopenline%>" + line);
-                    }
-
-                    sender.Write("<%mxpsecureline%><!element see '<send href=\"help &cref;\">' att='cref' open>" + sb.ToString().Trim(Environment.NewLine.ToCharArray()));
-                }
-                else
-                {
-                    // @@@ TODO: Output without MXP syntax!
-                }
+                sender.Write(Renderer.Instance.RenderHelpTopic(terminal, helpTopic));
+                return;
             }
-            else
+
+            // If not found we check commands.
+            var commands = CommandManager.Instance.MasterCommandList;
+
+            // First check for an exact match with a command name.
+            var action = commands.Values.FirstOrDefault(c => c.Name.Equals(commandTail, StringComparison.OrdinalIgnoreCase));
+
+            // If no exact match, check for a partial match.
+            if (action == null)
             {
-                // If not found we check commands
-                var commands = CommandManager.Instance.MasterCommandList;
-
-                // First check for an exact match with a command name.
-                var action = commands.Values.FirstOrDefault(c => c.Name.ToLower() == commandTail);
-
-                // If no exact match, check for a partial match.
-                if (action == null)
-                {
-                    action = commands.Values.FirstOrDefault(c => c.Name.ToLower().StartsWith(commandTail));
-                }
-
-                // Show result if a match was found
-                if (action != null)
-                {
-                    if (action.Description != null)
-                    {
-                        sender.Write(action.Description);
-                    }
-                        
-                    if (action.Example != null)
-                    {
-                        sender.Write(action.Example);
-                    }
-                        
-                    return;
-                }
-
-                // Display help splash screen if available
-                string name = Utilities.Configuration.GetDataStoragePath();
-                string path = Path.Combine(Path.GetDirectoryName(name), "Files");
-
-                try
-                {
-                    var sr = new StreamReader(Path.Combine(path, "Help.ans"), Encoding.GetEncoding(437));
-                    string data = sr.ReadToEnd();
-                    sender.Write(data);
-                    sr.Close();
-                }
-                catch (Exception)
-                {
-                    sender.Write("No such help topic.");
-                }
+                action = commands.Values.FirstOrDefault(c => c.Name.ToLower().StartsWith(commandTail));
             }
+
+            // Show result if a match was found
+            if (action != null)
+            {
+                sender.Write(Renderer.Instance.RenderHelpCommand(terminal, action));
+                return;
+            }
+
+            sender.Write("No such help topic or command was found.");
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -116,16 +77,10 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
-            }
-
-            var session = actionInput.Controller as Session;
-            if (session != null && session.Terminal != null)
-            {
-                this.useMXP = session.Terminal.UseMXP;
             }
 
             // There are currently no arguments nor situations where we expect failure.

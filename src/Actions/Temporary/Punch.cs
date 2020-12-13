@@ -3,12 +3,9 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   @@@ Temporary script to attempt some combat.
-// </summary>
 //-----------------------------------------------------------------------------
 
-// @@@ BUG: The prompt immediately following taking damage does not reflect the 
+// TODO: FIX: The prompt immediately following taking damage does not reflect the 
 // player's new health total.  Although a SetPrompt command does not exist yet, 
 // one can change the player's SessionState.Prompt value via the debugger to 
 // something like "[health] [maxhealth]>" to test this out.
@@ -16,7 +13,6 @@
 namespace WheelMUD.Actions
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
@@ -24,17 +20,17 @@ namespace WheelMUD.Actions
     using WheelMUD.Effects;
     using WheelMUD.Interfaces;
 
-    /// <summary>@@@ A temporary command to attempt some combat.</summary>
-    [ExportGameAction]
+    /// <summary>A temporary command to attempt some combat.</summary>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("punch", CommandCategory.Temporary)]
-    [ActionDescription("@@@ Temp command.")]
+    [ActionDescription("Temporary test command. Punch a target.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
     public class Punch : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -92,7 +88,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -100,7 +96,7 @@ namespace WheelMUD.Actions
 
             // Find the most appropriate matching target.
             string targetName = actionInput.Tail.Trim().ToLower();
-            this.target = GameAction.GetPlayerOrMobile(targetName);
+            this.target = GetPlayerOrMobile(targetName);
 
             // Rule: Is the target an entity?
             if (this.target == null)
@@ -150,22 +146,22 @@ namespace WheelMUD.Actions
             {
                 message = new ContextualString(attacker, target)
                 {
-                    ToOriginator = @"You punch $ActiveThing.Name for $Damage health.",
-                    ToReceiver = @"$Aggressor.Name punches you for $Damage health.",
-                    ToOthers = @"$Aggressor.Name punches $ActiveThing.Name for $Damage health.",
+                    ToOriginator = $"You punch {target.Name} for {damage} health.",
+                    ToReceiver = $"{attacker.Name} punches you for {damage} health.",
+                    ToOthers = $"{attacker.Name} punches {target.Name} for {damage} health.",
                 };
             }
             else
             {
                 message = new ContextualString(attacker, target)
                 {
-                    ToOriginator = @"You attempt to punch $ActiveThing.Name, but miss.",
-                    ToReceiver = @"$Aggressor.Name attempts to punch you, but misses.",
-                    ToOthers = @"$Aggressor.Name attempts to punch $ActiveThing.Name, but misses.",
+                    ToOriginator = $"You attempt to punch {target.Name}, but miss.",
+                    ToReceiver = $"{attacker.Name} attempts to punch you, but misses.",
+                    ToOthers = $"{attacker.Name} attempts to punch {target.Name}, but misses.",
                 };
             }
-            
-            return new SensoryMessage(SensoryType.Sight, 100, message, new Hashtable { { "Damage", damage } });
+
+            return new SensoryMessage(SensoryType.Sight, 100, message);
         }
     }
 }

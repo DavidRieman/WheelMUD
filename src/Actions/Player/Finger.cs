@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Finger individual player or npc ?.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -14,13 +11,12 @@ namespace WheelMUD.Actions
     using System.Globalization;
     using System.Text;
     using System.Threading;
-
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Utilities;
 
     /// <summary>A command that gathers various information about an entity.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("finger", CommandCategory.Player)]
     [ActionAlias("whois", CommandCategory.Player)]
     [ActionAlias("who is", CommandCategory.Player)]
@@ -52,7 +48,7 @@ namespace WheelMUD.Actions
             PlayerBehavior playerBehavior = this.target.Behaviors.FindFirst<PlayerBehavior>();
             if (playerBehavior != null)
             {
-                // @@@ TODO: Mine this data in a less invasive/dangerous way; maybe the PlayerBehavior
+                // TODO: Mine this data in a less invasive/dangerous way; maybe the PlayerBehavior
                 //     gets properties assigned for their last IP address upon connecting, etc..
                 ////string sessionId = playerBehavior.SessionId;
                 ////IConnection connection = bridge.ServerManager.GetConnection(sessionId);
@@ -117,7 +113,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -129,11 +125,11 @@ namespace WheelMUD.Actions
             string targetName = textInfo.ToTitleCase(actionInput.Tail.Trim().ToLower());
 
             // Rule: Is the target an entity?
-            this.target = GameAction.GetPlayerOrMobile(targetName);
+            this.target = GetPlayerOrMobile(targetName);
             if (this.target == null)
             {
                 // Now we need to look for the user in the database.
-                // @@@ What if the player is offline? Player.Load probably adds them to the world, etc...
+                // TODO: What if the player is offline? Player.Load probably adds them to the world, etc...
                 //     This seems quite bad.  TEST!  Ideally we should be able to get the info of an off-
                 //     line player BUT if the player logs in between say, our Guards and Execute getting
                 //     run, we still want nothing strange to result, we don't want this to generate any
@@ -144,7 +140,7 @@ namespace WheelMUD.Actions
                 //this.target = PlayerBehavior.Load(targetName);
                 if (this.target == null)
                 {
-                    return targetName + " has never visited " + MudEngineAttributes.Instance.MudName + ".";
+                    return targetName + " has never visited " + GameConfiguration.Name + ".";
                 }
             }
 

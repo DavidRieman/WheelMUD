@@ -2,24 +2,19 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to stop following another player or mobile NPC, assuming one
-//   was being followed.
-// </summary>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Actions.Travel
+namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
-    using System.Linq;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Behaviors;
     using WheelMUD.Core.Events;
     using WheelMUD.Interfaces;
 
-    /// <summary>An action to start following another player or mobile whenever they move.</summary>
-    [ExportGameAction]
+    /// <summary>An action to stop following another player or mobile around.</summary>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("unfollow", CommandCategory.Travel)]
     [ActionDescription("Stop following a friend or foe whenever they move.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
@@ -28,7 +23,7 @@ namespace WheelMUD.Actions.Travel
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -41,7 +36,7 @@ namespace WheelMUD.Actions.Travel
             IController sender = actionInput.Controller;
 
             var myBehaviors = sender.Thing.Behaviors;
-        
+
             var followingBehavior = myBehaviors.FindFirst<FollowingBehavior>();
             if (followingBehavior != null)
             {
@@ -86,7 +81,7 @@ namespace WheelMUD.Actions.Travel
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
 
             if (commonFailure != null)
             {

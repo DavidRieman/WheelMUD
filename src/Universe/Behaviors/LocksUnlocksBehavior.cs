@@ -3,14 +3,13 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Universe
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using WheelMUD.Actions;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
@@ -45,7 +44,7 @@ namespace WheelMUD.Universe
         public bool IsLocked { get; private set; }
 
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
-        public override void OnAddBehavior()
+        protected override void OnAddBehavior()
         {
             var parent = this.Parent;
             if (parent != null)
@@ -59,6 +58,8 @@ namespace WheelMUD.Universe
                 var contextAvailability = ContextAvailability.ToSiblings | ContextAvailability.ToChildren;
                 var lockContextCommand = new ContextCommand(this.commands, LockString, contextAvailability, SecurityRole.all);
                 var unlockContextCommand = new ContextCommand(this.commands, UnlockString, contextAvailability, SecurityRole.all);
+                Debug.Assert(!parent.Commands.ContainsKey(LockString), "The Thing this LocksUnlocksBehavior attached to already had a Lock command.");
+                Debug.Assert(!parent.Commands.ContainsKey(UnlockString), "The Thing this LocksUnlocksBehavior attached to already had an Unlock command.");
                 parent.Commands.Add(LockString, lockContextCommand);
                 parent.Commands.Add(UnlockString, unlockContextCommand);
             }
@@ -95,45 +96,48 @@ namespace WheelMUD.Universe
             // If we're already in the desired locked/unlocked state, we're already done with state changes.
             if (newLockedState == this.IsLocked)
             {
-                // @@@ TODO: Message to the actor that it is already locked/unlocked.
+                // TODO: Message to the actor that it is already locked/unlocked.
                 return;
             }
 
             // Use a temporary ref to our own parent to avoid race conditions like sudden parent removal.
             var thisThing = this.Parent;
-            
+            if (thisThing == null)
+            {
+                return; // Abort if the behavior is unattached (e.g. being destroyed).
+            }
+
             if (newLockedState && thisThing != null)
             {
                 // If we are attempting to lock an opened thing, cancel the lock attempt.
                 var opensClosesBehavior = thisThing.Behaviors.FindFirst<OpensClosesBehavior>();
                 if (opensClosesBehavior != null && opensClosesBehavior.IsOpen)
                 {
-                    // @@@ TODO: Message to the actor that they can't lock an open thing.
+                    // TODO: Message to the actor that they can't lock an open thing.
                     return;
                 }
             }
 
             // Prepare the Lock/Unlock game event for sending as a request, and if not cancelled, again as an event.
-            var csb = new ContextualStringBuilder(actor, this.Parent);
-            csb.Append(@"You " + verb + " $TargetThing.Name.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
-            csb.Append(@"$ActiveThing.Name " + verb + "s you.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
-            csb.Append(@"$ActiveThing.Name " + verb + "s $TargetThing.Name.", ContextualStringUsage.WhenNotBeingPassedToReceiverOrOriginator);
-            var message = new SensoryMessage(SensoryType.Sight, 100, csb);
-            var e = new LockUnlockEvent(this.Parent, false, actor, message);
+            var contextMessage = new ContextualString(actor, thisThing)
+            {
+                ToOriginator = $"You {verb} {thisThing.Name}.",
+                ToReceiver = $"{actor.Name} {verb}s you.",
+                ToOthers = $"{actor.Name} {verb}s {thisThing.Name}.",
+            };
+            var message = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
+            var e = new LockUnlockEvent(thisThing, false, actor, message);
 
             // Broadcast the Lock or Unlock Request and carry on if nothing cancelled it.
-            if (thisThing != null)
+            // Broadcast from the parents of the lockable/unlockable thing (IE a room or inventory where the lockable resides).
+            thisThing.Eventing.OnMiscellaneousRequest(e, EventScope.ParentsDown);
+            if (!e.IsCancelled)
             {
-                // Broadcast from the parents of the lockable/unlockable thing (IE a room or inventory where the lockable resides).
-                thisThing.Eventing.OnMiscellaneousRequest(e, EventScope.ParentsDown);
-                if (!e.IsCancelled)
-                {
-                    // Lock or Unlock the thing.
-                    this.IsLocked = newLockedState;
+                // Lock or Unlock the thing.
+                this.IsLocked = newLockedState;
 
-                    // Broadcast the Lock or Unlock event.
-                    thisThing.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
-                }
+                // Broadcast the Lock or Unlock event.
+                thisThing.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
             }
         }
 
@@ -165,7 +169,7 @@ namespace WheelMUD.Universe
             /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
             private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
             {
-                CommonGuards.InitiatorMustBeAlive, 
+                CommonGuards.InitiatorMustBeAlive,
                 CommonGuards.InitiatorMustBeConscious,
                 CommonGuards.InitiatorMustBeBalanced,
                 CommonGuards.InitiatorMustBeMobile,
@@ -202,7 +206,7 @@ namespace WheelMUD.Universe
             /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
             public override string Guards(ActionInput actionInput)
             {
-                string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+                string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
                 if (commonFailure != null)
                 {
                     return commonFailure;

@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Representation of a game rule.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Rules
@@ -22,7 +19,7 @@ namespace WheelMUD.Rules
             //RuleFailureCondition = RuleConditions.None;
             //RuleSuccessCondition = RuleConditions.None;
         }
-        
+
         ///// <summary>Gets or sets the name.</summary>
         ///// <value>The name of this game rule.</value>
         //public string Name { get; set; }
@@ -49,7 +46,7 @@ namespace WheelMUD.Rules
         ///// <summary>Gets or sets the rule failure critical formula.</summary>
         ///// <value>The rule failure critical formula.</value>
         //public string RuleFailureCritialFormula { get; set; }
-        
+
         /// <summary>Gets the kind of the rule.</summary>
         /// <value>The kind of the rule.</value>
         public virtual string RuleKind

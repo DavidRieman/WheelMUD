@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   This is the low level connection object that is assigned to a user when they connect.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server
@@ -23,8 +20,13 @@ namespace WheelMUD.Server
     using WheelMUD.Server.Telnet;
 
     /// <summary>Represents a connection to a client.</summary>
+    /// <remarks>This is the low level connection object that is assigned to a user when they connect.</remarks>
     public class Connection : IConnection
     {
+        // After porting to .NET Core, it seems we are no longer able to use the 8-bit ASCII
+        // encoder "Encoding.GetEncoding(437)", so we went back to this 7-bit ASCII encoder.
+        public static readonly Encoding CurrentEncoding = Encoding.ASCII;
+
         /// <summary>The threshold, in characters, beyond which MCCP should be used.</summary>
         private const int MCCPThreshold = 100;
 
@@ -52,8 +54,8 @@ namespace WheelMUD.Server
             this.ID = Guid.NewGuid().ToString();
             this.TelnetCodeHandler = new TelnetCodeHandler(this);
 
-            // @@@ TODO: Paging row size should be dynamic; this WAS called BufferLength in
-            //     discussion: http://www.wheelmud.net/Forums/tabid/59/aft/1600/Default.aspx
+            // TODO: Paging row size should be dynamic from Telnet (NAWS?) or a player-chosen override.
+            //       (This used to be called BufferLength in old discussions.)
             this.PagingRowLimit = 40;
             this.connectionHost = connectionHost;
         }
@@ -173,11 +175,7 @@ namespace WheelMUD.Server
             }
             else
             {
-                // Line below commented out by JFed 11/28/2011.  We lose the 8th bit with this encoding, which breaks special characters like ASCII art
-                // bytes = ASCIIEncoding.ASCII.GetBytes(data);
-
-                // Encoding using code page 437 (old 8bit default ascii).
-                bytes = Encoding.GetEncoding(437).GetBytes(data);
+                bytes = CurrentEncoding.GetBytes(data);
             }
 
             // Send the data.
@@ -209,15 +207,13 @@ namespace WheelMUD.Server
         {
             try
             {
-                // Start receiving any data written by the connected client
-                // asynchronously
-                this.socket.BeginReceive(
-                        this.Data,
-                        0,
-                        this.Data.Length,
-                        SocketFlags.None,
-                        new AsyncCallback(this.OnDataReceived),
-                        null);
+                // Start receiving any data written by the connected client asynchronously.
+                var callback = new AsyncCallback(this.OnDataReceived);
+                this.socket.BeginReceive(this.Data, 0, this.Data.Length, SocketFlags.None, callback, null);
+            }
+            catch (ObjectDisposedException)
+            {
+                this.OnConnectionDisconnect();
             }
             catch (SocketException)
             {
@@ -234,10 +230,7 @@ namespace WheelMUD.Server
                 this.socket.EndSend(asyncResult);
 
                 // Raise our data sent event.
-                if (this.DataSent != null)
-                {
-                    this.DataSent(this, new ConnectionArgs(this));
-                }
+                this.DataSent?.Invoke(this, new ConnectionArgs(this));
             }
             catch
             {
@@ -269,10 +262,7 @@ namespace WheelMUD.Server
                     else
                     {
                         // Raise the Data Received Event. Signals that some data has arrived.
-                        if (this.DataReceived != null)
-                        {
-                            this.DataReceived(this, new ConnectionArgs(this));
-                        }
+                        this.DataReceived?.Invoke(this, new ConnectionArgs(this));
 
                         // Continue the waiting for data on the Socket
                         this.ListenForData();
@@ -319,10 +309,7 @@ namespace WheelMUD.Server
                 this.socket.Shutdown(SocketShutdown.Both);
                 this.socket.Close();
 
-                if (this.ClientDisconnected != null)
-                {
-                    this.ClientDisconnected(this, new ConnectionArgs(this));
-                }
+                this.ClientDisconnected?.Invoke(this, new ConnectionArgs(this));
             }
         }
     }

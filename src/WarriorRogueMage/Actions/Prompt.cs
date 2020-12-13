@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to get or set your command prompt display.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WarriorRogueMage.Actions
@@ -18,7 +15,7 @@ namespace WarriorRogueMage.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>An action to get or set your command prompt display.</summary>
-    [ExportGameAction]
+    [ExportGameAction(100)]
     [ActionPrimaryAlias("prompt", CommandCategory.Configure)]
     [ActionDescription("Sets your prompt display.  Enter an empty value for further options.")]
     [ActionSecurity(SecurityRole.player)]
@@ -85,7 +82,7 @@ namespace WarriorRogueMage.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

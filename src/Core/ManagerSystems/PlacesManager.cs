@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   High level manager that provides tracking and global collection of all places.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -17,25 +14,19 @@ namespace WheelMUD.Core
     /// <summary>High level manager that provides tracking and global collection of all places.</summary>
     public class PlacesManager : ManagerSystem
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static readonly PlacesManager SingletonInstance = new PlacesManager();
-
         /// <summary>Prevents a default instance of the <see cref="PlacesManager"/> class from being created.</summary>
         private PlacesManager()
         {
-            // @@@ assign to ItemManager instance? is it needed? currently disabled...
+            // TODO: Assign to ItemManager instance? is it needed? currently disabled...
             this.WorldBehavior = new WorldBehavior();
             this.World = new Thing(this.WorldBehavior)
             {
-                Name = MudEngineAttributes.Instance.MudName
+                Name = GameConfiguration.Name
             };
         }
 
         /// <summary>Gets the singleton instance of the <see cref="PlacesManager"/> system.</summary>
-        public static PlacesManager Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static PlacesManager Instance { get; } = new PlacesManager();
 
         /// <summary>Gets the world.</summary>
         public Thing World { get; private set; }
@@ -55,26 +46,20 @@ namespace WheelMUD.Core
         public override void Stop()
         {
             this.SystemHost.UpdateSystemHost(this, "Stopping...");
-            ////@@@this.WorldBehavior.Areas.Clear();
+            //// TODO: this.WorldBehavior.Areas.Clear();
             this.SystemHost.UpdateSystemHost(this, "Stopped");
         }
 
         /// <summary>Registers the <see cref="PlacesManager"/> system for export.</summary>
         /// <remarks>Assists with non-rebooting updates of the <see cref="PlacesManager"/> system through MEF.</remarks>
-        [ExportSystem]
+        [ExportSystem(0)]
         public class PlacesManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>
-            public override ISystem Instance
-            {
-                get { return PlacesManager.Instance; }
-            }
+            public override ISystem Instance => PlacesManager.Instance;
 
             /// <summary>Gets the Type of this system.</summary>
-            public override Type SystemType
-            {
-                get { return typeof(PlacesManager); }
-            }
+            public override Type SystemType => typeof(PlacesManager);
         }
     }
 }

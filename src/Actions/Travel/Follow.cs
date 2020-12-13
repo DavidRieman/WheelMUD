@@ -2,12 +2,9 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to start following another player or mobile whenever they move.
-// </summary>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Actions.Travel
+namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -16,8 +13,8 @@ namespace WheelMUD.Actions.Travel
     using WheelMUD.Core.Behaviors;
     using WheelMUD.Interfaces;
 
-    /// <summary>An action to start following another player or mobile whenever they move.</summary>
-    [ExportGameAction]
+    /// <summary>An action to start following another player or mobile around.</summary>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("follow", CommandCategory.Travel)]
     [ActionDescription("Begin following a friend or foe whenever they move.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
@@ -92,7 +89,7 @@ namespace WheelMUD.Actions.Travel
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
 
             if (commonFailure != null)
             {
@@ -109,7 +106,7 @@ namespace WheelMUD.Actions.Travel
             string targetFullName = actionInput.Tail.Trim().ToLower();
 
             // Try to find the target either by all the parameter text or by just the first parameter.
-            this.target = GameAction.GetPlayerOrMobile(targetFullName) ?? GameAction.GetPlayerOrMobile(targetName);
+            this.target = GetPlayerOrMobile(targetFullName) ?? GetPlayerOrMobile(targetName);
 
             // Rule: Is the target an entity?
             if (this.target == null)

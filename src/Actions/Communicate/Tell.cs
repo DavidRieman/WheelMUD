@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command to send a message directly to one entity.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -17,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>A command to send a message directly to one entity.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("tell", CommandCategory.Communicate)]
     [ActionAlias("t", CommandCategory.Communicate)]
     [ActionDescription("Tell something to a character or monster.")]
@@ -52,7 +49,7 @@ namespace WheelMUD.Actions
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 
             var tellEvent = new VerbalCommunicationEvent(sender.Thing, sm, VerbalCommunicationType.Tell);
-            
+
             // Make sure both the user is allowed to do the tell and the target is allowed to receive it.
             this.target.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
             sender.Thing.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
@@ -69,7 +66,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -79,10 +76,10 @@ namespace WheelMUD.Actions
             // string targetName = command.Action.Tail.Trim().ToLower();
             string targetName = actionInput.Params[0].Trim().ToLower();
 
-            // TODO: InterMUD support? string mudName = MudEngineAttributes.Instance.MudName;
+            // TODO: InterMUD support? string mudName = GameConfiguration.GameName;
 
-            // Rule: Target must be an entity. @@@ REMOVE CHECK?
-            this.target = GameAction.GetPlayerOrMobile(targetName);
+            // Rule: Target must be an entity. TODO: REMOVE CHECK?
+            this.target = GetPlayerOrMobile(targetName);
             if (this.target == null)
             {
                 // Make first char Upper?  IE textInfo.ToTitleCase.
@@ -107,7 +104,7 @@ namespace WheelMUD.Actions
             // which was used to identify this.entity already.
             int firstCommandLength = actionInput.Params[0].Length;
             this.sentence = actionInput.Tail.Substring(firstCommandLength).Trim();
-            
+
             return null;
         }
 

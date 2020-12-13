@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Allows changing the current value of a stat.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -19,7 +16,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
 
     /// <summary>Allows changing the current value of an attribute, but not min, max, etc.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("buff", CommandCategory.Admin)]
     [ActionDescription("Usage: buff (target) (stat) (value/min/max) (amount) [minutes]\r\nExample: buff fred HP max 10 5 [increase fred's max HP by 10 for 5 minutes]")]
     [ActionSecurity(SecurityRole.fullAdmin)]
@@ -108,7 +105,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -120,15 +117,10 @@ namespace WheelMUD.Actions
             }
 
             var args = actionInput.Params;
-
             string targetString = args[0];
-
             string statString = args[1];
-            
             this.modType = args[2].ToLower().Trim();
-            
             string amountString = args[3];
-
             string durationString = null;
             if (args.Length > 4)
             {
@@ -136,7 +128,7 @@ namespace WheelMUD.Actions
             }
 
             // Find the player.
-            this.target = PlayerManager.Instance.FindPlayerByName(targetString, true);
+            this.target = PlayerManager.Instance.FindLoadedPlayerByName(targetString, true);
             if (this.target == null)
             {
                 return string.Format("Could not find a target named {0}.", targetString);

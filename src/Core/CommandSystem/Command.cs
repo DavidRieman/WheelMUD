@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Base object representing a command that can be executed by the command executor.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -29,7 +26,7 @@ namespace WheelMUD.Core
                 this.Constructor = type.GetConstructor(new Type[] { });
                 this.Name = type.Name;
             }
-            
+
             this.Description = description;
             this.Example = example;
             this.SecurityRole = securityRole;

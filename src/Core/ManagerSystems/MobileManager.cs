@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   The mobiles manager class.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -16,14 +13,11 @@ namespace WheelMUD.Core
 
     /// <summary>The mobiles manager class.</summary>
     /// <remarks>
-    /// @@@ TODO: Provide search ability of registered 'mobiles' through LINQ rather than, 
+    /// TODO: Provide search ability of registered 'mobiles' through LINQ rather than, 
     /// or in addition to, specific-purpose search methods.
     /// </remarks>
     public class MobileManager : ManagerSystem
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static readonly MobileManager SingletonInstance = new MobileManager();
-
         /// <summary>The list of managed mobiles.</summary>
         private readonly List<Thing> mobiles = new List<Thing>();
 
@@ -33,10 +27,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets the singleton instance of the MobileManager class.</summary>
-        public static MobileManager Instance
-        {
-            get { return SingletonInstance; }
-        }
+        public static MobileManager Instance { get; } = new MobileManager();
 
         /// <summary>Called when an action has been received, the manager can then put the action onto the queue.</summary>
         /// <param name="sender">The entity sending the action.</param>
@@ -130,7 +121,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /* @@@ ?
+        /* TODO: What was this?
         /// <summary>This method is called when a mobile receives an action.</summary>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="actionInput">The action input received.</param>
@@ -142,20 +133,14 @@ namespace WheelMUD.Core
 
         /// <summary>Registers the <see cref="MobileManager"/> system for export.</summary>
         /// <remarks>Assists with non-rebooting updates of the <see cref="MobileManager"/> system through MEF.</remarks>
-        [ExportSystem]
+        [ExportSystem(0)]
         public class MobileManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>
-            public override ISystem Instance
-            {
-                get { return MobileManager.Instance; }
-            }
+            public override ISystem Instance => MobileManager.Instance;
 
             /// <summary>Gets the Type of this system.</summary>
-            public override Type SystemType
-            {
-                get { return typeof(MobileManager); }
-            }
+            public override Type SystemType => typeof(MobileManager);
         }
     }
 }

@@ -10,19 +10,20 @@ namespace WheelMUD.ConnectionStates
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
+    using WheelMUD.Interfaces;
     using WheelMUD.Utilities;
 
     /// <summary>Class that exports attributes for the <see cref="CharacterCreationStateMachine"/> class.</summary>
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class ExportCharacterCreationStateMachineAttribute : ExportAttribute
+    public class ExportCharacterCreationStateMachineAttribute : ExportAttribute, IExportWithPriority
     {
         /// <summary>Initializes a new instance of the <see cref="ExportCharacterCreationStateMachineAttribute"/> class.</summary>
         /// <param name="stateMachinePriority">The state machine priority.</param>
         public ExportCharacterCreationStateMachineAttribute(int stateMachinePriority)
             : base(typeof(CharacterCreationStateMachine))
         {
-            this.StateMachinePriority = stateMachinePriority;
+            this.Priority = stateMachinePriority;
         }
 
         /// <summary>Initializes a new instance of the <see cref="ExportCharacterCreationStateMachineAttribute"/> class.</summary>
@@ -33,7 +34,7 @@ namespace WheelMUD.ConnectionStates
         }
 
         /// <summary>Gets or sets the priority of the exported state; the state with the highest priority will be the default initial state.</summary>
-        /// <remarks>Do not exceed ConnectedState's priority (100 ATM) unless the state you're exporting is intended to replace ConnectedState.</remarks>
-        public int StateMachinePriority { get; set; }
+        /// <remarks>See DefaultComposer for detailed usage information.</remarks>
+        public int Priority { get; set; }
     }
 }

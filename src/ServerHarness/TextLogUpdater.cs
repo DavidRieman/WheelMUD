@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Logs notifications to a plain text file.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace ServerHarness
@@ -15,12 +12,12 @@ namespace ServerHarness
     using System.Text;
     using WheelMUD.Interfaces;
 
-    /// <summary>Text Log Updater.</summary>
+    /// <summary>Text Log Updater. Logs notifications to a plain text file.</summary>
     public class TextLogUpdater : ISuperSystemSubscriber
     {
         /// <summary>The text stream writer for the log file to be appended.</summary>
         private StreamWriter writer;
-        
+
         /// <summary>Initializes a new instance of the TextLogUpdater class.</summary>
         /// <param name="textLogFilePath">The log file path to append text messages to.</param>
         public TextLogUpdater(string textLogFilePath)

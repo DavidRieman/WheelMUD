@@ -3,22 +3,17 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Script to list the items in a player's inventory.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
 
     /// <summary>A command to list the items in a player's inventory.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("inventory", CommandCategory.Item)]
     [ActionAlias("inv", CommandCategory.Item)]
     [ActionAlias("i", CommandCategory.Item)]
@@ -29,7 +24,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious
         };
 
@@ -38,17 +33,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Your Inventory");
-            sb.Append(Environment.NewLine);
-
-            foreach (Thing item in sender.Thing.Children)
-            {
-                sb.Append(item.Id.ToString().PadRight(20));
-                sb.AppendLine(item.FullName);
-            }
-
-            sender.Write(sb.ToString().Trim());
+            sender.Write(Renderer.Instance.RenderInventory(sender.Thing));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -56,7 +41,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

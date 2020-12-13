@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   An action to empty a liquid container.
-//   @@@ TODO: Implement.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -21,8 +17,8 @@ namespace WheelMUD.Actions
     using WheelMUD.Interfaces;
     using WheelMUD.Universe;
 
-    /// <summary>An action to empty a liquid container.</summary>
-    [ExportGameAction]
+    /// <summary>An action to empty a container.</summary>
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("empty", CommandCategory.Item)]
     [ActionAlias("pour out", CommandCategory.Item)]
     [ActionDescription("Empties a container. Usage empty container target")]
@@ -32,7 +28,7 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.InitiatorMustBeAlive, 
+            CommonGuards.InitiatorMustBeAlive,
             CommonGuards.InitiatorMustBeConscious,
             CommonGuards.InitiatorMustBeBalanced,
             CommonGuards.InitiatorMustBeMobile,
@@ -73,9 +69,9 @@ namespace WheelMUD.Actions
             string commaSeparatedList = BuildCommaSeparatedList(movedThingNames);
             var contextMessage = new ContextualString(sender.Thing, this.destinationParent)
             {
-                ToOriginator = string.Format("You move {0} from {1} into {2}", commaSeparatedList, this.sourceContainer.Name, this.destinationParent.Name),
-                ToReceiver = string.Format("$ActiveThings.Name moves {0} from {1} into you.", commaSeparatedList, this.sourceContainer.Name),
-                ToOthers = string.Format("$ActiveThings.Name moves {0} from {1} into {2}.", commaSeparatedList, this.sourceContainer.Name, this.destinationParent.Name),
+                ToOriginator = $"You move {commaSeparatedList} from {this.sourceContainer.Name} into {this.destinationParent.Name}",
+                ToReceiver = $"{sender.Thing.Name} moves {commaSeparatedList} from {this.sourceContainer.Name} into you.",
+                ToOthers = $"{sender.Thing.Name} moves {commaSeparatedList} from {this.sourceContainer.Name} into {this.destinationParent.Name}.",
             };
             var message = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
@@ -89,7 +85,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -100,7 +96,7 @@ namespace WheelMUD.Actions
             string destinationParentName = null;
             if (actionInput.Params.Length > 1)
             {
-                // @@@ Hmm, maybe action input should have a means of automatically stripping words like this or "the" etc?
+                // TODO: Maybe action input should have a means of automatically stripping words like this or "the" etc?
                 if (actionInput.Params.Length > 2 &&
                     (actionInput.Params[1].Equals("into", StringComparison.CurrentCultureIgnoreCase) ||
                      actionInput.Params[1].Equals("onto", StringComparison.CurrentCultureIgnoreCase)))
@@ -134,18 +130,18 @@ namespace WheelMUD.Actions
                 return string.Format("The {0} is already empty.", this.sourceContainer.Name);
             }
 
-            // @@@ Not possible? If so, default to the current container's parent instead of failing?
+            // TODO: Test; Not possible? If so, default to the current container's parent instead of failing?
             Debug.Assert(!string.IsNullOrEmpty(destinationParentName));
 
             if (destinationParentName.Equals("ground", StringComparison.CurrentCultureIgnoreCase) ||
                 destinationParentName.Equals("out", StringComparison.CurrentCultureIgnoreCase))
             {
-                // @@@ TODO: Test, this may be broken...
+                // TODO: Test, this may be broken...
                 this.destinationParent = sender.Thing.Parent;
             }
             else
             {
-                // @@@ TODO: Allow targeting of containers in same place, like chests and whatnot?
+                // TODO: Allow targeting of containers in same place, like chests and whatnot?
                 Thing destinationThing = sender.Thing.Children.Find(t => t.Name == destinationParentName.ToLower());
                 if (destinationThing == null)
                 {
@@ -164,7 +160,7 @@ namespace WheelMUD.Actions
             return null;
         }
 
-        // @@@ Test and move to a string utilities class or extension method of some sort?
+        // TODO: Test and move to a string utilities class or extension method of some sort?
         private static string BuildCommaSeparatedList(IEnumerable<string> things)
         {
             string result = string.Empty;
@@ -176,7 +172,7 @@ namespace WheelMUD.Actions
                 if (countLeft > 1)
                 {
                     result += ", ";
-                } 
+                }
                 else if (countLeft == 1)
                 {
                     result += ", and ";

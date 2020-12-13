@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A script to show server status information.
-//   SQL status including DB IIS. Need to add try catch error handling to WMI connection.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Actions
@@ -18,7 +14,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
 
     /// <summary>A command to display the server status information.</summary>
-    [ExportGameAction]
+    [ExportGameAction(0)]
     [ActionPrimaryAlias("serverstatus", CommandCategory.Inform)]
     [ActionAlias("server status", CommandCategory.Inform)]
     [ActionDescription("See the server status.")]
@@ -61,7 +57,7 @@ namespace WheelMUD.Actions
                 totalMemory = (ulong)mo["totalphysicalmemory"] / 1024;
                 sb.AppendLine("Physical Ram : " + totalMemory.ToString());
             }
-            
+
             sb.AppendLine(div);
             query1 = new ManagementObjectSearcher("SELECT * FROM Win32_process where NAME = '" + appName + "'");
             queryCollection1 = query1.Get();
@@ -80,7 +76,7 @@ namespace WheelMUD.Actions
             {
                 sb.AppendLine("This Server lives in:" + mo["caption"].ToString());
             }
-            
+
             actionInput.Controller.Write(sb.ToString().TrimEnd(null));
         }
 
@@ -89,7 +85,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

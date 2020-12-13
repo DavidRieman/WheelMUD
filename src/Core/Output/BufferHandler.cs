@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   This class provides a server side output buffer, IE it wraps the text to
-//   a predefined number of lines.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core.Output
@@ -15,9 +11,11 @@ namespace WheelMUD.Core.Output
     using System.Text;
 
     /// <summary>Buffer handler.</summary>
+    /// <remarks>This class provides a server-side output buffer. It provides paging of large text outputs.</remarks>
     public class BufferHandler
     {
         /// <summary>The single-page overflow indication.</summary>
+        /// <remarks>TODO: Why is this mxpsecureline? Can that turn these options into clickable links?</remarks>
         private const string OverflowIndicator = @"<%mxpsecureline%>Paging {0}%: [M]ore, [P]revious, [R]epeat, [A]ll, Enter to quit.";
 
         /// <summary>

@@ -3,8 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -24,9 +22,9 @@ namespace WheelMUD.Core
 
     /// <summary>Sets this Thing to be directly user-controlled.</summary>
     /// <remarks>
-    /// Usually this will be accompanied by a PlayerBehavior, but @@@ this behavior may also be used
+    /// Usually this will be accompanied by a PlayerBehavior, but this behavior may also be used
     /// for things like a player controlling a mobile directly, an admin is controlling a PC, etc.
-    /// @@@ It may be interesting for multiple UserControlledBehaviors to be attached to the same Thing
+    /// TODO: It may be interesting for multiple UserControlledBehaviors to be attached to the same Thing
     /// in more cases, such as two player fighting for control of a mob they both dominated with spells,
     /// or for an admin to assume control of a player but setting the player's instance to ignore all
     /// commands, so both can see the results of the admin's direction but only the admin can execute 
@@ -48,7 +46,7 @@ namespace WheelMUD.Core
         {
             this.ID = instanceId;
 
-            // @@@ TODO: Subscribe to movement events for the attached Thing: Whenever a user-controlled
+            // TODO: Subscribe to movement events for the attached Thing: Whenever a user-controlled
             // thing is moved from one location to another, we want to respond by automatically "looking"
             // for the player, immediately.  (Possibly not though, depending on their settings and such,
             // IE possibly having a setting to disable descriptions upon rooms that have already been
@@ -56,7 +54,7 @@ namespace WheelMUD.Core
             // multiple rooms, etc.)
         }
 
-        //// @@@ TODO: Clean up Roles to remove DAL-bound RoleRecords and such...?
+        //// TODO: Clean up Roles to remove DAL-bound RoleRecords and such...?
         ///// <summary>Gets the current list of <see cref="RoleRecord"/> associated with this player.</summary>
         ////public List<RoleRecord> RoleRecords { get; private set; }
 
@@ -67,14 +65,9 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the controller of the Thing.</summary>
         [JsonIgnore]
         public IController Controller { get; set; }
-        
+
         /// <summary>Gets or sets the number of rows this user's client can handle displaying as a single "page".</summary>
         public int PagingRowLimit { get; set; }
-
-        /// <summary>Gets the view engine.</summary>
-        /// <value>The view engine.</value>
-        [JsonIgnore]
-        public ViewEngine ViewEngine { get; private set; }
 
         /// <summary>Gets the role of the specified name, if present.</summary>
         /// <param name="roleName">The name of the role to search for.</param>
@@ -90,7 +83,6 @@ namespace WheelMUD.Core
         protected override void SetDefaultProperties()
         {
             this.Controller = null;
-            this.ViewEngine = new ViewEngine();
         }
     }
 }

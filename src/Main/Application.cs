@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   The core application, which can be housed in a console, service, etc.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Main
@@ -17,6 +14,7 @@ namespace WheelMUD.Main
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
     using WheelMUD.Core;
     using WheelMUD.Data;
     using WheelMUD.Interfaces;
@@ -25,15 +23,9 @@ namespace WheelMUD.Main
     /// <summary>The core application, which can be housed in a console, service, etc.</summary>
     public class Application : ISuperSystem, ISuperSystemSubscriber
     {
-        /// <summary>The singleton instance of this class.</summary>
-        private static Application instance = new Application();
-
         /// <summary>A list of subscribers of this super system.</summary>
         private readonly List<ISuperSystemSubscriber> subscribers = new List<ISuperSystemSubscriber>();
 
-        /// <summary>The view engine.</summary>
-        private ViewEngine viewEngine;
-        
         /// <summary>Prevents a default instance of the <see cref="Application"/> class from being created.</summary>
         private Application()
         {
@@ -41,15 +33,12 @@ namespace WheelMUD.Main
         }
 
         /// <summary>Gets the singleton instance of this <see cref="Application"/>.</summary>
-        public static Application Instance
-        {
-            get { return instance; }
-        }
+        public static Application Instance { get; } = new Application();
 
         /// <summary>Gets or sets the available systems.</summary>
         /// <value>The available systems.</value>
         [ImportMany]
-        private List<SystemExporter> AvailableSystems { get; set; }
+        private Lazy<SystemExporter, ExportSystemAttribute>[] AvailableSystems { get; set; }
 
         /// <summary>Dispose of any resources consumed by Application.</summary>
         public void Dispose()
@@ -97,9 +86,8 @@ namespace WheelMUD.Main
             }
 
             string appDir = appFile.Directory.FullName;
-            string destDir = Configuration.GetDataStoragePath();
 
-            if (!Directory.Exists(destDir))
+            if (!Directory.Exists(GameConfiguration.DataStoragePath))
             {
                 // If the database file doesn't exist, try to copy the original source.
                 string sourcePath = null;
@@ -110,11 +98,13 @@ namespace WheelMUD.Main
                 }
                 else
                 {
-                    sourcePath = Path.GetDirectoryName(appDir);
+                    // The binDebug folder now houses a sub-folder like "netcoreapp3.1" so we need to go up
+                    // two levels to search for the starting system data.
+                    sourcePath = Path.GetDirectoryName(Path.GetDirectoryName(appDir));
                     sourcePath = Path.Combine(sourcePath + "\\systemdata\\Files\\");
                 }
 
-                DirectoryCopy(sourcePath, destDir, true);
+                DirectoryCopy(sourcePath, GameConfiguration.DataStoragePath, true);
             }
 
             // TODO: Create a link in the bin folder to the program data folder, for administrative convenience.
@@ -184,14 +174,6 @@ namespace WheelMUD.Main
             this.Notify(sender.GetType().Name + " - " + msg);
         }
 
-        /// <summary>Temporary help system just so that we have something here if the person types help at the console.</summary>
-        public void DisplayHelp()
-        {
-            var path = Path.Combine(Configuration.GetDataStoragePath(), "ConsoleHelp.txt");
-            var help = File.ReadAllText(path);
-            this.Notify(this.viewEngine.RenderView(help));
-        }
-
         /// <summary>Notify subscribers of the specified message.</summary>
         /// <param name="message">The message to pass along.</param>
         public void Notify(string message)
@@ -199,6 +181,39 @@ namespace WheelMUD.Main
             foreach (ISuperSystemSubscriber subscriber in this.subscribers)
             {
                 subscriber.Notify(message);
+            }
+        }
+
+        public string BasicAdministrativeGameInfo
+        {
+            get
+            {
+                var sb = new StringBuilder();
+                string fancyLine = "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
+                sb.AppendLine(fancyLine);
+                sb.AppendLine($"  Active Game:  {GameConfiguration.Name}  version {GameConfiguration.Version}");
+                if (!string.IsNullOrWhiteSpace(GameConfiguration.Website))
+                {
+                    sb.AppendLine($"Game Website: {GameConfiguration.Website}");
+                }
+                sb.AppendLine(fancyLine);
+                sb.AppendLine("This game is built from a base of WheelMUD. For more information about the base");
+                sb.AppendLine("game engine, visit: https://github.com/WheelMUD/WheelMUD");
+                sb.AppendLine();
+                sb.AppendLine("This application runs the game server. When running as a console program, it");
+                sb.AppendLine("provides an adminstrative command prompt. Type \"HELP\" to list the commands.");
+                sb.AppendLine();
+                sb.AppendLine("If Windows prompts you for networking access options, you may wish to allow all");
+                sb.AppendLine("access if you want to let additional computers/players join the game instance.");
+                sb.AppendLine();
+                sb.AppendLine("To connect to the game server as a player, you need a telnet client. From this");
+                sb.AppendLine("machine you can connect to an IP address of the local machine at port " + GameConfiguration.TelnetPort);
+                sb.AppendLine("For example, if you are using Windows and install the basic \"Telnet Client\"");
+                sb.AppendLine("option through \"Turn Windows features on or off\", you can open a command");
+                sb.AppendLine("prompt and type this command:  telnet 127.0.0.1 " + GameConfiguration.TelnetPort);
+                sb.AppendLine("Or you could use the command:  telnet localhost " + GameConfiguration.TelnetPort);
+                sb.AppendLine();
+                return sb.ToString();
             }
         }
 
@@ -218,8 +233,7 @@ namespace WheelMUD.Main
                 }
 
                 string appDir = appFile.Directory.FullName;
-                string destDir = Configuration.GetDataStoragePath();
-                string destPath = Path.Combine(destDir, DatabaseName);
+                string destPath = Path.Combine(GameConfiguration.DataStoragePath, DatabaseName);
 
                 if (!File.Exists(destPath))
                 {
@@ -233,7 +247,9 @@ namespace WheelMUD.Main
                     }
                     else
                     {
-                        sourcePath = Path.GetDirectoryName(appDir);
+                        // The binDebug folder now houses a sub-folder like "netcoreapp3.1" so we need to go up two
+                        // levels to search for the starting system data.
+                        sourcePath = Path.GetDirectoryName(Path.GetDirectoryName(appDir));
                         sourcePath = Path.Combine(sourcePath + "\\systemdata\\SQL\\SQLite", DatabaseName);
                     }
 
@@ -252,9 +268,6 @@ namespace WheelMUD.Main
         /// <summary>Initializes the systems of this application.</summary>
         private void InitializeSystems()
         {
-            this.viewEngine = new ViewEngine { ReplaceNewLine = false };
-            this.viewEngine.AddContext("MudAttributes", MudEngineAttributes.Instance);
-
             this.Notify(this.DisplayStartup());
             this.Notify("Starting Application.");
 
@@ -285,32 +298,35 @@ namespace WheelMUD.Main
 
             // Find the Type of each distinct available system.  ToList forces LINQ to process immediately.
             var systems = new List<SystemExporter>();
-            var systemTypes = from s in this.AvailableSystems select s.SystemType;
-            var distinctTypeNames = (from t in systemTypes select t.FullName).Distinct().ToList();
+            var systemTypes = from s in this.AvailableSystems select s.Value.SystemType;
+            var distinctTypeNames = (from t in systemTypes select t.Name).Distinct().ToList();
 
             foreach (string systemTypeName in distinctTypeNames)
             {
                 // Add only the single most-recent version of this type (if there were more than one found).
                 SystemExporter systemToAdd = (from s in this.AvailableSystems
-                                              where s.SystemType.FullName == systemTypeName
-                                              orderby s.SystemType.Assembly.GetName().Version.Major descending,
-                                                      s.SystemType.Assembly.GetName().Version.Minor descending,
-                                                      s.SystemType.Assembly.GetName().Version.Build descending,
-                                                      s.SystemType.Assembly.GetName().Version.Revision descending
-                                              select s).FirstOrDefault();
+                                              let type = s.Value.SystemType
+                                              where type.Name == systemTypeName
+                                              orderby s.Metadata.Priority descending,
+                                                      type.Assembly.GetName().Version.Major descending,
+                                                      type.Assembly.GetName().Version.Minor descending,
+                                                      type.Assembly.GetName().Version.Build descending,
+                                                      type.Assembly.GetName().Version.Revision descending
+                                              select s.Value).FirstOrDefault();
                 systems.Add(systemToAdd);
             }
 
             return systems;
         }
 
-        /// <summary>Display startup texts.</summary>
+        /// <summary>Display startup texts for the game administrator.</summary>
         /// <returns>The startup splash screen text.</returns>
         private string DisplayStartup()
         {
-            var filePath = Path.Combine(Configuration.GetDataStoragePath(), "ConsoleOpen.txt");
-            var splash = File.ReadAllText(filePath);
-            return this.viewEngine.RenderView(splash);
+            var sb = new StringBuilder();
+            sb.AppendLine("Starting up... " + DateTime.Now.ToString());
+            sb.AppendLine(this.BasicAdministrativeGameInfo);
+            return sb.ToString();
         }
     }
 }

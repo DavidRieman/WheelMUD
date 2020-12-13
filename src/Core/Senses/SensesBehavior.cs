@@ -3,23 +3,16 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
 {
-    using Newtonsoft.Json;
     using System.Collections.Generic;
     using WheelMUD.Core.Enums;
 
     /// <summary>Encapsulates sensory behavior.</summary>
     public class SensesBehavior : Behavior
     {
-        /// <summary>The synchronization locking object.</summary>
-        [JsonIgnore]
-        private readonly object lockObject = new object();
-
         /// <summary>Initializes a new instance of the SensesBehavior class.</summary>
         public SensesBehavior()
             : base(null)
@@ -37,10 +30,6 @@ namespace WheelMUD.Core
 
         /// <summary>Gets or sets the senses this thing has access to.</summary>
         public SenseManager Senses { get; set; }
-
-        /// <summary>Gets the things last perceived by this thing.</summary>
-        [JsonIgnore]
-        public List<Thing> PerceivedThings { get; private set; }
 
         /// <summary>Have the entity perceive a list of possible exits with its senses.</summary>
         /// <returns>A list of perceived exits.</returns>
@@ -95,17 +84,17 @@ namespace WheelMUD.Core
         /// <returns>A list of perceived entities.</returns>
         public IList<Thing> PerceiveEntities()
         {
-            // @@@ TODO: Refactor the perceive categories... players, mobs, items, exits, etc.
+            // TODO: Refactor the perceive categories... players, mobs, items, exits, etc.
             if (this.Parent != null)
             {
                 var outEntities = new List<Thing>();
-                
-                // @@@ TODO: Change Parent.Parent to a predicate that will find RoomBehaviors. This is a an ugly hack that needs to go away.
+
+                // TODO: Change Parent.Parent to a predicate that will find RoomBehaviors. This is a an ugly hack that needs to go away.
                 var entities = this.Parent.Parent.FindAllChildren(t => t.HasBehavior<PlayerBehavior>() || t.HasBehavior<MobileBehavior>());
 
                 foreach (Thing thing in entities)
                 {
-                    // @@@ ADD: '&& thing has EntityBehavior' or whatnot...
+                    // TODO: Add '&& thing has EntityBehavior' or whatnot...
                     if (thing != this.Parent && thing.IsDetectableBySense(this.Senses))
                     {
                         outEntities.Add(thing);
@@ -131,7 +120,7 @@ namespace WheelMUD.Core
                     var items = new List<Thing>();
                     foreach (Thing item in room.Children)
                     {
-                        // @@@ Use something like 'has ItemBehavior' instead?
+                        // TODO: Use something like 'has ItemBehavior' instead?
                         if (item.IsDetectableBySense(this.Senses) &&
                             !item.HasBehavior<ExitBehavior>() &&
                             !item.HasBehavior<PlayerBehavior>() &&
@@ -154,39 +143,25 @@ namespace WheelMUD.Core
         /// <returns>true if the thing can be perceived; otherwise false.</returns>
         public bool CanPerceiveThing(Thing thing)
         {
-            // @@@ Doesn't seem like this should be bound only by this entity's location?
-            //     What about detecting something in a bag, etc?
-            return this.Parent.FindChild(t => t == thing) != null && thing.IsDetectableBySense(this.Senses);
-        }
-
-        /// <summary>Allows the entity to determine what things are around it.</summary>
-        public void ProcessSurroundings()
-        {
-            if (this.Parent == null)
-            {
-                return;
-            }
-
-            lock (this.lockObject)
-            {
-                this.PerceivedThings.Clear();
-                this.PerceivedThings.AddRange(this.PerceiveItems());
-                this.PerceivedThings.AddRange(this.PerceiveEntities());
-            }
+            // Distance-size, the perceiving thing should be able to perceive the place it is in (e.g. room), other
+            // things in the same place, and its own things (e.g. inventory items).
+            bool isLocal = this.Parent.Parent == thing ||
+                (this.Parent.Parent != null && this.Parent.Parent.FindChild(t => t == thing) != null) ||
+                this.Parent.FindChild(t => t == thing) != null;
+            return isLocal && thing.IsDetectableBySense(this.Senses);
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.PerceivedThings = new List<Thing>();
             this.Senses = new SenseManager();
-            this.LoadSenses();
+            this.LoadDefaultSenses();
         }
 
         /// <summary>Load the senses of the entity.</summary>
-        private void LoadSenses()
+        private void LoadDefaultSenses()
         {
-            // @@@ TODO: Each sense's details should be persistable/designable per race, etc.
+            // TODO: Each sense's details should be persistable/designable per race, etc.
             this.Senses.AddSense(new Sense()
             {
                 SensoryType = SensoryType.Hearing,
