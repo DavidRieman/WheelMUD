@@ -2,6 +2,9 @@
 WheelMUD - https://github.com/WheelMud/WheelMUD
 (Formerly http://www.wheelmud.net or http://www.codeplex.com/wheelmud)
 Copyright (c) 2007-2020 WheelMUD Development Team
+
+NOTE: Copyrighted contributions of "The WheelMUD Development Team" includes, but is not limited to, those from all contributors (both past and current) listed in systemdata\Files\Credits.txt.
+      New contributors are encouraged to update Credits.txt during their first contributions, to help keep this list up to date.
 ----------------------------------------------------------------------
 
 Microsoft Public License (MS-PL)
