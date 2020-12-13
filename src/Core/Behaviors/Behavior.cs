@@ -32,8 +32,6 @@ namespace WheelMUD.Core
             if (instanceProperties != null)
             {
                 // TODO: Test w/behavior persistence implementation...
-                // Adjusted as per feedback from thread:
-                // http://www.wheelmud.net/Forums/tabid/59/aff/8/aft/1487/afv/topic/afpgj/2/Default.aspx
                 PropertyTools.SetProperties(this, instanceProperties);
             }
         }

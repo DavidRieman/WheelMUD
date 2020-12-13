@@ -11,7 +11,6 @@ namespace WarriorRogueMage.Behaviors
     using WheelMUD.Core.Attributes;
 
     /// <summary>Behavior which defines a Warrior Rogue and Mage player.</summary>
-    /// <remarks>TODO: <see href="http://www.WheelMUD.net/Forums/tabid/59/aft/1663/Default.aspx#2873"/></remarks>
     public class WRMPlayerBehavior : PlayerBehavior
     {
         /// <summary>Gets the Fate statistic of this player, in a format suitable for display in a Prompt.</summary>

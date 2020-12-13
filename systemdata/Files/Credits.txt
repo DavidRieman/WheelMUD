@@ -17,7 +17,7 @@ ACTIVE DEVELOPERS:
 ; who have moved on to other things, including at least the following people:
 
 RETIRED CHAMPION:
-* Hector Sosa, Jr (Fastalanasa) - fastalanasa@wheelmud.net
+* Hector Sosa, Jr (Fastalanasa)
 
 RETIRED DEVELOPERS:
 * Joseph Roberts (Pure)
