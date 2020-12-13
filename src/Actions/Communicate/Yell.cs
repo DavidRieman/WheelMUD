@@ -72,7 +72,7 @@ namespace WheelMUD.Actions
         /// <summary>This recursively traverses the rooms, stopping when TTL reaches 0, calling YellAtRoom at each stop.</summary>
         /// <remarks>
         /// TODO: This traversal logic should be centralized for reuse, taking an origin place, function, and options like whether
-        ///     to go through closed exits. See 'Future Potential' at: https://wheelmud.codeplex.com/wikipage?title=Sensory%20Messages
+        ///       to go through closed exits.
         /// </remarks>
         /// <param name="place">The current place (generally a room) to work from.</param>
         /// <param name="actionInput">The full input specified for executing the command.</param>
