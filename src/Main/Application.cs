@@ -107,6 +107,20 @@ namespace WheelMUD.Main
                 DirectoryCopy(sourcePath, GameConfiguration.DataStoragePath, true);
             }
 
+            var filesDir = Path.Combine(appDir + "\\Files\\");
+            if (!Directory.Exists(filesDir))
+            {
+                Directory.CreateDirectory(filesDir);
+            }
+            
+            if (Directory.GetFiles(filesDir).Length == 0)
+            {
+                var sourcePath = Path.GetDirectoryName(Path.GetDirectoryName(appDir));
+                sourcePath = Path.Combine(sourcePath + "\\systemdata\\Files\\Credits.txt");
+                var targetPath = Path.Combine(filesDir + "Credits.txt");
+                File.Copy(sourcePath, targetPath, false);
+            }
+
             // TODO: Create a link in the bin folder to the program data folder, for administrative convenience.
         }
 
