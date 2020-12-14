@@ -43,7 +43,8 @@ namespace WarriorRogueMage.CharacterCreation
                 case "view":
                     if (commandParts.Length > 1)
                     {
-                        this.ViewTalentDescription(commandParts[1]);
+                        string talentName = string.Join(" ", commandParts, 1, commandParts.Length - 1);
+                        this.ViewTalentDescription(talentName);
                     }
                     else
                     {
@@ -84,7 +85,7 @@ namespace WarriorRogueMage.CharacterCreation
         {
             string talentToView = talent.Replace("view ", string.Empty);
 
-            Talent foundTalent = this.talents.Find(s => s.Name.Equals(talentToView, StringComparison.CurrentCultureIgnoreCase));
+            Talent foundTalent = this.talents.Find(s => s.Name.Contains(talentToView, StringComparison.CurrentCultureIgnoreCase));
             if (foundTalent != null)
             {
                 var sb = new StringBuilder();
