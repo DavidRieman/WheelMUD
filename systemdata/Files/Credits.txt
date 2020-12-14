@@ -11,6 +11,7 @@ ACTIVE CHAMPION:
 
 ACTIVE DEVELOPERS:
 * Duane King (honestduane / Feverdream)
+* Jeremy Holland
 
 ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ; We sincerely give our thanks to all members of the WheelMUD Development Team
