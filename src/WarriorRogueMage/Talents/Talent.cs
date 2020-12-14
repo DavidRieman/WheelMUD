@@ -19,7 +19,7 @@ namespace WarriorRogueMage
         // TODO: Talents and such should not make permanent modifications to base stats. This is being redesigned.
         //       Perhaps we will end up with a system to register class instances to an Active Modifiers list, to
         //       all get called on for turning a "base" value into "current" value any time we're about to use it.
-        //       See: https://github.com/WheelMud/WheelMUD/issues/49
+        //       See: https://github.com/DavidRieman/WheelMUD/discussions/31 for starters.
 
         /// <summary>Initializes a new instance of the <see cref="Talent"/> class.</summary>
         /// <param name="name">The name.</param>

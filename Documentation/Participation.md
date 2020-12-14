@@ -13,13 +13,13 @@ For example:
 Note that participating in design does not necessarily mean "we will build your ideal MUD for you"; Our goal here is to build a MUD framework with a variety of base features that we generally agree will be useful or in demand for most MUD implementations.
 
 ### Bugs
-If you have a decent handle on a bug, feel free to see if it is tracked already in the [Issues](https://github.com/WheelMud/WheelMUD/issues) tracker on the core WheelMUD branch, or you can add the issue if it isn't present.
+If you have a decent handle on a bug, feel free to see if it is tracked already in the [Issues](https://github.com/DavidRieman/WheelMUD/issues) tracker on the core WheelMUD branch, or you can add the issue if it isn't present.
 Alternatively, you can open a new discussion thread. Please report bugs; I'd rather have unresearched bugs sloppily reported to the forums than no bug report at all!
 Bug fixes make great candidates for a developer to get their feet wet and test out the pull request process.
 
 ### Ideas and Requests
-Design suggestions and feature requests are best posted first to the [muds.gamedev.com WheelMUD](http://muds.gamedev.com/mudforum/index.php?t=index&cat=9&rid=8) forums.
+Design suggestions and feature requests are best posted first to the [Discussions area](https://github.com/DavidRieman/WheelMUD/discussions) on GitHub.
 We value fresh discussion and opinions even on old threads, so don't be afraid of searching for and posting feedback onto a "stale" thread.
 
 ## Development
-If you are or have the drive to be a developer, visit the [Development](Development/README.md) section.
+If you are or have the drive to become a developer, visit the [Development](Development/README.md) section.

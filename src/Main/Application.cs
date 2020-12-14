@@ -198,7 +198,7 @@ namespace WheelMUD.Main
                 }
                 sb.AppendLine(fancyLine);
                 sb.AppendLine("This game is built from a base of WheelMUD. For more information about the base");
-                sb.AppendLine("game engine, visit: https://github.com/WheelMUD/WheelMUD");
+                sb.AppendLine("game engine, visit: https://github.com/DavidRieman/WheelMUD");
                 sb.AppendLine();
                 sb.AppendLine("This application runs the game server. When running as a console program, it");
                 sb.AppendLine("provides an adminstrative command prompt. Type \"HELP\" to list the commands.");

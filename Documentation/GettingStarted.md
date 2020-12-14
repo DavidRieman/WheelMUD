@@ -13,7 +13,7 @@ Satisfy the [Basic Prerequisites](BasicPrerequisites.md) if you haven't already.
   - [fTelnet / HtmlTerm](https://www.ftelnet.ca). Lightweight Flash and HTML5 based clients.
 
 ## Getting the Source Code
-It is preferred to create a GitHub fork the code from the [WheelMud/WheelMUD](https://github.com/WheelMud/WheelMUD) repository.
+It is preferred to create a GitHub fork the code from the [DavidRieman/WheelMUD](https://github.com/DavidRieman/WheelMUD) repository.
 On the right side of GitHub you will see the "HTTPS clone URL" which you can use with git to pull down a local repository.
 If you don't know how to work with git and GitHub, you will want to follow a few tutorials on those tools first.
 

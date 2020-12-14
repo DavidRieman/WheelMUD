@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-// TODO: Implement modifiers. See: https://github.com/WheelMud/WheelMUD/issues/49 for details.
+// TODO: Implement modifiers. See: https://github.com/DavidRieman/WheelMUD/discussions/31 for starters.
 // TODO: Some of these need special behaviors or circumstances and need specific non-modifier code too.
 namespace WarriorRogueMage
 {
