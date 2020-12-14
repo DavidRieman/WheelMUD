@@ -51,12 +51,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{13D09790-7F43-4E3F-B779-99BE07BF40F0}"
 	ProjectSection(SolutionItems) = preProject
 		..\systemdata\Files\Credits.txt = ..\systemdata\Files\Credits.txt
-		..\systemdata\Files\CustomHelpTopicViewTemplate.vm = ..\systemdata\Files\CustomHelpTopicViewTemplate.vm
-		..\systemdata\Files\Help.ans = ..\systemdata\Files\Help.ans
-		..\systemdata\Files\StandardEntityViewTemplate.vm = ..\systemdata\Files\StandardEntityViewTemplate.vm
-		..\systemdata\Files\StandardHelpTopicViewTemplate.vm = ..\systemdata\Files\StandardHelpTopicViewTemplate.vm
-		..\systemdata\Files\StandardRoomViewTemplate.vm = ..\systemdata\Files\StandardRoomViewTemplate.vm
-		..\systemdata\Files\StandardRoomViewTemplate_Taliesen.vm = ..\systemdata\Files\StandardRoomViewTemplate_Taliesen.vm
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerHarness", "ServerHarness\ServerHarness.csproj", "{F6AE400B-3760-4D4E-909A-D09F3E477BB5}"
