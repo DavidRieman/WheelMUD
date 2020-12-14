@@ -39,4 +39,8 @@
     <ProjectReference Include="..\Main\WheelMUD.Main.csproj" />
     <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <!-- Including links to the same documentation we render through GitHub, to encourage searchability and maintainability directly in the IDEs. -->
+    <EmbeddedResource Include="..\..\**\*.md" LinkBase="GitHubDocs" />
+  </ItemGroup>
 </Project>
