@@ -7,6 +7,8 @@ Satisfy the [Basic Prerequisites](BasicPrerequisites.md) if you haven't already.
 * Ensure you have a Telnet client available, such as:
   - Telnet.exe: Built into all supported versions of Windows, but the Telnet Client feature generally starts disabled. Open up the "Turn Windows features on and off" control panel, scroll down and ensure "Telnet Client" gets selected. To see if you have one ready, open up a Command Prompt and run "telnet localhost 4000", which should print that it's connecting to localhost, but then times out (assuming your WheelMUD server isn't running yet).
   - [zMUD or cMUD](http://www.zuggsoft.com/index.php). Heavy, feature-rich telnet client, used by tons of serious MUD users.
+  - [Mudlet](https://www.mudlet.org/). Full featured like zMUD, but free and open source ([code](https://github.com/Mudlet/Mudlet)).
+  - [MUSHClient](http://www.gammon.com.au/mushclient/mushclient.htm). Another free client, simple to start but lots of powerful features.
   - [PuTTY](http://www.putty.org). Lightweight telnet client, but remembers session info.
   - [fTelnet / HtmlTerm](https://www.ftelnet.ca). Lightweight Flash and HTML5 based clients.
 
