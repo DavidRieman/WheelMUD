@@ -35,4 +35,7 @@
     <Compile Remove="Inform\Uptime.cs" />
     <Compile Remove="Inform\Version.cs" />
   </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="mkdir $(TargetDir)Files&#xD;&#xA;xcopy /Y $(SolutionDir)..\systemdata\Files\Credits.txt $(TargetDir)Files" />
+  </Target>
 </Project>
