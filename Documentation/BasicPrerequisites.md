@@ -12,7 +12,7 @@ Others (such as Windows 8) should work; feel free to prepare a documentation upd
 
 ## Runtime Dependencies
 * [.NET Core release 5.0.0](https://dotnet.microsoft.com/download/dotnet/5.0#5.0.0): Either the "SDK 5.0.100" (_not_ the "SDK 5.0.101" version) or the "ASP.NET Core Runtime 5.0.0" (_not_ the ASP.NET Core Runtime 5.0.1).
-If you skip this or install the wrong one, RavenDB will crash in a way that we cannot crash, and present console output which may be misleading. Best to install this explicitly and carefully via the link here, to be certain you have a truly compatible version.
+WARNING: If you skip this or install the wrong one, RavenDB will crash with console output that may be misleading. Best to install this explicitly and carefully via the link here, to be certain you have a truly compatible version.
 * .NET Core 3.1 as well. WheelMUD code itself targets this framework. Visual Studio itself should successfully ensure it is present, in this case.
 
 ## Supported Development Environments
