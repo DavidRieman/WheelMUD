@@ -85,7 +85,8 @@ namespace WarriorRogueMage.CharacterCreation
         {
             string talentToView = talent.Replace("view ", string.Empty);
 
-            Talent foundTalent = this.talents.Find(s => s.Name.Contains(talentToView, StringComparison.CurrentCultureIgnoreCase));
+            Talent foundTalent = this.talents.Find(s => s.Name.StartsWith(talentToView, StringComparison.CurrentCultureIgnoreCase) || 
+                                                        s.Name.Contains(talentToView, StringComparison.CurrentCultureIgnoreCase));
             if (foundTalent != null)
             {
                 var sb = new StringBuilder();
