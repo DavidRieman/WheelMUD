@@ -47,7 +47,7 @@ namespace WheelMUD.Actions
             {
                 if (cachedContents == null || (parameters.Length > 0 && parameters[0].ToLower() == "reload"))
                 {
-                    using StreamReader reader = new StreamReader(Path.Combine(GameConfiguration.DataStoragePath + "\\Credits.txt"));
+                    using StreamReader reader = new StreamReader(Path.Combine(GameConfiguration.DataStoragePath, "Credits.txt"));
                     StringBuilder stringBuilder = new StringBuilder();
                     string s;
                     while ((s = reader.ReadLine()) != null)
