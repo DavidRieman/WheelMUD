@@ -12,7 +12,7 @@ Others (such as Windows 8) should work; feel free to prepare a documentation upd
 
 ## Runtime Dependencies
 * [.NET Core 2.2.8](https://github.com/dotnet/core/blob/master/release-notes/2.2/2.2.8/2.2.8.md#downloads) runtime (or SDK):
-Out of the box, we default to using RavenDB (embedded mode) for storing world data, which requires this runtime to be present. (You can pick the x64 installer for x64 machines, even for running x86 builds of WheelMUD.)  Please note: trying to run the app without having this dependency in place may crash when you first try to create or load a character, with output in the console output that may be misleading or missing the actual dependency. Best to install this explicitly via the link here, to be certain you have it.
+Out of the box, we default to using RavenDB (embedded mode) for storing world data, which requires this runtime to be present. (You can pick the x64 installer for x64 machines, even for running x86 builds of WheelMUD.)  Please note: Trying to run the app without having this dependency in place may crash RavenDB when you first try to create or load a character, with output in the console output that may be misleading or missing a download link for the actual dependency. Best to install this explicitly via the link here, to be certain you have it.
 * .NET Core 3.1 as well. WheelMUD code itself targets this framework. Visual Studio itself should successfully ensure it is present, in this case.
 
 ## Supported Development Environments
