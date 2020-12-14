@@ -13,6 +13,7 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Interfaces;
+    using WheelMUD.Utilities;
 
     /// <summary>Action description here.</summary>
     [ExportGameAction(0)]
@@ -46,7 +47,7 @@ namespace WheelMUD.Actions
             {
                 if (cachedContents == null || (parameters.Length > 0 && parameters[0].ToLower() == "reload"))
                 {
-                    StreamReader reader = new StreamReader("Files\\Credits.txt");
+                    using StreamReader reader = new StreamReader(Path.Combine(GameConfiguration.DataStoragePath, "Credits.txt"));
                     StringBuilder stringBuilder = new StringBuilder();
                     string s;
                     while ((s = reader.ReadLine()) != null)
