@@ -19,7 +19,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ServiceStack.OrmLite.Sqlite.Core" Version="5.8.0" />
+    <PackageReference Include="ServiceStack.OrmLite.Sqlite.Core" Version="5.10.2" />
     <ProjectReference Include="..\Core\WheelMUD.Core.csproj" />
     <ProjectReference Include="..\Data\WheelMUD.Data.csproj" />
   </ItemGroup>

@@ -29,7 +29,7 @@
     <ProjectReference Include="..\Data.Sqlite\WheelMUD.Data.Sqlite.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
     <PackageReference Include="Topshelf" Version="4.3.0" />
     <ProjectReference Include="..\Actions\WheelMUD.Actions.csproj" />
     <ProjectReference Include="..\Core\WheelMUD.Core.csproj" />
