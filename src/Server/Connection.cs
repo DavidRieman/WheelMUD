@@ -285,8 +285,7 @@ namespace WheelMUD.Server
                 // the details, and kill that connection.  (Other connections and the game itself should
                 // be able to continue through such situations.)
                 string ip = this.CurrentIPAddress == null ? "[null]" : this.CurrentIPAddress.ToString();
-                string format = "Exception encountered for connection:{0}IP: {1} (ID {2}):{0}{3}";
-                string message = string.Format(format, Environment.NewLine, ip, this.ID, ex.ToDeepString());
+                string message = $"Exception encountered for connection:{Environment.NewLine}IP: {ip}, ID {ID}:{Environment.NewLine}{ex.ToDeepString()}";
                 this.connectionHost.InformSubscribedSystem(message);
 
                 // If the debugger is attached, we probably want to break now in order to better debug 
