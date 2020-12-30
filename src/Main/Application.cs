@@ -91,17 +91,17 @@ namespace WheelMUD.Main
             {
                 // If the database file doesn't exist, try to copy the original source.
                 string sourcePath = null;
-                int i = appDir.IndexOf("\\systemdata\\", System.StringComparison.Ordinal);
+                int i = appDir.IndexOf(Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar, System.StringComparison.Ordinal);
                 if (i > 0)
                 {
-                    sourcePath = appDir.Substring(0, i) + "\\systemdata\\Files\\";
+                    sourcePath = appDir.Substring(0, i) + Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar + "Files" + Path.DirectorySeparatorChar;
                 }
                 else
                 {
                     // The binDebug folder now houses a sub-folder like "netcoreapp3.1" so we need to go up
                     // two levels to search for the starting system data.
                     sourcePath = Path.GetDirectoryName(Path.GetDirectoryName(appDir));
-                    sourcePath = Path.Combine(sourcePath + "\\systemdata\\Files\\");
+                    sourcePath = Path.Combine(sourcePath + Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar + "Files" + Path.DirectorySeparatorChar);
                 }
 
                 DirectoryCopy(sourcePath, GameConfiguration.DataStoragePath, true);
@@ -239,18 +239,18 @@ namespace WheelMUD.Main
                 {
                     // If the database file doesn't exist, try to copy the original source.
                     string sourcePath = null;
-                    int i = appDir.IndexOf("\\systemdata\\", System.StringComparison.Ordinal);
+                    int i = appDir.IndexOf(Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar, System.StringComparison.Ordinal);
                     if (i > 0)
                     {
-                        sourcePath = appDir.Substring(0, i) + "\\systemdata\\SQL\\SQLite";
+                        sourcePath = appDir.Substring(0, i) + Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar + "SQL" + Path.DirectorySeparatorChar + "SQLite";
                         sourcePath = Path.Combine(sourcePath, DatabaseName);
                     }
                     else
                     {
                         // The binDebug folder now houses a sub-folder like "netcoreapp3.1" so we need to go up two
-                        // levels to search for the starting system data.
+                        // levels to search for the starting system data.+
                         sourcePath = Path.GetDirectoryName(Path.GetDirectoryName(appDir));
-                        sourcePath = Path.Combine(sourcePath + "\\systemdata\\SQL\\SQLite", DatabaseName);
+                        sourcePath = Path.Combine(sourcePath + Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar + "SQL" + Path.DirectorySeparatorChar + "SQLite", DatabaseName);
                     }
 
                     if (File.Exists(sourcePath))
