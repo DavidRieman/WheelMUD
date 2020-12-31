@@ -37,14 +37,7 @@ namespace WheelMUD.Server
         /// <summary>Initializes a new instance of the BaseServer class.</summary>
         public BaseServer()
         {
-            this.Port = 4000;
-        }
-
-        /// <summary>Initializes a new instance of the BaseServer class, and specifies which port to use.</summary>
-        /// <param name="port">Which port to open up for incoming connections.</param>
-        public BaseServer(int port)
-        {
-            this.Port = port;
+            this.Port = 4000; // TODO: Read from app.config TelnetPort instead?
         }
 
         /// <summary>A 'client connected' event raised by the server.</summary>

@@ -42,5 +42,6 @@
   <ItemGroup>
     <!-- Including links to the same documentation we render through GitHub, to encourage searchability and maintainability directly in the IDEs. -->
     <EmbeddedResource Include="..\..\**\*.md" LinkBase="GitHubDocs" />
+    <EmbeddedResource Include="..\..\**\*.htm" LinkBase="GitHubDocs" />
   </ItemGroup>
 </Project>
