@@ -46,7 +46,7 @@ namespace WheelMUD.Utilities
             Copyright = assembly.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright.Replace("©", "(c)");
 
             // Additional work to modify raw settings should generally be done once and cached, as follows.
-            string root = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            string root = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string rootPath = Path.Combine(root, "WheelMUD");
             string gamePath = Path.Combine(rootPath, GameConfiguration.Name);
             string fullPath = Path.Combine(gamePath, "Files");
