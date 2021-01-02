@@ -14,8 +14,8 @@ WheelMUD has had a long history, has migrated hosting sites/strategies multiple 
 ## Quick Setup
 Here's the short version of the setup instructions, mainly for seasoned developers:
 * Meet the framework runtime requirements [listed in Basic Prerequisites](Documentation/BasicPrerequisites.md).
-* Get the code and build the entire solution (not just the TestHarness dependencies).
-* Launch TestHarness.
+* Get the code and build the entire solution (not just the ServerHarness dependencies).
+* Launch ServerHarness.
 * Once the server is ready: telnet localhost 4000.
 
 ## Thorough Setup
