@@ -5,12 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using Raven.Client.Documents;
+using Raven.Embedded;
+using System;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Data.RavenDb
 {
-    using Raven.Client.Documents;
-    using Raven.Embedded;
-    using System;
-
     /// <summary>Encapsulates the RavenDB DocumentStore into a singleton.</summary>
     public class DocumentStoreHolder
     {
@@ -25,7 +26,10 @@ namespace WheelMUD.Data.RavenDb
                 throw new NotImplementedException("WheelMUD.Data.RavenDb only supports embedded mode.");
             }
 
-            EmbeddedServer.Instance.StartServer();
+            EmbeddedServer.Instance.StartServer(new ServerOptions()
+            {
+                DataDirectory = GameConfiguration.DataStoragePath
+            });
 
             // If you get here with an exception like "The specified framework 'Microsoft.NETCore.App',
             // version '...' was not found...", then that is probably the only basic pre-requisite you
