@@ -1,26 +1,22 @@
 # Configuring WheelMUD
 
 ## Server Data
-When building and running the server for the first time, a bunch of files are copied over to the server's "program data" location where it can persist and evolve (such as when new characters are saved to the database).
-This program data location depends on your version of Windows. For example, by default:
+When running the server for the first time, a bunch of files are copied over to the "ApplicationData" location where it can persist and evolve (such as when new characters are saved to the database).
+This program data location depends on your OS. For example, on Windows you may find it at:
+`C:\Users\[YourUserName]\AppData\Roaming\WheelMUD\WheelMUD`
+From there, that instance data can evolve as players are created, commands are executed, and so on.
 
-| OS                     | Folder                                                                     |
-| ---------------------- | -------------------------------------------------------------------------- |
-| Windows XP Pro SP3     | C:\Documents and Settings\All Users\Application Data\WheelMUD\WheelMUD.net |
-| Windows 2003 R2        | C:\Documents and Settings\All Users\Application Data\WheelMUD\WheelMUD.net |
-| Windows 2008 R2        | C:\ProgramData\WheelMUD\WheelMUD.net                                       |
-| Windows Vista          | C:\ProgramData\WheelMUD\WheelMUD.net                                       |
-| Windows 7 (x86 or x64) | C:\ProgramData\WheelMUD\WheelMUD.net                                       |
+If you want to perform periodic backups of all the evolved game data of an active MUD, an easy way to do so might be to copy the whole directory to a safe backup location.
+
+If you wish to later migrate WheelMUD to running in another user context (such as via a Service with a dedicated user account), you may want to manually migrate this data to the ApplicationData area of that new context.
 
 ## Updating Default State
-The Server Data files were copied from the SVN folder at systemdata\files.
-So if you have changes to the default data state that you wish to check into source control for future servers, you would want to edit the instances at systemdata\files and also update your own Server Data copies for testing.
+The initial Server Data files were copied from the systemdata\Files folder of the WheelMUD Git repository.
+So if you have changes to the default data state that you wish to check _back_ into source control for future servers to start with as their starting world data: You would want to edit the instances at systemdata\Files as well as updating your own Server Data copies for testing.
 
 ## Config Files
-* MUD.config: Some basic MUD configuration can be adjusted in the TestHarness MUD.config file. This determines things like which port to open, which rule set to use, which files to use as view templates, etc.
-* App.config: Application-level configuration, such as logging configuration, are found in the TestHarness App.config file.
-* connectionstrings.config: Used for SQL connection information; lives in the Server Data area. (TODO: revisit this.)
-* Another copy of MUD.config and App.config are found in WheelMUD.WindowsService. (TODO: make one set use file links, or at least split configs where common to reduce redundancies?)
+All high level application configuration (from database selections through gameplay options) are now performed via the ServerHarness `App.config`.
+Although the default options should be sufficient for launching and checking out WheelMUD at runtime, you can read through [the comments there](https://github.com/DavidRieman/WheelMUD/blob/master/src/ServerHarness/App.config) to understand your configuration options.
 
 ## Installing as a Service
 WheelMUD can be configured to run as a Windows service. The base WheelMUD.exe is used not only for running the server in console mode, but can be used to install the service, run the service, start and stop the service, etc.

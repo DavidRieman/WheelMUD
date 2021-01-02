@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Configuration;
+using System.IO;
+using System.Reflection;
+
 namespace WheelMUD.Utilities
 {
-    using System;
-    using System.Configuration;
-    using System.IO;
-    using System.Reflection;
-
     /// <summary>Provides simplified, shared access to configuration properties for the game engine.</summary>
     /// <remarks>
     /// Common properties expected to be useful for most or all MUD implementations can be exposed with static property
