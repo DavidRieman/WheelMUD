@@ -22,7 +22,7 @@ namespace WarriorRogueMage.CharacterCreation
     {
         private int longestRaceName;
         private string formattedRaces;
-        private List<GameRace> gameRaces;
+        private readonly List<GameRace> gameRaces;
 
         /// <summary>Initializes a new instance of the <see cref="PickRaceState"/> class.</summary>
         /// <param name="session">The session.</param>
@@ -72,9 +72,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         private GameRace GetRace(string raceName)
         {
-            return (from r in this.gameRaces
-                    where r.Name.Equals(raceName, StringComparison.OrdinalIgnoreCase)
-                    select r).FirstOrDefault();
+            return WrmChargenCommon.GetFirstPriorityMatch(raceName, gameRaces);
         }
 
         private void ViewRaceDescription(string race)

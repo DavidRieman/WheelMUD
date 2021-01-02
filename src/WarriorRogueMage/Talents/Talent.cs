@@ -5,16 +5,17 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using WheelMUD.Core;
+using WheelMUD.Interfaces;
+
 namespace WarriorRogueMage
 {
-    using Newtonsoft.Json;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using WheelMUD.Core;
-
     /// <summary>Class to represent the basic Talent in the Warrior, Rogue, and Mage game system.</summary>
-    public class Talent : IEquatable<Talent>
+    public class Talent : IEquatable<Talent>, INamed
     {
         // TODO: Talents and such should not make permanent modifications to base stats. This is being redesigned.
         //       Perhaps we will end up with a system to register class instances to an Active Modifiers list, to

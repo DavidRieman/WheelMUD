@@ -11,7 +11,7 @@ namespace WheelMUD.Core
     using WheelMUD.Interfaces;
 
     /// <summary>Holds data for an individual rule-set skill.</summary>
-    public class GameSkill : IPersistsWithPlayer
+    public class GameSkill : IPersistsWithPlayer, INamed
     {
         /// <summary>Gets or sets the name.</summary>
         /// <value>The name of this skill.</value>
