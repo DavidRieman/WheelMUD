@@ -41,4 +41,4 @@ You should be greeted with a WheelMUD welcome screen, and the ServerHarness cons
 * NuGet can be used to manage dependency versions as found in src/packages. (We do commit those packages to ensure they will be present even if their on-line presences are down, as has occurred sometimes in the past.)
 
 ## Optional Configuration
-TODO: Describe additional TestHarness-as-service instructions and additional app configuration options like switching DAL repositories.
+For additional configuration options such as data management and running as a service, see the [Configuration](Configuration.md) documentation.

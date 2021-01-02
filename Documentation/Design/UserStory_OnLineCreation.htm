@@ -1,0 +1,311 @@
+<html>
+<head></head>
+<body lang=EN-US style="background:#282828; color:white">
+
+    <p><b><span style='font-size:16.0pt'>On-Line Creation (OLC) Story</span></b></p>
+
+    <p>Creating things:</p>
+<div style="background:black; max-width:900px; padding:4px; font-size:12pt; font-family:monospace; white-space: pre-wrap">
+[An administrator who has permissions to create unzoned objects on the fly wants to make and spawn an interactive flashlight.]
+
+&gt; list objects flashlight
+No objects with keyword 'flashlight' were found.
+
+&gt; new object
+Object created with default properties.
+You are editing thing ID: object/123.
+
+&gt; properties
+Object.
+Object ID:   object/123
+Name:        (none)
+Description: (none)
+Keywords:    (none)
+Weight:      0
+...
+Behaviors:   (none)
+
+> set name a flashlight
+'Name' changed to: a flashlight
+
+> set description
+[enters multi-line edit mode, user types/edits a simple or multi-line description]
+
+> done
+'Description' changed to:
+A flashlight is here, just begging to be turned on and off.
+
+> list behaviors Switch
+Found 4 behaviors with keyword 'Switch':
+* OnOffSwitchBehavior        object "turn on" and "turn off" commands toggle effects/behaviors.
+* MobSwitchesSidesBehavior   mobile can turn on its allies if specified conditions are met.
+
+* FooBehavior                object blah blah switches foo.
+* BarSwitchBehavior          object gains bar behavior.
+
+> add behaviors OnOffSwitchBehavior
+OnOffSwitchBehavior created with ID 34 and default properties.
+You are editing OnOffSwitchBehavior ID 34.
+
+> prop
+OnOffSwitchBehavior.
+Behavior ID:       34
+SwitchNoisiness:   10
+OnCreatesEffect:   (none)
+OnCreatesBehavior: (none)
+
+> list effects light
+Found 2 behaviors with keyword 'Light':
+* LightingEffect             mobile or object becomes illuminated.
+* LightningStormEffect       room is always stormy, specify chances of lightning strikes, etc.
+
+> add OnCreatesEffect LightingEffect
+LightingEffect created with ID 45 and default properties.
+You are editing LightingEffect ID 45.
+
+> prop
+LightingEffect.
+Effect ID:      45
+LightColor:     white
+LightMagnitude: 100
+Duration:       infinite
+
+> done
+Done editing LightingEffect ID 45.
+You are editing OnOffSwitchBehavior ID 34.
+
+> done
+Done editing OnOffSwitchBehavior ID 34.
+You are editing thing ID object/123.
+
+> done
+Object ID 34 (a flashlight) failed validation:
+* Object must have at least one keyword of length greater than 2.
+* Object name must contain at least one of its keywords.
+* Object description must contain at least one of its keywords.
+
+> set keywords flashlight
+'Keywords' changed to: flashlight
+
+> properties
+Object.
+Object ID:   object/123
+Name:        a <span style='color:#CCFFCC'>flashlight</span>
+Description: A <span style='color:#CCFFCC'>flashlight</span> is here, just begging to be turned on and off.
+Keywords:    flashlight
+Weight:      0
+...
+Behaviors:   (OnOffSwitchBehavior ID 34)
+
+> done
+Done editing Object ID object/123.  Returning to game.
+
+> spawn object/123
+You create a <span style='color:#CCFFCC'>flashlight</span> out of thin air.
+
+> turn on flashlight
+You turn a <span style='color:#CCFFCC'>flashlight</span> on.
+The room is illuminated with a bright white light coming from a <span style='color:#CCFFCC'>flashlight</span>.
+
+
+[others in the darkness don't see the 'turn on' action but see the result:]
+You hear a switch click.
+The room is now illuminated with a bright white light coming from a <span style='color:#CCFFCC'>flashlight</span> held by <span style='color:#AA66AA'>Karak</span>.
+</div>
+    
+    <p>Enhancing a Zone:</p>
+<div style="background:black; max-width:900px; padding:4px; font-size:12pt; font-family:monospace; white-space: pre-wrap">
+[later, a builder wants to make a variant flashlight that auto-spawns on a mob in her zone...]
+ 
+> list objects flashlight
+Found 1 object with keyword 'flashlight':
+* ID object/123             a <span style='color:#CCFFCC'>flashlight</span>
+
+> new object from object/123
+You don't have permission to create objects in zone 'unzoned'.
+
+> edit zone NewNewMidgaard
+Zone context is now 'NewNewMidgaard' with ID zone/8.  You have full builder permissions within this zone.
+
+> new object from object/123
+Object created with ID object/130 and properties inherited from a <span style='color:#CCFFCC'>flashlight</span>.
+
+> prop deep
+Object.
+Object ID:   object/130
+Name:        a <span style='color:#CCFFCC'>flashlight</span>
+Description: A <span style='color:#CCFFCC'>flashlight</span> is here, just begging to be turned on and off.
+Keywords:    flashlight
+Weight:      0
+...
+Behaviors:   (OnOffSwitchBehavior ID 42)
+
+OnOffSwitchBehavior
+Behavior ID:       42
+SwitchNoisiness:   10
+OnCreatesEffect:   (LightingEffect ID 55)
+OnCreatesBehavior: (none)
+
+LightingEffect.
+Effect ID:      55
+LightColor:     white
+LightMagnitude: 100
+Duration:       infinite
+
+> edit effect 55
+You are editing LightingEffect ID 55.
+
+> set lightcolor eery red
+'LightColor' changed to: eery red
+
+> set lightmagnitude dim
+Invalid value for ‘LightMagnitude’.
+Specify an integer between 0 and 150.
+
+> set lightmagnitude 20
+'LightMagnitude' changed to: 20
+
+> prop
+LightingEffect.
+Effect ID:      55
+LightColor:     eery red
+LightMagnitude: 25
+Duration:       infinite
+
+> done all
+Done editing LightingEffect ID 55.
+Object ID object/130 (a <span style='color:#CCFFCC'>flashlight</span>) received validation warning:
+* Object description should be unique; conflicts with Object ID object/123
+
+You are editing thing ID object/130 (a <span style='color:#CCFFCC'>flashlight</span>).
+
+> set name a metal flashlight
+'Name' set to: a metal <span style='color:#CCFFCC'>flashlight</span>
+
+> add keyword metal
+‘Keywords’ set to:  flashlight metal
+
+
+> set description
+[uses multi-line edit mode to alter the description]
+
+'Description' set to:
+A strange <span style='color:#CCFFCC'>metal flashlight</span> is here, with a prominent switch.
+
+> done
+Done editing Object ID object/130 (a <span style='color:#CCFFCC'>metal flashlight</span>).
+
+> goto gobiln
+There is no 'gobiln' anywhere you have permission to 'goto'.
+
+> goto goblin
+<span style='color:#FF9900'>Dirty Back Room</span>
+This is a dirty back room, filled with various old crates, boxes,
+and littered with useless garbage.
+
+A <span style='color:#FFCC99'>hunchback goblin</span> is here, muttering unintelligibly to himself.
+
+> edit goblin
+You are editing Mobile ID mob/199 (a <span style='color:#FFCC99'>hunchback goblin</span>).
+
+> prop deep
+Mobile.
+Mobile ID:   mob/199
+Name:        a <span style='color:#FFCC99'>hunchback goblin</span>
+Keywords:    goblin hunchback
+Race:        Goblin
+Gender:      random
+Strength:    14
+Dexterity:   8
+...
+Spawners:    (RandomWeaponSpawner ID 100, RandomArmorSpawner ID 101)
+Behaviors:   (none)
+
+RandomWeaponSpawner.
+Spawner ID:  100
+MinLevel:    2
+MaxLevel:    3
+MinQuality:  1
+MaxQuality:  12
+MinHands:    1
+MaxHands:    1
+...
+
+RandomArmorSpawner.
+Spawner ID:   101
+MinLevel:     2
+MaxLevel:     3
+MinQuality:   1
+MaxQuality:   12
+MinSlots:     1
+MaxSlots:     999
+AllowedSlots: all
+...
+
+> add spawner NormalSpawner
+NormalSpawner created with ID 107 and default properties.
+You are editing NormalSpawner ID 107.
+
+> set SpawnsObjectID object/130
+‘SpawnsObjectIDs’ set to: object/130 (a <span style='color:#CCFFCC'>metal flashlight</span>).
+
+> prop
+NormalSpawner.
+Spawner ID:     107
+SpawnsObjectIDs: object/130 (a <span style='color:#CCFFCC'>metal flashlight</span>)
+SpawnChance:    100
+AutoEquip:      true
+
+> done
+Done editing NormalSpawner ID 107.
+You are editing Mobile ID 199 (a <span style='color:#FFCC99'>hunchback goblin</span>).
+
+> add behavior AggroBehavior
+AggroBehavior created with ID 140 and default properties.
+You are editing AggroBehavior ID 140.
+
+> done
+Done editing AggroBehavior ID 140.
+You are editing Mobile ID 199 (a <span style='color:#FFCC99'>hunchback goblin</span>).
+
+> add behavior RandomCommandsBehavior
+RandomCommandsBehavior created with ID 141 and default properties.
+You are editing RandomCommandsBehavior ID 141.
+
+> prop
+RandomCommandsBehavior.
+Behavior ID:       141
+ChancePerSecond:   0
+AvoidsLastCommand: true
+Commands:          (none)
+
+> set commands
+[enter multi-line editor mode]
+> turn flashlight on
+> turn flashlight off
+> done
+'Commands' set to:
+turn flashlight on
+turn flashlight off
+
+> done
+RandomcommandsBehavior ID 141 failed validation:
+* ChancePerSecond must be be between 1 and 100.
+
+> set chancepersecond 25
+'ChancePerSecond' set to: 25
+
+> done
+Done editing RandomCommandsBehavior ID 141.
+You are editing Mobile ID 199 (a <span style='color:#FFCC99'>hunchback goblin</span>).
+
+> done
+Done editing Mobile ID 199 (a <span style='color:#FFCC99'>hunchback goblin</span>).  Returning to game.
+
+> </div>
+
+    <div style="color:white; max-width:1000px; font-size:13pt">
+        <p>TODO: ADDITIONAL SUMMARY NOTES</p>
+    </div>
+</body>
+</html>

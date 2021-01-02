@@ -21,7 +21,7 @@ WheelMUD version 0.4 includes:
 * Some skills support.
 * Plug-and-play rule sets support, with a basic "Warrior, Rogue, and Mage" rule set started.
 * Self-sufficient service for deployments. (If the game crashes, the service restarts.)
-* Easy set up and one-key debugging. (F5 to launch TestHarness. No arcane manual steps required.)
+* Easy set up and one-key debugging. (F5 to launch ServerHarness. No arcane manual steps required.)
 * Significant StyleCop code compliance for consistent code.
 For more information on topics such as our Project Goals and Getting Started, check out the [TODO Documentation].
 
