@@ -7,7 +7,7 @@ WheelMUD is a framework for creating Multiple-User Dimensions (MUDs) using the .
 
 ## Project Information
 There is lots of information about WheelMUD, and [Documentation](docs/README.md) for WheelMUD, available right here in the source tree.
-Get started at the [Documentation](docs/README.md) root, where you will find things ranging from the [Project Goals](Documentation/ProjectGoals.md) to [Development](Documentation/Development/README.md)-oriented information.
+Get started at the [Documentation](docs/README.md) root, where you will find things ranging from the [Project Goals](docs/ProjectGoals.md) to [Development](docs/Development/README.md)-oriented information.
 
 WheelMUD has had a [long history](docs/ProjectHistory.md), having migrated hosting sites/strategies multiple times and continues to evolve.
 There is a lot more information in old discussions and design documents that have been preserved in captures from forums of old; We are in the process of rebuilding GitHub-friendly documentation and design documents from the gems hidden within those archives. Please bear with us on that front, and ask if you would like information or guidance on a particular feature or area of interest you'd like to get involved in, so we can prioritize accordingly.
