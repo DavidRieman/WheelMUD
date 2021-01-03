@@ -23,7 +23,6 @@ namespace WheelMUD.ConnectionStates
             : base(session)
         {
             this.userName = userName;
-            session.Write("Please enter your password:");
         }
 
         /// <summary>Process the specified input.</summary>
@@ -76,7 +75,7 @@ namespace WheelMUD.ConnectionStates
 
         public override string BuildPrompt()
         {
-            return "> ";
+            return string.Format("Please enter your password:{0}> ", Environment.NewLine);
         }
 
         /// <summary>Authenticate the user name and password supplied.</summary>
