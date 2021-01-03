@@ -62,7 +62,8 @@ namespace WheelMUD.Core
             var sensesBehavior = new SensesBehavior();
             // TODO: Most characters should start as just tutorialPlayer or player role, unless FirstCreatedCharacterIsAdmin
             //       is set and there is no character in the DB yet. See: https://github.com/DavidRieman/WheelMUD/issues/39
-            var userControlledBehavior = new UserControlledBehavior() {
+            var userControlledBehavior = new UserControlledBehavior()
+            {
                 Controller = session,
                 SecurityRoles = SecurityRole.player | SecurityRole.helper | SecurityRole.minorBuilder | SecurityRole.fullBuilder | SecurityRole.minorAdmin | SecurityRole.fullAdmin
             };

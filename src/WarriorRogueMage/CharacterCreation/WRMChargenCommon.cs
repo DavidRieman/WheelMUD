@@ -54,7 +54,7 @@ namespace WarriorRogueMage.CharacterCreation
             return retval;
         }
 
-        public static T GetFirstPriorityMatch<T>(string userQuery, IEnumerable<T> collection) where T: INamed
+        public static T GetFirstPriorityMatch<T>(string userQuery, IEnumerable<T> collection) where T : INamed
         {
             return (from r in collection
                     where r.Name.StartsWith(userQuery, StringComparison.OrdinalIgnoreCase)
