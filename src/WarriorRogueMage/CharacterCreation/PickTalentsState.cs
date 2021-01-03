@@ -5,15 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using WheelMUD.ConnectionStates;
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.CharacterCreation
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using WheelMUD.ConnectionStates;
-    using WheelMUD.Core;
-
     /// <summary>The character creation step where the player will pick their talents.</summary>
     public class PickTalentsState : CharacterCreationSubState
     {
@@ -76,17 +76,12 @@ namespace WarriorRogueMage.CharacterCreation
 
         private Talent GetTalent(string talentName)
         {
-            return (from r in this.talents
-                    where r.Name.Equals(talentName, StringComparison.OrdinalIgnoreCase)
-                    select r).FirstOrDefault();
+            return WrmChargenCommon.GetFirstPriorityMatch(talentName, talents);
         }
 
         private void ViewTalentDescription(string talent)
         {
-            string talentToView = talent.Replace("view ", string.Empty);
-
-            Talent foundTalent = this.talents.Find(s => s.Name.StartsWith(talentToView, StringComparison.CurrentCultureIgnoreCase) || 
-                                                        s.Name.Contains(talentToView, StringComparison.CurrentCultureIgnoreCase));
+            Talent foundTalent = GetTalent(talent);
             if (foundTalent != null)
             {
                 var sb = new StringBuilder();

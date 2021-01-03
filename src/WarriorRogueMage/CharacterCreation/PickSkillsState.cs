@@ -66,6 +66,11 @@ namespace WarriorRogueMage.CharacterCreation
             }
         }
 
+        private GameSkill GetSkill(string skillName)
+        {
+            return WrmChargenCommon.GetFirstPriorityMatch(skillName, gameSkills);
+        }
+
         public override string BuildPrompt()
         {
             return "Select the character's skills\n> ";
@@ -73,19 +78,14 @@ namespace WarriorRogueMage.CharacterCreation
 
         private bool SetSkill(string skillName)
         {
-            var selectedSkill = (from s in this.gameSkills
-                                 where s.Name.Equals(skillName, StringComparison.OrdinalIgnoreCase)
-                                 select s).FirstOrDefault();
+            var selectedSkill = GetSkill(skillName);
             if (selectedSkill == null)
             {
                 WrmChargenCommon.SendErrorMessage(this.Session, "That skill does not exist.");
                 return false;
             }
 
-            var alreadySelected = (from s in this.selectedSkills
-                                   where s.Name.Equals(skillName, StringComparison.OrdinalIgnoreCase)
-                                   select s).Any();
-            if (alreadySelected)
+            if (selectedSkills.Contains(selectedSkill))
             {
                 WrmChargenCommon.SendErrorMessage(this.Session, "You have already selected that skill.");
                 return false;
@@ -112,9 +112,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void ViewSkillDescription(string skillName)
         {
-            GameSkill foundSkill = (from s in this.gameSkills
-                                    where s.Name.Equals(skillName, StringComparison.OrdinalIgnoreCase)
-                                    select s).FirstOrDefault();
+            GameSkill foundSkill = GetSkill(skillName);
             if (foundSkill == null)
             {
                 WrmChargenCommon.SendErrorMessage(this.Session, "That skill does not exist.");

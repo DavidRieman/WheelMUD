@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// <copyright file="RacialTemplate.cs" company="WheelMUD Development Team">
+// <copyright file="GameRace.cs" company="WheelMUD Development Team">
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
@@ -11,7 +11,7 @@ namespace WheelMUD.Core
     using WheelMUD.Interfaces;
 
     /// <summary>Describes the most basic characteristics for a race in the current gaming system.</summary>
-    public class GameRace : IPersistsWithPlayer
+    public class GameRace : IPersistsWithPlayer, INamed
     {
         /// <summary>Gets or sets the name of the race.</summary>
         public string Name { get; set; }
