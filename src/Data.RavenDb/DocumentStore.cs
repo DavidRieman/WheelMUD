@@ -34,7 +34,7 @@ namespace WheelMUD.Data.RavenDb
             // If you get here with an exception like "The specified framework 'Microsoft.NETCore.App',
             // version '...' was not found...", then that is probably the only basic pre-requisite you
             // are missing. Check for current dependencies and find installation links from:
-            //   https://github.com/DavidRieman/WheelMUD/blob/master/Documentation/BasicPrerequisites.md
+            //   https://github.com/DavidRieman/WheelMUD/blob/master/docs/BasicPrerequisites.md
             return EmbeddedServer.Instance.GetDocumentStore("Embedded");
         }
 

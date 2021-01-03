@@ -6,8 +6,8 @@ User Stories are design documents which convey the general utility or feel of a 
 These documents will use a black background to represent the more commonly used color schemes of light-on-dark, as used by the default settings of most popular Telnet clients.
 The ">" will generally be used to represent the player's prompt, and text that follows such a prompt demonstrates the text commands the user has sent to the server.
 The following user stories are available:
-* [World Interaction](http://htmlpreview.github.io/?https://github.com/DavidRieman/WheelMUD/blob/master/Documentation/Design/UserStory_WorldInteraction.htm)
-* [OnLine Creation (OLC)](http://htmlpreview.github.io/?https://github.com/DavidRieman/WheelMUD/blob/master/Documentation/Design/UserStory_OnLineCreation.htm)
+* [World Interaction](http://htmlpreview.github.io/?https://github.com/DavidRieman/WheelMUD/blob/master/docs/Design/UserStory_WorldInteraction.htm)
+* [OnLine Creation (OLC)](http://htmlpreview.github.io/?https://github.com/DavidRieman/WheelMUD/blob/master/docs/Design/UserStory_OnLineCreation.htm)
 
 TODO: The following features/scenarios have significant User Stories designed, but need to be migrated to this format:
 * Grouping User Story

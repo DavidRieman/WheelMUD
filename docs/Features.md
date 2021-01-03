@@ -23,7 +23,7 @@ WheelMUD version 0.4 includes:
 * Self-sufficient service for deployments. (If the game crashes, the service restarts.)
 * Easy set up and one-key debugging. (F5 to launch ServerHarness. No arcane manual steps required.)
 * Significant StyleCop code compliance for consistent code.
-For more information on topics such as our Project Goals and Getting Started, check out the [TODO Documentation].
+For more information on topics such as our Project Goals and Getting Started, check out the [Documentation](https://github.com/DavidRieman/WheelMUD/tree/master/docs) area.
 
 ## In the Pipeline
 WheelMUD version 0.5 will include:
@@ -31,4 +31,4 @@ WheelMUD version 0.5 will include:
 * Simple Combat. 
 * Reference Skills and Spells. 
 * Reasonable mob AI. 
-For a long term view, you can review our High Level Road Map from the [TODO Documentation].
+For a long term view, you can review our High Level Road Map from the [Documentation](https://github.com/DavidRieman/WheelMUD/tree/master/docs) area.

@@ -12,7 +12,7 @@ Parties interested in WheelMUD, including non-developers, may find these topics 
 * [Optional Configuration](Configuration.md)
 
 ## Development
-There are already lots of resources for developers, so we've housed all other [Development](Development/README.md) information in the [Development](Development/README.md) section.
+The [Development](Development/README.md) area houses resources for developers, such as key code concepts, and some how-to guides.
 
 ## Design
-There will be a lot of design resources being migrated here soon, so we've prepared a space for [Design](Design/README.md) documents.
+The [Design](Design/README.md) area houses some design documents, and additional design resources will be migrated there soon.
