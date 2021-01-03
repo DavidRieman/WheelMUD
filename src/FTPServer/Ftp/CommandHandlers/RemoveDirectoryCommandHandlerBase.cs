@@ -16,18 +16,18 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected override string OnProcess(string message)
         {
-            string file = this.GetPath(message);
-            if (!this.ConnectionObject.FileSystemObject.DirectoryExists(file))
+            string file = GetPath(message);
+            if (!ConnectionObject.FileSystemObject.DirectoryExists(file))
             {
-                return this.GetMessage(550, string.Format("Directory does not exist"));
+                return GetMessage(550, string.Format("Directory does not exist"));
             }
 
-            if (this.ConnectionObject.FileSystemObject.Delete(file))
+            if (ConnectionObject.FileSystemObject.Delete(file))
             {
-                return this.GetMessage(250, "Directory removed.");
+                return GetMessage(250, "Directory removed.");
             }
 
-            return this.GetMessage(550, string.Format("Couldn't remove directory ({0}).", file));
+            return GetMessage(550, string.Format("Couldn't remove directory ({0}).", file));
         }
     }
 }

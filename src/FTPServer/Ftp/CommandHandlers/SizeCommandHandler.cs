@@ -16,19 +16,19 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected override string OnProcess(string message)
         {
-            string path = this.GetPath(message);
-            if (!this.ConnectionObject.FileSystemObject.FileExists(path))
+            string path = GetPath(message);
+            if (!ConnectionObject.FileSystemObject.FileExists(path))
             {
-                return this.GetMessage(550, string.Format("File doesn't exist ({0})", path));
+                return GetMessage(550, string.Format("File doesn't exist ({0})", path));
             }
 
-            var info = this.ConnectionObject.FileSystemObject.GetFileInfo(path);
+            var info = ConnectionObject.FileSystemObject.GetFileInfo(path);
             if (info == null)
             {
-                return this.GetMessage(550, "Error in getting file information");
+                return GetMessage(550, "Error in getting file information");
             }
 
-            return this.GetMessage(220, info.GetSize().ToString());
+            return GetMessage(220, info.GetSize().ToString());
         }
     }
 }

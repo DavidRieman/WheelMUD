@@ -42,25 +42,25 @@ namespace WarriorRogueMage.Actions
         {
             IController sender = actionInput.Controller;
 
-            this.itemToWieldBehavior.Wielder = sender.Thing;
+            itemToWieldBehavior.Wielder = sender.Thing;
 
             // Create an event handler that intercepts the ChangeOwnerEvent and
             // prevents dropping/trading the item around while it is wielded.
             // A reference is stored in the WieldableBehavior instance so it
             // can be easily removed by the unwield command.
-            var interceptor = new CancellableGameEventHandler(this.Eventing_MovementRequest);
-            this.itemToWieldBehavior.MovementInterceptor = interceptor;
-            this.itemToWield.Eventing.MovementRequest += interceptor;
+            var interceptor = new CancellableGameEventHandler(Eventing_MovementRequest);
+            itemToWieldBehavior.MovementInterceptor = interceptor;
+            itemToWield.Eventing.MovementRequest += interceptor;
 
-            var contextMessage = new ContextualString(sender.Thing, this.itemToWield.Parent)
+            var contextMessage = new ContextualString(sender.Thing, itemToWield.Parent)
             {
-                ToOriginator = $"You wield {this.itemToWield.Name}.",
-                ToOthers = $"{sender.Thing.Name} wields {this.itemToWield.Name}.",
+                ToOriginator = $"You wield {itemToWield.Name}.",
+                ToOthers = $"{sender.Thing.Name} wields {itemToWield.Name}.",
             };
 
             var sensoryMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
-            var wieldEvent = new WieldUnwieldEvent(this.itemToWield, true, sender.Thing, sensoryMessage);
+            var wieldEvent = new WieldUnwieldEvent(itemToWield, true, sender.Thing, sensoryMessage);
 
             sender.Thing.Eventing.OnCombatRequest(wieldEvent, EventScope.ParentsDown);
 
@@ -75,7 +75,7 @@ namespace WarriorRogueMage.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -94,15 +94,15 @@ namespace WarriorRogueMage.Actions
 
             if (itemInInventory != null)
             {
-                this.itemToWieldBehavior = itemInInventory.Behaviors.FindFirst<WieldableBehavior>();
+                itemToWieldBehavior = itemInInventory.Behaviors.FindFirst<WieldableBehavior>();
 
                 // Item was found in inventory, but it cannot be wielded.
-                if (this.itemToWieldBehavior == null)
+                if (itemToWieldBehavior == null)
                 {
                     return "This item cannot be wielded!";
                 }
 
-                this.itemToWield = itemInInventory;
+                itemToWield = itemInInventory;
             }
             else
             {
@@ -114,30 +114,30 @@ namespace WarriorRogueMage.Actions
                     return "Unable to find: " + itemName;
                 }
 
-                this.itemToWieldBehavior = itemInRoom.Behaviors.FindFirst<WieldableBehavior>();
+                itemToWieldBehavior = itemInRoom.Behaviors.FindFirst<WieldableBehavior>();
 
                 // Item was found in the room, but it cannot be wielded.
-                if (this.itemToWieldBehavior == null)
+                if (itemToWieldBehavior == null)
                 {
                     return "This item cannot be wielded!";
                 }
 
                 // Item was found in the room, but it must be picked up first.
-                if (this.itemToWieldBehavior.MustBeHeld)
+                if (itemToWieldBehavior.MustBeHeld)
                 {
                     return "You are not holding the " + itemInRoom.FullName + ".";
                 }
 
-                this.itemToWield = itemInRoom;
+                itemToWield = itemInRoom;
             }
 
             // Make sure the item is not already wielded by someone else.
             // This shouldn't happen (famous last words) if the item is in
             // inventory, but it could happen with stationary wieldable items
             // in the room.
-            if (this.itemToWieldBehavior.Wielder != null)
+            if (itemToWieldBehavior.Wielder != null)
             {
-                return string.Format("The {0} is already wielded by {1}.", this.itemToWield.Name, this.itemToWieldBehavior.Wielder.FullName);
+                return string.Format("The {0} is already wielded by {1}.", itemToWield.Name, itemToWieldBehavior.Wielder.FullName);
             }
 
             return null;
@@ -152,9 +152,9 @@ namespace WarriorRogueMage.Actions
             var evt = e as ChangeOwnerEvent;
             if (evt != null)
             {
-                if (evt.Thing.Id == this.itemToWield.Id)
+                if (evt.Thing.Id == itemToWield.Id)
                 {
-                    evt.Cancel(string.Format("The {0} is still wielded!", this.itemToWield.Name));
+                    evt.Cancel(string.Format("The {0} is still wielded!", itemToWield.Name));
                 }
             }
         }

@@ -52,27 +52,27 @@ namespace WheelMUD.Server.Telnet
         /// <param name="connection">The connection upon which this telnet code handler is based.</param>
         public TelnetCodeHandler(Connection connection)
         {
-            this.connectionTelnetState = new ConnectionTelnetStateText(this);
+            connectionTelnetState = new ConnectionTelnetStateText(this);
             this.connection = connection;
-            this.SetupRequiredOptions();
+            SetupRequiredOptions();
         }
 
         /// <summary>Gets the telnet options this handler supports.</summary>
         public List<ITelnetOption> TelnetOptions
         {
-            get { return this.telnetOptions; }
+            get { return telnetOptions; }
         }
 
         /// <summary>Gets the connection this handler relates to.</summary>
         public Connection Connection
         {
-            get { return this.connection; }
+            get { return connection; }
         }
 
         /// <summary>Gets the sub request buffer.</summary>
         public List<byte> SubRequestBuffer
         {
-            get { return this.subRequestBuffer; }
+            get { return subRequestBuffer; }
         }
 
         /// <summary>We pass each byte that comes in to our state classes for processing.</summary>
@@ -82,38 +82,38 @@ namespace WheelMUD.Server.Telnet
         {
             foreach (byte bit in data)
             {
-                this.connectionTelnetState.ProcessInput(bit);
+                connectionTelnetState.ProcessInput(bit);
             }
 
-            byte[] rtnData = this.buffer.ToArray();
-            this.buffer.Clear();
+            byte[] rtnData = buffer.ToArray();
+            buffer.Clear();
             return rtnData;
         }
 
         /// <summary>Begin the negotiation of telnet options.</summary>
         public void BeginNegotiation()
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                ITelnetOption naws = this.telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("naws"); });
+                ITelnetOption naws = telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("naws"); });
                 if (naws != null)
                 {
                     naws.Enable();
                 }
 
-                ITelnetOption termType = this.telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("termtype"); });
+                ITelnetOption termType = telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("termtype"); });
                 if (termType != null)
                 {
                     termType.Enable();
                 }
 
-                ITelnetOption mxp = this.telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("mxp"); });
+                ITelnetOption mxp = telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("mxp"); });
                 if (mxp != null)
                 {
                     mxp.Enable();
                 }
 
-                ITelnetOption mccp = this.telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("compress2"); });
+                ITelnetOption mccp = telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("compress2"); });
                 if (mccp != null)
                 {
                     mccp.Enable();
@@ -125,29 +125,29 @@ namespace WheelMUD.Server.Telnet
         /// <param name="newState">The state to change to</param>
         internal void ChangeState(ConnectionTelnetState newState)
         {
-            this.connectionTelnetState = newState;
+            connectionTelnetState = newState;
         }
 
         /// <summary>Adds a byte to the data buffer.</summary>
         /// <param name="data">The data to be added to the buffer.</param>
         internal void AddToBuffer(byte data)
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                this.buffer.Add(data);
+                buffer.Add(data);
             }
         }
 
         /// <summary>Sets up the options we want to negotiate.</summary>
         private void SetupRequiredOptions()
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                this.telnetOptions.Add(new TelnetOptionEcho(false, Connection));
-                this.telnetOptions.Add(new TelnetOptionNaws(true, Connection));
-                this.telnetOptions.Add(new TelnetOptionTermType(true, Connection));
-                this.telnetOptions.Add(new TelnetOptionMXP(true, Connection));
-                this.telnetOptions.Add(new TelnetOptionMCCP(true, Connection));
+                telnetOptions.Add(new TelnetOptionEcho(false, Connection));
+                telnetOptions.Add(new TelnetOptionNaws(true, Connection));
+                telnetOptions.Add(new TelnetOptionTermType(true, Connection));
+                telnetOptions.Add(new TelnetOptionMXP(true, Connection));
+                telnetOptions.Add(new TelnetOptionMCCP(true, Connection));
             }
         }
     }

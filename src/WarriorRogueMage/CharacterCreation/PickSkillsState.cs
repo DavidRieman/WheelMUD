@@ -27,10 +27,10 @@ namespace WarriorRogueMage.CharacterCreation
         public PickSkillsState(Session session)
             : base(session)
         {
-            this.Session.Write("You will now pick your character's starting skills.");
-            this.gameSkills = GameSystemController.Instance.GameSkills;
-            this.formattedSkills = this.FormatSkillText();
-            this.RefreshScreen(false);
+            Session.Write("You will now pick your character's starting skills.");
+            gameSkills = GameSystemController.Instance.GameSkills;
+            formattedSkills = FormatSkillText();
+            RefreshScreen(false);
         }
 
         /// <summary>Processes the text that the player sends while in this state.</summary>
@@ -42,26 +42,26 @@ namespace WarriorRogueMage.CharacterCreation
             switch (currentCommand)
             {
                 case "clear":
-                    this.ClearSkills();
+                    ClearSkills();
                     break;
                 case "view":
                     if (commandParts.Length > 1)
                     {
-                        this.ViewSkillDescription(commandParts[1]);
+                        ViewSkillDescription(commandParts[1]);
                     }
                     else
                     {
-                        WrmChargenCommon.SendErrorMessage(this.Session, "Please select which skill you would like to view details for, like 'view axes'.");
+                        WrmChargenCommon.SendErrorMessage(Session, "Please select which skill you would like to view details for, like 'view axes'.");
                     }
                     break;
                 case "list":
-                    this.RefreshScreen();
+                    RefreshScreen();
                     break;
                 case "done":
-                    this.ProcessDone();
+                    ProcessDone();
                     break;
                 default:
-                    this.SetSkill(currentCommand);
+                    SetSkill(currentCommand);
                     break;
             }
         }
@@ -81,33 +81,33 @@ namespace WarriorRogueMage.CharacterCreation
             var selectedSkill = GetSkill(skillName);
             if (selectedSkill == null)
             {
-                WrmChargenCommon.SendErrorMessage(this.Session, "That skill does not exist.");
+                WrmChargenCommon.SendErrorMessage(Session, "That skill does not exist.");
                 return false;
             }
 
             if (selectedSkills.Contains(selectedSkill))
             {
-                WrmChargenCommon.SendErrorMessage(this.Session, "You have already selected that skill.");
+                WrmChargenCommon.SendErrorMessage(Session, "You have already selected that skill.");
                 return false;
             }
 
-            if (this.selectedSkills.Count() >= 3)
+            if (selectedSkills.Count() >= 3)
             {
-                WrmChargenCommon.SendErrorMessage(this.Session, "You have already selected all 3 skills.");
+                WrmChargenCommon.SendErrorMessage(Session, "You have already selected all 3 skills.");
                 return false;
             }
 
-            this.selectedSkills.Add(selectedSkill);
-            this.RefreshScreen();
-            this.Session.WritePrompt();
+            selectedSkills.Add(selectedSkill);
+            RefreshScreen();
+            Session.WritePrompt();
             return true;
         }
 
         private void ClearSkills()
         {
-            this.selectedSkills.Clear();
-            this.RefreshScreen();
-            this.Session.WritePrompt();
+            selectedSkills.Clear();
+            RefreshScreen();
+            Session.WritePrompt();
         }
 
         private void ViewSkillDescription(string skillName)
@@ -115,7 +115,7 @@ namespace WarriorRogueMage.CharacterCreation
             GameSkill foundSkill = GetSkill(skillName);
             if (foundSkill == null)
             {
-                WrmChargenCommon.SendErrorMessage(this.Session, "That skill does not exist.");
+                WrmChargenCommon.SendErrorMessage(Session, "That skill does not exist.");
                 return;
             }
 
@@ -126,36 +126,36 @@ namespace WarriorRogueMage.CharacterCreation
             sb.Append("<%b%><%white%>" + foundSkill.Description + Environment.NewLine);
             sb.Append("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
 
-            this.Session.Write(sb.ToString());
+            Session.Write(sb.ToString());
         }
 
         private void ProcessDone()
         {
-            if (this.selectedSkills.Count() != 3)
+            if (selectedSkills.Count() != 3)
             {
-                WrmChargenCommon.SendErrorMessage(this.Session, "Please select all your starting skills before proceeding to the next step.");
+                WrmChargenCommon.SendErrorMessage(Session, "Please select all your starting skills before proceeding to the next step.");
                 return;
             }
 
             // Assign the skills to the PlayerBehavior's parent, which should be a Thing object.
-            var playerBehavior = this.Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
-            foreach (var gameSkill in this.selectedSkills)
+            var playerBehavior = Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
+            foreach (var gameSkill in selectedSkills)
             {
                 playerBehavior.Parent.Skills.Add(gameSkill.Name, gameSkill);
             }
 
             // Proceed to the next step.
-            this.StateMachine.HandleNextStep(this, StepStatus.Success);
+            StateMachine.HandleNextStep(this, StepStatus.Success);
         }
 
         private string FormatSkillText()
         {
             var skillQueue = new Queue();
             var text = new StringBuilder();
-            int rows = this.gameSkills.Count / 4;
+            int rows = gameSkills.Count / 4;
             var longestSkillName = 0;
 
-            foreach (var gameSkill in this.gameSkills)
+            foreach (var gameSkill in gameSkills)
             {
                 // Find out what skill name is the longest
                 if (gameSkill.Name.Length > longestSkillName)
@@ -176,9 +176,9 @@ namespace WarriorRogueMage.CharacterCreation
                 text.AppendFormat("{0}  {1}  {2}  {3}" + Environment.NewLine, skill1, skill2, skill3, skill4);
             }
 
-            if ((this.gameSkills.Count % 4) > 0)
+            if ((gameSkills.Count % 4) > 0)
             {
-                int columns = this.gameSkills.Count - (rows * 4);
+                int columns = gameSkills.Count - (rows * 4);
                 switch (columns)
                 {
                     case 1:
@@ -211,15 +211,15 @@ namespace WarriorRogueMage.CharacterCreation
             sb.AppendLine();
             sb.AppendLine("You may pick three starting skills for your character.");
             int n = 1;
-            foreach (var skill in this.selectedSkills)
+            foreach (var skill in selectedSkills)
             {
                 sb.AppendFormat("Skill #{0} : {1}{2}", n, skill.Name, nl);
                 n++;
             }
             sb.AppendLine();
             sb.AppendLine("<%green%>Please select 3 from the list below:<%n%>");
-            sb.AppendLine(this.formattedSkills);
-            sb.AppendFormat("<%green%>You have {0} skills left.<%n%>" + Environment.NewLine, 3 - this.selectedSkills.Count());
+            sb.AppendLine(formattedSkills);
+            sb.AppendFormat("<%green%>You have {0} skills left.<%n%>" + Environment.NewLine, 3 - selectedSkills.Count());
             sb.AppendLine("<%yellow%>=========================================================================");
             sb.AppendLine("To pick a skill, type the skill's name. Example: unarmed");
             sb.AppendLine("To view a skill's description use the view command. Example: view unarmed");
@@ -227,7 +227,7 @@ namespace WarriorRogueMage.CharacterCreation
             sb.AppendLine("When you are done picking your three skills, type done.");
             sb.AppendLine("=========================================================================<%n%>");
 
-            this.Session.Write(sb.ToString(), sendPrompt);
+            Session.Write(sb.ToString(), sendPrompt);
         }
     }
 }

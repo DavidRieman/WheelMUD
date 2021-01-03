@@ -25,7 +25,7 @@ namespace WheelMUD.Core
         public MovableBehavior(long instanceId, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceId;
+            ID = instanceId;
         }
 
         // TODO: OpensClosesBehavior needs to listen for movement events and set e.Cancel if the transition object
@@ -43,7 +43,7 @@ namespace WheelMUD.Core
         /// <returns>True if the entity was successfully moved, else false.</returns>
         public bool Move(Thing destination, Thing goingVia, SensoryMessage leavingMessage, SensoryMessage arrivingMessage)
         {
-            Thing actor = this.Parent;
+            Thing actor = Parent;
             Thing goingFrom = actor.Parent;
 
             // Prepare events to request and send (if not cancelled).
@@ -81,7 +81,7 @@ namespace WheelMUD.Core
             //       up by the ExitBehavior, so this shouldn't be needed?
             // TODO: Send a movement Request, then if not Cancelled, a movement Event.
             //direction = direction.ToLower();
-            //Thing currentRoom = this.Parent;
+            //Thing currentRoom = Parent;
             //if (currentRoom.Children.ContainsKey(direction))
             //{
             //    Exit exit = currentRoom.Exits[direction];

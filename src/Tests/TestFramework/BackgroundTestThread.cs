@@ -28,17 +28,17 @@ namespace WheelMUD.Tests
                 }
                 catch (Exception ex)
                 {
-                    this.Exception = ex;
+                    Exception = ex;
                 }
             };
-            this.thread = new Thread(wrappedAction)
+            thread = new Thread(wrappedAction)
             {
                 IsBackground = true,
             };
 
             if (autoStart)
             {
-                this.Start();
+                Start();
             }
         }
 
@@ -57,13 +57,13 @@ namespace WheelMUD.Tests
         /// <summary>Starts running this thread.</summary>
         public void Start()
         {
-            this.thread.Start();
+            thread.Start();
         }
 
         /// <summary>Blocks the calling thread until this thread terminates.</summary>
         public void Join()
         {
-            this.thread.Join();
+            thread.Join();
         }
     }
 }

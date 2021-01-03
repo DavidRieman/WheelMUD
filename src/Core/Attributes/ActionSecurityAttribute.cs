@@ -109,7 +109,7 @@ namespace WheelMUD.Core.Attributes
         /// <param name="role">The security role.</param>
         public ActionSecurityAttribute(SecurityRole role)
         {
-            this.Role = role;
+            Role = role;
         }
 
         /// <summary>Gets the security role specified by this attribute.</summary>

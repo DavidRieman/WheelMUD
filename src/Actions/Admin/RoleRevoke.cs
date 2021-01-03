@@ -35,12 +35,12 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            var userControlledBehavior = this.player.Behaviors.FindFirst<UserControlledBehavior>();
-            userControlledBehavior.SecurityRoles &= ~this.role;
-            sender.Write($"{this.player.Name} has been revoked the {this.role.ToString()} role.");
-            sender.Write($"{this.player.Name} is now: {userControlledBehavior.SecurityRoles}.");
+            var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
+            userControlledBehavior.SecurityRoles &= ~role;
+            sender.Write($"{player.Name} has been revoked the {role.ToString()} role.");
+            sender.Write($"{player.Name} is now: {userControlledBehavior.SecurityRoles}.");
             // TODO: Should this notify the target user too?
-            this.player.FindBehavior<PlayerBehavior>()?.SavePlayer();
+            player.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -48,7 +48,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -60,14 +60,14 @@ namespace WheelMUD.Actions
 
             // Rule: The targeted player must exist and be online. (For safety, this must be a full name match only.)
             // TODO: Consider a mode where the player document exists in the DB is enough; add ability to modify said doc.
-            this.player = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
-            if (this.player == null)
+            player = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
+            if (player == null)
             {
                 return $"The player '{playerName}' does not seem to be online. (Exact name must be used for role changes.)";
             }
 
             // Rule: The roleName must be a valid role.
-            if (!Enum.TryParse(roleName, true, out this.role))
+            if (!Enum.TryParse(roleName, true, out role))
             {
                 string rolesList = string.Join(", ", SecurityRoleHelpers.IndividualSecurityRoles);
                 return $"The role '{roleName}' is not a valid role. Try one of: {rolesList}";

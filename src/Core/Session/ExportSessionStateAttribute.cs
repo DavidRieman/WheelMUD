@@ -21,7 +21,7 @@ namespace WheelMUD.Core
         public ExportSessionStateAttribute(int statePriority)
             : base(typeof(SessionState))
         {
-            this.StatePriority = statePriority;
+            StatePriority = statePriority;
         }
 
         public ExportSessionStateAttribute(IDictionary<string, object> metadata)
@@ -34,7 +34,7 @@ namespace WheelMUD.Core
                 switch (key.ToLower())
                 {
                     case "statepriority":
-                        this.StatePriority = (int)metadata[key];
+                        StatePriority = (int)metadata[key];
                         break;
                     case "exporttypeidentity":
                         break;

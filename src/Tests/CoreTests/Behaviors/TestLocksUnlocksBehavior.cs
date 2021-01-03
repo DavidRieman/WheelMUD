@@ -33,22 +33,22 @@ namespace WheelMUD.Tests.Behaviors
         public void Init()
         {
             // Create the basic actor instances and behavior for test.
-            this.witnessThing = new Thing() { Name = "WitnessThing", Id = TestThingID.Generate("testthing") };
-            this.actingThing = new Thing() { Name = "ActingThing", Id = TestThingID.Generate("testthing") };
-            this.lockableThing = new Thing() { Name = "LockableThing", Id = TestThingID.Generate("testthing") };
-            this.locksUnlocksBehavior = new LocksUnlocksBehavior();
+            witnessThing = new Thing() { Name = "WitnessThing", Id = TestThingID.Generate("testthing") };
+            actingThing = new Thing() { Name = "ActingThing", Id = TestThingID.Generate("testthing") };
+            lockableThing = new Thing() { Name = "LockableThing", Id = TestThingID.Generate("testthing") };
+            locksUnlocksBehavior = new LocksUnlocksBehavior();
 
             // Set up the actors inside another (which we'll call a "room" although it needn't actually be a room).
-            this.room = new Thing() { Name = "Room", Id = TestThingID.Generate("room") };
-            this.room.Add(this.witnessThing);
-            this.room.Add(this.actingThing);
-            this.room.Add(this.lockableThing);
+            room = new Thing() { Name = "Room", Id = TestThingID.Generate("room") };
+            room.Add(witnessThing);
+            room.Add(actingThing);
+            room.Add(lockableThing);
 
             // Prepare to verify correct eventing occurs.
-            this.witnessThing.Eventing.MiscellaneousRequest += (root, e) => { this.lastWitnessRequest = e; };
-            this.witnessThing.Eventing.MiscellaneousEvent += (root, e) => { this.lastWitnessEvent = e; };
-            this.actingThing.Eventing.MiscellaneousRequest += (root, e) => { this.lastActorRequest = e; };
-            this.actingThing.Eventing.MiscellaneousEvent += (root, e) => { this.lastActorEvent = e; };
+            witnessThing.Eventing.MiscellaneousRequest += (root, e) => { lastWitnessRequest = e; };
+            witnessThing.Eventing.MiscellaneousEvent += (root, e) => { lastWitnessEvent = e; };
+            actingThing.Eventing.MiscellaneousRequest += (root, e) => { lastActorRequest = e; };
+            actingThing.Eventing.MiscellaneousEvent += (root, e) => { lastActorEvent = e; };
         }
 
         /// <summary>Test LocksUnlocksBehavior without an attached parent.</summary>
@@ -58,70 +58,70 @@ namespace WheelMUD.Tests.Behaviors
             // Verify that an unattached behavior does not change state between Lock/Unlock attempts, and
             // that such attempts do not throw. (This keeps the behavior solid in the face of the parent
             // being destroyed or whatnot as a race versus a user trying to activate it.)
-            bool initialState = this.locksUnlocksBehavior.IsLocked;
-            this.locksUnlocksBehavior.Lock(this.actingThing);
-            Assert.AreEqual(initialState, this.locksUnlocksBehavior.IsLocked);
-            this.locksUnlocksBehavior.Unlock(this.actingThing);
-            Assert.AreEqual(initialState, this.locksUnlocksBehavior.IsLocked);
+            bool initialState = locksUnlocksBehavior.IsLocked;
+            locksUnlocksBehavior.Lock(actingThing);
+            Assert.AreEqual(initialState, locksUnlocksBehavior.IsLocked);
+            locksUnlocksBehavior.Unlock(actingThing);
+            Assert.AreEqual(initialState, locksUnlocksBehavior.IsLocked);
         }
 
         /// <summary>Test normal LocksUnlocksBehavior operation.</summary>
         [Test]
         public void TestLockingAndUnlocking()
         {
-            this.lockableThing.Behaviors.Add(this.locksUnlocksBehavior);
+            lockableThing.Behaviors.Add(locksUnlocksBehavior);
 
             // Verify that the default state is locked.
-            Assert.IsTrue(this.locksUnlocksBehavior.IsLocked);
+            Assert.IsTrue(locksUnlocksBehavior.IsLocked);
 
             // Verify locking a locked thing => locked.
-            this.ClearTrackedEvents();
-            this.locksUnlocksBehavior.Lock(this.actingThing);
-            Assert.IsTrue(this.locksUnlocksBehavior.IsLocked);
+            ClearTrackedEvents();
+            locksUnlocksBehavior.Lock(actingThing);
+            Assert.IsTrue(locksUnlocksBehavior.IsLocked);
 
             // Verify that no event occurred (but any potentially-cancelled requests are irrelevant).
-            Assert.IsTrue(this.lastWitnessEvent == null);
-            Assert.IsTrue(this.lastActorEvent == null);
+            Assert.IsTrue(lastWitnessEvent == null);
+            Assert.IsTrue(lastActorEvent == null);
 
             // Verify unlocking a locked thing => unlocked.
-            this.ClearTrackedEvents();
-            this.locksUnlocksBehavior.Unlock(this.actingThing);
-            Assert.IsTrue(!this.locksUnlocksBehavior.IsLocked);
+            ClearTrackedEvents();
+            locksUnlocksBehavior.Unlock(actingThing);
+            Assert.IsTrue(!locksUnlocksBehavior.IsLocked);
 
             // Verify that an appropriate unlock request and unlock event were witnessed by both the actor and the witness.
-            Assert.IsTrue(this.lastWitnessRequest != null);
-            Assert.IsTrue(this.lastActorRequest != null);
-            Assert.IsTrue(this.lastWitnessEvent != null);
-            Assert.IsTrue(this.lastActorEvent != null);
+            Assert.IsTrue(lastWitnessRequest != null);
+            Assert.IsTrue(lastActorRequest != null);
+            Assert.IsTrue(lastWitnessEvent != null);
+            Assert.IsTrue(lastActorEvent != null);
 
-            string witnessMessage = this.lastWitnessEvent.SensoryMessage.Message.Parse(this.witnessThing);
+            string witnessMessage = lastWitnessEvent.SensoryMessage.Message.Parse(witnessThing);
             Assert.IsTrue(witnessMessage.Contains(" unlocks "));
-            string actorMessage = this.lastActorEvent.SensoryMessage.Message.Parse(this.actingThing);
+            string actorMessage = lastActorEvent.SensoryMessage.Message.Parse(actingThing);
             Assert.IsTrue(actorMessage.Contains("You unlock "));
 
             // Verify unlocking an unlocked thing => unlocked.
-            this.ClearTrackedEvents();
-            this.locksUnlocksBehavior.Unlock(this.actingThing);
-            Assert.IsTrue(!this.locksUnlocksBehavior.IsLocked);
+            ClearTrackedEvents();
+            locksUnlocksBehavior.Unlock(actingThing);
+            Assert.IsTrue(!locksUnlocksBehavior.IsLocked);
 
             // Verify that no event occurred (but any potentially-cancelled requests are irrelevant).
-            Assert.IsTrue(this.lastWitnessEvent == null);
-            Assert.IsTrue(this.lastActorEvent == null);
+            Assert.IsTrue(lastWitnessEvent == null);
+            Assert.IsTrue(lastActorEvent == null);
 
             // Verify locking an unlocked thing => locked.
-            this.ClearTrackedEvents();
-            this.locksUnlocksBehavior.Lock(this.actingThing);
-            Assert.IsTrue(this.locksUnlocksBehavior.IsLocked);
+            ClearTrackedEvents();
+            locksUnlocksBehavior.Lock(actingThing);
+            Assert.IsTrue(locksUnlocksBehavior.IsLocked);
 
             // Verify that an appropriate lock request and lock event were witnessed by both the actor and the witness.
-            Assert.IsTrue(this.lastWitnessRequest != null);
-            Assert.IsTrue(this.lastActorRequest != null);
-            Assert.IsTrue(this.lastWitnessEvent != null);
-            Assert.IsTrue(this.lastActorEvent != null);
+            Assert.IsTrue(lastWitnessRequest != null);
+            Assert.IsTrue(lastActorRequest != null);
+            Assert.IsTrue(lastWitnessEvent != null);
+            Assert.IsTrue(lastActorEvent != null);
 
-            witnessMessage = this.lastWitnessEvent.SensoryMessage.Message.Parse(this.witnessThing);
+            witnessMessage = lastWitnessEvent.SensoryMessage.Message.Parse(witnessThing);
             Assert.IsTrue(witnessMessage.Contains(" locks "));
-            actorMessage = this.lastActorEvent.SensoryMessage.Message.Parse(this.actingThing);
+            actorMessage = lastActorEvent.SensoryMessage.Message.Parse(actingThing);
             Assert.IsTrue(actorMessage.Contains("You lock "));
         }
 
@@ -131,41 +131,41 @@ namespace WheelMUD.Tests.Behaviors
         {
             // Make our lockable thing also openable.
             var opensClosesBehavior = new OpensClosesBehavior();
-            this.lockableThing.Behaviors.Add(opensClosesBehavior);
-            this.lockableThing.Behaviors.Add(this.locksUnlocksBehavior);
+            lockableThing.Behaviors.Add(opensClosesBehavior);
+            lockableThing.Behaviors.Add(locksUnlocksBehavior);
 
             // Verify that the thing is still in the default locked state.
-            Assert.IsTrue(this.locksUnlocksBehavior.IsLocked);
+            Assert.IsTrue(locksUnlocksBehavior.IsLocked);
 
             // Verify that attempts to open the locked thing do not work.
             // (Note that adding player-convenience features like automatic unlock attempts on behalf of the 
             // player when trying to open something, depending on their settings or whatnot, may require such 
             // tests to become much more robust here.)
-            opensClosesBehavior.Open(this.actingThing);
-            Assert.IsTrue(this.locksUnlocksBehavior.IsLocked);
+            opensClosesBehavior.Open(actingThing);
+            Assert.IsTrue(locksUnlocksBehavior.IsLocked);
             Assert.IsTrue(!opensClosesBehavior.IsOpen);
 
             // Verify that attempts to open an unlocked thing do work though.
-            this.locksUnlocksBehavior.Unlock(this.actingThing);
-            opensClosesBehavior.Open(this.actingThing);
-            Assert.IsTrue(!this.locksUnlocksBehavior.IsLocked);
+            locksUnlocksBehavior.Unlock(actingThing);
+            opensClosesBehavior.Open(actingThing);
+            Assert.IsTrue(!locksUnlocksBehavior.IsLocked);
             Assert.IsTrue(opensClosesBehavior.IsOpen);
 
             // Verify that trying to lock an open thing is either cancelled (leaving it open and unlocked) 
             // or is automatically closed for the actor since the intent could be implied.
-            this.locksUnlocksBehavior.Lock(this.actingThing);
-            bool isClosedAndLocked = !opensClosesBehavior.IsOpen && this.locksUnlocksBehavior.IsLocked;
-            bool isOpenAndUnlocked = opensClosesBehavior.IsOpen && !this.locksUnlocksBehavior.IsLocked;
+            locksUnlocksBehavior.Lock(actingThing);
+            bool isClosedAndLocked = !opensClosesBehavior.IsOpen && locksUnlocksBehavior.IsLocked;
+            bool isOpenAndUnlocked = opensClosesBehavior.IsOpen && !locksUnlocksBehavior.IsLocked;
             Assert.IsTrue(isClosedAndLocked || isOpenAndUnlocked);
         }
 
         /// <summary>Clear all potentially tracked events so we can verify new ones.</summary>
         private void ClearTrackedEvents()
         {
-            this.lastActorEvent = null;
-            this.lastActorRequest = null;
-            this.lastWitnessEvent = null;
-            this.lastWitnessRequest = null;
+            lastActorEvent = null;
+            lastActorRequest = null;
+            lastWitnessEvent = null;
+            lastWitnessRequest = null;
         }
     }
 }

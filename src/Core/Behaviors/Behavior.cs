@@ -24,8 +24,8 @@ namespace WheelMUD.Core
         /// <param name="instanceProperties">Dictionary of properties to spawn this behavior instance with, if any.</param>
         protected Behavior(Dictionary<string, object> instanceProperties)
         {
-            this.ID = 0;
-            this.SetDefaultProperties();
+            ID = 0;
+            SetDefaultProperties();
 
             // If we're handed a set of propertyName-propertyValue pairs (as may have come from
             // persistence of the behavior or whatnot) then restore those as actual properties.
@@ -47,27 +47,27 @@ namespace WheelMUD.Core
         public void SetParent(Thing newParent)
         {
             // Ignore SetParent requests that are already satisfied; avoid redundant eventing.
-            if (this.Parent != newParent)
+            if (Parent != newParent)
             {
-                if (this.Parent != null)
+                if (Parent != null)
                 {
-                    this.OnRemoveBehavior();
+                    OnRemoveBehavior();
                 }
-                this.Parent = newParent;
+                Parent = newParent;
                 if (newParent != null)
                 {
-                    this.OnAddBehavior();
+                    OnAddBehavior();
                 }
             }
         }
 
-        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
+        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to Parent)</summary>
         /// <remarks>Especially helpful for registering to relevant parent events.</remarks>
         protected virtual void OnAddBehavior()
         {
         }
 
-        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent)</summary>
+        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to Parent)</summary>
         /// <remarks>Especially helpful for unregistering from relevant parent events.</remarks>
         protected virtual void OnRemoveBehavior()
         {
@@ -79,11 +79,11 @@ namespace WheelMUD.Core
         ////    where T : Behavior, new()
         public Behavior Clone()
         {
-            Type t = this.GetType();
+            Type t = GetType();
 
             ////TODO: EXPERIMENT OPTIONS:
             ////newBehavior.CloneProperties(this);
-            ////newBehavior = (Behavior)this.MemberwiseClone();
+            ////newBehavior = (Behavior)MemberwiseClone();
 
             // Create an instance of the most-derived-type (then as Behavior for local storage).
             Behavior newBehavior = (Behavior)Activator.CreateInstance(t);
@@ -91,20 +91,20 @@ namespace WheelMUD.Core
             // Then clone this instance of that type's properties into the new instance.  We lock
             // during the operation to ensure none of our property values change as we iterate them;
             // we don't have to lock the newBehavior since nobody else has it yet.
-            lock (this.lockObject)
+            lock (lockObject)
             {
                 // All Items should be cloneable, and most derived classes should find it sufficient 
                 // to allow this base Item.Clone to take care of all the cloning.
                 // TODO: Test this.  Especially if any properties have indexers.
                 // TODO: Make sure this deep-copies things like behaviors.
-                var properties = this.GetType().GetProperties();
+                var properties = GetType().GetProperties();
                 foreach (var property in properties)
                 {
                     object value = property.GetValue(this, null);
                     property.SetValue(newBehavior, value, null);
                 }
 
-                this.ID = 0;
+                ID = 0;
             }
 
             newBehavior.ID = 0;

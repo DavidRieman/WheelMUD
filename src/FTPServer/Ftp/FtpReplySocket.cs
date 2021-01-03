@@ -18,21 +18,21 @@ namespace WheelMUD.Ftp
 
         public FtpReplySocket(FtpConnectionObject connectionObject)
         {
-            this.socket = OpenSocket(connectionObject);
+            socket = OpenSocket(connectionObject);
         }
 
         public bool Loaded
         {
             get
             {
-                return this.socket != null;
+                return socket != null;
             }
         }
 
         public void Close()
         {
             SocketHelpers.Close(socket);
-            this.socket = null;
+            socket = null;
         }
 
         public bool Send(byte[] data, int size)
@@ -48,12 +48,12 @@ namespace WheelMUD.Ftp
         public bool Send(string message)
         {
             byte[] data = Encoding.ASCII.GetBytes(message);
-            return this.Send(data, data.Length);
+            return Send(data, data.Length);
         }
 
         public int Receive(byte[] data)
         {
-            return this.socket.GetStream().Read(data, 0, data.Length);
+            return socket.GetStream().Read(data, 0, data.Length);
         }
 
         private static TcpClient OpenSocket(FtpConnectionObject connectionObject)

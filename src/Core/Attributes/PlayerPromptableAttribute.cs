@@ -18,8 +18,8 @@ namespace WheelMUD.Core.Attributes
         /// <param name="description">String description to be provided to the player, for example "Displays your current health,"</param>
         public PlayerPromptableAttribute(string token, string description)
         {
-            this.Token = token;
-            this.Description = description;
+            Token = token;
+            Description = description;
         }
 
         public string Token { get; private set; }

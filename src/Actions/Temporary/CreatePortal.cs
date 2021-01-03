@@ -43,7 +43,7 @@ namespace WheelMUD.Actions
             Thing portalItem = new Thing();
             portalItem.Behaviors.Add(new PortalBehavior()
             {
-                DestinationThingID = this.targetPlace.Id,
+                DestinationThingID = targetPlace.Id,
             });
 
             // TODO: Should not be needed after OLC and instant-spawn commands which should work
@@ -59,7 +59,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -77,15 +77,15 @@ namespace WheelMUD.Actions
             if (string.IsNullOrEmpty(roomToGet))
             {
                 // Its not a number so it could be an entity... try it.
-                this.targetPlace = GetPlayerOrMobile(actionInput.Params[0]);
-                if (this.targetPlace == null)
+                targetPlace = GetPlayerOrMobile(actionInput.Params[0]);
+                if (targetPlace == null)
                 {
                     return "Could not convert " + actionInput.Params[0] + " to a room number.";
                 }
             }
 
-            this.targetPlace = PlacesManager.Instance.WorldBehavior.FindRoom(roomToGet);
-            if (this.targetPlace == null)
+            targetPlace = PlacesManager.Instance.WorldBehavior.FindRoom(roomToGet);
+            if (targetPlace == null)
             {
                 return string.Format("Could not find the room {0}.", roomToGet);
             }

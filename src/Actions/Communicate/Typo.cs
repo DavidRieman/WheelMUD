@@ -38,8 +38,8 @@ namespace WheelMUD.Actions
             TypoEntry typoEntry = new TypoEntry
             {
                 Note = actionInput.Tail,
-                PlaceID = this.player.Parent.Id,
-                SubmittedByPlayerID = this.player.Id,
+                PlaceID = player.Parent.Id,
+                SubmittedByPlayerID = player.Id,
                 SubmittedDateTime = DateTime.Now,
                 Resolved = false
             };
@@ -54,13 +54,13 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            this.player = actionInput.Controller.Thing;
+            player = actionInput.Controller.Thing;
 
             return null;
         }

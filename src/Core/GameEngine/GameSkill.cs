@@ -28,12 +28,12 @@ namespace WheelMUD.Core
         [JsonIgnore]
         public Thing PlayerThing { get; set; }
 
-        /// <summary>Called when a parent has just been assigned to this skill. (Refer to this.PlayerThing)</summary>
+        /// <summary>Called when a parent has just been assigned to this skill. (Refer to PlayerThing)</summary>
         public virtual void OnAddSkill()
         {
         }
 
-        /// <summary>Called when the current parent of this skill is about to be removed. (Refer to this.PlayerThing.)</summary>
+        /// <summary>Called when the current parent of this skill is about to be removed. (Refer to PlayerThing.)</summary>
         public virtual void OnRemoveSkill()
         {
         }

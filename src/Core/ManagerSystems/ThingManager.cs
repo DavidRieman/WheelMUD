@@ -36,14 +36,14 @@ namespace WheelMUD.Core
         public static ThingManager Instance => SingletonInstance.Value;
 
         /// <summary>Gets the collection of things.</summary>
-        public ICollection<Thing> Things => this.things.Values.ToList().AsReadOnly();
+        public ICollection<Thing> Things => things.Values.ToList().AsReadOnly();
 
         /// <summary>Determines whether a Thing is currently spawned in the world given the item id.</summary>
         /// <param name="thingID">The Thing ID to search for.</param>
         /// <returns><c>true</c> if Thing is in the world; otherwise, <c>false</c>.</returns>
         public bool IsThingInWorld(string thingID)
         {
-            return this.things.ContainsKey(thingID);
+            return things.ContainsKey(thingID);
         }
 
         /// <summary>Determines whether any Things match the specified condition.</summary>
@@ -51,7 +51,7 @@ namespace WheelMUD.Core
         /// <returns>True if at least one Thing matches the condition; otherwise, false.</returns>
         public bool Any(Func<Thing, bool> condition)
         {
-            return this.things.Values.Any(condition);
+            return things.Values.Any(condition);
         }
 
         /// <summary>Counts the number of Things matching the specified condition.</summary>
@@ -59,7 +59,7 @@ namespace WheelMUD.Core
         /// <returns>The number of Things matching the specified condition.</returns>
         public int Count(Func<Thing, bool> condition)
         {
-            return this.things.Values.Count(condition);
+            return things.Values.Count(condition);
         }
 
         /// <summary>Gets a Thing given a Thing ID.</summary>
@@ -68,7 +68,7 @@ namespace WheelMUD.Core
         public Thing FindThing(string thingID)
         {
             Thing thing;
-            this.things.TryGetValue(thingID, out thing);
+            things.TryGetValue(thingID, out thing);
             return thing;
         }
 
@@ -84,8 +84,8 @@ namespace WheelMUD.Core
                                               : StringComparison.CurrentCulture;
 
             return partialMatch
-                       ? this.things.Values.FirstOrDefault(thing => thing.Name.StartsWith(name, ignoreCase, null))
-                       : this.things.Values.FirstOrDefault(thing => string.Equals(thing.Name, name, comparison));
+                       ? things.Values.FirstOrDefault(thing => thing.Name.StartsWith(name, ignoreCase, null))
+                       : things.Values.FirstOrDefault(thing => string.Equals(thing.Name, name, comparison));
         }
 
         /// <summary>Retrieves a collection of things matching the specified condition.</summary>
@@ -93,7 +93,7 @@ namespace WheelMUD.Core
         /// <returns>A collection of things matching the condition.</returns>
         public IList<Thing> Find(Func<Thing, bool> condition)
         {
-            return this.things.Values.Where(condition).ToList().AsReadOnly();
+            return things.Values.Where(condition).ToList().AsReadOnly();
         }
 
         /// <summary>Tries to retrieve a Thing matching the specified condition.</summary>
@@ -101,7 +101,7 @@ namespace WheelMUD.Core
         /// <returns>The first Thing matching the condition, or null if none was found.</returns>
         public Thing FirstOrDefault(Func<Thing, bool> condition)
         {
-            return this.things.Values.FirstOrDefault(condition);
+            return things.Values.FirstOrDefault(condition);
         }
 
         /// <summary>Tries to move a Thing from its current location into the specified location, if that thing is movable.</summary>
@@ -130,7 +130,7 @@ namespace WheelMUD.Core
             }
 
             Thing removedThing;
-            return this.things.TryRemove(thing.Id, out removedThing);
+            return things.TryRemove(thing.Id, out removedThing);
         }
 
         /// <summary>Calls <see cref="DestroyThing"/> on all things matching the specified condition.</summary>
@@ -138,9 +138,9 @@ namespace WheelMUD.Core
         /// <returns>The number of things that were successfully destroyed.</returns>
         public int Destroy(Func<Thing, bool> condition)
         {
-            var thingsToRemove = this.things.Values.Where(condition);
+            var thingsToRemove = things.Values.Where(condition);
 
-            return thingsToRemove.Count(thing => this.DestroyThing(thing));
+            return thingsToRemove.Count(thing => DestroyThing(thing));
         }
 
         /// <summary>Starts this system's individual components.</summary>
@@ -151,7 +151,7 @@ namespace WheelMUD.Core
         /// <summary>Stops this system's individual components.</summary>
         public override void Stop()
         {
-            this.things.Clear();
+            things.Clear();
         }
 
         /// <summary>Add or update the ThingManager's cache of Things; should be called when the Id of a Thing is established or changes.</summary>
@@ -166,18 +166,18 @@ namespace WheelMUD.Core
         {
             Debug.Assert(oldId != newId, "UpdateThingRegistration should not be called when not changing the Thing ID.");
             Debug.Assert(!string.IsNullOrEmpty(newId), "After initialization, a Thing's Id should never become null or empty!");
-            ////Debug.Assert(!this.things.ContainsKey(newId), "A Thing has been assigned an Id which is not unique!");
+            ////Debug.Assert(!things.ContainsKey(newId), "A Thing has been assigned an Id which is not unique!");
 
             if (!string.IsNullOrEmpty(oldId))
             {
                 Thing removedThingOldId;
-                this.things.TryRemove(oldId, out removedThingOldId);
+                things.TryRemove(oldId, out removedThingOldId);
             }
 
             Thing removedThingNewId;
-            this.things.TryRemove(newId, out removedThingNewId);
+            things.TryRemove(newId, out removedThingNewId);
 
-            return this.things.TryAdd(newId, updatedThing);
+            return things.TryAdd(newId, updatedThing);
         }
 
         /// <summary>Exporter for MEF.</summary>

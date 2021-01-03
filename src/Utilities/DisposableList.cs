@@ -28,22 +28,22 @@ namespace WheelMUD.Utilities
         /// <summary>Finalizes an instance of the DisposableList class.</summary>
         ~DisposableList()
         {
-            this.Dispose();
+            Dispose();
         }
 
         /// <summary>Dispose of all disposable resources that are managed by this list.</summary>
         public void Dispose()
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                if (this.Count > 0)
+                if (Count > 0)
                 {
                     foreach (T t in this)
                     {
                         t.Dispose();
                     }
 
-                    this.Clear();
+                    Clear();
                 }
             }
         }

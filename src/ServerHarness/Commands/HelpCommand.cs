@@ -27,7 +27,7 @@ namespace ServerHarness
         /// <param name="words">TODO: Establish what this should be or remove; perhaps meant to be all supplied words beyond "help"?</param>
         public void Execute(Application app, MultiUpdater display, string[] words)
         {
-            display.Notify(this.DisplayHelp());
+            display.Notify(DisplayHelp());
         }
 
         /// <summary>Present the console command-line "HELP" response to the administrator.</summary>

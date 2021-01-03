@@ -48,7 +48,7 @@ namespace WheelMUD.Core
             {
                 // TODO: "tell {0}" is not a good menu command; possibly friend add/remove, invite to group, hailing, and so on.
                 var playerName = player.Parent.Name;
-                var playerState = this.GetPlayerState(player);
+                var playerState = GetPlayerState(player);
                 sb.AppendLine($"<%mxpsecureline%><send \"finger {playerName}|tell {playerName}\" \"|finger|tell\">{playerName}</send> - {player.Parent.FullName} {playerState}");
             }
 

@@ -37,7 +37,7 @@ namespace WheelMUD.Server
         /// <summary>Initializes a new instance of the BaseServer class.</summary>
         public BaseServer()
         {
-            this.Port = 4000; // TODO: Read from app.config TelnetPort instead?
+            Port = 4000; // TODO: Read from app.config TelnetPort instead?
         }
 
         /// <summary>A 'client connected' event raised by the server.</summary>
@@ -61,11 +61,11 @@ namespace WheelMUD.Server
             try
             {
                 // Create the listening socket, prepare it, and start accepting incoming connections.
-                this.mainSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                var localIP = new IPEndPoint(IPAddress.Any, this.Port);
-                this.mainSocket.Bind(localIP);
-                this.mainSocket.Listen(4);
-                this.mainSocket.BeginAccept(this.OnClientConnect, null);
+                mainSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                var localIP = new IPEndPoint(IPAddress.Any, Port);
+                mainSocket.Bind(localIP);
+                mainSocket.Listen(4);
+                mainSocket.BeginAccept(OnClientConnect, null);
             }
             catch (SocketException se)
             {
@@ -73,7 +73,7 @@ namespace WheelMUD.Server
                 if (se.ErrorCode == 10048)
                 {
                     string format = "Error number {0}: {1}. Port number {2} is already in use.";
-                    string message = string.Format(format, se.ErrorCode, se.Message, this.Port);
+                    string message = string.Format(format, se.ErrorCode, se.Message, Port);
                     throw new PortInUseException(message);
                 }
 
@@ -85,21 +85,21 @@ namespace WheelMUD.Server
         /// <summary>Stops the server.</summary>
         public void Stop()
         {
-            this.CloseSockets();
+            CloseSockets();
         }
 
         /// <summary>Subscribe to receive system updates from this system.</summary>
         /// <param name="sender">The subscribing system; generally use 'this'.</param>
         public void SubscribeToSystem(ISubSystemHost sender)
         {
-            this.subSystemHost = sender;
+            subSystemHost = sender;
         }
 
         /// <summary>Inform subscribed system(s) of the specified update.</summary>
         /// <param name="message">The message to be sent to subscribed system(s).</param>
         public void InformSubscribedSystem(string message)
         {
-            this.subSystemHost.UpdateSubSystemHost(this, message);
+            subSystemHost.UpdateSubSystemHost(this, message);
         }
 
         /// <summary>Gets a connection specified by the connectionId.</summary>
@@ -109,7 +109,7 @@ namespace WheelMUD.Server
         {
             lock (LockObject)
             {
-                return this.connections.Where(c => c.ID == connectionId).FirstOrDefault();
+                return connections.Where(c => c.ID == connectionId).FirstOrDefault();
             }
         }
 
@@ -119,15 +119,15 @@ namespace WheelMUD.Server
         {
             if (connection is Connection conn)
             {
-                conn.DataSent -= this.EventHandlerDataSent;
-                conn.DataReceived -= this.EventHandlerDataReceived;
-                conn.ClientDisconnected -= this.EventHandlerClientDisconnected;
+                conn.DataSent -= EventHandlerDataSent;
+                conn.DataReceived -= EventHandlerDataReceived;
+                conn.ClientDisconnected -= EventHandlerClientDisconnected;
             }
 
             connection.Disconnect();
             lock (LockObject)
             {
-                this.connections.Remove(connection);
+                connections.Remove(connection);
                 ClientDisconnected?.Invoke(this, new ConnectionArgs(connection));
             }
         }
@@ -136,10 +136,10 @@ namespace WheelMUD.Server
         /// <param name="connectionId">The ID of the connection to close.</param>
         public void CloseConnection(string connectionId)
         {
-            var connection = this.GetConnection(connectionId);
+            var connection = GetConnection(connectionId);
             if (connection != null)
             {
-                this.CloseConnection(connection);
+                CloseConnection(connection);
             }
         }
 
@@ -160,11 +160,11 @@ namespace WheelMUD.Server
                 // Here we complete/end the BeginAccept() asynchronous call
                 // by calling EndAccept() - which returns the reference to
                 // a new Socket object
-                Socket socket = this.mainSocket.EndAccept(asyncResult);
+                Socket socket = mainSocket.EndAccept(asyncResult);
                 var conn = new Connection(socket, this);
-                conn.DataSent += this.EventHandlerDataSent;
-                conn.DataReceived += this.EventHandlerDataReceived;
-                conn.ClientDisconnected += this.EventHandlerClientDisconnected;
+                conn.DataSent += EventHandlerDataSent;
+                conn.DataReceived += EventHandlerDataReceived;
+                conn.ClientDisconnected += EventHandlerClientDisconnected;
 
                 // Let the worker Socket do the further processing for the 
                 // just connected client
@@ -172,7 +172,7 @@ namespace WheelMUD.Server
 
                 lock (LockObject)
                 {
-                    this.connections.Add(conn);
+                    connections.Add(conn);
                 }
 
                 // Raise our client connect event.
@@ -180,7 +180,7 @@ namespace WheelMUD.Server
 
                 // Since the main Socket is now free, it can go back and wait for
                 // other clients who are attempting to connect
-                this.mainSocket.BeginAccept(this.OnClientConnect, null);
+                mainSocket.BeginAccept(OnClientConnect, null);
             }
             catch (ObjectDisposedException)
             {
@@ -196,7 +196,7 @@ namespace WheelMUD.Server
         {
             lock (LockObject)
             {
-                this.connections.Remove(args.Connection);
+                connections.Remove(args.Connection);
             }
 
             ClientDisconnected?.Invoke(this, args);
@@ -221,12 +221,12 @@ namespace WheelMUD.Server
         /// <summary>Close all connected sockets.</summary>
         private void CloseSockets()
         {
-            if (this.mainSocket != null)
+            if (mainSocket != null)
             {
-                this.mainSocket.Close();
+                mainSocket.Close();
             }
 
-            var tempConnections = new List<IConnection>(this.connections);
+            var tempConnections = new List<IConnection>(connections);
             foreach (IConnection conn in tempConnections)
             {
                 conn.Send("Server is shutting down; your connection is being closed.");

@@ -16,13 +16,13 @@ namespace WheelMUD.ConnectionStates
         /// <param name="session">The session.</param>
         public CharacterCreationStateMachine(Session session)
         {
-            this.Session = session;
+            Session = session;
 
             // If this is attached to a session, prepare a character for building upon.
-            if (this.Session != null)
+            if (Session != null)
             {
-                this.Session.Thing = PlayerManager.PrepareBaseCharacter(session);
-                this.HandleNextStep(null, StepStatus.Success);
+                Session.Thing = PlayerManager.PrepareBaseCharacter(session);
+                HandleNextStep(null, StepStatus.Success);
             }
         }
 
@@ -51,7 +51,7 @@ namespace WheelMUD.ConnectionStates
             // Pass on any input to the current sub state character creation step.
             if (command != string.Empty)
             {
-                this.CurrentStep.ProcessInput(command);
+                CurrentStep.ProcessInput(command);
             }
         }
 
@@ -60,29 +60,29 @@ namespace WheelMUD.ConnectionStates
         /// <param name="result">The result of the current step</param>
         public void HandleNextStep(CharacterCreationSubState step, StepStatus result)
         {
-            this.CurrentStep = this.GetNextStep(step, result);
+            CurrentStep = GetNextStep(step, result);
 
             // If there were no remaining steps found, we're done.
-            if (this.CurrentStep == null)
+            if (CurrentStep == null)
             {
-                this.OnCreationComplete();
+                OnCreationComplete();
                 return;
             }
 
-            this.CurrentStep.StateMachine = this;
-            this.Session.WritePrompt();
+            CurrentStep.StateMachine = this;
+            Session.WritePrompt();
         }
 
         /// <summary>Signals abortion of character creation.</summary>
         internal void AbortCreation()
         {
-            this.CharacterCreationAborted?.Invoke();
+            CharacterCreationAborted?.Invoke();
         }
 
         /// <summary>Signals completion of character creation.</summary>
         internal void OnCreationComplete()
         {
-            this.CharacterCreationCompleted?.Invoke(this.Session);
+            CharacterCreationCompleted?.Invoke(Session);
         }
     }
 }

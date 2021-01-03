@@ -20,34 +20,34 @@ namespace WheelMUD.Ftp.FileSystem
         {
             try
             {
-                this.fileInfo = new FileInfo(path);
-                this.isLoaded = true;
+                fileInfo = new FileInfo(path);
+                isLoaded = true;
             }
             catch (IOException)
             {
-                this.fileInfo = null;
+                fileInfo = null;
             }
         }
 
         public bool IsDirectory()
         {
-            return (this.fileInfo.Attributes & FileAttributes.Directory) != 0;
+            return (fileInfo.Attributes & FileAttributes.Directory) != 0;
         }
 
         public DateTime GetModifiedTime()
         {
-            return this.fileInfo.LastWriteTime;
+            return fileInfo.LastWriteTime;
         }
 
         public long GetSize()
         {
-            return this.fileInfo.Length;
+            return fileInfo.Length;
         }
 
         public string GetAttributeString()
         {
-            bool isDir = (this.fileInfo.Attributes & FileAttributes.Directory) != 0;
-            bool isReadOnly = (this.fileInfo.Attributes & FileAttributes.ReadOnly) != 0;
+            bool isDir = (fileInfo.Attributes & FileAttributes.Directory) != 0;
+            bool isReadOnly = (fileInfo.Attributes & FileAttributes.ReadOnly) != 0;
 
             var builder = new StringBuilder();
 

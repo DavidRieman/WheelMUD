@@ -36,7 +36,7 @@ namespace WheelMUD.Core.Events
             VerbalCommunicationType communicationType)
             : base(activeThing, sensoryMessage)
         {
-            this.CommunicationType = communicationType;
+            CommunicationType = communicationType;
         }
 
         /// <summary>Gets the type of the communication.</summary>

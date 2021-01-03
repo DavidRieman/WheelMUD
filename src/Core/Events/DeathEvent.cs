@@ -17,7 +17,7 @@ namespace WheelMUD.Core.Events
         public DeathEvent(Thing activeThing, SensoryMessage senseMessage, Thing killer)
             : base(activeThing, senseMessage)
         {
-            this.Killer = killer;
+            Killer = killer;
         }
 
         /// <summary>Gets the killer.</summary>

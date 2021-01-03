@@ -40,8 +40,8 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            sender.Write("You take a drink from " + this.thingToDrink.Name + ".");
-            this.drinkableBehavior.Drink(sender.Thing);
+            sender.Write("You take a drink from " + thingToDrink.Name + ".");
+            drinkableBehavior.Drink(sender.Thing);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -50,7 +50,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -59,15 +59,15 @@ namespace WheelMUD.Actions
             // Rule: Do we have an item matching in our inventory?
             // TODO: Support drinking from, for instance, a fountain sitting in the room.
             string itemIdentifier = actionInput.Tail.Trim();
-            this.thingToDrink = sender.Thing.FindChild(itemIdentifier.ToLower());
-            if (this.thingToDrink == null)
+            thingToDrink = sender.Thing.FindChild(itemIdentifier.ToLower());
+            if (thingToDrink == null)
             {
                 return "You do not hold " + actionInput.Tail.Trim() + ".";
             }
 
             // Rule: Is the item drinkable?
-            this.drinkableBehavior = this.thingToDrink.Behaviors.FindFirst<DrinkableBehavior>();
-            if (this.drinkableBehavior == null)
+            drinkableBehavior = thingToDrink.Behaviors.FindFirst<DrinkableBehavior>();
+            if (drinkableBehavior == null)
             {
                 return itemIdentifier + " is not drinkable";
             }

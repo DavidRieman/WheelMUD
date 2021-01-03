@@ -43,18 +43,18 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            this.player.SingularPrefix = this.newPretitle;
+            player.SingularPrefix = newPretitle;
 
-            if (string.IsNullOrEmpty(this.newPretitle))
+            if (string.IsNullOrEmpty(newPretitle))
             {
-                sender.Write($"Your old pretitle was \"{this.oldPretitle}\" and is now removed.");
+                sender.Write($"Your old pretitle was \"{oldPretitle}\" and is now removed.");
             }
             else
             {
-                sender.Write($"Your old pretitle was \"{this.oldPretitle}\" and is now \"{this.newPretitle}\".");
+                sender.Write($"Your old pretitle was \"{oldPretitle}\" and is now \"{newPretitle}\".");
             }
 
-            this.player.FindBehavior<PlayerBehavior>()?.SavePlayer();
+            player.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -63,23 +63,23 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             // The comon guards already guarantees the sender is a player, hence no null checks here.
-            this.player = sender.Thing;
+            player = sender.Thing;
 
             // Rule: The new pretitle must be empty or meet the length requirements.
-            this.oldPretitle = this.player.SingularPrefix;
+            oldPretitle = player.SingularPrefix;
 
             if (!string.IsNullOrEmpty(actionInput.Tail))
             {
-                this.newPretitle = actionInput.Tail;
+                newPretitle = actionInput.Tail;
 
-                if (this.newPretitle.Length < 2 || this.newPretitle.Length > 15)
+                if (newPretitle.Length < 2 || newPretitle.Length > 15)
                 {
                     return "The pretitle may not be less than 2 nor more than 15 characters long.";
                 }

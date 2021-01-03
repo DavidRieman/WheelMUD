@@ -41,13 +41,13 @@ namespace WheelMUD.Core
         /// <param name="mobile">An instance of a mobile to be registered.</param>
         public void RegisterMobile(Thing mobile)
         {
-            this.mobiles.Add(mobile);
+            mobiles.Add(mobile);
         }
 
         /// <summary>Starts this system.</summary>
         public override void Start()
         {
-            this.SystemHost.UpdateSystemHost(this, "Starting...");
+            SystemHost.UpdateSystemHost(this, "Starting...");
 
             ////temp. Add a mobile explicitly here.
             ////TODO: replace with proper persistence mechanism
@@ -62,20 +62,20 @@ namespace WheelMUD.Core
             ////_mobiles.Add(mobile);
             ////mobile.Load();
 
-            this.SystemHost.UpdateSystemHost(this, "Started");
+            SystemHost.UpdateSystemHost(this, "Started");
         }
 
         /// <summary>Stops this system's individual components.</summary>
         public override void Stop()
         {
-            this.SystemHost.UpdateSystemHost(this, "Stopping...");
+            SystemHost.UpdateSystemHost(this, "Stopping...");
 
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                this.mobiles.Clear();
+                mobiles.Clear();
             }
 
-            this.SystemHost.UpdateSystemHost(this, "Stopped");
+            SystemHost.UpdateSystemHost(this, "Stopped");
         }
 
         /// <summary>Finds a mobile using the predicate passed.</summary>
@@ -83,9 +83,9 @@ namespace WheelMUD.Core
         /// <returns>The IMobile found.</returns>
         public Thing FindMobile(Predicate<Thing> predicate)
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                return this.mobiles.Find(predicate);
+                return mobiles.Find(predicate);
             }
         }
 
@@ -96,13 +96,13 @@ namespace WheelMUD.Core
         public Thing FindMobileByName(string name, bool partialMatch)
         {
             name = name.ToLower();
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                Thing mobile = this.mobiles.Find(m => m.Name.ToLower().Equals(name));
+                Thing mobile = mobiles.Find(m => m.Name.ToLower().Equals(name));
 
                 if (mobile == null && partialMatch)
                 {
-                    mobile = this.mobiles.Find(m => m.Name.ToLower().StartsWith(name));
+                    mobile = mobiles.Find(m => m.Name.ToLower().StartsWith(name));
                 }
 
                 return mobile;
@@ -114,9 +114,9 @@ namespace WheelMUD.Core
         /// <returns>returns a mobile object.</returns>
         public Thing FindMobileById(string id)
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                Thing mobile = this.mobiles.Find(m => m.Id.Equals(id));
+                Thing mobile = mobiles.Find(m => m.Id.Equals(id));
                 return mobile;
             }
         }

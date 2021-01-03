@@ -37,7 +37,7 @@ namespace WheelMUD.Actions
             string output;
             if (!string.IsNullOrEmpty(actionInput.Tail))
             {
-                output = this.TryLookAtThing(actionInput.Tail, sender.Thing);
+                output = TryLookAtThing(actionInput.Tail, sender.Thing);
                 if (string.IsNullOrEmpty(output))
                 {
                     output = string.Format("You cannot see {0}.", actionInput.Tail);
@@ -45,7 +45,7 @@ namespace WheelMUD.Actions
             }
             else
             {
-                output = this.LookAtRoom(sender.Thing);
+                output = LookAtRoom(sender.Thing);
                 if (string.IsNullOrEmpty(output))
                 {
                     output = "You cannot see.";
@@ -60,14 +60,14 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            this.sensesBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<SensesBehavior>();
-            if (this.sensesBehavior == null)
+            sensesBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<SensesBehavior>();
+            if (sensesBehavior == null)
             {
                 return "You do not have any senses to perceive with.";
             }
@@ -83,7 +83,7 @@ namespace WheelMUD.Actions
         {
             // Look for the target in the current room.
             Thing thing = sender.Parent.FindChild(thingToLookAt);
-            if (thing != null && this.sensesBehavior.CanPerceiveThing(thing))
+            if (thing != null && sensesBehavior.CanPerceiveThing(thing))
             {
                 return Renderer.Instance.RenderPerceivedThing(sender, thing);
             }
@@ -101,7 +101,7 @@ namespace WheelMUD.Actions
 
             // Otherwise, see if it is a thing the player has.
             thing = sender.FindChild(thingToLookAt);
-            if (thing != null && this.sensesBehavior.CanPerceiveThing(thing))
+            if (thing != null && sensesBehavior.CanPerceiveThing(thing))
             {
                 return Renderer.Instance.RenderPerceivedThing(sender, thing);
             }

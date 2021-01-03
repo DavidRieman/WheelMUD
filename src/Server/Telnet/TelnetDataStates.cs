@@ -27,7 +27,7 @@ namespace WheelMUD.Server.Telnet
         /// <param name="parent">The parent telnet code handler which this object is created by.</param>
         protected ConnectionTelnetState(TelnetCodeHandler parent)
         {
-            this.Parent = parent;
+            Parent = parent;
         }
 
         /// <summary>Gets or sets the parent telnet code handler.</summary>

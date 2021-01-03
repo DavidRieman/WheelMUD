@@ -39,10 +39,10 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string fixedSentence = "\"<%yellow%>" + this.sentence + "<%n%>\"";
-            var contextMessage = new ContextualString(sender.Thing, this.target)
+            string fixedSentence = "\"<%yellow%>" + sentence + "<%n%>\"";
+            var contextMessage = new ContextualString(sender.Thing, target)
             {
-                ToOriginator = this.BuildOriginatorMessage(fixedSentence),
+                ToOriginator = BuildOriginatorMessage(fixedSentence),
                 ToReceiver = string.Format("{0} tells you: {1}", sender.Thing.Name, fixedSentence),
                 ToOthers = null,
             };
@@ -51,12 +51,12 @@ namespace WheelMUD.Actions
             var tellEvent = new VerbalCommunicationEvent(sender.Thing, sm, VerbalCommunicationType.Tell);
 
             // Make sure both the user is allowed to do the tell and the target is allowed to receive it.
-            this.target.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
+            target.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
             sender.Thing.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
             if (!tellEvent.IsCancelled)
             {
                 // Printing the sensory message is all that's left to do, which the event itself will take care of.
-                this.target.Eventing.OnCommunicationEvent(tellEvent, EventScope.SelfDown);
+                target.Eventing.OnCommunicationEvent(tellEvent, EventScope.SelfDown);
                 sender.Thing.Eventing.OnCommunicationEvent(tellEvent, EventScope.SelfDown);
             }
         }
@@ -66,7 +66,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -79,8 +79,8 @@ namespace WheelMUD.Actions
             // TODO: InterMUD support? string mudName = GameConfiguration.GameName;
 
             // Rule: Target must be an entity. TODO: REMOVE CHECK?
-            this.target = GetPlayerOrMobile(targetName);
-            if (this.target == null)
+            target = GetPlayerOrMobile(targetName);
+            if (target == null)
             {
                 // Make first char Upper?  IE textInfo.ToTitleCase.
                 return targetName + " is not part of reality.";
@@ -89,7 +89,7 @@ namespace WheelMUD.Actions
             //// TODO what if player offline ?
 
             // Rule: Prevent talking to yourself.
-            if (actionInput.Controller.Thing.Name.ToLower() == this.target.Name.ToLower())
+            if (actionInput.Controller.Thing.Name.ToLower() == target.Name.ToLower())
             {
                 return "Talking to yourself is the first sign of madness!";
             }
@@ -101,9 +101,9 @@ namespace WheelMUD.Actions
             }
 
             // The sentence to be relayed consists of all input beyond the first parameter, 
-            // which was used to identify this.entity already.
+            // which was used to identify entity already.
             int firstCommandLength = actionInput.Params[0].Length;
-            this.sentence = actionInput.Tail.Substring(firstCommandLength).Trim();
+            sentence = actionInput.Tail.Substring(firstCommandLength).Trim();
 
             return null;
         }
@@ -113,7 +113,7 @@ namespace WheelMUD.Actions
         /// <returns>The final string the sender of the tell will see.</returns>
         private string BuildOriginatorMessage(string fixedSentence)
         {
-            PlayerBehavior playerBehavior = this.target.Behaviors.FindFirst<PlayerBehavior>();
+            PlayerBehavior playerBehavior = target.Behaviors.FindFirst<PlayerBehavior>();
 
             if (playerBehavior != null && playerBehavior.IsAFK)
             {
@@ -128,11 +128,11 @@ namespace WheelMUD.Actions
                     afkMessage = "AFK";
                 }
 
-                return string.Format("You tell {0}: {1}<%nl%>{0} is {2}.", this.target.Name, fixedSentence, afkMessage);
+                return string.Format("You tell {0}: {1}<%nl%>{0} is {2}.", target.Name, fixedSentence, afkMessage);
             }
             else
             {
-                return string.Format("You tell {0}: {1}", this.target.Name, fixedSentence);
+                return string.Format("You tell {0}: {1}", target.Name, fixedSentence);
             }
         }
     }

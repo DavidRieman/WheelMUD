@@ -28,7 +28,7 @@ namespace WheelMUD.Core
         /// <returns>A new die object.</returns>
         public Die GetDie(int numSides)
         {
-            return new Die(numSides, this.Random);
+            return new Die(numSides, Random);
         }
     }
 }

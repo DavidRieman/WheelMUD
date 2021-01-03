@@ -19,15 +19,15 @@ namespace WheelMUD.Ftp.FtpCommands
             string[] data = message.Split(new char[] { ',' });
             if (data.Length != 6)
             {
-                return this.GetMessage(550, "Error in setting up data connection");
+                return GetMessage(550, "Error in setting up data connection");
             }
 
             int socketPort = (int.Parse(data[4]) * 256) + int.Parse(data[5]);
 
-            this.ConnectionObject.PortCommandSocketPort = socketPort;
-            this.ConnectionObject.PortCommandSocketAddress = string.Join(".", data, 0, 4);
+            ConnectionObject.PortCommandSocketPort = socketPort;
+            ConnectionObject.PortCommandSocketAddress = string.Join(".", data, 0, 4);
 
-            return this.GetMessage(200, string.Format("{0} command succeeded", this.Command));
+            return GetMessage(200, string.Format("{0} command succeeded", Command));
         }
     }
 }

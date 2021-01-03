@@ -34,7 +34,7 @@ namespace WheelMUD.Actions
         {
             // Remove all instances of MutedEffect (in case there are more than one).
             MutedEffect effect;
-            while ((effect = this.playerToUnmute.Behaviors.FindFirst<MutedEffect>()) != null)
+            while ((effect = playerToUnmute.Behaviors.FindFirst<MutedEffect>()) != null)
             {
                 // Cancel the event so it will be ignored by TimeSystem when the time expires.
                 effect.UnmuteEvent.Cancel("Mute cancelled.");
@@ -47,7 +47,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -55,16 +55,16 @@ namespace WheelMUD.Actions
 
             // Make sure the target exists.
             string playerName = actionInput.Params[0];
-            this.playerToUnmute = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
-            if (this.playerToUnmute == null)
+            playerToUnmute = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
+            if (playerToUnmute == null)
             {
                 return string.Format("The player named \"{0}\" could not be found.", playerName);
             }
 
             // Make sure the player has a MuteEffect applied.
-            if (!this.playerToUnmute.HasBehavior<MutedEffect>())
+            if (!playerToUnmute.HasBehavior<MutedEffect>())
             {
-                return string.Format("The player {0} was not muted!", this.playerToUnmute.Name);
+                return string.Format("The player {0} was not muted!", playerToUnmute.Name);
             }
 
             return null;

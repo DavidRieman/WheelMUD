@@ -19,9 +19,9 @@ namespace WheelMUD.Core.Events
         public StatChangeEvent(Thing activeThing, SensoryMessage senseMessage, BaseStat stat, int modifier, int oldValue)
             : base(activeThing, senseMessage)
         {
-            this.Stat = stat;
-            this.OldValue = oldValue;
-            this.Modifier = modifier;
+            Stat = stat;
+            OldValue = oldValue;
+            Modifier = modifier;
         }
 
         /// <summary>Gets the applicable stat.</summary>

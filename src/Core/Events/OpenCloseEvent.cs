@@ -18,8 +18,8 @@ namespace WheelMUD.Core.Events
         public OpenCloseEvent(Thing target, bool isBeingOpened, Thing activeThing, SensoryMessage sensoryMessage)
             : base(activeThing, sensoryMessage)
         {
-            this.Target = target;
-            this.IsBeingOpened = isBeingOpened;
+            Target = target;
+            IsBeingOpened = isBeingOpened;
         }
 
         /// <summary>Gets a value indicating whether this event pertains to the target being opened (true) or closed (false).</summary>

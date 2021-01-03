@@ -55,11 +55,11 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (this.sourceContainer != null && this.destinationContainer != null)
+            if (sourceContainer != null && destinationContainer != null)
             {
                 IController sender = actionInput.Controller;
-                var sourceHoldsLiquidBehavior = this.sourceContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
-                var destinationHoldsLiquidBehavior = this.destinationContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
+                var sourceHoldsLiquidBehavior = sourceContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
+                var destinationHoldsLiquidBehavior = destinationContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
                 if (sourceHoldsLiquidBehavior == null)
                 {
                     sender.Write("The source does not hold any liquid.");
@@ -82,14 +82,14 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             int itemParam = 0;
-            this.parent = sender.Thing.Parent;
+            parent = sender.Thing.Parent;
 
             if (actionInput.Tail.ToLower().Contains("from"))
             {
@@ -106,85 +106,85 @@ namespace WheelMUD.Actions
                 // Destination container
                 for (int j = itemParam; j < itemMarker; j++)
                 {
-                    this.destinationContainerName += actionInput.Params[j] + ' ';
+                    destinationContainerName += actionInput.Params[j] + ' ';
                 }
 
-                this.destinationContainerName = this.destinationContainerName.Trim();
+                destinationContainerName = destinationContainerName.Trim();
 
                 // Source Container name is everything from the marker to the end.
-                this.sourceContainerName = string.Empty;
+                sourceContainerName = string.Empty;
                 for (int i = itemMarker + 1; i < actionInput.Params.Length; i++)
                 {
-                    this.sourceContainerName += actionInput.Params[i] + ' ';
+                    sourceContainerName += actionInput.Params[i] + ' ';
                 }
 
-                this.sourceContainerName = this.sourceContainerName.Trim();
+                sourceContainerName = sourceContainerName.Trim();
 
                 // Rule: Do we have an item matching the one specified in our inventory?
                 // If not then does the room have a container with the name.
                 // TODO: Fix: This Find pattern is probably broken...
-                this.destinationContainer = sender.Thing.Children.Find(t => t.Name == this.destinationContainerName.ToLower());
-                if (this.destinationContainer == null)
+                destinationContainer = sender.Thing.Children.Find(t => t.Name == destinationContainerName.ToLower());
+                if (destinationContainer == null)
                 {
-                    this.destinationContainer = this.parent.Children.Find(t => t.Name == this.destinationContainerName.ToLower());
-                    if (this.destinationContainer == null)
+                    destinationContainer = parent.Children.Find(t => t.Name == destinationContainerName.ToLower());
+                    if (destinationContainer == null)
                     {
-                        return "You cannot see " + this.destinationContainerName;
+                        return "You cannot see " + destinationContainerName;
                     }
                 }
 
                 // Rule: Is the item specified as a container actually a container?
-                this.containerBehavior = this.destinationContainer.Behaviors.FindFirst<ContainerBehavior>();
+                this.containerBehavior = destinationContainer.Behaviors.FindFirst<ContainerBehavior>();
                 if (this.containerBehavior == null)
                 {
-                    return this.destinationContainerName + " is not able to hold things.";
+                    return destinationContainerName + " is not able to hold things.";
                 }
                 else
                 {
-                    var holdsLiquidBehavior = this.destinationContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
+                    var holdsLiquidBehavior = destinationContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
                     if (holdsLiquidBehavior == null)
                     {
                         return string.Format(
                             "It does not appear that the {0} will hold liquid.",
-                            this.destinationContainerName);
+                            destinationContainerName);
                     }
                 }
 
                 // Rule: Is the item open?
-                var openableBehavior = this.destinationContainer.Behaviors.FindFirst<OpensClosesBehavior>();
+                var openableBehavior = destinationContainer.Behaviors.FindFirst<OpensClosesBehavior>();
                 if (openableBehavior != null && !openableBehavior.IsOpen)
                 {
-                    return string.Format("You cannot fill the {0} as it is closed.", this.destinationContainerName);
+                    return string.Format("You cannot fill the {0} as it is closed.", destinationContainerName);
                 }
 
                 // Rule: Do we have an item matching the one specified in our inventory?
                 // If not then does the room have a container with the name.
                 // TODO: Investigate; This search method is probably broken.
-                this.sourceContainer = sender.Thing.Children.Find(t => t.Name == this.sourceContainerName.ToLower());
-                if (this.sourceContainer == null)
+                sourceContainer = sender.Thing.Children.Find(t => t.Name == sourceContainerName.ToLower());
+                if (sourceContainer == null)
                 {
-                    this.sourceContainer = this.parent.Children.Find(t => t.Name == this.sourceContainerName.ToLower());
+                    sourceContainer = parent.Children.Find(t => t.Name == sourceContainerName.ToLower());
 
-                    if (this.sourceContainer == null)
+                    if (sourceContainer == null)
                     {
-                        return "You cannot see " + this.sourceContainerName;
+                        return "You cannot see " + sourceContainerName;
                     }
                 }
 
                 // Rule: Is the item specified as a container actually a container?
-                ContainerBehavior containerBehavior = this.sourceContainer.Behaviors.FindFirst<ContainerBehavior>();
+                ContainerBehavior containerBehavior = sourceContainer.Behaviors.FindFirst<ContainerBehavior>();
                 if (containerBehavior == null)
                 {
-                    return string.Format("The {0} does not hold anything to fill the {1} with.", this.sourceContainerName, this.destinationContainerName);
+                    return string.Format("The {0} does not hold anything to fill the {1} with.", sourceContainerName, destinationContainerName);
                 }
 
                 // TODO: HoldsLiquidBehavior?
 
                 // Rule: Is the item open?
-                OpensClosesBehavior opensClosesBehavior = this.sourceContainer.Behaviors.FindFirst<OpensClosesBehavior>();
+                OpensClosesBehavior opensClosesBehavior = sourceContainer.Behaviors.FindFirst<OpensClosesBehavior>();
                 if (!opensClosesBehavior.IsOpen)
                 {
-                    return string.Format("You cannot fill from the {0} as it is closed.", this.sourceContainerName);
+                    return string.Format("You cannot fill from the {0} as it is closed.", sourceContainerName);
                 }
             }
             else

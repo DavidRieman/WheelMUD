@@ -20,8 +20,8 @@ namespace WheelMUD.Core.Events
         public TimeEvent(Thing activeThing, Action callback, DateTime endTime, SensoryMessage sensoryMessage)
             : base(activeThing, sensoryMessage)
         {
-            this.Callback = callback;
-            this.EndTime = endTime;
+            Callback = callback;
+            EndTime = endTime;
         }
 
         /// <summary>Gets the end time.</summary>

@@ -15,7 +15,7 @@ namespace WheelMUD.Core
         public DefaultState(Session session)
             : base(session)
         {
-            this.Prompt = string.Empty;
+            Prompt = string.Empty;
         }
 
         /// <summary>Gets or sets the prompt string to be shown by BuildPrompt.</summary>
@@ -26,7 +26,7 @@ namespace WheelMUD.Core
         /// <returns>The prompt.</returns>
         public override string BuildPrompt()
         {
-            return this.Prompt;
+            return Prompt;
         }
 
         /// <summary>Process the specified input.</summary>

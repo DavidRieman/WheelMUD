@@ -15,7 +15,7 @@ namespace WheelMUD.Core
         /// <summary>Initializes a new instance of the GameModifier class.</summary>
         public GameModifier()
         {
-            this.Modifiers = new Dictionary<string, string>();
+            Modifiers = new Dictionary<string, string>();
         }
 
         /// <summary>Gets or sets the map to.</summary>

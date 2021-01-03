@@ -22,15 +22,15 @@ namespace WheelMUD.ConnectionStates
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {
-            this.Session.AtPrompt = false;
+            Session.AtPrompt = false;
             if (command != string.Empty)
             {
-                var actionInput = new ActionInput(command, this.Session);
-                this.Session.ExecuteAction(actionInput);
+                var actionInput = new ActionInput(command, Session);
+                Session.ExecuteAction(actionInput);
             }
             else
             {
-                this.Session.SendPrompt();
+                Session.SendPrompt();
             }
         }
 

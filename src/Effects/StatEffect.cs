@@ -33,15 +33,15 @@ namespace WheelMUD.Effects
         public StatEffect(Thing activeThing, GameStat stat, int valueMod, int minimumMod, int maximumMod, TimeSpan duration, SensoryMessage sensoryMessage, SensoryMessage expirationMessage)
             : base(duration)
         {
-            this.Name = stat.Name;
-            this.Stat = stat;
-            this.ValueMod = valueMod;
-            this.MinimumMod = minimumMod;
-            this.MaximumMod = maximumMod;
-            this.ActiveThing = activeThing;
-            this.SensoryMessage = sensoryMessage;
-            this.ExpirationMessage = expirationMessage;
-            this.Duration = duration;
+            Name = stat.Name;
+            Stat = stat;
+            ValueMod = valueMod;
+            MinimumMod = minimumMod;
+            MaximumMod = maximumMod;
+            ActiveThing = activeThing;
+            SensoryMessage = sensoryMessage;
+            ExpirationMessage = expirationMessage;
+            Duration = duration;
         }
 
         /// <summary>Initializes a new instance of the StatEffect class.</summary>
@@ -50,7 +50,7 @@ namespace WheelMUD.Effects
         public StatEffect(long instanceId, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceId;
+            ID = instanceId;
         }
 
         /// <summary>Gets or sets the name.</summary>
@@ -84,58 +84,58 @@ namespace WheelMUD.Effects
         /// <summary>Expires this instance.</summary>
         public void Expire()
         {
-            this.Parent.Behaviors.Remove(this);
+            Parent.Behaviors.Remove(this);
 
-            this.RemoveStatEvent.Cancel(string.Empty);
-            this.RemoveStatEvent = null;
+            RemoveStatEvent.Cancel(string.Empty);
+            RemoveStatEvent = null;
         }
 
         /// <summary>Applies the effect to its host.</summary>
-        /// <remarks>Preconditions: this.Parent.Attributes must not be null if this.Parent is not null.</remarks>
+        /// <remarks>Preconditions: Parent.Attributes must not be null if Parent is not null.</remarks>
         protected override void OnAddBehavior()
         {
             // Create and broadcast the event notifying players that the effect was applied.
-            var addEvent = new EffectEvent(this.ActiveThing, this.Parent, this.SensoryMessage);
-            this.ActiveThing.Eventing.OnCommunicationRequest(addEvent, EventScope.ParentsDown);
+            var addEvent = new EffectEvent(ActiveThing, Parent, SensoryMessage);
+            ActiveThing.Eventing.OnCommunicationRequest(addEvent, EventScope.ParentsDown);
             if (!addEvent.IsCancelled)
             {
-                this.ActiveThing.Eventing.OnCommunicationEvent(addEvent, EventScope.ParentsDown);
+                ActiveThing.Eventing.OnCommunicationEvent(addEvent, EventScope.ParentsDown);
             }
 
             // Create and schedule an event that tells TimeSystem to call Expire()
             // after EndTime is reached.
-            this.RemoveStatEvent = new TimeEvent(this.ActiveThing, this.Expire, this.EndTime, this.ExpirationMessage);
-            TimeSystem.Instance.ScheduleEvent(this.RemoveStatEvent);
+            RemoveStatEvent = new TimeEvent(ActiveThing, Expire, EndTime, ExpirationMessage);
+            TimeSystem.Instance.ScheduleEvent(RemoveStatEvent);
         }
 
         /// <summary>The method that is called when an effect is to be removed.</summary>
         /// <remarks>
         /// It is effectively the cleanup operation, i.e. reduce stats to normal level.
-        /// Preconditions: this.Parent.Attributes must not be null if this.Parent is not null.
-        /// this.Stat must not be null - provide defaults in this.SetDefaultProperties().
+        /// Preconditions: Parent.Attributes must not be null if Parent is not null.
+        /// Stat must not be null - provide defaults in SetDefaultProperties().
         /// </remarks>
         protected override void OnRemoveBehavior()
         {
             // Broadcast the removal event that we previously created in OnAddBehavior.
-            this.ActiveThing.Eventing.OnCommunicationRequest(this.RemoveStatEvent, EventScope.ParentsDown);
-            if (!this.RemoveStatEvent.IsCancelled)
+            ActiveThing.Eventing.OnCommunicationRequest(RemoveStatEvent, EventScope.ParentsDown);
+            if (!RemoveStatEvent.IsCancelled)
             {
-                this.ActiveThing.Eventing.OnCommunicationEvent(this.RemoveStatEvent, EventScope.ParentsDown);
+                ActiveThing.Eventing.OnCommunicationEvent(RemoveStatEvent, EventScope.ParentsDown);
             }
 
             // Normally the TimeSystem will remove this event when it expires.
             // If it is removed by some other means, we should cancel the RemoveStatEvent so
             // TimeSystem will know to ignore it when the EndTime is reached.
-            if (this.RemoveStatEvent != null && !this.RemoveStatEvent.IsCancelled)
+            if (RemoveStatEvent != null && !RemoveStatEvent.IsCancelled)
             {
-                this.RemoveStatEvent.Cancel(string.Empty);
+                RemoveStatEvent.Cancel(string.Empty);
             }
         }
 
         /// <summary>Sets the default properties of this effect instance. Duration is given a default TimeSpan.</summary>
         protected override void SetDefaultProperties()
         {
-            this.Duration = TimeSpan.FromMinutes(1);
+            Duration = TimeSpan.FromMinutes(1);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace WheelMUD.Tests.Behaviors
         [SetUp]
         public void Init()
         {
-            this.playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
+            playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
         }
 
         /// <summary>Test to make sure WRM behaviors are attaching properly.</summary>
@@ -30,9 +30,9 @@ namespace WheelMUD.Tests.Behaviors
         public void AttachSkillsBehaviorToPlayerTest()
         {
             var skillsBehavior = new SkillsBehavior(null);
-            this.playerThing.Behaviors.Add(skillsBehavior);
-            Assert.IsNotNull(this.playerThing.Behaviors.FindFirst<SkillsBehavior>());
-            this.playerThing.Behaviors.Remove(skillsBehavior);
+            playerThing.Behaviors.Add(skillsBehavior);
+            Assert.IsNotNull(playerThing.Behaviors.FindFirst<SkillsBehavior>());
+            playerThing.Behaviors.Remove(skillsBehavior);
         }
 
         [Test]
@@ -41,14 +41,14 @@ namespace WheelMUD.Tests.Behaviors
             var skillsBehavior = new SkillsBehavior(null);
             var testSkill = new SkillUnarmed();
             skillsBehavior.Add(testSkill);
-            this.playerThing.Behaviors.Add(skillsBehavior);
+            playerThing.Behaviors.Add(skillsBehavior);
 
-            var behavior = this.playerThing.Behaviors.FindFirst<SkillsBehavior>();
+            var behavior = playerThing.Behaviors.FindFirst<SkillsBehavior>();
             Assert.IsTrue(behavior.ManagedSkills.Contains(testSkill));
             Assert.IsNotNull(testSkill.PlayerThing);
 
             behavior.Remove(testSkill);
-            this.playerThing.Behaviors.Remove(skillsBehavior);
+            playerThing.Behaviors.Remove(skillsBehavior);
         }
 
         [Test]
@@ -56,15 +56,15 @@ namespace WheelMUD.Tests.Behaviors
         {
             var skillsBehavior = new SkillsBehavior(null);
             var testSkill = new SkillUnarmed();
-            this.playerThing.Behaviors.Add(skillsBehavior);
+            playerThing.Behaviors.Add(skillsBehavior);
             skillsBehavior.Add(testSkill);
 
-            var behavior = this.playerThing.Behaviors.FindFirst<SkillsBehavior>();
-            Assert.IsTrue(this.playerThing.Behaviors.FindFirst<SkillsBehavior>().ManagedSkills.Contains(testSkill));
+            var behavior = playerThing.Behaviors.FindFirst<SkillsBehavior>();
+            Assert.IsTrue(playerThing.Behaviors.FindFirst<SkillsBehavior>().ManagedSkills.Contains(testSkill));
             Assert.IsNotNull(testSkill.PlayerThing);
 
             behavior.Remove(testSkill);
-            this.playerThing.Behaviors.Remove(skillsBehavior);
+            playerThing.Behaviors.Remove(skillsBehavior);
         }
     }
 }

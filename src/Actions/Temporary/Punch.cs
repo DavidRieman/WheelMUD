@@ -64,20 +64,20 @@ namespace WheelMUD.Actions
             int defenseRoll = defenseDie.Roll();
 
             // Determine amount of damage, if any. Cannot exceed the target's current health.
-            int targetHealth = this.target.Stats["HP"].Value;
+            int targetHealth = target.Stats["HP"].Value;
             int damage = Math.Max(attackRoll - defenseRoll, 0);
             damage = Math.Min(damage, targetHealth);
 
             // Choose sensory messaging based on whether or not the hit landed.
-            SensoryMessage message = this.CreateResultMessage(sender.Thing, this.target, attackRoll, defenseRoll, damage);
+            SensoryMessage message = CreateResultMessage(sender.Thing, target, attackRoll, defenseRoll, damage);
 
-            var attackEvent = new AttackEvent(this.target, message, sender.Thing);
+            var attackEvent = new AttackEvent(target, message, sender.Thing);
 
             // Broadcast combat requests/events to the room they're happening in.
             sender.Thing.Eventing.OnCombatRequest(attackEvent, EventScope.ParentsDown);
             if (!attackEvent.IsCancelled)
             {
-                this.target.Stats["HP"].Decrease(damage, sender.Thing);
+                target.Stats["HP"].Decrease(damage, sender.Thing);
                 sender.Thing.Eventing.OnCombatEvent(attackEvent, EventScope.ParentsDown);
             }
         }
@@ -88,7 +88,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -96,30 +96,30 @@ namespace WheelMUD.Actions
 
             // Find the most appropriate matching target.
             string targetName = actionInput.Tail.Trim().ToLower();
-            this.target = GetPlayerOrMobile(targetName);
+            target = GetPlayerOrMobile(targetName);
 
             // Rule: Is the target an entity?
-            if (this.target == null)
+            if (target == null)
             {
                 return "You cannot see " + targetName + ".";
             }
 
             // Rule: Is the target the initator?
-            if (sender.Thing.Name.ToLower() == this.target.Name.ToLower())
+            if (sender.Thing.Name.ToLower() == target.Name.ToLower())
             {
                 return "You can't punch yourself.";
             }
 
             // Rule: Is the target in the same room?
-            if (sender.Thing.Parent.Id != this.target.Parent.Id)
+            if (sender.Thing.Parent.Id != target.Parent.Id)
             {
                 return "You cannot see " + targetName + ".";
             }
 
             // Rule: Is the target alive?
-            if (this.target.Stats["HP"].Value <= 0)
+            if (target.Stats["HP"].Value <= 0)
             {
-                return this.target.Name + " is dead.";
+                return target.Name + " is dead.";
             }
 
             var unbalanceEffect = sender.Thing.Behaviors.FindFirst<UnbalanceEffect>();

@@ -49,20 +49,20 @@ namespace WheelMUD.Actions
             // Generate an item changed owner event.
             IController sender = actionInput.Controller;
 
-            var contextMessage = new ContextualString(sender.Thing, this.thingToDrop.Parent)
+            var contextMessage = new ContextualString(sender.Thing, thingToDrop.Parent)
             {
-                ToOriginator = $"You drop up {this.thingToDrop.Name}.",
+                ToOriginator = $"You drop up {thingToDrop.Name}.",
                 ToReceiver = $"{sender.Thing.Name} drops $Thing.Name in you.",
                 ToOthers = $"{sender.Thing.Name} drops $Thing.Name.",
             };
             var dropMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
             var actor = actionInput.Controller.Thing;
-            if (this.movableBehavior.Move(this.dropLocation, actor, null, dropMessage))
+            if (movableBehavior.Move(dropLocation, actor, null, dropMessage))
             {
                 // TODO: Transactionally save actors if applicable.
                 //actor.Save();
-                //this.dropLocation.Save();
+                //dropLocation.Save();
             }
         }
 
@@ -72,7 +72,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -83,9 +83,9 @@ namespace WheelMUD.Actions
             // Rule: if 2 params
             if (actionInput.Params.Length == 2)
             {
-                int.TryParse(actionInput.Params[0], out this.numberToDrop);
+                int.TryParse(actionInput.Params[0], out numberToDrop);
 
-                if (this.numberToDrop == 0)
+                if (numberToDrop == 0)
                 {
                     targetName = actionInput.Tail.ToLower();
                 }
@@ -101,20 +101,20 @@ namespace WheelMUD.Actions
                 return "What did you want to drop?";
             }
 
-            this.dropLocation = sender.Thing.Parent;
+            dropLocation = sender.Thing.Parent;
 
             // Rule: Is the target an item in the entity's inventory?
-            this.thingToDrop = sender.Thing.Children.Find(t => t.Name.Equals(targetName, StringComparison.CurrentCultureIgnoreCase));
-            if (this.thingToDrop == null)
+            thingToDrop = sender.Thing.Children.Find(t => t.Name.Equals(targetName, StringComparison.CurrentCultureIgnoreCase));
+            if (thingToDrop == null)
             {
                 return "You do not hold " + targetName + ".";
             }
 
             // Rule: The target thing must be movable.
-            this.movableBehavior = this.thingToDrop.Behaviors.FindFirst<MovableBehavior>();
-            if (this.movableBehavior == null)
+            movableBehavior = thingToDrop.Behaviors.FindFirst<MovableBehavior>();
+            if (movableBehavior == null)
             {
-                return this.thingToDrop.Name + " does not appear to be movable.";
+                return thingToDrop.Name + " does not appear to be movable.";
             }
 
             return null;

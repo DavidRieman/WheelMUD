@@ -39,14 +39,14 @@ namespace WheelMUD.Core
         public BaseStat(IController controller, string name, string abbreviation, string formula, int value, int minValue, int maxValue, bool visible)
         {
             this.minValue = 0;
-            this.Host = controller;
-            this.Name = name;
-            this.Abbreviation = abbreviation;
-            this.Formula = formula;
-            this.currentValue = value;
+            Host = controller;
+            Name = name;
+            Abbreviation = abbreviation;
+            Formula = formula;
+            currentValue = value;
             this.minValue = minValue;
             this.maxValue = maxValue;
-            this.Visible = visible;
+            Visible = visible;
         }
 
         /// <summary>Initializes a new instance of the <see cref="BaseStat"/> class.</summary>
@@ -67,9 +67,9 @@ namespace WheelMUD.Core
         {
             get
             {
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    return this.currentValue;
+                    return currentValue;
                 }
             }
         }
@@ -85,17 +85,17 @@ namespace WheelMUD.Core
         {
             get
             {
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    return this.maxValue;
+                    return maxValue;
                 }
             }
 
             set
             {
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    this.maxValue = value;
+                    maxValue = value;
                 }
             }
         }
@@ -105,17 +105,17 @@ namespace WheelMUD.Core
         {
             get
             {
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    return this.minValue;
+                    return minValue;
                 }
             }
 
             set
             {
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    this.minValue = value;
+                    minValue = value;
                 }
             }
         }
@@ -148,14 +148,14 @@ namespace WheelMUD.Core
         /// <param name="message">The contextual message to broadcast with the change.</param>
         public virtual void SetValue(int value, Thing sender, ContextualStringBuilder message)
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                int oldValue = this.currentValue;
+                int oldValue = currentValue;
 
-                if (this.Host != null)
+                if (Host != null)
                 {
                     // Check if the player is in the character creation state.
-                    Thing hostThing = this.Host.Thing;
+                    Thing hostThing = Host.Thing;
                     if (hostThing != null)
                     {
                         var e = new StatChangeEvent(
@@ -169,17 +169,17 @@ namespace WheelMUD.Core
 
                         if (!e.IsCancelled)
                         {
-                            if (value >= this.maxValue)
+                            if (value >= maxValue)
                             {
-                                this.currentValue = this.maxValue;
+                                currentValue = maxValue;
                             }
-                            else if (value <= this.minValue)
+                            else if (value <= minValue)
                             {
-                                this.currentValue = this.minValue;
+                                currentValue = minValue;
                             }
                             else
                             {
-                                this.currentValue = value;
+                                currentValue = value;
                             }
 
                             hostThing.Eventing.OnCombatEvent(e, EventScope.ParentsDown);
@@ -187,12 +187,12 @@ namespace WheelMUD.Core
                     }
                     else
                     {
-                        this.currentValue = value;
+                        currentValue = value;
                     }
                 }
                 else
                 {
-                    this.currentValue = value;
+                    currentValue = value;
                 }
             }
         }
@@ -202,7 +202,7 @@ namespace WheelMUD.Core
         /// <param name="sender">The sender of the stat change.</param>
         public void SetValue(int value, Thing sender)
         {
-            this.SetValue(value, sender, null);
+            SetValue(value, sender, null);
         }
 
         /// <summary>Increases the value of the stat.</summary>
@@ -211,7 +211,7 @@ namespace WheelMUD.Core
         /// <param name="message">The contextual message to broadcast with the change.</param>
         public void Increase(int value, Thing sender, ContextualStringBuilder message)
         {
-            this.SetValue(this.Value + value, sender, message);
+            SetValue(Value + value, sender, message);
         }
 
         /// <summary>Increases the value of the stat.</summary>
@@ -219,7 +219,7 @@ namespace WheelMUD.Core
         /// <param name="sender">The sender of the stat change.</param>
         public void Increase(int value, Thing sender)
         {
-            this.SetValue(this.Value + value, sender);
+            SetValue(Value + value, sender);
         }
 
         /// <summary>Decreases the value of the stat.</summary>
@@ -228,7 +228,7 @@ namespace WheelMUD.Core
         /// <param name="message">The contextual message to broadcast with the change.</param>
         public void Decrease(int value, Thing sender, ContextualStringBuilder message)
         {
-            this.SetValue(this.Value - value, sender, message);
+            SetValue(Value - value, sender, message);
         }
 
         /// <summary>Decreases the value of the stat.</summary>
@@ -236,7 +236,7 @@ namespace WheelMUD.Core
         /// <param name="sender">The sender of the stat change.</param>
         public void Decrease(int value, Thing sender)
         {
-            this.SetValue(this.Value - value, sender);
+            SetValue(Value - value, sender);
         }
     }
 }

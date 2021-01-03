@@ -17,7 +17,7 @@ namespace WheelMUD.Core.Events
         public AttackEvent(Thing activeThing, SensoryMessage senseMessage, Thing aggressor)
             : base(activeThing, senseMessage)
         {
-            this.Aggressor = aggressor;
+            Aggressor = aggressor;
             senseMessage.Context.Add("Aggressor", aggressor);
         }
 

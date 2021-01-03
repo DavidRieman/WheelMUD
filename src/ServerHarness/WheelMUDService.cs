@@ -21,18 +21,18 @@ namespace ServerHarness
         public WheelMudService()
         {
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            this.application = Application.Instance;
+            application = Application.Instance;
         }
 
         public bool Start(HostControl hostControl)
         {
-            this.application.Start();
+            application.Start();
             return true;
         }
 
         public bool Stop(HostControl hostControl)
         {
-            this.application.Stop();
+            application.Stop();
             return true;
         }
     }

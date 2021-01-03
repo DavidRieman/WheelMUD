@@ -28,9 +28,9 @@ namespace WarriorRogueMage
         /// <param name="talentType">Type of the talent.</param>
         public Talent(string name, string description, TalentType talentType)
         {
-            this.Name = name;
-            this.Description = description;
-            this.TalentType = talentType;
+            Name = name;
+            Description = description;
+            TalentType = talentType;
         }
 
         /// <summary>Initializes a new instance of the <see cref="Talent"/> class.</summary>
@@ -41,18 +41,18 @@ namespace WarriorRogueMage
         /// <param name="rules">The rules.</param>
         public Talent(string name, string description, TalentType talentType, Thing parent, params string[] rules)
         {
-            this.Name = name;
-            this.Description = description;
-            this.TalentType = talentType;
-            this.Rules = rules.ToList();
-            this.PlayerThing = parent;
+            Name = name;
+            Description = description;
+            TalentType = talentType;
+            Rules = rules.ToList();
+            PlayerThing = parent;
         }
 
         /// <summary>Initializes a new instance of the <see cref="Talent"/> class.</summary>
         /// <param name="parent">The parent.</param>
         public Talent(Thing parent)
         {
-            this.PlayerThing = parent;
+            PlayerThing = parent;
         }
 
         /// <summary>Gets or sets the player thing.</summary>
@@ -71,12 +71,12 @@ namespace WarriorRogueMage
         /// <summary>Gets the rules.</summary>
         public List<string> Rules { get; private set; }
 
-        /// <summary>Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing.)</summary>
+        /// <summary>Called when a parent has just been assigned to this talent. (Refer to PlayerThing.)</summary>
         public virtual void OnAddTalent()
         {
         }
 
-        /// <summary>Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing.)</summary>
+        /// <summary>Called when the current parent of this talent is about to be removed. (Refer to PlayerThing.)</summary>
         public virtual void OnRemoveTalent()
         {
         }
@@ -92,7 +92,7 @@ namespace WarriorRogueMage
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(Talent other)
         {
-            if (this.TalentType == other.TalentType && this.Name == other.Name)
+            if (TalentType == other.TalentType && Name == other.Name)
             {
                 return true;
             }

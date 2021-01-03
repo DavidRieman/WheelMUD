@@ -104,9 +104,9 @@ namespace WheelMUD.Effects
         {
             get
             {
-                if (this.completesAt > DateTime.Now)
+                if (completesAt > DateTime.Now)
                 {
-                    return this.completesAt.Subtract(DateTime.Now);
+                    return completesAt.Subtract(DateTime.Now);
                 }
 
                 return new TimeSpan(0, 0, 0, 0, 0);
@@ -135,8 +135,8 @@ namespace WheelMUD.Effects
         /// <param name="duration">The duration for the effect.</param>
         public virtual void Apply(TimeSpan duration)
         {
-            this.Duration = new Timer(this.TickElapsed, null, (int)duration.TotalMilliseconds, Timeout.Infinite);
-            this.completesAt = DateTime.Now.Add(duration);
+            Duration = new Timer(TickElapsed, null, (int)duration.TotalMilliseconds, Timeout.Infinite);
+            completesAt = DateTime.Now.Add(duration);
         }
 
         /// <summary>The method that is called when an effect is to be removed.</summary>
@@ -150,10 +150,10 @@ namespace WheelMUD.Effects
         /// <summary>Raises the Effect Elapsed event.</summary>
         protected void RaiseEffectElapsed()
         {
-            this.Duration.Change(Timeout.Infinite, Timeout.Infinite);
-            if (this.EffectElapsed != null)
+            Duration.Change(Timeout.Infinite, Timeout.Infinite);
+            if (EffectElapsed != null)
             {
-                this.EffectElapsed(this);
+                EffectElapsed(this);
             }
         }
     }
@@ -189,14 +189,14 @@ namespace WheelMUD.Effects
         /// <param name="thing">The host of the effects manager.</param>
         public EffectsManager(Thing thing)
         {
-            this.host = thing;
+            host = thing;
         }
 
         /// <summary>Gets the count of the number of effects effecting this Thing.</summary>
         /// <returns>The number of effects in the effects manager.</returns>
         public int Count
         {
-            get { return this.effects.Count; }
+            get { return effects.Count; }
         }
 
         /// <summary>Tries to create a new effect and add it to the collection of effects applied to this thing.</summary>
@@ -212,16 +212,16 @@ namespace WheelMUD.Effects
 
             if (availableEffects.Contains(effect.GetType()))
             {
-                if (effect.IsAllowed(this.host, creator))
+                if (effect.IsAllowed(host, creator))
                 {
-                    effect.Host = this.host;
+                    effect.Host = host;
                     effect.Creator = creator;
 
-                    effect.EffectElapsed += this.EffectElapsed;
+                    effect.EffectElapsed += EffectElapsed;
 
-                    lock (this.lockObject)
+                    lock (lockObject)
                     {
-                        this.effects.Add(Guid.NewGuid().ToString(), effect);
+                        effects.Add(Guid.NewGuid().ToString(), effect);
                     }
 
                     return true;
@@ -258,16 +258,16 @@ namespace WheelMUD.Effects
         /// <param name="effect">The effect to remove.</param>
         private void EffectElapsed(IEffect effect)
         {
-            this.CancelEffect(effect);
+            CancelEffect(effect);
         }
 
         /// <summary>Cancels an effect.</summary>
         /// <param name="effect">The effect to cancel.</param>
         private void CancelEffect(IEffect effect)
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                this.effects.Remove(effect.Name.ToLower());
+                effects.Remove(effect.Name.ToLower());
             }
         }
     }
@@ -364,13 +364,13 @@ namespace WheelMUD.Universe
         public Item()
             : base()
         {
-            this.Id = 0;
-            this.KeyWords = new List<string>();
-            this.SingularPrefix = string.Empty;
-            this.PluralSuffix = string.Empty;
-            this.BehaviorManager = new BehaviorManager(this);
-            this.SingularPrefix = "a ";
-            this.PluralSuffix = "s";
+            Id = 0;
+            KeyWords = new List<string>();
+            SingularPrefix = string.Empty;
+            PluralSuffix = string.Empty;
+            BehaviorManager = new BehaviorManager(this);
+            SingularPrefix = "a ";
+            PluralSuffix = "s";
         }
 
         /// <summary>Initializes a new instance of the Item class, based on the specified item template.</summary>
@@ -386,7 +386,7 @@ namespace WheelMUD.Universe
         /// <summary>Gets the name with prepended with its prefix and appended with its suffix.</summary>
         public override string FullName
         {
-            get { return string.Format("{0} {1} {2}", this.SingularPrefix, this.Name, this.PluralSuffix).Trim(); }
+            get { return string.Format("{0} {1} {2}", SingularPrefix, Name, PluralSuffix).Trim(); }
         }
 
         /* TODO: Make base thing save then extract this example
@@ -395,19 +395,19 @@ namespace WheelMUD.Universe
         {
             ItemRepository itemRepository = new ItemRepository();
 
-            if (this.DataRecord.ID == 0)
+            if (DataRecord.ID == 0)
             {
-                itemRepository.Add(this.DataRecord);
+                itemRepository.Add(DataRecord);
 
-                this.Id = this.DataRecord.ID;
+                Id = DataRecord.ID;
             }
             else
             {
-                itemRepository.Update(this.DataRecord);
+                itemRepository.Update(DataRecord);
             }
 
-            this.BehaviorManager.ItemId = this.Id;
-            this.BehaviorManager.Save();
+            BehaviorManager.ItemId = Id;
+            BehaviorManager.Save();
         }
     }
 }*/
@@ -460,7 +460,7 @@ namespace WheelMUD.Universe.Things
         public ListeningDevice()
             : base()
         {
-            this.OwnerName = string.Empty;
+            OwnerName = string.Empty;
         }
 
         /// <summary>Initializes a new instance of the ListeningDevice class.</summary>
@@ -475,7 +475,7 @@ namespace WheelMUD.Universe.Things
                 Reactions = new List<string>()
             })
         {
-            this.OwnerName = string.Empty;
+            OwnerName = string.Empty;
         }
 
         /// <summary>Gets or sets the owner name.</summary>
@@ -495,9 +495,9 @@ namespace WheelMUD.Universe.Things
         {
             get
             {
-                if (this.Count > 1)
+                if (Count > 1)
                 {
-                    return string.Format("{0}{1}{2}", this.SingularPrefix, this.Name, this.PluralSuffix);
+                    return string.Format("{0}{1}{2}", SingularPrefix, Name, PluralSuffix);
                 }
 
                 return base.FullName;
@@ -509,12 +509,12 @@ namespace WheelMUD.Universe.Things
         {
             get
             {
-                if (this.Count == 1)
+                if (Count == 1)
                 {
                     return base.SingularPrefix;
                 }
 
-                return this.Count + " ";
+                return Count + " ";
             }
 
             set
@@ -528,7 +528,7 @@ namespace WheelMUD.Universe.Things
         {
             get
             {
-                if (this.Count == 1)
+                if (Count == 1)
                 {
                     return base.PluralSuffix;
                 }
@@ -547,7 +547,7 @@ namespace WheelMUD.Universe.Things
         /// <returns>True if the items can be combined/stacked, else false.</returns>
         public bool CanStack(IStackableItem stackableItem)
         {
-            if (this.TemplateID != null && stackableItem.TemplateID == this.TemplateID)
+            if (TemplateID != null && stackableItem.TemplateID == TemplateID)
             {
                 return true;
             }
@@ -564,16 +564,16 @@ namespace WheelMUD.Universe.Things
         /// operations; one would have to add explicit checks for Count prior to RemoveFromContainer.</remarks>
         public bool RemoveFromContainer(long numberToRemove)
         {
-            if (numberToRemove < this.Count)
+            if (numberToRemove < Count)
             {
-                IStackableItem stackableItem = this.SplitStack(this.Count - numberToRemove);
-                IItemCollection container = this.Container;
-                this.RemoveFromContainer();
+                IStackableItem stackableItem = SplitStack(Count - numberToRemove);
+                IItemCollection container = Container;
+                RemoveFromContainer();
                 container.AddItem(stackableItem);
                 return true;
             }
 
-            return this.RemoveFromContainer();
+            return RemoveFromContainer();
         }
 
         // RemoveFromContainer() is not overrided because if no count is specified,
@@ -587,14 +587,14 @@ namespace WheelMUD.Universe.Things
             // Ensure that we can't make negative count on either item.  Ensure the null
             // return case is handled anywhere SplitStack is used if count was not already
             // verified by the caller.
-            if (numberToSplitOff >= this.Count)
+            if (numberToSplitOff >= Count)
             {
                 return null;
             }
 
-            StackableItem newStack = (StackableItem)this.Clone();
+            StackableItem newStack = (StackableItem)Clone();
             newStack.Count = numberToSplitOff;
-            this.Count -= numberToSplitOff;
+            Count -= numberToSplitOff;
             return newStack;
         }
     }
@@ -624,29 +624,26 @@ namespace WheelMUD.Universe.Things
             : base(ids)
         {            
             // Keep a reference of this item's potion behavior.
-            this.potionBehavior = this.BehaviorManager.FindFirst<PotionItemBehavior>();
-            if (this.potionBehavior == null)
+            potionBehavior = BehaviorManager.FindFirst<PotionItemBehavior>();
+            if (potionBehavior == null)
             {
                 // TODO: Loud warning if a Potion doesn't have an associated PotionItemBehavior, 
                 //       but for now, until DAL reflects Behaviors properly, we'll default a test one.
-                this.potionBehavior = new PotionItemBehavior();
-                this.potionBehavior.MaxSips = 5;
-                this.potionBehavior.SipsLeft = 2;
-                this.potionBehavior.PotionType = "health";
-                this.potionBehavior.Modifier = 100;
-                this.potionBehavior.Duration = new TimeSpan(0, 0, 0, 15);
+                potionBehavior = new PotionItemBehavior();
+                potionBehavior.MaxSips = 5;
+                potionBehavior.SipsLeft = 2;
+                potionBehavior.PotionType = "health";
+                potionBehavior.Modifier = 100;
+                potionBehavior.Duration = new TimeSpan(0, 0, 0, 15);
             }
 
-            base.Description = "A " + this.PotionType + " potion.  It appears to have around %numSipsLeft% sips left";
-        }
-
-            base.Description = "A " + this.PotionType + " potion.  It appears to have around %numSipsLeft% sips left";
+            base.Description = "A " + PotionType + " potion.  It appears to have around %numSipsLeft% sips left";
         }
 
         /// <summary>Ges or sets the description of this potion.</summary>
         public override string Description
         {
-            get { return base.Description.Replace("%numSipsLeft%", this.SipsLeft.ToString()); }
+            get { return base.Description.Replace("%numSipsLeft%", SipsLeft.ToString()); }
             set { base.Description = value; }
         }
     }
@@ -667,40 +664,40 @@ namespace WheelMUD.Universe.Things
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine(base.Description);
 
-                if (this.LiquidSourceBehavior != null)
+                if (LiquidSourceBehavior != null)
                 {
-                    string sound = this.LiquidSourceBehavior.FlowingSound;
-                    string liquid = this.LiquidSourceBehavior.LiquidName;
+                    string sound = LiquidSourceBehavior.FlowingSound;
+                    string liquid = LiquidSourceBehavior.LiquidName;
 
-                    if (this.LiquidSourceBehavior.IsFlowing)
+                    if (LiquidSourceBehavior.IsFlowing)
                     {
-                        if (this.HoldsLiquid)
+                        if (HoldsLiquid)
                         {
-                            sb.AppendLine(string.Format("{0} {1} in of the {2}.", liquid, sound, this.Name));
+                            sb.AppendLine(string.Format("{0} {1} in of the {2}.", liquid, sound, Name));
                         }
                         else
                         {
-                            sb.AppendLine(string.Format("{0} {1} out of the {2}.", liquid, sound, this.Name));
+                            sb.AppendLine(string.Format("{0} {1} out of the {2}.", liquid, sound, Name));
                         }
                     }
                     else
                     {
-                        if (this.HoldsLiquid)
+                        if (HoldsLiquid)
                         {
-                            sb.AppendLine(string.Format("Stagnant liquid sits in of the {0}.", this.Name));
+                            sb.AppendLine(string.Format("Stagnant liquid sits in of the {0}.", Name));
                         }
                         else
                         {
-                            sb.AppendLine(string.Format("No liquid flows out of the {0}.", this.Name));
+                            sb.AppendLine(string.Format("No liquid flows out of the {0}.", Name));
                         }
                     }
                 }
 
-                if (this.IsClosable)
+                if (IsClosable)
                 {
-                    if (this.OpenState == OpenState.Open)
+                    if (OpenState == OpenState.Open)
                     {
-                        if (this.Count > 0)
+                        if (Count > 0)
                         {
                             sb.AppendLine("Inside, you see:");
                             foreach (Item item in this)
@@ -711,19 +708,19 @@ namespace WheelMUD.Universe.Things
                         }
                         else
                         {
-                            sb.Append(string.Format("The interior of {0} ({1}) is empty", this.Name, this.Id));
+                            sb.Append(string.Format("The interior of {0} ({1}) is empty", Name, Id));
                         }
                     }
                     else
                     {
-                        sb.AppendLine(string.Format("The {0} appears to hold things, but is closed", this.Name));
+                        sb.AppendLine(string.Format("The {0} appears to hold things, but is closed", Name));
                     }
                 }
                 else
                 {
-                    if (this.Count > 0)
+                    if (Count > 0)
                     {
-                        sb.AppendLine(string.Format("On the {0} you see:", this.Name));
+                        sb.AppendLine(string.Format("On the {0} you see:", Name));
                         foreach (Item item in this)
                         {
                             sb.Append(item.Id.ToString().PadRight(20));
@@ -732,7 +729,7 @@ namespace WheelMUD.Universe.Things
                     }
                     else
                     {
-                        sb.Append(string.Format("There is nothing on the {0}.", this.Name));
+                        sb.Append(string.Format("There is nothing on the {0}.", Name));
                     }
                 }
 
@@ -761,20 +758,20 @@ namespace WheelMUD.Universe.Things
             {
                 StringBuilder sb = new StringBuilder();
 
-                if (this.OpenState == OpenState.Open)
+                if (OpenState == OpenState.Open)
                 {
                     sb.AppendLine(base.Description);
 
-                    if (this.HoldsLiquid)
+                    if (HoldsLiquid)
                     {
-                        sb.AppendFormat("It appears that this {0} will hold liquids.", this.Name);
+                        sb.AppendFormat("It appears that this {0} will hold liquids.", Name);
                         sb.Append(Environment.NewLine);
                     }
 
-                    if (this.Count > 0)
+                    if (Count > 0)
                     {
                         sb.AppendLine("Inside, you see:");
-                        foreach (Item item in this.container)
+                        foreach (Item item in container)
                         {
                             sb.Append(item.Id.ToString().PadRight(20));
                             sb.AppendLine(item.Description);
@@ -782,7 +779,7 @@ namespace WheelMUD.Universe.Things
                     }
                     else
                     {
-                        sb.AppendFormat("The {0} ({1}) is empty", this.Name, this.Id);
+                        sb.AppendFormat("The {0} ({1}) is empty", Name, Id);
                         sb.Append(Environment.NewLine);
                     }
                 }
@@ -790,9 +787,9 @@ namespace WheelMUD.Universe.Things
                 {
                     sb.AppendLine(base.Description + " (closed)");
 
-                    if (this.HoldsLiquid)
+                    if (HoldsLiquid)
                     {
-                        sb.AppendFormat("It appears that this {0} will hold liquids.", this.Name);
+                        sb.AppendFormat("It appears that this {0} will hold liquids.", Name);
                         sb.Append(Environment.NewLine);
                     }
                 }
@@ -813,7 +810,7 @@ namespace WheelMUD.Universe.Things
             // We need to subscribe each of our items to the broadcaster,
             // as well as this item.
             broadcaster.Subscribe(this);
-            foreach (Item item in this.container)
+            foreach (Item item in container)
             {
                 item.Subscribe(broadcaster);
             }
@@ -826,7 +823,7 @@ namespace WheelMUD.Universe.Things
             // We need to unsubscribe each of our items to the broadcaster.
             // As well as this item
             broadcaster.UnSubscribe(this);
-            foreach (Item item in this.container)
+            foreach (Item item in container)
             {
                 item.UnSubscribe(broadcaster);
             }
@@ -849,11 +846,11 @@ namespace WheelMUD.Universe.Things
         internal AbstractContainer(IItemDataStructure ids) :
             base(ids)
         {
-            this.container = new ItemCollection(this);
-            this.containerBehavior = BehaviorManager.FindFirst<ContainerBehavior>();
-            if (this.containerBehavior == null)
+            container = new ItemCollection(this);
+            containerBehavior = BehaviorManager.FindFirst<ContainerBehavior>();
+            if (containerBehavior == null)
             {
-                this.containerBehavior = new ContainerBehavior()
+                containerBehavior = new ContainerBehavior()
                 {
                     Id = 0,
                     HoldsLiquid = false,
@@ -863,7 +860,7 @@ namespace WheelMUD.Universe.Things
                     VolumeUnitOfMeasurement = null
                 };
 
-                this.BehaviorManager.Add(this.containerBehavior);
+                BehaviorManager.Add(containerBehavior);
             }
         }
 
@@ -872,11 +869,11 @@ namespace WheelMUD.Universe.Things
         internal AbstractContainer(ItemRecord ids) :
             base(ids)
         {
-            this.container = new ItemCollection(this);
-            this.containerBehavior = BehaviorManager.FindFirst<ContainerBehavior>();           
-            if (this.containerBehavior == null)
+            container = new ItemCollection(this);
+            containerBehavior = BehaviorManager.FindFirst<ContainerBehavior>();           
+            if (containerBehavior == null)
             {
-                this.containerBehavior = new ContainerBehavior()
+                containerBehavior = new ContainerBehavior()
                                              {
                                                  Id = 0,
                                                  HoldsLiquid = false,
@@ -886,14 +883,14 @@ namespace WheelMUD.Universe.Things
                                                  VolumeUnitOfMeasurement = null
                                              };
 
-                this.BehaviorManager.Add(this.containerBehavior);
+                BehaviorManager.Add(containerBehavior);
             }
         }
 
         /// <summary>Gets the count of items in the container.</summary>
         public int Count
         {
-            get { return this.container.Count; }
+            get { return container.Count; }
         }
 
         /// <summary>Gets or sets a value indicating whether the thing is open or not.</summary>
@@ -901,9 +898,9 @@ namespace WheelMUD.Universe.Things
         {
             get
             {
-                if (this.containerBehavior != null)
+                if (containerBehavior != null)
                 {
-                    if (this.containerBehavior.IsOpen)
+                    if (containerBehavior.IsOpen)
                     {
                         return OpenState.Open;
                     }
@@ -916,15 +913,15 @@ namespace WheelMUD.Universe.Things
 
             set
             {
-                if (this.containerBehavior != null)
+                if (containerBehavior != null)
                 {
                     if (value == OpenState.Open)
                     {
-                        this.containerBehavior.IsOpen = true;
+                        containerBehavior.IsOpen = true;
                     }
                     else
                     {
-                        this.containerBehavior.IsOpen = false;
+                        containerBehavior.IsOpen = false;
                     }
                 }
             }
@@ -935,17 +932,17 @@ namespace WheelMUD.Universe.Things
         {
             get
             {
-                return this.containerBehavior;
+                return containerBehavior;
             }
 
             set
             {
-                if (this.containerBehavior != null)
+                if (containerBehavior != null)
                 {
-                    BehaviorManager.ManagedBehaviors.Remove(this.containerBehavior);
+                    BehaviorManager.ManagedBehaviors.Remove(containerBehavior);
                 }
 
-                this.containerBehavior = value;
+                containerBehavior = value;
                 BehaviorManager.Add(value);
             }
         }
@@ -954,7 +951,7 @@ namespace WheelMUD.Universe.Things
         /// <param name="index">Index of the item that is requested.</param>
         public Item this[int index]
         {
-            get { return this.container[index]; }
+            get { return container[index]; }
         }
 
         /// <summary>Subscribe to the specified broadcaster.</summary>
@@ -964,7 +961,7 @@ namespace WheelMUD.Universe.Things
             // We need to subscribe each of our items to the broadcaster,
             // as well as this item.
             broadcaster.Subscribe(this);
-            foreach (Item item in this.ContainerBehavior)
+            foreach (Item item in ContainerBehavior)
             {
                 item.Subscribe(broadcaster);
             }
@@ -977,7 +974,7 @@ namespace WheelMUD.Universe.Things
             // We need to unsubscribe each of our items to the broadcaster.
             // As well as this item
             broadcaster.UnSubscribe(this);
-            foreach (Item item in this.ContainerBehavior)
+            foreach (Item item in ContainerBehavior)
             {
                 item.UnSubscribe(broadcaster);
             }
@@ -1007,10 +1004,10 @@ namespace WheelMUD.Universe.Things
         public Consumable(ConsumableType consumableType)
             : base()
         {
-            this.consumableType = consumableType;
-            this.Description = string.Format("A piece of {0}", this.consumableType.ToString());
-            this.IsAdornment = false;
-            this.Name = this.consumableType.ToString();
+            consumableType = consumableType;
+            Description = string.Format("A piece of {0}", consumableType.ToString());
+            IsAdornment = false;
+            Name = consumableType.ToString();
 
             // TODO: Implement.
         }
@@ -1030,8 +1027,8 @@ namespace WheelMUD.Universe.Things
         public Tree(int numberResources)
             : base()
         {
-            this.NumberOfResources = numberResources;
-            this.ResourceType = string.Empty;
+            NumberOfResources = numberResources;
+            ResourceType = string.Empty;
         }
 
         /// <summary>Prevents a default instance of the Tree class from being created.</summary>
@@ -1069,9 +1066,9 @@ namespace WheelMUD.Universe.Things
         /// <returns>A new instance of a Consumable that came from the tree.</returns>
         public Thing Chop()
         {
-            if (this.NumberOfResources > 0)
+            if (NumberOfResources > 0)
             {
-                this.NumberOfResources--;
+                NumberOfResources--;
                 return new Consumable(ConsumableType.Wood);
             }
             
@@ -1093,8 +1090,8 @@ namespace WheelMUD.Universe.Things
         /// <param name="direction">The direction of the ExitEnd.</param>
         public ExitEnd(Thing room, string direction)
         {
-            this.Room = room;
-            this.Direction = direction;
+            Room = room;
+            Direction = direction;
         }
 
         /// <summary>Gets the direction this exit end faces.</summary>
@@ -1298,7 +1295,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            this.portalBehavior.Use(sender.Thing, bridge.World);
+            portalBehavior.Use(sender.Thing, bridge.World);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -1306,7 +1303,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -1326,8 +1323,8 @@ namespace WheelMUD.Actions
             foreach (Thing portal in portals)
             {
                 // If we can find an actual portal that is rigged right now, use that one.
-                this.portalBehavior = portal.BehaviorManager.FindFirst<PortalBehavior>();
-                if (this.portalBehavior != null)
+                portalBehavior = portal.BehaviorManager.FindFirst<PortalBehavior>();
+                if (portalBehavior != null)
                 {
                     return null;
                 }
@@ -1349,9 +1346,9 @@ namespace WheelMUD.Effects
         /// <param name="duration">duration of the effect</param>
         public override void Apply(TimeSpan duration)
         {
-            if (this.Host.Senses.Contains(SensoryType.Hearing))
+            if (Host.Senses.Contains(SensoryType.Hearing))
             {
-                this.Host.Senses[SensoryType.Hearing].Enabled = false;
+                Host.Senses[SensoryType.Hearing].Enabled = false;
             }
 
             base.Apply(duration);
@@ -1360,23 +1357,23 @@ namespace WheelMUD.Effects
         /// <summary>When effect is removed, cleanup.</summary>
         public override void Remove()
         {
-            this.RestoreHearing();
+            RestoreHearing();
         }
 
         /// <summary>What occurs when timer wears off.</summary>
         /// <param name="state">Not sure what this is.</param>
         protected override void TickElapsed(object state)
         {
-            this.RestoreHearing();
+            RestoreHearing();
             RaiseEffectElapsed();
         }
 
         /// <summary>Turn off the changes that the effect caused.</summary>
         private void RestoreHearing()
         {
-            if (this.Host.Senses.Contains(SensoryType.Hearing))
+            if (Host.Senses.Contains(SensoryType.Hearing))
             {
-                this.Host.Senses[SensoryType.Hearing].Enabled = true;
+                Host.Senses[SensoryType.Hearing].Enabled = true;
             }
         }
     }
@@ -1403,32 +1400,32 @@ namespace WheelMUD.Universe.MobileBuilders
         /// <param name="mob">The mobile data structure.</param>
         public BasicGuardianBuilder(MobRecord mob)
         {
-            this.mds = mob;
+            mds = mob;
         }
 
         /// <summary>Use the Mobile constructor to create a mobile. TODO: This seems awkward...</summary>
         public void UseMobileConstructor(Dictionary<string, object> args)
         {
-            this.mob = new Mobile(this.brain, CoreManager.Instance.PlacesManager.World, this.mds);
-            this.brain.Entity = this.mob;
+            mob = new Mobile(brain, CoreManager.Instance.PlacesManager.World, mds);
+            brain.Entity = mob;
         }
 
         /// <summary>Configures the Mobile.</summary>
         public void ConfigureMobile()
         {
-            this.mob.Name = this.mds.Name;
-            this.mob.Description = this.mds.Description;
-            this.mob.Id = this.mds.ID;
+            mob.Name = mds.Name;
+            mob.Description = mds.Description;
+            mob.Id = mds.ID;
 
- //           this.mob.Load();
-            this.brain.Start();
+ //           mob.Load();
+            brain.Start();
         }
 
         /// <summary>Creates an instanciated Mobile.</summary>
         /// <returns>The instanciated Mobile.</returns>
         public IMobile GetInstanciatedMobile()
         {
-            return this.mob;
+            return mob;
         }
     }
 }
@@ -1516,7 +1513,7 @@ public interface IEventObserver
         /// <summary>Method that will go through all adornments and save them.</summary>
         protected void SaveAdornments()
         {
-            foreach (IThingAdornment adornment in this.adornments)
+            foreach (IThingAdornment adornment in adornments)
             {
                 var thing = adornment as Thing;
                 if (thing != null)
@@ -1550,9 +1547,9 @@ public interface IEventObserver
         public Mobile(IController controller, World world, MobRecord mobDataRecord)
             : base(controller, world)
         {
-            this.Id = mobDataRecord.ID;
-            this.DataRecord = mobDataRecord;
-            this.brain.ActionReceived += this.Brain_ActionReceived;
+            Id = mobDataRecord.ID;
+            DataRecord = mobDataRecord;
+            brain.ActionReceived += Brain_ActionReceived;
         }
 
     }
@@ -1569,7 +1566,7 @@ public interface IEventObserver
             ItemBehaviorPropertyRepository itemBehaviorPropertyRepository =
                 new ItemBehaviorPropertyRepository();
 
-            foreach (Behavior behavior in this.ManagedBehaviors)
+            foreach (Behavior behavior in ManagedBehaviors)
             {
                 long behaviorId = behavior.Id;
 
@@ -1579,7 +1576,7 @@ public interface IEventObserver
                     {
                         // TODO: Track behavior by its name for reflection/MEF usage.
                         //ItemBehaviorTypeID = (long)behavior.ItemBehaviorType,
-                        ItemID = this.ItemId
+                        ItemID = ItemId
                     };
 
                     itemBehaviorRepository.Add(itemBehaviorRecord);

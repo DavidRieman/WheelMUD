@@ -20,24 +20,24 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected override string OnProcess(string message)
         {
-            string filePath = this.GetPath(message);
+            string filePath = GetPath(message);
 
-            var file = this.ConnectionObject.FileSystemObject.OpenFile(filePath, true);
+            var file = ConnectionObject.FileSystemObject.OpenFile(filePath, true);
             if (file == null)
             {
-                return this.GetMessage(425, "Couldn't open file");
+                return GetMessage(425, "Couldn't open file");
             }
 
-            var socketReply = new FtpReplySocket(this.ConnectionObject);
+            var socketReply = new FtpReplySocket(ConnectionObject);
 
             if (!socketReply.Loaded)
             {
-                return this.GetMessage(425, "Error in establishing data connection.");
+                return GetMessage(425, "Error in establishing data connection.");
             }
 
             var data = new byte[BufferSize];
 
-            SocketHelpers.Send(this.ConnectionObject.Socket, this.GetMessage(150, "Opening connection for data transfer."));
+            SocketHelpers.Send(ConnectionObject.Socket, GetMessage(150, "Opening connection for data transfer."));
 
             int received = socketReply.Receive(data);
 
@@ -50,7 +50,7 @@ namespace WheelMUD.Ftp.FtpCommands
             file.Close();
             socketReply.Close();
 
-            return this.GetMessage(226, string.Format("Appended file successfully. ({0})", filePath));
+            return GetMessage(226, string.Format("Appended file successfully. ({0})", filePath));
         }
     }
 }

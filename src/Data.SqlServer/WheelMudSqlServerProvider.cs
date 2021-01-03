@@ -22,7 +22,7 @@ namespace WheelMUD.Data.SqlServer
 
         public WheelMudSqlServerProvider(string connectionString)
         {
-            this.ConnectionString = connectionString;
+            ConnectionString = connectionString;
         }
 
         public string ConnectionString { get; set; }
@@ -31,7 +31,7 @@ namespace WheelMUD.Data.SqlServer
 
         public IDbConnection CreateDatabaseSession()
         {
-            var connectionFactory = new OrmLiteConnectionFactory(this.ConnectionString, false, SqlServerOrmLiteDialectProvider.Instance);
+            var connectionFactory = new OrmLiteConnectionFactory(ConnectionString, false, SqlServerOrmLiteDialectProvider.Instance);
             IDbConnection connection = connectionFactory.OpenDbConnection();
             return connection;
         }

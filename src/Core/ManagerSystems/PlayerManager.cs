@@ -45,9 +45,9 @@ namespace WheelMUD.Core
         {
             get
             {
-                lock (this.playersList)
+                lock (playersList)
                 {
-                    return this.playersList.FindAll(p => p.Parent.Name.Length > 0).AsReadOnly();
+                    return playersList.FindAll(p => p.Parent.Name.Length > 0).AsReadOnly();
                 }
             }
         }
@@ -83,7 +83,7 @@ namespace WheelMUD.Core
         /// <param name="e">The <see cref="WheelMUD.Core.Events.GameEvent"/> instance containing the event data.</param>
         public void OnPlayerLogIn(Thing player, GameEvent e)
         {
-            this.GlobalPlayerLogInEvent?.Invoke(player.Parent, e);
+            GlobalPlayerLogInEvent?.Invoke(player.Parent, e);
         }
 
         /// <summary>Called when a player logs out, to raise the player log out events.</summary>
@@ -91,8 +91,8 @@ namespace WheelMUD.Core
         /// <param name="e">The event arguments.</param>
         public void OnPlayerLogOut(Thing player, GameEvent e)
         {
-            this.GlobalPlayerLogOutEvent?.Invoke(player.Parent, e);
-            this.RemovePlayer(player);
+            GlobalPlayerLogOutEvent?.Invoke(player.Parent, e);
+            RemovePlayer(player);
         }
 
         /// <summary>Called when a player is trying to log in, to raise the player log in request.</summary>
@@ -100,7 +100,7 @@ namespace WheelMUD.Core
         /// <param name="e">The event arguments.</param>
         public void OnPlayerLogInRequest(Thing player, CancellableGameEvent e)
         {
-            this.GlobalPlayerLogInRequest?.Invoke(player.Parent, e);
+            GlobalPlayerLogInRequest?.Invoke(player.Parent, e);
         }
 
         /// <summary>Called when a player is trying to log out, to raise the player log out request.</summary>
@@ -108,7 +108,7 @@ namespace WheelMUD.Core
         /// <param name="e">The event arguments.</param>
         public void OnPlayerLogOutRequest(Thing player, CancellableGameEvent e)
         {
-            this.GlobalPlayerLogOutRequest?.Invoke(player.Parent, e);
+            GlobalPlayerLogOutRequest?.Invoke(player.Parent, e);
         }
 
         /// <summary>Finds a player using the predicate passed.</summary>
@@ -116,9 +116,9 @@ namespace WheelMUD.Core
         /// <returns>The player found.</returns>
         public PlayerBehavior FindPlayer(Predicate<PlayerBehavior> predicate)
         {
-            lock (this.playersList)
+            lock (playersList)
             {
-                return this.playersList.Find(predicate);
+                return playersList.Find(predicate);
             }
         }
 
@@ -129,10 +129,10 @@ namespace WheelMUD.Core
         public Thing FindLoadedPlayerByName(string name, bool allowPartialMatch)
         {
             name = name.ToLower();
-            var playerBehavior = this.FindPlayer(p => p.Parent.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            var playerBehavior = FindPlayer(p => p.Parent.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             if (playerBehavior == null && allowPartialMatch)
             {
-                playerBehavior = this.FindPlayer(p => p.Parent.Name.StartsWith(name, StringComparison.OrdinalIgnoreCase));
+                playerBehavior = FindPlayer(p => p.Parent.Name.StartsWith(name, StringComparison.OrdinalIgnoreCase));
             }
 
             return playerBehavior?.Parent;
@@ -148,11 +148,11 @@ namespace WheelMUD.Core
             // TODO: We can probably handle this more gracefully (without the extra logouts and messaging
             //       the room about it and so on) by having the login process notice the target player is
             //       already in the world sooner, and more directly taking fresh control of THAT Thing.
-            PlayerBehavior previousPlayer = this.FindLoggedInPlayer(session.User.UserName);
+            PlayerBehavior previousPlayer = FindLoggedInPlayer(session.User.UserName);
             if (previousPlayer != null)
             {
                 var msg = $"Duplicate player match, kicking session id {previousPlayer.SessionId} and keeping {session.ID}";
-                this.SystemHost.UpdateSystemHost(this, msg);
+                SystemHost.UpdateSystemHost(this, msg);
 
                 var existingUserControlledBehavior = previousPlayer.Parent.Behaviors.FindFirst<UserControlledBehavior>();
                 if (existingUserControlledBehavior != null)
@@ -161,11 +161,11 @@ namespace WheelMUD.Core
                 }
 
                 previousPlayer.LogOut();
-                this.RemovePlayer(previousPlayer.Parent);
+                RemovePlayer(previousPlayer.Parent);
             }
 
             // Track this player in the loaded players list.
-            this.AddPlayer(session.Thing);
+            AddPlayer(session.Thing);
 
             // If this session doesn't have a player thing attached yet, load it up.  Note that
             // for situations like character creation, we might already have our Thing, so we
@@ -202,31 +202,31 @@ namespace WheelMUD.Core
         /// <summary>Starts this system's individual components.</summary>
         public override void Start()
         {
-            this.SystemHost.UpdateSystemHost(this, "Starting...");
-            this.SystemHost.UpdateSystemHost(this, "Started.");
+            SystemHost.UpdateSystemHost(this, "Starting...");
+            SystemHost.UpdateSystemHost(this, "Started.");
         }
 
         /// <summary>Stops this system's individual components.</summary>
         public override void Stop()
         {
-            this.SystemHost.UpdateSystemHost(this, "Stopping...");
+            SystemHost.UpdateSystemHost(this, "Stopping...");
 
-            lock (this.playersList)
+            lock (playersList)
             {
-                this.playersList.Clear();
+                playersList.Clear();
             }
 
-            this.SystemHost.UpdateSystemHost(this, "Stopped.");
+            SystemHost.UpdateSystemHost(this, "Stopped.");
         }
 
         private void AddPlayer(Thing player)
         {
             var playerBehavior = player.FindBehavior<PlayerBehavior>();
-            lock (this.playersList)
+            lock (playersList)
             {
-                if (playerBehavior != null && !this.playersList.Contains(playerBehavior))
+                if (playerBehavior != null && !playersList.Contains(playerBehavior))
                 {
-                    this.playersList.Add(playerBehavior);
+                    playersList.Add(playerBehavior);
                 }
             }
         }
@@ -238,9 +238,9 @@ namespace WheelMUD.Core
             var playerBehavior = player.Behaviors.FindFirst<PlayerBehavior>();
             if (playerBehavior != null)
             {
-                lock (this.playersList)
+                lock (playersList)
                 {
-                    this.playersList.Remove(playerBehavior);
+                    playersList.Remove(playerBehavior);
                 }
             }
         }
@@ -251,7 +251,7 @@ namespace WheelMUD.Core
         private PlayerBehavior FindLoggedInPlayer(string userName)
         {
             // TODO: #62: Find via user name instead of player names which match this user name.
-            return this.FindPlayer(p => p.Parent.Name.Equals(userName, StringComparison.CurrentCultureIgnoreCase));
+            return FindPlayer(p => p.Parent.Name.Equals(userName, StringComparison.CurrentCultureIgnoreCase));
         }
 
         /// <summary>Exports an instance of the PlayerManager singleton through MEF.</summary>

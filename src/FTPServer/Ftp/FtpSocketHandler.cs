@@ -24,7 +24,7 @@ namespace WheelMUD.Ftp
 
         public FtpSocketHandler(IFileSystemClassFactory fileSystemClassFactory, int nId)
         {
-            this.Id = nId;
+            Id = nId;
             this.fileSystemClassFactory = fileSystemClassFactory;
         }
 
@@ -36,18 +36,18 @@ namespace WheelMUD.Ftp
 
         public void Start(TcpClient socket)
         {
-            this.clientSocket = socket;
+            clientSocket = socket;
 
-            this.connectionCommands = new FtpConnectionObject(this.fileSystemClassFactory, this.Id, socket);
+            connectionCommands = new FtpConnectionObject(fileSystemClassFactory, Id, socket);
 
-            this.mainThread = new Thread(this.ThreadRun);
-            this.mainThread.Name = "ThreadRun:" + this.Id;
-            this.mainThread.Start();
+            mainThread = new Thread(ThreadRun);
+            mainThread.Name = "ThreadRun:" + Id;
+            mainThread.Start();
         }
 
         public void Stop()
         {
-            SocketHelpers.Close(this.clientSocket);
+            SocketHelpers.Close(clientSocket);
             ////_mainThread.Join();
         }
 
@@ -58,12 +58,12 @@ namespace WheelMUD.Ftp
             {
                 //while (_clientSocket.Connected)
                 //{
-                int received = this.clientSocket.GetStream().Read(data, 0, InternalBufferSize);
+                int received = clientSocket.GetStream().Read(data, 0, InternalBufferSize);
                 while (received > 0)
                 {
-                    this.connectionCommands.Process(data);
+                    connectionCommands.Process(data);
 
-                    received = this.clientSocket.GetStream().Read(data, 0, InternalBufferSize);
+                    received = clientSocket.GetStream().Read(data, 0, InternalBufferSize);
                 }
                 //}
             }
@@ -91,24 +91,24 @@ namespace WheelMUD.Ftp
                 string msg = e.Message;
                 Console.WriteLine("FtpSocketHandler.ThreadRun() ::" + Environment.NewLine + msg);
 
-                this.CloseSocket();
+                CloseSocket();
             }
 
-            this.CloseSocket();
+            CloseSocket();
         }
 
         private void CloseSocket()
         {
-            FtpServerMessageHandler.SendMessage(this.Id, "Connection closed");
+            FtpServerMessageHandler.SendMessage(Id, "Connection closed");
 
-            if (this.clientSocket.Connected)
+            if (clientSocket.Connected)
             {
-                this.clientSocket.Close();
+                clientSocket.Close();
             }
 
-            if (this.Closed != null)
+            if (Closed != null)
             {
-                this.Closed(this);
+                Closed(this);
             }
         }
     }

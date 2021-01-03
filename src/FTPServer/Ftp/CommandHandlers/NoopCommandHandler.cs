@@ -16,7 +16,7 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected override string OnProcess(string message)
         {
-            return this.GetMessage(200, string.Empty);
+            return GetMessage(200, string.Empty);
         }
     }
 }

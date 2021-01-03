@@ -24,7 +24,7 @@ namespace WheelMUD.Core
         public LivingBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Gets or sets the consciousness of the entity.</summary>
@@ -33,7 +33,7 @@ namespace WheelMUD.Core
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.Consciousness = Consciousness.Awake;
+            Consciousness = Consciousness.Awake;
         }
     }
 }

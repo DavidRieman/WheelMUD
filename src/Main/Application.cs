@@ -29,7 +29,7 @@ namespace WheelMUD.Main
         /// <summary>Prevents a default instance of the <see cref="Application"/> class from being created.</summary>
         private Application()
         {
-            UnhandledExceptionHandler.Register(this.Notify);
+            UnhandledExceptionHandler.Register(Notify);
         }
 
         /// <summary>Gets the singleton instance of this <see cref="Application"/>.</summary>
@@ -49,19 +49,19 @@ namespace WheelMUD.Main
         /// <param name="sender">The subscribing system; generally use 'this'.</param>
         public void SubscribeToSystem(ISuperSystemSubscriber sender)
         {
-            if (this.subscribers.Contains(sender))
+            if (subscribers.Contains(sender))
             {
                 throw new DuplicateNameException("The subscriber is already subscribed to Super System events.");
             }
 
-            this.subscribers.Add(sender);
+            subscribers.Add(sender);
         }
 
         /// <summary>Unsubscribe from the specified super system subscriber.</summary>
         /// <param name="sender">The unsubscribing system; generally use 'this'.</param>
         public void UnSubscribeFromSystem(ISuperSystemSubscriber sender)
         {
-            this.subscribers.Remove(sender);
+            subscribers.Remove(sender);
         }
 
         /// <summary>Start the application.</summary>
@@ -72,7 +72,7 @@ namespace WheelMUD.Main
             EnsureDataIsPresent();
 #endif
 
-            this.InitializeSystems();
+            InitializeSystems();
         }
 
         private static void EnsureFilesArePresent()
@@ -158,12 +158,12 @@ namespace WheelMUD.Main
         /// <summary>Stop the application.</summary>
         public void Stop()
         {
-            this.Notify("Shutting Down...");
-            this.Notify("Stopping Services...");
+            Notify("Shutting Down...");
+            Notify("Stopping Services...");
 
             CoreManager.Instance.Stop();
 
-            this.Notify("Server is now Stopped");
+            Notify("Server is now Stopped");
         }
 
         /// <summary>Send an update to the system host.</summary>
@@ -171,14 +171,14 @@ namespace WheelMUD.Main
         /// <param name="msg">The message to be sent.</param>
         public void UpdateSystemHost(ISystem sender, string msg)
         {
-            this.Notify(sender.GetType().Name + " - " + msg);
+            Notify(sender.GetType().Name + " - " + msg);
         }
 
         /// <summary>Notify subscribers of the specified message.</summary>
         /// <param name="message">The message to pass along.</param>
         public void Notify(string message)
         {
-            foreach (ISuperSystemSubscriber subscriber in this.subscribers)
+            foreach (ISuperSystemSubscriber subscriber in subscribers)
             {
                 subscriber.Notify(message);
             }
@@ -268,14 +268,14 @@ namespace WheelMUD.Main
         /// <summary>Initializes the systems of this application.</summary>
         private void InitializeSystems()
         {
-            this.Notify(this.DisplayStartup());
-            this.Notify("Starting Application.");
+            Notify(DisplayStartup());
+            Notify("Starting Application.");
 
             // Add environment variables needed by the program.
             VariableProcessor.Set("app.path", AppDomain.CurrentDomain.BaseDirectory);
 
             // Find and prepare all the application's most recent systems from those discovered by MEF.
-            var systemExporters = this.GetLatestSystems();
+            var systemExporters = GetLatestSystems();
             CoreManager.Instance.SubSystems = new List<ISystem>();
             foreach (var systemExporter in systemExporters)
             {
@@ -285,7 +285,7 @@ namespace WheelMUD.Main
             CoreManager.Instance.SubscribeToSystem(this);
             CoreManager.Instance.Start();
 
-            this.Notify("All services are started. Server is fully operational.");
+            Notify("All services are started. Server is fully operational.");
         }
 
         /// <summary>Gets the latest versions of each of our composed systems.</summary>
@@ -298,13 +298,13 @@ namespace WheelMUD.Main
 
             // Find the Type of each distinct available system.  ToList forces LINQ to process immediately.
             var systems = new List<SystemExporter>();
-            var systemTypes = from s in this.AvailableSystems select s.Value.SystemType;
+            var systemTypes = from s in AvailableSystems select s.Value.SystemType;
             var distinctTypeNames = (from t in systemTypes select t.Name).Distinct().ToList();
 
             foreach (string systemTypeName in distinctTypeNames)
             {
                 // Add only the single most-recent version of this type (if there were more than one found).
-                SystemExporter systemToAdd = (from s in this.AvailableSystems
+                SystemExporter systemToAdd = (from s in AvailableSystems
                                               let type = s.Value.SystemType
                                               where type.Name == systemTypeName
                                               orderby s.Metadata.Priority descending,
@@ -325,7 +325,7 @@ namespace WheelMUD.Main
         {
             var sb = new StringBuilder();
             sb.AppendLine("Starting up... " + DateTime.Now.ToString());
-            sb.AppendLine(this.BasicAdministrativeGameInfo);
+            sb.AppendLine(BasicAdministrativeGameInfo);
             return sb.ToString();
         }
     }

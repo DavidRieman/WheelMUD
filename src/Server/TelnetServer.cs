@@ -31,14 +31,14 @@ namespace WheelMUD.Server
         /// <param name="sender">The subscribing system; generally use 'this'.</param>
         public void SubscribeToSystem(ISubSystemHost sender)
         {
-            this.subSystemHost = sender;
+            subSystemHost = sender;
         }
 
         /// <summary>Inform subscribed system(s) of the specified update.</summary>
         /// <param name="msg">The message to be sent to subscribed system(s).</param>
         public void InformSubscribedSystem(string msg)
         {
-            this.subSystemHost.UpdateSubSystemHost(this, msg);
+            subSystemHost.UpdateSubSystemHost(this, msg);
         }
 
         /// <summary>Handles received data: Processes telnet escape codes and non-alpha characters.</summary>

@@ -41,19 +41,19 @@ namespace WheelMUD.Core
         /// <param name="sender">The subscribing system; generally use 'this'.</param>
         public void SubscribeToSystem(ISuperSystemSubscriber sender)
         {
-            if (this.subscribers.Contains(sender))
+            if (subscribers.Contains(sender))
             {
                 throw new DuplicateNameException("The subscriber is already subscribed to Super System events: " + sender);
             }
 
-            this.subscribers.Add(sender);
+            subscribers.Add(sender);
         }
 
         /// <summary>Unsubscribe from the specified super system subscriber.</summary>
         /// <param name="sender">The unsubscribing system; generally use 'this'.</param>
         public void UnSubscribeFromSystem(ISuperSystemSubscriber sender)
         {
-            this.subscribers.Remove(sender);
+            subscribers.Remove(sender);
         }
 
         /// <summary>Start the CoreManager.</summary>
@@ -64,17 +64,17 @@ namespace WheelMUD.Core
             // TODO: Implement file system watcher on the execution directory to trigger auto-recompositions.
             DefaultComposer.Container.ComposeParts(this);
 
-            this.SubscribeToSystems();
+            SubscribeToSystems();
 
-            foreach (var system in this.SubSystems)
+            foreach (var system in SubSystems)
             {
                 system.Start();
             }
 
-            if (this.SystemPlugIns != null)
+            if (SystemPlugIns != null)
             {
                 // Start all the plugins
-                foreach (var systemPlugIn in this.SystemPlugIns)
+                foreach (var systemPlugIn in SystemPlugIns)
                 {
                     systemPlugIn.Start();
                 }
@@ -86,15 +86,15 @@ namespace WheelMUD.Core
         {
             try
             {
-                foreach (var system in this.SubSystems)
+                foreach (var system in SubSystems)
                 {
                     system.Stop();
                 }
 
-                if (this.SystemPlugIns != null)
+                if (SystemPlugIns != null)
                 {
                     // Stop all the plugins
-                    foreach (var systemPlugIn in this.SystemPlugIns)
+                    foreach (var systemPlugIn in SystemPlugIns)
                     {
                         systemPlugIn.Stop();
                     }
@@ -112,14 +112,14 @@ namespace WheelMUD.Core
         /// <param name="msg">The message to be sent.</param>
         public void UpdateSystemHost(ISystem sender, string msg)
         {
-            this.NotifySubscribers(sender + " - " + msg);
+            NotifySubscribers(sender + " - " + msg);
         }
 
         /// <summary>Notify subscribers of the supplied message.</summary>
         /// <param name="message">The message to pass along.</param>
         private void NotifySubscribers(string message)
         {
-            foreach (ISuperSystemSubscriber subscriber in this.subscribers)
+            foreach (ISuperSystemSubscriber subscriber in subscribers)
             {
                 subscriber.Notify(message);
             }
@@ -129,15 +129,15 @@ namespace WheelMUD.Core
         private void SubscribeToSystems()
         {
             // Subscribe each system to the supersystem.
-            foreach (var system in this.SubSystems)
+            foreach (var system in SubSystems)
             {
                 system.SubscribeToSystemHost(this);
             }
 
-            if (this.SystemPlugIns != null)
+            if (SystemPlugIns != null)
             {
                 // Subscribe all the plugins to the host
-                foreach (var systemPlugIn in this.SystemPlugIns)
+                foreach (var systemPlugIn in SystemPlugIns)
                 {
                     systemPlugIn.SubscribeToSystemHost(this);
                 }

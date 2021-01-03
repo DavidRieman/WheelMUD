@@ -36,7 +36,7 @@ namespace WheelMUD.Core
         public RoomBehavior(long instanceId, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceId;
+            ID = instanceId;
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace WheelMUD.Core
         {
             get
             {
-                return this.visuals;
+                return visuals;
             }
         }
 
@@ -61,7 +61,7 @@ namespace WheelMUD.Core
         /// <returns>A string to describe the visual item, or null if the item was not found.</returns>
         public string FindVisual(string partialTerm)
         {
-            var matches = this.visuals.Where(pair => pair.Key.StartsWith(partialTerm)).Select(pair => pair.Value);
+            var matches = visuals.Where(pair => pair.Key.StartsWith(partialTerm)).Select(pair => pair.Value);
             return matches.FirstOrDefault();
         }
 
@@ -74,7 +74,7 @@ namespace WheelMUD.Core
             // non-standard exits should be loaded just like any other generic Thing.
             // TODO: These should come as part of the world areas with the document repository, so that
             //       exit Things could get customized with brand new Behaviors without difficulty, etc.
-            string roomNumber = this.Parent.Id.Replace("room/", string.Empty);
+            string roomNumber = Parent.Id.Replace("room/", string.Empty);
             long persistedRoomID = long.Parse(roomNumber);
             ICollection<ExitRecord> exits = roomRepository.LoadExitsForRoom(persistedRoomID);
 
@@ -99,7 +99,7 @@ namespace WheelMUD.Core
                 exitBehavior.AddDestination(exitRecord.DirectionB, exitRoomA);
 
                 // Add this Exit Thing as a child of the Room Thing.
-                this.Parent.Add(exit);
+                Parent.Add(exit);
 
                 // Look for the other room; if it exists, add this exit to that room too, else
                 // set up an event reaction to add the exit to the room when it gets loaded.
@@ -124,10 +124,10 @@ namespace WheelMUD.Core
             // If this room is the secondary parent for a pending exit rigging, rig it up.
             lock (pendingExitRiggings)
             {
-                var matchedExitRiggings = this.FindMatchedPendingExitRiggings(this.Parent.Id);
+                var matchedExitRiggings = FindMatchedPendingExitRiggings(Parent.Id);
                 foreach (var matchedExitRigging in matchedExitRiggings)
                 {
-                    this.Parent.Add(matchedExitRigging.ExitThing);
+                    Parent.Add(matchedExitRigging.ExitThing);
                     pendingExitRiggings.Remove(matchedExitRigging);
                 }
             }

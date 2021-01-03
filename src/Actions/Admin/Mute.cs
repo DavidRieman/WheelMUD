@@ -47,14 +47,14 @@ namespace WheelMUD.Actions
             IController sender = actionInput.Controller;
 
             // Strings to be displayed when the effect is applied/removed.
-            var muteString = new ContextualString(sender.Thing, this.playerToMute)
+            var muteString = new ContextualString(sender.Thing, playerToMute)
             {
-                ToOriginator = $"You mute {this.playerToMute.Name} for duration {this.muteDuration}.",
+                ToOriginator = $"You mute {playerToMute.Name} for duration {muteDuration}.",
                 ToReceiver = $"You are now mute. Please reflect on recent choices.",
             };
-            var unmuteString = new ContextualString(sender.Thing, this.playerToMute)
+            var unmuteString = new ContextualString(sender.Thing, playerToMute)
             {
-                ToOriginator = $"{this.playerToMute.Name} is no longer mute.",
+                ToOriginator = $"{playerToMute.Name} is no longer mute.",
                 ToReceiver = $"You are no longer mute."
             };
 
@@ -63,10 +63,10 @@ namespace WheelMUD.Actions
             var unmuteMessage = new SensoryMessage(SensoryType.Sight, 100, unmuteString);
 
             // Create the effect.
-            var muteEffect = new MutedEffect(sender.Thing, this.muteDuration, muteMessage, unmuteMessage);
+            var muteEffect = new MutedEffect(sender.Thing, muteDuration, muteMessage, unmuteMessage);
 
             // Apply the effect.
-            this.playerToMute.Behaviors.Add(muteEffect);
+            playerToMute.Behaviors.Add(muteEffect);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -74,15 +74,15 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             string playerName = actionInput.Params[0];
-            this.playerToMute = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
-            if (this.playerToMute == null)
+            playerToMute = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
+            if (playerToMute == null)
             {
                 return string.Format("The player named \"{0}\" could not be found.", playerName);
             }
@@ -96,7 +96,7 @@ namespace WheelMUD.Actions
 
                 if (double.TryParse(timeString, out double timeInMinutes))
                 {
-                    this.muteDuration = TimeSpan.FromMinutes(timeInMinutes);
+                    muteDuration = TimeSpan.FromMinutes(timeInMinutes);
                 }
                 else
                 {
@@ -106,7 +106,7 @@ namespace WheelMUD.Actions
             else
             {
                 // Default time if none was specified.
-                this.muteDuration = TimeSpan.FromSeconds(15);
+                muteDuration = TimeSpan.FromSeconds(15);
             }
 
             return null;

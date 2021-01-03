@@ -31,7 +31,7 @@ namespace WheelMUD.Effects
         public AlterSenseEffect(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Gets or sets the type of sense which is to be altered.</summary>
@@ -43,9 +43,9 @@ namespace WheelMUD.Effects
         /// <summary>Sets the default properties of this effect instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.SensoryType = SensoryType.None;
-            this.AlterAmount = 0;
-            this.Duration = new TimeSpan(0, 0, 30);
+            SensoryType = SensoryType.None;
+            AlterAmount = 0;
+            Duration = new TimeSpan(0, 0, 30);
         }
     }
 }

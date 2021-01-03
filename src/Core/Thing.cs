@@ -51,27 +51,27 @@ namespace WheelMUD.Core
         /// <param name="behaviors">The behaviors.</param>
         public Thing(params Behavior[] behaviors)
         {
-            this.Eventing = new ThingEventing(this);
-            this.KeyWords = new List<string>();
-            this.Children = new List<Thing>();
-            this.Behaviors = new BehaviorManager(this);
+            Eventing = new ThingEventing(this);
+            KeyWords = new List<string>();
+            Children = new List<Thing>();
+            Behaviors = new BehaviorManager(this);
 
-            this.Parent = null;
-            this.Name = string.Empty;
-            this.Title = string.Empty;
-            this.Description = string.Empty;
+            Parent = null;
+            Name = string.Empty;
+            Title = string.Empty;
+            Description = string.Empty;
 
-            this.stats = new Dictionary<string, GameStat>();
-            this.attributes = new Dictionary<string, GameAttribute>();
-            this.skills = new Dictionary<string, GameSkill>();
-            this.contextCommands = new Dictionary<string, ContextCommand>();
+            stats = new Dictionary<string, GameStat>();
+            attributes = new Dictionary<string, GameAttribute>();
+            skills = new Dictionary<string, GameSkill>();
+            contextCommands = new Dictionary<string, ContextCommand>();
 
             if (behaviors != null)
             {
                 foreach (var behavior in behaviors)
                 {
                     behavior.SetParent(this);
-                    this.Behaviors.Add(behavior);
+                    Behaviors.Add(behavior);
                 }
             }
         }
@@ -79,7 +79,7 @@ namespace WheelMUD.Core
         /// <summary>Finalizes an instance of the <see cref="Thing"/> class.</summary>
         ~Thing()
         {
-            this.Dispose();
+            Dispose();
         }
 
         public ThingEventing Eventing { get; private set; }
@@ -92,20 +92,20 @@ namespace WheelMUD.Core
             get
             {
                 // Avoid races with retrieving ID while it is in the process of changing.
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    return this.id;
+                    return id;
                 }
             }
 
             set
             {
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    if (value != this.id)
+                    if (value != id)
                     {
-                        ThingManager.Instance.UpdateThingRegistration(this.id, value, this);
-                        this.id = value;
+                        ThingManager.Instance.UpdateThingRegistration(id, value, this);
+                        id = value;
                     }
                 }
             }
@@ -120,7 +120,7 @@ namespace WheelMUD.Core
         /// <summary>Gets the full name of this thing.</summary>
         public string FullName
         {
-            get { return this.Name; }
+            get { return Name; }
         }
 
         /// <summary>Gets or sets the title of this thing.</summary>
@@ -151,17 +151,17 @@ namespace WheelMUD.Core
         {
             get
             {
-                return this.Parent?.Id;
+                return Parent?.Id;
             }
             set
             {
                 if (value == null)
                 {
-                    this.Parent = null;
+                    Parent = null;
                 }
-                else if (this.Parent?.Id != value)
+                else if (Parent?.Id != value)
                 {
-                    this.Parent = ThingManager.Instance.FindThing(value);
+                    Parent = ThingManager.Instance.FindThing(value);
                 }
             }
         }
@@ -174,13 +174,13 @@ namespace WheelMUD.Core
             {
                 var parents = new List<Thing>();
 
-                var mainParent = this.Parent;
+                var mainParent = Parent;
                 if (mainParent != null)
                 {
                     parents.Add(mainParent);
                 }
 
-                var multipleParentsBehavior = this.Behaviors.FindFirst<MultipleParentsBehavior>();
+                var multipleParentsBehavior = Behaviors.FindFirst<MultipleParentsBehavior>();
                 if (multipleParentsBehavior != null)
                 {
                     parents.AddRange(multipleParentsBehavior.SecondaryParents);
@@ -195,17 +195,17 @@ namespace WheelMUD.Core
         {
             get
             {
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    return this.stats;
+                    return stats;
                 }
             }
 
             set
             {
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    this.stats = value;
+                    stats = value;
                 }
             }
         }
@@ -215,17 +215,17 @@ namespace WheelMUD.Core
         {
             get
             {
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    return this.attributes;
+                    return attributes;
                 }
             }
 
             set
             {
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    this.attributes = value;
+                    attributes = value;
                 }
             }
         }
@@ -235,17 +235,17 @@ namespace WheelMUD.Core
         {
             get
             {
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    return this.skills;
+                    return skills;
                 }
             }
 
             set
             {
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    this.skills = value;
+                    skills = value;
                 }
             }
         }
@@ -255,9 +255,9 @@ namespace WheelMUD.Core
         {
             get
             {
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    return this.contextCommands;
+                    return contextCommands;
                 }
             }
         }
@@ -287,7 +287,7 @@ namespace WheelMUD.Core
         /// <returns>A string representation of this Thing instance.</returns>
         public override string ToString()
         {
-            return string.Format("{0} (ID: {1})", this.FullName, this.Id);
+            return string.Format("{0} (ID: {1})", FullName, Id);
         }
 
         /// <summary>Performs tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
@@ -302,7 +302,7 @@ namespace WheelMUD.Core
         {
             // If this thing is a player, use the player saving code instead of the generic
             // saving code, since players currently have their own DB/persistence concerns.
-            var playerBehavior = this.Behaviors.FindFirst<PlayerBehavior>();
+            var playerBehavior = Behaviors.FindFirst<PlayerBehavior>();
             if (playerBehavior != null)
             {
                 playerBehavior.SaveWholePlayer();
@@ -311,9 +311,9 @@ namespace WheelMUD.Core
             {
                 // TODO: If a thing is asked to save, see if it is a child/subchild of a player, and if so, save the player instead?
                 // TODO: Implement saving of core thing -> saving of housed Behaviors too.
-                if (this.Parent.HasBehavior<PlayerBehavior>())
+                if (Parent.HasBehavior<PlayerBehavior>())
                 {
-                    this.Parent.Behaviors.FindFirst<PlayerBehavior>().SaveWholePlayer();
+                    Parent.Behaviors.FindFirst<PlayerBehavior>().SaveWholePlayer();
                 }
                 else
                 {
@@ -335,10 +335,10 @@ namespace WheelMUD.Core
         /// <returns>True if the Things can become a single stack, else false.</returns>
         public bool CanStack(Thing thing)
         {
-            if (this.TemplateId == thing.TemplateId && this.Name == thing.Name && this.FullName == thing.FullName)
+            if (TemplateId == thing.TemplateId && Name == thing.Name && FullName == thing.FullName)
             {
                 // TODO: Better logic to see differing properties on housed behaviors, etc...
-                if (this.Behaviors.CanStack(thing.Behaviors))
+                if (Behaviors.CanStack(thing.Behaviors))
                 {
                     // throw new NotImplementedException();
                 }
@@ -370,7 +370,7 @@ namespace WheelMUD.Core
             try
             {
                 var s = new XmlSerializer(typeof(Thing));
-                s.Serialize(w, this.Clone());
+                s.Serialize(w, Clone());
                 s = null;
             }
             catch
@@ -391,7 +391,7 @@ namespace WheelMUD.Core
             {
                 var s = new XmlSerializer(typeof(Thing));
                 var i = (Thing)s.Deserialize(r);
-                this.CloneProperties(i);
+                CloneProperties(i);
             }
             catch
             {
@@ -405,7 +405,7 @@ namespace WheelMUD.Core
         /// <param name="existingThing">The existing thing.</param>
         public void CloneProperties(Thing existingThing)
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
                 lock (existingThing.lockObject)
                 {
@@ -413,15 +413,15 @@ namespace WheelMUD.Core
                     // to allow this base Item.Clone to take care of all the cloning.
                     // TODO: Test this.  Especially if any properties have indexers.
                     // TODO: Make sure this deep-copies things like behaviors.
-                    var properties = this.GetType().GetProperties();
+                    var properties = GetType().GetProperties();
 
                     foreach (var property in properties)
                     {
                         property.SetValue(this, property.GetValue(existingThing, null), null);
                     }
 
-                    this.Id = null;
-                    this.Behaviors = (BehaviorManager)existingThing.Behaviors.Clone();
+                    Id = null;
+                    Behaviors = (BehaviorManager)existingThing.Behaviors.Clone();
                 }
             }
         }
@@ -431,9 +431,9 @@ namespace WheelMUD.Core
         /// <returns>The Item found.</returns>
         public Thing FindChild(Predicate<Thing> predicate)
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                return this.Children.Find(predicate);
+                return Children.Find(predicate);
             }
         }
 
@@ -449,15 +449,15 @@ namespace WheelMUD.Core
 
             string s = searchString.ToLower();
 
-            lock (this.lockObject)
+            lock (lockObject)
             {
                 // Try to find the item in this collection by seeing if any item ID matches 
                 // the string exactly, else if that find call returns null, find any item ID 
                 // that starts with the specified string, else if that is null...
-                Thing foundThing = this.Children.Find(i => i.Id != null && i.Id.Equals(s)) ??
-                                   this.Children.Find(i => i.Name.ToLower().Equals(s)) ??
-                                   this.Children.Find(i => i.Name.ToLower().StartsWith(s)) ??
-                                   this.Children.Find(i => i.KeyWords.Contains(s));
+                Thing foundThing = Children.Find(i => i.Id != null && i.Id.Equals(s)) ??
+                                   Children.Find(i => i.Name.ToLower().Equals(s)) ??
+                                   Children.Find(i => i.Name.ToLower().StartsWith(s)) ??
+                                   Children.Find(i => i.KeyWords.Contains(s));
 
                 return foundThing;
             }
@@ -477,10 +477,10 @@ namespace WheelMUD.Core
                 return null;
             }
 
-            Thing foundThing = this.FindChild(searchString);
+            Thing foundThing = FindChild(searchString);
             if (foundThing == null)
             {
-                foundThing = this.Parent.FindChild(searchString);
+                foundThing = Parent.FindChild(searchString);
             }
 
             return foundThing;
@@ -493,12 +493,12 @@ namespace WheelMUD.Core
         {
             // TODO: Why are these locking?  If this is to avoid iteration of Children while it may 
             //       also be modified by another thread, it fails to do so, as the user can access/change
-            //       the public this.Children list directly.  We may need a private this.children member 
+            //       the public Children list directly.  We may need a private children member 
             //       and only allow specific access to children via our public methods which would return
             //       new lists with the appropriate members (instead of sharing the actual list).
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                return this.Children.FindAll(predicate);
+                return Children.FindAll(predicate);
             }
         }
 
@@ -507,11 +507,11 @@ namespace WheelMUD.Core
         /// <returns>List of behaviors.</returns>
         public List<T> FindAllChildrenBehaviors<T>() where T : Behavior
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
                 var found = new List<T>();
 
-                foreach (Thing thing in this.Children)
+                foreach (Thing thing in Children)
                 {
                     T behavior = thing.Behaviors.FindFirst<T>();
 
@@ -530,7 +530,7 @@ namespace WheelMUD.Core
         /// <returns>A behavior if one is found, otherwise null.</returns>
         public T FindBehavior<T>() where T : Behavior
         {
-            T behavior = this.Behaviors.FindFirst<T>();
+            T behavior = Behaviors.FindFirst<T>();
 
             return behavior;
         }
@@ -540,7 +540,7 @@ namespace WheelMUD.Core
         /// <returns>True if the behavior was found, otherwise false.</returns>
         public bool HasBehavior<T>() where T : Behavior
         {
-            T behavior = this.Behaviors.FindFirst<T>();
+            T behavior = Behaviors.FindFirst<T>();
             return behavior != null;
         }
 
@@ -549,7 +549,7 @@ namespace WheelMUD.Core
         /// <returns>The matching GameState, if found, else null.</returns>
         public GameStat FindStat<T>() where T : GameStat
         {
-            var statList = new List<GameStat>(this.Stats.Values);
+            var statList = new List<GameStat>(Stats.Values);
             T stat = statList.OfType<T>().FirstOrDefault();
             return stat;
         }
@@ -560,7 +560,7 @@ namespace WheelMUD.Core
         public GameStat FindGameStat(string name)
         {
             GameStat stat;
-            this.Stats.TryGetValue(name, out stat);
+            Stats.TryGetValue(name, out stat);
             return stat;
         }
 
@@ -570,7 +570,7 @@ namespace WheelMUD.Core
         public GameAttribute FindGameAttribute(string name)
         {
             GameAttribute attribute;
-            this.Attributes.TryGetValue(name, out attribute);
+            Attributes.TryGetValue(name, out attribute);
             return attribute;
         }
 
@@ -579,7 +579,7 @@ namespace WheelMUD.Core
         /// <returns>The matching attribute, if found, else null.</returns>
         public T FindGameAttribute<T>() where T : GameAttribute
         {
-            var attribList = new List<GameAttribute>(this.Attributes.Values);
+            var attribList = new List<GameAttribute>(Attributes.Values);
             T attribute = attribList.OfType<T>().FirstOrDefault();
             return attribute;
         }
@@ -589,7 +589,7 @@ namespace WheelMUD.Core
         /// <returns>The GameSkill, if found, or null.</returns>
         public GameSkill FindGameSkill<T>() where T : GameSkill
         {
-            var skillList = new List<GameSkill>(this.Skills.Values);
+            var skillList = new List<GameSkill>(Skills.Values);
             T skill = skillList.OfType<T>().FirstOrDefault();
             return skill;
         }
@@ -600,7 +600,7 @@ namespace WheelMUD.Core
         public GameSkill FindGameSkill(string skillName)
         {
             GameSkill skill;
-            this.Skills.TryGetValue(skillName, out skill);
+            Skills.TryGetValue(skillName, out skill);
             return skill;
         }
 
@@ -617,7 +617,7 @@ namespace WheelMUD.Core
             // TODO: The whole MultipleParentsBehavior may be too complicated for our actual use cases,
             //       and we should consider a lighter approach that doesn't track multiple parents, but
             //       simply lets the thing be a child of multiple locations.
-            lock (this.lockObject)
+            lock (lockObject)
             {
                 lock (thing.lockObject)
                 {
@@ -637,7 +637,7 @@ namespace WheelMUD.Core
                         }
                     }
 
-                    var addRequest = this.RequestAdd(thing);
+                    var addRequest = RequestAdd(thing);
                     if (addRequest.IsCancelled)
                     {
                         return false;
@@ -651,7 +651,7 @@ namespace WheelMUD.Core
                         oldParent.PerformRemoval(thing, removalRequest, multipleParentsBehavior);
                     }
 
-                    this.PerformAdd(thing, addRequest, multipleParentsBehavior);
+                    PerformAdd(thing, addRequest, multipleParentsBehavior);
                 }
 
                 return true;
@@ -665,15 +665,15 @@ namespace WheelMUD.Core
         {
             // No two threads may add/remove any combination of the parent/sub-thing at the same time,
             // in order to prevent race conditions resulting in thing-disconnection/duplication/etc.
-            lock (this.lockObject)
+            lock (lockObject)
             {
                 lock (thing.lockObject)
                 {
-                    if (this.Children.Contains(thing))
+                    if (Children.Contains(thing))
                     {
                         var multipleParentsBehavior = thing.Behaviors.FindFirst<MultipleParentsBehavior>();
-                        var removalRequest = this.RequestRemoval(thing);
-                        return this.PerformRemoval(thing, removalRequest, multipleParentsBehavior);
+                        var removalRequest = RequestRemoval(thing);
+                        return PerformRemoval(thing, removalRequest, multipleParentsBehavior);
                     }
                 }
             }
@@ -691,7 +691,7 @@ namespace WheelMUD.Core
         /// <param name="newParent"></param>
         public void RigParentUnsafe(Thing newParent)
         {
-            this.Parent = newParent;
+            Parent = newParent;
         }
 
         /// <summary>Adds this Thing to a parent.</summary>
@@ -705,7 +705,7 @@ namespace WheelMUD.Core
         /// <summary>Removes a Thing from the applicable parent(s).</summary>
         public void RemoveFromParents()
         {
-            foreach (var parent in this.Parents)
+            foreach (var parent in Parents)
             {
                 parent.Remove(this);
             }
@@ -716,7 +716,7 @@ namespace WheelMUD.Core
         public void AddAttribute(GameAttribute gameAttribute)
         {
             gameAttribute.Parent = this;
-            this.Attributes.Add(gameAttribute.Name, gameAttribute);
+            Attributes.Add(gameAttribute.Name, gameAttribute);
             gameAttribute.OnAdd();
         }
 
@@ -725,9 +725,9 @@ namespace WheelMUD.Core
         public void RemoveAttribute(GameAttribute gameAttribute)
         {
             gameAttribute.Parent = null;
-            if (this.Attributes.ContainsKey(gameAttribute.Name))
+            if (Attributes.ContainsKey(gameAttribute.Name))
             {
-                this.Attributes.Remove(gameAttribute.Name);
+                Attributes.Remove(gameAttribute.Name);
             }
             gameAttribute.OnRemove();
         }
@@ -737,7 +737,7 @@ namespace WheelMUD.Core
         public void AddStat(GameStat gameStat)
         {
             gameStat.Parent = this;
-            this.Stats.Add(gameStat.Name, gameStat);
+            Stats.Add(gameStat.Name, gameStat);
             gameStat.OnAdd();
         }
 
@@ -746,9 +746,9 @@ namespace WheelMUD.Core
         public void RemoveStat(GameStat gameStat)
         {
             gameStat.Parent = null;
-            if (this.Stats.ContainsKey(gameStat.Name))
+            if (Stats.ContainsKey(gameStat.Name))
             {
-                this.Stats.Remove(gameStat.Name);
+                Stats.Remove(gameStat.Name);
             }
             gameStat.OnRemove();
         }
@@ -758,11 +758,11 @@ namespace WheelMUD.Core
         /// <returns>The remainder (stack of) Thing if this stack couldn't combine all of the other, else null.</returns>
         private Thing Combine(Thing thing)
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
                 lock (thing.lockObject)
                 {
-                    if (!this.CanStack(thing))
+                    if (!CanStack(thing))
                     {
                         // Return the full original (stack of) thing as the unstacked remainder.
                         return thing;
@@ -771,7 +771,7 @@ namespace WheelMUD.Core
                     // TODO: Better stacking: produce a remainder thing and return it, in cases where a maximum stack count
                     //       would be exceeded.  Also, take into account potentially different Behaviors attached to the
                     //       objects in the CanStack method!
-                    this.Count += thing.Count;
+                    Count += thing.Count;
                     return null;
                 }
             }
@@ -781,7 +781,7 @@ namespace WheelMUD.Core
         {
             // Create and raise a removal event request.
             var removeChildEvent = new RemoveChildEvent(thingToRemove);
-            this.Eventing.OnMovementRequest(removeChildEvent, EventScope.SelfDown);
+            Eventing.OnMovementRequest(removeChildEvent, EventScope.SelfDown);
             return removeChildEvent;
         }
 
@@ -790,7 +790,7 @@ namespace WheelMUD.Core
             // Prepare an add event request, and ensure both the new parent (this) and the 
             // thing itself both get a chance to cancel this request before committing.
             var addChildEvent = new AddChildEvent(thingToAdd, this);
-            this.Eventing.OnMovementRequest(addChildEvent, EventScope.SelfDown);
+            Eventing.OnMovementRequest(addChildEvent, EventScope.SelfDown);
             thingToAdd.Eventing.OnMovementRequest(addChildEvent, EventScope.SelfDown);
             return addChildEvent;
         }
@@ -808,12 +808,12 @@ namespace WheelMUD.Core
             }
 
             // Send the removal event.
-            this.Eventing.OnMovementEvent(removalEvent, EventScope.SelfDown);
+            Eventing.OnMovementEvent(removalEvent, EventScope.SelfDown);
 
             // If the thing to remove was in our Children collection, remove it.
-            if (this.Children.Contains(thingToRemove))
+            if (Children.Contains(thingToRemove))
             {
-                this.Children.Remove(thingToRemove);
+                Children.Remove(thingToRemove);
             }
 
             // If we don't have a MultipleParentsBehavior, directly remove the one-allowed 
@@ -839,7 +839,7 @@ namespace WheelMUD.Core
 
             // If an existing thing is stackable with the added thing, combine the new
             // thing into the existing thing instead of simply adding it.
-            foreach (Thing currentThing in this.Children)
+            foreach (Thing currentThing in Children)
             {
                 if (thingToAdd.CanStack(currentThing))
                 {
@@ -849,9 +849,9 @@ namespace WheelMUD.Core
             }
 
             // The item cannot be stacked so add the item to the specified parent.
-            if (!this.Children.Contains(thingToAdd))
+            if (!Children.Contains(thingToAdd))
             {
-                this.Children.Add(thingToAdd);
+                Children.Add(thingToAdd);
             }
 
             // If we don't have a MultipleParentsBehavior, directly set the one-allowed 
@@ -865,7 +865,7 @@ namespace WheelMUD.Core
                 multipleParentsBehavior.AddParent(this);
             }
 
-            this.Eventing.OnMovementEvent(addEvent, EventScope.SelfDown);
+            Eventing.OnMovementEvent(addEvent, EventScope.SelfDown);
             return true;
         }
     }

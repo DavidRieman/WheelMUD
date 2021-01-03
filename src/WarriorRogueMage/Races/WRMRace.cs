@@ -23,9 +23,9 @@ namespace WarriorRogueMage
         /// <param name="racialTalents">The talents of the race.</param>
         public WRMRace(string name, string description, params Talent[] racialTalents) : base()
         {
-            this.Name = name;
-            this.Description = description;
-            this.RacialTalents = racialTalents.ToList();
+            Name = name;
+            Description = description;
+            RacialTalents = racialTalents.ToList();
         }
 
         /// <summary>Gets the list of racial talents.</summary>

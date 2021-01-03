@@ -26,7 +26,7 @@ namespace WheelMUD.Tests.WRMCombat
         [SetUp]
         public void Init()
         {
-            this.playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
+            playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
 
             var testBehavior = new TalentsBehavior(null);
             var warriorAttribute = new WarriorAttribute();
@@ -37,31 +37,31 @@ namespace WheelMUD.Tests.WRMCombat
             var initiativeStat = new InitiativeStat();
             var awarenessSkill = new SkillAwareness();
 
-            warriorAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(warriorAttribute);
+            warriorAttribute.Parent = playerThing;
+            playerThing.AddAttribute(warriorAttribute);
 
-            mageAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(rogueAttribute);
+            mageAttribute.Parent = playerThing;
+            playerThing.AddAttribute(rogueAttribute);
 
-            rogueAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(mageAttribute);
+            rogueAttribute.Parent = playerThing;
+            playerThing.AddAttribute(mageAttribute);
 
-            warriorAttribute.SetValue(10, this.playerThing);
-            rogueAttribute.SetValue(10, this.playerThing);
-            mageAttribute.SetValue(10, this.playerThing);
+            warriorAttribute.SetValue(10, playerThing);
+            rogueAttribute.SetValue(10, playerThing);
+            mageAttribute.SetValue(10, playerThing);
 
-            this.playerThing.Stats.Add(damageStat.Name, damageStat);
-            this.playerThing.Stats.Add(attackStat.Name, attackStat);
-            this.playerThing.Stats.Add(initiativeStat.Name, initiativeStat);
-            this.playerThing.Skills.Add(awarenessSkill.Name, awarenessSkill);
-            this.playerThing.Behaviors.Add(testBehavior);
+            playerThing.Stats.Add(damageStat.Name, damageStat);
+            playerThing.Stats.Add(attackStat.Name, attackStat);
+            playerThing.Stats.Add(initiativeStat.Name, initiativeStat);
+            playerThing.Skills.Add(awarenessSkill.Name, awarenessSkill);
+            playerThing.Behaviors.Add(testBehavior);
         }
 
         /// <summary>A test for checking for the awareness skill using an instance.</summary>
         [Test]
         public void CheckAwarenessByInstanceTest()
         {
-            GameSkill awareness = this.playerThing.FindGameSkill<SkillAwareness>();
+            GameSkill awareness = playerThing.FindGameSkill<SkillAwareness>();
             Assert.IsNotNull(awareness);
         }
 
@@ -69,7 +69,7 @@ namespace WheelMUD.Tests.WRMCombat
         [Test]
         public void CheckAwarenessByNameTest()
         {
-            GameSkill awareness = this.playerThing.FindGameSkill("Awareness");
+            GameSkill awareness = playerThing.FindGameSkill("Awareness");
             Assert.IsNotNull(awareness);
         }
 
@@ -78,7 +78,7 @@ namespace WheelMUD.Tests.WRMCombat
         public void CombatSessionTest()
         {
             var expected = new GameCombatSession();
-            expected.AddCombatant(ref this.playerThing);
+            expected.AddCombatant(ref playerThing);
             Assert.AreEqual(1, expected.Combatants.Count);
         }
 

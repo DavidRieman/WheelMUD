@@ -18,10 +18,10 @@ namespace WheelMUD.Core.Events
         public UnfollowEvent(Thing activeThing, SensoryMessage senseMessage, Thing follower, Thing target)
             : base(activeThing, senseMessage)
         {
-            this.Follower = follower;
-            this.Target = target;
-            senseMessage.Context.Add("Follower", this.Follower);
-            senseMessage.Context.Add("Target", this.Target);
+            Follower = follower;
+            Target = target;
+            senseMessage.Context.Add("Follower", Follower);
+            senseMessage.Context.Add("Target", Target);
         }
 
         /// <summary>Gets the Thing that was doing the following.</summary>

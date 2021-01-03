@@ -19,14 +19,14 @@ namespace WheelMUD.Core
         /// <param name="partyMember">The Entity that needs to be added.</param>
         public void AddPartyMember(ref Thing partyMember)
         {
-            this.partyMembers.Add(partyMember.Name, partyMember);
+            partyMembers.Add(partyMember.Name, partyMember);
         }
 
         /// <summary>Remove a member from this party.</summary>
         /// <param name="partyMember">The Entity that needs to be removed.</param>
         public void RemovePartyMember(ref Thing partyMember)
         {
-            this.partyMembers.Remove(partyMember.Name);
+            partyMembers.Remove(partyMember.Name);
         }
     }
 }

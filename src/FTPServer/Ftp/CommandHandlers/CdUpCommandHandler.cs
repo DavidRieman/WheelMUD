@@ -18,9 +18,9 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected override string OnProcess(string message)
         {
-            string workingDirectory = this.GetPath(message);
+            string workingDirectory = GetPath(message);
 
-            if (this.ConnectionObject.FileSystemObject.DirectoryExists(workingDirectory))
+            if (ConnectionObject.FileSystemObject.DirectoryExists(workingDirectory))
             {
                 if (workingDirectory != "\\")
                 {
@@ -32,13 +32,13 @@ namespace WheelMUD.Ftp.FtpCommands
                         path = path.Replace('/', '\\');
                     }
 
-                    this.ConnectionObject.CurrentDirectory = path;
+                    ConnectionObject.CurrentDirectory = path;
 
-                    return this.GetMessage(250, "CDUP command successful.");
+                    return GetMessage(250, "CDUP command successful.");
                 }
             }
 
-            return this.GetMessage(550, "CDUP could not change directory.");
+            return GetMessage(550, "CDUP could not change directory.");
         }
     }
 }
