@@ -33,7 +33,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            this.playerBehavior.LogOut();
+            playerBehavior.LogOut();
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -42,14 +42,14 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             // This initiator is already guaranteed by VerifyCommonGuards to be a player, hence no null check.
-            this.playerBehavior = sender.Thing.Behaviors.FindFirst<PlayerBehavior>();
+            playerBehavior = sender.Thing.Behaviors.FindFirst<PlayerBehavior>();
 
             return null;
         }

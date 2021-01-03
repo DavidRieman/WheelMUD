@@ -106,7 +106,7 @@ namespace WheelMUD.Tests.Session
         {
             public FakeConnection()
             {
-                this.Reset();
+                Reset();
             }
 
             public List<string> FakeMessagesSent { get; set; }
@@ -167,7 +167,7 @@ namespace WheelMUD.Tests.Session
 
             public void Reset()
             {
-                this.FakeMessagesSent = new List<string>();
+                FakeMessagesSent = new List<string>();
             }
 
             public void Disconnect()
@@ -177,12 +177,12 @@ namespace WheelMUD.Tests.Session
 
             public void Send(byte[] data)
             {
-                this.Send(Encoding.ASCII.GetString(data));
+                Send(Encoding.ASCII.GetString(data));
             }
 
             public void Send(string data)
             {
-                this.FakeMessagesSent.Add(data);
+                FakeMessagesSent.Add(data);
             }
 
             public void Send(string data, bool bypassDataFormatter)

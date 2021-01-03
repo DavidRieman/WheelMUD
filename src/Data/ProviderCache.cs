@@ -17,7 +17,7 @@ namespace WheelMUD.Data
     {
         public ProviderCache()
         {
-            this.PopulateProvierCache();
+            PopulateProvierCache();
         }
 
         [ImportMany(typeof(IWheelMudRelationalDbProvider))]

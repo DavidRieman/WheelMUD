@@ -18,9 +18,9 @@ namespace WarriorRogueMage.Skills
         /// <param name="description">The description for this skill.</param>
         public WRMSkill(string name, string controllingAttribute, string description)
         {
-            this.Name = name;
-            this.Description = description;
-            this.ControllingAttribute = controllingAttribute;
+            Name = name;
+            Description = description;
+            ControllingAttribute = controllingAttribute;
         }
 
         /// <summary>Initializes a new instance of the <see cref="WRMSkill"/> class.</summary>
@@ -30,17 +30,17 @@ namespace WarriorRogueMage.Skills
         /// <param name="playerThing">The player thing that will be the parent of this skill.</param>
         public WRMSkill(string name, string controllingAttribute, string description, Thing playerThing)
         {
-            this.Name = name;
-            this.Description = description;
-            this.ControllingAttribute = controllingAttribute;
-            this.PlayerThing = playerThing;
+            Name = name;
+            Description = description;
+            ControllingAttribute = controllingAttribute;
+            PlayerThing = playerThing;
         }
 
         /// <summary>Initializes a new instance of the <see cref="WRMSkill"/> class.</summary>
         /// <param name="playerThing">The player thing that will be the parent of this skill.</param>
         public WRMSkill(Thing playerThing)
         {
-            this.PlayerThing = playerThing;
+            PlayerThing = playerThing;
         }
     }
 }

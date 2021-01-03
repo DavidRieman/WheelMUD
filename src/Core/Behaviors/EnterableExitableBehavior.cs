@@ -29,7 +29,7 @@ namespace WheelMUD.Core
         public EnterableExitableBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Gets the exit command.</summary>
@@ -62,14 +62,14 @@ namespace WheelMUD.Core
             var message = new SensoryMessage(
                 SensoryType.Sight,
                 100,
-                new ContextualString(actor, this.Parent)
+                new ContextualString(actor, Parent)
                 {
-                    ToOriginator = $"You enter {this.Parent.Name}.",
+                    ToOriginator = $"You enter {Parent.Name}.",
                     ToReceiver = $"{actor.Name} enters you.",
-                    ToOthers = $"{actor.Name} enters {this.Parent.Name}.",
+                    ToOthers = $"{actor.Name} enters {Parent.Name}.",
                 });
 
-            movableBehavior.Move(this.Parent, this.Parent, message, message);
+            movableBehavior.Move(Parent, Parent, message, message);
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>

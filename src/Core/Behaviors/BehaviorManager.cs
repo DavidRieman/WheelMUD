@@ -20,8 +20,8 @@ namespace WheelMUD.Core
         /// <param name="parent">The parent.</param>
         public BehaviorManager(Thing parent)
         {
-            this.ManagedBehaviors = new List<Behavior>();
-            this.Parent = parent;
+            ManagedBehaviors = new List<Behavior>();
+            Parent = parent;
         }
 
         /// <summary>Gets the parent (container) of this instance.</summary>
@@ -34,9 +34,9 @@ namespace WheelMUD.Core
         {
             get
             {
-                lock (this.ManagedBehaviors)
+                lock (ManagedBehaviors)
                 {
-                    return this.ManagedBehaviors.ToList().AsReadOnly();
+                    return ManagedBehaviors.ToList().AsReadOnly();
                 }
             }
         }
@@ -66,10 +66,10 @@ namespace WheelMUD.Core
         /// </remarks>
         public void SetParent(Thing parent)
         {
-            this.Parent = parent;
-            lock (this.ManagedBehaviors)
+            Parent = parent;
+            lock (ManagedBehaviors)
             {
-                foreach (var behavior in this.ManagedBehaviors)
+                foreach (var behavior in ManagedBehaviors)
                 {
                     behavior.SetParent(parent);
                 }
@@ -92,9 +92,9 @@ namespace WheelMUD.Core
         /// <returns>The first managed behavior of the specified type, if found, else null.</returns>
         public U FindFirst<U>() where U : Behavior
         {
-            lock (this.ManagedBehaviors)
+            lock (ManagedBehaviors)
             {
-                return this.ManagedBehaviors.OfType<U>().FirstOrDefault();
+                return ManagedBehaviors.OfType<U>().FirstOrDefault();
             }
         }
 
@@ -103,9 +103,9 @@ namespace WheelMUD.Core
         /// <returns>A filtered list of Behaviors of the specified type.</returns>
         public List<T> OfType<T>() where T : Behavior
         {
-            lock (this.ManagedBehaviors)
+            lock (ManagedBehaviors)
             {
-                return this.ManagedBehaviors.OfType<T>().ToList();
+                return ManagedBehaviors.OfType<T>().ToList();
             }
         }
 
@@ -113,12 +113,12 @@ namespace WheelMUD.Core
         /// <param name="newBehavior">The new behavior to add.</param>
         public void Add(Behavior newBehavior)
         {
-            lock (this.ManagedBehaviors)
+            lock (ManagedBehaviors)
             {
-                if (!this.ManagedBehaviors.Contains(newBehavior))
+                if (!ManagedBehaviors.Contains(newBehavior))
                 {
-                    this.ManagedBehaviors.Add(newBehavior);
-                    newBehavior.SetParent(this.Parent);
+                    ManagedBehaviors.Add(newBehavior);
+                    newBehavior.SetParent(Parent);
                 }
             }
         }
@@ -127,11 +127,11 @@ namespace WheelMUD.Core
         /// <param name="behavior">The behavior to remove.</param>
         public void Remove(Behavior behavior)
         {
-            lock (this.ManagedBehaviors)
+            lock (ManagedBehaviors)
             {
-                if (this.ManagedBehaviors.Contains(behavior))
+                if (ManagedBehaviors.Contains(behavior))
                 {
-                    this.ManagedBehaviors.Remove(behavior);
+                    ManagedBehaviors.Remove(behavior);
                     behavior.SetParent(null);
                 }
             }
@@ -153,13 +153,13 @@ namespace WheelMUD.Core
             // stacks have their Count property set appropriately.
             lock (existingManager.ManagedBehaviors)
             {
-                lock (this.ManagedBehaviors)
+                lock (ManagedBehaviors)
                 {
-                    this.ManagedBehaviors.Clear();
+                    ManagedBehaviors.Clear();
                     foreach (Behavior behavior in existingManager.ManagedBehaviors)
                     {
                         Behavior clonedBehavior = behavior.Clone();
-                        this.ManagedBehaviors.Add(clonedBehavior);
+                        ManagedBehaviors.Add(clonedBehavior);
                     }
                 }
             }

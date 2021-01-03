@@ -36,7 +36,7 @@ namespace WheelMUD.Actions
         {
             // Simply send a sensory event to the glancer; If they can see it, they'll get the output.
             var sender = actionInput.Controller;
-            var message = new SensoryMessage(SensoryType.Sight, 100, this.BuildGlance(sender.Thing));
+            var message = new SensoryMessage(SensoryType.Sight, 100, BuildGlance(sender.Thing));
             var sensoryEvent = new SensoryEvent(sender.Thing, message);
             sender.Thing.Eventing.OnMiscellaneousEvent(sensoryEvent, EventScope.SelfOnly);
         }
@@ -46,15 +46,15 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             // Rule: the sender must be capable of sensing/perceiving things.
-            this.sensesBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<SensesBehavior>();
-            if (this.sensesBehavior == null)
+            sensesBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<SensesBehavior>();
+            if (sensesBehavior == null)
             {
                 return "You are incapable of perceiving anything.";
             }
@@ -69,9 +69,9 @@ namespace WheelMUD.Actions
         {
             // Just basic generation of a general room description until furniture is implemented.
             var glanceString = new ContextualStringBuilder(sender, sender);
-            var perceivedExits = this.sensesBehavior.PerceiveExits();
-            var perceivedEntities = this.sensesBehavior.PerceiveEntities();
-            var perceivedItems = this.sensesBehavior.PerceiveItems();
+            var perceivedExits = sensesBehavior.PerceiveExits();
+            var perceivedEntities = sensesBehavior.PerceiveEntities();
+            var perceivedItems = sensesBehavior.PerceiveItems();
 
             glanceString.Append($"You are in <%red%>{sender.Parent.Name}<%n%>.  ", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
 

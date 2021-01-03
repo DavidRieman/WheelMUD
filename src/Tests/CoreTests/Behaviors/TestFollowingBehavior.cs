@@ -30,44 +30,44 @@ namespace WheelMUD.Tests.Behaviors
         public void Init()
         {
             // Create the basic actor instances and behavior for test.
-            this.witness = new Thing() { Name = "Witness", Id = TestThingID.Generate("testthing") };
-            this.stalker1 = new Thing() { Name = "Stalker1", Id = TestThingID.Generate("testthing") };
-            this.stalker2 = new Thing() { Name = "Stalker2", Id = TestThingID.Generate("testthing") };
-            this.victim1 = new Thing() { Name = "Victim1", Id = TestThingID.Generate("testthing") };
-            this.victim2 = new Thing() { Name = "Victim2", Id = TestThingID.Generate("testthing") };
+            witness = new Thing() { Name = "Witness", Id = TestThingID.Generate("testthing") };
+            stalker1 = new Thing() { Name = "Stalker1", Id = TestThingID.Generate("testthing") };
+            stalker2 = new Thing() { Name = "Stalker2", Id = TestThingID.Generate("testthing") };
+            victim1 = new Thing() { Name = "Victim1", Id = TestThingID.Generate("testthing") };
+            victim2 = new Thing() { Name = "Victim2", Id = TestThingID.Generate("testthing") };
 
             // Set up the rooms.
-            this.room1 = new Thing() { Name = "Room", Id = TestThingID.Generate("room") };
-            this.room2 = new Thing() { Name = "Room 2", Id = TestThingID.Generate("room") };
+            room1 = new Thing() { Name = "Room", Id = TestThingID.Generate("room") };
+            room2 = new Thing() { Name = "Room 2", Id = TestThingID.Generate("room") };
 
             // Set up an exit connecting the two rooms.
-            this.exit = new Thing() { Name = "East Exit", Id = TestThingID.Generate("exit") };
+            exit = new Thing() { Name = "East Exit", Id = TestThingID.Generate("exit") };
             var exitBehavior = new ExitBehavior();
             ////exitBehavior.AddDestination("west", room1.ID);
             ////exitBehavior.AddDestination("east", room1.ID);
-            ////this.exit.BehaviorManager.Add(exitBehavior);
+            ////exit.BehaviorManager.Add(exitBehavior);
 
-            this.room1.Add(this.exit);
-            this.room2.Add(this.exit);
+            room1.Add(exit);
+            room2.Add(exit);
 
             // Populate the first room.
-            this.room1.Add(this.witness);
-            this.room1.Add(this.stalker1);
-            this.room1.Add(this.stalker2);
-            this.room1.Add(this.victim1);
-            this.room1.Add(this.victim2);
+            room1.Add(witness);
+            room1.Add(stalker1);
+            room1.Add(stalker2);
+            room1.Add(victim1);
+            room1.Add(victim2);
 
             // Prepare to verify correct eventing occurs.
-            this.witness.Eventing.MovementRequest += (root, e) => { this.lastWitnessRequest = e; };
-            this.witness.Eventing.MovementEvent += (root, e) => { this.lastWitnessEvent = e; };
-            this.stalker1.Eventing.MovementRequest += (root, e) => { this.lastStalkerRequest = e; };
-            this.stalker1.Eventing.MovementEvent += (root, e) => { this.lastStalkerEvent = e; };
-            this.stalker2.Eventing.MovementRequest += (root, e) => { this.lastStalkerRequest = e; };
-            this.stalker2.Eventing.MovementEvent += (root, e) => { this.lastStalkerEvent = e; };
-            this.victim1.Eventing.MovementRequest += (root, e) => { this.lastVictimRequest = e; };
-            this.victim1.Eventing.MovementEvent += (root, e) => { this.lastVictimEvent = e; };
-            this.victim2.Eventing.MovementRequest += (root, e) => { this.lastVictimRequest = e; };
-            this.victim2.Eventing.MovementEvent += (root, e) => { this.lastVictimEvent = e; };
+            witness.Eventing.MovementRequest += (root, e) => { lastWitnessRequest = e; };
+            witness.Eventing.MovementEvent += (root, e) => { lastWitnessEvent = e; };
+            stalker1.Eventing.MovementRequest += (root, e) => { lastStalkerRequest = e; };
+            stalker1.Eventing.MovementEvent += (root, e) => { lastStalkerEvent = e; };
+            stalker2.Eventing.MovementRequest += (root, e) => { lastStalkerRequest = e; };
+            stalker2.Eventing.MovementEvent += (root, e) => { lastStalkerEvent = e; };
+            victim1.Eventing.MovementRequest += (root, e) => { lastVictimRequest = e; };
+            victim1.Eventing.MovementEvent += (root, e) => { lastVictimEvent = e; };
+            victim2.Eventing.MovementRequest += (root, e) => { lastVictimRequest = e; };
+            victim2.Eventing.MovementEvent += (root, e) => { lastVictimEvent = e; };
         }
 
         /// <summary>Test FollowingBehavior without an attached parent.</summary>
@@ -75,7 +75,7 @@ namespace WheelMUD.Tests.Behaviors
         public void TestUnattachedFollowingBehaviorCanNotTrackTargets()
         {
             var followingBehavior = new FollowingBehavior();
-            followingBehavior.Target = this.victim1;
+            followingBehavior.Target = victim1;
             Assert.AreEqual(null, followingBehavior.Target);
         }
 
@@ -83,9 +83,9 @@ namespace WheelMUD.Tests.Behaviors
         [Test]
         public void TestFollowingBehaviorStartsOutNull()
         {
-            this.ClearTrackedEvents();
+            ClearTrackedEvents();
             var followingBehavior = new FollowingBehavior();
-            this.stalker1.Behaviors.Add(followingBehavior);
+            stalker1.Behaviors.Add(followingBehavior);
             Assert.IsNull(followingBehavior.Target);
         }
 
@@ -93,12 +93,12 @@ namespace WheelMUD.Tests.Behaviors
         [Test]
         public void TestSettingTarget()
         {
-            this.ClearTrackedEvents();
+            ClearTrackedEvents();
             var followingBehavior = new FollowingBehavior();
-            this.stalker1.Behaviors.Add(followingBehavior);
-            followingBehavior.Target = this.victim1;
+            stalker1.Behaviors.Add(followingBehavior);
+            followingBehavior.Target = victim1;
             Assert.IsNotNull(followingBehavior.Target);
-            Assert.AreEqual(followingBehavior.Target, this.victim1);
+            Assert.AreEqual(followingBehavior.Target, victim1);
         }
 
         /// <summary>
@@ -108,51 +108,51 @@ namespace WheelMUD.Tests.Behaviors
         [Test]
         public void TestRemovingTarget()
         {
-            this.ClearTrackedEvents();
+            ClearTrackedEvents();
 
-            Assert.IsNull(this.lastStalkerRequest);
-            Assert.IsNull(this.lastStalkerEvent);
+            Assert.IsNull(lastStalkerRequest);
+            Assert.IsNull(lastStalkerEvent);
 
-            Assert.IsNull(this.lastVictimRequest);
-            Assert.IsNull(this.lastVictimEvent);
+            Assert.IsNull(lastVictimRequest);
+            Assert.IsNull(lastVictimEvent);
 
             var followingBehavior = new FollowingBehavior();
-            this.stalker1.Behaviors.Add(followingBehavior);
-            followingBehavior.Target = this.victim1;
+            stalker1.Behaviors.Add(followingBehavior);
+            followingBehavior.Target = victim1;
             followingBehavior.Target = null;
 
             Assert.IsNull(followingBehavior.Target);
 
-            Assert.IsNotNull(this.lastStalkerRequest);
-            Assert.IsNotNull(this.lastStalkerEvent);
+            Assert.IsNotNull(lastStalkerRequest);
+            Assert.IsNotNull(lastStalkerEvent);
 
-            Assert.IsNotNull(this.lastVictimRequest);
-            Assert.IsNotNull(this.lastVictimEvent);
+            Assert.IsNotNull(lastVictimRequest);
+            Assert.IsNotNull(lastVictimEvent);
         }
 
         /// <summary>Verify sensory messages seen by stalker/victim and unseen by witness.</summary>
         [Test]
         public void TestFollowingMessages()
         {
-            this.ClearTrackedEvents();
+            ClearTrackedEvents();
             var followingBehavior = new FollowingBehavior();
-            this.stalker1.Behaviors.Add(followingBehavior);
-            Assert.AreEqual(this.lastWitnessEvent, null);
-            Assert.AreEqual(this.lastStalkerEvent, null);
-            Assert.AreEqual(this.lastVictimEvent, null);
+            stalker1.Behaviors.Add(followingBehavior);
+            Assert.AreEqual(lastWitnessEvent, null);
+            Assert.AreEqual(lastStalkerEvent, null);
+            Assert.AreEqual(lastVictimEvent, null);
 
-            followingBehavior.Target = this.victim1;
-            var witnessMessage = this.lastWitnessEvent.SensoryMessage.Message.Parse(this.witness);
-            var stalkerMessage = this.lastStalkerEvent.SensoryMessage.Message.Parse(this.stalker1);
-            var victimMessage = this.lastVictimEvent.SensoryMessage.Message.Parse(this.victim1);
+            followingBehavior.Target = victim1;
+            var witnessMessage = lastWitnessEvent.SensoryMessage.Message.Parse(witness);
+            var stalkerMessage = lastStalkerEvent.SensoryMessage.Message.Parse(stalker1);
+            var victimMessage = lastVictimEvent.SensoryMessage.Message.Parse(victim1);
             Assert.AreEqual(witnessMessage, "Stalker1 starts following Victim1.");
             Assert.AreEqual(stalkerMessage, "You start following Victim1.");
             Assert.AreEqual(victimMessage, "Stalker1 starts following you.");
 
             followingBehavior.Target = null;
-            witnessMessage = this.lastWitnessEvent.SensoryMessage.Message.Parse(this.witness);
-            stalkerMessage = this.lastStalkerEvent.SensoryMessage.Message.Parse(this.stalker1);
-            victimMessage = this.lastVictimEvent.SensoryMessage.Message.Parse(this.victim1);
+            witnessMessage = lastWitnessEvent.SensoryMessage.Message.Parse(witness);
+            stalkerMessage = lastStalkerEvent.SensoryMessage.Message.Parse(stalker1);
+            victimMessage = lastVictimEvent.SensoryMessage.Message.Parse(victim1);
             Assert.IsTrue(string.IsNullOrEmpty(witnessMessage));
             Assert.AreEqual(stalkerMessage, "You stop following Victim1.");
             Assert.AreEqual(victimMessage, "Stalker1 stops following you.");
@@ -163,10 +163,10 @@ namespace WheelMUD.Tests.Behaviors
         [Test]
         public void TestGarbageCollectedTarget()
         {
-            ////this.ClearTrackedEvents();
+            ////ClearTrackedEvents();
             ////var followingBehavior = new FollowingBehavior();
             ////stalker1.BehaviorManager.Add(followingBehavior);
-            ////followingBehavior.Target = this.victim1;
+            ////followingBehavior.Target = victim1;
 
             ////Assert.IsNotNull(followingBehavior.Target);
             ////victim1 = null;
@@ -185,12 +185,12 @@ namespace WheelMUD.Tests.Behaviors
         /// <summary>Clear all potentially tracked events so we can verify new ones.</summary>
         private void ClearTrackedEvents()
         {
-            this.lastStalkerEvent = null;
-            this.lastStalkerRequest = null;
-            this.lastVictimEvent = null;
-            this.lastVictimRequest = null;
-            this.lastWitnessEvent = null;
-            this.lastWitnessRequest = null;
+            lastStalkerEvent = null;
+            lastStalkerRequest = null;
+            lastVictimEvent = null;
+            lastVictimRequest = null;
+            lastWitnessEvent = null;
+            lastWitnessRequest = null;
         }
     }
 }

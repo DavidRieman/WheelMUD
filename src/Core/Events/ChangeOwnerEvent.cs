@@ -19,12 +19,12 @@ namespace WheelMUD.Core.Events
         public ChangeOwnerEvent(Thing activeThing, SensoryMessage senseMessage, Thing oldOwner, Thing newOwner, Thing thing)
             : base(activeThing, senseMessage)
         {
-            this.OldOwner = oldOwner;
-            this.NewOwner = newOwner;
-            this.Thing = thing;
-            senseMessage.Context.Add("Thing", this.Thing);
-            senseMessage.Context.Add("OldOwner", this.OldOwner);
-            senseMessage.Context.Add("NewOwner", this.NewOwner);
+            OldOwner = oldOwner;
+            NewOwner = newOwner;
+            Thing = thing;
+            senseMessage.Context.Add("Thing", Thing);
+            senseMessage.Context.Add("OldOwner", OldOwner);
+            senseMessage.Context.Add("NewOwner", NewOwner);
         }
 
         /// <summary>Gets the new owner of the item.</summary>

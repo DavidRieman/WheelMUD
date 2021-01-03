@@ -15,14 +15,14 @@ namespace WheelMUD.Ftp
     {
         public FtpConnectionData(int id, TcpClient socket)
         {
-            this.BinaryMode = false;
-            this.RenameDirectory = false;
-            this.PasvSocket = null;
-            this.Id = id;
-            this.Socket = socket;
-            this.CurrentDirectory = "\\";
-            this.PortCommandSocketAddress = string.Empty;
-            this.PortCommandSocketPort = 20;
+            BinaryMode = false;
+            RenameDirectory = false;
+            PasvSocket = null;
+            Id = id;
+            Socket = socket;
+            CurrentDirectory = "\\";
+            PortCommandSocketAddress = string.Empty;
+            PortCommandSocketPort = 20;
         }
 
         /// <summary>Gets the main connection socket.</summary>
@@ -63,7 +63,7 @@ namespace WheelMUD.Ftp
 
         protected void SetFileSystemObject(IFileSystem fileSystem)
         {
-            this.FileSystemObject = fileSystem;
+            FileSystemObject = fileSystem;
         }
     }
 }

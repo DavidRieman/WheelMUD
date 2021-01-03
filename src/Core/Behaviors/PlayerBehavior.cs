@@ -30,7 +30,7 @@ namespace WheelMUD.Core
         public PlayerBehavior()
             : base(null)
         {
-            this.PlayerData = new PlayerRecord();
+            PlayerData = new PlayerRecord();
         }
 
         /// <summary>Initializes a new instance of the PlayerBehavior class.</summary>
@@ -39,8 +39,8 @@ namespace WheelMUD.Core
         public PlayerBehavior(long instanceId, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.PlayerData = new PlayerRecord();
-            this.ID = instanceId;
+            PlayerData = new PlayerRecord();
+            ID = instanceId;
         }
 
         /// <summary>Gets or sets the player's name.</summary>
@@ -52,8 +52,8 @@ namespace WheelMUD.Core
         [JsonIgnore]
         public string Name
         {
-            get { return this.PlayerData.DisplayName; }
-            set { this.PlayerData.DisplayName = value; }
+            get { return PlayerData.DisplayName; }
+            set { PlayerData.DisplayName = value; }
         }
 
         /// <summary>Gets or sets the current room id.</summary>
@@ -97,7 +97,7 @@ namespace WheelMUD.Core
         [JsonIgnore]
         public ReadOnlyCollection<string> Friends
         {
-            get { return this.friends.AsReadOnly(); }
+            get { return friends.AsReadOnly(); }
         }
 
         /// <summary>Gets or sets the player's race.</summary>
@@ -111,13 +111,13 @@ namespace WheelMUD.Core
         public void Load(int playerId)
         {
             var repository = new RelationalRepository<PlayerRecord>();
-            this.PlayerData = repository.GetById(playerId);
+            PlayerData = repository.GetById(playerId);
         }
 
         /// <summary>Save the whole player Thing (not just this PlayerBehavior).</summary>
         public void SavePlayer()
         {
-            var player = this.Parent;
+            var player = Parent;
             if (player == null)
             {
                 throw new ArgumentNullException("Cannot save a detached PlayerBehavior with no Parent Thing.");
@@ -129,12 +129,12 @@ namespace WheelMUD.Core
         /// <summary>Releases unmanaged and, optionally, managed resources.</summary>
         public void Dispose()
         {
-            PlayerManager.Instance.GlobalPlayerLogInEvent -= this.ProcessPlayerLogInEvent;
-            PlayerManager.Instance.GlobalPlayerLogOutEvent -= this.ProcessPlayerLogOutEvent;
-            if (this.EventProcessor != null)
+            PlayerManager.Instance.GlobalPlayerLogInEvent -= ProcessPlayerLogInEvent;
+            PlayerManager.Instance.GlobalPlayerLogOutEvent -= ProcessPlayerLogOutEvent;
+            if (EventProcessor != null)
             {
-                this.EventProcessor.Dispose();
-                this.EventProcessor = null;
+                EventProcessor.Dispose();
+                EventProcessor = null;
             }
         }
 
@@ -142,11 +142,11 @@ namespace WheelMUD.Core
         /// <param name="friendName">Name of the friend.</param>
         public void AddFriend(string friendName)
         {
-            if (!this.IsFriend(friendName))
+            if (!IsFriend(friendName))
             {
-                lock (this.friendsLock)
+                lock (friendsLock)
                 {
-                    this.friends.Add(friendName);
+                    friends.Add(friendName);
                 }
             }
         }
@@ -155,11 +155,11 @@ namespace WheelMUD.Core
         /// <param name="friendName">Name of the friend.</param>
         public void RemoveFriend(string friendName)
         {
-            if (this.IsFriend(friendName))
+            if (IsFriend(friendName))
             {
-                lock (this.friendsLock)
+                lock (friendsLock)
                 {
-                    this.friends.Remove(friendName);
+                    friends.Remove(friendName);
                 }
             }
         }
@@ -169,7 +169,7 @@ namespace WheelMUD.Core
         /// <returns>True if the player successfully logged in.</returns>
         public bool LogIn(Session session)
         {
-            var player = this.Parent;
+            var player = Parent;
 
             // If the player isn't located anywhere yet, try to drop them in the default room.
             // (Expect that even new characters may gain a starting position via custom character generation
@@ -200,8 +200,8 @@ namespace WheelMUD.Core
                 targetPlayerStartingPosition.Add(player);
 
                 DateTime universalTime = DateTime.Now.ToUniversalTime();
-                this.PlayerData.LastLogin = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";
-                this.PlayerData.LastIPAddress = session.Connection.CurrentIPAddress.ToString();
+                PlayerData.LastLogin = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";
+                PlayerData.LastIPAddress = session.Connection.CurrentIPAddress.ToString();
 
                 session.Thing = player;
                 session.User.LastLogInTime = DateTime.Now; // Should this occur when user was authenticated instead?
@@ -232,7 +232,7 @@ namespace WheelMUD.Core
         /// <returns>Indicates whether the logout was successful or not.</returns>
         public bool LogOut()
         {
-            var player = this.Parent;
+            var player = Parent;
 
             // Prepare a logout request and event.
             var csb = new ContextualStringBuilder(player, player.Parent);
@@ -251,10 +251,10 @@ namespace WheelMUD.Core
             if (!e.IsCancelled)
             {
                 DateTime universalTime = DateTime.Now.ToUniversalTime();
-                this.PlayerData.LastLogout = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";
+                PlayerData.LastLogout = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";
 
                 player.FindBehavior<PlayerBehavior>()?.SavePlayer();
-                this.Dispose();
+                Dispose();
                 player.Dispose();
 
                 // Broadcast that the player successfully logged out, to their parent (IE room).
@@ -267,41 +267,41 @@ namespace WheelMUD.Core
             return false;
         }
 
-        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
+        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to Parent)</summary>
         protected override void OnAddBehavior()
         {
-            var sensesBehavior = this.Parent.Behaviors.FindFirst<SensesBehavior>();
-            var userControlledBehavior = this.Parent.Behaviors.FindFirst<UserControlledBehavior>();
-            this.EventProcessor = new PlayerEventProcessor(this, sensesBehavior, userControlledBehavior);
-            this.EventProcessor.AttachEvents();
+            var sensesBehavior = Parent.Behaviors.FindFirst<SensesBehavior>();
+            var userControlledBehavior = Parent.Behaviors.FindFirst<UserControlledBehavior>();
+            EventProcessor = new PlayerEventProcessor(this, sensesBehavior, userControlledBehavior);
+            EventProcessor.AttachEvents();
         }
 
         protected override void OnRemoveBehavior()
         {
-            if (this.EventProcessor != null)
+            if (EventProcessor != null)
             {
-                this.EventProcessor.DetachEvents();
-                this.EventProcessor.Dispose();
-                this.EventProcessor = null;
+                EventProcessor.DetachEvents();
+                EventProcessor.Dispose();
+                EventProcessor = null;
             }
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.SessionId = null;
-            this.friends = new List<string>();
+            SessionId = null;
+            friends = new List<string>();
 
-            PlayerManager.Instance.GlobalPlayerLogInEvent += this.ProcessPlayerLogInEvent;
-            PlayerManager.Instance.GlobalPlayerLogOutEvent += this.ProcessPlayerLogOutEvent;
+            PlayerManager.Instance.GlobalPlayerLogInEvent += ProcessPlayerLogInEvent;
+            PlayerManager.Instance.GlobalPlayerLogOutEvent += ProcessPlayerLogOutEvent;
         }
 
         private void ProcessPlayerLogInEvent(Thing root, GameEvent e)
         {
             // If this is a friend, ensure we get a 'your friend logged in' message regardless of location.
-            if (this.IsFriend(e.ActiveThing.Name) && e is PlayerLogInEvent)
+            if (IsFriend(e.ActiveThing.Name) && e is PlayerLogInEvent)
             {
-                var userControlledBehavior = this.Parent.Behaviors.FindFirst<UserControlledBehavior>();
+                var userControlledBehavior = Parent.Behaviors.FindFirst<UserControlledBehavior>();
                 string message = string.Format("Your friend {0} has logged in.", e.ActiveThing.Name);
                 userControlledBehavior.Controller.Write(message);
             }
@@ -310,9 +310,9 @@ namespace WheelMUD.Core
         private void ProcessPlayerLogOutEvent(Thing root, GameEvent e)
         {
             // If this is a friend, ensure we get a 'your friend logged out' message regardless of location.
-            if (this.IsFriend(e.ActiveThing.Name) && e is PlayerLogOutEvent)
+            if (IsFriend(e.ActiveThing.Name) && e is PlayerLogOutEvent)
             {
-                var userControlledBehavior = this.Parent.Behaviors.FindFirst<UserControlledBehavior>();
+                var userControlledBehavior = Parent.Behaviors.FindFirst<UserControlledBehavior>();
                 string message = string.Format("Your friend {0} has logged out.", e.ActiveThing.Name);
                 userControlledBehavior.Controller.Write(message);
             }
@@ -328,9 +328,9 @@ namespace WheelMUD.Core
 
         private bool IsFriend(string friendName)
         {
-            lock (this.friendsLock)
+            lock (friendsLock)
             {
-                return this.Friends.Contains(friendName.ToLower());
+                return Friends.Contains(friendName.ToLower());
             }
         }
     }

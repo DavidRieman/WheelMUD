@@ -18,21 +18,21 @@ namespace WheelMUD.Core
         /// <summary>Gets the entities that are part of this combat session.</summary>
         public Hashtable Combatants
         {
-            get { return this.combatantHashtable; }
+            get { return combatantHashtable; }
         }
 
         /// <summary>Adds a combatant to this session.</summary>
         /// <param name="combatant">The Entity that needs to be added.</param>
         public void AddCombatant(ref Thing combatant)
         {
-            this.combatantHashtable.Add(combatant.Name, combatant);
+            combatantHashtable.Add(combatant.Name, combatant);
         }
 
         /// <summary>Remove a combatant from this session.</summary>
         /// <param name="combatant">The Entity that needs to be removed.</param>
         public void RemoveCombatant(ref Thing combatant)
         {
-            this.combatantHashtable.Remove(combatant.Name);
+            combatantHashtable.Remove(combatant.Name);
         }
     }
 }

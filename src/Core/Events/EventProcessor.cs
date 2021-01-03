@@ -33,21 +33,21 @@ namespace WheelMUD.Core
         {
             // Prepare to handle receiving all relevant sensory events (not requests) which have 
             // happened within the player's perception, and relay the sensory message to the player.
-            var player = this.playerBehavior.Parent;
-            player.Eventing.CombatEvent += this.ProcessEvent;
-            player.Eventing.MovementEvent += this.ProcessEvent;
-            player.Eventing.CommunicationEvent += this.ProcessEvent;
-            player.Eventing.MiscellaneousEvent += this.ProcessEvent;
+            var player = playerBehavior.Parent;
+            player.Eventing.CombatEvent += ProcessEvent;
+            player.Eventing.MovementEvent += ProcessEvent;
+            player.Eventing.CommunicationEvent += ProcessEvent;
+            player.Eventing.MiscellaneousEvent += ProcessEvent;
         }
 
         /// <summary>Detaches all player-related events such as combat, movement, and communication.</summary>
         public void DetachEvents()
         {
-            var player = this.playerBehavior.Parent;
-            player.Eventing.CombatEvent -= this.ProcessEvent;
-            player.Eventing.MovementEvent -= this.ProcessEvent;
-            player.Eventing.CommunicationEvent -= this.ProcessEvent;
-            player.Eventing.MiscellaneousEvent -= this.ProcessEvent;
+            var player = playerBehavior.Parent;
+            player.Eventing.CombatEvent -= ProcessEvent;
+            player.Eventing.MovementEvent -= ProcessEvent;
+            player.Eventing.CommunicationEvent -= ProcessEvent;
+            player.Eventing.MiscellaneousEvent -= ProcessEvent;
         }
 
         /// <summary>Process a specified event.</summary>
@@ -58,10 +58,10 @@ namespace WheelMUD.Core
             // Events with no sensory component have no chance to be percieved/relayed to player's terminal...
             if (e.SensoryMessage != null)
             {
-                string output = this.ProcessMessage(e.SensoryMessage);
+                string output = ProcessMessage(e.SensoryMessage);
                 if (output != string.Empty)
                 {
-                    this.userControlledBehavior.Controller.Write(output);
+                    userControlledBehavior.Controller.Write(output);
                 }
             }
         }
@@ -69,15 +69,15 @@ namespace WheelMUD.Core
         /// <summary>Dispose of any resources used by this EventProcessor.</summary>
         public void Dispose()
         {
-            if (this.playerBehavior != null)
+            if (playerBehavior != null)
             {
-                var player = this.playerBehavior.Parent;
+                var player = playerBehavior.Parent;
                 if (player != null)
                 {
-                    player.Eventing.CombatEvent -= this.ProcessEvent;
-                    player.Eventing.MovementEvent -= this.ProcessEvent;
-                    player.Eventing.CommunicationEvent -= this.ProcessEvent;
-                    player.Eventing.MiscellaneousEvent -= this.ProcessEvent;
+                    player.Eventing.CombatEvent -= ProcessEvent;
+                    player.Eventing.MovementEvent -= ProcessEvent;
+                    player.Eventing.CommunicationEvent -= ProcessEvent;
+                    player.Eventing.MiscellaneousEvent -= ProcessEvent;
                 }
             }
         }
@@ -87,9 +87,9 @@ namespace WheelMUD.Core
         /// <returns>The rendered view of this sensory message.</returns>
         private string ProcessMessage(SensoryMessage message)
         {
-            if (this.sensesBehavior.Senses.CanProcessSensoryMessage(message) && message.Message != null && this.userControlledBehavior != null)
+            if (sensesBehavior.Senses.CanProcessSensoryMessage(message) && message.Message != null && userControlledBehavior != null)
             {
-                return message.Message.Parse(this.userControlledBehavior.Parent);
+                return message.Message.Parse(userControlledBehavior.Parent);
             }
 
             return string.Empty;

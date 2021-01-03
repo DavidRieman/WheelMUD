@@ -14,8 +14,8 @@ namespace WheelMUD.Core
     {
         public HelpTopic(string contents, List<string> aliases)
         {
-            this.Contents = contents;
-            this.Aliases = aliases;
+            Contents = contents;
+            Aliases = aliases;
         }
 
         /// <summary>Gets the contents of this help topic.</summary>

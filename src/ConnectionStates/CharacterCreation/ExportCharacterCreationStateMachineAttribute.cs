@@ -23,7 +23,7 @@ namespace WheelMUD.ConnectionStates
         public ExportCharacterCreationStateMachineAttribute(int stateMachinePriority)
             : base(typeof(CharacterCreationStateMachine))
         {
-            this.Priority = stateMachinePriority;
+            Priority = stateMachinePriority;
         }
 
         /// <summary>Initializes a new instance of the <see cref="ExportCharacterCreationStateMachineAttribute"/> class.</summary>

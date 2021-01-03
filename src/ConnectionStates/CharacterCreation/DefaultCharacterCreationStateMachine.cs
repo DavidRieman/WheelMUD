@@ -35,11 +35,11 @@ namespace WheelMUD.ConnectionStates
             // If there is no state yet, set up the initial character creation state.
             if (current == null)
             {
-                return new ConfirmCreationEntryState(this.Session);
+                return new ConfirmCreationEntryState(Session);
             }
 
             // Otherwise either go forward to the next state, or back to the previous state if requested.
-            return previousStatus == StepStatus.Success ? this.AdvanceState(current) : this.RegressState(current);
+            return previousStatus == StepStatus.Success ? AdvanceState(current) : RegressState(current);
         }
 
         private CharacterCreationSubState AdvanceState(CharacterCreationSubState current)
@@ -50,19 +50,19 @@ namespace WheelMUD.ConnectionStates
             // they could of course reuse some/all of the states below in addition to their own.
             if (current is ConfirmCreationEntryState)
             {
-                return new GetNameState(this.Session);
+                return new GetNameState(Session);
             }
             else if (current is GetNameState)
             {
-                return new GetPasswordState(this.Session);
+                return new GetPasswordState(Session);
             }
             else if (current is GetPasswordState)
             {
-                return new ConfirmPasswordState(this.Session);
+                return new ConfirmPasswordState(Session);
             }
             else if (current is ConfirmPasswordState)
             {
-                return new GetDescriptionState(this.Session);
+                return new GetDescriptionState(Session);
             }
             else if (current is GetDescriptionState)
             {
@@ -78,7 +78,7 @@ namespace WheelMUD.ConnectionStates
             if (current is ConfirmPasswordState)
             {
                 // If password confirmation failed, try selecting a new password.
-                return new GetPasswordState(this.Session);
+                return new GetPasswordState(Session);
             }
 
             throw new InvalidOperationException("The character state machine does not know how to calculate the next step after '" + current.GetType().Name + "' fails");

@@ -16,7 +16,7 @@ namespace WheelMUD.ConnectionStates
         /// <param name="session">The session.</param>
         protected CharacterCreationSubState(Session session)
         {
-            this.Session = session;
+            Session = session;
         }
 
         /// <summary>Gets or sets the state machine managing this creation state.</summary>

@@ -25,7 +25,7 @@ namespace WheelMUD.Core
         public MobileBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Receives an event.</summary>
@@ -33,7 +33,7 @@ namespace WheelMUD.Core
         /// <param name="theEvent">The event to be received.</param>
         public void Receive(Thing root, GameEvent theEvent)
         {
-            ////this.brain.ProcessStimulus(theEvent);
+            ////brain.ProcessStimulus(theEvent);
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
@@ -43,33 +43,33 @@ namespace WheelMUD.Core
             //       want to mess with AI too much right now especially since Fasta is working on it.
             // Prepare to handle receiving all relevant sensory events (not requests) which have 
             // happened within the player's perception, and relay the sensory message to the player.
-            if (this.Parent != null)
+            if (Parent != null)
             {
-                this.Parent.Eventing.CombatEvent += this.Receive;
-                this.Parent.Eventing.MovementEvent += this.Receive;
-                this.Parent.Eventing.CommunicationEvent += this.Receive;
-                this.Parent.Eventing.MiscellaneousEvent += this.Receive;
+                Parent.Eventing.CombatEvent += Receive;
+                Parent.Eventing.MovementEvent += Receive;
+                Parent.Eventing.CommunicationEvent += Receive;
+                Parent.Eventing.MiscellaneousEvent += Receive;
             }
         }
 
-        // TODO: After moving, do this.ProcessSurroundings();
+        // TODO: After moving, do ProcessSurroundings();
 
         /* TODO: Ensure mobile entities are loaded just like any other entity...
         /// <summary>Loads the mobile.</summary>
         public void Load()
         {
             // TODO: Stuff should be loaded from the Data Layer instead of using temp values.
-            this.Stats.Add("health", new StatHP(Controller, 100, 100));
-            this.Stats.Add("power", new Stat(Controller, "Power", 100, 0, 100, true));
-            this.Stats.Add("strength", new Stat(Controller, "Srength", 40, 0, 100, true));
-            this.Stats.Add("balance", new Stat(Controller, "Balance", 1, 0, 1, false));
-            this.Stats.Add("mobility", new Stat(Controller, "Mobility", 2, -10, 2, false));
-            this.Stats.Add("agility", new Stat(Controller, "Agility", 2, -10, 2, true));
-            this.Stats.Add("perception", new Stat(Controller, "Perception", 2, -10, 2, false));
+            Stats.Add("health", new StatHP(Controller, 100, 100));
+            Stats.Add("power", new Stat(Controller, "Power", 100, 0, 100, true));
+            Stats.Add("strength", new Stat(Controller, "Srength", 40, 0, 100, true));
+            Stats.Add("balance", new Stat(Controller, "Balance", 1, 0, 1, false));
+            Stats.Add("mobility", new Stat(Controller, "Mobility", 2, -10, 2, false));
+            Stats.Add("agility", new Stat(Controller, "Agility", 2, -10, 2, true));
+            Stats.Add("perception", new Stat(Controller, "Perception", 2, -10, 2, false));
 
-            this.Commands.Add("punch", new Command("punch", SecurityRole.mobile));
+            Commands.Add("punch", new Command("punch", SecurityRole.mobile));
 
-            this.LoadInventory();
+            LoadInventory();
         }
 
         /// <summary>Saves the mobile.</summary>
@@ -77,14 +77,14 @@ namespace WheelMUD.Core
         {
             var repository = new MobRepository();
 
-            if (this.Id == 0)
+            if (Id == 0)
             {
-                repository.Add(this.DataRecord);
-                this.Id = this.DataRecord.ID;
+                repository.Add(DataRecord);
+                Id = DataRecord.ID;
             }
             else
             {
-                repository.Update(this.DataRecord);
+                repository.Update(DataRecord);
             }
         }*/
     }

@@ -16,13 +16,13 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected override string OnProcess(string message)
         {
-            string filePath = this.GetPath(message);
-            if (!this.ConnectionObject.FileSystemObject.CreateDirectory(filePath))
+            string filePath = GetPath(message);
+            if (!ConnectionObject.FileSystemObject.CreateDirectory(filePath))
             {
-                return this.GetMessage(550, string.Format("Couldn't create directory. ({0})", filePath));
+                return GetMessage(550, string.Format("Couldn't create directory. ({0})", filePath));
             }
 
-            return this.GetMessage(257, filePath);
+            return GetMessage(257, filePath);
         }
     }
 }

@@ -20,8 +20,8 @@ namespace WheelMUD.Server.Telnet
         {
             // Initialize the values of all automatic properties that need values 
             // to be assumed non-zero or null.
-            this.AwaitingVersionResponse = false;
-            this.VersionResponseBuffer = string.Empty;
+            AwaitingVersionResponse = false;
+            VersionResponseBuffer = string.Empty;
         }
 
         /// <summary>Represents version response state in the MXP telnet option.</summary>
@@ -65,13 +65,13 @@ namespace WheelMUD.Server.Telnet
         public override void AfterNegotiation()
         {
             // If we got a successful turn on.
-            if (this.UsState == TelnetOptionState.YES)
+            if (UsState == TelnetOptionState.YES)
             {
-                this.Connection.Terminal.UseMXP = true;
+                Connection.Terminal.UseMXP = true;
 
                 // Request a version tag from the client.
-                this.Connection.Send(AnsiHandler.Parse("<%mxpsecureline%><VERSION>"), true);
-                this.AwaitingVersionResponse = true;
+                Connection.Send(AnsiHandler.Parse("<%mxpsecureline%><VERSION>"), true);
+                AwaitingVersionResponse = true;
 
                 // TODO: Send our mxp headers.
             }

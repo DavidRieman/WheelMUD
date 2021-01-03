@@ -21,8 +21,8 @@ namespace WheelMUD.Core.Locators
 
         private BehaviorLocator()
         {
-            this.instantiatedServices = new Dictionary<Type, object>();
-            this.servicesType = new Dictionary<Type, Type>();
+            instantiatedServices = new Dictionary<Type, object>();
+            servicesType = new Dictionary<Type, Type>();
         }
 
         /// <summary>Gets the singleton instance of the <see cref="BehaviorLocator"/> class.</summary>
@@ -33,7 +33,7 @@ namespace WheelMUD.Core.Locators
         /// <param name="behaviorToRegister">The behavior to register.</param>
         public void RegisterService<T>(T behaviorToRegister)
         {
-            this.instantiatedServices.Add(typeof(T), behaviorToRegister);
+            instantiatedServices.Add(typeof(T), behaviorToRegister);
         }
 
         /// <summary>Gets the service.</summary>
@@ -41,22 +41,22 @@ namespace WheelMUD.Core.Locators
         /// <returns>Returns an instance of the class in question, if it exists.</returns>
         public T GetService<T>()
         {
-            if (this.instantiatedServices.ContainsKey(typeof(T)))
+            if (instantiatedServices.ContainsKey(typeof(T)))
             {
-                return (T)this.instantiatedServices[typeof(T)];
+                return (T)instantiatedServices[typeof(T)];
             }
 
             // lazy initialization
             try
             {
                 // use reflection to invoke the service
-                ConstructorInfo constructor = this.servicesType[typeof(T)].GetConstructor(new Type[0]);
+                ConstructorInfo constructor = servicesType[typeof(T)].GetConstructor(new Type[0]);
                 Debug.Assert(constructor != null, "Cannot find a suitable constructor for " + typeof(T));
 
                 T service = (T)constructor.Invoke(null);
 
                 // add the service to the ones that we have already instantiated
-                this.instantiatedServices.Add(typeof(T), service);
+                instantiatedServices.Add(typeof(T), service);
 
                 return service;
             }

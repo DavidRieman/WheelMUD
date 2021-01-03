@@ -31,7 +31,7 @@ namespace WheelMUD.Core
         public void Load()
         {
             var areaRepository = new RelationalRepository<AreaRecord>();
-            string areaNumber = this.Parent.Id.Replace("area/", string.Empty);
+            string areaNumber = Parent.Id.Replace("area/", string.Empty);
             long persistedAreaID = long.Parse(areaNumber);
             ICollection<RoomRecord> rooms = areaRepository.GetRoomsForArea(persistedAreaID);
 
@@ -50,7 +50,7 @@ namespace WheelMUD.Core
 
                 // Load this room and it's children.
                 roomBehavior.Load();
-                this.Parent.Add(currRoom);
+                Parent.Add(currRoom);
             }
         }
 

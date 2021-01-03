@@ -25,10 +25,10 @@ namespace WheelMUD.Tests.Behaviors
         public void Init()
         {
             // Create 2 things and a basic MultipleParentsBehavior for testing.
-            this.parent1 = new Thing() { Name = "Thing1", Id = TestThingID.Generate("testthing") };
-            this.parent2 = new Thing() { Name = "Thing2", Id = TestThingID.Generate("testthing") };
-            this.child = new Thing() { Name = "Child1", Id = TestThingID.Generate("testthing") };
-            this.multipleParentsBehavior = new MultipleParentsBehavior();
+            parent1 = new Thing() { Name = "Thing1", Id = TestThingID.Generate("testthing") };
+            parent2 = new Thing() { Name = "Thing2", Id = TestThingID.Generate("testthing") };
+            child = new Thing() { Name = "Child1", Id = TestThingID.Generate("testthing") };
+            multipleParentsBehavior = new MultipleParentsBehavior();
         }
 
         /// <summary>Test normal parenting behaviors without a MultipleParentsBehavior being attached.</summary>
@@ -36,25 +36,25 @@ namespace WheelMUD.Tests.Behaviors
         public void TestSingleParentingBehavior()
         {
             // Verify that a thing which has not yet been added to a parent, has none.
-            Assert.IsTrue(this.child.Parent == null);
+            Assert.IsTrue(child.Parent == null);
 
             // Verify that a basic thing can be added to a parent correctly.
-            this.parent1.Add(this.child);
-            Assert.IsTrue(this.parent1.Children.Contains(this.child));
-            Assert.IsTrue(!this.parent2.Children.Contains(this.child));
-            Assert.IsTrue(this.child.Parent == this.parent1);
+            parent1.Add(child);
+            Assert.IsTrue(parent1.Children.Contains(child));
+            Assert.IsTrue(!parent2.Children.Contains(child));
+            Assert.IsTrue(child.Parent == parent1);
 
             // Verify adding it to a second parent actually reassigns the parent.
-            this.parent2.Add(this.child);
-            Assert.IsTrue(this.parent2.Children.Contains(this.child));
-            Assert.IsTrue(!this.parent1.Children.Contains(this.child));
-            Assert.IsTrue(this.child.Parent == this.parent2);
+            parent2.Add(child);
+            Assert.IsTrue(parent2.Children.Contains(child));
+            Assert.IsTrue(!parent1.Children.Contains(child));
+            Assert.IsTrue(child.Parent == parent2);
 
             // Verify removing it from the last parent, cleans up the parent/child relationships.
-            this.parent2.Remove(this.child);
-            Assert.IsTrue(!this.parent1.Children.Contains(this.child));
-            Assert.IsTrue(!this.parent2.Children.Contains(this.child));
-            Assert.IsTrue(this.child.Parent == null);
+            parent2.Remove(child);
+            Assert.IsTrue(!parent1.Children.Contains(child));
+            Assert.IsTrue(!parent2.Children.Contains(child));
+            Assert.IsTrue(child.Parent == null);
         }
 
         /// <summary>Test an unattached MultipleParentsBehavior.</summary>
@@ -63,8 +63,8 @@ namespace WheelMUD.Tests.Behaviors
         {
             // Verify that messing with a MultipleParentsBehavior while it is not attached to a host thing
             // does not throw (IE during possible deconstruction race conditions and such).
-            this.multipleParentsBehavior.AddParent(this.parent1);
-            this.multipleParentsBehavior.RemoveParent(this.parent1);
+            multipleParentsBehavior.AddParent(parent1);
+            multipleParentsBehavior.RemoveParent(parent1);
         }
 
         /// <summary>Test parenting behaviors with a MultipleParentsBehavior attached.</summary>
@@ -72,37 +72,37 @@ namespace WheelMUD.Tests.Behaviors
         public void TestMultipleParentingBehavior()
         {
             // Verify we can add and retrieve the MultipleParentsBehavior of a Thing.
-            this.child.Behaviors.Add(this.multipleParentsBehavior);
-            Assert.IsTrue(this.child.Behaviors.FindFirst<MultipleParentsBehavior>() == this.multipleParentsBehavior);
+            child.Behaviors.Add(multipleParentsBehavior);
+            Assert.IsTrue(child.Behaviors.FindFirst<MultipleParentsBehavior>() == multipleParentsBehavior);
 
             // Verify it can now be a child of multiple parents, and one of those can be found as the primary Parent.
-            this.parent1.Add(this.child);
-            this.parent2.Add(this.child);
-            Assert.IsTrue(this.parent1.Children.Contains(this.child));
-            Assert.IsTrue(this.parent2.Children.Contains(this.child));
-            Assert.IsTrue(this.child.Parent == this.parent1 || this.child.Parent == this.parent2);
+            parent1.Add(child);
+            parent2.Add(child);
+            Assert.IsTrue(parent1.Children.Contains(child));
+            Assert.IsTrue(parent2.Children.Contains(child));
+            Assert.IsTrue(child.Parent == parent1 || child.Parent == parent2);
 
             // Verify we can remove the item from a secondary parent, and still be attached well to the primary.
-            this.parent2.Remove(this.child);
-            Assert.IsTrue(this.parent1.Children.Contains(this.child));
-            Assert.IsTrue(!this.parent2.Children.Contains(this.child));
-            Assert.IsTrue(this.child.Parent == this.parent1);
-            this.parent2.Add(this.child);
+            parent2.Remove(child);
+            Assert.IsTrue(parent1.Children.Contains(child));
+            Assert.IsTrue(!parent2.Children.Contains(child));
+            Assert.IsTrue(child.Parent == parent1);
+            parent2.Add(child);
 
             // Verify we can remove the item from a primary parent, and a secondary parent becomes the primary.
-            this.parent1.Remove(this.child);
-            Assert.IsTrue(!this.parent1.Children.Contains(this.child));
-            Assert.IsTrue(this.parent2.Children.Contains(this.child));
-            Assert.IsTrue(this.child.Parent == this.parent2);
-            this.parent1.Add(this.child);
+            parent1.Remove(child);
+            Assert.IsTrue(!parent1.Children.Contains(child));
+            Assert.IsTrue(parent2.Children.Contains(child));
+            Assert.IsTrue(child.Parent == parent2);
+            parent1.Add(child);
 
             // Verify we can be attached to more than 2 parents.
             Thing parent3 = new Thing() { Name = "Thing3", Id = TestThingID.Generate("testthing") };
-            parent3.Add(this.child);
-            Assert.IsTrue(this.parent1.Children.Contains(this.child));
-            Assert.IsTrue(this.parent2.Children.Contains(this.child));
-            Assert.IsTrue(parent3.Children.Contains(this.child));
-            Assert.IsTrue(this.child.Parent != null);
+            parent3.Add(child);
+            Assert.IsTrue(parent1.Children.Contains(child));
+            Assert.IsTrue(parent2.Children.Contains(child));
+            Assert.IsTrue(parent3.Children.Contains(child));
+            Assert.IsTrue(child.Parent != null);
         }
     }
 }

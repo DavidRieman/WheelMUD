@@ -19,7 +19,7 @@ namespace WheelMUD.Core
         /// <param name="session">The session entering this state.</param>
         public SessionState(Session session)
         {
-            this.Session = session;
+            Session = session;
         }
 
         /// <summary>Gets or sets the session this state applies to.</summary>

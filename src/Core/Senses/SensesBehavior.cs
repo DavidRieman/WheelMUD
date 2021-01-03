@@ -25,7 +25,7 @@ namespace WheelMUD.Core
         public SensesBehavior(long instanceId, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceId;
+            ID = instanceId;
         }
 
         /// <summary>Gets or sets the senses this thing has access to.</summary>
@@ -35,13 +35,13 @@ namespace WheelMUD.Core
         /// <returns>A list of perceived exits.</returns>
         public List<string> PerceiveExits()
         {
-            if (this.Parent != null)
+            if (Parent != null)
             {
                 var exits = new List<string>();
 
                 // If the thing we are in now is exitable, then add the exit command.
-                var location = this.Parent.Parent;
-                var enterableExitableBehavior = this.Parent.Behaviors.FindFirst<EnterableExitableBehavior>();
+                var location = Parent.Parent;
+                var enterableExitableBehavior = Parent.Behaviors.FindFirst<EnterableExitableBehavior>();
                 if (enterableExitableBehavior != null)
                 {
                     exits.Add(enterableExitableBehavior.ExitCommand);
@@ -55,7 +55,7 @@ namespace WheelMUD.Core
                         var exitBehavior = thing.Behaviors.FindFirst<ExitBehavior>();
                         if (exitBehavior != null)
                         {
-                            if (thing.IsDetectableBySense(this.Senses))
+                            if (thing.IsDetectableBySense(Senses))
                             {
                                 exits.Add(exitBehavior.GetExitCommandFrom(location));
                             }
@@ -65,7 +65,7 @@ namespace WheelMUD.Core
                             enterableExitableBehavior = thing.Behaviors.FindFirst<EnterableExitableBehavior>();
                             if (enterableExitableBehavior != null)
                             {
-                                if (thing.IsDetectableBySense(this.Senses))
+                                if (thing.IsDetectableBySense(Senses))
                                 {
                                     exits.Add(enterableExitableBehavior.EnterCommand);
                                 }
@@ -85,17 +85,17 @@ namespace WheelMUD.Core
         public IList<Thing> PerceiveEntities()
         {
             // TODO: Refactor the perceive categories... players, mobs, items, exits, etc.
-            if (this.Parent != null)
+            if (Parent != null)
             {
                 var outEntities = new List<Thing>();
 
                 // TODO: Change Parent.Parent to a predicate that will find RoomBehaviors. This is a an ugly hack that needs to go away.
-                var entities = this.Parent.Parent.FindAllChildren(t => t.HasBehavior<PlayerBehavior>() || t.HasBehavior<MobileBehavior>());
+                var entities = Parent.Parent.FindAllChildren(t => t.HasBehavior<PlayerBehavior>() || t.HasBehavior<MobileBehavior>());
 
                 foreach (Thing thing in entities)
                 {
                     // TODO: Add '&& thing has EntityBehavior' or whatnot...
-                    if (thing != this.Parent && thing.IsDetectableBySense(this.Senses))
+                    if (thing != Parent && thing.IsDetectableBySense(Senses))
                     {
                         outEntities.Add(thing);
                     }
@@ -111,7 +111,7 @@ namespace WheelMUD.Core
         /// <returns>A list of perceived items.</returns>
         public IList<Thing> PerceiveItems()
         {
-            var self = this.Parent;
+            var self = Parent;
             if (self != null)
             {
                 var room = self.Parent;
@@ -121,7 +121,7 @@ namespace WheelMUD.Core
                     foreach (Thing item in room.Children)
                     {
                         // TODO: Use something like 'has ItemBehavior' instead?
-                        if (item.IsDetectableBySense(this.Senses) &&
+                        if (item.IsDetectableBySense(Senses) &&
                             !item.HasBehavior<ExitBehavior>() &&
                             !item.HasBehavior<PlayerBehavior>() &&
                             !item.HasBehavior<MobileBehavior>())
@@ -145,24 +145,24 @@ namespace WheelMUD.Core
         {
             // Distance-size, the perceiving thing should be able to perceive the place it is in (e.g. room), other
             // things in the same place, and its own things (e.g. inventory items).
-            bool isLocal = this.Parent.Parent == thing ||
-                (this.Parent.Parent != null && this.Parent.Parent.FindChild(t => t == thing) != null) ||
-                this.Parent.FindChild(t => t == thing) != null;
-            return isLocal && thing.IsDetectableBySense(this.Senses);
+            bool isLocal = Parent.Parent == thing ||
+                (Parent.Parent != null && Parent.Parent.FindChild(t => t == thing) != null) ||
+                Parent.FindChild(t => t == thing) != null;
+            return isLocal && thing.IsDetectableBySense(Senses);
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.Senses = new SenseManager();
-            this.LoadDefaultSenses();
+            Senses = new SenseManager();
+            LoadDefaultSenses();
         }
 
         /// <summary>Load the senses of the entity.</summary>
         private void LoadDefaultSenses()
         {
             // TODO: Each sense's details should be persistable/designable per race, etc.
-            this.Senses.AddSense(new Sense()
+            Senses.AddSense(new Sense()
             {
                 SensoryType = SensoryType.Hearing,
                 MessagePrefix = "[HEARING]",
@@ -172,7 +172,7 @@ namespace WheelMUD.Core
                 HighThreshold = 100,
             });
 
-            this.Senses.AddSense(new Sense()
+            Senses.AddSense(new Sense()
             {
                 SensoryType = SensoryType.Sight,
                 MessagePrefix = "[SIGHT]",
@@ -182,7 +182,7 @@ namespace WheelMUD.Core
                 HighThreshold = 100,
             });
 
-            this.Senses.AddSense(new Sense()
+            Senses.AddSense(new Sense()
             {
                 SensoryType = SensoryType.Smell,
                 MessagePrefix = "[SMELL]",
@@ -192,7 +192,7 @@ namespace WheelMUD.Core
                 HighThreshold = 100,
             });
 
-            this.Senses.AddSense(new Sense()
+            Senses.AddSense(new Sense()
             {
                 SensoryType = SensoryType.Touch,
                 MessagePrefix = "[TOUCH]",
@@ -202,7 +202,7 @@ namespace WheelMUD.Core
                 HighThreshold = 100,
             });
 
-            this.Senses.AddSense(new Sense()
+            Senses.AddSense(new Sense()
             {
                 SensoryType = SensoryType.Taste,
                 MessagePrefix = "[TASTE]",
@@ -212,7 +212,7 @@ namespace WheelMUD.Core
                 HighThreshold = 100,
             });
 
-            this.Senses.AddSense(new Sense()
+            Senses.AddSense(new Sense()
             {
                 SensoryType = SensoryType.Debug,
                 MessagePrefix = "[DEBUG]",

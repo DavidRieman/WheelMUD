@@ -23,20 +23,20 @@ namespace WarriorRogueMage.CharacterCreation
         public PickGenderState(Session session)
             : base(session)
         {
-            this.RefreshScreen(false);
+            RefreshScreen(false);
         }
 
         /// <summary>ProcessInput is used to receive the user input during this state.</summary>
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {
-            if (!string.IsNullOrEmpty(command) && this.SetGender(command))
+            if (!string.IsNullOrEmpty(command) && SetGender(command))
             {
-                this.ProcessDone();
+                ProcessDone();
             }
-            else if (!this.HandleCommand(command))
+            else if (!HandleCommand(command))
             {
-                WrmChargenCommon.SendErrorMessage(this.Session, "Invalid command. Please select a gender.");
+                WrmChargenCommon.SendErrorMessage(Session, "Invalid command. Please select a gender.");
             }
         }
 
@@ -57,28 +57,28 @@ namespace WarriorRogueMage.CharacterCreation
             // Support strings of format "select m" and "m" by ignoring "select " from the input.
             string currentGender = specifiedGender.Replace("select ", string.Empty);
 
-            this.selectedGender = (from g in GameSystemController.Instance.GameGenders
-                                   where g.Name.Equals(currentGender, StringComparison.CurrentCultureIgnoreCase) ||
-                                         g.Abbreviation.Equals(currentGender, StringComparison.CurrentCultureIgnoreCase)
-                                   select g).FirstOrDefault();
-            if (this.selectedGender == null)
+            selectedGender = (from g in GameSystemController.Instance.GameGenders
+                              where g.Name.Equals(currentGender, StringComparison.CurrentCultureIgnoreCase) ||
+                                    g.Abbreviation.Equals(currentGender, StringComparison.CurrentCultureIgnoreCase)
+                              select g).FirstOrDefault();
+            if (selectedGender == null)
             {
-                WrmChargenCommon.SendErrorMessage(this.Session, string.Format("'{0}' is an invalid gender selection.", currentGender));
-                this.RefreshScreen();
+                WrmChargenCommon.SendErrorMessage(Session, string.Format("'{0}' is an invalid gender selection.", currentGender));
+                RefreshScreen();
             }
 
-            return this.selectedGender != null;
+            return selectedGender != null;
         }
 
         private void ProcessDone()
         {
-            var playerBehavior = this.Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
-            playerBehavior.Gender = this.selectedGender;
-            string doneMessage = string.Format("<%green%>The chosen gender is {0}.<%n%>" + Environment.NewLine, this.selectedGender.Name);
-            this.Session.Write(doneMessage, false);
+            var playerBehavior = Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
+            playerBehavior.Gender = selectedGender;
+            string doneMessage = string.Format("<%green%>The chosen gender is {0}.<%n%>" + Environment.NewLine, selectedGender.Name);
+            Session.Write(doneMessage, false);
 
             // Proceed to the next step.
-            this.StateMachine.HandleNextStep(this, StepStatus.Success);
+            StateMachine.HandleNextStep(this, StepStatus.Success);
         }
 
         private void RefreshScreen(bool sendPrompt = true)
@@ -98,7 +98,7 @@ namespace WarriorRogueMage.CharacterCreation
             sb.AppendLine("Type your gender selection.");
             sb.AppendLine("===============================================================<%n%>");
 
-            this.Session.Write(sb.ToString(), sendPrompt);
+            Session.Write(sb.ToString(), sendPrompt);
         }
     }
 }

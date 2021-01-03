@@ -30,24 +30,24 @@ namespace WheelMUD.Tests.Talents
             var mageAttribute = new MageAttribute();
             var damageStat = new DamageStat();
 
-            this.playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
+            playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
 
-            this.playerThing.Behaviors.Add(testBehavior);
+            playerThing.Behaviors.Add(testBehavior);
 
-            warriorAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(warriorAttribute);
+            warriorAttribute.Parent = playerThing;
+            playerThing.AddAttribute(warriorAttribute);
 
-            mageAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(rogueAttribute);
+            mageAttribute.Parent = playerThing;
+            playerThing.AddAttribute(rogueAttribute);
 
-            rogueAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(mageAttribute);
+            rogueAttribute.Parent = playerThing;
+            playerThing.AddAttribute(mageAttribute);
 
-            warriorAttribute.SetValue(10, this.playerThing);
-            rogueAttribute.SetValue(10, this.playerThing);
-            mageAttribute.SetValue(10, this.playerThing);
+            warriorAttribute.SetValue(10, playerThing);
+            rogueAttribute.SetValue(10, playerThing);
+            mageAttribute.SetValue(10, playerThing);
 
-            this.playerThing.Stats.Add(damageStat.Name, damageStat);
+            playerThing.Stats.Add(damageStat.Name, damageStat);
         }
 
         /// <summary>Tests the massive attack talent added mechanism.</summary>
@@ -55,8 +55,8 @@ namespace WheelMUD.Tests.Talents
         public void TestMassiveAttackTalentAddedMechanism()
         {
             var massiveAttack = new MassiveAttackTalent();
-            this.playerThing.Behaviors.FindFirst<TalentsBehavior>().AddTalent(massiveAttack);
-            var behavior = this.playerThing.Behaviors.FindFirst<TalentsBehavior>();
+            playerThing.Behaviors.FindFirst<TalentsBehavior>().AddTalent(massiveAttack);
+            var behavior = playerThing.Behaviors.FindFirst<TalentsBehavior>();
 
             Assert.IsTrue(behavior.ManagedTalents.Contains(massiveAttack));
             Assert.IsNotNull(behavior.FindFirst<MassiveAttackTalent>().PlayerThing);

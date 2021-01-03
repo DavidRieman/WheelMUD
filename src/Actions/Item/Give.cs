@@ -54,23 +54,23 @@ namespace WheelMUD.Actions
             // Remove the item from the character's posession.
             // TODO: Test, this may be broken now... esp for numberToGive != max
             IController sender = actionInput.Controller;
-            if (this.numberToGive > 0 && this.thing != null)
+            if (numberToGive > 0 && thing != null)
             {
-                this.thing.RemoveFromParents();
+                thing.RemoveFromParents();
             }
 
-            var contextMessage = new ContextualString(sender.Thing, this.target)
+            var contextMessage = new ContextualString(sender.Thing, target)
             {
-                ToOriginator = $"You gave {this.thing.Name} to {this.target}.",
-                ToReceiver = $"{sender.Thing.Name} gave you {this.thing.Name}.",
-                ToOthers = $"{sender.Thing.Name} gave {this.thing.Name} to {this.target.Name}.",
+                ToOriginator = $"You gave {thing.Name} to {target}.",
+                ToReceiver = $"{sender.Thing.Name} gave you {thing.Name}.",
+                ToOthers = $"{sender.Thing.Name} gave {thing.Name} to {target.Name}.",
             };
             var message = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
             // Try to move the thing from the sender to the target; this handles eventing and whatnot for us.
-            if (!this.movableBehavior.Move(this.target, sender.Thing, null, message))
+            if (!movableBehavior.Move(target, sender.Thing, null, message))
             {
-                sender.Write($"Failed to give {this.thing.Name} to {this.target.Name}.");
+                sender.Write($"Failed to give {thing.Name} to {target.Name}.");
             }
         }
 
@@ -80,7 +80,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -90,12 +90,12 @@ namespace WheelMUD.Actions
             // If so, shunt up the positions of our other params.
             int itemParam = 0;
             int numberWords = actionInput.Params.Length;
-            if (int.TryParse(actionInput.Params[0], out this.numberToGive))
+            if (int.TryParse(actionInput.Params[0], out numberToGive))
             {
                 itemParam = 1;
 
                 // If the user specified a number, but it is less than 1, error!
-                if (this.numberToGive < 1)
+                if (numberToGive < 1)
                 {
                     return "You can't give less than 1 of something.";
                 }
@@ -112,8 +112,8 @@ namespace WheelMUD.Actions
             string itemName = actionInput.Params[itemParam];
 
             // Do we have an item matching the name in our inventory?
-            this.thing = sender.Thing.FindChild(itemName.ToLower());
-            if (this.thing == null)
+            thing = sender.Thing.FindChild(itemName.ToLower());
+            if (thing == null)
             {
                 return "You do not hold " + itemName + ".";
             }
@@ -128,7 +128,7 @@ namespace WheelMUD.Actions
             }
 
             // TODO: Shared targeting code should be used, and this rule should be implemented like:
-            //       if (this.target == sender.Thing) ...
+            //       if (target == sender.Thing) ...
             // Rule: The giver cannot also be the receiver.
             if (targetName == "me")
             {
@@ -136,20 +136,20 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the target an entity?
-            this.target = GetPlayerOrMobile(targetName);
-            if (this.target == null)
+            target = GetPlayerOrMobile(targetName);
+            if (target == null)
             {
                 return "You cannot see " + targetName + ".";
             }
 
             // Rule: Is the target in the same room?
-            if (sender.Thing.Parent.Id != this.target.Parent.Id)
+            if (sender.Thing.Parent.Id != target.Parent.Id)
             {
                 return "You cannot see " + targetName + ".";
             }
 
             // Rule: The thing being given must be movable.
-            this.movableBehavior = this.thing.Behaviors.FindFirst<MovableBehavior>();
+            movableBehavior = thing.Behaviors.FindFirst<MovableBehavior>();
 
             return null;
         }

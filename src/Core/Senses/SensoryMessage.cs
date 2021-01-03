@@ -19,10 +19,10 @@ namespace WheelMUD.Core
         /// <param name="context">The context for the view processor to use to render the message.</param>
         public SensoryMessage(SensoryType targetedSense, int messageStrength, ContextualStringBuilder message, Hashtable context)
         {
-            this.TargetedSense = targetedSense;
-            this.MessageStrength = messageStrength;
-            this.Message = message;
-            this.Context = context;
+            TargetedSense = targetedSense;
+            MessageStrength = messageStrength;
+            Message = message;
+            Context = context;
         }
 
         /// <summary>Initializes a new instance of the SensoryMessage class.</summary>

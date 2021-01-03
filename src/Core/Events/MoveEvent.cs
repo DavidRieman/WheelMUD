@@ -31,14 +31,14 @@ namespace WheelMUD.Core.Events
         public MovementEvent(Thing thingMoving, Thing goingFrom, Thing goingTo, Thing goingVia, SensoryMessage sensoryMessage)
             : base(thingMoving, sensoryMessage)
         {
-            this.GoingFrom = goingFrom;
-            this.GoingTo = goingTo;
-            this.GoingVia = goingVia;
+            GoingFrom = goingFrom;
+            GoingTo = goingTo;
+            GoingVia = goingVia;
             if (sensoryMessage != null)
             {
-                sensoryMessage.Context.Add("GoingFrom", this.GoingFrom);
-                sensoryMessage.Context.Add("GoingTo", this.GoingTo);
-                sensoryMessage.Context.Add("GoingVia", this.GoingVia);
+                sensoryMessage.Context.Add("GoingFrom", GoingFrom);
+                sensoryMessage.Context.Add("GoingTo", GoingTo);
+                sensoryMessage.Context.Add("GoingVia", GoingVia);
             }
         }
 

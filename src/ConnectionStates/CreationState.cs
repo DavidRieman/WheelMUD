@@ -23,24 +23,24 @@ namespace WheelMUD.ConnectionStates
             : base(session)
         {
             // Get the default CharacterCreationStateMachine via MEF to drive character creation sub-states.
-            this.subStateHandler = CharacterCreationStateMachineManager.Instance.CreateDefaultCharacterCreationStateMachine(session);
-            this.subStateHandler.CharacterCreationAborted += this.SubState_CharacterCreationAborted;
-            this.subStateHandler.CharacterCreationCompleted += SubState_CharacterCreationCompleted;
+            subStateHandler = CharacterCreationStateMachineManager.Instance.CreateDefaultCharacterCreationStateMachine(session);
+            subStateHandler.CharacterCreationAborted += SubState_CharacterCreationAborted;
+            subStateHandler.CharacterCreationCompleted += SubState_CharacterCreationCompleted;
         }
 
         /// <summary>Process the specified input.</summary>
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {
-            this.Session.AtPrompt = false;
-            this.subStateHandler.ProcessInput(command);
+            Session.AtPrompt = false;
+            subStateHandler.ProcessInput(command);
         }
 
         public override string BuildPrompt()
         {
-            if (this.subStateHandler != null && this.subStateHandler.CurrentStep != null)
+            if (subStateHandler != null && subStateHandler.CurrentStep != null)
             {
-                return this.subStateHandler.CurrentStep.BuildPrompt();
+                return subStateHandler.CurrentStep.BuildPrompt();
             }
 
             return "> ";
@@ -87,8 +87,8 @@ namespace WheelMUD.ConnectionStates
         /// <summary>Called upon the abortion of character creation.</summary>
         private void SubState_CharacterCreationAborted()
         {
-            this.Session.State = new ConnectedState(this.Session);
-            this.Session.WritePrompt();
+            Session.State = new ConnectedState(Session);
+            Session.WritePrompt();
         }
     }
 }

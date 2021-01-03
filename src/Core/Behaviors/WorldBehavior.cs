@@ -34,7 +34,7 @@ namespace WheelMUD.Core
         public WorldBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Loads areas into the world.</summary>
@@ -57,7 +57,7 @@ namespace WheelMUD.Core
 
                 // Load this area and it's children.
                 areaBehavior.Load();
-                this.Parent.Add(area);
+                Parent.Add(area);
             }
         }
 
@@ -66,7 +66,7 @@ namespace WheelMUD.Core
         /// <returns>The Room found.</returns>
         public Thing FindRoom(string roomId)
         {
-            ////foreach (KeyValuePair<long, Thing> kvp in this.Areas)
+            ////foreach (KeyValuePair<long, Thing> kvp in Areas)
             ////{
             ////    if (kvp.Value.Rooms.ContainsKey(roomId))
             ////    {
@@ -74,7 +74,7 @@ namespace WheelMUD.Core
             ////    }
             ////}
 
-            ////Thing roomBehavior = this.roomsCache[roomId];
+            ////Thing roomBehavior = roomsCache[roomId];
             Thing roomBehavior = null;
 
             if (roomBehavior == null)
@@ -85,13 +85,13 @@ namespace WheelMUD.Core
             return roomBehavior.Parent;
         }
 
-        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent.)</summary>
+        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to Parent.)</summary>
         protected override void OnAddBehavior()
         {
             // Once our WorldBehavior is attached to a thing, ensure that thing isn't currently a
             // child of anything else, and don't let that happen later either.
-            Debug.Assert(this.Parent.Parent == null, "A world cannot be a child of any other thing.");
-            this.Parent.Eventing.MovementRequest += this.DenyWorldParentChanges;
+            Debug.Assert(Parent.Parent == null, "A world cannot be a child of any other thing.");
+            Parent.Eventing.MovementRequest += DenyWorldParentChanges;
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
@@ -104,7 +104,7 @@ namespace WheelMUD.Core
         /// <param name="e">The event arguments.</param>
         private void DenyWorldParentChanges(Thing sender, CancellableGameEvent e)
         {
-            if (e.ActiveThing == this.Parent)
+            if (e.ActiveThing == Parent)
             {
                 var addChildRequest = e as AddChildEvent;
                 if (addChildRequest != null)

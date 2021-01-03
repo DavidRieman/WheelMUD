@@ -25,7 +25,7 @@ namespace WheelMUD.Universe
         public FlammableBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Gets or sets a value indicating whether the item is consumed when ignited.</summary>
@@ -37,8 +37,8 @@ namespace WheelMUD.Universe
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.IsConsumed = true;
-            this.DamageFormula = null;
+            IsConsumed = true;
+            DamageFormula = null;
         }
     }
 }

@@ -24,11 +24,11 @@ namespace WheelMUD.Effects
         public MutedEffect(Thing activeThing, TimeSpan duration, SensoryMessage sensoryMessage, SensoryMessage expirationMessage)
             : base(duration)
         {
-            this.Name = "Mute";
-            this.ActiveThing = activeThing;
-            this.SensoryMessage = sensoryMessage;
-            this.ExpirationMessage = expirationMessage;
-            this.Duration = duration;
+            Name = "Mute";
+            ActiveThing = activeThing;
+            SensoryMessage = sensoryMessage;
+            ExpirationMessage = expirationMessage;
+            Duration = duration;
         }
 
         /// <summary>Initializes a new instance of the <see cref="MutedEffect" /> class.</summary>
@@ -37,8 +37,8 @@ namespace WheelMUD.Effects
         public MutedEffect(long instanceId, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.Name = "Mute";
-            this.ID = instanceId;
+            Name = "Mute";
+            ID = instanceId;
         }
 
         /// <summary>Gets or sets the name.</summary>
@@ -71,44 +71,44 @@ namespace WheelMUD.Effects
         protected override void OnAddBehavior()
         {
             // While this effect is attached to its parent, it denies all verbal communications from it.
-            this.Interceptor = new CancellableGameEventHandler(this.DenyCommunicationRequest);
-            this.Parent.Eventing.CommunicationRequest += this.Interceptor;
+            Interceptor = new CancellableGameEventHandler(DenyCommunicationRequest);
+            Parent.Eventing.CommunicationRequest += Interceptor;
 
             // Create event and broadcast it to let the affected parties know the effect was applied.
-            var muteEvent = new EffectEvent(this.ActiveThing, this.Parent, this.SensoryMessage);
-            this.ActiveThing.Eventing.OnCommunicationRequest(muteEvent, EventScope.ParentsDown);
+            var muteEvent = new EffectEvent(ActiveThing, Parent, SensoryMessage);
+            ActiveThing.Eventing.OnCommunicationRequest(muteEvent, EventScope.ParentsDown);
             if (!muteEvent.IsCancelled)
             {
-                this.ActiveThing.Eventing.OnCommunicationEvent(muteEvent, EventScope.ParentsDown);
+                ActiveThing.Eventing.OnCommunicationEvent(muteEvent, EventScope.ParentsDown);
             }
 
             // Create an event to be broadcast when the mute effect expires,
             // and schedule it with the TimeSystem.
-            this.UnmuteEvent = new TimeEvent(this.ActiveThing, this.Unmute, this.EndTime, this.ExpirationMessage);
-            TimeSystem.Instance.ScheduleEvent(this.UnmuteEvent);
+            UnmuteEvent = new TimeEvent(ActiveThing, Unmute, EndTime, ExpirationMessage);
+            TimeSystem.Instance.ScheduleEvent(UnmuteEvent);
 
             base.OnAddBehavior();
         }
 
-        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent.)</summary>
+        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to Parent.)</summary>
         protected override void OnRemoveBehavior()
         {
             // Stop intercepting communication events.
-            this.Parent.Eventing.CommunicationRequest -= this.Interceptor;
-            this.Interceptor = null;
+            Parent.Eventing.CommunicationRequest -= Interceptor;
+            Interceptor = null;
 
             // Broadcast the event that was created earlier in OnAddBehavior.
-            this.ActiveThing.Eventing.OnCommunicationRequest(this.UnmuteEvent, EventScope.ParentsDown);
-            if (!this.UnmuteEvent.IsCancelled)
+            ActiveThing.Eventing.OnCommunicationRequest(UnmuteEvent, EventScope.ParentsDown);
+            if (!UnmuteEvent.IsCancelled)
             {
-                this.ActiveThing.Eventing.OnCommunicationEvent(this.UnmuteEvent, EventScope.ParentsDown);
+                ActiveThing.Eventing.OnCommunicationEvent(UnmuteEvent, EventScope.ParentsDown);
             }
 
             // In case the effect was removed manually (i.e. not by TimeSystem), we should cancel the event so
             // TimeSystem will know to ignore it when the EndTime is reached.
-            if (this.UnmuteEvent != null && !this.UnmuteEvent.IsCancelled)
+            if (UnmuteEvent != null && !UnmuteEvent.IsCancelled)
             {
-                this.UnmuteEvent.Cancel(string.Empty);
+                UnmuteEvent.Cancel(string.Empty);
             }
 
             base.OnRemoveBehavior();
@@ -117,14 +117,14 @@ namespace WheelMUD.Effects
         /// <summary>Removes this effect from its parent Thing.</summary>
         public void Unmute()
         {
-            this.Parent.Eventing.OnCommunicationEvent(this.UnmuteEvent, EventScope.ParentsDown);
-            this.Parent.Behaviors.Remove(this);
+            Parent.Eventing.OnCommunicationEvent(UnmuteEvent, EventScope.ParentsDown);
+            Parent.Behaviors.Remove(this);
         }
 
         /// <summary>Sets the default properties of this effect instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.Duration = TimeSpan.FromMinutes(60);
+            Duration = TimeSpan.FromMinutes(60);
         }
 
         /// <summary>Deny communication requests by the host Thing.</summary>
@@ -133,7 +133,7 @@ namespace WheelMUD.Effects
         private void DenyCommunicationRequest(IThing root, CancellableGameEvent e)
         {
             var communicationRequest = e as VerbalCommunicationEvent;
-            if (communicationRequest != null && communicationRequest.ActiveThing == this.Parent)
+            if (communicationRequest != null && communicationRequest.ActiveThing == Parent)
             {
                 e.Cancel("You are currently muted.");
             }

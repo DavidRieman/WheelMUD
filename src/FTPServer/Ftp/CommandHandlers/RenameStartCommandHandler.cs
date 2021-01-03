@@ -17,17 +17,17 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected override string OnProcess(string message)
         {
-            string file = this.GetPath(message);
-            this.ConnectionObject.FileToRename = file;
+            string file = GetPath(message);
+            ConnectionObject.FileToRename = file;
 
-            var info = this.ConnectionObject.FileSystemObject.GetFileInfo(file);
+            var info = ConnectionObject.FileSystemObject.GetFileInfo(file);
             if (info == null)
             {
-                return this.GetMessage(550, string.Format("File does not exist ({0}).", file));
+                return GetMessage(550, string.Format("File does not exist ({0}).", file));
             }
 
-            this.ConnectionObject.RenameDirectory = info.IsDirectory();
-            return this.GetMessage(350, string.Format("Rename file started ({0}).", file));
+            ConnectionObject.RenameDirectory = info.IsDirectory();
+            return GetMessage(350, string.Format("Rename file started ({0}).", file));
         }
     }
 }

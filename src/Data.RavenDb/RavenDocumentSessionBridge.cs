@@ -26,38 +26,38 @@ namespace WheelMUD.Data
 
         public void Delete<T>(T entity)
         {
-            this.documentSession.Delete<T>(entity);
+            documentSession.Delete<T>(entity);
         }
 
         public void Delete(string id)
         {
-            this.documentSession.Delete(id);
+            documentSession.Delete(id);
         }
 
         public void Dispose()
         {
-            this.documentSession.Dispose();
-            this.documentSession = null;
+            documentSession.Dispose();
+            documentSession = null;
         }
 
         public T Load<T>(string id)
         {
-            return this.documentSession.Load<T>(id);
+            return documentSession.Load<T>(id);
         }
 
         public IOrderedQueryable<T> Query<T>()
         {
-            return this.documentSession.Query<T>();
+            return documentSession.Query<T>();
         }
 
         public void SaveChanges()
         {
-            this.documentSession.SaveChanges();
+            documentSession.SaveChanges();
         }
 
         public void Store<T>(T entity)
         {
-            this.documentSession.Store(entity);
+            documentSession.Store(entity);
         }
     }
 }

@@ -25,10 +25,10 @@ namespace WarriorRogueMage.CharacterCreation
         public PickTalentsState(Session session)
             : base(session)
         {
-            this.Session.Write("You will now pick your character's starting talent.");
-            this.talents = TalentFinder.Instance.NormalTalents;
-            this.formattedTalents = this.FormatTalentText();
-            this.RefreshScreen(false);
+            Session.Write("You will now pick your character's starting talent.");
+            talents = TalentFinder.Instance.NormalTalents;
+            formattedTalents = FormatTalentText();
+            RefreshScreen(false);
         }
 
         /// <summary>ProcessInput is used to receive the user input during this state.</summary>
@@ -43,26 +43,26 @@ namespace WarriorRogueMage.CharacterCreation
                     if (commandParts.Length > 1)
                     {
                         string talentName = string.Join(" ", commandParts, 1, commandParts.Length - 1);
-                        this.ViewTalentDescription(talentName);
+                        ViewTalentDescription(talentName);
                     }
                     else
                     {
-                        WrmChargenCommon.SendErrorMessage(this.Session, "Please select which talent you would like to view details for, like 'view sailor'.");
+                        WrmChargenCommon.SendErrorMessage(Session, "Please select which talent you would like to view details for, like 'view sailor'.");
                     }
                     break;
                 case "list":
-                    this.RefreshScreen();
+                    RefreshScreen();
                     break;
                 default:
-                    var talent = this.GetTalent(currentCommand);
+                    var talent = GetTalent(currentCommand);
                     if (talent != null)
                     {
                         // TODO: Save talent to a WRM-specific Behavior?
-                        this.StateMachine.HandleNextStep(this, StepStatus.Success);
+                        StateMachine.HandleNextStep(this, StepStatus.Success);
                     }
                     else
                     {
-                        WrmChargenCommon.SendErrorMessage(this.Session, "Invalid talent. Try again, or use 'view [talent]' or 'list'.");
+                        WrmChargenCommon.SendErrorMessage(Session, "Invalid talent. Try again, or use 'view [talent]' or 'list'.");
                     }
                     break;
             }
@@ -90,11 +90,11 @@ namespace WarriorRogueMage.CharacterCreation
                 sb.Append("<%b%><%white%>" + foundTalent.Description + Environment.NewLine);
                 sb.Append("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
 
-                this.Session.Write(sb.ToString());
+                Session.Write(sb.ToString());
             }
             else
             {
-                WrmChargenCommon.SendErrorMessage(this.Session, "That talent does not exist.");
+                WrmChargenCommon.SendErrorMessage(Session, "That talent does not exist.");
             }
         }
 
@@ -103,27 +103,27 @@ namespace WarriorRogueMage.CharacterCreation
             var talentQueue = new Queue<Talent>();
             var text = new StringBuilder();
 
-            foreach (var gameTalent in this.talents)
+            foreach (var gameTalent in talents)
             {
                 // Find out what talent name is the longest
-                if (gameTalent.Name.Length > this.longestTalentName)
+                if (gameTalent.Name.Length > longestTalentName)
                 {
-                    this.longestTalentName = gameTalent.Name.Length;
+                    longestTalentName = gameTalent.Name.Length;
                 }
 
                 talentQueue.Enqueue(gameTalent);
             }
 
-            int rows = this.talents.Count / 4;
+            int rows = talents.Count / 4;
 
             try
             {
                 for (int i = 0; i < rows; i++)
                 {
-                    string talent1 = WrmChargenCommon.FormatToColumn(this.longestTalentName, talentQueue.Dequeue().Name);
-                    string talent2 = WrmChargenCommon.FormatToColumn(this.longestTalentName, talentQueue.Dequeue().Name);
-                    string talent3 = WrmChargenCommon.FormatToColumn(this.longestTalentName, talentQueue.Dequeue().Name);
-                    string talent4 = WrmChargenCommon.FormatToColumn(this.longestTalentName, talentQueue.Dequeue().Name);
+                    string talent1 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                    string talent2 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                    string talent3 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                    string talent4 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
                     text.AppendFormat("{0}  {1}  {2}  {3}" + Environment.NewLine, talent1, talent2, talent3, talent4);
                 }
 
@@ -134,18 +134,18 @@ namespace WarriorRogueMage.CharacterCreation
                     switch (columns)
                     {
                         case 1:
-                            string talentcolumn1 = WrmChargenCommon.FormatToColumn(this.longestTalentName, talentQueue.Dequeue().Name);
+                            string talentcolumn1 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
                             text.AppendFormat("{0}" + Environment.NewLine, talentcolumn1);
                             break;
                         case 2:
-                            string tk1 = WrmChargenCommon.FormatToColumn(this.longestTalentName, talentQueue.Dequeue().Name);
-                            string tk2 = WrmChargenCommon.FormatToColumn(this.longestTalentName, talentQueue.Dequeue().Name);
+                            string tk1 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                            string tk2 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
                             text.AppendFormat("{0}  {1}" + Environment.NewLine, tk1, tk2);
                             break;
                         case 3:
-                            string tkl1 = WrmChargenCommon.FormatToColumn(this.longestTalentName, talentQueue.Dequeue().Name);
-                            string tkl2 = WrmChargenCommon.FormatToColumn(this.longestTalentName, talentQueue.Dequeue().Name);
-                            string tkl3 = WrmChargenCommon.FormatToColumn(this.longestTalentName, talentQueue.Dequeue().Name);
+                            string tkl1 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                            string tkl2 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                            string tkl3 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
                             text.AppendFormat("{0}  {1}  {2}" + Environment.NewLine, tkl1, tkl2, tkl3);
                             break;
                     }
@@ -166,13 +166,13 @@ namespace WarriorRogueMage.CharacterCreation
             sb.AppendLine();
             sb.AppendLine("You may pick one starting talent for your character.");
             sb.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
-            sb.AppendLine(this.formattedTalents);
+            sb.AppendLine(formattedTalents);
             sb.AppendLine("<%yellow%>==========================================================================");
             sb.AppendLine("To pick a talent, type the talent's name. Example: sailor");
             sb.AppendLine("To view a talent's description use the view command. Example: view sailor");
             sb.AppendLine("To see this screen again type list.");
             sb.AppendLine("==========================================================================<%n%>");
-            this.Session.Write(sb.ToString(), sendPrompt);
+            Session.Write(sb.ToString(), sendPrompt);
         }
     }
 }

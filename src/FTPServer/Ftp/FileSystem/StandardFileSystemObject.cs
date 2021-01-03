@@ -20,62 +20,62 @@ namespace WheelMUD.Ftp.FileSystem
 
         public IFile OpenFile(string path, bool write)
         {
-            var file = new StandardFileObject(this.GetPath(path), write);
+            var file = new StandardFileObject(GetPath(path), write);
             return file.Loaded ? file : null;
         }
 
         public IFileInfo GetFileInfo(string path)
         {
-            var info = new StandardFileInfoObject(this.GetPath(path));
+            var info = new StandardFileInfoObject(GetPath(path));
             return info.Loaded ? info : null;
         }
 
         public string[] GetFiles(string path)
         {
-            string currentPath = this.GetPath(path);
+            string currentPath = GetPath(path);
             string[] files = Directory.GetFiles(currentPath);
-            this.RemovePath(files, currentPath);
+            RemovePath(files, currentPath);
             return files;
         }
 
         public string[] GetFiles(string path, string wildcard)
         {
-            string currentPath = this.GetPath(path);
+            string currentPath = GetPath(path);
             string[] asFiles = Directory.GetFiles(currentPath, wildcard);
-            this.RemovePath(asFiles, currentPath);
+            RemovePath(asFiles, currentPath);
             return asFiles;
         }
 
         public string[] GetDirectories(string path)
         {
-            string currentPath = this.GetPath(path);
+            string currentPath = GetPath(path);
             string[] files = Directory.GetDirectories(currentPath);
-            this.RemovePath(files, currentPath);
+            RemovePath(files, currentPath);
             return files;
         }
 
         public string[] GetDirectories(string path, string wildcard)
         {
-            string currentPath = this.GetPath(path);
+            string currentPath = GetPath(path);
             string[] files = Directory.GetDirectories(currentPath, wildcard);
-            this.RemovePath(files, currentPath);
+            RemovePath(files, currentPath);
             return files;
         }
 
         public bool DirectoryExists(string path)
         {
-            return Directory.Exists(this.GetPath(path));
+            return Directory.Exists(GetPath(path));
         }
 
         public bool FileExists(string path)
         {
-            return File.Exists(this.GetPath(path));
+            return File.Exists(GetPath(path));
         }
 
         public bool Move(string oldPath, string newPath)
         {
-            string fullPathOld = this.GetPath(oldPath);
-            string fullPathNew = this.GetPath(newPath);
+            string fullPathOld = GetPath(oldPath);
+            string fullPathNew = GetPath(newPath);
 
             try
             {
@@ -106,7 +106,7 @@ namespace WheelMUD.Ftp.FileSystem
         {
             try
             {
-                var fullPath = this.GetPath(path);
+                var fullPath = GetPath(path);
                 var info = new FileInfo(fullPath);
                 if (info == null)
                 {
@@ -132,7 +132,7 @@ namespace WheelMUD.Ftp.FileSystem
 
         public bool CreateDirectory(string path)
         {
-            string fullPath = this.GetPath(path);
+            string fullPath = GetPath(path);
 
             try
             {

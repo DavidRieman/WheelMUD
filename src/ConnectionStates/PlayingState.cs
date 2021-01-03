@@ -25,26 +25,26 @@ namespace WheelMUD.ConnectionStates
             if (session.Thing != null)
             {
                 var behavior = session.Thing.Behaviors.FindFirst<PlayerBehavior>();
-                this.playerBehavior = new SimpleWeakReference<PlayerBehavior>(behavior);
+                playerBehavior = new SimpleWeakReference<PlayerBehavior>(behavior);
             }
 
             string nl = Environment.NewLine;
-            session.Write(string.Format("{0}Welcome, {1}.{0}{0}", nl, this.Session.Thing.FullName), false);
+            session.Write(string.Format("{0}Welcome, {1}.{0}{0}", nl, Session.Thing.FullName), false);
         }
 
         /// <summary>Process the specified input.</summary>
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {
-            this.Session.AtPrompt = false;
+            Session.AtPrompt = false;
             if (command != string.Empty)
             {
-                var actionInput = new ActionInput(command, this.Session);
-                this.Session.ExecuteAction(actionInput);
+                var actionInput = new ActionInput(command, Session);
+                Session.ExecuteAction(actionInput);
             }
             else
             {
-                this.Session.SendPrompt();
+                Session.SendPrompt();
             }
         }
 

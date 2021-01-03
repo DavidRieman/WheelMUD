@@ -25,7 +25,7 @@ namespace WheelMUD.Effects
         public FaintEffect(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /* 
@@ -39,10 +39,10 @@ namespace WheelMUD.Effects
         /// <param name="duration">duration of the effect</param>
         public override void Apply(TimeSpan duration)
         {
-            this.entity = (Entity)this.Host;
+            entity = (Entity)Host;
             
-            this.previousConsciousness = this.entity.Consciousness;
-            this.entity.Consciousness = Consciousness.Unconscious;
+            previousConsciousness = entity.Consciousness;
+            entity.Consciousness = Consciousness.Unconscious;
 
             base.Apply(duration);
         }
@@ -50,11 +50,11 @@ namespace WheelMUD.Effects
         /// <summary>This undoes the effect, returning entity to its previous state of consciousness.</summary>
         private void Restore()
         {
-            if (this.entity != null)
+            if (entity != null)
             {
-                if (this.entity.Consciousness == Consciousness.Unconscious)
+                if (entity.Consciousness == Consciousness.Unconscious)
                 {
-                    this.entity.Consciousness = this.previousConsciousness;
+                    entity.Consciousness = previousConsciousness;
                 }
             }
         }

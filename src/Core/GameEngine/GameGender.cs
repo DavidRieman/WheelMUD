@@ -15,8 +15,8 @@ namespace WheelMUD.Core
         /// <param name="abbreviation">The abbreviation.</param>
         public GameGender(string name, string abbreviation)
         {
-            this.Name = name;
-            this.Abbreviation = abbreviation;
+            Name = name;
+            Abbreviation = abbreviation;
         }
 
         /// <summary>Gets the abbreviation for this gender.</summary>

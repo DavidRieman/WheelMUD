@@ -17,7 +17,7 @@ namespace WheelMUD.Core
         /// <summary>Prevents a default instance of the <see cref="SessionManager"/> class from being created.</summary>
         private SessionManager()
         {
-            this.Sessions = new Dictionary<string, Session>();
+            Sessions = new Dictionary<string, Session>();
         }
 
         /// <summary>Gets the singleton instance of the <see cref="SessionManager"/> system.</summary>
@@ -30,7 +30,7 @@ namespace WheelMUD.Core
         /// <param name="connection">The connected session.</param>
         public void OnSessionConnected(IConnection connection)
         {
-            this.CreateSession(connection);
+            CreateSession(connection);
         }
 
         /// <summary>Called upon session disconnection.</summary>
@@ -38,15 +38,15 @@ namespace WheelMUD.Core
         public void OnSessionDisconnected(IConnection connection)
         {
             ////if (SessionDisconnected != null)
-            ////    SessionDisconnected(this.Sessions[connection.ID]);#
-            lock (this.Sessions)
+            ////    SessionDisconnected(Sessions[connection.ID]);#
+            lock (Sessions)
             {
-                if (this.Sessions.ContainsKey(connection.ID))
+                if (Sessions.ContainsKey(connection.ID))
                 {
-                    PlayerManager.Instance.OnSessionDisconnected(this.Sessions[connection.ID]);
+                    PlayerManager.Instance.OnSessionDisconnected(Sessions[connection.ID]);
                 }
 
-                this.RemoveSession(connection.ID);
+                RemoveSession(connection.ID);
             }
         }
 
@@ -54,9 +54,9 @@ namespace WheelMUD.Core
         /// <param name="session">The authenticated session.</param>
         public void OnSessionAuthenticated(Session session)
         {
-            session.ActionReceived += this.Controller_ActionReceived;
+            session.ActionReceived += Controller_ActionReceived;
 
-            this.SystemHost.UpdateSystemHost(this, session.ID + " - Session Authenticated");
+            SystemHost.UpdateSystemHost(this, session.ID + " - Session Authenticated");
 
             // Tell the player manager about the new authenticated session.
             PlayerManager.Instance.OnSessionAuthenticated(session);
@@ -71,11 +71,11 @@ namespace WheelMUD.Core
             // established.  For now, ignore any such early input and avoid locking 
             // the sessions collection for the duration of the command processing.
             Session session = null;
-            lock (this.Sessions)
+            lock (Sessions)
             {
-                if (this.Sessions.ContainsKey(connection.ID))
+                if (Sessions.ContainsKey(connection.ID))
                 {
-                    session = this.Sessions[connection.ID];
+                    session = Sessions[connection.ID];
                 }
             }
 
@@ -85,22 +85,22 @@ namespace WheelMUD.Core
         /// <summary>Starts this system's individual components.</summary>
         public override void Start()
         {
-            this.SystemHost.UpdateSystemHost(this, "Starting...");
+            SystemHost.UpdateSystemHost(this, "Starting...");
 
-            this.SystemHost.UpdateSystemHost(this, "Started");
+            SystemHost.UpdateSystemHost(this, "Started");
         }
 
         /// <summary>Stops this system's individual components.</summary>
         public override void Stop()
         {
-            this.SystemHost.UpdateSystemHost(this, "Stopping...");
+            SystemHost.UpdateSystemHost(this, "Stopping...");
 
-            lock (this.Sessions)
+            lock (Sessions)
             {
-                this.Sessions.Clear();
+                Sessions.Clear();
             }
 
-            this.SystemHost.UpdateSystemHost(this, "Stopped");
+            SystemHost.UpdateSystemHost(this, "Stopped");
         }
 
         /// <summary>Creates a new session for the specified connection.</summary>
@@ -118,14 +118,14 @@ namespace WheelMUD.Core
             var session = new Session(connection);
 
             // Handle our session authenticated event.
-            session.SessionAuthenticated += this.OnSessionAuthenticated;
+            session.SessionAuthenticated += OnSessionAuthenticated;
 
             session.SubscribeToSystem(this);
 
             // Add the new session to our collection.
-            lock (this.Sessions)
+            lock (Sessions)
             {
-                this.Sessions.Add(connection.ID, session);
+                Sessions.Add(connection.ID, session);
             }
 
             return session;
@@ -138,19 +138,19 @@ namespace WheelMUD.Core
             // We remove the session from the collection, but we also
             // have to trigger the player unloaded event as the session
             // object is not aware of being unloaded.
-            lock (this.Sessions)
+            lock (Sessions)
             {
-                if (this.Sessions.ContainsKey(sessionID))
+                if (Sessions.ContainsKey(sessionID))
                 {
                     //// Fire our player unloaded event so that it can be handled by
                     //// the player manager
-                    ////if (this.PlayerUnloaded != null)
+                    ////if (PlayerUnloaded != null)
                     ////    PlayerUnloaded(session.Player);
-                    Session session = this.Sessions[sessionID];
-                    session.SessionAuthenticated -= this.OnSessionAuthenticated;
+                    Session session = Sessions[sessionID];
+                    session.SessionAuthenticated -= OnSessionAuthenticated;
                     session.UnsubscribeToSystem();
 
-                    this.Sessions.Remove(sessionID);
+                    Sessions.Remove(sessionID);
                 }
             }
         }

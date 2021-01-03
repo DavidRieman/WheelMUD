@@ -33,4 +33,5 @@ The file headers will look like this:
 // </copyright>
 //-----------------------------------------------------------------------------
 ```
-When creating a new file, just copy-paste an existing header and update the file name and the summary. Do not include any 'created', 'edited' or 'updated' elements in the header. Git is used as the history tracking solution for all files in this project. Please add comments to your commits explaining any changes made to the code.
+When creating a new file, just copy-paste an existing header and update the file name.
+Do not include any 'created', 'edited' or 'updated' elements in the header. Git is used as the history tracking solution for all files in this project. Please add comments to your commits explaining any changes made to the code.

@@ -45,10 +45,10 @@ namespace WheelMUD.CommandSystem
             //     want to select the context command attached to the closest match for "door" as our command; if
             //     there are still multiple targets, we can start a conflict resolution prompt, etc.  Individual non-
             //     context commands may also wish to use such targeting code, so it should be built to be reusable.
-            ScriptingCommand command = this.TryCreateMasterCommand(actionInput, 0) ??
-                                       this.TryCreateMasterCommand(actionInput, 1) ??
-                                       this.TryCreateContextCommand(actionInput, 0) ??
-                                       this.TryCreateContextCommand(actionInput, 1);
+            ScriptingCommand command = TryCreateMasterCommand(actionInput, 0) ??
+                                       TryCreateMasterCommand(actionInput, 1) ??
+                                       TryCreateContextCommand(actionInput, 0) ??
+                                       TryCreateContextCommand(actionInput, 1);
 
             if (command == null)
             {
@@ -60,7 +60,7 @@ namespace WheelMUD.CommandSystem
 
         private ScriptingCommand TryCreateMasterCommand(ActionInput actionInput, int lastKeywordIndex)
         {
-            string commandAlias = this.GetCommandAlias(actionInput, lastKeywordIndex);
+            string commandAlias = GetCommandAlias(actionInput, lastKeywordIndex);
 
             // If this isn't actually a command, bail now.
             ////if (string.IsNullOrEmpty(commandAlias) || !this.masterCommandList.ContainsKey(commandAlias))
@@ -82,7 +82,7 @@ namespace WheelMUD.CommandSystem
 
         private ScriptingCommand TryCreateContextCommand(ActionInput actionInput, int lastKeywordIndex)
         {
-            string commandAlias = this.GetCommandAlias(actionInput, lastKeywordIndex);
+            string commandAlias = GetCommandAlias(actionInput, lastKeywordIndex);
             if (string.IsNullOrEmpty(commandAlias))
             {
                 return null;

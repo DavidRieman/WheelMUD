@@ -25,8 +25,8 @@ namespace WheelMUD.Tests.Behaviors
         [SetUp]
         public void Init()
         {
-            this.thing = new Thing();
-            this.behaviorManager = new BehaviorManager(this.thing);
+            thing = new Thing();
+            behaviorManager = new BehaviorManager(thing);
         }
 
         /// <summary>Tests BehaviorManager support for simultaneous add/remove/iterate attempts.</summary>
@@ -36,30 +36,30 @@ namespace WheelMUD.Tests.Behaviors
             // Start with a bunch of behaviors already collected, to work with.
             for (int i = 0; i < 100; i++)
             {
-                this.behaviorManager.Add(new SimpleTestBehavior());
+                behaviorManager.Add(new SimpleTestBehavior());
             }
 
             // Prepare stress threads to determine if BehaviorManager is safe from simultaneous add/remove/iterate attempts.
             DateTime endTime = DateTime.Now.AddMilliseconds(100);
-            Action addAction = () => this.behaviorManager.Add(new SimpleTestBehavior());
+            Action addAction = () => behaviorManager.Add(new SimpleTestBehavior());
             Action removeAction = () =>
             {
-                var toRemove = this.behaviorManager.FindFirst<SimpleTestBehavior>();
+                var toRemove = behaviorManager.FindFirst<SimpleTestBehavior>();
                 if (toRemove != null)
                 {
-                    this.behaviorManager.Remove(toRemove);
+                    behaviorManager.Remove(toRemove);
                 }
             };
             Action iterateAction = () =>
             {
-                foreach (var behavior in this.behaviorManager.AllBehaviors)
+                foreach (var behavior in behaviorManager.AllBehaviors)
                 {
                     // Do nothing; just iterate.
                 }
             };
             Action typedAction = () =>
             {
-                foreach (var behavior in this.behaviorManager.OfType<SimpleTestBehavior>())
+                foreach (var behavior in behaviorManager.OfType<SimpleTestBehavior>())
                 {
                     // Do nothing; just iterate.
                 }

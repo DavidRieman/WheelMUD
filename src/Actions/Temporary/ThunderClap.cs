@@ -39,15 +39,15 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            var contextMessage = new ContextualString(sender.Thing, this.target)
+            var contextMessage = new ContextualString(sender.Thing, target)
             {
-                ToOriginator = $"You cast ThunderClap at {this.target.Name}!",
+                ToOriginator = $"You cast ThunderClap at {target.Name}!",
                 ToReceiver = $"{sender.Thing.Name} casts ThunderClap at you. You only hear a ringing in your ears now.",
-                ToOthers = $"You hear {sender.Thing.Name} cast ThunderClap at {this.target.Name}! It was very loud.",
+                ToOthers = $"You hear {sender.Thing.Name} cast ThunderClap at {target.Name}! It was very loud.",
             };
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 
-            var attackEvent = new AttackEvent(this.target, sm, sender.Thing);
+            var attackEvent = new AttackEvent(target, sm, sender.Thing);
             sender.Thing.Eventing.OnCombatRequest(attackEvent, EventScope.ParentsDown);
             if (!attackEvent.IsCancelled)
             {
@@ -58,7 +58,7 @@ namespace WheelMUD.Actions
                     Duration = new TimeSpan(0, 0, 45),
                 };
 
-                this.target.Behaviors.Add(deafenEffect);
+                target.Behaviors.Add(deafenEffect);
                 sender.Thing.Eventing.OnCombatEvent(attackEvent, EventScope.ParentsDown);
             }
         }
@@ -68,7 +68,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -77,22 +77,22 @@ namespace WheelMUD.Actions
             string targetName = actionInput.Tail.Trim().ToLower();
 
             // Rule: Is the target an entity?
-            this.target = GetPlayerOrMobile(targetName);
-            if (this.target == null)
+            target = GetPlayerOrMobile(targetName);
+            if (target == null)
             {
                 return "You cannot see " + targetName + ".";
             }
 
             // Rule: Is the target in the same room?
-            if (actionInput.Controller.Thing.Parent.Id != this.target.Parent.Id)
+            if (actionInput.Controller.Thing.Parent.Id != target.Parent.Id)
             {
                 return "You cannot see " + targetName + ".";
             }
 
             // Rule: Is the target alive?
-            if (this.target.Stats["health"].Value <= 0)
+            if (target.Stats["health"].Value <= 0)
             {
-                return this.target.Name + " is dead.";
+                return target.Name + " is dead.";
             }
 
             return null;

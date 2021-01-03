@@ -60,56 +60,56 @@ namespace WheelMUD.Actions.Temporary
         public override void Execute(ActionInput actionInput)
         {
             // Contextual message text to be supplied based on the action below
-            var response = new ContextualString(this.sender.Thing, this.room.Parent);
+            var response = new ContextualString(sender.Thing, room.Parent);
 
-            if (this.command == "add")
+            if (command == "add")
             {
                 // Add or update the description
-                this.room.Visuals[this.visualName] = this.visualDescription;
-                response.ToOriginator = string.Format("Visual '{0}' added/updated on room {1} [{2}].", this.visualName, this.roomName, this.roomId);
+                room.Visuals[visualName] = visualDescription;
+                response.ToOriginator = string.Format("Visual '{0}' added/updated on room {1} [{2}].", visualName, roomName, roomId);
 
                 //// TODO: Save change
-                //this.room.Save();
+                //room.Save();
             }
-            else if (this.command == "remove")
+            else if (command == "remove")
             {
-                if (this.room.Visuals.ContainsKey(this.visualName))
+                if (room.Visuals.ContainsKey(visualName))
                 {
-                    this.room.Visuals.Remove(this.visualName);
+                    room.Visuals.Remove(visualName);
 
-                    response.ToOriginator = string.Format("Visual '{0}' removed from room {1} [{2}]", this.visualName, this.roomName, this.roomId);
+                    response.ToOriginator = string.Format("Visual '{0}' removed from room {1} [{2}]", visualName, roomName, roomId);
                 }
 
                 //// TODO: Save change
-                //this.room.Save();
+                //room.Save();
             }
-            else if (this.command == "show")
+            else if (command == "show")
             {
                 var output = new StringBuilder();
 
-                if (this.room.Visuals.Count > 0)
+                if (room.Visuals.Count > 0)
                 {
-                    output.AppendLine(string.Format("Visuals for {0} [{1}]:", this.roomName, this.roomId)).AppendLine();
+                    output.AppendLine(string.Format("Visuals for {0} [{1}]:", roomName, roomId)).AppendLine();
 
-                    foreach (var name in this.room.Visuals.Keys)
+                    foreach (var name in room.Visuals.Keys)
                     {
-                        output.AppendLine(string.Format("  {0}: {1}", name, this.room.Visuals[name]));
+                        output.AppendLine(string.Format("  {0}: {1}", name, room.Visuals[name]));
                     }
                 }
                 else
                 {
-                    output.Append(string.Format("No visuals found for {0} [{1}].", this.roomName, this.roomId));
+                    output.Append(string.Format("No visuals found for {0} [{1}].", roomName, roomId));
                 }
 
-                this.sender.Write(output.ToString());
+                sender.Write(output.ToString());
 
                 // No need to raise event.
                 return;
             }
 
             var message = new SensoryMessage(SensoryType.Sight, 100, response);
-            var evt = new GameEvent(this.sender.Thing, message);
-            this.sender.Thing.Eventing.OnMiscellaneousEvent(evt, EventScope.SelfDown);
+            var evt = new GameEvent(sender.Thing, message);
+            sender.Thing.Eventing.OnMiscellaneousEvent(evt, EventScope.SelfDown);
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>
@@ -117,37 +117,37 @@ namespace WheelMUD.Actions.Temporary
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            this.PreprocessInput(actionInput);
+            PreprocessInput(actionInput);
 
             // Ensure the sender of this command is currently located in a valid room.
-            if (this.room == null)
+            if (room == null)
             {
                 return "You must be located in a valid room to change its visuals.";
             }
 
             string usageText = "Usage:\r\n  visuals add <name> <description>\r\n  visuals remove <name>\r\n  visuals show";
 
-            switch (this.command)
+            switch (command)
             {
                 case "add":
                     // Ensure "add" syntax includes both a name and description.
-                    return (string.IsNullOrEmpty(this.visualName) || string.IsNullOrEmpty(this.visualDescription))
+                    return (string.IsNullOrEmpty(visualName) || string.IsNullOrEmpty(visualDescription))
                                ? usageText
                                : null;
 
                 case "remove":
                     // Ensure "remove" syntax includes a name but nothing else.
-                    return (this.argCount != 2) ? usageText : null;
+                    return (argCount != 2) ? usageText : null;
 
                 case "show":
                     // Ensure "show" syntax has no additional arguments.
-                    return (this.argCount > 1) ? usageText : null;
+                    return (argCount > 1) ? usageText : null;
 
                 default:
                     // Handle case for "visuals aalkdsfj lkajf" etc.
@@ -159,59 +159,59 @@ namespace WheelMUD.Actions.Temporary
         /// <param name="actionInput">The full input specified for executing the command.</param>
         private void PreprocessInput(ActionInput actionInput)
         {
-            this.sender = actionInput.Controller;
+            sender = actionInput.Controller;
 
-            this.argCount = actionInput.Params.Length;
+            argCount = actionInput.Params.Length;
 
             // Location of the sender of the command.
-            var location = this.sender.Thing.Parent;
+            var location = sender.Thing.Parent;
 
             if (location.HasBehavior<RoomBehavior>())
             {
-                this.room = location.Behaviors.FindFirst<RoomBehavior>();
-                this.roomName = this.room.Parent.Name;
-                this.roomId = this.room.Parent.Id;
+                room = location.Behaviors.FindFirst<RoomBehavior>();
+                roomName = room.Parent.Name;
+                roomId = room.Parent.Id;
             }
 
             // "visuals" with no arguments will default to "visuals show".
-            if (this.argCount == 0)
+            if (argCount == 0)
             {
-                this.command = "show";
+                command = "show";
             }
 
             // Name of the sub-command, i.e. "add", "remove", or "show".
-            if (this.argCount > 0)
+            if (argCount > 0)
             {
                 string firstParam = actionInput.Params[0].ToLower();
                 switch (firstParam)
                 {
                     case "add":
-                        this.command = "add";
+                        command = "add";
                         break;
                     case "remove":
-                        this.command = "remove";
+                        command = "remove";
                         break;
                     case "show":
-                        this.command = "show";
+                        command = "show";
                         break;
                     default:
-                        // this.command remains null, and there is no more processing to do.
+                        // command remains null, and there is no more processing to do.
                         return;
                 }
             }
 
             // Name of the visual being added or removed.
-            if (this.argCount > 1)
+            if (argCount > 1)
             {
-                this.visualName = actionInput.Params[1].ToLower();
+                visualName = actionInput.Params[1].ToLower();
             }
 
             // The remainder of the command text is assumed to be the description.
-            if (this.argCount > 2)
+            if (argCount > 2)
             {
-                string tail = actionInput.Tail.Substring(this.command.Length).TrimStart();
-                tail = tail.Substring(this.visualName.Length).TrimStart();
-                this.visualDescription = tail;
+                string tail = actionInput.Tail.Substring(command.Length).TrimStart();
+                tail = tail.Substring(visualName.Length).TrimStart();
+                visualDescription = tail;
             }
         }
     }

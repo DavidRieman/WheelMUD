@@ -36,7 +36,7 @@ namespace WheelMUD.Core.Behaviors
         public FollowedBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Gets the list of followers.</summary>
@@ -46,7 +46,7 @@ namespace WheelMUD.Core.Behaviors
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.Followers = new HashSet<Thing>();
+            Followers = new HashSet<Thing>();
         }
     }
 }

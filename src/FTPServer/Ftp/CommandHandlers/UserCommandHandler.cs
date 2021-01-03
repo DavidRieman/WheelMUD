@@ -16,8 +16,8 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected override string OnProcess(string message)
         {
-            this.ConnectionObject.User = message;
-            return this.GetMessage(331, string.Format("User {0} logged in, needs password", message));
+            ConnectionObject.User = message;
+            return GetMessage(331, string.Format("User {0} logged in, needs password", message));
         }
     }
 }

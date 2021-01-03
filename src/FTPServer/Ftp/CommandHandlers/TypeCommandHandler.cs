@@ -20,17 +20,17 @@ namespace WheelMUD.Ftp.FtpCommands
             message = message.ToUpper();
             if (message == "A")
             {
-                this.ConnectionObject.BinaryMode = false;
-                return this.GetMessage(200, "ASCII transfer mode active.");
+                ConnectionObject.BinaryMode = false;
+                return GetMessage(200, "ASCII transfer mode active.");
             }
             else if (message == "I")
             {
-                this.ConnectionObject.BinaryMode = true;
-                return this.GetMessage(200, "Binary transfer mode active.");
+                ConnectionObject.BinaryMode = true;
+                return GetMessage(200, "Binary transfer mode active.");
             }
             else
             {
-                return this.GetMessage(550, string.Format("Error - unknown binary mode \"{0}\"", message));
+                return GetMessage(550, string.Format("Error - unknown binary mode \"{0}\"", message));
             }
         }
     }

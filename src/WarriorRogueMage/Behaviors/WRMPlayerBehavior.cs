@@ -18,7 +18,7 @@ namespace WarriorRogueMage.Behaviors
         [PlayerPromptable("%FATE%", "Displays your current Fate.")]
         public string GetCurrentFate()
         {
-            return this.Parent.Stats["FATE"].Value.ToString();
+            return Parent.Stats["FATE"].Value.ToString();
         }
 
         /// <summary>Builds the prompt string for this player.</summary>
@@ -28,7 +28,7 @@ namespace WarriorRogueMage.Behaviors
             return "WRM> ";
             /* TODO: Allow for player-customized prompts...
             // Returns a string with the %tokens% replaced with appropriate values
-            string prompt = this.Prompt;
+            string prompt = Prompt;
 
             if (prompt != null && prompt.Contains("%"))  // Quick check, we can skip parsing if we have no chance of tokens
             {

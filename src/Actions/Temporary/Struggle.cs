@@ -43,7 +43,7 @@ namespace WheelMUD.Actions
             var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
             if (die.Roll() > 5)
             {
-                sender.Thing.Behaviors.Remove(this.immobileEffect);
+                sender.Thing.Behaviors.Remove(immobileEffect);
                 userControlledBehavior.Controller.Write("You manager to struggle free");
             }
             else
@@ -62,15 +62,15 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             // Rule: The initiator must be currently immobilized.
-            this.immobileEffect = actionInput.Controller.Thing.Behaviors.FindFirst<ImmobileEffect>();
-            if (this.immobileEffect == null)
+            immobileEffect = actionInput.Controller.Thing.Behaviors.FindFirst<ImmobileEffect>();
+            if (immobileEffect == null)
             {
                 return "You are not immobile, so what is the point of struggling?";
             }

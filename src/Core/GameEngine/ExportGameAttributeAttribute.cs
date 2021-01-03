@@ -20,7 +20,7 @@ namespace WheelMUD.Core
     {
         /// <summary>Initializes a new instance of the ExportGameAttributeAttribute class.</summary>
         public ExportGameAttributeAttribute(int priority)
-            : base(typeof(GameAttribute)) => this.Priority = priority;
+            : base(typeof(GameAttribute)) => Priority = priority;
 
         /// <summary>Initializes a new instance of the ExportGameAttributeAttribute class.</summary>
         /// <param name="metadata">The metadata.</param>

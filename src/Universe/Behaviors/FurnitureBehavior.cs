@@ -29,7 +29,7 @@ namespace WheelMUD.Universe
         public FurnitureBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Gets or sets a value indicating whether the object may be moved.</summary>
@@ -47,10 +47,10 @@ namespace WheelMUD.Universe
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.IsMoveable = true;
-            this.IsObscuringExit = false;
-            this.ObscuredExit = null;
-            this.WillObscureExit = false;
+            IsMoveable = true;
+            IsObscuringExit = false;
+            ObscuredExit = null;
+            WillObscureExit = false;
         }
     }
 }

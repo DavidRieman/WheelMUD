@@ -38,7 +38,7 @@ namespace WheelMUD.Core
         public ExitBehavior()
             : base(null)
         {
-            this.commands = new ExitBehaviorCommands(this);
+            commands = new ExitBehaviorCommands(this);
         }
 
         /// <summary>Initializes a new instance of the ExitBehavior class.</summary>
@@ -47,8 +47,8 @@ namespace WheelMUD.Core
         public ExitBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.commands = new ExitBehaviorCommands(this);
-            this.ID = instanceID;
+            commands = new ExitBehaviorCommands(this);
+            ID = instanceID;
         }
 
         /// <summary>Adds the destination.</summary>
@@ -56,10 +56,10 @@ namespace WheelMUD.Core
         /// <param name="destinationID">The destination ID.</param>
         public void AddDestination(string movementCommand, string destinationID)
         {
-            var existingDestination = (from d in this.destinations where d.TargetID == destinationID select d).FirstOrDefault();
+            var existingDestination = (from d in destinations where d.TargetID == destinationID select d).FirstOrDefault();
             if (existingDestination == null)
             {
-                this.destinations.Add(new DestinationInfo(movementCommand.ToLower(), destinationID));
+                destinations.Add(new DestinationInfo(movementCommand.ToLower(), destinationID));
             }
         }
 
@@ -69,7 +69,7 @@ namespace WheelMUD.Core
         public Thing GetDestination(Thing fromLocation)
         {
             // Find the first destination info that doesn't match this location.
-            var destinationInfo = (from d in this.destinations
+            var destinationInfo = (from d in destinations
                                    where d.TargetID != fromLocation.Id
                                    select d).FirstOrDefault();
 
@@ -114,7 +114,7 @@ namespace WheelMUD.Core
             }
 
             // Find the target location to be reached from here.
-            DestinationInfo destinationInfo = this.GetDestinationFrom(thingToMove.Parent.Id);
+            DestinationInfo destinationInfo = GetDestinationFrom(thingToMove.Parent.Id);
             if (destinationInfo == null)
             {
                 // There was no destination reachable from the thing's starting location.
@@ -152,7 +152,7 @@ namespace WheelMUD.Core
             var leaveMessage = new SensoryMessage(SensoryType.Sight, 100, leaveContextMessage);
             var arriveMessage = new SensoryMessage(SensoryType.Sight, 100, arriveContextMessage);
 
-            return movableBehavior.Move(destination, this.Parent, leaveMessage, arriveMessage);
+            return movableBehavior.Move(destination, Parent, leaveMessage, arriveMessage);
         }
 
         /// <summary>Gets the exit command from.</summary>
@@ -160,44 +160,44 @@ namespace WheelMUD.Core
         /// <returns>Returns the exit direction.</returns>
         public string GetExitCommandFrom(Thing fromLocation)
         {
-            var destination = this.GetDestinationFrom(fromLocation.Id);
+            var destination = GetDestinationFrom(fromLocation.Id);
             return destination?.ExitCommand;
         }
 
-        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
+        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to Parent)</summary>
         protected override void OnAddBehavior()
         {
             // TODO: Greatly simplify: use shared logic with ParentMovementEvent! React to OnRemoveBehavior too!
             // When adding this behavior to an exit Thing, if that thing has a parent, rig up the appropriate
             // context command for that place to reach the other.
-            if (this.Parent.Parent != null)
+            if (Parent.Parent != null)
             {
                 // TODO: Reuse the same functionality as the movement event handler for command rigging (if we can).
-                this.ParentMovementEventHandler(this.Parent, null);
+                ParentMovementEventHandler(Parent, null);
             }
 
             // Rig up to the parent (exit) Thing's 'moved' events so we can fix the exit targets back up (or
             // rig them up the first time if it didn't yet have such a parent).
-            this.Parent.Eventing.MovementEvent += this.ParentMovementEventHandler;
+            Parent.Eventing.MovementEvent += ParentMovementEventHandler;
 
-            Thing initialPlace = this.Parent.Parent;
+            Thing initialPlace = Parent.Parent;
             if (initialPlace != null)
             {
                 // If the thing we already added the behavior to is already within something, add the initial exit command(s).
-                this.AddExitContextCommands(initialPlace);
+                AddExitContextCommands(initialPlace);
             }
 
             base.OnAddBehavior();
         }
 
-        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent)</summary>
+        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to Parent)</summary>
         protected override void OnRemoveBehavior()
         {
             // When removing this behavior from a thing, we need to unrig any context commands we added to it.
-            string commandText = this.GetExitCommandFrom(this.Parent);
+            string commandText = GetExitCommandFrom(Parent);
             if (!string.IsNullOrEmpty(commandText))
             {
-                this.Parent.Commands.Remove(commandText);
+                Parent.Commands.Remove(commandText);
             }
 
             base.OnRemoveBehavior();
@@ -206,7 +206,7 @@ namespace WheelMUD.Core
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.destinations = new List<DestinationInfo>();
+            destinations = new List<DestinationInfo>();
         }
 
         /// <summary>Handle the events of our parent moving; need to adjust our exit context commands and such.</summary>
@@ -217,22 +217,22 @@ namespace WheelMUD.Core
             // If our parent (the thing with exit behavior) was removed from something (like a room)...
             var removeChildEvent = e as RemoveChildEvent;
             if (removeChildEvent != null &&
-                removeChildEvent.ActiveThing == this.Parent &&
+                removeChildEvent.ActiveThing == Parent &&
                 removeChildEvent.OldParent != null)
             {
                 // Remove the old exit command, if one was rigged up to the old location.
-                string oldExitCommand = this.GetExitCommandFrom(removeChildEvent.OldParent);
+                string oldExitCommand = GetExitCommandFrom(removeChildEvent.OldParent);
                 removeChildEvent.OldParent.Commands.Remove(oldExitCommand);
             }
 
             // If our parent (the thing with exit behavior) was placed in something (like a room)...
             var addChildEvent = e as AddChildEvent;
             if (addChildEvent != null &&
-                addChildEvent.ActiveThing == this.Parent &&
+                addChildEvent.ActiveThing == Parent &&
                 addChildEvent.NewParent != null)
             {
                 // Add the appropriate exit command for the new location.
-                this.AddExitContextCommands(addChildEvent.NewParent);
+                AddExitContextCommands(addChildEvent.NewParent);
             }
         }
 
@@ -240,11 +240,11 @@ namespace WheelMUD.Core
         /// <param name="location">The location to add exit context command(s) to.</param>
         private void AddExitContextCommands(Thing location)
         {
-            var mainExitCommand = this.GetExitCommandFrom(location);
-            var secondExitAlias = this.GetSecondaryExitAlias(mainExitCommand);
+            var mainExitCommand = GetExitCommandFrom(location);
+            var secondExitAlias = GetSecondaryExitAlias(mainExitCommand);
             if (!string.IsNullOrEmpty(mainExitCommand))
             {
-                var contextCommand = new ContextCommand(this.commands, mainExitCommand, ContextAvailability.ToChildren, SecurityRole.all);
+                var contextCommand = new ContextCommand(commands, mainExitCommand, ContextAvailability.ToChildren, SecurityRole.all);
                 // TODO: OLC should take care to avoid duplicate exits in a room, but we might need more advanced protections to prevent needing
                 //       multiple context commands of the same alias from having to be attached to one Thing. (Try to keep fast command-finding.)
                 Debug.Assert(!location.Commands.ContainsKey(mainExitCommand), "The Thing this ExitBehavior attached to already had command: " + mainExitCommand);
@@ -284,7 +284,7 @@ namespace WheelMUD.Core
         /// <returns>A destination for the specified origin Thing ID.</returns>
         private DestinationInfo GetDestinationFrom(string originID)
         {
-            return (from d in this.destinations where originID != d.TargetID select d).FirstOrDefault();
+            return (from d in destinations where originID != d.TargetID select d).FirstOrDefault();
         }
 
         /// <summary>A command handler for this exit's context commands.</summary>
@@ -315,7 +315,7 @@ namespace WheelMUD.Core
             public override void Execute(ActionInput actionInput)
             {
                 // If the user invoked the context command, move them through this exit.
-                this.exitBehavior.MoveThrough(actionInput.Controller.Thing);
+                exitBehavior.MoveThrough(actionInput.Controller.Thing);
             }
 
             /// <summary>Checks against the guards for the command.</summary>
@@ -323,7 +323,7 @@ namespace WheelMUD.Core
             /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
             public override string Guards(ActionInput actionInput)
             {
-                string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+                string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
                 if (commonFailure != null)
                 {
                     return commonFailure;
@@ -346,9 +346,9 @@ namespace WheelMUD.Core
             /// <param name="targetID">The ID of the target destination.</param>
             public DestinationInfo(string command, string targetID)
             {
-                this.ExitCommand = command;
-                this.TargetID = targetID;
-                this.CachedTarget = new SimpleWeakReference<Thing>(null);
+                ExitCommand = command;
+                TargetID = targetID;
+                CachedTarget = new SimpleWeakReference<Thing>(null);
             }
 
             /// <summary>Gets or sets the command which is used to reach the target destination.</summary>

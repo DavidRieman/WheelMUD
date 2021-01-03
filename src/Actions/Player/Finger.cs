@@ -45,7 +45,7 @@ namespace WheelMUD.Actions
             bool isOnline = false;
             string addressIP = null;
 
-            PlayerBehavior playerBehavior = this.target.Behaviors.FindFirst<PlayerBehavior>();
+            PlayerBehavior playerBehavior = target.Behaviors.FindFirst<PlayerBehavior>();
             if (playerBehavior != null)
             {
                 // TODO: Mine this data in a less invasive/dangerous way; maybe the PlayerBehavior
@@ -58,11 +58,11 @@ namespace WheelMUD.Actions
                 ////    addressIP = connection.CurrentIPAddress;
                 ////}
 
-                sb.AppendLine("<%yellow%><%b%>Name: " + this.target.Name + " Title: " + this.target.Title + "<%n%>");
-                sb.AppendLine("Description: " + this.target.Description);
-                sb.AppendLine("Full Name: " + this.target.FullName);
-                sb.AppendLine("ID: " + this.target.Id);
-                sb.AppendLine("Type: " + this.target.GetType().Name); // identify npc ?
+                sb.AppendLine("<%yellow%><%b%>Name: " + target.Name + " Title: " + target.Title + "<%n%>");
+                sb.AppendLine("Description: " + target.Description);
+                sb.AppendLine("Full Name: " + target.FullName);
+                sb.AppendLine("ID: " + target.Id);
+                sb.AppendLine("Type: " + target.GetType().Name); // identify npc ?
                 sb.AppendLine("Race: TBA      Guild: TBA     Class: TBA");
                 sb.AppendLine("Religion: TBA");
                 sb.AppendLine("Gender: TBA");
@@ -75,7 +75,7 @@ namespace WheelMUD.Actions
                 if (isOnline)
                 {
                     sb.AppendLine("Status: <%green%>Online<%n%>"); // need way to report both offline and online
-                    sb.AppendLine("Location: " + this.target.Parent.Name);
+                    sb.AppendLine("Location: " + target.Parent.Name);
                     sb.AppendLine(string.Format("Last Login: {0}", playerBehavior.PlayerData.LastLogin));
                     sb.AppendLine(string.Format("Current IP Address: {0}", addressIP));
                 }
@@ -90,11 +90,11 @@ namespace WheelMUD.Actions
             }
             else
             {
-                sb.AppendLine("<%yellow%><%b%>Name: " + this.target.Name + " Title: " + this.target.Title + "<%n%>");
-                sb.AppendLine("Description: " + this.target.Description);
-                sb.AppendLine("Full Name: " + this.target.FullName);
-                sb.AppendLine("ID: " + this.target.Id);
-                sb.AppendLine("Type: " + this.target.GetType().Name); // identify npc ?
+                sb.AppendLine("<%yellow%><%b%>Name: " + target.Name + " Title: " + target.Title + "<%n%>");
+                sb.AppendLine("Description: " + target.Description);
+                sb.AppendLine("Full Name: " + target.FullName);
+                sb.AppendLine("ID: " + target.Id);
+                sb.AppendLine("Type: " + target.GetType().Name); // identify npc ?
                 sb.AppendLine("Race: TBA      Guild: TBA     Class: TBA");
                 sb.AppendLine("Religion: TBA");
                 sb.AppendLine("Gender: TBA");
@@ -113,7 +113,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -125,8 +125,8 @@ namespace WheelMUD.Actions
             string targetName = textInfo.ToTitleCase(actionInput.Tail.Trim().ToLower());
 
             // Rule: Is the target an entity?
-            this.target = GetPlayerOrMobile(targetName);
-            if (this.target == null)
+            target = GetPlayerOrMobile(targetName);
+            if (target == null)
             {
                 // Now we need to look for the user in the database.
                 // TODO: What if the player is offline? Player.Load probably adds them to the world, etc...
@@ -137,8 +137,8 @@ namespace WheelMUD.Actions
                 //     some sort of ghosting system for info-gathering, should be generic for all things?
                 //     Maybe the players all have a 'template' that can be loaded independently and gets
                 //     saved with the player instance saving.
-                //this.target = PlayerBehavior.Load(targetName);
-                if (this.target == null)
+                //target = PlayerBehavior.Load(targetName);
+                if (target == null)
                 {
                     return targetName + " has never visited " + GameConfiguration.Name + ".";
                 }

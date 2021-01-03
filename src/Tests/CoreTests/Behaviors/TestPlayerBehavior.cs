@@ -21,24 +21,24 @@ namespace WheelMUD.Tests.Behaviors
         [SetUp]
         public void Init()
         {
-            this.playerBehavior = new PlayerBehavior();
+            playerBehavior = new PlayerBehavior();
         }
 
         [Test]
         public void TestAddAndRemoveFriends()
         {
-            Assert.AreEqual(this.playerBehavior.Friends.Count, 0);
-            this.playerBehavior.AddFriend("fufa");
-            Assert.AreEqual(this.playerBehavior.Friends.Count, 1);
-            this.playerBehavior.AddFriend("fufa");
-            Assert.AreEqual(this.playerBehavior.Friends.Count, 1);
-            this.playerBehavior.AddFriend("another");
-            Assert.AreEqual(this.playerBehavior.Friends.Count, 2);
+            Assert.AreEqual(playerBehavior.Friends.Count, 0);
+            playerBehavior.AddFriend("fufa");
+            Assert.AreEqual(playerBehavior.Friends.Count, 1);
+            playerBehavior.AddFriend("fufa");
+            Assert.AreEqual(playerBehavior.Friends.Count, 1);
+            playerBehavior.AddFriend("another");
+            Assert.AreEqual(playerBehavior.Friends.Count, 2);
 
-            this.playerBehavior.RemoveFriend("invalid");
-            Assert.AreEqual(this.playerBehavior.Friends.Count, 2);
-            this.playerBehavior.RemoveFriend("fufa");
-            Assert.AreEqual(this.playerBehavior.Friends.Count, 1);
+            playerBehavior.RemoveFriend("invalid");
+            Assert.AreEqual(playerBehavior.Friends.Count, 2);
+            playerBehavior.RemoveFriend("fufa");
+            Assert.AreEqual(playerBehavior.Friends.Count, 1);
         }
     }
 }

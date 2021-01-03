@@ -54,7 +54,7 @@ namespace WheelMUD.Core.Events
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnCombatRequest(CancellableGameEvent e, EventScope eventScope)
         {
-            this.OnRequest(t => t.CombatRequest, e, eventScope);
+            OnRequest(t => t.CombatRequest, e, eventScope);
         }
 
         /// <summary>Raises the <see cref="MovementRequest"/> event.</summary>
@@ -62,7 +62,7 @@ namespace WheelMUD.Core.Events
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnMovementRequest(CancellableGameEvent e, EventScope eventScope)
         {
-            this.OnRequest(t => t.MovementRequest, e, eventScope);
+            OnRequest(t => t.MovementRequest, e, eventScope);
         }
 
         /// <summary>Raises the <see cref="CommunicationRequest"/> event.</summary>
@@ -70,7 +70,7 @@ namespace WheelMUD.Core.Events
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnCommunicationRequest(CancellableGameEvent e, EventScope eventScope)
         {
-            this.OnRequest(t => t.CommunicationRequest, e, eventScope);
+            OnRequest(t => t.CommunicationRequest, e, eventScope);
         }
 
         /// <summary>Raises the <see cref="MiscellaneousRequest"/> event.</summary>
@@ -78,7 +78,7 @@ namespace WheelMUD.Core.Events
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnMiscellaneousRequest(CancellableGameEvent e, EventScope eventScope)
         {
-            this.OnRequest(t => t.MiscellaneousRequest, e, eventScope);
+            OnRequest(t => t.MiscellaneousRequest, e, eventScope);
         }
 
         /// <summary>Raises the <see cref="CombatEvent"/> event.</summary>
@@ -86,7 +86,7 @@ namespace WheelMUD.Core.Events
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnCombatEvent(GameEvent e, EventScope eventScope)
         {
-            this.OnEvent(t => t.CombatEvent, e, eventScope);
+            OnEvent(t => t.CombatEvent, e, eventScope);
         }
 
         /// <summary>Raises the <see cref="MovementEvent"/> event.</summary>
@@ -94,7 +94,7 @@ namespace WheelMUD.Core.Events
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnMovementEvent(GameEvent e, EventScope eventScope)
         {
-            this.OnEvent(t => t.MovementEvent, e, eventScope);
+            OnEvent(t => t.MovementEvent, e, eventScope);
         }
 
         /// <summary>Raises the <see cref="CommunicationEvent"/> event.</summary>
@@ -102,7 +102,7 @@ namespace WheelMUD.Core.Events
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnCommunicationEvent(GameEvent e, EventScope eventScope)
         {
-            this.OnEvent(t => t.CommunicationEvent, e, eventScope);
+            OnEvent(t => t.CommunicationEvent, e, eventScope);
         }
 
         /// <summary>Raises the <see cref="MiscellaneousEvent"/> event.</summary>
@@ -110,7 +110,7 @@ namespace WheelMUD.Core.Events
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnMiscellaneousEvent(GameEvent e, EventScope eventScope)
         {
-            this.OnEvent(t => t.MiscellaneousEvent, e, eventScope);
+            OnEvent(t => t.MiscellaneousEvent, e, eventScope);
         }
 
         private void OnRequest(Func<ThingEventing, CancellableGameEventHandler> handlerSelector, CancellableGameEvent e, EventScope eventScope)
@@ -120,7 +120,7 @@ namespace WheelMUD.Core.Events
             {
                 case EventScope.ParentsDown:
                     // Send the request to each parent, until cancellation is noticed or we've finished.
-                    Queue<Thing> requestQueue = new Queue<Thing>(this.owner.Parents);
+                    Queue<Thing> requestQueue = new Queue<Thing>(owner.Parents);
                     while (requestQueue.Count > 0 && !e.IsCancelled)
                     {
                         Thing currentParent = requestQueue.Dequeue();
@@ -129,10 +129,10 @@ namespace WheelMUD.Core.Events
 
                     break;
                 case EventScope.SelfDown:
-                    this.OnRequest(handlerSelector, e, true);
+                    OnRequest(handlerSelector, e, true);
                     break;
                 case EventScope.SelfOnly:
-                    this.OnRequest(handlerSelector, e, false);
+                    OnRequest(handlerSelector, e, false);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -146,7 +146,7 @@ namespace WheelMUD.Core.Events
             {
                 case EventScope.ParentsDown:
                     // Send the event to each parent.
-                    List<Thing> allParents = this.owner.Parents;
+                    List<Thing> allParents = owner.Parents;
                     foreach (var parent in allParents)
                     {
                         parent.Eventing.OnEvent(handlerSelector, e, true);
@@ -154,10 +154,10 @@ namespace WheelMUD.Core.Events
 
                     break;
                 case EventScope.SelfDown:
-                    this.OnEvent(handlerSelector, e, true);
+                    OnEvent(handlerSelector, e, true);
                     break;
                 case EventScope.SelfOnly:
-                    this.OnEvent(handlerSelector, e, false);
+                    OnEvent(handlerSelector, e, false);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -173,7 +173,7 @@ namespace WheelMUD.Core.Events
             // Build a request target queue which starts with our owner Thing and visits all it's Children.
             // (This is a queue instead of recursion to help avoid stack overflows and such with very large object trees.)
             Queue<Thing> requestTargetQueue = new Queue<Thing>();
-            requestTargetQueue.Enqueue(this.owner);
+            requestTargetQueue.Enqueue(owner);
 
             while (requestTargetQueue.Count > 0)
             {
@@ -207,7 +207,7 @@ namespace WheelMUD.Core.Events
             // Build an event target queue which starts with our owner Thing and visits all it's Children.
             // (This is a queue instead of recursion to help avoid stack overflows and such with very large object trees.)
             Queue<Thing> eventTargetQueue = new Queue<Thing>();
-            eventTargetQueue.Enqueue(this.owner);
+            eventTargetQueue.Enqueue(owner);
 
             while (eventTargetQueue.Count > 0)
             {

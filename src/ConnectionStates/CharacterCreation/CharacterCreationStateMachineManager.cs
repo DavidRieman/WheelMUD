@@ -35,7 +35,7 @@ namespace WheelMUD.ConnectionStates
         /// <summary>Prevents a default instance of the <see cref="CharacterCreationStateMachineManager"/> class from being created.</summary>
         private CharacterCreationStateMachineManager()
         {
-            this.Recompose();
+            Recompose();
         }
 
         /// <summary>Gets the singleton instance of the <see cref="CharacterCreationStateMachineManager"/> class.</summary>
@@ -54,7 +54,7 @@ namespace WheelMUD.ConnectionStates
             lock (LockObject)
             {
                 var parameters = new object[] { session };
-                return (CharacterCreationStateMachine)this.defaultCharacterCreationStateMachineConstructor.Invoke(parameters);
+                return (CharacterCreationStateMachine)defaultCharacterCreationStateMachineConstructor.Invoke(parameters);
             }
         }
 
@@ -68,7 +68,7 @@ namespace WheelMUD.ConnectionStates
                 // Find the constructor of the current priority character creation state machine that takes a Session parameter.
                 // We'll use this info to quickly create each CharacterCreationStateMachines instance for new character creation sessions.
                 var constructorTypes = new Type[] { typeof(Session) };
-                this.defaultCharacterCreationStateMachineConstructor = DefaultComposer.GetConstructor(this.CharacterCreationStateMachines, constructorTypes);
+                defaultCharacterCreationStateMachineConstructor = DefaultComposer.GetConstructor(CharacterCreationStateMachines, constructorTypes);
             }
         }
     }

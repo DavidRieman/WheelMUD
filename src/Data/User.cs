@@ -48,14 +48,14 @@ namespace WheelMUD.Data
         {
             var salt = new Byte[24];
             CryptoProvider.GetBytes(salt);
-            this.Salt = Encoding.UTF8.GetString(salt);
-            this.HashedPassword = Hash(this.Salt, newPassword);
+            Salt = Encoding.UTF8.GetString(salt);
+            HashedPassword = Hash(Salt, newPassword);
         }
 
         public bool PasswordMatches(string password)
         {
-            var hash = Hash(this.Salt, password);
-            return StructuralComparisons.StructuralEqualityComparer.Equals(hash, this.HashedPassword);
+            var hash = Hash(Salt, password);
+            return StructuralComparisons.StructuralEqualityComparer.Equals(hash, HashedPassword);
         }
 
         public static string Hash(string salt, string password)
@@ -66,11 +66,11 @@ namespace WheelMUD.Data
 
         public void AddPlayerCharacter(string playerCharacterId)
         {
-            lock (this.PlayerCharacterIds)
+            lock (PlayerCharacterIds)
             {
-                if (!this.PlayerCharacterIds.Contains(playerCharacterId))
+                if (!PlayerCharacterIds.Contains(playerCharacterId))
                 {
-                    this.PlayerCharacterIds.Add(playerCharacterId);
+                    PlayerCharacterIds.Add(playerCharacterId);
                 }
             }
         }

@@ -23,17 +23,17 @@ namespace WheelMUD.Ftp.FtpCommands
 
             if (!FileNameHelpers.IsValid(message))
             {
-                return this.GetMessage(550, "Not a valid directory string.");
+                return GetMessage(550, "Not a valid directory string.");
             }
 
-            var dir = this.GetPath(message);
-            if (!this.ConnectionObject.FileSystemObject.DirectoryExists(dir))
+            var dir = GetPath(message);
+            if (!ConnectionObject.FileSystemObject.DirectoryExists(dir))
             {
-                return this.GetMessage(550, "Not a valid directory.");
+                return GetMessage(550, "Not a valid directory.");
             }
 
-            this.ConnectionObject.CurrentDirectory = Path.Combine(this.ConnectionObject.CurrentDirectory, message);
-            return this.GetMessage(250, string.Format("CWD Successful ({0})", this.ConnectionObject.CurrentDirectory.Replace("\\", "/")));
+            ConnectionObject.CurrentDirectory = Path.Combine(ConnectionObject.CurrentDirectory, message);
+            return GetMessage(250, string.Format("CWD Successful ({0})", ConnectionObject.CurrentDirectory.Replace("\\", "/")));
         }
     }
 }

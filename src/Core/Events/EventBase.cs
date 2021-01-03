@@ -15,21 +15,21 @@ namespace WheelMUD.Core.Events
         /// <param name="sensoryMessage">The sensory message.</param>
         public GameEvent(Thing activeThing, SensoryMessage sensoryMessage)
         {
-            this.ActiveThing = activeThing;
+            ActiveThing = activeThing;
             if (sensoryMessage != null)
             {
-                this.SensoryMessage = sensoryMessage;
+                SensoryMessage = sensoryMessage;
 
                 // TODO: This if-condition was added to deal with some cases where
                 // two ActiveThings are attempted for one action, e.g. "get".
                 // Should multiple ActiveThings be supported instead, or maybe
                 // there's a way to prevent this scenario?
-                if (!this.SensoryMessage.Context.ContainsKey("ActiveThing"))
+                if (!SensoryMessage.Context.ContainsKey("ActiveThing"))
                 {
-                    this.SensoryMessage.Context.Add("ActiveThing", this.ActiveThing);
+                    SensoryMessage.Context.Add("ActiveThing", ActiveThing);
                 }
 
-                this.SensoryMessage.Context.Add(this.GetType().Name, this);
+                SensoryMessage.Context.Add(GetType().Name, this);
             }
         }
 
@@ -64,17 +64,17 @@ namespace WheelMUD.Core.Events
         /// <param name="cancelMessage">The cancel message.</param>
         public void Cancel(string cancelMessage)
         {
-            this.IsCancelled = true;
-            if (!string.IsNullOrEmpty(cancelMessage) && !this.sentCancelMessage)
+            IsCancelled = true;
+            if (!string.IsNullOrEmpty(cancelMessage) && !sentCancelMessage)
             {
                 // Write up to one cancellation message directly to the user/initiator if appropriate.
-                var userControlledBehavior = this.ActiveThing.Behaviors.FindFirst<UserControlledBehavior>();
+                var userControlledBehavior = ActiveThing.Behaviors.FindFirst<UserControlledBehavior>();
                 if (userControlledBehavior != null && userControlledBehavior.Controller != null)
                 {
                     userControlledBehavior.Controller.Write(cancelMessage);
                 }
 
-                this.sentCancelMessage = true;
+                sentCancelMessage = true;
             }
         }
     }

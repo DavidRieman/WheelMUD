@@ -17,7 +17,7 @@ namespace WheelMUD.Core.Attributes
         /// <param name="description">The description of the action.</param>
         public ActionDescriptionAttribute(string description)
         {
-            this.Description = description;
+            Description = description;
         }
 
         /// <summary>Gets the description of this action.</summary>

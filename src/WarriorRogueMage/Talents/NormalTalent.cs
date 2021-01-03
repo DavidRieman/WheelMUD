@@ -50,13 +50,13 @@ namespace WarriorRogueMage
         {
         }
 
-        /// <summary>Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing)</summary>
+        /// <summary>Called when a parent has just been assigned to this talent. (Refer to PlayerThing)</summary>
         public override void OnAddTalent()
         {
             base.OnAddTalent();
         }
 
-        /// <summary>Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing)</summary>
+        /// <summary>Called when the current parent of this talent is about to be removed. (Refer to PlayerThing)</summary>
         public override void OnRemoveTalent()
         {
             base.OnRemoveTalent();
@@ -76,13 +76,13 @@ namespace WarriorRogueMage
         {
         }
 
-        /// <summary>Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing)</summary>
+        /// <summary>Called when a parent has just been assigned to this talent. (Refer to PlayerThing)</summary>
         public override void OnAddTalent()
         {
             base.OnAddTalent();
         }
 
-        /// <summary>Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing)</summary>
+        /// <summary>Called when the current parent of this talent is about to be removed. (Refer to PlayerThing)</summary>
         public override void OnRemoveTalent()
         {
             base.OnRemoveTalent();
@@ -194,13 +194,13 @@ namespace WarriorRogueMage
         {
         }
 
-        /// <summary>Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing.)</summary>
+        /// <summary>Called when a parent has just been assigned to this talent. (Refer to PlayerThing.)</summary>
         public override void OnAddTalent()
         {
             base.OnAddTalent();
         }
 
-        /// <summary>Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing.)</summary>
+        /// <summary>Called when the current parent of this talent is about to be removed. (Refer to PlayerThing.)</summary>
         public override void OnRemoveTalent()
         {
             base.OnRemoveTalent();
@@ -220,13 +220,13 @@ namespace WarriorRogueMage
         {
         }
 
-        /// <summary>Called when a parent has just been assigned to this talent. (Refer to this.PlayerThing.)</summary>
+        /// <summary>Called when a parent has just been assigned to this talent. (Refer to PlayerThing.)</summary>
         public override void OnAddTalent()
         {
             base.OnAddTalent();
         }
 
-        /// <summary>Called when the current parent of this talent is about to be removed. (Refer to this.PlayerThing.)</summary>
+        /// <summary>Called when the current parent of this talent is about to be removed. (Refer to PlayerThing.)</summary>
         public override void OnRemoveTalent()
         {
             base.OnRemoveTalent();

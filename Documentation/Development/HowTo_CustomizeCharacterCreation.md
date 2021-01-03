@@ -29,7 +29,7 @@ public override CharacterCreationSubState GetNextStep(CharacterCreationSubState 
     // entry point of the state machine
     if (current == null)
     {
-        return new ConfirmCreationEntryState(this.Session);
+        return new ConfirmCreationEntryState(Session);
     }
  
     if (previousStatus == StepStatus.Success)
@@ -53,19 +53,19 @@ private CharacterCreationSubState AdvanceState(CharacterCreationSubState current
     // they could of course reuse some/all of the states below in addition to their own.
     if (current is ConfirmCreationEntryState)
     {
-        return new GetNameState(this.Session);
+        return new GetNameState(Session);
     }
     else if (current is GetNameState)
     {
-        return new GetDescriptionState(this.Session);
+        return new GetDescriptionState(Session);
     }
     else if (current is GetDescriptionState)
     {
-        return new GetPasswordState(this.Session);
+        return new GetPasswordState(Session);
     }
     else if (current is GetPasswordState)
     {
-        return new ConfirmPasswordState(this.Session);
+        return new ConfirmPasswordState(Session);
     }
     else if (current is ConfirmPasswordState)
     {
@@ -85,7 +85,7 @@ private CharacterCreationSubState RegressState(CharacterCreationSubState current
     if (current is ConfirmPasswordState)
     {
         // If password confirmation failed, try selecting a new password.
-        return new GetPasswordState(this.Session);
+        return new GetPasswordState(Session);
     }
  
     throw new InvalidOperationException("The character state machine does not know how to calculate the next step after '" + current.GetType().Name + "' fails");
@@ -156,10 +156,10 @@ ProcessInput is where you will do the bulk of the work for the custom state. Let
 ```
 public PickGenderState(Session session) : base(session)
 {
-    this.Session.Write("You will now pick your character's gender.");
-    this.Session.SetPrompt("Selecting the character's gender ==>");
+    Session.Write("You will now pick your character's gender.");
+    Session.SetPrompt("Selecting the character's gender ==>");
  
-    this.RefreshScreen();
+    RefreshScreen();
 }
 ```
 
@@ -174,13 +174,13 @@ private void RefreshScreen()
     sb.Append("Female" + Environment.NewLine);
     sb.Append("Eunuch" + Environment.NewLine);
     sb.Append(Environment.NewLine);
-    if (string.IsNullOrEmpty(this.playerGender))
+    if (string.IsNullOrEmpty(playerGender))
     {
         sb.Append("<%b%><%red%>No gender has been selected.<%n%>" + Environment.NewLine);
     }
     else
     {
-        sb.AppendFormat("<%green%>The chosen gender is {0}.<%n%>" + Environment.NewLine, this.playerGender);
+        sb.AppendFormat("<%green%>The chosen gender is {0}.<%n%>" + Environment.NewLine, playerGender);
     }
  
     sb.Append("<%yellow%>===============================================================" + Environment.NewLine);
@@ -188,7 +188,7 @@ private void RefreshScreen()
     sb.Append("When you are done picking a gender type done." + Environment.NewLine);
     sb.Append("===============================================================<%n%>");
  
-    this.Session.Write(sb.ToString());
+    Session.Write(sb.ToString());
 }
 ```
 
@@ -196,18 +196,18 @@ I'm not doing anything fancy there. Just putting together some text. At the bott
 ```
 public override void ProcessInput(string command)
 {
-    string currentCommand = this.GetCommandPart(command.ToLower());
+    string currentCommand = GetCommandPart(command.ToLower());
  
     switch (currentCommand)
     {
         case "select":
-            this.SetGender(command.ToLower());
+            SetGender(command.ToLower());
             break;
         case "done":
-            this.ProcessDone();
+            ProcessDone();
             break;
         default:
-            OneHitWonderChargenCommon.SendErrorMessage(this.Session, "Invalid command. Please use select or done.");
+            OneHitWonderChargenCommon.SendErrorMessage(Session, "Invalid command. Please use select or done.");
             break;
     }
 } 
@@ -240,14 +240,14 @@ private void SetGender(string command)
         case "male":
         case "female":
         case "eunuch":
-            this.playerGender = currentGender;
+            playerGender = currentGender;
             break;
         default:
-            OneHitWonderChargenCommon.SendErrorMessage(this.Session, string.Format("'{0}' is an invalid gender selection.", currentGender));
+            OneHitWonderChargenCommon.SendErrorMessage(Session, string.Format("'{0}' is an invalid gender selection.", currentGender));
             break;
     }
  
-    this.RefreshScreen();
+    RefreshScreen();
 }
 ```
 I'm just setting a private variable to what is sent through the command parameter to the playerGender private global variable. If the player sends something other than the what the range of selections are, I send error text to the player. I created a class that contains some helpful methods. SendErrorMessage is used through other steps. Here is what's in there:
@@ -274,8 +274,8 @@ This is just formatting the text in red, sandwiched between rows of =, on the to
 private void ProcessDone()
 {
     // Proceed to the next step.
-    this.Session.SetPrompt(">");
-    this.StateMachine.HandleNextStep(this, StepStatus.Success);
+    Session.SetPrompt(">");
+    StateMachine.HandleNextStep(this, StepStatus.Success);
 }
 ```
 I'm first setting the prompt to >, to alert the player that we are done. Then we tell the state machine to do the next step. The StepStatus.Success tells the state machine that it was successful, and that it need to move to the next step. So now we are done creating this custom step. We still have one more thing to do, before this state/step becomes active. We need to go back to the OneHitWonderCharacterCreationStateMachine class, and wire up our new state. Here is what the original looked like: 
@@ -288,19 +288,19 @@ private CharacterCreationSubState AdvanceState(CharacterCreationSubState current
     // they could of course reuse some/all of the states below in addition to their own.
     if (current is ConfirmCreationEntryState)
     {
-        return new GetNameState(this.Session);
+        return new GetNameState(Session);
     }
     else if (current is GetNameState)
     {
-        return new GetDescriptionState(this.Session);
+        return new GetDescriptionState(Session);
     }
     else if (current is GetDescriptionState)
     {
-        return new GetPasswordState(this.Session);
+        return new GetPasswordState(Session);
     }
     else if (current is GetPasswordState)
     {
-        return new ConfirmPasswordState(this.Session);
+        return new ConfirmPasswordState(Session);
     }
     else if (current is ConfirmPasswordState)
     {
@@ -321,23 +321,23 @@ private CharacterCreationSubState AdvanceState(CharacterCreationSubState current
     // they could of course reuse some/all of the states below in addition to their own.
     if (current is ConfirmCreationEntryState)
     {
-        return new GetNameState(this.Session);
+        return new GetNameState(Session);
     }
     else if (current is GetNameState)
     {
-        return new GetDescriptionState(this.Session);
+        return new GetDescriptionState(Session);
     }
     else if (current is GetDescriptionState)
     {
-        return new GetPasswordState(this.Session);
+        return new GetPasswordState(Session);
     }
     else if (current is GetPasswordState)
     {
-        return new ConfirmPasswordState(this.Session);
+        return new ConfirmPasswordState(Session);
     }
     else if (current is ConfirmPasswordState)
     {
-        return new PickGenderState(this.Session);
+        return new PickGenderState(Session);
     }
     else if (current is PickGenderState)
     {

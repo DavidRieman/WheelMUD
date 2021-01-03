@@ -19,7 +19,7 @@ namespace WheelMUD.Ftp
         /// <summary>Initializes a new instance of the <see cref="UserData"/> class.</summary>
         protected UserData()
         {
-            this.mapUserToData = new Hashtable();
+            mapUserToData = new Hashtable();
         }
 
         public static UserData Instance { get; } = new UserData();
@@ -28,7 +28,7 @@ namespace WheelMUD.Ftp
         {
             get
             {
-                ICollection collectionUsers = this.mapUserToData.Keys;
+                ICollection collectionUsers = mapUserToData.Keys;
                 var asUsers = new string[collectionUsers.Count];
                 int index = 0;
                 foreach (string user in collectionUsers)
@@ -45,23 +45,23 @@ namespace WheelMUD.Ftp
         {
             get
             {
-                return this.mapUserToData.Count;
+                return mapUserToData.Count;
             }
         }
 
         public void AddUser(string user)
         {
-            this.mapUserToData.Add(user, new UserDataItem());
+            mapUserToData.Add(user, new UserDataItem());
         }
 
         public void RemoveUser(string user)
         {
-            this.mapUserToData.Remove(user);
+            mapUserToData.Remove(user);
         }
 
         public string GetUserPassword(string user)
         {
-            UserDataItem item = this.GetUserItem(user);
+            UserDataItem item = GetUserItem(user);
             if (item != null)
             {
                 return item.Password;
@@ -72,7 +72,7 @@ namespace WheelMUD.Ftp
 
         public void SetUserPassword(string user, string password)
         {
-            UserDataItem item = this.GetUserItem(user);
+            UserDataItem item = GetUserItem(user);
             if (item != null)
             {
                 item.Password = password;
@@ -81,7 +81,7 @@ namespace WheelMUD.Ftp
 
         public string GetUserStartingDirectory(string user)
         {
-            UserDataItem item = this.GetUserItem(user);
+            UserDataItem item = GetUserItem(user);
             if (item != null)
             {
                 return item.StartingDirectory;
@@ -92,7 +92,7 @@ namespace WheelMUD.Ftp
 
         public void SetUserStartingDirectory(string user, string directory)
         {
-            UserDataItem item = this.GetUserItem(user);
+            UserDataItem item = GetUserItem(user);
             if (item != null)
             {
                 item.StartingDirectory = directory;
@@ -101,7 +101,7 @@ namespace WheelMUD.Ftp
 
         public bool HasUser(string user)
         {
-            UserDataItem item = this.GetUserItem(user);
+            UserDataItem item = GetUserItem(user);
             return item != null;
         }
 
@@ -111,7 +111,7 @@ namespace WheelMUD.Ftp
             {
                 var formatter = new BinaryFormatter();
                 var fileStream = new FileStream(fileName, FileMode.Create);
-                formatter.Serialize(fileStream, this.mapUserToData);
+                formatter.Serialize(fileStream, mapUserToData);
                 fileStream.Close();
             }
             catch (IOException)
@@ -133,7 +133,7 @@ namespace WheelMUD.Ftp
             {
                 var formatter = new BinaryFormatter();
                 var fileStream = new FileStream(fileName, FileMode.Open);
-                this.mapUserToData = formatter.Deserialize(fileStream) as Hashtable;
+                mapUserToData = formatter.Deserialize(fileStream) as Hashtable;
             }
             catch (IOException)
             {
@@ -145,17 +145,17 @@ namespace WheelMUD.Ftp
 
         public bool Save()
         {
-            return this.Save(this.GetDefaultPath());
+            return Save(GetDefaultPath());
         }
 
         public bool Load()
         {
-            return this.Load(this.GetDefaultPath());
+            return Load(GetDefaultPath());
         }
 
         private UserDataItem GetUserItem(string user)
         {
-            return this.mapUserToData[user] as UserDataItem;
+            return mapUserToData[user] as UserDataItem;
         }
 
         private string GetDefaultPath()

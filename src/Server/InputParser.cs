@@ -68,7 +68,7 @@ namespace WheelMUD.Server
                 // We should pass that up as a valid command.
                 if (input == newLineMarker)
                 {
-                    this.RaiseInputReceived(new ConnectionArgs(sender), string.Empty);
+                    RaiseInputReceived(new ConnectionArgs(sender), string.Empty);
                 }
 
                 // Does our input "end" with \r if so then we have a series of full commands.
@@ -90,7 +90,7 @@ namespace WheelMUD.Server
                         sender.LastRawInput = currentInput;
 
                         // Raise the input received event.
-                        this.RaiseInputReceived(new ConnectionArgs(sender), currentInput.Trim());
+                        RaiseInputReceived(new ConnectionArgs(sender), currentInput.Trim());
                     }
                 }
 
@@ -154,7 +154,7 @@ namespace WheelMUD.Server
         /// <param name="action">The text that was received</param>
         private void RaiseInputReceived(ConnectionArgs connectionArgs, string action)
         {
-            this.InputReceived?.Invoke(this, connectionArgs, action);
+            InputReceived?.Invoke(this, connectionArgs, action);
         }
     }
 }

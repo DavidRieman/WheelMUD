@@ -37,7 +37,7 @@ namespace WheelMUD.Server.Telnet
                 option = new TelnetOption("temp", data, false, Parent.Connection);
             }
 
-            switch (this.optionCode)
+            switch (optionCode)
             {
                 case (int)TelnetResponseCode.DO:
                     option.NegotiateDo();

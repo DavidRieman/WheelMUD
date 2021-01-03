@@ -25,7 +25,7 @@ namespace WheelMUD.Universe
         public DrinkableBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Have a thing try to drink from this drinkable thing.</summary>

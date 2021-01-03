@@ -36,7 +36,7 @@ namespace WheelMUD.Core.Behaviors
         public FollowingBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Gets or sets the target being followed.</summary>
@@ -45,13 +45,13 @@ namespace WheelMUD.Core.Behaviors
         {
             get
             {
-                return (this.target == null) ? null : this.target.Target;
+                return (target == null) ? null : target.Target;
             }
 
             set
             {
                 // Strengthen the reference.
-                var localTarget = this.target;
+                var localTarget = target;
 
                 // Do nothing if the target isn't changing.
                 if ((localTarget != null && localTarget.Target == value) || (localTarget == null && value == null))
@@ -62,26 +62,26 @@ namespace WheelMUD.Core.Behaviors
                 if (value == null)
                 {
                     // localTarget won't also be null, per above
-                    this.RemoveTarget();
+                    RemoveTarget();
                 }
                 else if (localTarget == null || localTarget.Target == null)
                 {
                     // value won't also be null, per above
-                    this.AddTarget(value);
+                    AddTarget(value);
                 }
                 else
                 {
                     // localTarget and value are different objects
-                    this.ChangeTarget(value);
+                    ChangeTarget(value);
                 }
             }
         }
 
-        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent.)</summary>
+        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to Parent.)</summary>
         protected override void OnRemoveBehavior()
         {
             // Setting Target to null ensures the MovementEvent handler is removed.
-            this.Target = null;
+            Target = null;
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
@@ -94,14 +94,14 @@ namespace WheelMUD.Core.Behaviors
         /// <param name="e">The e.</param>
         private void ProcessMovementEvent(Thing root, GameEvent e)
         {
-            var self = this.Parent;
+            var self = Parent;
             var currentRoom = self.Parent;
             var arriveEvent = e as ArriveEvent;
 
-            if (arriveEvent != null && arriveEvent.ActiveThing == this.Target && arriveEvent.GoingFrom == currentRoom)
+            if (arriveEvent != null && arriveEvent.ActiveThing == Target && arriveEvent.GoingFrom == currentRoom)
             {
-                var leaveMessage = this.CreateLeaveMessage(self);
-                var arriveMessage = this.CreateArriveMessage(self);
+                var leaveMessage = CreateLeaveMessage(self);
+                var arriveMessage = CreateArriveMessage(self);
 
                 var movableBehavior = self.Behaviors.FindFirst<MovableBehavior>();
                 movableBehavior.Move(arriveEvent.GoingTo, arriveEvent.GoingVia, leaveMessage, arriveMessage);
@@ -109,22 +109,22 @@ namespace WheelMUD.Core.Behaviors
         }
 
         /// <summary>Adds the new target.</summary>
-        /// <remarks>Precondition: this.target is null, newTarget is non-null.</remarks>
+        /// <remarks>Precondition: target is null, newTarget is non-null.</remarks>
         /// <param name="newTarget">The new target.</param>
         private void AddTarget(Thing newTarget)
         {
-            var self = this.Parent;
+            var self = Parent;
             if (self != null)
             {
-                var message = this.CreateFollowMessage(self, newTarget);
+                var message = CreateFollowMessage(self, newTarget);
                 var followEvent = new FollowEvent(self, message, self, newTarget);
 
                 self.Eventing.OnMovementRequest(followEvent, EventScope.ParentsDown);
 
                 if (!followEvent.IsCancelled)
                 {
-                    this.target = new SimpleWeakReference<Thing>(newTarget);
-                    newTarget.Eventing.MovementEvent += this.ProcessMovementEvent;
+                    target = new SimpleWeakReference<Thing>(newTarget);
+                    newTarget.Eventing.MovementEvent += ProcessMovementEvent;
                     self.Eventing.OnMovementEvent(followEvent, EventScope.ParentsDown);
                 }
             }
@@ -134,42 +134,42 @@ namespace WheelMUD.Core.Behaviors
         /// Changes the target being followed.
         /// Simply removes the existing target and adds the specified new target using existing
         /// methods. This will emit messages for both activities.
-        /// Precondition: this.target and newTarget are both non-null.
+        /// Precondition: target and newTarget are both non-null.
         /// </summary>
         /// <param name="newTarget">The new target.</param>
         private void ChangeTarget(Thing newTarget)
         {
-            this.RemoveTarget();
-            this.AddTarget(newTarget);
+            RemoveTarget();
+            AddTarget(newTarget);
         }
 
         /// <summary>Stops following the current target.</summary>
-        /// <remarks>Precondition: this.target is non-null.</remarks>
+        /// <remarks>Precondition: target is non-null.</remarks>
         private void RemoveTarget()
         {
-            var self = this.Parent;
+            var self = Parent;
             if (self != null)
             {
-                var oldTarget = this.target.Target;
+                var oldTarget = target.Target;
 
                 if (oldTarget != null)
                 {
                     // Stop tracking the old target's movements
-                    this.target.Target.Eventing.MovementEvent -= this.ProcessMovementEvent;
+                    target.Target.Eventing.MovementEvent -= ProcessMovementEvent;
 
                     // Create an event with the appropriate "unfollow" sensory messages
-                    var message = this.CreateUnfollowMessage(this.Parent, oldTarget);
-                    var followEvent = new FollowEvent(this.Parent, message, this.Parent, oldTarget);
+                    var message = CreateUnfollowMessage(Parent, oldTarget);
+                    var followEvent = new FollowEvent(Parent, message, Parent, oldTarget);
 
-                    this.Parent.Eventing.OnMovementRequest(followEvent, EventScope.ParentsDown);
+                    Parent.Eventing.OnMovementRequest(followEvent, EventScope.ParentsDown);
 
                     if (!followEvent.IsCancelled)
                     {
                         // Finally make the change
-                        this.target.Target = null;
+                        target.Target = null;
 
                         // Broadcast the change
-                        this.Parent.Eventing.OnMovementEvent(followEvent, EventScope.ParentsDown);
+                        Parent.Eventing.OnMovementEvent(followEvent, EventScope.ParentsDown);
                     }
                 }
             }
@@ -200,10 +200,10 @@ namespace WheelMUD.Core.Behaviors
 
         private SensoryMessage CreateArriveMessage(Thing self)
         {
-            var message = new ContextualString(self, this.Target)
+            var message = new ContextualString(self, Target)
             {
                 ToReceiver = $"{self.Name} arrives, following you.",
-                ToOthers = $"{self.Name} arrives, following {this.Target.Name}.",
+                ToOthers = $"{self.Name} arrives, following {Target.Name}.",
             };
 
             return new SensoryMessage(SensoryType.Sight, 100, message);
@@ -211,10 +211,10 @@ namespace WheelMUD.Core.Behaviors
 
         private SensoryMessage CreateLeaveMessage(Thing self)
         {
-            var message = new ContextualString(self, this.Target)
+            var message = new ContextualString(self, Target)
             {
-                ToOriginator = $"You follow {this.Target.Name}.",
-                ToOthers = $"{self.Name} leaves, following {this.Target.Name}."
+                ToOriginator = $"You follow {Target.Name}.",
+                ToOthers = $"{self.Name} leaves, following {Target.Name}."
             };
 
             return new SensoryMessage(SensoryType.Sight, 100, message);

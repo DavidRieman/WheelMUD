@@ -31,25 +31,25 @@ namespace WheelMUD.Tests.Talents
             var damageStat = new DamageStat();
             var attackStat = new AttackStat();
 
-            this.playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
+            playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
 
-            this.playerThing.Behaviors.Add(testBehavior);
+            playerThing.Behaviors.Add(testBehavior);
 
-            warriorAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(warriorAttribute);
+            warriorAttribute.Parent = playerThing;
+            playerThing.AddAttribute(warriorAttribute);
 
-            mageAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(rogueAttribute);
+            mageAttribute.Parent = playerThing;
+            playerThing.AddAttribute(rogueAttribute);
 
-            rogueAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(mageAttribute);
+            rogueAttribute.Parent = playerThing;
+            playerThing.AddAttribute(mageAttribute);
 
-            warriorAttribute.SetValue(10, this.playerThing);
-            rogueAttribute.SetValue(10, this.playerThing);
-            mageAttribute.SetValue(10, this.playerThing);
+            warriorAttribute.SetValue(10, playerThing);
+            rogueAttribute.SetValue(10, playerThing);
+            mageAttribute.SetValue(10, playerThing);
 
-            this.playerThing.Stats.Add(damageStat.Name, damageStat);
-            this.playerThing.Stats.Add(attackStat.Name, attackStat);
+            playerThing.Stats.Add(damageStat.Name, damageStat);
+            playerThing.Stats.Add(attackStat.Name, attackStat);
         }
 
         /// <summary>Tests the champion talent added mechanism.</summary>
@@ -58,9 +58,9 @@ namespace WheelMUD.Tests.Talents
         {
             var champion = new ChampionTalent();
 
-            this.playerThing.Behaviors.FindFirst<TalentsBehavior>().AddTalent(champion);
+            playerThing.Behaviors.FindFirst<TalentsBehavior>().AddTalent(champion);
 
-            var behavior = this.playerThing.Behaviors.FindFirst<TalentsBehavior>();
+            var behavior = playerThing.Behaviors.FindFirst<TalentsBehavior>();
 
             Assert.IsTrue(behavior.ManagedTalents.Contains(champion));
             Assert.IsNotNull(behavior.FindFirst<ChampionTalent>().PlayerThing);

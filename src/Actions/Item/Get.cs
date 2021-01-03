@@ -48,22 +48,22 @@ namespace WheelMUD.Actions
             // We have to do this before we attempt to add it because of the event subscriptions.
             // TODO: Test, this may be broken now...
             var actor = actionInput.Controller.Thing;
-            if (this.numberToGet <= 0)
+            if (numberToGet <= 0)
             {
-                this.numberToGet = 1;
+                numberToGet = 1;
             }
 
             // TODO: Prevent item duplication from specifying large numbers, or races for same item, etc.
             // TODO: Fix Implementation of numberToGet.
-            var contextMessage = new ContextualString(actor, this.thingToGet.Parent)
+            var contextMessage = new ContextualString(actor, thingToGet.Parent)
             {
-                ToOriginator = $"You pick up {this.thingToGet}.",
-                ToReceiver = $"{actor.Name} takes {this.thingToGet} from you.",
-                ToOthers = $"{actor.Name} picks up {this.thingToGet.Name}.",
+                ToOriginator = $"You pick up {thingToGet}.",
+                ToReceiver = $"{actor.Name} takes {thingToGet} from you.",
+                ToOthers = $"{actor.Name} picks up {thingToGet.Name}.",
             };
             var getMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
-            if (this.movableBehavior.Move(actor, actor, getMessage, null))
+            if (movableBehavior.Move(actor, actor, getMessage, null))
             {
                 // TODO: Transactionally move owners if applicable.
                 //actor.Save();
@@ -77,7 +77,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -86,13 +86,13 @@ namespace WheelMUD.Actions
             // Check to see if the first word is a number.
             // TODO: Is TryParse meant to be used this way? Character analysis may be better. I worry that
             //       this might be throwing a caught exception upon each fail, which is a typical case here.
-            int.TryParse(actionInput.Params[0], out this.numberToGet);
+            int.TryParse(actionInput.Params[0], out numberToGet);
 
             int itemParam = 0;
             string itemName = string.Empty;
 
             // Rule: If we have to get a number of something, shunt up the positions of our other params.
-            if (this.numberToGet > 0)
+            if (numberToGet > 0)
             {
                 itemParam = 1;
             }
@@ -167,17 +167,17 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Do we have an item matching in the container?
-            this.thingToGet = targetParent.FindChild(itemName.ToLower());
-            if (this.thingToGet == null)
+            thingToGet = targetParent.FindChild(itemName.ToLower());
+            if (thingToGet == null)
             {
                 return string.Format("{0} does not contain {1}.", targetParent.Name, itemName);
             }
 
             // Rule: The targeted thing must be movable.
-            this.movableBehavior = this.thingToGet.Behaviors.FindFirst<MovableBehavior>();
-            if (this.movableBehavior == null)
+            movableBehavior = thingToGet.Behaviors.FindFirst<MovableBehavior>();
+            if (movableBehavior == null)
             {
-                return this.thingToGet.Name + " does not appear to be movable.";
+                return thingToGet.Name + " does not appear to be movable.";
             }
 
             return null;

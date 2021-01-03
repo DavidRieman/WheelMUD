@@ -30,7 +30,7 @@ namespace WarriorRogueMage.Behaviors
         public WieldableBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace WarriorRogueMage.Behaviors
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.MustBeHeld = true;
+            MustBeHeld = true;
         }
     }
 }

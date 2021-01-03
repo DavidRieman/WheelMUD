@@ -16,28 +16,28 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected override string OnProcess(string message)
         {
-            if (this.ConnectionObject.FileToRename.Length == 0)
+            if (ConnectionObject.FileToRename.Length == 0)
             {
-                return this.GetMessage(503, "RNTO must be preceded by a RNFR.");
+                return GetMessage(503, "RNTO must be preceded by a RNFR.");
             }
 
-            string newFileName = this.GetPath(message);
-            string oldFileName = this.ConnectionObject.FileToRename;
+            string newFileName = GetPath(message);
+            string oldFileName = ConnectionObject.FileToRename;
 
-            this.ConnectionObject.FileToRename = string.Empty;
+            ConnectionObject.FileToRename = string.Empty;
 
-            if (this.ConnectionObject.FileSystemObject.FileExists(newFileName) ||
-                this.ConnectionObject.FileSystemObject.DirectoryExists(newFileName))
+            if (ConnectionObject.FileSystemObject.FileExists(newFileName) ||
+                ConnectionObject.FileSystemObject.DirectoryExists(newFileName))
             {
-                return this.GetMessage(553, string.Format("File already exists ({0}).", newFileName));
+                return GetMessage(553, string.Format("File already exists ({0}).", newFileName));
             }
 
-            if (!this.ConnectionObject.FileSystemObject.Move(oldFileName, newFileName))
+            if (!ConnectionObject.FileSystemObject.Move(oldFileName, newFileName))
             {
-                return this.GetMessage(553, "Move failed");
+                return GetMessage(553, "Move failed");
             }
 
-            return this.GetMessage(250, "Renamed file successfully.");
+            return GetMessage(250, "Renamed file successfully.");
         }
     }
 }

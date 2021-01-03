@@ -22,7 +22,7 @@ namespace WarriorRogueMage
         /// <summary>Prevents a default instance of the <see cref="WrmCombat"/> class from being created.</summary>
         private WrmCombat()
         {
-            this.CombatSession = new GameCombatSession();
+            CombatSession = new GameCombatSession();
         }
 
         /// <summary>Gets the singleton instance.</summary>
@@ -39,16 +39,16 @@ namespace WarriorRogueMage
         /// <summary>To be used in combat systems that are turn based.</summary>
         public void ProcessCombatRound()
         {
-            this.combatQueue = new Queue(this.CombatSession.Combatants.Count);
-            this.CreateCombatOrder();
+            combatQueue = new Queue(CombatSession.Combatants.Count);
+            CreateCombatOrder();
 
-            foreach (Thing combatant in this.CombatSession.Combatants)
+            foreach (Thing combatant in CombatSession.Combatants)
             {
-                this.ProcessCombatantRoundActions(combatant);
+                ProcessCombatantRoundActions(combatant);
             }
 
             // When the round is over, clear the queue.
-            this.combatQueue.Clear();
+            combatQueue.Clear();
         }
 
         /// <summary>To be used in combat systems that are near-real time.</summary>
@@ -63,7 +63,7 @@ namespace WarriorRogueMage
             Die combatDie = DiceService.Instance.GetDie(6);
             var bin = new Dictionary<string, int>();
 
-            foreach (Thing combatant in this.CombatSession.Combatants)
+            foreach (Thing combatant in CombatSession.Combatants)
             {
                 // Find out who goes first, then add them to the queue.
                 // Rinse and repeat, until all have been placed in the
@@ -85,7 +85,7 @@ namespace WarriorRogueMage
 
             ////foreach (var ent in sortedBin)
             ////{
-            ////    Thing combatant = this.CombatSession.Combatants.Values
+            ////    Thing combatant = CombatSession.Combatants.Values
             ////}
         }
 
@@ -99,15 +99,15 @@ namespace WarriorRogueMage
         /// <summary>Starts this system.</summary>
         public void Start()
         {
-            this.SystemHost.UpdateSystemHost(this, "Starting WRM combat engine...");
-            this.SystemHost.UpdateSystemHost(this, "WRM combat engine has been started.");
+            SystemHost.UpdateSystemHost(this, "Starting WRM combat engine...");
+            SystemHost.UpdateSystemHost(this, "WRM combat engine has been started.");
         }
 
         /// <summary>Stops this system.</summary>
         public void Stop()
         {
-            this.SystemHost.UpdateSystemHost(this, "Stopping WRM combat engine...");
-            this.SystemHost.UpdateSystemHost(this, "WRM combat engine has been stopped.");
+            SystemHost.UpdateSystemHost(this, "Stopping WRM combat engine...");
+            SystemHost.UpdateSystemHost(this, "WRM combat engine has been stopped.");
         }
 
         /// <summary>Allows the sub system host to receive an update when subscribed to this system.</summary>
@@ -121,7 +121,7 @@ namespace WarriorRogueMage
         /// <param name="sender">The system host to receive our updates.</param>
         public void SubscribeToSystemHost(ISystemHost sender)
         {
-            this.SystemHost = sender;
+            SystemHost = sender;
         }
 
         private static int DoInititiveRoll(Die combatDie, Thing combatant)

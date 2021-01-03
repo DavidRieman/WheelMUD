@@ -24,8 +24,8 @@ namespace WheelMUD.Server.Telnet
         {
             if (data.Length > 3)
             {
-                this.Connection.Terminal.Width = data[1];
-                this.Connection.Terminal.Height = data[3];
+                Connection.Terminal.Width = data[1];
+                Connection.Terminal.Height = data[3];
             }
         }
     }

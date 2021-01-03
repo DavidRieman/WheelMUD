@@ -19,7 +19,7 @@ namespace WheelMUD.Core
         /// <summary>Prevents a default instance of the <see cref="HelpManager"/> class from being created.</summary>
         private HelpManager()
         {
-            this.HelpTopics = new List<HelpTopic>();
+            HelpTopics = new List<HelpTopic>();
         }
 
         /// <summary>Gets the singleton instance of HelpManager.</summary>
@@ -32,7 +32,7 @@ namespace WheelMUD.Core
         /// <summary>Starts the manager and loads all help records into memory</summary>
         public override void Start()
         {
-            this.SystemHost.UpdateSystemHost(this, "Starting...");
+            SystemHost.UpdateSystemHost(this, "Starting...");
 
             string dataRoot = GameConfiguration.DataStoragePath;
             string helpDir = Path.Combine(dataRoot, "Help");
@@ -48,23 +48,23 @@ namespace WheelMUD.Core
                 string[] fileParts = file.Split(Path.DirectorySeparatorChar);
                 string[] fileAliases = fileParts[fileParts.Length - 1].Split(',');
                 var helpTopic = new HelpTopic(contents, new List<string>(fileAliases));
-                this.HelpTopics.Add(helpTopic);
+                HelpTopics.Add(helpTopic);
             }
 
-            this.SystemHost.UpdateSystemHost(this, "Started");
+            SystemHost.UpdateSystemHost(this, "Started");
         }
 
         /// <summary>Stops the manager and unloads all help records from memory.</summary>
         public override void Stop()
         {
-            this.SystemHost.UpdateSystemHost(this, "Stopping...");
+            SystemHost.UpdateSystemHost(this, "Stopping...");
 
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                this.HelpTopics.Clear();
+                HelpTopics.Clear();
             }
 
-            this.SystemHost.UpdateSystemHost(this, "Stopped");
+            SystemHost.UpdateSystemHost(this, "Stopped");
         }
 
         /// <summary>Find a HelpTopic via the help topic alias.</summary>
@@ -73,7 +73,7 @@ namespace WheelMUD.Core
         public HelpTopic FindHelpTopic(string helpTopic)
         {
             Predicate<HelpTopic> finder = (HelpTopic h) => { return h.Aliases.Contains(helpTopic); };
-            return this.HelpTopics.Find(finder);
+            return HelpTopics.Find(finder);
         }
 
         /// <summary>Registers the <see cref="HelpManager"/> system for export.</summary>

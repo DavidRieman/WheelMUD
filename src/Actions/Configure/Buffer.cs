@@ -47,8 +47,8 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             // Not sure what would call this other than a player, but exit early just in case.
-            // Implicitly also verifies that this.sender exists.
-            if (this.userControlledBehavior == null)
+            // Implicitly also verifies that sender exists.
+            if (userControlledBehavior == null)
             {
                 return;
             }
@@ -56,19 +56,19 @@ namespace WheelMUD.Actions
             // No arguments were provided. Just show the current buffer setting and exit.
             if (string.IsNullOrEmpty(actionInput.Tail))
             {
-                this.ShowCurrentBuffer();
+                ShowCurrentBuffer();
                 return;
             }
 
             // Set the value for the current session
-            if (this.session.Connection != null)
+            if (session.Connection != null)
             {
-                this.session.Connection.PagingRowLimit = (this.parsedBufferLength == -1) ? this.session.Terminal.Height : this.parsedBufferLength;
+                session.Connection.PagingRowLimit = (parsedBufferLength == -1) ? session.Terminal.Height : parsedBufferLength;
             }
 
-            this.userControlledBehavior.PagingRowLimit = this.parsedBufferLength;
+            userControlledBehavior.PagingRowLimit = parsedBufferLength;
 
-            this.ShowCurrentBuffer();
+            ShowCurrentBuffer();
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -76,15 +76,15 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            this.PreprocessInput(actionInput);
+            PreprocessInput(actionInput);
 
-            if (!this.parseSucceeded || this.parsedBufferLength > 100 || this.parsedBufferLength < -1)
+            if (!parseSucceeded || parsedBufferLength > 100 || parsedBufferLength < -1)
             {
                 return "The screen buffer must be between 0 and 100 lines, or 'auto'.";
             }
@@ -98,16 +98,16 @@ namespace WheelMUD.Actions
         private void PreprocessInput(ActionInput actionInput)
         {
             // Make sure there is a sender.
-            this.sender = actionInput.Controller;
-            this.session = this.sender as Session;
-            if (this.sender == null || this.sender.Thing == null)
+            sender = actionInput.Controller;
+            session = sender as Session;
+            if (sender == null || sender.Thing == null)
             {
                 return;
             }
 
             // Make sure the sender is an actual connected user.
-            this.userControlledBehavior = this.sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
-            if (this.userControlledBehavior == null)
+            userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
+            if (userControlledBehavior == null)
             {
                 return;
             }
@@ -116,16 +116,16 @@ namespace WheelMUD.Actions
             string lengthText = actionInput.Tail.ToLower().Trim();
             if (string.IsNullOrEmpty(lengthText))
             {
-                this.parseSucceeded = true;
+                parseSucceeded = true;
             }
             else if (lengthText == "auto")
             {
-                this.parsedBufferLength = -1;
-                this.parseSucceeded = true;
+                parsedBufferLength = -1;
+                parseSucceeded = true;
             }
             else
             {
-                this.parseSucceeded = this.TryParse(lengthText, out this.parsedBufferLength);
+                parseSucceeded = TryParse(lengthText, out parsedBufferLength);
             }
         }
 
@@ -153,13 +153,13 @@ namespace WheelMUD.Actions
         /// <summary>Displays the current buffer length to the user, handling the special case of "auto" instead of -1.</summary>
         private void ShowCurrentBuffer()
         {
-            if (this.userControlledBehavior.PagingRowLimit == -1)
+            if (userControlledBehavior.PagingRowLimit == -1)
             {
-                this.sender.Write($"Your screen buffer size is 'auto' (currently {this.session.Terminal.Height} lines).");
+                sender.Write($"Your screen buffer size is 'auto' (currently {session.Terminal.Height} lines).");
             }
             else
             {
-                this.sender.Write($"Your screen buffer is {this.userControlledBehavior.PagingRowLimit} lines.");
+                sender.Write($"Your screen buffer is {userControlledBehavior.PagingRowLimit} lines.");
             }
         }
     }

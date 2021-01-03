@@ -24,7 +24,7 @@ namespace WheelMUD.Core
 
         private SessionStateManager()
         {
-            this.Recompose();
+            Recompose();
         }
 
         /// <summary>Gets the SessionStateManager singleton instance.</summary>
@@ -39,7 +39,7 @@ namespace WheelMUD.Core
             lock (LockObject)
             {
                 var parameters = new object[] { session };
-                return (SessionState)this.defaultSessionStateConstructor.Invoke(parameters);
+                return (SessionState)defaultSessionStateConstructor.Invoke(parameters);
             }
         }
 
@@ -53,9 +53,9 @@ namespace WheelMUD.Core
                 // TODO: assembly version number could be used as orderby tiebreaker to help ensure
                 //       "latest" is always prioritized over an equal StatePriority of an older version.
                 Type defaultSessionStateType;
-                if (this.SessionStates.Length > 0)
+                if (SessionStates.Length > 0)
                 {
-                    defaultSessionStateType = (from s in this.SessionStates
+                    defaultSessionStateType = (from s in SessionStates
                                                orderby s.Metadata.StatePriority descending
                                                select s.Value.GetType()).First();
                 }
@@ -67,7 +67,7 @@ namespace WheelMUD.Core
                 // Find the constructor of that type which takes a Session.  We'll use this info to 
                 // quickly create the default SessionStates for newly connected sessions.
                 var constructorTypes = new Type[] { typeof(Session) };
-                this.defaultSessionStateConstructor = defaultSessionStateType.GetConstructor(constructorTypes);
+                defaultSessionStateConstructor = defaultSessionStateType.GetConstructor(constructorTypes);
             }
         }
     }

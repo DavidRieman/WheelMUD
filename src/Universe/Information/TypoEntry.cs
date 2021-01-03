@@ -25,21 +25,21 @@ namespace WheelMUD.Universe.Information
         /// <param name="record"> The record that contains the information from the database.</param>
         public TypoEntry(TypoRecord record)
         {
-            this.Id = record.ID;
-            this.Note = record.Note;
-            this.Resolved = record.Resolved;
-            this.ResolvedByPlayerId = record.ResolvedByPlayerID;
-            this.PlaceID = record.RoomID.ToString(CultureInfo.InvariantCulture);
-            this.SubmittedByPlayerID = record.SubmittedByPlayerID.ToString(CultureInfo.InvariantCulture);
-            this.SubmittedDateTime = DateTime.Parse(record.SubmittedDateTime);
+            Id = record.ID;
+            Note = record.Note;
+            Resolved = record.Resolved;
+            ResolvedByPlayerId = record.ResolvedByPlayerID;
+            PlaceID = record.RoomID.ToString(CultureInfo.InvariantCulture);
+            SubmittedByPlayerID = record.SubmittedByPlayerID.ToString(CultureInfo.InvariantCulture);
+            SubmittedDateTime = DateTime.Parse(record.SubmittedDateTime);
 
             if (record.ResolvedDateTime != null)
             {
-                this.ResolvedDateTime = DateTime.Parse(record.ResolvedDateTime);
+                ResolvedDateTime = DateTime.Parse(record.ResolvedDateTime);
             }
             else
             {
-                this.ResolvedDateTime = null;
+                ResolvedDateTime = null;
             }
         }
 
@@ -74,29 +74,29 @@ namespace WheelMUD.Universe.Information
 
             var typoRecord = new TypoRecord
             {
-                ID = this.Id,
-                Note = this.Note,
-                Resolved = this.Resolved,
-                ResolvedByPlayerID = (long)this.ResolvedByPlayerId,
-                RoomID = Convert.ToInt64(this.PlaceID),
-                SubmittedByPlayerID = Convert.ToInt64(this.SubmittedByPlayerID),
+                ID = Id,
+                Note = Note,
+                Resolved = Resolved,
+                ResolvedByPlayerID = (long)ResolvedByPlayerId,
+                RoomID = Convert.ToInt64(PlaceID),
+                SubmittedByPlayerID = Convert.ToInt64(SubmittedByPlayerID),
             };
 
-            if (this.ResolvedDateTime != null)
+            if (ResolvedDateTime != null)
             {
-                typoRecord.ResolvedDateTime = this.ResolvedDateTime.ToString();
+                typoRecord.ResolvedDateTime = ResolvedDateTime.ToString();
             }
             else
             {
                 typoRecord.ResolvedDateTime = null;
             }
 
-            typoRecord.SubmittedDateTime = this.SubmittedDateTime.ToString(CultureInfo.InvariantCulture);
+            typoRecord.SubmittedDateTime = SubmittedDateTime.ToString(CultureInfo.InvariantCulture);
 
             if (typoRecord.ID == 0)
             {
                 typoRepository.Add(typoRecord);
-                this.Id = typoRecord.ID;
+                Id = typoRecord.ID;
             }
             else
             {

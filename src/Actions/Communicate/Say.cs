@@ -39,9 +39,9 @@ namespace WheelMUD.Actions
             IController sender = actionInput.Controller;
             var contextMessage = new ContextualString(sender.Thing, sender.Thing.Parent)
             {
-                ToOriginator = $"You say: {this.sayText}",
-                ToReceiver = $"{sender.Thing.Name} says: {this.sayText}",
-                ToOthers = $"{sender.Thing.Name} says: {this.sayText}",
+                ToOriginator = $"You say: {sayText}",
+                ToReceiver = $"{sender.Thing.Name} says: {sayText}",
+                ToOthers = $"{sender.Thing.Name} says: {sayText}",
             };
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 
@@ -58,13 +58,13 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            this.sayText = actionInput.Tail.Trim();
+            sayText = actionInput.Tail.Trim();
             return null;
         }
     }

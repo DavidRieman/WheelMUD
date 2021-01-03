@@ -25,7 +25,7 @@ namespace WheelMUD.Universe
         public CurrencyBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Sets the default properties of this effect instance.</summary>

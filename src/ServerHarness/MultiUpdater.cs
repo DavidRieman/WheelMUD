@@ -26,35 +26,35 @@ namespace ServerHarness
         /// <summary>Finalizes an instance of the MultiUpdater class.</summary>
         ~MultiUpdater()
         {
-            this.Dispose();
+            Dispose();
         }
 
         /// <summary>Dispose of all resources utilized by this MultiUpdater.</summary>
         public void Dispose()
         {
-            if (this.notifiers == null)
+            if (notifiers == null)
             {
                 return;
             }
 
-            foreach (var notifier in this.notifiers)
+            foreach (var notifier in notifiers)
             {
                 notifier.Dispose();
             }
 
-            this.notifiers = null;
+            notifiers = null;
         }
 
         /// <summary>Notify user of the specified message via logging to a text file.</summary>
         /// <param name="message">The message to pass along.</param>
         public void Notify(string message)
         {
-            if (this.notifiers == null)
+            if (notifiers == null)
             {
                 return;
             }
 
-            foreach (var notifier in this.notifiers)
+            foreach (var notifier in notifiers)
             {
                 notifier.Notify(message);
             }

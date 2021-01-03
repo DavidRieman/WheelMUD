@@ -41,13 +41,13 @@ namespace WheelMUD.Actions
 
             if (actionInput.Params.Length == 0)
             {
-                this.ShowStatus(actionInput);
+                ShowStatus(actionInput);
                 return;
             }
 
             // Check for existing FollowedBehavior on the target and create one if necessary.
             // Then add the sender to the list of followers.
-            var targetBehaviors = this.target.Behaviors;
+            var targetBehaviors = target.Behaviors;
             var followedBehavior = targetBehaviors.FindFirst<FollowedBehavior>();
             if (followedBehavior == null)
             {
@@ -80,7 +80,7 @@ namespace WheelMUD.Actions
                 }
             }
 
-            followingBehavior.Target = this.target;
+            followingBehavior.Target = target;
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -89,7 +89,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
 
             if (commonFailure != null)
             {
@@ -106,29 +106,29 @@ namespace WheelMUD.Actions
             string targetFullName = actionInput.Tail.Trim().ToLower();
 
             // Try to find the target either by all the parameter text or by just the first parameter.
-            this.target = GetPlayerOrMobile(targetFullName) ?? GetPlayerOrMobile(targetName);
+            target = GetPlayerOrMobile(targetFullName) ?? GetPlayerOrMobile(targetName);
 
             // Rule: Is the target an entity?
-            if (this.target == null)
+            if (target == null)
             {
                 return "You cannot see " + targetName + ".";
             }
 
             // Rule: Is the target the initator?
-            if (sender.Thing.Name.ToLower() == this.target.Name.ToLower())
+            if (sender.Thing.Name.ToLower() == target.Name.ToLower())
             {
                 return "You can't follow yourself.";
             }
 
             // Rule: Is the target in the same room?
-            if (sender.Thing.Parent.Id != this.target.Parent.Id)
+            if (sender.Thing.Parent.Id != target.Parent.Id)
             {
                 return targetName + " does not appear to be in the vicinity.";
             }
 
             SenseManager senses = new SenseManager();
             senses.AddSense(new Sense { SensoryType = SensoryType.Sight, Enabled = true });
-            if (!this.target.IsDetectableBySense(senses))
+            if (!target.IsDetectableBySense(senses))
             {
                 return targetName + " does not appear to be in the vicinity.";
             }

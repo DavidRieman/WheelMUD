@@ -23,7 +23,7 @@ namespace WheelMUD.Core
         public ExportSystemAttribute(int systemPriority)
             : base(typeof(SystemExporter))
         {
-            this.Priority = systemPriority;
+            Priority = systemPriority;
         }
 
         /// <summary>Initializes a new instance of the ExportSystemAttribute class.</summary>

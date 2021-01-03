@@ -36,16 +36,16 @@ namespace WarriorRogueMage.CharacterCreation
             // entry point of the state machine
             if (current == null)
             {
-                return new ConfirmCreationEntryState(this.Session);
+                return new ConfirmCreationEntryState(Session);
             }
 
             if (previousStatus == StepStatus.Success)
             {
-                return this.AdvanceState(current);
+                return AdvanceState(current);
             }
             else
             {
-                return this.RegressState(current);
+                return RegressState(current);
             }
         }
 
@@ -57,39 +57,39 @@ namespace WarriorRogueMage.CharacterCreation
             // they could of course reuse some/all of the states below in addition to their own.
             if (current is ConfirmCreationEntryState)
             {
-                return new GetNameState(this.Session);
+                return new GetNameState(Session);
             }
             else if (current is GetNameState)
             {
-                return new GetPasswordState(this.Session);
+                return new GetPasswordState(Session);
             }
             else if (current is GetPasswordState)
             {
-                return new ConfirmPasswordState(this.Session);
+                return new ConfirmPasswordState(Session);
             }
             else if (current is ConfirmPasswordState)
             {
-                return new PickGenderState(this.Session);
+                return new PickGenderState(Session);
             }
             else if (current is PickGenderState)
             {
-                return new GetDescriptionState(this.Session);
+                return new GetDescriptionState(Session);
             }
             else if (current is GetDescriptionState)
             {
-                return new SetAttributesState(this.Session);
+                return new SetAttributesState(Session);
             }
             else if (current is SetAttributesState)
             {
-                return new PickSkillsState(this.Session);
+                return new PickSkillsState(Session);
             }
             else if (current is PickSkillsState)
             {
-                return new PickTalentsState(this.Session);
+                return new PickTalentsState(Session);
             }
             else if (current is PickTalentsState)
             {
-                return new PickRaceState(this.Session);
+                return new PickRaceState(Session);
             }
             else if (current is PickRaceState)
             {
@@ -105,7 +105,7 @@ namespace WarriorRogueMage.CharacterCreation
             if (current is ConfirmPasswordState)
             {
                 // If password confirmation failed, try selecting a new password.
-                return new GetPasswordState(this.Session);
+                return new GetPasswordState(Session);
             }
 
             throw new InvalidOperationException("The character state machine does not know how to calculate the next step after '" + current.GetType().Name + "' fails");

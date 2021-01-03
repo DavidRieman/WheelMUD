@@ -37,11 +37,11 @@ namespace WheelMUD.Actions
         {
             // TODO: Inform the player by sending a non-sensory event
             ////connection.Send("You have been booted from the server.");
-            this.playerBehavior.LogOut();
+            playerBehavior.LogOut();
 
             // Inform the admin
             IController sender = actionInput.Controller;
-            sender.Write(string.Format("The player named \"{0}\" was booted from game.", this.PlayerToBoot.Name));
+            sender.Write(string.Format("The player named \"{0}\" was booted from game.", PlayerToBoot.Name));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -49,20 +49,20 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             string playerName = actionInput.Tail;
-            this.PlayerToBoot = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
-            if (this.PlayerToBoot != null)
+            PlayerToBoot = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
+            if (PlayerToBoot != null)
             {
-                this.playerBehavior = this.PlayerToBoot.Behaviors.FindFirst<PlayerBehavior>();
+                playerBehavior = PlayerToBoot.Behaviors.FindFirst<PlayerBehavior>();
             }
 
-            if (this.PlayerToBoot == null || this.playerBehavior == null)
+            if (PlayerToBoot == null || playerBehavior == null)
             {
                 return string.Format("The player named \"{0}\" specified could not be found.", playerName);
             }

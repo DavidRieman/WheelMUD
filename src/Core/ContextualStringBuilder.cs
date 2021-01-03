@@ -53,8 +53,8 @@ namespace WheelMUD.Core
         /// <param name="receiver">The main target of the message.</param>
         public ContextualStringBuilder(Thing originator, Thing receiver)
         {
-            this.Originator = originator;
-            this.Receiver = receiver;
+            Originator = originator;
+            Receiver = receiver;
         }
 
         /// <summary>Gets the originator.</summary>
@@ -69,7 +69,7 @@ namespace WheelMUD.Core
         /// <returns>Returns a ContextualStringBuilder object.</returns>
         public ContextualStringBuilder Append(string text, ContextualStringUsage usage)
         {
-            this.texts.Add(new ContextualString(text, usage));
+            texts.Add(new ContextualString(text, usage));
             return this;
         }
 
@@ -78,7 +78,7 @@ namespace WheelMUD.Core
         /// <returns>Returns a ContextualStringBuilder.</returns>
         public ContextualStringBuilder Append(string text)
         {
-            this.Append(text, ContextualStringUsage.Anytime);
+            Append(text, ContextualStringUsage.Anytime);
             return this;
         }
 
@@ -89,40 +89,40 @@ namespace WheelMUD.Core
         {
             string output = string.Empty;
 
-            foreach (ContextualString text in this.texts)
+            foreach (ContextualString text in texts)
             {
                 switch (text.Usage)
                 {
                     case ContextualStringUsage.WhenNotBeingPassedToOriginator:
-                        if (this.Originator != currentReceiver)
+                        if (Originator != currentReceiver)
                         {
                             output += text.Text;
                         }
 
                         break;
                     case ContextualStringUsage.OnlyWhenBeingPassedToOriginator:
-                        if (this.Originator == currentReceiver)
+                        if (Originator == currentReceiver)
                         {
                             output += text.Text;
                         }
 
                         break;
                     case ContextualStringUsage.WhenNotBeingPassedToReceiver:
-                        if (this.Receiver != currentReceiver)
+                        if (Receiver != currentReceiver)
                         {
                             output += text.Text;
                         }
 
                         break;
                     case ContextualStringUsage.OnlyWhenBeingPassedToReceiver:
-                        if (this.Receiver == currentReceiver)
+                        if (Receiver == currentReceiver)
                         {
                             output += text.Text;
                         }
 
                         break;
                     case ContextualStringUsage.WhenNotBeingPassedToReceiverOrOriginator:
-                        if (this.Receiver != currentReceiver && this.Originator != currentReceiver)
+                        if (Receiver != currentReceiver && Originator != currentReceiver)
                         {
                             output += text.Text;
                         }
@@ -145,8 +145,8 @@ namespace WheelMUD.Core
             /// <param name="usage">The contextual usage of this string.</param>
             public ContextualString(string text, ContextualStringUsage usage)
             {
-                this.Text = text;
-                this.Usage = usage;
+                Text = text;
+                Usage = usage;
             }
 
             /// <summary>Gets the string text.</summary>

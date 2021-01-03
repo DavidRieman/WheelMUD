@@ -18,10 +18,10 @@ namespace WheelMUD.Ftp.FtpCommands
         {
             if (message == "-L" || message == "-l")
             {
-                return this.BuildLongReply(asFiles);
+                return BuildLongReply(asFiles);
             }
 
-            return this.BuildShortReply(asFiles);
+            return BuildShortReply(asFiles);
         }
     }
 }
