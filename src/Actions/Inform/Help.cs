@@ -46,7 +46,8 @@ namespace WheelMUD.Actions
             HelpTopic helpTopic = HelpManager.Instance.FindHelpTopic(commandTail);
             if (helpTopic != null)
             {
-                sender.Write(Renderer.Instance.RenderHelpTopic(terminal, helpTopic));
+                var contents = Renderer.Instance.RenderHelpTopic(terminal, helpTopic);
+                sender.Write(contents);
                 return;
             }
 

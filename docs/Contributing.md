@@ -24,3 +24,6 @@ We value fresh discussion and opinions even on old threads, so don't be afraid o
 
 ## Development
 If you are, or have the drive to become, a developer: Visit the [Development](Development/README.md) section.
+
+## Conduct
+We strive to build a fun and friendly community here. Please remain civil in all communications here.

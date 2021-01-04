@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using WheelMUD.Interfaces;
 using WheelMUD.Utilities;
 
@@ -44,10 +45,17 @@ namespace WheelMUD.Core
 
             foreach (string file in Directory.GetFiles(helpDir))
             {
-                string contents = File.ReadAllText(file);
-                string[] fileParts = file.Split(Path.DirectorySeparatorChar);
-                string[] fileAliases = fileParts[fileParts.Length - 1].Split(',');
-                var helpTopic = new HelpTopic(contents, new List<string>(fileAliases));
+                // We need to read in each line of the file and put it back together explicitly with AnsiSequences.NewLines,
+                // so that we are prepared to send the contents with the expected NewLine of the Telnet protocal, regardless
+                // of what line endings the help file was saved with.
+                var contentLines = File.ReadAllLines(file);
+                string contents = string.Join(AnsiSequences.NewLine, contentLines);
+
+                // The file name depicts the help topic. Something like "foo_bar" would be a single keyword with an underscore
+                // as part of the help topic alias, while "foo__bar" depicts two aliases ("foo" and "bar").
+                string nameOnly = Path.GetFileNameWithoutExtension(file);
+                string[] aliases = nameOnly.Split("__");
+                var helpTopic = new HelpTopic(contents, new List<string>(aliases));
                 HelpTopics.Add(helpTopic);
             }
 
@@ -72,8 +80,11 @@ namespace WheelMUD.Core
         /// <returns>The help topic, if found.</returns>
         public HelpTopic FindHelpTopic(string helpTopic)
         {
-            Predicate<HelpTopic> finder = (HelpTopic h) => { return h.Aliases.Contains(helpTopic); };
-            return HelpTopics.Find(finder);
+            // Find any exact match for the topic. (If we too aggressively included results for partial matches, we
+            // might lose the ability to fall back to checking for help on commands or other dynamic help info.)
+            // However, a help file can use multiple aliases by separating them with "__" in the help file name, with
+            // the "primary" alias (one we would display to the user when listing topics) being the first one.
+            return HelpTopics.Find(h => h.Aliases.Contains(helpTopic, StringComparer.OrdinalIgnoreCase));
         }
 
         /// <summary>Registers the <see cref="HelpManager"/> system for export.</summary>

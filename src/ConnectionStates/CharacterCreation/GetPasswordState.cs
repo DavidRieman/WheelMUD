@@ -33,7 +33,9 @@ namespace WheelMUD.ConnectionStates
 
         public override string BuildPrompt()
         {
-            return "Enter a password for this character.\n> ";
+            // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
+            // is repeating received keystrokes back to their output.
+            return $"Enter a password for this character.{AnsiSequences.NewLine}> <%hidden%>";
         }
     }
 }

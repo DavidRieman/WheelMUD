@@ -51,10 +51,10 @@ namespace WheelMUD.Core
         /// <remarks>To move more than one space, try MoveCursorUp() or MoveCursorTo() instead.</remarks>
         public const string MoveCursorUp1 = Esc + "[1A";
 
-        /// <summary>The ANSI sequence for 'MXP open line'.</summary>
+        /// <summary>The extended ANSI-like sequence for 'MXP open line'.</summary>
         public const string MxpOpenLine = Esc + "[0z";
 
-        /// <summary>The ANSI sequence for 'MXP secure line'.</summary>
+        /// <summary>The extended ANSI-like sequence for 'MXP secure line'.</summary>
         public const string MxpSecureLine = Esc + "[1z";
 
         /// <summary>The ANSI sequence for resetting all text to normal attributes.</summary>
@@ -65,6 +65,13 @@ namespace WheelMUD.Core
 
         /// <summary>The ANSI sequence for setting text to underlined.</summary>
         public const string TextUnderline = Esc + "[4m";
+
+        /// <summary>The ANSI sequence for setting text to hidden.</summary>
+        /// <remarks>
+        /// This may be useful to set when prompting for passwords or other sensitive info. Beware the support for this
+        /// might not be universal across all Telnet clients, but it shouldn't hurt to try to use it anyways.
+        /// </remarks>
+        public const string TextHidden = Esc + "[8m";
 
         /// <summary>The ANSI sequence for setting foreground (character) color to black.</summary>
         public const string ForegroundBlack = Esc + "[30m";

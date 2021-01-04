@@ -20,6 +20,7 @@ namespace WheelMUD.Interfaces
         bool UseANSI { get; set; }
 
         /// <summary>Gets or sets a value indicating whether a Client wants MXP.</summary>
+        /// <remarks>MXP is the MUD eXtension Protocol.</remarks>
         bool UseMXP { get; set; }
 
         /// <summary>Gets or sets a value indicating whether the connection wants MCP.</summary>

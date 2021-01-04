@@ -148,10 +148,11 @@ namespace WheelMUD.Core
                         .Replace("<%b%>", AnsiSequences.TextBold)
                         .Replace("<%cls%>", AnsiSequences.ClearScreenAndHomeCursor)
                         .Replace("<%u%>", AnsiSequences.TextUnderline)
-                        .Replace("<%underline%>", AnsiSequences.TextUnderline);
+                        .Replace("<%underline%>", AnsiSequences.TextUnderline)
+                        .Replace("<%hidden%>", AnsiSequences.TextHidden);
                 }
 
-                // Finally, tackle the more awkward and less common tags, if any tags remain.
+                // Tackle the more awkward and less common tags, if any tags remain.
                 if (newString.Contains("<%"))
                 {
                     // Cursor Movement
@@ -166,7 +167,9 @@ namespace WheelMUD.Core
                         .Replace("<%mxpsecureline%>", AnsiSequences.MxpSecureLine);
                 }
 
-                return newString;
+                // Finally, if there are any escaped tags (E.G. as you might wish to use to discuss these tags in
+                // game chat or boards or help files or whatnot), convert them to look like their <% %> form.
+                return newString.Replace("\\<\\%", "<%").Replace("\\%\\>", "%>");
             }
 
             return string.Empty;

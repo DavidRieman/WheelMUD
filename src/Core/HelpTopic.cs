@@ -22,6 +22,7 @@ namespace WheelMUD.Core
         public string Contents { get; private set; }
 
         /// <summary>Gets the aliases used for this help topic.</summary>
+        /// <remarks>The first alias is the primary alias. E.G. when displaying a topics list, we may choose to display only the first alias for a topic.</remarks>
         public List<string> Aliases { get; private set; }
     }
 }

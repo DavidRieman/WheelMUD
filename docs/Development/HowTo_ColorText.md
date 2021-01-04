@@ -10,3 +10,7 @@ Here's what they look like:
 
 Use the entries in the Tag column.
 The tags come in pairs just like any tag based mark-up language like HTML, ASP, and XML. Make sure to reset the colors buy using the normal or reset tags.
+
+You can also refer to the AnsiHandler Parse method to refresh on the Tags that are supported.
+
+## Extension Considerations
