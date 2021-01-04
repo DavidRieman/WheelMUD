@@ -9,8 +9,8 @@ namespace WheelMUD.Interfaces
 {
     using System.Net;
     using System.Text;
+    using WheelMUD.Core;
     using WheelMUD.Core.Enums;
-    using WheelMUD.Core.Output;
 
     /// <summary>An interface defining a Connection.</summary>
     public interface IConnection

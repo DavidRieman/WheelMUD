@@ -127,7 +127,7 @@ namespace WheelMUD.Tests.Session
                 get { throw new NotImplementedException(); }
             }
 
-            public Core.Output.OutputBuffer OutputBuffer
+            public Core.OutputBuffer OutputBuffer
             {
                 get { throw new NotImplementedException(); }
                 set { throw new NotImplementedException(); }

@@ -8,8 +8,8 @@
 namespace WheelMUD.Server
 {
     using System.Text.RegularExpressions;
+    using WheelMUD.Core;
     using WheelMUD.Core.Enums;
-    using WheelMUD.Core.Output;
 
     /// <summary>The data formatter. Runs data through our series of data filters for correct presentation on the client.</summary>
     internal static class DataFormatter

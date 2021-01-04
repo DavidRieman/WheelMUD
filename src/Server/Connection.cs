@@ -15,7 +15,6 @@ namespace WheelMUD.Server
     using System.Threading;
     using WheelMUD.Core;
     using WheelMUD.Core.Enums;
-    using WheelMUD.Core.Output;
     using WheelMUD.Interfaces;
     using WheelMUD.Server.Telnet;
 

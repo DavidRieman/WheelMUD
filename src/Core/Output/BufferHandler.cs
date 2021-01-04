@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Output
+namespace WheelMUD.Core
 {
     using System;
     using System.Text;

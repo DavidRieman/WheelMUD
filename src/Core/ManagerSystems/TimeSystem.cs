@@ -3,19 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Provides a world time system to the mud. Actions can be scheduled to
-//   occur at various times, with 1-second resolution, without spawning
-//   new timers for each event. Necessary because there could be thousands
-//   of temporary effects, delayed commands, and so on.
-// </summary>
-// <remarks>
-//   This class was originally to be a custom calendar for the game, which
-//   would differ from real-world time system and broadcast periodic updates
-//   about the current time. Custom calendars are game-specific and usually
-//   can be implemented by transforming DateTime.Now and scheduling
-//   occasional broadcasts if desired.
-// </remarks>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core
@@ -32,6 +19,12 @@ namespace WheelMUD.Core
     /// a rounded off resolution, without spawning new timers for each event. Grouped processing like this
     /// is necessary because there could be thousands of temporary effects, delayed commands, and so on.
     /// </summary>
+    /// <remarks>
+    /// This class was originally to be a custom calendar for the game, which would differ from real-world
+    /// time system and broadcast periodic updates about the current game time. However, custom calendars
+    /// are going to be game-specific and usually can be implemented by transforming DateTime.Now and
+    /// scheduling occasional broadcasts if desired.
+    /// </remarks>
     public class TimeSystem : ManagerSystem
     {
         /// <summary>The singleton instance of this class.</summary>

@@ -131,9 +131,9 @@ namespace WheelMUD.Core
                 string prompt = State != null ? State.BuildPrompt() : string.Empty;
 
                 // Protection against double prompt.
-                if (!data.EndsWith(Environment.NewLine + prompt))
+                if (!data.EndsWith(AnsiSequences.NewLine + prompt))
                 {
-                    data = data + Environment.NewLine + prompt;
+                    data = data + AnsiSequences.NewLine + prompt;
                 }
 
                 AtPrompt = true;

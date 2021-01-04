@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WheelMUD.Server.Telnet
 {
-    using WheelMUD.Core.Output;
-
     /// <summary>Class that handles the sub-negotiation of the MUD eXtension Protocol (MXP) telnet option code.</summary>
     internal class TelnetOptionMXP : TelnetOption
     {
