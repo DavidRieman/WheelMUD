@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Net.Sockets;
+using System.Text;
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp
 {
-    using System.Net.Sockets;
-    using System.Text;
-    using WheelMUD.Ftp.General;
-
     /// <summary>Encapsulates the functionality necessary to send data along the reply connection.</summary>
     public class FtpReplySocket
     {

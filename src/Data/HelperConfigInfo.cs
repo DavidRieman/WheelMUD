@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Configuration;
+using System.IO;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Data
 {
-    using System.Configuration;
-    using System.IO;
-    using WheelMUD.Utilities;
-
     /// <summary>Class to simplify reading application and data configuration information.</summary>
     public class AppConfigInfo
     {

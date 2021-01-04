@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Core.Attributes;
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Enums;
-    using WheelMUD.Interfaces;
-
     /// <summary>A command that performs pagination.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("previous", CommandCategory.Inform)]

@@ -5,15 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using WheelMUD.Core.Events;
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
-
     /// <summary>
     /// Provides a world time system to the mud. Actions can be scheduled to occur at various times, with
     /// a rounded off resolution, without spawning new timers for each event. Grouped processing like this

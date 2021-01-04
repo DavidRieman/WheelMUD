@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using WheelMUD.Core.Events;
+using WheelMUD.Data;
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Core
 {
-    using System;
-    using WheelMUD.Core.Events;
-    using WheelMUD.Data;
-    using WheelMUD.Interfaces;
-
     /// <summary>The 'session authenticated' event handler delegate.</summary>
     /// <param name="session">The session that was authenticated.</param>
     public delegate void SessionAuthenticatedEventHandler(Session session);

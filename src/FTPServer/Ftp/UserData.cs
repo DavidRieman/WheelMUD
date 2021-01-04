@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
 namespace WheelMUD.Ftp
 {
-    using System;
-    using System.Collections;
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
-
     public class UserData
     {
         private Hashtable mapUserToData = null;

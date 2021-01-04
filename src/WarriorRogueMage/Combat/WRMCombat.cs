@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Interfaces;
+
 namespace WarriorRogueMage
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Interfaces;
-
     /// <summary>Basic combat system for Warrior, Rogue, and Mage RPG system.</summary>
     public class WrmCombat : ISystem, ICombat
     {

@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+using WarriorRogueMage.Skills;
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.Behaviors
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using WarriorRogueMage.Skills;
-    using WheelMUD.Core;
-
     /// <summary>A behavior housing player skills functionality.</summary>
     public class SkillsBehavior : Behavior
     {

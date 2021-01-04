@@ -5,19 +5,18 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Diagnostics;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using WheelMUD.Core;
+using WheelMUD.Interfaces;
+using WheelMUD.Server.Telnet;
+
 namespace WheelMUD.Server
 {
-    using System;
-    using System.Diagnostics;
-    using System.Net;
-    using System.Net.Sockets;
-    using System.Text;
-    using System.Threading;
-    using WheelMUD.Core;
-    using WheelMUD.Core.Enums;
-    using WheelMUD.Interfaces;
-    using WheelMUD.Server.Telnet;
-
     /// <summary>Represents a connection to a client.</summary>
     /// <remarks>This is the low level connection object that is assigned to a user when they connect.</remarks>
     public class Connection : IConnection

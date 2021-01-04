@@ -8,7 +8,7 @@
 /* TODO: Currently this is unused, but the idea is that a Thing's Children could be classified this way.
  *       Need to consider whether this is the right approach, or whether this indicates that there should
  *       be something like an "AdornmentBehavior" instead.  I'm leaning towards the latter. -Karak
-namespace WheelMUD.Core.Enums
+namespace WheelMUD.Core
 {
     /// <summary>The types of parents that exits in WheelMUD.</summary>
     /// <remarks>

@@ -5,14 +5,14 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WarriorRogueMage.Behaviors;
+using WheelMUD.Core;
+using WheelMUD.Core.Attributes;
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions.Temporary
 {
-    using System.Collections.Generic;
-    using WarriorRogueMage.Behaviors;
-    using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
-
     /// <summary>A command that allows an admin to create a simple weapon for testing.</summary>
     [ExportGameAction(100)]
     [ActionPrimaryAlias("create weapon", CommandCategory.Admin)]

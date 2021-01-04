@@ -5,11 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core.Enums;
-
     /// <summary>OutputBuffer provides a server side output buffer.</summary>
     /// <remarks>Used for paging, to avoid flooding users with too many lines in one go.</remarks>
     public class OutputBuffer

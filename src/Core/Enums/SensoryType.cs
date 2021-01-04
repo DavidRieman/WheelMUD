@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Core
 {
-    using System;
-
     /// <summary>Sensory types, for contextual perception systems.</summary>
     /// <remarks>TODO: Sonar? Extensibility?</remarks>
     [Flags]

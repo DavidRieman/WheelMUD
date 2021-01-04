@@ -5,15 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Actions;
+using WheelMUD.Core;
+using WheelMUD.Core.Attributes;
+using WheelMUD.Core.Events;
+using WheelMUD.Interfaces;
+
 namespace WarriorRogueMage.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Actions;
-    using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
-
     /// <summary>Initiates non-lethal combat.</summary>
     /// <remarks>TODO: Implement or retire? Doesn't seem to do anything right now...</remarks>
     [ExportGameAction(100)]

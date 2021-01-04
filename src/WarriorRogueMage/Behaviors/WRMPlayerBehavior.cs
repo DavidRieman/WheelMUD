@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+using WheelMUD.Core.Attributes;
+
 namespace WarriorRogueMage.Behaviors
 {
-    using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-
     /// <summary>Behavior which defines a Warrior Rogue and Mage player.</summary>
     public class WRMPlayerBehavior : PlayerBehavior
     {

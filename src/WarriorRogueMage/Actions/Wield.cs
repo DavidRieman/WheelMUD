@@ -5,16 +5,16 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WarriorRogueMage.Behaviors;
+using WheelMUD.Actions;
+using WheelMUD.Core;
+using WheelMUD.Core.Attributes;
+using WheelMUD.Core.Events;
+using WheelMUD.Interfaces;
+
 namespace WarriorRogueMage.Actions
 {
-    using System.Collections.Generic;
-    using WarriorRogueMage.Behaviors;
-    using WheelMUD.Actions;
-    using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
-
     /// <summary>An action to wield a weapon in your primary hand.</summary>
     [ExportGameAction(100)]
     [ActionPrimaryAlias("wield", CommandCategory.Item)]

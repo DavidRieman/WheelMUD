@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using WheelMUD.Interfaces;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using WheelMUD.Interfaces;
-    using WheelMUD.Utilities;
-
     /// <summary>High level manager that provides maintains help information.</summary>
     public class HelpManager : ManagerSystem
     {

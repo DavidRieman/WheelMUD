@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Text;
+
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Text;
-
     /// <summary>Buffer handler.</summary>
     /// <remarks>This class provides a server-side output buffer. It provides paging of large text outputs.</remarks>
     public class BufferHandler

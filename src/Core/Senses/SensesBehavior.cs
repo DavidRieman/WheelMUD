@@ -5,11 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core.Enums;
-
     /// <summary>Encapsulates sensory behavior.</summary>
     public class SensesBehavior : Behavior
     {

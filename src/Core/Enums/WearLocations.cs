@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Enums
-{
-    using System;
+using System;
 
+namespace WheelMUD.Core
+{
     /// <summary>Depicts the different places you can wear a piece of equipment.</summary>
     [Flags]
     public enum WearLocations : ulong

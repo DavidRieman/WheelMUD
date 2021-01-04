@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.ComponentModel.Composition;
+using System.Reflection;
+using WheelMUD.Core;
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.ConnectionStates
 {
-    using System;
-    using System.ComponentModel.Composition;
-    using System.Reflection;
-    using WheelMUD.Core;
-    using WheelMUD.Interfaces;
-
     /// <summary>A delegate for the completion of character creation.</summary>
     public delegate void CharacterCreationCompleted(Session session);
 

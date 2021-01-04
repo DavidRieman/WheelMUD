@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.Behaviors
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using WheelMUD.Core;
-
     /// <summary>A behavior to house talents-related functionality.</summary>
     public class TalentsBehavior : Behavior
     {

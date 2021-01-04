@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.IO;
+using System.Text;
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using System;
-    using System.IO;
-    using System.Text;
-    using WheelMUD.Ftp.General;
-
     /// <summary>Base class for list commands</summary>
     public abstract class ListCommandHandlerBase : FtpCommandHandler
     {

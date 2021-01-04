@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Core.Events;
+
 namespace WheelMUD.Universe
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Core.Events;
-
     /// <summary>A portal item behavior adds the ability to enter an item to arrive at a new location.</summary>
     public class PortalBehavior : Behavior
     {

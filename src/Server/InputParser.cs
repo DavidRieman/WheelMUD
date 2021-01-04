@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Text;
+using WheelMUD.Core;
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Server
 {
-    using System;
-    using System.Text;
-    using WheelMUD.Core;
-    using WheelMUD.Interfaces;
-
     /// <summary>The input parser handles data coming in over a connection.</summary>
     /// <remarks>Checks to see if the data is an action and if so notifies the interested parties for processing.</remarks>
     public class InputParser
