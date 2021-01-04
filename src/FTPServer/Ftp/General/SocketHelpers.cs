@@ -5,13 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+
 namespace WheelMUD.Ftp.General
 {
-    using System;
-    using System.IO;
-    using System.Net;
-    using System.Net.Sockets;
-
     public sealed class SocketHelpers
     {
         private SocketHelpers()
@@ -50,7 +51,7 @@ namespace WheelMUD.Ftp.General
 
         public static bool Send(TcpClient socket, string message)
         {
-            byte[] messageBuffer = System.Text.Encoding.ASCII.GetBytes(message);
+            byte[] messageBuffer = Encoding.ASCII.GetBytes(message);
             return Send(socket, messageBuffer);
         }
 

@@ -5,17 +5,18 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections;
+using System.ComponentModel.Composition;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using WheelMUD.Ftp.FileSystem;
+using WheelMUD.Ftp.General;
+using WheelMUD.Interfaces;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Ftp
 {
-    using System.Collections;
-    using System.ComponentModel.Composition;
-    using System.Net.Sockets;
-    using System.Threading;
-    using WheelMUD.Ftp.FileSystem;
-    using WheelMUD.Ftp.General;
-    using WheelMUD.Interfaces;
-    using WheelMUD.Utilities;
-
     /// <summary>Listens for incoming connections and accepts them.</summary>
     /// <remarks>Incoming socket connections are then passed to the socket handling class (FtpSocketHandler).</remarks>
     [Export(typeof(ISystemPlugIn))]
@@ -133,7 +134,7 @@ namespace WheelMUD.Ftp
 
         private static void SendAcceptMessage(TcpClient socket)
         {
-            SocketHelpers.Send(socket, System.Text.Encoding.ASCII.GetBytes("220 WheelMUD FTP Server Ready\r\n"));
+            SocketHelpers.Send(socket, Encoding.ASCII.GetBytes("220 WheelMUD FTP Server Ready\r\n"));
         }
 
         private void ThreadRun()

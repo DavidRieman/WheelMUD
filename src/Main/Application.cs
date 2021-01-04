@@ -91,7 +91,7 @@ namespace WheelMUD.Main
             {
                 // If the database file doesn't exist, try to copy the original source.
                 string sourcePath = null;
-                int i = appDir.IndexOf(Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar, System.StringComparison.Ordinal);
+                int i = appDir.IndexOf(Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar, StringComparison.Ordinal);
                 if (i > 0)
                 {
                     sourcePath = appDir.Substring(0, i) + Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar + "Files" + Path.DirectorySeparatorChar;
@@ -239,7 +239,7 @@ namespace WheelMUD.Main
                 {
                     // If the database file doesn't exist, try to copy the original source.
                     string sourcePath = null;
-                    int i = appDir.IndexOf(Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar, System.StringComparison.Ordinal);
+                    int i = appDir.IndexOf(Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar, StringComparison.Ordinal);
                     if (i > 0)
                     {
                         sourcePath = appDir.Substring(0, i) + Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar + "SQL" + Path.DirectorySeparatorChar + "SQLite";

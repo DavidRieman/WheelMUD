@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.IO;
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp.FileSystem
 {
-    using System.IO;
-    using WheelMUD.Ftp.General;
-
     public class StandardFileObject : LoadedClass, IFile
     {
         private FileStream fileStream;
@@ -24,7 +24,7 @@ namespace WheelMUD.Ftp.FileSystem
 
                 if (write)
                 {
-                    fileStream.Seek(0, System.IO.SeekOrigin.End);
+                    fileStream.Seek(0, SeekOrigin.End);
                 }
 
                 isLoaded = true;

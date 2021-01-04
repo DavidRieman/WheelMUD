@@ -42,7 +42,7 @@ namespace WheelMUD.Ftp
 
         public bool Send(char[] chars, int size)
         {
-            return SocketHelpers.Send(socket, System.Text.Encoding.ASCII.GetBytes(chars), 0, size);
+            return SocketHelpers.Send(socket, Encoding.ASCII.GetBytes(chars), 0, size);
         }
 
         public bool Send(string message)

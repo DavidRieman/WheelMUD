@@ -33,7 +33,7 @@ namespace WheelMUD.Actions
         private static string cachedContents = null;
 
         /// <summary>The synchronization locking object.</summary>
-        private static object cacheLockObject = new object();
+        private static readonly object cacheLockObject = new object();
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>

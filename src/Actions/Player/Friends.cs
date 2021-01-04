@@ -5,15 +5,16 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using WheelMUD.Core;
+using WheelMUD.Core.Attributes;
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
-
     /// <summary>A command to manipulate a players friends list.</summary>
     /// <remarks>TODO: Persistence!</remarks>
     [ExportGameAction(0)]
@@ -126,7 +127,7 @@ namespace WheelMUD.Actions
         private void RemoveFriend(IController sender, string targetedFriendName)
         {
             string playerName = (from string f in playerBehavior.Friends
-                                 where f.Equals(targetedFriendName, System.StringComparison.CurrentCultureIgnoreCase)
+                                 where f.Equals(targetedFriendName, StringComparison.CurrentCultureIgnoreCase)
                                  select f).FirstOrDefault();
 
             if (string.IsNullOrEmpty(playerName))

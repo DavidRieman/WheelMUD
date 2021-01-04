@@ -5,12 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using WheelMUD.Core;
+using WheelMUD.Data;
+using WheelMUD.Data.Repositories;
+
 namespace WheelMUD.ConnectionStates
 {
-    using WheelMUD.Core;
-    using WheelMUD.Data;
-    using WheelMUD.Data.Repositories;
-
     /// <summary>This is the state for new character name entry as supplied by a player.</summary>
     public class GetNameState : CharacterCreationSubState
     {
@@ -53,7 +54,7 @@ namespace WheelMUD.ConnectionStates
                     }
                     else
                     {
-                        throw new System.NotImplementedException("Need to ensure correct flow into character selection state.");
+                        throw new NotImplementedException("Need to ensure correct flow into character selection state.");
                     }
                     StateMachine.HandleNextStep(this, StepStatus.Success);
                 }
