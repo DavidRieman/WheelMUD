@@ -7,9 +7,9 @@ Parties interested in WheelMUD, including non-developers, may find these topics 
 * [Project Goals](ProjectGoals.md)
 * [Project History](ProjectHistory.md)
 * [High Level Road Map](RoadMap.md)
-* [Participation](Participation.md)
 * [Getting Started](GettingStarted.md)
 * [Optional Configuration](Configuration.md)
+* [Contributing](Contributing.md)
 
 ## Development
 The [Development](Development/README.md) area houses resources for developers, such as key code concepts, and some how-to guides.
