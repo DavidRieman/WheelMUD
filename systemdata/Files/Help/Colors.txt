@@ -29,3 +29,4 @@ You can combine these like \<\%blue\%\>\<\%bcyan\%\> to <%blue%><%bcyan%>make in
 Use \<\%n\%\> (the "no formatting" token) when done with the colorful section, to avoid bleeding the option into unintended lines! This should the client to their "default" color scheme, which again may vary by implementation, platform, or in some cases, user-specified preferences.
 
 TODO: Provide a colorful table of foreground and background color combinations here!
+TODO: Demonstrate bold (with each color) and underlines as well.
