@@ -3,15 +3,11 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//    A generic interface for classes that will be used to locate external 
-//    resources like 3rd party rules, combat systems, and the like.  
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Interfaces
 {
-    /// <summary>Classes that will be used to locate external resources like 3rd party rules, combat systems, and the like.</summary>
+    /// <summary>A generic interface for classes that will be used to locate external resources like 3rd party rules, combat systems, and the like.</summary>
     public interface IServiceLocator
     {
         /// <summary>Gets the service.</summary>

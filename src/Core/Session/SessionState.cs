@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A base class that represents the current state of a session.  IE logging in, 
-//   playing, etc.  All data for a connection flows through this class.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Core

@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   Interface for supporting different database back ends under
-//   ORMLite https://github.com/ServiceStack/ServiceStack.OrmLite
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Data

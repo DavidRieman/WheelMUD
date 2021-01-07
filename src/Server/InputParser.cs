@@ -39,6 +39,9 @@ namespace WheelMUD.Server
             // Append the data to our text buffer.
             sender.Buffer.Append(input);
 
+            // TODO: Optimize: We should only need to do the reconversion of the input buffer back to a string and look for input lines,
+            // if the new "input" includes a terminator (or if the connection is in per-character-handling and/or echoing modes).
+
             // Get the whole of our buffer.
             input = sender.Buffer.ToString();
 
