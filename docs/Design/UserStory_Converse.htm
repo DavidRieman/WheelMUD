@@ -1,0 +1,52 @@
+<html>
+<head></head>
+<body lang=EN-US style="background:#282828; color:white">
+
+<p><b><span style='font-size:16.0pt'>Converse User Story</span></b></p>
+
+<div style="background:black; max-width:900px; padding:4px; font-size:12pt; font-family:monospace; white-space: pre-wrap">
+Ashon tells you “<span style='color:#BBBB00'>Do you know about converse mode?</span>”
+
+> tell ashon No
+You tell Ashon “<span style='color:#BBBB00'>No</span>”
+
+Ashon tells you “<span style='color:#BBBB00'>Type ‘converse ashon’ and type away!</span>”
+
+> converse ashon
+You start conversing with Ashon.
+<span style='color:#BBBB00'>(!)</span> Welcome to your first conversation.  Everything you type will now be relayed as a conversation instead of as a command.  Use ‘<span style='color:#AAFFAA'>.end</span>’ to stop conversing.
+Use ‘<span style='color:#AAFFAA'>.help converse</span>’ for more detailed information.
+
+tell ashon> Testing
+You tell Ashong “<span style='color:#BBBB00'>Testing</span>”
+
+tell ashon> Wow this is awesome!
+You tell Ashon “<span style='color:#BBBB00'>Wow this is awesome!</span>”
+
+Ashon tells you “<span style='color:#BBBB00'>Yeah, saves time.  Use . to preface actual commands like .sit</span>”
+
+tell ashon> .hug ashon
+You hug Ashon.
+
+tell ashon>
+Ashon tells you “<span style='color:#BBBB00'>Use ‘end’ to end the conversation.</span>”
+
+tell ashon> Why?  Now I can bug you relentlessly!
+You tell Ashon “<span style='color:#BBBB00'>Why?  Now I can bug you relentlessly!</span>”
+
+Ashon tells you “<span style='color:#BBBB00'>Ha ha.</span>”
+    
+tell ashon> .end
+
+>
+</div>
+
+<div style="color:white; max-width:1000px; font-size:13pt">
+    <p>Additional notes:</p>
+    <ul>
+        <li>Basically a special command processor mode which "falls back" to the regular command processor with input that started with "." (after stripping the "." for the fallback attempt).</li>
+        <li>Some edge cases to consider deeper might be that other special modes could potentially kick in, like after issuing a "dot command" which resulted in Paging mode or Y/N confirmations, etc. Perhaps the user just has to keep "dotting" those interactions like ".Y" to confirm, or ".end" to ineract and then go back to conversation mode.</li>
+    </ul>
+</div>
+</body>
+</html>
