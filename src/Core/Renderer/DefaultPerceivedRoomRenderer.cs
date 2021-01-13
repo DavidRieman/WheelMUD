@@ -18,13 +18,15 @@ namespace WheelMUD.Core
             var sb = new StringBuilder();
             if (senses.CanPerceiveThing(room))
             {
-                sb.AppendLine($"<%red%><%b%>{room.Name}<%n%><%nl%>");
-                sb.AppendLine($"{room.Description}<%nl%>");
+                sb.Append($"<%red%><%b%>{room.Name}<%n%><%nl%>" + AnsiSequences.NewLine);
+                sb.Append($"{room.Description}<%nl%>" + AnsiSequences.NewLine);
             }
             else
             {
-                sb.AppendLine($"You cannot perceive much of note about the room.");
+                sb.Append($"You cannot perceive much of note about the room." + AnsiSequences.NewLine);
             }
+
+            int insertAt = sb.Length;
 
             // TODO: Perhaps group things in the room by things you can pick up, things that are alive, etc?
             //   var senses = viewer.Behaviors.FindFirst<SensesBehavior>();
@@ -46,7 +48,7 @@ namespace WheelMUD.Core
                 }
                 sb.Length--;
                 sb.Length--;
-                sb.AppendLine();
+                sb.Append(AnsiSequences.NewLine);
             }
 
             foreach (var presentThing in room.Children)
@@ -55,18 +57,18 @@ namespace WheelMUD.Core
                     presentThing != viewer &&
                     !presentThing.HasBehavior<ExitBehavior>())
                 {
-                    sb.AppendLine($"  <%magenta%>{presentThing.FullName}<%n%>");
+                    sb.Append($"  <%magenta%>{presentThing.FullName}<%n%>" + AnsiSequences.NewLine);
                     hasNoticedSomething = true;
                 }
             }
 
             if (hasNoticedSomething)
             {
-                sb.Insert(0, $"<%yellow%>Here you notice:<%n%>");
+                sb.Insert(insertAt, $"<%yellow%>Here you notice:<%n%>" + AnsiSequences.NewLine);
             }
             else
             {
-                sb.Insert(0, $"<%yellow%>You notice nothing else inside the room.<%n%>");
+                sb.Insert(insertAt, $"<%yellow%>You notice nothing else inside the room.<%n%>");
             }
 
             return sb.ToString();
