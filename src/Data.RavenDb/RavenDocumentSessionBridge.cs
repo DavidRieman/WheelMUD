@@ -3,11 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   RavenDocumentSessionBridge implements the IBasicDocumentSession abstraction for RavenDB,
-//   allowing for technology-agnostic persistence. Since IBasicDocumentSession was modeled off
-//   of RavenDB's IDocumentSession, most methods will be simple pass-through methods.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Data
@@ -15,6 +10,11 @@ namespace WheelMUD.Data
     using Raven.Client.Documents.Session;
     using System.Linq;
 
+    /// <summary>
+    /// RavenDocumentSessionBridge implements the IBasicDocumentSession abstraction for RavenDB,
+    /// allowing for technology-agnostic persistence. Since IBasicDocumentSession was modeled off
+    /// of RavenDB's IDocumentSession, most methods will be simple pass-through methods.
+    /// </summary>
     public class RavenDocumentSessionBridge : IBasicDocumentSession
     {
         private IDocumentSession documentSession;
