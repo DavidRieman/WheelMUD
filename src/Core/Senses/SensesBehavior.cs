@@ -73,6 +73,8 @@ namespace WheelMUD.Core
                     }
                 }
 
+                exits.Sort();
+
                 return exits;
             }
 

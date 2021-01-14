@@ -7,6 +7,9 @@
 
 namespace WheelMUD.Core
 {
+
+    using System.Text;
+
     /// <summary>Common ANSI sequences to simplify construction of correct ANSI for adherance to the Telnet protocol.</summary>
     /// <remarks>
     /// Unchanging ANSI sequences should be const where possible to guarantee performance optimizations, as a MUD will be constantly
@@ -121,4 +124,15 @@ namespace WheelMUD.Core
         /// <summary>The ANSI sequence for setting character background color to white.</summary>
         public const string BackgroundWhite = Esc + "[47m";
     }
+
+    public static class StringBuilderExtensions
+    {
+        /// <summary>Extend StringBuilder class to provide an ANSI line ending version of AppendLine.</summary>
+        public static StringBuilder AppendAnsiLine(this StringBuilder sb, string s)
+        {
+            sb.Append(s + AnsiSequences.NewLine);
+            return sb;
+        }
+    }
+
 }
