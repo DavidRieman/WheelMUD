@@ -18,12 +18,12 @@ namespace WheelMUD.Core
             var sb = new StringBuilder();
             if (senses.CanPerceiveThing(room))
             {
-                sb.Append($"<%red%><%b%>{room.Name}<%n%><%nl%>" + AnsiSequences.NewLine);
-                sb.Append($"{room.Description}<%nl%>" + AnsiSequences.NewLine);
+                sb.AppendAnsiLine($"<%red%><%b%>{room.Name}<%n%><%nl%>");
+                sb.AppendAnsiLine($"{room.Description}<%nl%>");
             }
             else
             {
-                sb.Append($"You cannot perceive much of note about the room." + AnsiSequences.NewLine);
+                sb.AppendAnsiLine($"You cannot perceive much of note about the room.");
             }
 
             int insertAt = sb.Length;
@@ -48,7 +48,7 @@ namespace WheelMUD.Core
                 }
                 sb.Length--;
                 sb.Length--;
-                sb.Append(AnsiSequences.NewLine);
+                sb.AppendAnsiLine("");
             }
 
             foreach (var presentThing in room.Children)
@@ -57,7 +57,7 @@ namespace WheelMUD.Core
                     presentThing != viewer &&
                     !presentThing.HasBehavior<ExitBehavior>())
                 {
-                    sb.Append($"  <%magenta%>{presentThing.FullName}<%n%>" + AnsiSequences.NewLine);
+                    sb.AppendAnsiLine($"  <%magenta%>{presentThing.FullName}<%n%>");
                     hasNoticedSomething = true;
                 }
             }
