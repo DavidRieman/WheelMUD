@@ -8,22 +8,26 @@
 <div style="background:black; max-width:900px; padding:4px; font-size:12pt; font-family:monospace; white-space: pre-wrap">
 [An administrator who has permissions to create unzoned objects on the fly wants to make and spawn an interactive flashlight.]
 
-> list objects flashlight
-No objects with keyword 'flashlight' were found.
+> list object flashlight
+No <span style='color:#aa55aa'>Thing</span> derived from the "<span style='color:#FFFF99'>object</span>" template was found with 'flashlight'.
+
+> list thing flashlight
+No <span style='color:#aa55aa'>Thing</span> was found with 'flashlight'.
 
 > new object
-Object created with default properties.
-You are editing thing ID: object/123.
+<span style='color:#aa55aa'>Thing</span> <span style='color:silver'>object/123</span> created with properties derived from template "<span style='color:#FFFF99'>object</span>".
+You are editing <span style='color:#aa55aa'>Thing</span> ID: <span style='color:silver'>object/123</span> (<span style='color:#ffff00'>unnamed</span>).
 
-> properties
-Object.
-Object ID:   object/123
+> properties   or   props   or   prop
+<span style='color:#aa55aa'>Thing</span>. Derived from "<span style='color:#FFFF99'>object</span>" template.
+Object ID:   <span style='color:silver'>object/123</span>
 Name:        (none)
 Description: (none)
 Keywords:    (none)
+Zoned To:    <span style='color:silver'>(unzoned)</span>
 Weight:      0
 ...
-Behaviors:   (none)
+Behaviors:   [<span style='color:silver'>obtainable/127</span>]
 
 > set name a flashlight
 'Name' changed to: a flashlight
@@ -36,68 +40,73 @@ Behaviors:   (none)
 A flashlight is here, just begging to be turned on and off.
 
 > list behaviors Switch
-Found 4 behaviors with keyword 'Switch':
-* OnOffSwitchBehavior        object "turn on" and "turn off" commands toggle effects/behaviors.
-* MobSwitchesSidesBehavior   mobile can turn on its allies if specified conditions are met.
-* FooBehavior                object blah blah switches foo.
-* BarSwitchBehavior          object gains bar behavior.
+Found 4 <span style='color:#aa55aa'>Behavior</span> classes with: 'Switch'
+* <span style='color:#aa55aa'>OnOffSwitchBehavior</span>        object "turn on" and "turn off" commands toggle effects/behaviors.
+* <span style='color:#aa55aa'>MobSwitchesSidesBehavior</span>   mobile can turn on its allies if specified conditions are met.
+* <span style='color:#aa55aa'>FooBehavior</span>                object blah blah switches foo.
+* <span style='color:#aa55aa'>BarSwitchBehavior</span>          object gains bar behavior.
 
 > add behaviors OnOffSwitchBehavior
-OnOffSwitchBehavior created with ID 34 and default properties.
-You are editing OnOffSwitchBehavior ID 34.
+<span style='color:#aa55aa'>OnOffSwitchBehavior</span> created with ID <span style='color:silver'>onOffSwitch/20</span> and default properties.
+You are editing <span style='color:#aa55aa'>OnOffSwitchBehavior</span> ID <span style='color:silver'>onOffSwitch/20</span>.
 
 > prop
-OnOffSwitchBehavior.
-Behavior ID:       34
+<span style='color:#aa55aa'>OnOffSwitchBehavior</span>. Attached to <span style='color:silver'>object/123</span> (a flashlight).
+Behavior ID:       <span style='color:silver'>onOffSwitch/20</span>
 SwitchNoisiness:   10
 OnCreatesEffect:   (none)
 OnCreatesBehavior: (none)
 
 > list effects light
-Found 2 behaviors with keyword 'Light':
-* LightingEffect             mobile or object becomes illuminated.
-* LightningStormEffect       room is always stormy, specify chances of lightning strikes, etc.
+Found 2 <span style='color:#aa55aa'>Effect</span> classes with keyword 'Light':
+* <span style='color:#aa55aa'>LightingEffect</span>             the target thing becomes illuminated; contributes to light in parent.
+* <span style='color:#aa55aa'>LightningStormEffect</span>       room is currently stormy; specify chances of lightning strikes, etc.
 
 > add OnCreatesEffect LightingEffect
-LightingEffect created with ID 45 and default properties.
-You are editing LightingEffect ID 45.
+<span style='color:#aa55aa'>LightingEffect</span> created with ID <span style='color:silver'>lighting/45</span> and default properties.
+You are editing <span style='color:#aa55aa'>LightingEffect</span> ID <span style='color:silver'>lighting/45</span>.
 
 > prop
-LightingEffect.
+<span style='color:#aa55aa'>LightingEffect</span>. Attached to <span style='color:silver'>object/123</span> (a flashlight).
 Effect ID:      45
 LightColor:     white
 LightMagnitude: 100
 Duration:       infinite
 
 > done
-Done editing LightingEffect ID 45.
-You are editing OnOffSwitchBehavior ID 34.
+Done editing <span style='color:#aa55aa'>LightingEffect</span> ID <span style='color:silver'>lighting/45</span>.
+You are editing <span style='color:#aa55aa'>OnOffSwitchBehavior</span> ID <span style='color:silver'>onOffSwitch/20</span>.
 
 > done
-Done editing OnOffSwitchBehavior ID 34.
-You are editing thing ID object/123.
+Done editing <span style='color:#aa55aa'>OnOffSwitchBehavior</span> ID <span style='color:silver'>onOffSwitch/20</span>.
+You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/123</span> (<span style='color:#ffff00'>unnamed</span>).
 
 > done
-Object ID 34 (a flashlight) failed validation:
-* Object must have at least one keyword of length greater than 2.
-* Object name must contain at least one of its keywords.
-* Object description must contain at least one of its keywords.
+<span style='color:#ff0000'>Validation Failed</span> for <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/123</span> (a flashlight):
+<span style='color:#ff0000'>(!)</span> Object must have at least one keyword of length greater than 2.
+<span style='color:#ff0000'>(!)</span> Object name must contain at least one of its keywords.
+<span style='color:#ff0000'>(!)</span> Object description must contain at least one of its keywords.
+You must either resolve these errors, or abandon your changes with `<span style='color:#AAFFAA'>done abandon</span>`.
+As an admin, you can also save this data as a template with `<span style='color:#AAFFAA'>save-template [template-name]</span>`.
+
+You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/123</span> (<span style='color:#ffff00'>unnamed</span>).
 
 > set keywords flashlight
 'Keywords' changed to: flashlight
 
-> properties
-Object.
-Object ID:   object/123
+> props
+<span style='color:#aa55aa'>Thing</span>. Derived from "<span style='color:#FFFF99'>object</span>" template.
+Object ID:   <span style='color:silver'>object/123</span>
 Name:        a <span style='color:#AAFFAA'>flashlight</span>
 Description: A <span style='color:#AAFFAA'>flashlight</span> is here, just begging to be turned on and off.
 Keywords:    flashlight
+Zoned To:    <span style='color:silver'>(unzoned)</span>
 Weight:      0
 ...
-Behaviors:   (OnOffSwitchBehavior ID 34)
+Behaviors:   [<span style='color:silver'>obtainable/127</span>, <span style='color:silver'>onOffSwitch/20</span>]
 
 > done
-Done editing Object ID object/123.  Returning to game.
+Done editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/123</span> (a <span style='color:#CCFFCC'>flashlight</span>).  Returning to game.
 
 > spawn object/123
 You create a <span style='color:#CCFFCC'>flashlight</span> out of thin air.
@@ -114,45 +123,57 @@ The room is now illuminated with a bright white light coming from a <span style=
     
 <p>Enhancing a Zone:</p>
 <div style="background:black; max-width:900px; padding:4px; font-size:12pt; font-family:monospace; white-space: pre-wrap">
-[later, a builder wants to make a variant flashlight that auto-spawns on a mob in her zone...]
+[later, a builder wants to make a variant flashlight that automatically spawns on a mob in her zone...]
  
 > list objects flashlight
-Found 1 object with keyword 'flashlight':
-* ID object/123             a <span style='color:#CCFFCC'>flashlight</span>
+Found 1 "<span style='color:#FFFF99'>object</span>" with keyword 'flashlight':
+* ID <span style='color:silver'>object/123</span>     a <span style='color:#CCFFCC'>flashlight</span>
 
-> new object from object/123
-You don't have permission to create objects in zone 'unzoned'.
+> new object/123
+You don't have permission to create anything in <span style='color:#aa55aa'>Zone</span>: <span style='color:silver'>(unzoned)</span>.
 
 > edit zone NewNewMidgaard
-Zone context is now 'NewNewMidgaard' with ID zone/8.  You have full builder permissions within this zone.
+<span style='color:#aa55aa'>Zone</span> context is now: <span style='color:silver'>zone/8</span> (<span style='color:#FFFF99'>NewNewMidgaard</span>).
+You have full builder permissions in this zone.
 
-> new object from object/123
-Object created with ID object/130 and properties inherited from a <span style='color:#CCFFCC'>flashlight</span>.
+> new object/123
+<span style='color:#aa55aa'>Thing</span> <span style='color:silver'>object/1130</span> created with properties derived from <span style='color:silver'>object/123</span> (a <span style='color:#CCFFCC'>flashlight</span>).
 
 > prop deep
-Object.
-Object ID:   object/130
+<span style='color:#aa55aa'>Thing</span>. Derived from <span style='color:silver'>object/123</span> (<span style='color:#CCFFCC'>flashlight</span>).
+Object ID:   <span style='color:silver'>object/1130</span>
 Name:        a <span style='color:#CCFFCC'>flashlight</span>
 Description: A <span style='color:#CCFFCC'>flashlight</span> is here, just begging to be turned on and off.
 Keywords:    flashlight
+Zoned To:    <span style='color:silver'>zone/8</span> (<span style='color:#FFFF99'>NewNewMidgaard</span>)
 Weight:      0
 ...
-Behaviors:   (OnOffSwitchBehavior ID 42)
+Behaviors:   [<span style='color:silver'>obtainable/1145</span>, <span style='color:silver'>onOffSwitch/50</span>]
 
-OnOffSwitchBehavior
-Behavior ID:       42
+<span style='color:#aa55aa'>ObtainableBehavior</span>.
+Behavior ID: <span style='color:silver'>obtainable/1145</span>
+
+<span style='color:#aa55aa'>OnOffSwitchBehavior</span>.
+Behavior ID:       <span style='color:silver'>onOffSwitch/50</span>
 SwitchNoisiness:   10
-OnCreatesEffect:   (LightingEffect ID 55)
+OnCreatesEffect:   (<span style='color:#aa55aa'>LightingEffect</span> <span style='color:silver'>lighting/88</span>)
 OnCreatesBehavior: (none)
 
-LightingEffect.
-Effect ID:      55
+<span style='color:#aa55aa'>LightingEffect</span>.
+Effect ID:      <span style='color:silver'>lighting/88</span>
 LightColor:     white
 LightMagnitude: 100
 Duration:       infinite
 
-> edit effect 55
+> edit lighting/8
+You do not have permission to edit that.
+
+> edit lighting/88
 You are editing LightingEffect ID 55.
+
+> set lightcolor
+The Light Color is any descriptive string you want, such as "hazy blue" or "green" or "blinking red". It can be shown to the user but the values do not have currently have any additional meaning in the code.
+Values must be: a string.
 
 > set lightcolor eery red
 'LightColor' changed to: eery red
@@ -165,25 +186,32 @@ Specify an integer between 0 and 150.
 'LightMagnitude' changed to: 20
 
 > prop
-LightingEffect.
-Effect ID:      55
+<span style='color:#aa55aa'>LightingEffect</span>.
+Effect ID:      <span style='color:silver'>lighting/88</span>
 LightColor:     eery red
 LightMagnitude: 25
 Duration:       infinite
 
 > done all
-Done editing LightingEffect ID 55.
-Object ID object/130 (a <span style='color:#CCFFCC'>flashlight</span>) received validation warning:
-* Object description should be unique; conflicts with Object ID object/123
+Done editing <span style='color:#aa55aa'>LightingEffect</span> ID <span style='color:silver'>lighting/88</span>.
+<span style='color:#ffff00'>Validation Warning</span> for: Object ID <span style='color:silver'>object/1130</span> (a <span style='color:#CCFFCC'>flashlight</span>):
+<span style='color:#ffff00'>(!)</span> Object name should be unique; conflicts with Object ID <span style='color:silver'>object/123</span> (a <span style='color:#CCFFCC'>flashlight</span>)
+<span style='color:#ffff00'>(!)</span> Object description should be unique; conflicts with Object ID <span style='color:silver'>object/123</span> (a <span style='color:#CCFFCC'>flashlight</span>)
 
-You are editing thing ID object/130 (a <span style='color:#CCFFCC'>flashlight</span>).
+<span style='color:#BBBB00'>(!)</span> Congratulations! It's time to learn about your first builder validation message!
+* Don't be ashamed. These help you finish valid, working game entities, with user-friendly results.
+* Sometimes a Validation Warning is justified: Type `<span style='color:#AAFFAA'>done ignore-warnings</span>` in these cases.
+* Type `<span style='color:#AAFFAA'>help olc-validation</span>` for more information about On-Line Creation validation assistance.
+* One can review all outstanding validation warnings for the active zone with `<span style='color:#AAFFAA'>zone review</span>`.
+* Type `<span style='color:#AAFFAA'>help zone</span>` to find more topics about zone-wide validation and review tools and processes.
+
+You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/1130</span> (a <span style='color:#CCFFCC'>flashlight</span>).
 
 > set name a metal flashlight
 'Name' set to: a metal <span style='color:#CCFFCC'>flashlight</span>
 
 > add keyword metal
 ‘Keywords’ set to:  flashlight metal
-
 
 > set description
 [uses multi-line edit mode to alter the description]
@@ -192,12 +220,18 @@ You are editing thing ID object/130 (a <span style='color:#CCFFCC'>flashlight</s
 A strange <span style='color:#CCFFCC'>metal flashlight</span> is here, with a prominent switch.
 
 > done
-Done editing Object ID object/130 (a <span style='color:#CCFFCC'>metal flashlight</span>).
+Done editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/1130</span> (a <span style='color:#CCFFCC'>metal flashlight</span>).
+<span style='color:#ffff00'>(!)</span> The remaining <span style='color:#aa55aa'>Thing</span> budget for <span style='color:#aa55aa'>Zone</span> <span style='color:silver'>zone/8</span> (<span style='color:#FFFF99'>NewNewMidgaard</span>) is getting low at 25 left from 250.
+    
+<span style='color:#BBBB00'>(!)</span> Congratulations! You sure are a productive builder!
+* Zones get budgets for total unique Things, to encourage scope limits and "quality over quantity".
+* Type `<span style='color:#AAFFAA'>zone request increase</span>` to queue a request for an admin to bump up the active zone's limit.
+* Type `<span style='color:#AAFFAA'>help zone</span>` to find further zone management help topics and details on related game policies.
 
-> goto gobiln
-There is no 'gobiln' anywhere you have permission to 'goto'.
+> goto hunchbak
+There is no 'hunchbak' anywhere you have permission to 'goto'.
 
-> goto goblin
+> goto hunchback
 <span style='color:#FF9900'>Dirty Back Room</span>
 This is a dirty back room, filled with various old crates, boxes,
 and littered with useless garbage.
@@ -205,11 +239,11 @@ and littered with useless garbage.
 A <span style='color:#FFCC99'>hunchback goblin</span> is here, muttering unintelligibly to himself.
 
 > edit goblin
-You are editing Mobile ID mob/199 (a <span style='color:#FFCC99'>hunchback goblin</span>).
+You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>mob/199</span> (a <span style='color:#FFCC99'>hunchback goblin</span>).
 
 > prop deep
-Mobile.
-Mobile ID:   mob/199
+<span style='color:#aa55aa'>Thing</span>. Derived from "<span style='color:#FFFF99'>mob</span>" template.
+Mobile ID:   <span style='color:silver'>mob/199</span>
 Name:        a <span style='color:#FFCC99'>hunchback goblin</span>
 Keywords:    goblin hunchback
 Race:        Goblin
@@ -217,10 +251,10 @@ Gender:      random
 Strength:    14
 Dexterity:   8
 ...
-Spawners:    (RandomWeaponSpawner ID 100, RandomArmorSpawner ID 101)
+Spawners:    [<span style='color:silver'>randomWeaponSpanwer/100</span>, <span style='color:silver'>randomArmorSpawner/101</span>]
 Behaviors:   (none)
 
-RandomWeaponSpawner.
+<span style='color:#aa55aa'>RandomWeaponSpawner</span>.
 Spawner ID:  100
 MinLevel:    2
 MaxLevel:    3
@@ -230,7 +264,7 @@ MinHands:    1
 MaxHands:    1
 ...
 
-RandomArmorSpawner.
+<span style='color:#aa55aa'>RandomArmorSpawner</span>.
 Spawner ID:   101
 MinLevel:     2
 MaxLevel:     3
@@ -242,37 +276,37 @@ AllowedSlots: all
 ...
 
 > add spawner NormalSpawner
-NormalSpawner created with ID 107 and default properties.
-You are editing NormalSpawner ID 107.
+<span style='color:#aa55aa'>NormalSpawner</span> created with ID <span style='color:silver'>normalSpawner/107</span> and default properties.
+You are editing <span style='color:#aa55aa'>NormalSpawner</span> ID <span style='color:silver'>normalSpawner/107</span>.
 
-> set SpawnsObjectID object/130
-‘SpawnsObjectIDs’ set to: object/130 (a <span style='color:#CCFFCC'>metal flashlight</span>).
+> set SpawnsObjectID object/1130
+‘SpawnsObjectIDs’ set to: <span style='color:silver'>object/1130</span> (a <span style='color:#CCFFCC'>metal flashlight</span>).
 
 > prop
-NormalSpawner.
-Spawner ID:     107
-SpawnsObjectIDs: object/130 (a <span style='color:#CCFFCC'>metal flashlight</span>)
-SpawnChance:    100
-AutoEquip:      true
+<span style='color:#aa55aa'>NormalSpawner</span>.
+Spawner ID:      <span style='color:silver'>normalSpawner/107</span>
+SpawnsObjectIDs: [<span style='color:silver'>object/1130</span> (a <span style='color:#CCFFCC'>metal flashlight</span>)]
+SpawnChance:     100
+AutoEquip:       true
 
 > done
-Done editing NormalSpawner ID 107.
-You are editing Mobile ID 199 (a <span style='color:#FFCC99'>hunchback goblin</span>).
+Done editing <span style='color:#aa55aa'>NormalSpawner</span> ID <span style='color:silver'>107</span>.
+You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>mob/199</span> (a <span style='color:#FFCC99'>hunchback goblin</span>).
 
 > add behavior AggroBehavior
-AggroBehavior created with ID 140 and default properties.
-You are editing AggroBehavior ID 140.
+<span style='color:#aa55aa'>AggroBehavior</span> created with ID <span style='color:silver'>aggro/140</span> and default properties.
+You are editing <span style='color:#aa55aa'>AggroBehavior</span> ID <span style='color:silver'>aggro/140</span>.
 
 > done
-Done editing AggroBehavior ID 140.
-You are editing Mobile ID 199 (a <span style='color:#FFCC99'>hunchback goblin</span>).
+Done editing <span style='color:#aa55aa'>AggroBehavior</span> ID <span style='color:silver'>aggro/140</span>.
+You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>mob/199</span> (a <span style='color:#FFCC99'>hunchback goblin</span>).
 
 > add behavior RandomCommandsBehavior
-RandomCommandsBehavior created with ID 141 and default properties.
-You are editing RandomCommandsBehavior ID 141.
+<span style='color:#aa55aa'>RandomCommandsBehavior</span> created with ID <span style='color:silver'>randomCommands/141</span> and default properties.
+You are editing <span style='color:#aa55aa'>RandomCommandsBehavior</span> ID <span style='color:#aa55aa'>randomCommands/141</span>.
 
 > prop
-RandomCommandsBehavior.
+<span style='color:#aa55aa'>RandomCommandsBehavior</span>.
 Behavior ID:       141
 ChancePerSecond:   0
 AvoidsLastCommand: true
@@ -287,19 +321,16 @@ Commands:          (none)
 turn flashlight on
 turn flashlight off
 
-> done
-RandomcommandsBehavior ID 141 failed validation:
-* ChancePerSecond must be be between 1 and 100.
+> done all
+<span style='color:#ff0000'>Validation Failed</span> for <span style='color:#aa55aa'>RandomCommandsBehavior</span> ID <span style='color:silver'>randomCommands/141</span>:
+<span style='color:#ff0000'>(!)</span> ChancePerSecond must be be between 1 and 100.
 
 > set chancepersecond 25
 'ChancePerSecond' set to: 25
 
-> done
-Done editing RandomCommandsBehavior ID 141.
-You are editing Mobile ID 199 (a <span style='color:#FFCC99'>hunchback goblin</span>).
-
-> done
-Done editing Mobile ID 199 (a <span style='color:#FFCC99'>hunchback goblin</span>).  Returning to game.
+> done all
+Done editing <span style='color:#aa55aa'>RandomCommandsBehavior</span> ID <span style='color:silver'>randomCommands/141</span>.
+Done editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>mob/199</span> (a <span style='color:#FFCC99'>hunchback goblin</span>).  Returning to game.
 
 > </div>
 
@@ -324,7 +355,14 @@ A <span style='color:#FFCC99'>hunchback goblin</span>'s <span style='color:#CCFF
 <div style="color:white; max-width:1000px; font-size:13pt">
     <p>Additional notes:</p>
     <ul>
-        <li>TODO!</li>
+        <li>As we saw from editing the goblin, we likely want a way to show and edit game-system-specific details (like races, stats, and so on) with some shortcuts, even though those are not properties of the "Thing" class that is actually being edited. May need more thought and technical design for this.</li>
+        <li>As we saw from "set lightcolor", it should be easy for any properties on Thing, Behaviors, Effects, and so on, to define what the help text should be through some sort of metadata, ideally defined in code close to where the property itself is defined. (Need to consider the technical aspects here further to design this well and inherently drive adoption.)</li>
+        <li>The OnOffSwitchBehavior does not exist today in WheelMUD and the properties on that example may suggest a poor design approach. It would take some additional thought to design it appropriately. This was just a contrived example to demonstrate the dynamic "building block" nature intended for OLC.</li>
+        <li>List commands should be inherently flexible for plural, even for user-defined templates names. E.G. "list thing flashlight" should be equivalent to "list things flashlight", and "list object flashlight" should be equivalent to "list objects flashlight" even though "object" is just a data-defined template of "a Thing that has an ObtainableBehavior".</li>
+        <li>Some very common data templates like "object" and "room" should be predefined by the initial world DB (RavenDB data), but additional templates could be stored by admins as appropriate for a given game system (like a "starship" template for a Thing with default Behaviors that make it behave like a starship) in a science-fiction MUD that features tons of them.</li>
+        <li>Derivation data is persisted with each defined Thing or Template.</li>
+        <li>When editing a pre-existing Thing or Template, we can tell the editor how much other stuff derives from it (and that updates to each may need to be performed manually after completion). The editor should be told a command to see what all derives from this.</li>
+        <li>After updating a pre-existing Thing or Template, we should likewise remind the editor of everything that derives from it, to follow up with updating them as well. There may be some bulk prop finding and bulk prop editing commands we can design as well, when this sort of thing becomes a priority problem.</li>
     </ul>
 </div>
 </body>
