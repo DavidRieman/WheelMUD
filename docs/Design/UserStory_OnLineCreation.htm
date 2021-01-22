@@ -34,7 +34,7 @@ Behaviors:   [<span style='color:silver'>obtainable/127</span>]
 
 > set description
 [enters multi-line edit mode, user types/edits a simple or multi-line description]
-
+> A flashlight is here, just begging to be turned on and off.
 > done
 'Description' changed to:
 A flashlight is here, just begging to be turned on and off.
@@ -79,7 +79,7 @@ You are editing <span style='color:#aa55aa'>OnOffSwitchBehavior</span> ID <span 
 
 > done
 Done editing <span style='color:#aa55aa'>OnOffSwitchBehavior</span> ID <span style='color:silver'>onOffSwitch/20</span>.
-You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/123</span> (<span style='color:#ffff00'>unnamed</span>).
+You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/123</span> (a flashlight).
 
 > done
 <span style='color:#ff0000'>Validation Failed</span> for <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/123</span> (a flashlight):
@@ -87,9 +87,9 @@ You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:s
 <span style='color:#ff0000'>(!)</span> Object name must contain at least one of its keywords.
 <span style='color:#ff0000'>(!)</span> Object description must contain at least one of its keywords.
 You must either resolve these errors, or abandon your changes with `<span style='color:#AAFFAA'>done abandon</span>`.
-As an admin, you can also save this data as a template with `<span style='color:#AAFFAA'>save-template [template-name]</span>`.
+As an admin, you may save unfinished data as a template with `<span style='color:#AAFFAA'>save-template [template-name]</span>`.
 
-You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/123</span> (<span style='color:#ffff00'>unnamed</span>).
+You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/123</span> (a flashlight).
 
 > set keywords flashlight
 'Keywords' changed to: flashlight
@@ -200,28 +200,27 @@ Done editing <span style='color:#aa55aa'>LightingEffect</span> ID <span style='c
 
 <span style='color:#BBBB00'>(!)</span> Congratulations! It's time to learn about your first builder validation message!
 * Don't be ashamed. These help you finish valid, working game entities, with user-friendly results.
-* Sometimes a Validation Warning is justified: Type `<span style='color:#AAFFAA'>done ignore-warnings</span>` in these cases.
+* Validation Errors must be fixed before you are able to save what you've just built.
+* Sometimes a Validation Warning is justified though: Type `<span style='color:#AAFFAA'>done ignore-warnings</span>` in these cases.
 * Type `<span style='color:#AAFFAA'>help olc-validation</span>` for more information about On-Line Creation validation assistance.
 * One can review all outstanding validation warnings for the active zone with `<span style='color:#AAFFAA'>zone review</span>`.
-* Type `<span style='color:#AAFFAA'>help zone</span>` to find more topics about zone-wide validation and review tools and processes.
+* Type `<span style='color:#AAFFAA'>help zone</span>` to find more topics about zone-wide validation tools and submission processes.
 
 You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/1130</span> (a <span style='color:#CCFFCC'>flashlight</span>).
 
 > set name a metal flashlight
 'Name' set to: a metal <span style='color:#CCFFCC'>flashlight</span>
 
-> add keyword metal
-‘Keywords’ set to:  flashlight metal
+> add keyword metal   or   set keywords flashlight metal
+‘Keywords’ set to:  flashlight, metal
 
-> set description
-[uses multi-line edit mode to alter the description]
-
+> set description A strange metal flashlight is here, with a prominent switch.
 'Description' set to:
 A strange <span style='color:#CCFFCC'>metal flashlight</span> is here, with a prominent switch.
 
 > done
 Done editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/1130</span> (a <span style='color:#CCFFCC'>metal flashlight</span>).
-<span style='color:#ffff00'>(!)</span> The remaining <span style='color:#aa55aa'>Thing</span> budget for <span style='color:#aa55aa'>Zone</span> <span style='color:silver'>zone/8</span> (<span style='color:#FFFF99'>NewNewMidgaard</span>) is getting low at 25 left from 250.
+<span style='color:#ffff00'>(!)</span> The remaining <span style='color:#aa55aa'>Thing</span> budget for <span style='color:#aa55aa'>Zone</span> <span style='color:silver'>zone/8</span> (<span style='color:#FFFF99'>NewNewMidgaard</span>) is getting low at 25 left of 250.
     
 <span style='color:#BBBB00'>(!)</span> Congratulations! You sure are a productive builder!
 * Zones get budgets for total unique Things, to encourage scope limits and "quality over quantity".
@@ -245,7 +244,7 @@ You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:s
 <span style='color:#aa55aa'>Thing</span>. Derived from "<span style='color:#FFFF99'>mob</span>" template.
 Mobile ID:   <span style='color:silver'>mob/199</span>
 Name:        a <span style='color:#FFCC99'>hunchback goblin</span>
-Keywords:    goblin hunchback
+Keywords:    goblin, hunchback
 Race:        Goblin
 Gender:      random
 Strength:    14
@@ -358,7 +357,7 @@ A <span style='color:#FFCC99'>hunchback goblin</span>'s <span style='color:#CCFF
         <li>As we saw from editing the goblin, we likely want a way to show and edit game-system-specific details (like races, stats, and so on) with some shortcuts, even though those are not properties of the "Thing" class that is actually being edited. May need more thought and technical design for this.</li>
         <li>As we saw from "set lightcolor", it should be easy for any properties on Thing, Behaviors, Effects, and so on, to define what the help text should be through some sort of metadata, ideally defined in code close to where the property itself is defined. (Need to consider the technical aspects here further to design this well and inherently drive adoption.)</li>
         <li>The OnOffSwitchBehavior does not exist today in WheelMUD and the properties on that example may suggest a poor design approach. It would take some additional thought to design it appropriately. This was just a contrived example to demonstrate the dynamic "building block" nature intended for OLC.</li>
-        <li>List commands should be inherently flexible for plural, even for user-defined templates names. E.G. "list thing flashlight" should be equivalent to "list things flashlight", and "list object flashlight" should be equivalent to "list objects flashlight" even though "object" is just a data-defined template of "a Thing that has an ObtainableBehavior".</li>
+        <li>List commands should be inherently flexible for plural, even for user-defined templates names. E.G. "list thing flashlight" should be equivalent to "list things flashlight", and "list object flashlight" should be equivalent to "list objects flashlight" even though "object" is just a data-defined template of "a Thing that has an ObtainableBehavior".  Similarly "add keywords ..." and "add keyword ..." should be equivalent.</li>
         <li>Some very common data templates like "object" and "room" should be predefined by the initial world DB (RavenDB data), but additional templates could be stored by admins as appropriate for a given game system (like a "starship" template for a Thing with default Behaviors that make it behave like a starship) in a science-fiction MUD that features tons of them.</li>
         <li>Derivation data is persisted with each defined Thing or Template.</li>
         <li>When editing a pre-existing Thing or Template, we can tell the editor how much other stuff derives from it (and that updates to each may need to be performed manually after completion). The editor should be told a command to see what all derives from this.</li>
