@@ -44,6 +44,8 @@ namespace WheelMUD.ConnectionStates
                     {
                         var characterId = Session.User.PlayerCharacterIds[0];
                         Session.Thing = DocumentRepository<Thing>.Load(characterId);
+                        // TODO: https://github.com/DavidRieman/WheelMUD/pull/66 - Clean up previous session properly (this won't always work).
+                        Session.Thing.Parent.Children.RemoveAll(t => t.Id == this.Session.Thing.Id);
                         Session.Thing.Behaviors.SetParent(Session.Thing);
                         var playerBehavior = Session.Thing.FindBehavior<PlayerBehavior>();
                         if (playerBehavior != null)
