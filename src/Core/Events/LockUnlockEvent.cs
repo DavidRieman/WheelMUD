@@ -18,8 +18,8 @@ namespace WheelMUD.Core.Events
         public LockUnlockEvent(Thing target, bool isBeingLocked, Thing activeThing, SensoryMessage sensoryMessage)
             : base(activeThing, sensoryMessage)
         {
-            this.Target = target;
-            this.IsBeingLocked = isBeingLocked;
+            Target = target;
+            IsBeingLocked = isBeingLocked;
         }
 
         /// <summary>Gets a value indicating whether this event pertains to the target being locked (true) or unlocked (false).</summary>

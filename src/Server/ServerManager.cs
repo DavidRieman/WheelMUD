@@ -28,16 +28,16 @@ namespace WheelMUD.Server
         private ServerManager()
         {
             // Set up our event handlers for the base server.
-            this.baseServer.ClientConnect += this.BaseServer_OnClientConnect;
-            this.baseServer.DataReceived += this.BaseServer_OnDataReceived;
-            this.baseServer.DataSent += BaseServer_OnDataSent;
-            this.baseServer.ClientDisconnected += this.BaseServer_OnClientDisconnected;
+            baseServer.ClientConnect += BaseServer_OnClientConnect;
+            baseServer.DataReceived += BaseServer_OnDataReceived;
+            baseServer.DataSent += BaseServer_OnDataSent;
+            baseServer.ClientDisconnected += BaseServer_OnClientDisconnected;
 
             // Set up our event handlers for the command server.
-            this.inputParser.InputReceived += this.CommandServer_OnInputReceived;
+            inputParser.InputReceived += CommandServer_OnInputReceived;
 
             // Set up to respond to player log out events by closing those connections.
-            PlayerManager.Instance.GlobalPlayerLogOutEvent += this.PlayerManager_GlobalPlayerLogOutEvent;
+            PlayerManager.Instance.GlobalPlayerLogOutEvent += PlayerManager_GlobalPlayerLogOutEvent;
         }
 
         /// <summary>Gets the singleton instance of this ServerManager.</summary>
@@ -49,37 +49,37 @@ namespace WheelMUD.Server
         /// <summary>Starts this system's individual components.</summary>
         public override void Start()
         {
-            this.SystemHost.UpdateSystemHost(this, "Starting...");
-            this.baseServer.SubscribeToSystem(this);
-            this.baseServer.Start();
-            this.telnetServer.Start();
-            this.SystemHost.UpdateSystemHost(this, "Started on port " + this.baseServer.Port);
-            this.StartTime = DateTime.Now;
+            SystemHost.UpdateSystemHost(this, "Starting...");
+            baseServer.SubscribeToSystem(this);
+            baseServer.Start();
+            telnetServer.Start();
+            SystemHost.UpdateSystemHost(this, "Started on port " + baseServer.Port);
+            StartTime = DateTime.Now;
         }
 
         /// <summary>Stops this system's individual components.</summary>
         public override void Stop()
         {
-            this.SystemHost.UpdateSystemHost(this, "Stopping...");
+            SystemHost.UpdateSystemHost(this, "Stopping...");
 
-            this.telnetServer.Stop();
-            this.baseServer.Stop();
+            telnetServer.Stop();
+            baseServer.Stop();
 
-            this.SystemHost.UpdateSystemHost(this, "Stopped");
+            SystemHost.UpdateSystemHost(this, "Stopped");
         }
 
         /// <summary>Closes the specified connection.</summary>
         /// <param name="connectionId">The connection ID to be closed.</param>
         public void CloseConnection(string connectionId)
         {
-            this.baseServer.CloseConnection(connectionId);
+            baseServer.CloseConnection(connectionId);
         }
 
         /// <summary>Closes the specified connection.</summary>
         /// <param name="connection">The connection to be closed.</param>
         public void CloseConnection(IConnection connection)
         {
-            this.baseServer.CloseConnection(connection);
+            baseServer.CloseConnection(connection);
         }
 
         /// <summary>Gets the specified connection.</summary>
@@ -87,7 +87,7 @@ namespace WheelMUD.Server
         /// <returns> The get connection.</returns>
         public IConnection GetConnection(string connectionId)
         {
-            return this.baseServer.GetConnection(connectionId);
+            return baseServer.GetConnection(connectionId);
         }
 
         /// <summary>This is called when the base server sent data.</summary>
@@ -102,12 +102,12 @@ namespace WheelMUD.Server
         /// <param name="data">The data being sent</param>
         private void ProcessIncomingData(IConnection sender, byte[] data)
         {
-            byte[] bytes = this.telnetServer.OnDataReceived(sender, data);
+            byte[] bytes = telnetServer.OnDataReceived(sender, data);
 
             // All bytes might have been stripped out so check for that.
             if (bytes.Length > 0)
             {
-                this.inputParser.OnDataReceived(sender, bytes);
+                inputParser.OnDataReceived(sender, bytes);
             }
         }
 
@@ -127,7 +127,7 @@ namespace WheelMUD.Server
         private void BaseServer_OnClientConnect(object sender, ConnectionArgs args)
         {
             // We send the connection to our session manager to deal with.
-            this.UpdateSubSystemHost((ISubSystem)sender, args.Connection.ID + " - Connected");
+            UpdateSubSystemHost((ISubSystem)sender, args.Connection.ID + " - Connected");
             SessionManager.Instance.OnSessionConnected(args.Connection);
         }
 
@@ -138,7 +138,7 @@ namespace WheelMUD.Server
         {
             SessionManager.Instance.OnSessionDisconnected(args.Connection);
 
-            this.UpdateSubSystemHost((ISubSystem)sender, args.Connection.ID + " - Disconnected");
+            UpdateSubSystemHost((ISubSystem)sender, args.Connection.ID + " - Disconnected");
         }
 
         /// <summary>This is called when the base server receives data.</summary>
@@ -146,7 +146,7 @@ namespace WheelMUD.Server
         /// <param name="args">The event arguments.</param>
         private void BaseServer_OnDataReceived(object sender, ConnectionArgs args)
         {
-            this.ProcessIncomingData(args.Connection, args.Connection.Data);
+            ProcessIncomingData(args.Connection, args.Connection.Data);
         }
 
         /// <summary>Processes the player log out events from the player manager; disconnects logged out characters.</summary>

@@ -16,8 +16,8 @@ namespace WheelMUD.Ftp.FtpCommands
     {
         public FtpCommandHandler(string command, FtpConnectionObject connectionObject)
         {
-            this.Command = command;
-            this.ConnectionObject = connectionObject;
+            Command = command;
+            ConnectionObject = connectionObject;
         }
 
         public string Command { get; private set; }
@@ -26,7 +26,7 @@ namespace WheelMUD.Ftp.FtpCommands
 
         public void Process(string message)
         {
-            this.SendMessage(OnProcess(message));
+            SendMessage(OnProcess(message));
         }
 
         protected virtual string OnProcess(string message)
@@ -44,11 +44,11 @@ namespace WheelMUD.Ftp.FtpCommands
         {
             if (path.Length == 0)
             {
-                return this.ConnectionObject.CurrentDirectory;
+                return ConnectionObject.CurrentDirectory;
             }
 
             path = path.Replace('/', '\\');
-            return Path.Combine(this.ConnectionObject.CurrentDirectory, path);
+            return Path.Combine(ConnectionObject.CurrentDirectory, path);
         }
 
         private void SendMessage(string message)
@@ -61,14 +61,14 @@ namespace WheelMUD.Ftp.FtpCommands
             int endIndex = message.IndexOf('\r');
             if (endIndex < 0)
             {
-                FtpServerMessageHandler.SendMessage(this.ConnectionObject.Id, message);
+                FtpServerMessageHandler.SendMessage(ConnectionObject.Id, message);
             }
             else
             {
-                FtpServerMessageHandler.SendMessage(this.ConnectionObject.Id, message.Substring(0, endIndex));
+                FtpServerMessageHandler.SendMessage(ConnectionObject.Id, message.Substring(0, endIndex));
             }
 
-            SocketHelpers.Send(this.ConnectionObject.Socket, message);
+            SocketHelpers.Send(ConnectionObject.Socket, message);
         }
     }
 }

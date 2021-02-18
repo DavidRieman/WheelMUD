@@ -7,8 +7,6 @@
 
 namespace WheelMUD.Core
 {
-    using WheelMUD.Core.Enums;
-
     /// <summary>A sense as used for perception.</summary>
     public class Sense
     {

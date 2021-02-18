@@ -17,9 +17,9 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected override string OnProcess(string message)
         {
-            string dir = this.ConnectionObject.CurrentDirectory;
+            string dir = ConnectionObject.CurrentDirectory;
             dir = dir.Replace('\\', '/');
-            return this.GetMessage(257, string.Format("\"{0}\" PWD Successful.", dir));
+            return GetMessage(257, string.Format("\"{0}\" PWD Successful.", dir));
         }
     }
 }

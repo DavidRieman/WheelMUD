@@ -16,7 +16,7 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected override string OnProcess(string message)
         {
-            return this.GetMessage(202, "Allo processed successfully (depreciated).");
+            return GetMessage(202, "Allo processed successfully (depreciated).");
         }
     }
 }

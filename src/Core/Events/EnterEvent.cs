@@ -19,9 +19,9 @@ namespace WheelMUD.Core.Events
         public EnterEvent(Thing thingEntered, Thing activeThing, SensoryMessage sensoryMessage, Thing startLocation, Thing endLocation)
             : base(activeThing, sensoryMessage)
         {
-            this.ThingEntered = thingEntered;
-            this.StartLocation = startLocation;
-            this.EndLocation = endLocation;
+            ThingEntered = thingEntered;
+            StartLocation = startLocation;
+            EndLocation = endLocation;
         }
 
         /// <summary>Gets the thing that is being entered.</summary>

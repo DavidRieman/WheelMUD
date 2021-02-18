@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Configuration;
+using System.IO;
+using System.Reflection;
+
 namespace WheelMUD.Utilities
 {
-    using System;
-    using System.Configuration;
-    using System.IO;
-    using System.Reflection;
-
     /// <summary>Provides simplified, shared access to configuration properties for the game engine.</summary>
     /// <remarks>
     /// Common properties expected to be useful for most or all MUD implementations can be exposed with static property
@@ -46,7 +46,7 @@ namespace WheelMUD.Utilities
             Copyright = assembly.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright.Replace("©", "(c)");
 
             // Additional work to modify raw settings should generally be done once and cached, as follows.
-            string root = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            string root = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string rootPath = Path.Combine(root, "WheelMUD");
             string gamePath = Path.Combine(rootPath, GameConfiguration.Name);
             string fullPath = Path.Combine(gamePath, "Files");

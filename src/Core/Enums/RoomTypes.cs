@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Core
 {
-    using System;
-
     /// <summary>Room types.</summary>
     /// <remarks>
     /// TODO: Attach these to RoomBehavior (defaulting as None)? Revise or consider a few common needs as booleans, etc?

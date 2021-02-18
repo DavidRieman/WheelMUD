@@ -20,9 +20,9 @@ namespace WheelMUD.Core
         /// <param name="controller">The controller which originated the input.</param>
         public ActionInput(string fullText, IController controller)
         {
-            this.Controller = controller;
-            this.FullText = fullText;
-            this.ParseText(this.FullText);
+            Controller = controller;
+            FullText = fullText;
+            ParseText(FullText);
         }
 
         /// <summary>Gets the full text of this action.</summary>
@@ -52,9 +52,9 @@ namespace WheelMUD.Core
             string[] words = fullText.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (words.Length > 0)
             {
-                this.Noun = words[0].ToLower();
-                this.Tail = fullText.Remove(0, this.Noun.Length).Trim();
-                this.Params = words.Skip(1).ToArray();
+                Noun = words[0].ToLower();
+                Tail = fullText.Remove(0, Noun.Length).Trim();
+                Params = words.Skip(1).ToArray();
             }
         }
     }

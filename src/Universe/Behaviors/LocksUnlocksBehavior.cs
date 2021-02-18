@@ -36,28 +36,28 @@ namespace WheelMUD.Universe
         public LocksUnlocksBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.commands = new LocksUnlocksBehaviorCommands(this);
-            this.ID = instanceID;
+            commands = new LocksUnlocksBehaviorCommands(this);
+            ID = instanceID;
         }
 
         /// <summary>Gets a value indicating whether the attached thing is currently locked.</summary>
         public bool IsLocked { get; private set; }
 
-        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
+        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to Parent)</summary>
         protected override void OnAddBehavior()
         {
-            var parent = this.Parent;
+            var parent = Parent;
             if (parent != null)
             {
                 // When adding this behavior to a Thing, register relevant events so we can cancel
                 // the opening of our parent Thing while our parent Thing is "locked".
-                parent.Eventing.MiscellaneousRequest += this.RequestHandler;
+                parent.Eventing.MiscellaneousRequest += RequestHandler;
 
                 // Register the "lock" and "unlock" context commands to be available to siblings of our parent,
                 // and to the lockable/unlockable thing's children (IE in case it can be entered itself).
                 var contextAvailability = ContextAvailability.ToSiblings | ContextAvailability.ToChildren;
-                var lockContextCommand = new ContextCommand(this.commands, LockString, contextAvailability, SecurityRole.all);
-                var unlockContextCommand = new ContextCommand(this.commands, UnlockString, contextAvailability, SecurityRole.all);
+                var lockContextCommand = new ContextCommand(commands, LockString, contextAvailability, SecurityRole.all);
+                var unlockContextCommand = new ContextCommand(commands, UnlockString, contextAvailability, SecurityRole.all);
                 Debug.Assert(!parent.Commands.ContainsKey(LockString), "The Thing this LocksUnlocksBehavior attached to already had a Lock command.");
                 Debug.Assert(!parent.Commands.ContainsKey(UnlockString), "The Thing this LocksUnlocksBehavior attached to already had an Unlock command.");
                 parent.Commands.Add(LockString, lockContextCommand);
@@ -71,20 +71,20 @@ namespace WheelMUD.Universe
         /// <param name="locker">The actor who is locking this Thing.</param>
         public void Lock(Thing locker)
         {
-            this.LockOrUnlock(locker, LockString, true);
+            LockOrUnlock(locker, LockString, true);
         }
 
         /// <summary>Unlock this Thing.</summary>
         /// <param name="unlocker">The actor who is unlocking this Thing.</param>
         public void Unlock(Thing unlocker)
         {
-            this.LockOrUnlock(unlocker, UnlockString, false);
+            LockOrUnlock(unlocker, UnlockString, false);
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.IsLocked = true;
+            IsLocked = true;
         }
 
         /// <summary>Lock or unlock this behavior's parent, via the specified actor.</summary>
@@ -94,14 +94,14 @@ namespace WheelMUD.Universe
         private void LockOrUnlock(Thing actor, string verb, bool newLockedState)
         {
             // If we're already in the desired locked/unlocked state, we're already done with state changes.
-            if (newLockedState == this.IsLocked)
+            if (newLockedState == IsLocked)
             {
                 // TODO: Message to the actor that it is already locked/unlocked.
                 return;
             }
 
             // Use a temporary ref to our own parent to avoid race conditions like sudden parent removal.
-            var thisThing = this.Parent;
+            var thisThing = Parent;
             if (thisThing == null)
             {
                 return; // Abort if the behavior is unattached (e.g. being destroyed).
@@ -134,7 +134,7 @@ namespace WheelMUD.Universe
             if (!e.IsCancelled)
             {
                 // Lock or Unlock the thing.
-                this.IsLocked = newLockedState;
+                IsLocked = newLockedState;
 
                 // Broadcast the Lock or Unlock event.
                 thisThing.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
@@ -147,16 +147,16 @@ namespace WheelMUD.Universe
         private void RequestHandler(Thing root, CancellableGameEvent e)
         {
             // Only cancel requestes to open our parent if it is currently locked.
-            if (this.IsLocked)
+            if (IsLocked)
             {
-                var parent = this.Parent;
+                var parent = Parent;
                 if (parent != null)
                 {
                     // If this is a standard open request, find out if we need to cancel it.
                     var openCloseEvent = e as OpenCloseEvent;
-                    if (openCloseEvent != null && openCloseEvent.IsBeingOpened && openCloseEvent.Target == this.Parent)
+                    if (openCloseEvent != null && openCloseEvent.IsBeingOpened && openCloseEvent.Target == Parent)
                     {
-                        string message = string.Format("You cannot open {0} since it is locked!", this.Parent.Name);
+                        string message = string.Format("You cannot open {0} since it is locked!", Parent.Name);
                         openCloseEvent.Cancel(message);
                     }
                 }
@@ -193,11 +193,11 @@ namespace WheelMUD.Universe
                 // If the user invoked the context command, try to lock or unlock their target.
                 if (LockString.Equals(actionInput.Noun, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    this.locksUnlocksBehavior.Lock(actionInput.Controller.Thing);
+                    locksUnlocksBehavior.Lock(actionInput.Controller.Thing);
                 }
                 else if (UnlockString.Equals(actionInput.Noun, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    this.locksUnlocksBehavior.Unlock(actionInput.Controller.Thing);
+                    locksUnlocksBehavior.Unlock(actionInput.Controller.Thing);
                 }
             }
 
@@ -206,7 +206,7 @@ namespace WheelMUD.Universe
             /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
             public override string Guards(ActionInput actionInput)
             {
-                string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+                string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
                 if (commonFailure != null)
                 {
                     return commonFailure;

@@ -1,0 +1,125 @@
+<html>
+<head></head>
+<body lang=EN-US style="background:#282828; color:white">
+
+<p><b><span style='font-size:16.0pt'>World Interaction Story</span></b></p>
+
+<div style="background:black; max-width:900px; padding:4px; font-size:12pt; font-family:monospace; white-space: pre-wrap">
+> look
+<span style='color:#FF9900'>Dirty Stone Corridor</span>
+This stone corridor continues to the north, and opens out to a large cavern to the south. The floor is covered with the debris of loose rocks, small bones, and rotting garbage.
+Exits: <span style='color:#CCFFFF'>North</span>, <span style='color:#CCFFFF'>East</span> (closed), <span style='color:#CCFFFF'>South</span>, and <span style='color:#CCFFFF'>West</span> (closed).
+In the room is: An <span style='color:#AAFFAA'>ebony sword</span>, and a <span style='color:#FFCC99'>mangy goblin</span>.
+
+> examine swo
+There is more than one "swo" here:
+1) An <span style='color:#AAFFAA'>ebony sword</span>, in the room.
+2) A <span style='color:#AAFFAA'>silver sword</span>, which you wield.
+3) A <span style='color:#AAFFAA'>wooden practice sword</span>, in your inventory.
+4) A <span style='color:#AAFFAA'>potion</span> of <span style='color:#AAFFAA'>swooning</span>, in your inventory.
+
+> examine 1   or   examine ebony   or   1
+This <span style='color:#AAFFAA'>ebony sword</span> is etched with the words of a long-forgotten language.
+
+> east
+The <span style='color:#AAFFAA'>iron</span> door is closed.
+
+> open door
+There is more than one "door" here:
+1) A <span style='color:#AAFFAA'>simple wooden door</span>, to the west.
+2) A <span style='color:#AAFFAA'>large iron door</span>, to the east.
+
+> open iron door   or   open east   or   open 2   or   2
+The <span style='color:#AAFFAA'>large iron door</span> is locked.
+
+> examine iron door   or   examine 2   or   ...
+A <span style='color:#AAFFAA'>large iron door</span> is set here in the stone wall.
+
+> unlock 2
+You do not have the key for the <span style='color:#AAFFAA'>large iron door</span>.
+
+> examine goblin
+This <span style='color:#FFCC99'>mangy goblin</span> hobbles around, quietly grumbling incoherently to itself.
+You think you would be a fair fight for a <span style='color:#FFCC99'>mangy goblin</span>.
+
+> kill goblin
+... the <span style='color:#FFCC99'>mangy goblin</span> falls over, dead.
+
+> get all from corpse
+... You get an <span style='color:#AAFFAA'>iron key</span> from the corpse of the <span style='color:#FFCC99'>mangy goblin</span>.
+
+> unlock 2
+You unlock the <span style='color:#AAFFAA'>large iron door</span> with the <span style='color:#AAFFAA'>iron key</span>.
+
+> open 2
+You open the <span style='color:#AAFFAA'>large iron door</span>.
+
+> drop key
+You drop the <span style='color:#AAFFAA'>large iron key</span>.
+
+> east
+You walk east.
+
+<span style='color:#FF9900'>Small Treasure Room</span>
+This small stone room is rather featureless, save for some <span style='color:silver'>scratches</span> upon one of the walls. The walls are otherwise immaculately smooth.
+Exits: West (open).
+In the room is: A <span style='color:#AAFFAA'>heavy wooden chest</span>.
+
+> get chest
+The <span style='color:#AAFFAA'>heavy wooden chest</span> is too heavy for you to pick up.
+
+> open chest
+The <span style='color:#AAFFAA'>heavy wooden chest</span> is locked.
+
+> unlock chest
+You do not have the key for the <span style='color:#AAFFAA'>heavy wooden chest</span>.
+
+> close door
+You close the <span style='color:#AAFFAA'>large iron door</span> from the inside.
+
+> lock door
+You lock the <span style='color:#AAFFAA'>large iron door</span> from the inside.
+
+> examine scratch
+The <span style='color:silver'>scratches</span> in the wall form crude letters, which read gibberish.
+
+> cast comprehend languages
+You successfully cast "<span style='color:#FFFF99'>comprehend languages</span>" upon yourself.
+Your ears tingle as your inner voice adopts greater clarity.
+
+> examine scratch
+The <span style='color:silver'>scratches</span> in the wall form crude letters, which read "My restless watch bores me; entertain me and my treasure shall be yours."
+
+> dance
+You dance around the room.
+Someone chuckles.
+Someone says "<span style='color:#FFFF99'>Thank you. As promised, silly one, my treasure is now yours.</span>"
+Someone unlocks the <span style='color:#AAFFAA'>heavy wooden chest</span>.
+
+> </div>
+
+<div style="max-width:1000px; font-size:13pt">
+    <p>Some key things you probably noticed:</p>
+    <ul>
+        <li>Unique colors are used to identify different <i>types</i> of Things that the player can interact with, making it visually easy to identify just what you're looking for (such as exits, if you are in a hurry).</li>
+        <li>Only the usable keywords of the Thing were highlighted with color, making it easier to identify what to type to target it. On-line creator tools could be used to enforce short and long descriptions include at least one usable keyword.</li>
+        <li>These colors need not be final, but for example purposes, we used distinctive colors for: Spell names, Spoken text, Room name, Exits, Furnishings (room sub-details), Mobiles, and Other Things (often Items that can or cannot be picked up).</li>
+        <li>There should be reusable targeting system code which helps look in many places for your interaction target by some selected priority order. E.G. in your inventory, in the room with you, as a room furnishing, etc.</li>
+        <li>There should be a targeting disambiguation system which makes it really easy to identify and "fix" name collisions, solving one of the more frustrating usability aspects of typical MUDs.
+        <li>This disambiguation system should retain the "context" of the previous command, so that if the user enters just "2" then it'll try to repeat the command with the second target.</li>
+    </ul>
+    <p>Additionally:</p>
+    <ul>
+        <li>During disambiguation, context may change the validity of the command. E.G. a target may move, or the player may be following a group that has left, and so on. So one way disambiguation could be done is by remembering the last command, and substituting any targeting argument words with the full unique instance ID of the target. E.G. under the hood, perhaps the player entering "2" after "wield swo" would translate into "wield thing/id123456" under the hood. (The player should not actually be shown the ID though.)</li>
+        <li>The player can ignore the disambiguation prompt and just type some other command like "east". They don't have to explicitly cancel the prompt; As soon as the prompt was not used in a command, it can "expire".</li>
+        <li>The player can use the disambiguation prompt to change their mind about what to do. For example, the player might "exa gob" to issue a "safe" command, which tells them there is "1) goblet" and "2) goblin" and then "punch 2" as a successful command targeting the goblin's unique ID.</li>
+        <li>It may be best to have On-Line Creator (OLC) tools dissuade or block the creators from using numbers as keywords, to avoid complications. E.G. "two-handed" and "fourty-five" would be allowed keywords but "2-handed" and ".45" would not.</li>
+        <li>If there are a lot of targeting results, perhaps instead of trying to build a long list from "exa b" we could print something like "A lot of things nearby match `b`. Can you be more specific?"</li>
+        <li>Implementation-wise, there could be a temporary "target disambiguation" class instance attached to the user session, that holds a map of the numeric IDs chosen to either the unique target IDs or a Weak Reference to their instances.</li>
+        <li>We should probably just guarantee every Thing instance created gets a unique ID from the moment it is created (regardless if it was made via a Spawner, clone command, or something else). This should help with detection of item duplication exploits and the like, too.</li>
+        <li>The user should not be barraged with numeric IDs except in cases where they definitely help (like during target disambiguation).</li>
+        <li>Whether commands should be available to power gamers that expose the actual underlying GUID of their item instances for reference via commands (or macros), is something we can revisit and discuss closer to v1.0. (Perhaps an app.config option that influences some default commands.)</li>
+    </ul>
+</div>
+</body>
+</html>

@@ -17,8 +17,8 @@ namespace ServerHarness
 
         public DynamicServerHarnessCommand(Action command, string[] names, string description)
         {
-            this.Names = names;
-            this.Description = description;
+            Names = names;
+            Description = description;
             this.command = command;
         }
 
@@ -28,7 +28,7 @@ namespace ServerHarness
 
         public void Execute(Application app, MultiUpdater display, string[] words)
         {
-            this.command();
+            command();
         }
     }
 }

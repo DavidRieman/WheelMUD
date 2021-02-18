@@ -25,20 +25,22 @@ namespace WheelMUD.ConnectionStates
         {
             // Do not use the command parameter here. It is trimmed of whitespace, which will inhibit the use of passwords 
             // with whitespace on either end. Instead we need to respect the raw line of input for password entries.
-            if (this.Session.User.PasswordMatches(this.Session.Connection.LastRawInput))
+            if (Session.User.PasswordMatches(Session.Connection.LastRawInput))
             {
-                this.StateMachine.HandleNextStep(this, StepStatus.Success);
+                StateMachine.HandleNextStep(this, StepStatus.Success);
             }
             else
             {
-                this.Session.Write("I am afraid the passwords entered do not match.\r\n", false);
-                this.StateMachine.HandleNextStep(this, StepStatus.Failure);
+                Session.Write("I am afraid the passwords entered do not match.\r\n", false);
+                StateMachine.HandleNextStep(this, StepStatus.Failure);
             }
         }
 
         public override string BuildPrompt()
         {
-            return "Please retype your password.\n> ";
+            // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
+            // is repeating received keystrokes back to their output.
+            return $"Please retype your password.{AnsiSequences.NewLine}> <%hidden%>";
         }
     }
 }

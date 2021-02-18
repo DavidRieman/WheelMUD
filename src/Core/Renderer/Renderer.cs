@@ -20,7 +20,7 @@ namespace WheelMUD.Core
         /// <summary>Prevents a default instance of the Renderer class from being created.</summary>
         private Renderer()
         {
-            this.Recompose();
+            Recompose();
         }
 
         /// <summary>The current CommandsCategories renderer.</summary>
@@ -102,57 +102,57 @@ namespace WheelMUD.Core
 
         public string RenderCommandsCategories(ITerminal terminal, IEnumerable<Command> commands)
         {
-            return this.currentCommandsCategoriesRenderer.Render(terminal, commands);
+            return currentCommandsCategoriesRenderer.Render(terminal, commands);
         }
 
         public string RenderCommandsList(ITerminal terminal, IEnumerable<Command> commands, string categoryName)
         {
-            return this.currentCommandsListRenderer.Render(terminal, commands, categoryName);
+            return currentCommandsListRenderer.Render(terminal, commands, categoryName);
         }
 
         public string RenderHelpCommand(ITerminal terminal, Command command)
         {
-            return this.currentHelpCommandRenderer.Render(terminal, command);
+            return currentHelpCommandRenderer.Render(terminal, command);
         }
 
         public string RenderHelpTopic(ITerminal terminal, HelpTopic helpTopic)
         {
-            return this.currentHelpTopicRenderer.Render(terminal, helpTopic);
+            return currentHelpTopicRenderer.Render(terminal, helpTopic);
         }
 
         public string RenderHelpTopics(ITerminal terminal)
         {
-            return this.currentHelpTopicsRenderer.Render(terminal);
+            return currentHelpTopicsRenderer.Render(terminal);
         }
 
         public string RenderInventory(Thing player)
         {
-            return this.currentInventoryRenderer.Render(player);
+            return currentInventoryRenderer.Render(player);
         }
 
         public string RenderPerceivedRoom(Thing viewer, Thing viewedRoom)
         {
-            return this.currentPerceivedRoomRenderer.Render(viewer, viewedRoom);
+            return currentPerceivedRoomRenderer.Render(viewer, viewedRoom);
         }
 
         public string RenderPerceivedThing(Thing viewer, Thing viewedThing)
         {
-            return this.currentPerceivedThingRenderer.Render(viewer, viewedThing);
+            return currentPerceivedThingRenderer.Render(viewer, viewedThing);
         }
 
         public string RenderScore(Thing player)
         {
-            return this.currentScoreRenderer.Render(player);
+            return currentScoreRenderer.Render(player);
         }
 
         public string RenderSplashScreen()
         {
-            return this.currentSplashScreenRenderer.Render();
+            return currentSplashScreenRenderer.Render();
         }
 
         public string RenderWho(Thing player)
         {
-            return this.currentWhoRenderer.Render(player);
+            return currentWhoRenderer.Render(player);
         }
 
         /// <summary>Recompose the subcomponents of this Renderer.</summary>
@@ -161,17 +161,17 @@ namespace WheelMUD.Core
             DefaultComposer.Container.ComposeParts(this);
 
             // Search each of the renderers for the one which has the highest priority.
-            this.currentCommandsCategoriesRenderer = DefaultComposer.GetInstance(this.CommandsCategoriesRenderers);
-            this.currentCommandsListRenderer = DefaultComposer.GetInstance(this.CommandsListRenderers);
-            this.currentHelpCommandRenderer = DefaultComposer.GetInstance(this.HelpCommandRenderers);
-            this.currentHelpTopicRenderer = DefaultComposer.GetInstance(this.HelpTopicRenderers);
-            this.currentHelpTopicsRenderer = DefaultComposer.GetInstance(this.HelpTopicsRenderers);
-            this.currentInventoryRenderer = DefaultComposer.GetInstance(this.InventoryRenderers);
-            this.currentPerceivedRoomRenderer = DefaultComposer.GetInstance(this.PerceivedRoomRenderers);
-            this.currentPerceivedThingRenderer = DefaultComposer.GetInstance(this.PerceivedThingRenderers);
-            this.currentScoreRenderer = DefaultComposer.GetInstance(this.ScoreRenderers);
-            this.currentSplashScreenRenderer = DefaultComposer.GetInstance(this.SplashScreenRenderers);
-            this.currentWhoRenderer = DefaultComposer.GetInstance(this.WhoRenderers);
+            currentCommandsCategoriesRenderer = DefaultComposer.GetInstance(CommandsCategoriesRenderers);
+            currentCommandsListRenderer = DefaultComposer.GetInstance(CommandsListRenderers);
+            currentHelpCommandRenderer = DefaultComposer.GetInstance(HelpCommandRenderers);
+            currentHelpTopicRenderer = DefaultComposer.GetInstance(HelpTopicRenderers);
+            currentHelpTopicsRenderer = DefaultComposer.GetInstance(HelpTopicsRenderers);
+            currentInventoryRenderer = DefaultComposer.GetInstance(InventoryRenderers);
+            currentPerceivedRoomRenderer = DefaultComposer.GetInstance(PerceivedRoomRenderers);
+            currentPerceivedThingRenderer = DefaultComposer.GetInstance(PerceivedThingRenderers);
+            currentScoreRenderer = DefaultComposer.GetInstance(ScoreRenderers);
+            currentSplashScreenRenderer = DefaultComposer.GetInstance(SplashScreenRenderers);
+            currentWhoRenderer = DefaultComposer.GetInstance(WhoRenderers);
         }
     }
 }

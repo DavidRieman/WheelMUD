@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Enums
-{
-    using System;
+using System;
 
+namespace WheelMUD.Core
+{
     /// <summary>Consumable types.</summary>
     [Flags]
     public enum ConsumableType

@@ -81,29 +81,29 @@ namespace WheelMUD.Core
         /// <param name="msg">The message to be sent.</param>
         public void UpdateSubSystemHost(ISubSystem sender, string msg)
         {
-            this.host.UpdateSystemHost(this, msg);
+            host.UpdateSystemHost(this, msg);
         }
 
         /// <summary>Subscribes this system to the specified system host, so that host can receive updates.</summary>
         /// <param name="sender">The system host to receive our updates.</param>
         public void SubscribeToSystemHost(ISystemHost sender)
         {
-            this.host = sender;
+            host = sender;
         }
 
         /// <summary>Starts this system's individual components.</summary>
         public void Start()
         {
-            this.host.UpdateSystemHost(this, "Starting...");
-            this.Recompose();
-            this.host.UpdateSystemHost(this, "Started");
+            host.UpdateSystemHost(this, "Starting...");
+            Recompose();
+            host.UpdateSystemHost(this, "Started");
         }
 
         /// <summary>Stops this system's individual components.</summary>
         public void Stop()
         {
-            this.host.UpdateSystemHost(this, "Stopping");
-            this.host.UpdateSystemHost(this, "Stopped");
+            host.UpdateSystemHost(this, "Stopping");
+            host.UpdateSystemHost(this, "Stopped");
         }
 
         /// <summary>Recompose the GameSystemController with the latest components available.</summary>
@@ -116,12 +116,12 @@ namespace WheelMUD.Core
                 // at any time because they may be actively being iterated by other threads.
                 DefaultComposer.Container.ComposeParts(this);
 
-                this.GameAttributeConstructors = DefaultComposer.GetConstructors(this.ImportedGameAttributes, NoTypes);
-                this.GameGenders = DefaultComposer.GetNonPrioritizedInstances(this.ImportedGameGenders);
-                this.GameModifiers = DefaultComposer.GetNonPrioritizedInstances(this.ImportedGameModifiers);
-                this.GameRaces = DefaultComposer.GetNonPrioritizedInstances(this.ImportedGameRaces);
-                this.GameSkills = DefaultComposer.GetNonPrioritizedInstances(this.ImportedGameSkills);
-                this.GameStatConstructors = DefaultComposer.GetConstructors(this.ImportedGameStats, NoTypes);
+                GameAttributeConstructors = DefaultComposer.GetConstructors(ImportedGameAttributes, NoTypes);
+                GameGenders = DefaultComposer.GetNonPrioritizedInstances(ImportedGameGenders);
+                GameModifiers = DefaultComposer.GetNonPrioritizedInstances(ImportedGameModifiers);
+                GameRaces = DefaultComposer.GetNonPrioritizedInstances(ImportedGameRaces);
+                GameSkills = DefaultComposer.GetNonPrioritizedInstances(ImportedGameSkills);
+                GameStatConstructors = DefaultComposer.GetConstructors(ImportedGameStats, NoTypes);
             }
         }
 
@@ -129,7 +129,7 @@ namespace WheelMUD.Core
         {
             lock (this)
             {
-                return this.GameAttributeConstructors.Select(ctor => ctor.Invoke(null) as GameAttribute).ToDictionary(a => a.Abbreviation);
+                return GameAttributeConstructors.Select(ctor => ctor.Invoke(null) as GameAttribute).ToDictionary(a => a.Abbreviation);
             }
         }
 
@@ -137,7 +137,7 @@ namespace WheelMUD.Core
         {
             lock (this)
             {
-                return this.GameStatConstructors.Select(ctor => ctor.Invoke(null) as GameStat).ToDictionary(a => a.Abbreviation);
+                return GameStatConstructors.Select(ctor => ctor.Invoke(null) as GameStat).ToDictionary(a => a.Abbreviation);
             }
         }
 

@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using WheelMUD.Core.Events;
+using WheelMUD.Data;
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Core
 {
-    using System;
-    using WheelMUD.Core.Events;
-    using WheelMUD.Data;
-    using WheelMUD.Interfaces;
-
     /// <summary>The 'session authenticated' event handler delegate.</summary>
     /// <param name="session">The session that was authenticated.</param>
     public delegate void SessionAuthenticatedEventHandler(Session session);
@@ -28,14 +28,14 @@ namespace WheelMUD.Core
         {
             if (connection != null)
             {
-                this.Connection = connection;
-                this.State = SessionStateManager.Instance.CreateDefaultState(this);
+                Connection = connection;
+                State = SessionStateManager.Instance.CreateDefaultState(this);
 
-                // The very first time we create a session, it couldn't write the prompt due to this.State
+                // The very first time we create a session, it couldn't write the prompt due to State
                 // not being set during that SessionState's construction, so force a prompt print here.
-                this.Write(string.Empty, true);
+                Write(string.Empty, true);
 
-                this.AtPrompt = false;
+                AtPrompt = false;
             }
         }
 
@@ -48,13 +48,13 @@ namespace WheelMUD.Core
         /// <summary>Gets the ID of the session.</summary>
         public string ID
         {
-            get { return this.Connection.ID; }
+            get { return Connection.ID; }
         }
 
         /// <summary>Gets the terminal this session is using.</summary>
         public ITerminal Terminal
         {
-            get { return this.Connection.Terminal; }
+            get { return Connection.Terminal; }
         }
 
         /// <summary>Gets or sets the player Thing attached to this session.</summary>
@@ -63,7 +63,7 @@ namespace WheelMUD.Core
         /// <summary>Gets the living behavior of the player attached to this session.</summary>
         public LivingBehavior LivingBehavior
         {
-            get { return this.Thing != null ? this.Thing.Behaviors.FindFirst<LivingBehavior>() : null; }
+            get { return Thing != null ? Thing.Behaviors.FindFirst<LivingBehavior>() : null; }
         }
 
         /// <summary>Gets the connection for this session.</summary>
@@ -84,35 +84,35 @@ namespace WheelMUD.Core
         /// <summary>Provides authentication services for this session.</summary>
         public void AuthenticateSession()
         {
-            this.SessionAuthenticated?.Invoke(this);
+            SessionAuthenticated?.Invoke(this);
         }
 
         /// <summary>Passes the input up the chain for processing.</summary>
         /// <param name="input">The input to pass up the chain</param>
         public void ProcessCommand(string input)
         {
-            this.State.ProcessInput(input);
+            State.ProcessInput(input);
         }
 
         /// <summary>Sends the prompt to the connection.</summary>
         public void SendPrompt()
         {
-            if (!this.AtPrompt)
+            if (!AtPrompt)
             {
-                this.Connection.Send(Environment.NewLine + this.State.BuildPrompt());
+                Connection.Send(Environment.NewLine + State.BuildPrompt());
             }
             else
             {
-                this.Connection.Send(this.State.BuildPrompt());
+                Connection.Send(State.BuildPrompt());
             }
 
-            this.AtPrompt = true;
+            AtPrompt = true;
         }
 
         /// <summary>Writes an empty string followed by a prompt.</summary>
         public void WritePrompt()
         {
-            this.Write(string.Empty, true);
+            Write(string.Empty, true);
         }
 
         /// <summary>Write data to the users screen.</summary>
@@ -120,54 +120,54 @@ namespace WheelMUD.Core
         /// <param name="sendPrompt">true to send the prompt after, false otherwise.</param>
         public void Write(string data, bool sendPrompt = true)
         {
-            if (this.AtPrompt)
+            if (AtPrompt)
             {
                 data = Environment.NewLine + data;
             }
 
-            this.AtPrompt = false;
+            AtPrompt = false;
             if (sendPrompt)
             {
-                string prompt = this.State != null ? this.State.BuildPrompt() : string.Empty;
+                string prompt = State != null ? State.BuildPrompt() : string.Empty;
 
                 // Protection against double prompt.
-                if (!data.EndsWith(Environment.NewLine + prompt))
+                if (!data.EndsWith(AnsiSequences.NewLine + prompt))
                 {
-                    data = data + Environment.NewLine + prompt;
+                    data = data + AnsiSequences.NewLine + prompt;
                 }
 
-                this.AtPrompt = true;
+                AtPrompt = true;
             }
 
-            this.Connection.Send(data);
+            Connection.Send(data);
         }
 
         /// <summary>Place an action on the command queue for execution.</summary>
         /// <param name="actionInput">The action input to attempt to execute.</param>
         public void ExecuteAction(ActionInput actionInput)
         {
-            this.LastActionInput = actionInput;
-            this.ActionReceived?.Invoke((IController)this, actionInput);
+            LastActionInput = actionInput;
+            ActionReceived?.Invoke((IController)this, actionInput);
         }
 
         /// <summary>Subscribe to receive system updates from this system.</summary>
         /// <param name="sender">The subscribing system; generally use 'this'.</param>
         public void SubscribeToSystem(ISubSystemHost sender)
         {
-            this.host = sender;
+            host = sender;
         }
 
         /// <summary>Removes subscriptions from the system.</summary>
         public void UnsubscribeToSystem()
         {
-            this.host = null;
+            host = null;
         }
 
         /// <summary>Inform subscribed system(s) of the specified update.</summary>
         /// <param name="msg">The message to be sent to subscribed system(s).</param>
         public void InformSubscribedSystem(string msg)
         {
-            this.host.UpdateSubSystemHost(this, msg);
+            host.UpdateSubSystemHost(this, msg);
         }
 
         /// <summary>Starts this session.</summary>

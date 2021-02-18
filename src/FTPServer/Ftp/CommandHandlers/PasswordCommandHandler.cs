@@ -20,23 +20,23 @@ namespace WheelMUD.Ftp.FtpCommands
         {
             string retval;
 
-            var user = PlayerRepositoryExtensions.Authenticate(this.ConnectionObject.User, message);
+            var user = PlayerRepositoryExtensions.Authenticate(ConnectionObject.User, message);
             if (user != null)
             {
-                this.ConnectionObject.CreateFileSystem();
-                retval = this.GetMessage(220, "Password ok, FTP server ready");
+                ConnectionObject.CreateFileSystem();
+                retval = GetMessage(220, "Password ok, FTP server ready");
             }
             else
             {
-                retval = this.GetMessage(530, "Username or password incorrect");
+                retval = GetMessage(530, "Username or password incorrect");
             }
 
-            ////if (this.ConnectionObject.Login(sMessage))
+            ////if (ConnectionObject.Login(sMessage))
             ////{
-            ////    return this.GetMessage(220, "Password ok, FTP server ready");
+            ////    return GetMessage(220, "Password ok, FTP server ready");
             ////}
             ////
-            ////return this.GetMessage(530, "Username or password incorrect");
+            ////return GetMessage(530, "Username or password incorrect");
 
             return retval;
         }

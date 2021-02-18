@@ -22,7 +22,7 @@ namespace WheelMUD.Core
         /// <param name="systemHost">The system host to receive our updates.</param>
         public void SubscribeToSystemHost(ISystemHost systemHost)
         {
-            this.SystemHost = systemHost;
+            SystemHost = systemHost;
         }
 
         /// <summary>Start this manager system.</summary>
@@ -36,7 +36,7 @@ namespace WheelMUD.Core
         /// <param name="msg">The message to be sent.</param>
         public void UpdateSubSystemHost(ISubSystem sender, string msg)
         {
-            this.SystemHost.UpdateSystemHost(this, msg);
+            SystemHost.UpdateSystemHost(this, msg);
         }
     }
 }

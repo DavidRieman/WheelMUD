@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Core.Attributes
 {
-    using System;
-
     /// <summary>Categories that actions can be filed under.</summary>
     [Flags]
     public enum CommandCategory

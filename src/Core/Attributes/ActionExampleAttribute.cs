@@ -17,7 +17,7 @@ namespace WheelMUD.Core.Attributes
         /// <param name="example">The example of the action.</param>
         public ActionExampleAttribute(string example)
         {
-            this.Example = example;
+            Example = example;
         }
 
         /// <summary>Gets the description of this action.</summary>

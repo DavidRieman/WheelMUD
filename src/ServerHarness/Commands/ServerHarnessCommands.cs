@@ -21,7 +21,7 @@ namespace ServerHarness
         /// <summary>Prevents a default instance of the ServerHarnessCommands class from being created.</summary>
         private ServerHarnessCommands()
         {
-            this.Recompose();
+            Recompose();
         }
 
         /// <summary>Gets, via MEF composition, a list of available server harness commands.</summary>
@@ -38,7 +38,7 @@ namespace ServerHarness
             {
                 lock (this)
                 {
-                    return (from command in this.ComposedCommands.Union(this.DynamicCommands)
+                    return (from command in ComposedCommands.Union(DynamicCommands)
                             orderby command.Names.First()
                             select command).ToArray();
                 }

@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Enums
+namespace WheelMUD.Core
 {
     /// <summary>An enum used for making senses more granular.</summary>
     /// <remarks>

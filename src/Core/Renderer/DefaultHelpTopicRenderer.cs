@@ -8,28 +8,35 @@
 namespace WheelMUD.Core
 {
     using System;
+    using System.Linq;
     using System.Text;
     using WheelMUD.Interfaces;
 
     [RendererExports.HelpTopic(0)]
     public class DefaultHelpTopicRenderer : RendererDefinitions.HelpTopic
     {
+        private const string HeaderLine = "<%b%><%yellow%>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<%n%>" + AnsiSequences.NewLine;
+
         public override string Render(ITerminal terminal, HelpTopic helpTopic)
         {
             if (terminal.UseMXP)
             {
-                var sb = new StringBuilder();
-                foreach (string line in helpTopic.Contents.Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
-                {
-                    sb.AppendLine("<%mxpopenline%>" + line);
-                }
+                // TODO: What was this !element doing? Does it still work? Test with zMUD or something and re-read MXP specs?
+                var sb = new StringBuilder("<%mxpsecureline%><!element see '<send href=\"help &cref;\">' att='cref' open>");
+                sb.Append($"{HeaderLine}HELP TOPIC: {helpTopic.Aliases.First()}{AnsiSequences.NewLine}{HeaderLine}{AnsiSequences.NewLine}");
 
-                return "<%mxpsecureline%><!element see '<send href=\"help &cref;\">' att='cref' open>" + sb.ToString().Trim(Environment.NewLine.ToCharArray());
+                var lines = helpTopic.Contents.Split(new string[] { AnsiSequences.NewLine }, StringSplitOptions.None);
+                foreach (string line in lines)
+                {
+                    sb.Append($"<%mxpopenline%>{line}{AnsiSequences.NewLine}");
+                }
+                sb.Append("<%n%>");
+
+                return sb.ToString().Trim();
             }
             else
             {
-                // TODO: Output without MXP syntax!
-                return "TODO: RENDER TOPIC: " + helpTopic.Contents;
+                return $"{HeaderLine}HELP TOPIC: {helpTopic.Aliases.First()}{AnsiSequences.NewLine}{HeaderLine}{AnsiSequences.NewLine}{helpTopic.Contents}<%n%>";
             }
         }
     }

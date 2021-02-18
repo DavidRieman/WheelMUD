@@ -31,7 +31,7 @@ namespace WheelMUD.Core
         /// <summary>Prevents a default instance of the <see cref="CommandManager"/> class from being created.</summary>
         private CommandManager()
         {
-            this.Recompose();
+            Recompose();
         }
 
         /// <summary>Gets the singleton instance of the <see cref="CommandManager"/> class.</summary>
@@ -58,7 +58,7 @@ namespace WheelMUD.Core
             var newPrimaryCommandList = new Dictionary<string, Command>();
             var newMasterCommandList = new Dictionary<string, Command>();
 
-            var actionTypes = DefaultComposer.GetTypes(this.GameActions);
+            var actionTypes = DefaultComposer.GetTypes(GameActions);
             foreach (Type type in actionTypes)
             {
                 // Find the description of this command.
@@ -108,15 +108,15 @@ namespace WheelMUD.Core
             // TODO: Exposing MasterCommandList this way is very likely NOT thread-safe. Change to a lock-protected getter?
             lock (this)
             {
-                this.primaryCommandList = newPrimaryCommandList;
-                this.MasterCommandList = newMasterCommandList;
+                primaryCommandList = newPrimaryCommandList;
+                MasterCommandList = newMasterCommandList;
             }
         }
 
         /// <summary>Starts this system.</summary>
         public override void Start()
         {
-            this.SystemHost.UpdateSystemHost(this, "Starting...");
+            SystemHost.UpdateSystemHost(this, "Starting...");
 
             // TODO: Test > 1, then allow total command processors to be configurable.
             //  This will take a significant effort to work out any race conditions which may leave
@@ -129,25 +129,25 @@ namespace WheelMUD.Core
             {
                 var commandProcessor = new CommandProcessor(this);
                 commandProcessor.Start();
-                this.commandProcessors.Add(commandProcessor);
+                commandProcessors.Add(commandProcessor);
             }
 
-            this.SystemHost.UpdateSystemHost(this, "Started");
+            SystemHost.UpdateSystemHost(this, "Started");
         }
 
         /// <summary>Stops this system.</summary>
         public override void Stop()
         {
-            this.SystemHost.UpdateSystemHost(this, "Stopping...");
+            SystemHost.UpdateSystemHost(this, "Stopping...");
 
-            foreach (var commandProcessor in this.commandProcessors)
+            foreach (var commandProcessor in commandProcessors)
             {
                 commandProcessor.Stop();
             }
 
-            this.commandProcessors.Clear();
+            commandProcessors.Clear();
 
-            this.SystemHost.UpdateSystemHost(this, "Stopped");
+            SystemHost.UpdateSystemHost(this, "Stopped");
         }
 
         /// <summary>Gets a list of commands that the controller has permissions to execute.</summary>
@@ -161,7 +161,7 @@ namespace WheelMUD.Core
                 // TODO: We could cache any built map of privelege-set to commands-list (so long as we invalidate
                 //       it whenever we recompose commands from MEF.)
                 List<Command> commands = new List<Command>();
-                foreach (Command command in this.primaryCommandList.Values)
+                foreach (Command command in primaryCommandList.Values)
                 {
                     commands.Add(command);
                 }
@@ -175,7 +175,7 @@ namespace WheelMUD.Core
             // TODO: Ascertain the ACTUAL sender's specific permissions, so we can check for fullAdmin, fullBuilder, and
             //       so on, instead of assuming just 'SecurityRole.player' (SEE ALSO CommandGuard.cs for another case...)
             SecurityRole playerRoles = SecurityRole.player | SecurityRole.minorBuilder | SecurityRole.fullBuilder | SecurityRole.minorAdmin | SecurityRole.fullAdmin;
-            return this.GetPossibleContextCommands(sender, alias, playerRoles).Where(cmd => cmd != null);
+            return GetPossibleContextCommands(sender, alias, playerRoles).Where(cmd => cmd != null);
         }
 
         private IEnumerable<ContextCommand> GetPossibleContextCommands(Thing sender, string alias, SecurityRole senderRoles)
@@ -228,9 +228,9 @@ namespace WheelMUD.Core
         public void EnqueueAction(ActionInput actionInput)
         {
             Debug.Assert(actionInput != null);
-            lock (this.actionQueue)
+            lock (actionQueue)
             {
-                this.actionQueue.Enqueue(actionInput);
+                actionQueue.Enqueue(actionInput);
             }
         }
 
@@ -238,14 +238,14 @@ namespace WheelMUD.Core
         /// <returns>The next action from the queue.</returns>
         internal ActionInput DequeueAction()
         {
-            lock (this.actionQueue)
+            lock (actionQueue)
             {
-                if (this.actionQueue.Count <= 0)
+                if (actionQueue.Count <= 0)
                 {
                     return null;
                 }
 
-                return this.actionQueue.Dequeue();
+                return actionQueue.Dequeue();
             }
         }
 

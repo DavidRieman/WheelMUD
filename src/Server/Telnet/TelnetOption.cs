@@ -19,17 +19,17 @@ namespace WheelMUD.Server.Telnet
         /// <param name="connection">The connection upon which we are negotiating.</param>
         public TelnetOption(string name, int optionCode, bool wantOption, Connection connection)
         {
-            this.Name = name;
-            this.OptionCode = optionCode;
-            this.WantOption = wantOption;
-            this.Connection = connection;
+            Name = name;
+            OptionCode = optionCode;
+            WantOption = wantOption;
+            Connection = connection;
 
             // Initialize the default values for all automatic properties of this class
             // that need to be something other than zero or null.
-            this.UsState = TelnetOptionState.NO;
-            this.UsSubState = TelnetQueueState.EMPTY;
-            this.HimState = TelnetOptionState.NO;
-            this.HimSubState = TelnetQueueState.EMPTY;
+            UsState = TelnetOptionState.NO;
+            UsSubState = TelnetQueueState.EMPTY;
+            HimState = TelnetOptionState.NO;
+            HimSubState = TelnetQueueState.EMPTY;
         }
 
         /// <summary>The available telnet option states.</summary>
@@ -105,21 +105,21 @@ namespace WheelMUD.Server.Telnet
             //         OPPOSITE Error: Already queued an enable request.
             // WANTYES EMPTY Error: Already negotiating for enable.
             //         OPPOSITE himq=EMPTY.
-            this.WantOption = true;
-            this.UsState = TelnetOptionState.WANTYES;
+            WantOption = true;
+            UsState = TelnetOptionState.WANTYES;
 
-            switch (this.HimState)
+            switch (HimState)
             {
                 case TelnetOptionState.NO:
-                    this.HimState = TelnetOptionState.WANTYES;
-                    this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DO, (byte)this.OptionCode });
+                    HimState = TelnetOptionState.WANTYES;
+                    Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DO, (byte)OptionCode });
                     break;
                 case TelnetOptionState.YES:
                     break;
                 case TelnetOptionState.WANTNO:
-                    if (this.HimSubState == TelnetQueueState.EMPTY)
+                    if (HimSubState == TelnetQueueState.EMPTY)
                     {
-                        this.HimSubState = TelnetQueueState.OPPOSITE;
+                        HimSubState = TelnetQueueState.OPPOSITE;
                     }
                     else
                     {
@@ -127,12 +127,12 @@ namespace WheelMUD.Server.Telnet
 
                     break;
                 case TelnetOptionState.WANTYES:
-                    if (this.HimSubState == TelnetQueueState.EMPTY)
+                    if (HimSubState == TelnetQueueState.EMPTY)
                     {
                     }
                     else
                     {
-                        this.HimSubState = TelnetQueueState.EMPTY;
+                        HimSubState = TelnetQueueState.EMPTY;
                     }
 
                     break;
@@ -151,30 +151,30 @@ namespace WheelMUD.Server.Telnet
             // WANTYES EMPTY If we are queueing requests, himq=OPPOSITE;
             //               otherwise, Error: Cannot initiate new request in the middle of negotiation.
             //         OPPOSITE Error: Already queued a disable request.
-            this.WantOption = false;
-            this.UsState = TelnetOptionState.WANTNO;
+            WantOption = false;
+            UsState = TelnetOptionState.WANTNO;
 
-            switch (this.HimState)
+            switch (HimState)
             {
                 case TelnetOptionState.NO:
                 case TelnetOptionState.YES:
-                    this.HimState = TelnetOptionState.WANTNO;
-                    this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DONT, (byte)this.OptionCode });
+                    HimState = TelnetOptionState.WANTNO;
+                    Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DONT, (byte)OptionCode });
                     break;
                 case TelnetOptionState.WANTNO:
-                    if (this.HimSubState == TelnetQueueState.EMPTY)
+                    if (HimSubState == TelnetQueueState.EMPTY)
                     {
                     }
                     else
                     {
-                        this.HimSubState = TelnetQueueState.EMPTY;
+                        HimSubState = TelnetQueueState.EMPTY;
                     }
 
                     break;
                 case TelnetOptionState.WANTYES:
-                    if (this.HimSubState == TelnetQueueState.EMPTY)
+                    if (HimSubState == TelnetQueueState.EMPTY)
                     {
-                        this.HimSubState = TelnetQueueState.OPPOSITE;
+                        HimSubState = TelnetQueueState.OPPOSITE;
                     }
                     else
                     {
@@ -196,58 +196,58 @@ namespace WheelMUD.Server.Telnet
             //         OPPOSITE Error: DONT answered by WILL. him=YES, himq=EMPTY.
             // WANTYES EMPTY him=YES.
             //         OPPOSITE him=WANTNO, himq=EMPTY, send DONT.
-            switch (this.HimState)
+            switch (HimState)
             {
                 case TelnetOptionState.NO:
                     // If we want to enable it him = yes, send DO; else send DONT.
-                    if (this.WantOption)
+                    if (WantOption)
                     {
                         // Send DO.
-                        this.HimState = TelnetOptionState.YES;
-                        this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DO, (byte)this.OptionCode });
+                        HimState = TelnetOptionState.YES;
+                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DO, (byte)OptionCode });
                     }
                     else
                     {
                         // Send DONT.
-                        this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DONT, (byte)this.OptionCode });
+                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DONT, (byte)OptionCode });
                     }
 
                     break;
                 case TelnetOptionState.YES:
                     break;
                 case TelnetOptionState.WANTNO:
-                    if (this.HimSubState == TelnetQueueState.EMPTY)
+                    if (HimSubState == TelnetQueueState.EMPTY)
                     {
-                        this.HimState = TelnetOptionState.NO;
+                        HimState = TelnetOptionState.NO;
                     }
                     else
                     {
-                        this.HimState = TelnetOptionState.YES;
-                        this.HimSubState = TelnetQueueState.EMPTY;
+                        HimState = TelnetOptionState.YES;
+                        HimSubState = TelnetQueueState.EMPTY;
                     }
 
                     break;
                 case TelnetOptionState.WANTYES:
-                    if (this.HimSubState == TelnetQueueState.EMPTY)
+                    if (HimSubState == TelnetQueueState.EMPTY)
                     {
-                        this.HimState = TelnetOptionState.YES;
+                        HimState = TelnetOptionState.YES;
                     }
                     else
                     {
                         // Send DONT
-                        this.HimState = TelnetOptionState.NO;
-                        this.HimSubState = TelnetQueueState.EMPTY;
-                        this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DONT, (byte)this.OptionCode });
+                        HimState = TelnetOptionState.NO;
+                        HimSubState = TelnetQueueState.EMPTY;
+                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DONT, (byte)OptionCode });
                     }
 
                     break;
             }
 
-            if (this.HimState == TelnetOptionState.YES)
+            if (HimState == TelnetOptionState.YES)
             {
                 // Successful negotiation.
-                this.UsState = TelnetOptionState.YES;
-                this.AfterNegotiation();
+                UsState = TelnetOptionState.YES;
+                AfterNegotiation();
             }
         }
 
@@ -263,46 +263,46 @@ namespace WheelMUD.Server.Telnet
             //         OPPOSITE him=WANTYES, himq=NONE, send DO.
             // WANTYES EMPTY him=NO.*
             //         OPPOSITE him=NO, himq=NONE.**
-            switch (this.HimState)
+            switch (HimState)
             {
                 case TelnetOptionState.NO:
                     break;
                 case TelnetOptionState.YES:
                     // SEND DONT
-                    this.HimState = TelnetOptionState.NO;
-                    this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DONT, (byte)this.OptionCode });
+                    HimState = TelnetOptionState.NO;
+                    Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DONT, (byte)OptionCode });
                     break;
                 case TelnetOptionState.WANTNO:
-                    if (this.HimSubState == TelnetQueueState.EMPTY)
+                    if (HimSubState == TelnetQueueState.EMPTY)
                     {
-                        this.HimState = TelnetOptionState.NO;
+                        HimState = TelnetOptionState.NO;
                     }
                     else
                     {
                         // SEND DO
-                        this.HimState = TelnetOptionState.WANTYES;
-                        this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DO, (byte)this.OptionCode });
+                        HimState = TelnetOptionState.WANTYES;
+                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DO, (byte)OptionCode });
                     }
 
                     break;
                 case TelnetOptionState.WANTYES:
-                    if (this.HimSubState == TelnetQueueState.EMPTY)
+                    if (HimSubState == TelnetQueueState.EMPTY)
                     {
-                        this.HimState = TelnetOptionState.NO;
+                        HimState = TelnetOptionState.NO;
                     }
                     else
                     {
-                        this.HimState = TelnetOptionState.NO;
-                        this.HimSubState = TelnetQueueState.EMPTY;
+                        HimState = TelnetOptionState.NO;
+                        HimSubState = TelnetQueueState.EMPTY;
                     }
 
                     break;
             }
 
-            if (this.HimState == TelnetOptionState.NO)
+            if (HimState == TelnetOptionState.NO)
             {
-                this.UsState = TelnetOptionState.NO;
-                this.AfterNegotiation();
+                UsState = TelnetOptionState.NO;
+                AfterNegotiation();
             }
         }
 
@@ -318,56 +318,56 @@ namespace WheelMUD.Server.Telnet
             //         OPPOSITE Error: DONT answered by WILL. us=YES, usq=EMPTY.
             // WANTYES EMPTY us=YES.
             //         OPPOSITE us=WANTNO, usq=EMPTY, send DONT.
-            switch (this.UsState)
+            switch (UsState)
             {
                 case TelnetOptionState.NO:
-                    if (this.WantOption)
+                    if (WantOption)
                     {
                         // SEND DO
-                        this.UsState = TelnetOptionState.YES;
-                        this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WILL, (byte)this.OptionCode });
+                        UsState = TelnetOptionState.YES;
+                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WILL, (byte)OptionCode });
                     }
                     else
                     {
                         // SEND DONT
-                        this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WONT, (byte)this.OptionCode });
+                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WONT, (byte)OptionCode });
                     }
 
                     break;
                 case TelnetOptionState.YES:
                     break;
                 case TelnetOptionState.WANTNO:
-                    if (this.UsSubState == TelnetQueueState.EMPTY)
+                    if (UsSubState == TelnetQueueState.EMPTY)
                     {
-                        this.UsState = TelnetOptionState.NO;
+                        UsState = TelnetOptionState.NO;
                     }
                     else
                     {
-                        this.UsState = TelnetOptionState.YES;
-                        this.UsSubState = TelnetQueueState.EMPTY;
+                        UsState = TelnetOptionState.YES;
+                        UsSubState = TelnetQueueState.EMPTY;
                     }
 
                     break;
                 case TelnetOptionState.WANTYES:
-                    if (this.UsSubState == TelnetQueueState.EMPTY)
+                    if (UsSubState == TelnetQueueState.EMPTY)
                     {
-                        this.UsState = TelnetOptionState.YES;
+                        UsState = TelnetOptionState.YES;
                     }
                     else
                     {
                         // SEND DONT
-                        this.UsState = TelnetOptionState.WANTNO;
-                        this.UsSubState = TelnetQueueState.EMPTY;
-                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WONT, (byte)this.OptionCode });
+                        UsState = TelnetOptionState.WANTNO;
+                        UsSubState = TelnetQueueState.EMPTY;
+                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WONT, (byte)OptionCode });
                     }
 
                     break;
             }
 
-            if (this.UsState == TelnetOptionState.YES)
+            if (UsState == TelnetOptionState.YES)
             {
-                this.HimState = TelnetOptionState.YES;
-                this.AfterNegotiation();
+                HimState = TelnetOptionState.YES;
+                AfterNegotiation();
             }
         }
 
@@ -383,47 +383,47 @@ namespace WheelMUD.Server.Telnet
             //         OPPOSITE us=WANTYES, usq=NONE, send DO.
             // WANTYES EMPTY us=NO.*
             //         OPPOSITE us=NO, usq=NONE.**
-            switch (this.UsState)
+            switch (UsState)
             {
                 case TelnetOptionState.NO:
                     break;
                 case TelnetOptionState.YES:
                     // SEND WONT
-                    this.UsState = TelnetOptionState.NO;
-                    this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WONT, (byte)this.OptionCode });
+                    UsState = TelnetOptionState.NO;
+                    Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WONT, (byte)OptionCode });
                     break;
                 case TelnetOptionState.WANTNO:
-                    if (this.UsSubState == TelnetQueueState.EMPTY)
+                    if (UsSubState == TelnetQueueState.EMPTY)
                     {
-                        this.UsState = TelnetOptionState.NO;
+                        UsState = TelnetOptionState.NO;
                     }
                     else
                     {
                         // SEND DO
-                        this.UsState = TelnetOptionState.WANTYES;
-                        this.UsSubState = TelnetQueueState.EMPTY;
-                        this.Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WILL, (byte)this.OptionCode });
+                        UsState = TelnetOptionState.WANTYES;
+                        UsSubState = TelnetQueueState.EMPTY;
+                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WILL, (byte)OptionCode });
                     }
 
                     break;
                 case TelnetOptionState.WANTYES:
-                    if (this.UsSubState == TelnetQueueState.EMPTY)
+                    if (UsSubState == TelnetQueueState.EMPTY)
                     {
-                        this.UsState = TelnetOptionState.NO;
+                        UsState = TelnetOptionState.NO;
                     }
                     else
                     {
-                        this.UsState = TelnetOptionState.NO;
-                        this.UsSubState = TelnetQueueState.EMPTY;
+                        UsState = TelnetOptionState.NO;
+                        UsSubState = TelnetQueueState.EMPTY;
                     }
 
                     break;
             }
 
-            if (this.UsState == TelnetOptionState.NO)
+            if (UsState == TelnetOptionState.NO)
             {
-                this.HimState = TelnetOptionState.NO;
-                this.AfterNegotiation();
+                HimState = TelnetOptionState.NO;
+                AfterNegotiation();
             }
         }
     }

@@ -53,13 +53,13 @@ namespace WheelMUD.Actions
                 var userControlledBehavior = sender.Thing.BehaviorManager.FindFirst<UserControlledBehavior>();
                 userControlledBehavior.Controller.Write("You check your axe and begin to swing at the tree.");
 
-                ActionInput delayedAction = new ActionInput("chop " + this.tree.Id, sender) { Context = 1 };
+                ActionInput delayedAction = new ActionInput("chop " + tree.Id, sender) { Context = 1 };
                 bridge.CommandManager.Enqueue(delayedAction, new TimeSpan(0, 0, 2));
             }
             else if ((int)command.ActionInput.Context == 1)
             {
                 // TODO: Use consumable provider behavior to do the chopping.
-                //Item wood = this.tree.Chop();
+                //Item wood = tree.Chop();
                 //sender.Thing.Parent.Children.Add(wood);
                 //sender.Thing.Controller.Write("You chop some wood from the tree.");
             }
@@ -71,7 +71,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -92,9 +92,9 @@ namespace WheelMUD.Actions
             //    return string.Format("{0} is not a tree.", actionInput.Params[0]);
             //}
 
-            //this.tree = (Item) item;
+            //tree = (Item) item;
 
-            //if (this.tree.NumberOfResources <= 0)
+            //if (tree.NumberOfResources <= 0)
             //{
             //    return string.Format("The tree doesn't contain any suitable wood.");
             //}

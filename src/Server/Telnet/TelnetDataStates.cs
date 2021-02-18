@@ -3,15 +3,12 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A set of classes that represent the states that data moves through as it
-//   is processed for Telnet Option codes.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server.Telnet
 {
     /// <summary>The connection telnet state.</summary>
+    /// <remarks>Deriving classes represent the states that data moves through as it is processed for Telnet Option codes.</remarks>
     internal abstract class ConnectionTelnetState
     {
         /// <summary>TODO: What is this?</summary>
@@ -27,7 +24,7 @@ namespace WheelMUD.Server.Telnet
         /// <param name="parent">The parent telnet code handler which this object is created by.</param>
         protected ConnectionTelnetState(TelnetCodeHandler parent)
         {
-            this.Parent = parent;
+            Parent = parent;
         }
 
         /// <summary>Gets or sets the parent telnet code handler.</summary>

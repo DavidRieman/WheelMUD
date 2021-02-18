@@ -17,7 +17,7 @@ namespace WheelMUD.Data.Entities
         /// <summary>Initializes a new instance of the AreaRecord class.</summary>
         public AreaRecord()
         {
-            this.Rooms = new Dictionary<long, RoomRecord>();
+            Rooms = new Dictionary<long, RoomRecord>();
         }
 
         public virtual string Name { get; set; }

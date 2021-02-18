@@ -5,16 +5,16 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition.Hosting;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition.Hosting;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using WheelMUD.Interfaces;
-
     /// <summary>A class for simplifying common composition tasks.</summary>
     /// <remarks>
     /// TODO: Migrate this documentation to .md and reference that instead from Priority members? (And link it from other docs.)

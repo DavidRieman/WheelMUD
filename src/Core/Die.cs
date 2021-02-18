@@ -24,14 +24,14 @@ namespace WheelMUD.Core
         public Die(int numberSides, Random randomGenerator)
         {
             this.numberSides = numberSides;
-            this.rand = randomGenerator;
+            rand = randomGenerator;
         }
 
         /// <summary>Rolls the die and returns the result.</summary>
         /// <returns>The result of the die roll.</returns>
         public int Roll()
         {
-            return this.rand.Next(1, this.numberSides + 1);
+            return rand.Next(1, numberSides + 1);
         }
     }
 }

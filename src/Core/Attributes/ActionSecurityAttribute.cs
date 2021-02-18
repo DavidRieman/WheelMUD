@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Linq;
+
 namespace WheelMUD.Core.Attributes
 {
-    using System;
-    using System.Linq;
-
     public static class SecurityRoleHelpers
     {
         /// <summary>Provides a convenient way to iterate each meaningful individual (non-aggregated) security role that a user can have.</summary>
@@ -109,7 +109,7 @@ namespace WheelMUD.Core.Attributes
         /// <param name="role">The security role.</param>
         public ActionSecurityAttribute(SecurityRole role)
         {
-            this.Role = role;
+            Role = role;
         }
 
         /// <summary>Gets the security role specified by this attribute.</summary>

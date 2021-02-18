@@ -17,7 +17,7 @@ namespace WheelMUD.Core
         /// <param name="connection">The connection.</param>
         public ConnectionArgs(IConnection connection)
         {
-            this.Connection = connection;
+            Connection = connection;
         }
 
         /// <summary>Gets the connection.</summary>

@@ -46,20 +46,20 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            if (this.sourceContainer == null || this.sourceContainer.Count <= 0 || this.destinationParent == null)
+            if (sourceContainer == null || sourceContainer.Count <= 0 || destinationParent == null)
             {
                 return;
             }
 
             // Dump each child out of the targeted container.
             List<string> movedThingNames = new List<string>();
-            foreach (Thing thing in this.sourceContainer.Children)
+            foreach (Thing thing in sourceContainer.Children)
             {
                 var movableBehavior = thing.Behaviors.FindFirst<MovableBehavior>();
                 if (movableBehavior != null)
                 {
                     // Try to move the item without any messaging since we'll be sending a bulk message later.
-                    if (movableBehavior.Move(this.destinationParent, sender.Thing, null, null))
+                    if (movableBehavior.Move(destinationParent, sender.Thing, null, null))
                     {
                         movedThingNames.Add(thing.Name);
                     }
@@ -67,11 +67,11 @@ namespace WheelMUD.Actions
             }
 
             string commaSeparatedList = BuildCommaSeparatedList(movedThingNames);
-            var contextMessage = new ContextualString(sender.Thing, this.destinationParent)
+            var contextMessage = new ContextualString(sender.Thing, destinationParent)
             {
-                ToOriginator = $"You move {commaSeparatedList} from {this.sourceContainer.Name} into {this.destinationParent.Name}",
-                ToReceiver = $"{sender.Thing.Name} moves {commaSeparatedList} from {this.sourceContainer.Name} into you.",
-                ToOthers = $"{sender.Thing.Name} moves {commaSeparatedList} from {this.sourceContainer.Name} into {this.destinationParent.Name}.",
+                ToOriginator = $"You move {commaSeparatedList} from {sourceContainer.Name} into {destinationParent.Name}",
+                ToReceiver = $"{sender.Thing.Name} moves {commaSeparatedList} from {sourceContainer.Name} into you.",
+                ToOthers = $"{sender.Thing.Name} moves {commaSeparatedList} from {sourceContainer.Name} into {destinationParent.Name}.",
             };
             var message = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
@@ -85,7 +85,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -124,10 +124,10 @@ namespace WheelMUD.Actions
             }
 
             // Rule: The targeted container must not be empty already.
-            this.sourceContainer = thing;
-            if (this.sourceContainer.Children.Count == 0)
+            sourceContainer = thing;
+            if (sourceContainer.Children.Count == 0)
             {
-                return string.Format("The {0} is already empty.", this.sourceContainer.Name);
+                return string.Format("The {0} is already empty.", sourceContainer.Name);
             }
 
             // TODO: Test; Not possible? If so, default to the current container's parent instead of failing?
@@ -137,7 +137,7 @@ namespace WheelMUD.Actions
                 destinationParentName.Equals("out", StringComparison.CurrentCultureIgnoreCase))
             {
                 // TODO: Test, this may be broken...
-                this.destinationParent = sender.Thing.Parent;
+                destinationParent = sender.Thing.Parent;
             }
             else
             {
@@ -154,7 +154,7 @@ namespace WheelMUD.Actions
                     return string.Format("{0} is not a container.", destinationParentName);
                 }
 
-                this.destinationParent = thing.Parent;
+                destinationParent = thing.Parent;
             }
 
             return null;

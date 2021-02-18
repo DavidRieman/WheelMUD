@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.IO;
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp.FileSystem
 {
-    using System.IO;
-    using WheelMUD.Ftp.General;
-
     public class StandardFileObject : LoadedClass, IFile
     {
         private FileStream fileStream;
@@ -20,31 +20,31 @@ namespace WheelMUD.Ftp.FileSystem
             {
                 var mode = write ? FileMode.OpenOrCreate : FileMode.Open;
                 var access = write ? FileAccess.Write : FileAccess.Read;
-                this.fileStream = new FileStream(path, mode, access);
+                fileStream = new FileStream(path, mode, access);
 
                 if (write)
                 {
-                    this.fileStream.Seek(0, System.IO.SeekOrigin.End);
+                    fileStream.Seek(0, SeekOrigin.End);
                 }
 
-                this.isLoaded = true;
+                isLoaded = true;
             }
             catch (IOException)
             {
-                this.fileStream = null;
+                fileStream = null;
             }
         }
 
         public int Read(byte[] data, int dataSize)
         {
-            if (this.fileStream == null)
+            if (fileStream == null)
             {
                 return 0;
             }
 
             try
             {
-                return this.fileStream.Read(data, 0, dataSize);
+                return fileStream.Read(data, 0, dataSize);
             }
             catch (IOException)
             {
@@ -54,14 +54,14 @@ namespace WheelMUD.Ftp.FileSystem
 
         public int Write(byte[] data, int dataSize)
         {
-            if (this.fileStream == null)
+            if (fileStream == null)
             {
                 return 0;
             }
 
             try
             {
-                this.fileStream.Write(data, 0, dataSize);
+                fileStream.Write(data, 0, dataSize);
             }
             catch (IOException)
             {
@@ -73,17 +73,17 @@ namespace WheelMUD.Ftp.FileSystem
 
         public void Close()
         {
-            if (this.fileStream != null)
+            if (fileStream != null)
             {
                 try
                 {
-                    this.fileStream.Close();
+                    fileStream.Close();
                 }
                 catch (IOException)
                 {
                 }
 
-                this.fileStream = null;
+                fileStream = null;
             }
         }
     }

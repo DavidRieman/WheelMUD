@@ -24,7 +24,7 @@ namespace WheelMUD.Data.Sqlite
 
         public WheelMudSqliteProvider(string connectionString)
         {
-            this.ConnectionString = connectionString;
+            ConnectionString = connectionString;
         }
 
         public string ConnectionString { get; set; }
@@ -33,8 +33,8 @@ namespace WheelMUD.Data.Sqlite
 
         public IDbConnection CreateDatabaseSession()
         {
-            VerifyValidSqLiteFile(this.ConnectionString);
-            var connectionFactory = new OrmLiteConnectionFactory(this.ConnectionString, SqliteOrmLiteDialectProvider.Instance, true);
+            VerifyValidSqLiteFile(ConnectionString);
+            var connectionFactory = new OrmLiteConnectionFactory(ConnectionString, SqliteOrmLiteDialectProvider.Instance, true);
             return connectionFactory.OpenDbConnection();
         }
 

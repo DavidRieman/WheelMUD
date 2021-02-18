@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Universe
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A potion item behavior adds the ability to quaff/sip from an item.</summary>
     public class PotionBehavior : Behavior
     {
@@ -26,7 +26,7 @@ namespace WheelMUD.Universe
         public PotionBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Gets or sets the maximum sips this potion can contain.</summary>
@@ -48,7 +48,7 @@ namespace WheelMUD.Universe
         /// <param name="entity">The entity to drink the potion.</param>
         public void Drink(Thing entity)
         {
-            if (this.SipsLeft <= 0)
+            if (SipsLeft <= 0)
             {
                 return;
             }
@@ -58,24 +58,24 @@ namespace WheelMUD.Universe
 
             if (entity.Effects.TryCreateEffect<StatEffect>(entity, out effect))
             {
-                effect.Modifier = this.Modifier;
-                effect.Name = this.PotionType;
-                effect.Apply(this.Duration);
+                effect.Modifier = Modifier;
+                effect.Name = PotionType;
+                effect.Apply(Duration);
             }
             */
-            this.SipsLeft--;
+            SipsLeft--;
 
-            ////this.Save(); TODO: Bring back as Save from base class?
+            ////Save(); TODO: Bring back as Save from base class?
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.MaxSips = 5;
-            this.SipsLeft = 2;
-            this.Duration = new TimeSpan(0, 0, 15);
-            this.Modifier = 100;
-            this.PotionType = "health";
+            MaxSips = 5;
+            SipsLeft = 2;
+            Duration = new TimeSpan(0, 0, 15);
+            Modifier = 100;
+            PotionType = "health";
         }
     }
 }

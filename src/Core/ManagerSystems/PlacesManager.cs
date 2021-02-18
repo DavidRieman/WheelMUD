@@ -18,8 +18,8 @@ namespace WheelMUD.Core
         private PlacesManager()
         {
             // TODO: Assign to ItemManager instance? is it needed? currently disabled...
-            this.WorldBehavior = new WorldBehavior();
-            this.World = new Thing(this.WorldBehavior)
+            WorldBehavior = new WorldBehavior();
+            World = new Thing(WorldBehavior)
             {
                 Name = GameConfiguration.Name
             };
@@ -37,17 +37,17 @@ namespace WheelMUD.Core
         /// <summary>Starts this system's individual components.</summary>
         public override void Start()
         {
-            this.SystemHost.UpdateSystemHost(this, "Starting...");
-            this.WorldBehavior.Load();
-            this.SystemHost.UpdateSystemHost(this, "Started");
+            SystemHost.UpdateSystemHost(this, "Starting...");
+            WorldBehavior.Load();
+            SystemHost.UpdateSystemHost(this, "Started");
         }
 
         /// <summary>Stops this system's individual components.</summary>
         public override void Stop()
         {
-            this.SystemHost.UpdateSystemHost(this, "Stopping...");
-            //// TODO: this.WorldBehavior.Areas.Clear();
-            this.SystemHost.UpdateSystemHost(this, "Stopped");
+            SystemHost.UpdateSystemHost(this, "Stopping...");
+            //// TODO: WorldBehavior.Areas.Clear();
+            SystemHost.UpdateSystemHost(this, "Stopped");
         }
 
         /// <summary>Registers the <see cref="PlacesManager"/> system for export.</summary>

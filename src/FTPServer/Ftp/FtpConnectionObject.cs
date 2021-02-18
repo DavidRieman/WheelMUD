@@ -23,33 +23,33 @@ namespace WheelMUD.Ftp
         public FtpConnectionObject(IFileSystemClassFactory fileSystemClassFactory, int nId, TcpClient socket)
             : base(nId, socket)
         {
-            this.commandHashTable = new Hashtable();
+            commandHashTable = new Hashtable();
             this.fileSystemClassFactory = fileSystemClassFactory;
 
-            this.LoadCommands();
+            LoadCommands();
         }
 
         public bool Login(string password)
         {
-            var fileSystem = this.fileSystemClassFactory.Create(this.User, password);
+            var fileSystem = fileSystemClassFactory.Create(User, password);
             if (fileSystem == null)
             {
                 return false;
             }
 
-            this.SetFileSystemObject(fileSystem);
+            SetFileSystemObject(fileSystem);
             return true;
         }
 
         public bool CreateFileSystem()
         {
-            var fileSystem = this.fileSystemClassFactory.Create(this.User, string.Empty);
+            var fileSystem = fileSystemClassFactory.Create(User, string.Empty);
             if (fileSystem == null)
             {
                 return false;
             }
 
-            this.SetFileSystemObject(fileSystem);
+            SetFileSystemObject(fileSystem);
             return true;
         }
 
@@ -58,7 +58,7 @@ namespace WheelMUD.Ftp
             var message = Encoding.ASCII.GetString(data);
             message = message.Substring(0, message.IndexOf('\r'));
 
-            FtpServerMessageHandler.SendMessage(this.Id, message);
+            FtpServerMessageHandler.SendMessage(Id, message);
 
             string command;
             string value;
@@ -76,11 +76,11 @@ namespace WheelMUD.Ftp
                 value = message.Substring(command.Length + 1);
             }
 
-            var handler = this.commandHashTable[command] as FtpCommandHandler;
+            var handler = commandHashTable[command] as FtpCommandHandler;
             if (handler == null)
             {
-                FtpServerMessageHandler.SendMessage(this.Id, string.Format("\"{0}\" : Unknown command", command));
-                SocketHelpers.Send(this.Socket, "550 Unknown command\r\n");
+                FtpServerMessageHandler.SendMessage(Id, string.Format("\"{0}\" : Unknown command", command));
+                SocketHelpers.Send(Socket, "550 Unknown command\r\n");
             }
             else
             {
@@ -90,36 +90,36 @@ namespace WheelMUD.Ftp
 
         private void LoadCommands()
         {
-            this.AddCommand(new UserCommandHandler(this));
-            this.AddCommand(new PasswordCommandHandler(this));
-            this.AddCommand(new QuitCommandHandler(this));
-            this.AddCommand(new CwdCommandHandler(this));
-            this.AddCommand(new PortCommandHandler(this));
-            this.AddCommand(new PasvCommandHandler(this));
-            this.AddCommand(new ListCommandHandler(this));
-            this.AddCommand(new NlstCommandHandler(this));
-            this.AddCommand(new PwdCommandHandler(this));
-            this.AddCommand(new XPwdCommandHandler(this));
-            this.AddCommand(new TypeCommandHandler(this));
-            this.AddCommand(new RetrCommandHandler(this));
-            this.AddCommand(new NoopCommandHandler(this));
-            this.AddCommand(new SizeCommandHandler(this));
-            this.AddCommand(new DeleCommandHandler(this));
-            this.AddCommand(new AlloCommandHandler(this));
-            this.AddCommand(new StoreCommandHandler(this));
-            this.AddCommand(new MakeDirectoryCommandHandler(this));
-            this.AddCommand(new RemoveDirectoryCommandHandler(this));
-            this.AddCommand(new AppendCommandHandler(this));
-            this.AddCommand(new RenameStartCommandHandler(this));
-            this.AddCommand(new RenameCompleteCommandHandler(this));
-            this.AddCommand(new XMkdCommandHandler(this));
-            this.AddCommand(new XRmdCommandHandler(this));
-            this.AddCommand(new CdUpCommandHandler(this));
+            AddCommand(new UserCommandHandler(this));
+            AddCommand(new PasswordCommandHandler(this));
+            AddCommand(new QuitCommandHandler(this));
+            AddCommand(new CwdCommandHandler(this));
+            AddCommand(new PortCommandHandler(this));
+            AddCommand(new PasvCommandHandler(this));
+            AddCommand(new ListCommandHandler(this));
+            AddCommand(new NlstCommandHandler(this));
+            AddCommand(new PwdCommandHandler(this));
+            AddCommand(new XPwdCommandHandler(this));
+            AddCommand(new TypeCommandHandler(this));
+            AddCommand(new RetrCommandHandler(this));
+            AddCommand(new NoopCommandHandler(this));
+            AddCommand(new SizeCommandHandler(this));
+            AddCommand(new DeleCommandHandler(this));
+            AddCommand(new AlloCommandHandler(this));
+            AddCommand(new StoreCommandHandler(this));
+            AddCommand(new MakeDirectoryCommandHandler(this));
+            AddCommand(new RemoveDirectoryCommandHandler(this));
+            AddCommand(new AppendCommandHandler(this));
+            AddCommand(new RenameStartCommandHandler(this));
+            AddCommand(new RenameCompleteCommandHandler(this));
+            AddCommand(new XMkdCommandHandler(this));
+            AddCommand(new XRmdCommandHandler(this));
+            AddCommand(new CdUpCommandHandler(this));
         }
 
         private void AddCommand(FtpCommandHandler handler)
         {
-            this.commandHashTable.Add(handler.Command, handler);
+            commandHashTable.Add(handler.Command, handler);
         }
     }
 }

@@ -54,14 +54,14 @@ namespace WheelMUD.Actions
             var originator = sender.Thing;
 
             // Strings to be displayed when the effect is applied/removed.
-            var buffString = new ContextualString(sender.Thing, this.target)
+            var buffString = new ContextualString(sender.Thing, target)
             {
-                ToOriginator = string.Format("\r\nThe '{0}' stat of {1} has changed by {2}.\r\n", this.stat.Name, this.target.Name, this.modAmount),
-                ToReceiver = string.Format("\r\nYour '{0}' stat has changed by {1}.\r\n", this.stat.Name, this.modAmount)
+                ToOriginator = string.Format("\r\nThe '{0}' stat of {1} has changed by {2}.\r\n", stat.Name, target.Name, modAmount),
+                ToReceiver = string.Format("\r\nYour '{0}' stat has changed by {1}.\r\n", stat.Name, modAmount)
             };
-            var unbuffString = new ContextualString(sender.Thing, this.target)
+            var unbuffString = new ContextualString(sender.Thing, target)
             {
-                ToReceiver = string.Format("\r\nYour '{0}' stat goes back to normal.", this.stat.Abbreviation)
+                ToReceiver = string.Format("\r\nYour '{0}' stat goes back to normal.", stat.Abbreviation)
             };
 
             // Turn the above sets of strings into sensory messages.
@@ -70,9 +70,9 @@ namespace WheelMUD.Actions
 
             // Remove all existing effects on stats with the same abbreviation
             // to prevent the effects from being stacked, at least for now.
-            foreach (var effect in this.target.Behaviors.OfType<StatEffect>())
+            foreach (var effect in target.Behaviors.OfType<StatEffect>())
             {
-                if (effect.Stat.Abbreviation == this.stat.Abbreviation)
+                if (effect.Stat.Abbreviation == stat.Abbreviation)
                 {
                     sender.Thing.Behaviors.Remove(effect);
                 }
@@ -80,23 +80,23 @@ namespace WheelMUD.Actions
 
             // Create the effect, based on the type of modification.
             StatEffect statEffect = null;
-            switch (this.modType)
+            switch (modType)
             {
                 case "value":
-                    statEffect = new StatEffect(sender.Thing, this.stat, this.modAmount, 0, 0, this.duration, sensoryMessage, expirationMessage);
+                    statEffect = new StatEffect(sender.Thing, stat, modAmount, 0, 0, duration, sensoryMessage, expirationMessage);
                     break;
                 case "min":
-                    statEffect = new StatEffect(sender.Thing, this.stat, 0, this.modAmount, 0, this.duration, sensoryMessage, expirationMessage);
+                    statEffect = new StatEffect(sender.Thing, stat, 0, modAmount, 0, duration, sensoryMessage, expirationMessage);
                     break;
                 case "max":
-                    statEffect = new StatEffect(sender.Thing, this.stat, 0, 0, this.modAmount, this.duration, sensoryMessage, expirationMessage);
+                    statEffect = new StatEffect(sender.Thing, stat, 0, 0, modAmount, duration, sensoryMessage, expirationMessage);
                     break;
             }
 
             // Apply the effect.
             if (statEffect != null)
             {
-                this.target.Behaviors.Add(statEffect);
+                target.Behaviors.Add(statEffect);
             }
         }
 
@@ -105,7 +105,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -119,7 +119,7 @@ namespace WheelMUD.Actions
             var args = actionInput.Params;
             string targetString = args[0];
             string statString = args[1];
-            this.modType = args[2].ToLower().Trim();
+            modType = args[2].ToLower().Trim();
             string amountString = args[3];
             string durationString = null;
             if (args.Length > 4)
@@ -128,26 +128,26 @@ namespace WheelMUD.Actions
             }
 
             // Find the player.
-            this.target = PlayerManager.Instance.FindLoadedPlayerByName(targetString, true);
-            if (this.target == null)
+            target = PlayerManager.Instance.FindLoadedPlayerByName(targetString, true);
+            if (target == null)
             {
                 return string.Format("Could not find a target named {0}.", targetString);
             }
 
             // Make sure a valid stat was specified.
-            if (!this.target.Stats.TryGetValue(statString, out this.stat))
+            if (!target.Stats.TryGetValue(statString, out stat))
             {
-                return string.Format("{0} does not have a stat called {1}.", this.target.Name, statString);
+                return string.Format("{0} does not have a stat called {1}.", target.Name, statString);
             }
 
             // Make sure the mod type ('value', 'min', or 'max') is valid.
-            if (!this.validModTypes.Contains(this.modType))
+            if (!validModTypes.Contains(modType))
             {
-                return string.Format("'{0}' is unrecognized. Try modifying the stat's 'value', 'min', or 'max'.", this.modType);
+                return string.Format("'{0}' is unrecognized. Try modifying the stat's 'value', 'min', or 'max'.", modType);
             }
 
             // Parse the mod amount and make sure it is an integer.
-            if (!int.TryParse(amountString, out this.modAmount))
+            if (!int.TryParse(amountString, out modAmount))
             {
                 return string.Format("The amount '{0}' was not valid.", amountString);
             }
@@ -156,14 +156,14 @@ namespace WheelMUD.Actions
             // Treat it as a number of minutes.
             if (string.IsNullOrEmpty(durationString))
             {
-                this.duration = TimeSpan.FromMinutes(5);
+                duration = TimeSpan.FromMinutes(5);
             }
             else
             {
                 double minutes;
                 if (double.TryParse(durationString, out minutes))
                 {
-                    this.duration = TimeSpan.FromMinutes(minutes);
+                    duration = TimeSpan.FromMinutes(minutes);
                 }
                 else
                 {

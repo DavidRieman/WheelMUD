@@ -26,7 +26,7 @@ namespace WheelMUD.Universe
         public ActivationBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>

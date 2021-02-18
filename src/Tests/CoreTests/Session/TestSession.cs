@@ -5,17 +5,17 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Tests.Session
-{
-    using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.ComponentModel.Composition.Hosting;
-    using System.Text;
-    using WheelMUD.Core;
-    using WheelMUD.Interfaces;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using System.Text;
+using WheelMUD.Core;
+using WheelMUD.Interfaces;
 
+namespace WheelMUD.Tests
+{
     /// <summary>Tests the Session class.</summary>
     [TestFixture]
     public class TestSession
@@ -106,7 +106,7 @@ namespace WheelMUD.Tests.Session
         {
             public FakeConnection()
             {
-                this.Reset();
+                Reset();
             }
 
             public List<string> FakeMessagesSent { get; set; }
@@ -127,7 +127,7 @@ namespace WheelMUD.Tests.Session
                 get { throw new NotImplementedException(); }
             }
 
-            public Core.Output.OutputBuffer OutputBuffer
+            public OutputBuffer OutputBuffer
             {
                 get { throw new NotImplementedException(); }
                 set { throw new NotImplementedException(); }
@@ -167,7 +167,7 @@ namespace WheelMUD.Tests.Session
 
             public void Reset()
             {
-                this.FakeMessagesSent = new List<string>();
+                FakeMessagesSent = new List<string>();
             }
 
             public void Disconnect()
@@ -177,12 +177,12 @@ namespace WheelMUD.Tests.Session
 
             public void Send(byte[] data)
             {
-                this.Send(Encoding.ASCII.GetString(data));
+                Send(Encoding.ASCII.GetString(data));
             }
 
             public void Send(string data)
             {
-                this.FakeMessagesSent.Add(data);
+                FakeMessagesSent.Add(data);
             }
 
             public void Send(string data, bool bypassDataFormatter)
@@ -195,7 +195,7 @@ namespace WheelMUD.Tests.Session
                 throw new NotImplementedException();
             }
 
-            public void ProcessBuffer(Core.Enums.BufferDirection bufferDirection)
+            public void ProcessBuffer(BufferDirection bufferDirection)
             {
                 throw new NotImplementedException();
             }

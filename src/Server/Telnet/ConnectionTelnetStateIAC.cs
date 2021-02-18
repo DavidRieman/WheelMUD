@@ -3,9 +3,6 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Handles the negotiation of a telnet IAC option.
-// </summary>
 //-----------------------------------------------------------------------------
 
 namespace WheelMUD.Server.Telnet

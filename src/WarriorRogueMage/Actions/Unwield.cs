@@ -42,20 +42,20 @@ namespace WarriorRogueMage.Actions
         {
             IController sender = actionInput.Controller;
 
-            this.itemToUnwieldBehavior.Wielder = null;
+            itemToUnwieldBehavior.Wielder = null;
 
             // Remove the event handler that prevents dropping the item while wielded.
-            var interceptor = this.itemToUnwieldBehavior.MovementInterceptor;
-            this.itemToUnwield.Eventing.MovementRequest -= interceptor;
+            var interceptor = itemToUnwieldBehavior.MovementInterceptor;
+            itemToUnwield.Eventing.MovementRequest -= interceptor;
 
-            var contextMessage = new ContextualString(sender.Thing, this.itemToUnwield.Parent)
+            var contextMessage = new ContextualString(sender.Thing, itemToUnwield.Parent)
             {
-                ToOriginator = $"You unwield {this.itemToUnwield.Name}.",
-                ToOthers = $"{sender.Thing.Name} unwields {this.itemToUnwield.Name}.",
+                ToOriginator = $"You unwield {itemToUnwield.Name}.",
+                ToOthers = $"{sender.Thing.Name} unwields {itemToUnwield.Name}.",
             };
             var sensoryMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
-            var unwieldEvent = new WieldUnwieldEvent(this.itemToUnwield, true, sender.Thing, sensoryMessage);
+            var unwieldEvent = new WieldUnwieldEvent(itemToUnwield, true, sender.Thing, sensoryMessage);
 
             sender.Thing.Eventing.OnCombatRequest(unwieldEvent, EventScope.ParentsDown);
 
@@ -73,7 +73,7 @@ namespace WarriorRogueMage.Actions
             IController sender = actionInput.Controller;
             Thing wielder = sender.Thing;
 
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -84,19 +84,19 @@ namespace WarriorRogueMage.Actions
             // First look for a matching item in inventory and make sure it can
             // be wielded. If nothing was found in inventory, look for a matching
             // wieldable item in the surrounding environment.
-            this.itemToUnwield = wielder.FindChild(item => item.Name.ToLower() == itemName && item.HasBehavior<WieldableBehavior>() && item.Behaviors.FindFirst<WieldableBehavior>().Wielder == sender.Thing);
+            itemToUnwield = wielder.FindChild(item => item.Name.ToLower() == itemName && item.HasBehavior<WieldableBehavior>() && item.Behaviors.FindFirst<WieldableBehavior>().Wielder == sender.Thing);
 
-            if (this.itemToUnwield == null)
+            if (itemToUnwield == null)
             {
-                this.itemToUnwield = wielder.Parent.FindChild(item => item.Name.ToLower() == itemName && item.HasBehavior<WieldableBehavior>() && item.Behaviors.FindFirst<WieldableBehavior>().Wielder == sender.Thing);
+                itemToUnwield = wielder.Parent.FindChild(item => item.Name.ToLower() == itemName && item.HasBehavior<WieldableBehavior>() && item.Behaviors.FindFirst<WieldableBehavior>().Wielder == sender.Thing);
             }
 
-            if (this.itemToUnwield == null)
+            if (itemToUnwield == null)
             {
                 return "You are not wielding the " + itemName + ".";
             }
 
-            this.itemToUnwieldBehavior = this.itemToUnwield.Behaviors.FindFirst<WieldableBehavior>();
+            itemToUnwieldBehavior = itemToUnwield.Behaviors.FindFirst<WieldableBehavior>();
 
             return null;
         }

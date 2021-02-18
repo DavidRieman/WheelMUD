@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Tests.Session
-{
-    using NUnit.Framework;
-    using System.ComponentModel.Composition;
-    using System.ComponentModel.Composition.Hosting;
-    using WheelMUD.Core;
+using NUnit.Framework;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using WheelMUD.Core;
 
+namespace WheelMUD.Tests
+{
     /// <summary>Tests the Session class.</summary>
     [TestFixture]
     public class TestSessionStateManager

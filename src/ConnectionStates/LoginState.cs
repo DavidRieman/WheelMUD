@@ -23,68 +23,68 @@ namespace WheelMUD.ConnectionStates
             : base(session)
         {
             this.userName = userName;
-            session.Write("Please enter your password:");
         }
 
         /// <summary>Process the specified input.</summary>
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {
-            this.Session.AtPrompt = false;
+            Session.AtPrompt = false;
             if (command != string.Empty)
             {
-                var authenticatedUser = this.Authenticate(command);
+                var authenticatedUser = Authenticate(command);
                 if (authenticatedUser != null)
                 {
-                    this.Session.User = authenticatedUser;
+                    Session.User = authenticatedUser;
                     if (!AppConfigInfo.Instance.UserAccountIsPlayerCharacter)
                     {
                         throw new NotImplementedException("Need to build a ChooseCharacterState!");
                     }
                     else
                     {
-                        var characterId = this.Session.User.PlayerCharacterIds[0];
-                        this.Session.Thing = DocumentRepository<Thing>.Load(characterId);
-                        this.Session.Thing.Parent.Children.RemoveAll(t => t.Id == this.Session.Thing.Id);
-                        this.Session.Thing.Behaviors.SetParent(this.Session.Thing);
-                        var playerBehavior = this.Session.Thing.FindBehavior<PlayerBehavior>();
+                        var characterId = Session.User.PlayerCharacterIds[0];
+                        Session.Thing = DocumentRepository<Thing>.Load(characterId);
+                        // TODO: https://github.com/DavidRieman/WheelMUD/pull/66 - Clean up previous session properly (this won't always work).
+                        Session.Thing.Parent.Children.RemoveAll(t => t.Id == this.Session.Thing.Id);
+                        Session.Thing.Behaviors.SetParent(Session.Thing);
+                        var playerBehavior = Session.Thing.FindBehavior<PlayerBehavior>();
                         if (playerBehavior != null)
                         {
-                            this.Session.Thing.Behaviors.FindFirst<UserControlledBehavior>().Controller = this.Session;
-                            playerBehavior.LogIn(this.Session);
-                            this.Session.AuthenticateSession();
-                            this.Session.State = new PlayingState(this.Session);
+                            Session.Thing.Behaviors.FindFirst<UserControlledBehavior>().Controller = Session;
+                            playerBehavior.LogIn(Session);
+                            Session.AuthenticateSession();
+                            Session.State = new PlayingState(Session);
 
                         }
                         else
                         {
-                            this.Session.Write("This character player state is broken. You may need to contact an admin for a possible recovery attempt.");
-                            this.Session.InformSubscribedSystem(this.Session.ID + " failed to load due to missing player behavior.");
-                            this.Session.State = new ConnectedState(this.Session);
-                            this.Session.WritePrompt();
+                            Session.Write("This character player state is broken. You may need to contact an admin for a possible recovery attempt.");
+                            Session.InformSubscribedSystem(Session.ID + " failed to load due to missing player behavior.");
+                            Session.State = new ConnectedState(Session);
+                            Session.WritePrompt();
                         }
                     }
                 }
                 else
                 {
-                    this.Session.Write("Incorrect user name or password.\r\n\r\n", false);
-                    this.Session.InformSubscribedSystem(this.Session.ID + " failed to log in");
-                    this.Session.State = new ConnectedState(this.Session);
-                    this.Session.WritePrompt();
+                    Session.Write("Incorrect user name or password.\r\n\r\n", false);
+                    Session.InformSubscribedSystem(Session.ID + " failed to log in");
+                    Session.State = new ConnectedState(Session);
+                    Session.WritePrompt();
                 }
             }
         }
 
         public override string BuildPrompt()
         {
-            return "> ";
+            return string.Format("Please enter your password:{0}> ", Environment.NewLine);
         }
 
         /// <summary>Authenticate the user name and password supplied.</summary>
         /// <returns>True if authenticated, else false.</returns>
         private User Authenticate(string password)
         {
-            return PlayerRepositoryExtensions.Authenticate(this.userName, password);
+            return PlayerRepositoryExtensions.Authenticate(userName, password);
         }
     }
 }

@@ -33,23 +33,23 @@ namespace WheelMUD.ConnectionStates
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {
-            this.Session.AtPrompt = false;
+            Session.AtPrompt = false;
             switch (command.ToLower())
             {
                 case "":
                     break;
                 case "new":
-                    this.Session.State = new CreationState(this.Session);
-                    this.Session.WritePrompt();
+                    Session.State = new CreationState(Session);
+                    Session.WritePrompt();
                     break;
                 case "quit":
                 case "close":
                 case "exit":
-                    this.Session.Connection.Disconnect();
+                    Session.Connection.Disconnect();
                     break;
                 default:
-                    this.Session.State = new LoginState(this.Session, command);
-                    this.Session.WritePrompt();
+                    Session.State = new LoginState(Session, command);
+                    Session.WritePrompt();
                     break;
             }
         }

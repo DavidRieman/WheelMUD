@@ -31,7 +31,7 @@ namespace WarriorRogueMage
             "This talent allows the player to roll two six sided dice instead of one when making a check using the relevant attribute. The highest result counts.",
             TalentType.Racial)
         {
-            this.ExceptionalAttribute = attribute;
+            ExceptionalAttribute = attribute;
         }
 
         /// <summary>Initializes a new instance of the <see cref="ExceptionalAttributeTalent"/> class.</summary>
@@ -54,7 +54,7 @@ namespace WarriorRogueMage
             "Natural armor usually is in the form of scales or thick fur that protects the character from damage. The Defense granted by natural armor works as long as no other armor is worn.",
             TalentType.Racial)
         {
-            this.DefenseBonus = defenseBonus;
+            DefenseBonus = defenseBonus;
         }
 
         /// <summary>Initializes a new instance of the <see cref="NaturalArmorTalent"/> class.</summary>

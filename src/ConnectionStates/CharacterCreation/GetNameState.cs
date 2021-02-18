@@ -5,12 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using WheelMUD.Core;
+using WheelMUD.Data;
+using WheelMUD.Data.Repositories;
+
 namespace WheelMUD.ConnectionStates
 {
-    using WheelMUD.Core;
-    using WheelMUD.Data;
-    using WheelMUD.Data.Repositories;
-
     /// <summary>This is the state for new character name entry as supplied by a player.</summary>
     public class GetNameState : CharacterCreationSubState
     {
@@ -37,25 +38,25 @@ namespace WheelMUD.ConnectionStates
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {
-            if (this.ValidateUserName(ref command))
+            if (ValidateUserName(ref command))
             {
                 // The name is valid, but has it been taken already?
                 if (PlayerRepositoryExtensions.UserNameExists(command))
                 {
-                    this.Session.Write("I'm sorry, that name is already taken. Please choose another.");
+                    Session.Write("I'm sorry, that name is already taken. Please choose another.");
                 }
-                else if (this.StateMachine != null)
+                else if (StateMachine != null)
                 {
-                    this.Session.User.UserName = command;
+                    Session.User.UserName = command;
                     if (AppConfigInfo.Instance.UserAccountIsPlayerCharacter)
                     {
-                        this.Session.Thing.Name = command;
+                        Session.Thing.Name = command;
                     }
                     else
                     {
-                        throw new System.NotImplementedException("Need to ensure correct flow into character selection state.");
+                        throw new NotImplementedException("Need to ensure correct flow into character selection state.");
                     }
-                    this.StateMachine.HandleNextStep(this, StepStatus.Success);
+                    StateMachine.HandleNextStep(this, StepStatus.Success);
                 }
             }
         }
@@ -86,7 +87,7 @@ namespace WheelMUD.ConnectionStates
             // Rule: User and character names may not be missing or empty.
             if (string.IsNullOrEmpty(newUserName))
             {
-                this.Session.Write("You must supply a name.");
+                Session.Write("You must supply a name.");
                 return false;
             }
 
@@ -96,7 +97,7 @@ namespace WheelMUD.ConnectionStates
             if (isAlsoPlayerName && (newUserName.Length < MinimumPlayerCharacterNameLength || newUserName.Length > MaximumPlayerCharacterNameLength))
             {
                 var format = "Player name must be between {0} and {1} letters long. Please choose another.";
-                this.Session.Write(string.Format(format, MinimumPlayerCharacterNameLength, MaximumPlayerCharacterNameLength));
+                Session.Write(string.Format(format, MinimumPlayerCharacterNameLength, MaximumPlayerCharacterNameLength));
                 return false;
             }
 
@@ -104,7 +105,7 @@ namespace WheelMUD.ConnectionStates
             if (newUserName.Length < MinimumUserNameLength || newUserName.Length > MaximumUserNameLength)
             {
                 var format = "User name must be between {0} and {1} letters long. Please choose another.";
-                this.Session.Write(string.Format(format, MinimumUserNameLength, MaximumUserNameLength));
+                Session.Write(string.Format(format, MinimumUserNameLength, MaximumUserNameLength));
                 return false;
             }
 
@@ -117,7 +118,7 @@ namespace WheelMUD.ConnectionStates
                 {
                     if (!char.IsLetter(c))
                     {
-                        this.Session.Write("Character name must include only letters. Please choose another.");
+                        Session.Write("Character name must include only letters. Please choose another.");
                         return false;
                     }
                 }
@@ -145,14 +146,14 @@ namespace WheelMUD.ConnectionStates
                 // Rule: Character name must include at least one vowel or equivalent character.
                 if (vowelCount <= 0)
                 {
-                    this.Session.Write("Character name may not exclude vowels. Please choose another.");
+                    Session.Write("Character name may not exclude vowels. Please choose another.");
                     return false;
                 }
 
                 // Rule: Character name may not only consist too heavily of uppercase characters.
                 if (capitalCount > 1 && capitalCount >= newUserName.Length / 2)
                 {
-                    this.Session.Write("Character name may not be heavily uppercased. Please choose another.");
+                    Session.Write("Character name may not be heavily uppercased. Please choose another.");
                     return false;
                 }
 

@@ -13,12 +13,12 @@ This example is from the Yell action, from WheelMUD v0.4:
 ```
   var contextMessage = new ContextualString(entity, null)
   {
-      ToOriginator = "You yell: " + this.yellSentence,
-      ToReceiver = "You hear $ActiveThing.Name yell: " + this.yellSentence,
-      ToOthers = "You hear $ActiveThing.Name yell: " + this.yellSentence,
+      ToOriginator = "You yell: " + yellSentence,
+      ToReceiver = "You hear $ActiveThing.Name yell: " + yellSentence,
+      ToOthers = "You hear $ActiveThing.Name yell: " + yellSentence,
   };
   var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
-  this.yellEvent = new VerbalCommunicationEvent(entity, sm, VerbalCommunicationType.Yell);
+  yellEvent = new VerbalCommunicationEvent(entity, sm, VerbalCommunicationType.Yell);
 ```
 As that event gets broadcasted:
 * If you were deaf, you'd see nothing at all from it.

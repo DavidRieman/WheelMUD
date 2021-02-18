@@ -4,7 +4,7 @@
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // <summary>
-//   Global Assembly information for the WheelMUD solution.
+//   Global Assembly information for the WheelMUD solution. (Combines with individual AssemblyInfo files for each project.)
 // </summary>
 //-----------------------------------------------------------------------------
 

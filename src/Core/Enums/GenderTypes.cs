@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Enums
-{
-    using System;
+using System;
 
+namespace WheelMUD.Core
+{
     /// <summary>All of the different Genders possible. Used for Mobs, Players, and maybe other Things.</summary>
     [Flags]
     public enum GenderTypes : byte

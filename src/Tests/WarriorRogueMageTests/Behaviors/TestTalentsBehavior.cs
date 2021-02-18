@@ -24,7 +24,7 @@ namespace WheelMUD.Tests.Behaviors
         [SetUp]
         public void Init()
         {
-            this.playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
+            playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
         }
 
         /// <summary>Test to make sure WRM behaviors are attaching properly.</summary>
@@ -32,9 +32,9 @@ namespace WheelMUD.Tests.Behaviors
         public void AttachTalentsBehaviorToPlayerTest()
         {
             var testBehavior = new TalentsBehavior(null);
-            this.playerThing.Behaviors.Add(testBehavior);
-            Assert.IsNotNull(this.playerThing.Behaviors.FindFirst<TalentsBehavior>());
-            this.playerThing.Behaviors.Remove(testBehavior);
+            playerThing.Behaviors.Add(testBehavior);
+            Assert.IsNotNull(playerThing.Behaviors.FindFirst<TalentsBehavior>());
+            playerThing.Behaviors.Remove(testBehavior);
         }
 
         [Test]
@@ -43,14 +43,14 @@ namespace WheelMUD.Tests.Behaviors
             var testTalent = new CraftsmanTalent();
             var testBehavior = new TalentsBehavior(null);
             testBehavior.AddTalent(testTalent);
-            this.playerThing.Behaviors.Add(testBehavior);
-            var behavior = this.playerThing.Behaviors.FindFirst<TalentsBehavior>();
+            playerThing.Behaviors.Add(testBehavior);
+            var behavior = playerThing.Behaviors.FindFirst<TalentsBehavior>();
 
             Assert.IsTrue(behavior.ManagedTalents.Contains(testTalent));
             Assert.IsNotNull(testTalent.PlayerThing);
 
             behavior.RemoveTalent(testTalent);
-            this.playerThing.Behaviors.Remove(testBehavior);
+            playerThing.Behaviors.Remove(testBehavior);
         }
 
         [Test]
@@ -63,32 +63,32 @@ namespace WheelMUD.Tests.Behaviors
             var damageStat = new DamageStat();
             var attackStat = new AttackStat();
 
-            warriorAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(warriorAttribute);
+            warriorAttribute.Parent = playerThing;
+            playerThing.AddAttribute(warriorAttribute);
 
-            mageAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(rogueAttribute);
+            mageAttribute.Parent = playerThing;
+            playerThing.AddAttribute(rogueAttribute);
 
-            rogueAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(mageAttribute);
+            rogueAttribute.Parent = playerThing;
+            playerThing.AddAttribute(mageAttribute);
 
-            warriorAttribute.SetValue(10, this.playerThing);
-            rogueAttribute.SetValue(10, this.playerThing);
-            mageAttribute.SetValue(10, this.playerThing);
+            warriorAttribute.SetValue(10, playerThing);
+            rogueAttribute.SetValue(10, playerThing);
+            mageAttribute.SetValue(10, playerThing);
 
-            this.playerThing.Stats.Add(damageStat.Name, damageStat);
-            this.playerThing.Stats.Add(attackStat.Name, attackStat);
+            playerThing.Stats.Add(damageStat.Name, damageStat);
+            playerThing.Stats.Add(attackStat.Name, attackStat);
 
             var testTalent = new ChampionTalent();
-            this.playerThing.Behaviors.Add(testBehavior);
+            playerThing.Behaviors.Add(testBehavior);
 
-            var behavior = this.playerThing.Behaviors.FindFirst<TalentsBehavior>();
+            var behavior = playerThing.Behaviors.FindFirst<TalentsBehavior>();
             behavior.AddTalent(testTalent);
             Assert.IsTrue(behavior.ManagedTalents.Contains(testTalent));
             Assert.IsNotNull(testTalent.PlayerThing);
 
             behavior.RemoveTalent(testTalent);
-            this.playerThing.Behaviors.Remove(testBehavior);
+            playerThing.Behaviors.Remove(testBehavior);
         }
 
         [Test]
@@ -96,14 +96,14 @@ namespace WheelMUD.Tests.Behaviors
         {
             var testTalent = new CraftsmanTalent();
             var testBehavior = new TalentsBehavior(null);
-            this.playerThing.Behaviors.Add(testBehavior);
-            var behavior = this.playerThing.Behaviors.FindFirst<TalentsBehavior>();
+            playerThing.Behaviors.Add(testBehavior);
+            var behavior = playerThing.Behaviors.FindFirst<TalentsBehavior>();
             testBehavior.AddTalent(testTalent);
             Assert.IsTrue(behavior.ManagedTalents.Contains(testTalent));
             Assert.IsNotNull(testTalent.PlayerThing);
 
             behavior.RemoveTalent(testTalent);
-            this.playerThing.Behaviors.Remove(testBehavior);
+            playerThing.Behaviors.Remove(testBehavior);
         }
 
         [Test]
@@ -116,30 +116,30 @@ namespace WheelMUD.Tests.Behaviors
             var damageStat = new DamageStat();
             var attackStat = new AttackStat();
 
-            warriorAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(warriorAttribute);
+            warriorAttribute.Parent = playerThing;
+            playerThing.AddAttribute(warriorAttribute);
 
-            mageAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(rogueAttribute);
+            mageAttribute.Parent = playerThing;
+            playerThing.AddAttribute(rogueAttribute);
 
-            rogueAttribute.Parent = this.playerThing;
-            this.playerThing.AddAttribute(mageAttribute);
+            rogueAttribute.Parent = playerThing;
+            playerThing.AddAttribute(mageAttribute);
 
-            warriorAttribute.SetValue(10, this.playerThing);
-            rogueAttribute.SetValue(10, this.playerThing);
-            mageAttribute.SetValue(10, this.playerThing);
+            warriorAttribute.SetValue(10, playerThing);
+            rogueAttribute.SetValue(10, playerThing);
+            mageAttribute.SetValue(10, playerThing);
 
-            this.playerThing.Stats.Add(damageStat.Name, damageStat);
-            this.playerThing.Stats.Add(attackStat.Name, attackStat);
+            playerThing.Stats.Add(damageStat.Name, damageStat);
+            playerThing.Stats.Add(attackStat.Name, attackStat);
             var testTalent = new ChampionTalent();
-            this.playerThing.Behaviors.Add(testBehavior);
-            var behavior = this.playerThing.Behaviors.FindFirst<TalentsBehavior>();
+            playerThing.Behaviors.Add(testBehavior);
+            var behavior = playerThing.Behaviors.FindFirst<TalentsBehavior>();
             testBehavior.AddTalent(testTalent);
             Assert.IsTrue(behavior.ManagedTalents.Contains(testTalent));
             Assert.IsNotNull(testTalent.PlayerThing);
 
             behavior.RemoveTalent(testTalent);
-            this.playerThing.Behaviors.Remove(testBehavior);
+            playerThing.Behaviors.Remove(testBehavior);
         }
     }
 }

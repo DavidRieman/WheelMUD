@@ -35,28 +35,28 @@ namespace WheelMUD.Core
         public OpensClosesBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.commands = new OpensClosesBehaviorCommands(this);
-            this.ID = instanceID;
+            commands = new OpensClosesBehaviorCommands(this);
+            ID = instanceID;
         }
 
         /// <summary>Gets a value indicating whether our state is currently "open".</summary>
         public bool IsOpen { get; private set; }
 
-        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent.)</summary>
+        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to Parent.)</summary>
         protected override void OnAddBehavior()
         {
             // When adding this behavior to a Thing, register relevant movement events so we can cancel
             // the movement of anything through our parent Thing while our parent Thing is "closed".
-            var parent = this.Parent;
+            var parent = Parent;
             if (parent != null)
             {
-                parent.Eventing.MovementRequest += this.MovementRequestHandler;
+                parent.Eventing.MovementRequest += MovementRequestHandler;
 
                 // Register the "open" and "close" context commands to be available to siblings of our parent,
                 // and to the openable/closable thing's children (IE in case it can be entered itself).
                 var contextAvailability = ContextAvailability.ToSiblings | ContextAvailability.ToChildren;
-                var openContextCommand = new ContextCommand(this.commands, OpenString, contextAvailability, SecurityRole.all);
-                var closeContextCommand = new ContextCommand(this.commands, CloseString, contextAvailability, SecurityRole.all);
+                var openContextCommand = new ContextCommand(commands, OpenString, contextAvailability, SecurityRole.all);
+                var closeContextCommand = new ContextCommand(commands, CloseString, contextAvailability, SecurityRole.all);
                 Debug.Assert(!parent.Commands.ContainsKey(OpenString), "The Thing this OpensClosesBehavior attached to already had an Open command.");
                 Debug.Assert(!parent.Commands.ContainsKey(CloseString), "The Thing this OpensClosesBehavior attached to already had a Close command.");
                 parent.Commands.Add(OpenString, openContextCommand);
@@ -66,13 +66,13 @@ namespace WheelMUD.Core
             base.OnAddBehavior();
         }
 
-        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent.)</summary>
+        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to Parent.)</summary>
         protected override void OnRemoveBehavior()
         {
-            var parent = this.Parent;
+            var parent = Parent;
             if (parent != null)
             {
-                parent.Eventing.MovementRequest -= this.MovementRequestHandler;
+                parent.Eventing.MovementRequest -= MovementRequestHandler;
                 parent.Commands.Remove(OpenString);
                 parent.Commands.Remove(CloseString);
             }
@@ -82,20 +82,20 @@ namespace WheelMUD.Core
         /// <param name="opener">The actor doing the opening.</param>
         public void Open(Thing opener)
         {
-            this.OpenOrClose(opener, OpenString, true);
+            OpenOrClose(opener, OpenString, true);
         }
 
         /// <summary>Attempt to close this behavior's parent, via the specified closer.</summary>
         /// <param name="closer">The actor doing the closing.</param>
         public void Close(Thing closer)
         {
-            this.OpenOrClose(closer, CloseString, false);
+            OpenOrClose(closer, CloseString, false);
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.IsOpen = false;
+            IsOpen = false;
         }
 
         /// <summary>Handle any movement requests.</summary>
@@ -104,18 +104,18 @@ namespace WheelMUD.Core
         private void MovementRequestHandler(Thing root, CancellableGameEvent e)
         {
             // Only cancel movement requests through our parent if it is currently closed.
-            if (!this.IsOpen)
+            if (!IsOpen)
             {
-                var parent = this.Parent;
+                var parent = Parent;
                 if (parent != null)
                 {
                     // If this is a standard movement request, find out if we need to cancel it.
                     var movementEvent = e as MovementEvent;
-                    if (movementEvent != null && movementEvent.GoingVia == this.Parent)
+                    if (movementEvent != null && movementEvent.GoingVia == Parent)
                     {
                         // TODO: If the actor also cannot perceive our parent properly, perhaps broadcast
                         //     a sensory event like "Dude blindly ran into a door."
-                        string message = string.Format("You cannot move through {0} since it is closed!", this.Parent.Name);
+                        string message = string.Format("You cannot move through {0} since it is closed!", Parent.Name);
                         movementEvent.Cancel(message);
                     }
                 }
@@ -129,13 +129,13 @@ namespace WheelMUD.Core
         private void OpenOrClose(Thing actor, string verb, bool newOpenedState)
         {
             // If we're already in the desired opened/closed state, we're already done with state changes.
-            if (newOpenedState == this.IsOpen)
+            if (newOpenedState == IsOpen)
             {
                 // TODO: Message to the actor that it is already open/closed.
                 return;
             }
 
-            var thisThing = this.Parent;
+            var thisThing = Parent;
             if (thisThing == null)
             {
                 return; // Abort if the behavior is unattached (e.g. being destroyed).
@@ -157,7 +157,7 @@ namespace WheelMUD.Core
             if (!e.IsCancelled)
             {
                 // Open or Close the thing.
-                this.IsOpen = newOpenedState;
+                IsOpen = newOpenedState;
 
                 // Broadcast the Open or Close event.
                 thisThing.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
@@ -194,11 +194,11 @@ namespace WheelMUD.Core
                 // If the user invoked the context command, try to open or close their target.
                 if (OpenString.Equals(actionInput.Noun, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    this.opensClosesBehavior.Open(actionInput.Controller.Thing);
+                    opensClosesBehavior.Open(actionInput.Controller.Thing);
                 }
                 else if (CloseString.Equals(actionInput.Noun, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    this.opensClosesBehavior.Close(actionInput.Controller.Thing);
+                    opensClosesBehavior.Close(actionInput.Controller.Thing);
                 }
             }
 
@@ -207,7 +207,7 @@ namespace WheelMUD.Core
             /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
             public override string Guards(ActionInput actionInput)
             {
-                string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+                string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
                 if (commonFailure != null)
                 {
                     return commonFailure;

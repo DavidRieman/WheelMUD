@@ -23,7 +23,7 @@ namespace WheelMUD.Core
             /// <remarks>Unfortunately C# won't let us use generics to define ExportAttributes, or this file would be a lot less verbose.</remarks>
             public BaseExportAttribute(int rendererPriority, Type rendererDefinitionType) : base(rendererDefinitionType)
             {
-                this.Priority = rendererPriority;
+                Priority = rendererPriority;
             }
 
             /// <summary>Gets or sets the priority of the exported renderer; the renderer with the highest priority will be used.</summary>

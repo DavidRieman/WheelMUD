@@ -3,17 +3,13 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A List derivative which implements IDisposable, and cleans up after each of
-//   its IDisposable items whenever it is destructed or disposed of itself.
-// </summary>
 //-----------------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
 
 namespace WheelMUD.Utilities
 {
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>
     /// A List derivative which implements IDisposable, and cleans up after each of
     /// its IDisposable items whenever it is destructed or disposed of itself.
@@ -28,22 +24,22 @@ namespace WheelMUD.Utilities
         /// <summary>Finalizes an instance of the DisposableList class.</summary>
         ~DisposableList()
         {
-            this.Dispose();
+            Dispose();
         }
 
         /// <summary>Dispose of all disposable resources that are managed by this list.</summary>
         public void Dispose()
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                if (this.Count > 0)
+                if (Count > 0)
                 {
                     foreach (T t in this)
                     {
                         t.Dispose();
                     }
 
-                    this.Clear();
+                    Clear();
                 }
             }
         }

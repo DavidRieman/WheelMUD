@@ -1,0 +1,102 @@
+<html>
+<head></head>
+<body lang=EN-US style="background:#282828; color:white">
+
+<p><b><span style='font-size:16.0pt'>Grouping User Story</span></b></p>
+
+<div style="background:black; max-width:900px; padding:4px; font-size:12pt; font-family:monospace; white-space: pre-wrap">
+> group
+You are not a member of a group right now.
+
+...
+<span style='color:#aa55aa'>Karak</span> invites you to join his group.  Type ‘<span style='color:#AAFFAA'>group Karak</span>’ to accept.
+
+> group karak
+You have joined the group.
+<span style='color:#BBBB00'>(!)</span> Welcome to your first group.
+* Type `<span style='color:#AAFFAA'>group</span>` to see basic information about your group.
+* To greet your fellow group, type `<span style='color:#AAFFAA'>grouptell hi</span>` or `<span style='color:#AAFFAA'>gt hi</span>` in short.
+* Type `<span style='color:#AAFFAA'>leave group</span>` to leave the group.
+* You may also wish to `<span style='color:#AAFFAA'>follow</span>` a fellow group member around.
+* Type `<span style='color:#AAFFAA'>help group</span>` to learn more about grouping and related commands.
+
+> group
+Your group currently includes:
+<span style='color:#aa55aa'>Karak</span> (group leader)   300/300 <span style='color:#ff0000'>hp</span>,  250/300 <span style='color:#0000ff'>mn</span>,    124/200 <span style='color:#00ff00'>mv</span>
+<span                      >You</span>                    475/580 <span style='color:#ff0000'>hp</span>,    0/  0 <span style='color:#0000ff'>mn</span>,     96/200 <span style='color:#00ff00'>mv</span>
+
+> grouptell Hello   or   gt Hello   or   tell group Hello
+You tell the group “<span style='color:#BBBB00'>Hello.</span>”
+
+> leave group
+You leave the group.
+
+> group Ashon
+<span style='color:#aa55aa'>Ashon</span> has been invited to your group.
+
+<span style='color:#aa55aa'>Ashon</span> has joined your group.
+You are now the group leader.
+<span style='color:#BBBB00'>(!)</span> Congratulations on leading your first group.
+* As leader, you can type `<span style='color:#AAFFAA'>group disband</span>` to disband the whole group.
+* Try `<span style='color:#AAFFAA'>grouploot</span>` to review and set options for automatic loot sharing rules.
+* Use `<span style='color:#AAFFAA'>groupleader</span>` to transfer leadership to another character.
+* See `<span style='color:#AAFFAA'>help grouploot</span>` and `<span style='color:#AAFFAA'>help groupleader</span>` for further information.
+
+> grouploot magic roll 30
+Group loot setting for magic items is now:  roll, 30 seconds.
+
+> grouploot
+The group loot settings are now:
+Magic items:    roll, 30 seconds.
+Mundane items:  free for all.
+Design items:   rotate.
+Components:     rotate.
+Quest items:    rotate.
+Currency:       even split.
+Auto-identify:  yes (leader).
+
+> groupleader Ashon
+You transfer leadership of the group to <span style='color:#aa55aa'>Ashon</span>.
+<span style='color:#aa55aa'>Ashon</span> is now the group leader.
+
+> cast fireball troll
+You cast "<span style='color:#FFFF99'>fireball</span>" at the <span style='color:#FFCC99'>hulking cave troll</span>.
+...
+The <span style='color:#FFCC99'>hulking cave troll</span> falls over, dead.
+
+You receive your share of 76 <span style='color:#BBBB00'>gold pieces</span>.
+<span style='color:#aa55aa'>Ashon</span> gets a <span style='color:#AAFFAA'>pattern</span> for <span style='color:#AAFFAA'>spellweave gloves</span> of the <span style='color:#AAFFAA'>quick hand</span> from the <span style='color:#FFCC99'>corpse</span> of a <span style='color:#FFCC99'>hulking cave troll</span>.
+You get a <span style='color:#FFCC99'>troll ear</span> from the <span style='color:#FFCC99'>corpse</span> of a <span style='color:#FFCC99'>hulking cave troll</span>. (Quest criteria met.)
+A <span style='color:#FFCC99'>huge two-handed sword</span> has been found by the group.  You may roll for this within 30 seconds.
+You cast "<span style='color:#FFFF99'>identify</span>" on a <span style='color:#FFCC99'>huge two-handed sword</span>.
+The true nature of a <span style='color:#FFCC99'>huge two-handed sword</span> is revealed:
+  A <span style='color:#FFCC99'>huge two-handed sword</span> of <span style='color:#FFCC99'>flame strike</span>:
+    3d6 base damage, two-handed, slashing, iron sword.  Weighs 25 pounds.
+    Adds +3 str, +1 con, 8% chance to "flame strike" upon hit.
+
+A <span style='color:#FFCC99'>corpse</span> of a <span style='color:#FFCC99'>hulking cave troll</span> contains:
+  A pair of <span style='color:#FFCC99'>smelly large leather boots</span>.
+  A <span style='color:#FFCC99'>large gnobby wooden club</span>.
+
+> roll sword
+You prepare to dice off for a <span style='color:#FFCC99'>huge two-handed sword</span> of <span style='color:#FFCC99'>flame strike</span>.
+<span style='color:#aa55aa'>Ashon</span> prepares to dice off for a <span style='color:#FFCC99'>huge two-handed sword</span> of <span style='color:#FFCC99'>flame strike</span>.
+You win a <span style='color:#FFCC99'>huge two-handed sword</span> of <span style='color:#FFCC99'>flame strike</span>!  (You rolled 86. <span style='color:#aa55aa'>Ashon</span> rolled 13.)
+You are slightly encumbered.
+
+>
+</div>
+
+<div style="color:white; max-width:1000px; font-size:13pt">
+    <p>Additional notes:</p>
+    <ul>
+        <li>For grouploot, we could have robust grouploot options as inspired by modern graphical MMO games, out of the box.</li>
+        <li>In this example, we see grouploot settings that are heavily tied to a game system or setting (e.g. magic item teirs and auto-identify settings would be a weird way to organize looting for a space combat setting).  It will take some thinking to organize what aspects can be Core and which will be Reference Implementations.  Perhaps Core can have very basic random loot distribution tactics, and reference implementations could expand with additional options.</li>
+        <li>While many aspects of "grouping" may be game-specific, we could strive to have reference implementations and Core code which help assist with such gameplay systems.</li>
+        <li>A command form like `tell group hi` might be awkward if a player is also allowed to be named something like `group`. WheelMUD should offer a default deny-list of invalid character names, to block confusion with character names like `group`, and dynamically include all registered command keywords in that deny-list. (Also a partial deny-list to block profanity and slurs and the like would be helpful as well.)</li>
+        <li>We could use the Renderers system to define the group status rendering, taking a list of Player Things to render information about. Thus this could be implemented in the game-system layer (showing game-system-specific stats for each character) and exported for pickup by the WheelMUD Core group commands without having to mess with the commands themselves.</li>
+        <li>Help file for grouping could describe how to set some `auto-follow` setting (which could have its own help file too, or at least for a general `settigns` command) to control whether your character should automatically start following a group leader when joining a group, or only if they are a friend, or not at all.</li>
+    </ul>
+</div>
+</body>
+</html>

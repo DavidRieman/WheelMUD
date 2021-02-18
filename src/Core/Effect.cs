@@ -22,8 +22,8 @@ namespace WheelMUD.Effects
         public Effect(DateTime startTime, TimeSpan duration)
             : base(null)
         {
-            this.StartTime = startTime;
-            this.Duration = duration;
+            StartTime = startTime;
+            Duration = duration;
         }
 
         /// <summary>Initializes a new instance of the <see cref="Effect" /> class.</summary>
@@ -31,8 +31,8 @@ namespace WheelMUD.Effects
         public Effect(TimeSpan duration)
             : base(null)
         {
-            this.StartTime = DateTime.Now;
-            this.Duration = duration;
+            StartTime = DateTime.Now;
+            Duration = duration;
         }
 
         /// <summary>Initializes a new instance of the Effect class.</summary>
@@ -40,7 +40,7 @@ namespace WheelMUD.Effects
         protected Effect(Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.StartTime = DateTime.Now;
+            StartTime = DateTime.Now;
         }
 
         /// <summary>Gets or sets the effect duration.</summary>
@@ -53,7 +53,7 @@ namespace WheelMUD.Effects
         /// <summary>Gets the remaining effect duration.</summary>
         public TimeSpan RemainingDuration
         {
-            get { return this.Duration.Subtract(DateTime.Now - this.StartTime); }
+            get { return Duration.Subtract(DateTime.Now - StartTime); }
         }
 
         /// <summary>Gets the time when the effect was applied.</summary>
@@ -66,18 +66,18 @@ namespace WheelMUD.Effects
         {
             get
             {
-                return DateTime.Now + this.RemainingDuration;
+                return DateTime.Now + RemainingDuration;
             }
         }
 
         private void DisableEffect()
         {
-            if (this.Parent == null)
+            if (Parent == null)
             {
                 return;
             }
 
-            var behaviorManager = this.Parent.Behaviors;
+            var behaviorManager = Parent.Behaviors;
 
             var effects = behaviorManager.OfType<Effect>();
             if (effects.Count == 0)
@@ -85,7 +85,7 @@ namespace WheelMUD.Effects
                 return;
             }
 
-            var appliedEffects = effects.Where(effect => effect.ID == this.ID);
+            var appliedEffects = effects.Where(effect => effect.ID == ID);
             foreach (var appliedEffect in appliedEffects)
             {
                 // TODO: Are these the only references to the effect?

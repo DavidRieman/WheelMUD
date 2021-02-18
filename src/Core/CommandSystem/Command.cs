@@ -23,13 +23,13 @@ namespace WheelMUD.Core
         {
             if (type != null)
             {
-                this.Constructor = type.GetConstructor(new Type[] { });
-                this.Name = type.Name;
+                Constructor = type.GetConstructor(new Type[] { });
+                Name = type.Name;
             }
 
-            this.Description = description;
-            this.Example = example;
-            this.SecurityRole = securityRole;
+            Description = description;
+            Example = example;
+            SecurityRole = securityRole;
         }
 
         /// <summary>Initializes a new instance of the Command class.</summary>

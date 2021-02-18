@@ -14,14 +14,15 @@ namespace WheelMUD.Core
     {
         public HelpTopic(string contents, List<string> aliases)
         {
-            this.Contents = contents;
-            this.Aliases = aliases;
+            Contents = contents;
+            Aliases = aliases;
         }
 
         /// <summary>Gets the contents of this help topic.</summary>
         public string Contents { get; private set; }
 
         /// <summary>Gets the aliases used for this help topic.</summary>
+        /// <remarks>The first alias is the primary alias. E.G. when displaying a topics list, we may choose to display only the first alias for a topic.</remarks>
         public List<string> Aliases { get; private set; }
     }
 }

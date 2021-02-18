@@ -38,9 +38,9 @@ namespace WheelMUD.Actions
                 Thing entity = sender.Thing;
                 if (entity != null)
                 {
-                    if (!string.IsNullOrEmpty(this.NewDescription))
+                    if (!string.IsNullOrEmpty(NewDescription))
                     {
-                        entity.Description = this.NewDescription;
+                        entity.Description = NewDescription;
                         entity.FindBehavior<PlayerBehavior>()?.SavePlayer();
                         sender.Write("Description successfully changed.");
                     }
@@ -61,13 +61,13 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            this.NewDescription = actionInput.Tail;
+            NewDescription = actionInput.Tail;
 
             return null;
         }

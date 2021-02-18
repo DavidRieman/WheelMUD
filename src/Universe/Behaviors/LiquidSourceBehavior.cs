@@ -25,7 +25,7 @@ namespace WheelMUD.Universe
         public LiquidSourceBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Gets or sets the ID of the liquid that this produces.</summary>
@@ -52,9 +52,9 @@ namespace WheelMUD.Universe
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.LiquidName = "water";
-            this.IsFlowing = true;
-            this.FlowingSound = "bubbling";
+            LiquidName = "water";
+            IsFlowing = true;
+            FlowingSound = "bubbling";
         }
     }
 }

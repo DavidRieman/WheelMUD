@@ -27,15 +27,15 @@ namespace WheelMUD.ConnectionStates
         {
             if (command.ToLower() == "yes" || command.ToLower() == "y")
             {
-                this.Session.User = new User()
+                Session.User = new User()
                 {
                     AccountCreationDate = DateTime.Now,
                 };
-                this.StateMachine.HandleNextStep(this, StepStatus.Success);
+                StateMachine.HandleNextStep(this, StepStatus.Success);
             }
             else
             {
-                this.StateMachine.AbortCreation();
+                StateMachine.AbortCreation();
             }
         }
 

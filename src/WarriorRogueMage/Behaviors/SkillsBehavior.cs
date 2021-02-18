@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+using WarriorRogueMage.Skills;
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.Behaviors
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using WarriorRogueMage.Skills;
-    using WheelMUD.Core;
-
     /// <summary>A behavior housing player skills functionality.</summary>
     public class SkillsBehavior : Behavior
     {
@@ -20,26 +20,26 @@ namespace WarriorRogueMage.Behaviors
         public SkillsBehavior(Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ManagedSkills = new List<WRMSkill>();
+            ManagedSkills = new List<WRMSkill>();
         }
 
         /// <summary>Gets or sets the list of active skills.</summary>
         /// <value>The active skills.</value>
         public List<WRMSkill> ManagedSkills { get; set; }
 
-        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to this.Parent)</summary>
+        /// <summary>Called when a parent has just been assigned to this behavior. (Refer to Parent)</summary>
         protected override void OnAddBehavior()
         {
             // When adding this behavior to a Thing, register relevant movement events so we can cancel
             // the movement of anything through our parent Thing while our parent Thing is "closed".
-            var parent = this.Parent;
+            var parent = Parent;
             if (parent != null)
             {
-                foreach (var managedSkill in this.ManagedSkills)
+                foreach (var managedSkill in ManagedSkills)
                 {
                     if (managedSkill.PlayerThing == null)
                     {
-                        managedSkill.PlayerThing = this.Parent;
+                        managedSkill.PlayerThing = Parent;
                     }
                 }
             }
@@ -47,13 +47,13 @@ namespace WarriorRogueMage.Behaviors
             base.OnAddBehavior();
         }
 
-        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to this.Parent)</summary>
+        /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to Parent)</summary>
         protected override void OnRemoveBehavior()
         {
-            var parent = this.Parent;
+            var parent = Parent;
             if (parent != null)
             {
-                foreach (var managedSkill in this.ManagedSkills)
+                foreach (var managedSkill in ManagedSkills)
                 {
                     managedSkill.PlayerThing = null;
                 }
@@ -67,19 +67,19 @@ namespace WarriorRogueMage.Behaviors
         /// <returns>The first managed skill of the specified type, if found, else null.</returns>
         public U FindFirst<U>() where U : WRMSkill
         {
-            return this.ManagedSkills.OfType<U>().FirstOrDefault();
+            return ManagedSkills.OfType<U>().FirstOrDefault();
         }
 
         /// <summary>Add a new skill to the list of managed talents.</summary>
         /// <param name="newTalent">The new skill to add.</param>
         public void Add(WRMSkill newTalent)
         {
-            lock (this.ManagedSkills)
+            lock (ManagedSkills)
             {
-                if (!this.ManagedSkills.Contains(newTalent))
+                if (!ManagedSkills.Contains(newTalent))
                 {
-                    this.ManagedSkills.Add(newTalent);
-                    newTalent.PlayerThing = this.Parent;
+                    ManagedSkills.Add(newTalent);
+                    newTalent.PlayerThing = Parent;
                     newTalent.OnAddSkill();
                 }
             }
@@ -89,11 +89,11 @@ namespace WarriorRogueMage.Behaviors
         /// <param name="talent">The skill to remove.</param>
         public void Remove(WRMSkill talent)
         {
-            lock (this.ManagedSkills)
+            lock (ManagedSkills)
             {
-                if (this.ManagedSkills.Contains(talent))
+                if (ManagedSkills.Contains(talent))
                 {
-                    this.ManagedSkills.Remove(talent);
+                    ManagedSkills.Remove(talent);
                     talent.OnRemoveSkill();
                     talent.PlayerThing = null;
                 }

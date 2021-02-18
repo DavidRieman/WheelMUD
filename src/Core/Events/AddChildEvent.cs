@@ -15,7 +15,7 @@ namespace WheelMUD.Core.Events
         public AddChildEvent(Thing activeThing, Thing newParent)
             : base(activeThing, null)
         {
-            this.NewParent = newParent;
+            NewParent = newParent;
         }
 
         /// <summary>Gets the new parent.</summary>

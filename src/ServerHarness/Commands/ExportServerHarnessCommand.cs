@@ -22,7 +22,7 @@ namespace ServerHarness
         public ExportServerHarnessCommandAttribute(int priority)
             : base(typeof(IServerHarnessCommand))
         {
-            this.Priority = priority;
+            Priority = priority;
         }
 
         /// <summary>Gets or sets the priority of the exported command; the command with the highest priority will be the one loaded.</summary>

@@ -18,8 +18,8 @@ namespace WheelMUD.Core.Attributes
         /// <param name="category">The category that this action is under.</param>
         public ActionPrimaryAliasAttribute(string alias, CommandCategory category)
         {
-            this.Alias = alias;
-            this.Category = category;
+            Alias = alias;
+            Category = category;
         }
 
         /// <summary>Gets the alias attribute for the action.</summary>

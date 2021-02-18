@@ -1,0 +1,73 @@
+<html>
+<head></head>
+<body lang=EN-US style="background:#282828; color:white">
+
+<p><b><span style='font-size:16.0pt'>Trading User Story</span></b></p>
+
+<div style="background:black; max-width:900px; padding:4px; font-size:12pt; font-family:monospace; white-space: pre-wrap">
+<span style='color:#aa55aa'>Ashon</span> would like to trade with you. Type `<span style='color:#AAFFAA'>trade Ashon</span>` if you wish to negotiate a trade.
+
+> trade Ashon
+You have initiated a trade with <span style='color:#aa55aa'>Ashon</span>.
+<span style='color:#BBBB00'>(!)</span> Welcome to your first secure trade.
+* Type `<span style='color:#AAFFAA'>trade</span>` to review the standing offer.
+* Type `<span style='color:#AAFFAA'>trade accept</span>` if the full offer looks agreeable.
+* Type `<span style='color:#AAFFAA'>trade cancel</span>` to formally cancel the trade.
+* A trade will only remain active while you are both online and near each other.
+* See `<span style='color:#AAFFAA'>help trade</span>` for additional details and restrictions.
+
+<span style='color:#aa55aa'>Ashon</span> offers a <span style='color:#AAFFAA'>pattern</span> for <span style='color:#AAFFAA'>spellweave gloves</span> of the <span style='color:#AAFFAA'>quick hand</span> in trade.
+
+> trade offer flame   or   trade add flame   or   trade flame
+You offer a <span style='color:#AAFFAA'>huge two-handed sword</span> of <span style='color:#AAFFAA'>flame strike</span> in trade.
+
+> trade 1000 gold
+You add 1000 <span style='color:#BBBB00'>gold pieces</span> to your trade offer.
+
+> trade
+You are currently offering:
+1) A <span style='color:#AAFFAA'>huge two-handed sword</span> of <span style='color:#AAFFAA'>flame strike</span>.
+2) 1000 <span style='color:#BBBB00'>gold pieces</span>.
+<span style='color:#aa55aa'>Ashon</span> is currently offering:
+ A <span style='color:#AAFFAA'>pattern</span> for <span style='color:#AAFFAA'>spellweave gloves</span> of the <span style='color:#AAFFAA'>quick hand</span>.
+
+> trade accept
+You are ready to accept this trade, pending Ashon's response.
+
+<span style='color:#aa55aa'>Ashon</span> tells you “<span style='color:#BBBB00'>Actually can you do just 1500?</span>”
+
+> trade remove flame
+You no longer offer a <span style='color:#AAFFAA'>huge two-handed sword</span> of <span style='color:#AAFFAA'>flame strike</span> in trade.
+You will need to re-accept the trade when you are ready.
+
+> trade offer 500 gold
+You add 500 <span style='color:#BBBB00'>gold pieces</span> to your trade offer, for 1500 <span style='color:#BBBB00'>gold pieces</span> total.
+
+<span style='color:#aa55aa'>Ashon</span> accepts the trade.
+
+> trade
+You are currently offering:
+ 1500 <span style='color:#BBBB00'>gold pieces</span>.
+<span style='color:#aa55aa'>Ashon</span> is currently offering:
+ A <span style='color:#AAFFAA'>pattern</span> for <span style='color:#AAFFAA'>spellweave gloves</span> of the <span style='color:#AAFFAA'>quick hand</span>.
+
+> trade accept
+<span style='color:#aa55aa'>Ashon</span> gives you a <span style='color:#AAFFAA'>pattern</span> for <span style='color:#AAFFAA'>spellweave gloves</span> of the <span style='color:#AAFFAA'>quick hand</span>.
+You give <span style='color:#aa55aa'>Ashon</span> 1500 <span style='color:#BBBB00'>gold pieces</span>.
+
+>
+</div>
+
+<div style="color:white; max-width:1000px; font-size:13pt">
+    <p>Additional notes:</p>
+    <ul>
+        <li>The idea of a trade is to be transactional and secure; if both parties agreed then both sets of items must swap hands/ownership.</li>
+        <li>Trades could be set up to require proximity, automatically cancelling if either party leaves. (The code could listen for relevant movement events during the active trade state.)</li>
+        <li>When finalizing the trade, all items should generate the parent change "request" events first to see if all of them have permission to change owners, to cancel the whole trade if any items cannot be transferred for any reason. (For example, cursed items cancelling the parent change request, or an "ownership" behavior similarly protecting an item.)</li>
+        <li>Stackable items will similarly need to protect themselves from going negative. For example, if a player promises 1000 gold but then spends or drops most of it, then the request for splitting the stack should be similarly rejected, resulting in an automatically cancelled trade.</li>
+        <li>A syntax shortcut could be used such as "trade Ashon flame" to both request a trade while also populating that sword in your offering list.</li>
+        <li>Most player item trades may be just one item for some game currency.  So, as an alternative to the detailed trade state change language and requring commands to list the current full state, it may be sufficient to just automatically list the full trade state after each change.</li>
+    </ul>
+</div>
+</body>
+</html>

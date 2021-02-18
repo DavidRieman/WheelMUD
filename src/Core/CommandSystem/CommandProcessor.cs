@@ -36,47 +36,47 @@ namespace WheelMUD.Core
         /// <summary>Start this CommandProcessor SubSystem.</summary>
         public void Start()
         {
-            this.host.UpdateSubSystemHost(this, "Starting...");
-            this.workerThread = new Thread(this.ProcessCommandsThread);
-            this.workerThread.Start();
+            host.UpdateSubSystemHost(this, "Starting...");
+            workerThread = new Thread(ProcessCommandsThread);
+            workerThread.Start();
         }
 
         /// <summary>Stop this CommandProcessor SubSystem.</summary>
         public void Stop()
         {
-            this.host.UpdateSubSystemHost(this, "Stopping...");
-            this.shuttingDown = true;
-            this.workerThread.Join(5000);
-            if (this.workerThread.IsAlive)
+            host.UpdateSubSystemHost(this, "Stopping...");
+            shuttingDown = true;
+            workerThread.Join(5000);
+            if (workerThread.IsAlive)
             {
-                this.workerThread.Abort();
+                workerThread.Abort();
             }
-            this.workerThread = null;
+            workerThread = null;
         }
 
         /// <summary>Subscribe to receive system updates from this system.</summary>
         /// <param name="sender">The subscribing system; generally use 'this'.</param>
         public void SubscribeToSystem(ISubSystemHost sender)
         {
-            this.host = sender;
+            host = sender;
         }
 
         /// <summary>Inform subscribed system(s) of the specified update.</summary>
         /// <param name="msg">The message to be sent to subscribed system(s).</param>
         public void InformSubscribedSystem(string msg)
         {
-            this.host.UpdateSubSystemHost(this, msg);
+            host.UpdateSubSystemHost(this, msg);
         }
 
         /// <summary>Method executed as the worker thread to perform the work indefinitely.</summary>
         private void ProcessCommandsThread()
         {
-            while (!this.shuttingDown)
+            while (!shuttingDown)
             {
                 ActionInput action = CommandManager.Instance.DequeueAction();
                 if (action != null)
                 {
-                    this.TryExecuteAction(action);
+                    TryExecuteAction(action);
                 }
                 else
                 {

@@ -28,18 +28,18 @@ namespace WheelMUD.Server.Telnet
             // The RFC (1091) says that we can loop through the different terminal types
             // that the terminal supports and the last one we receive is the one the terminal
             // sets itself to. We only get the first one which is normally the primary terminal emulation.
-            this.Connection.Terminal.TerminalType = Encoding.ASCII.GetString(data).TrimStart(new char[] { '\0' }).ToLower();
+            Connection.Terminal.TerminalType = Encoding.ASCII.GetString(data).TrimStart(new char[] { '\0' }).ToLower();
         }
 
         /// <summary>Post-processing as called after negotiation.</summary>
         public override void AfterNegotiation()
         {
             // If we got a successful turn on.
-            if (this.UsState == TelnetOptionState.YES)
+            if (UsState == TelnetOptionState.YES)
             {
                 // Send the request for terminal information. For example:
                 // IAC SB TERM SEND IAC SE
-                this.Connection.Send(new byte[] { 255, 250, 24, 1, 255, 240 });
+                Connection.Send(new byte[] { 255, 250, 24, 1, 255, 240 });
             }
         }
     }

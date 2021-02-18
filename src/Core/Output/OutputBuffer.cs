@@ -5,11 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Output
-{
-    using System.Collections.Generic;
-    using WheelMUD.Core.Enums;
+using System.Collections.Generic;
 
+namespace WheelMUD.Core
+{
     /// <summary>OutputBuffer provides a server side output buffer.</summary>
     /// <remarks>Used for paging, to avoid flooding users with too many lines in one go.</remarks>
     public class OutputBuffer
@@ -26,7 +25,7 @@ namespace WheelMUD.Core.Output
         /// <summary>Gets the total length of the output buffer.</summary>
         public int Length
         {
-            get { return this.outputBuffer.Count; }
+            get { return outputBuffer.Count; }
         }
 
         /// <summary>Gets the current location in the output buffer.</summary>
@@ -37,11 +36,11 @@ namespace WheelMUD.Core.Output
         {
             get
             {
-                lock (this.lockObject)
+                lock (lockObject)
                 {
-                    int length = this.outputBuffer.Count;
+                    int length = outputBuffer.Count;
 
-                    if (length > 0 && this.CurrentLocation < length)
+                    if (length > 0 && CurrentLocation < length)
                     {
                         return true;
                     }
@@ -55,9 +54,9 @@ namespace WheelMUD.Core.Output
         /// <param name="outputRow">Single row to add to the buffer.</param>
         public void Append(string outputRow)
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                this.outputBuffer.Add(outputRow);
+                outputBuffer.Add(outputRow);
             }
         }
 
@@ -65,11 +64,11 @@ namespace WheelMUD.Core.Output
         /// <param name="outputRows">Rows to add to the buffer.</param>
         public void Append(string[] outputRows)
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
                 foreach (string outputRow in outputRows)
                 {
-                    this.outputBuffer.Add(outputRow);
+                    outputBuffer.Add(outputRow);
                 }
             }
         }
@@ -77,10 +76,10 @@ namespace WheelMUD.Core.Output
         /// <summary>Clears out the output buffer.</summary>
         public void Clear()
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                this.outputBuffer.Clear();
-                this.CurrentLocation = 0;
+                outputBuffer.Clear();
+                CurrentLocation = 0;
             }
         }
 
@@ -90,9 +89,9 @@ namespace WheelMUD.Core.Output
         /// <returns>Rows from the output buffer.</returns>
         public string[] GetRows(BufferDirection bufferDirection, int maxRows)
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                int start = this.CurrentLocation;
+                int start = CurrentLocation;
                 int end = 0;
 
                 switch (bufferDirection)
@@ -119,23 +118,23 @@ namespace WheelMUD.Core.Output
                         end = start + maxRows;
                         break;
                     case BufferDirection.ForwardAllData:
-                        end = this.outputBuffer.Count;
+                        end = outputBuffer.Count;
                         break;
                 }
 
-                if (end > this.outputBuffer.Count)
+                if (end > outputBuffer.Count)
                 {
-                    end = this.outputBuffer.Count;
+                    end = outputBuffer.Count;
                 }
 
                 string[] output = new string[end - start];
 
                 for (int i = start; i < end; i++)
                 {
-                    output[i - start] = this.outputBuffer[i];
+                    output[i - start] = outputBuffer[i];
                 }
 
-                this.CurrentLocation = end;
+                CurrentLocation = end;
                 return output;
             }
         }

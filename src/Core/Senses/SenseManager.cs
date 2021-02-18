@@ -26,12 +26,12 @@ namespace WheelMUD.Core
         {
             get
             {
-                return this.SenseDictionary[index];
+                return SenseDictionary[index];
             }
 
             set
             {
-                this.SenseDictionary[index] = value;
+                SenseDictionary[index] = value;
             }
         }
 
@@ -39,9 +39,9 @@ namespace WheelMUD.Core
         /// <param name="sense">The sense to add.</param>
         public void AddSense(Sense sense)
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                this.SenseDictionary.Add(sense.SensoryType, sense);
+                SenseDictionary.Add(sense.SensoryType, sense);
             }
         }
 
@@ -49,9 +49,9 @@ namespace WheelMUD.Core
         /// <param name="sense">The sense to remove.</param>
         public void RemoveSense(Sense sense)
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                this.SenseDictionary.Remove(sense.SensoryType);
+                SenseDictionary.Remove(sense.SensoryType);
             }
         }
 
@@ -60,7 +60,7 @@ namespace WheelMUD.Core
         /// <returns>True if the collection of senses contains this sense, else false.</returns>
         public bool Contains(Sense sense)
         {
-            return this.SenseDictionary.ContainsKey(sense.SensoryType);
+            return SenseDictionary.ContainsKey(sense.SensoryType);
         }
 
         /// <summary>Determines if the collection of senses contain the specified sense.</summary>
@@ -68,9 +68,9 @@ namespace WheelMUD.Core
         /// <returns>True if the collection of senses contains this sense, else false.</returns>
         public bool Contains(SensoryType senseType)
         {
-            lock (this.lockObject)
+            lock (lockObject)
             {
-                return this.SenseDictionary.ContainsKey(senseType);
+                return SenseDictionary.ContainsKey(senseType);
             }
         }
 
@@ -78,21 +78,21 @@ namespace WheelMUD.Core
         /// <returns>The total count of all senses.</returns>
         public int Count()
         {
-            return this.SenseDictionary.Count;
+            return SenseDictionary.Count;
         }
 
         /// <summary>Gets an enumerator for the senses.</summary>
         /// <returns>An enumerator for the senses.</returns>
         public IEnumerator<Sense> GetEnumerator()
         {
-            return this.SenseDictionary.Values.GetEnumerator();
+            return SenseDictionary.Values.GetEnumerator();
         }
 
         /// <summary>Gets the dictionary of senses.</summary>
         /// <returns>A dictionary of senses.</returns>
         public Dictionary<SensoryType, Sense> GetSenses()
         {
-            return this.SenseDictionary;
+            return SenseDictionary;
         }
 
         /// <summary>Determine if the specified sensory message can be processed.</summary>
@@ -100,10 +100,10 @@ namespace WheelMUD.Core
         /// <returns>True if it can be processed, else false.</returns>
         public bool CanProcessSensoryMessage(SensoryMessage message)
         {
-            if (this.SenseDictionary.ContainsKey(message.TargetedSense) &&
-                this.SenseDictionary[message.TargetedSense].LowThreshold <= message.MessageStrength &&
-                this.SenseDictionary[message.TargetedSense].HighThreshold >= message.MessageStrength &&
-                this.SenseDictionary[message.TargetedSense].Enabled)
+            if (SenseDictionary.ContainsKey(message.TargetedSense) &&
+                SenseDictionary[message.TargetedSense].LowThreshold <= message.MessageStrength &&
+                SenseDictionary[message.TargetedSense].HighThreshold >= message.MessageStrength &&
+                SenseDictionary[message.TargetedSense].Enabled)
             {
                 return true;
             }

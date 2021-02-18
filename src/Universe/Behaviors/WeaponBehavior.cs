@@ -31,7 +31,7 @@ namespace WheelMUD.Universe
         public WeaponBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Gets or sets the minimum strength to use the weapon.</summary>
@@ -54,9 +54,9 @@ namespace WheelMUD.Universe
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.MinimumStrength = 0;
-            this.RequiresTwoHands = false;
-            this.DamageFormula = null;
+            MinimumStrength = 0;
+            RequiresTwoHands = false;
+            DamageFormula = null;
         }
     }
 }

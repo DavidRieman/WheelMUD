@@ -20,9 +20,9 @@ If you don't know how to work with git and GitHub, you will want to follow a few
 ## Building and Launching the Server
 We take pride in keeping the initial set-up process as painless as possible.
 * Open up the src/WheelMUD.sln file.
-* Ensure TestHarness is the StartUp project.
-* Build the entire solution (not just the TestHarness dependencies).
-* Run the TestHarness.
+* Ensure ServerHarness is set as the startup project.
+* Build the entire solution (not just the ServerHarness dependencies).
+* Run the ServerHarness.
 * The first time the server application is running, you may be prompted with firewall adjustments; accept these for all networks.
 
 That's it! You should see a console output window listing sub-services that spin up with WheelMUD.
@@ -31,7 +31,7 @@ Once it says "All services are started. Server is fully operational." then it is
 ## Connecting Telnet
 You can now open up your telnet client of choice and connect to localhost 4000.
 For example, if you just have the standard Telnet.exe, Run (Windows+R) Telnet.exe, then type "open localhost 4000" at the "Microsoft Telnet" prompt.
-You should be greeted with a WheelMUD welcome screen, and the TestHarness console will print that a connection has been accepted.
+You should be greeted with a WheelMUD welcome screen, and the ServerHarness console will print that a connection has been accepted.
 
 ## Optional Tools
 * [TortoiseGIT](https://code.google.com/p/tortoisegit) can help a lot, if you are not interested in being a git command-line guru.
@@ -41,4 +41,4 @@ You should be greeted with a WheelMUD welcome screen, and the TestHarness consol
 * NuGet can be used to manage dependency versions as found in src/packages. (We do commit those packages to ensure they will be present even if their on-line presences are down, as has occurred sometimes in the past.)
 
 ## Optional Configuration
-TODO: Describe additional TestHarness-as-service instructions and additional app configuration options like switching DAL repositories.
+For additional configuration options such as data management and running as a service, see the [Configuration](Configuration.md) documentation.

@@ -5,20 +5,18 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Diagnostics;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using WheelMUD.Core;
+using WheelMUD.Interfaces;
+using WheelMUD.Server.Telnet;
+
 namespace WheelMUD.Server
 {
-    using System;
-    using System.Diagnostics;
-    using System.Net;
-    using System.Net.Sockets;
-    using System.Text;
-    using System.Threading;
-    using WheelMUD.Core;
-    using WheelMUD.Core.Enums;
-    using WheelMUD.Core.Output;
-    using WheelMUD.Interfaces;
-    using WheelMUD.Server.Telnet;
-
     /// <summary>Represents a connection to a client.</summary>
     /// <remarks>This is the low level connection object that is assigned to a user when they connect.</remarks>
     public class Connection : IConnection
@@ -44,19 +42,19 @@ namespace WheelMUD.Server
         /// <param name="connectionHost">The system hosting this connection.</param>
         public Connection(Socket socket, ISubSystem connectionHost)
         {
-            this.Buffer = new StringBuilder();
-            this.OutputBuffer = new OutputBuffer();
-            this.Data = new byte[1];
-            this.Terminal = new Terminal();
+            Buffer = new StringBuilder();
+            OutputBuffer = new OutputBuffer();
+            Data = new byte[1];
+            Terminal = new Terminal();
             this.socket = socket;
             var remoteEndPoint = (IPEndPoint)this.socket.RemoteEndPoint;
-            this.CurrentIPAddress = remoteEndPoint.Address;
-            this.ID = Guid.NewGuid().ToString();
-            this.TelnetCodeHandler = new TelnetCodeHandler(this);
+            CurrentIPAddress = remoteEndPoint.Address;
+            ID = Guid.NewGuid().ToString();
+            TelnetCodeHandler = new TelnetCodeHandler(this);
 
             // TODO: Paging row size should be dynamic from Telnet (NAWS?) or a player-chosen override.
             //       (This used to be called BufferLength in old discussions.)
-            this.PagingRowLimit = 40;
+            PagingRowLimit = 40;
             this.connectionHost = connectionHost;
         }
 
@@ -89,12 +87,12 @@ namespace WheelMUD.Server
         {
             get
             {
-                return this.pagingRowLimit;
+                return pagingRowLimit;
             }
 
             set
             {
-                this.pagingRowLimit = value == 0 ? 1000 : value;
+                pagingRowLimit = value == 0 ? 1000 : value;
             }
         }
 
@@ -113,7 +111,7 @@ namespace WheelMUD.Server
         /// <summary>Disconnects the connection.</summary>
         public void Disconnect()
         {
-            this.OnConnectionDisconnect();
+            OnConnectionDisconnect();
         }
 
         /// <summary>Sends raw bytes to the connection.</summary>
@@ -122,15 +120,15 @@ namespace WheelMUD.Server
         {
             try
             {
-                this.socket.BeginSend(data, 0, data.Length, 0, new AsyncCallback(this.OnSendComplete), null);
+                socket.BeginSend(data, 0, data.Length, 0, new AsyncCallback(OnSendComplete), null);
             }
             catch (SocketException)
             {
-                this.OnConnectionDisconnect();
+                OnConnectionDisconnect();
             }
             catch (ObjectDisposedException)
             {
-                this.OnConnectionDisconnect();
+                OnConnectionDisconnect();
             }
         }
 
@@ -139,7 +137,7 @@ namespace WheelMUD.Server
         /// <param name="data">The data to send</param>
         public void Send(string data)
         {
-            this.Send(data, false);
+            Send(data, false);
         }
 
         /// <summary>Sends string data to the connection.</summary>
@@ -147,7 +145,7 @@ namespace WheelMUD.Server
         /// <param name="bypassDataFormatter">Indicates whether the data formatter should be bypassed (for a quicker send).</param>
         public void Send(string data, bool bypassDataFormatter)
         {
-            this.Send(data, bypassDataFormatter, false);
+            Send(data, bypassDataFormatter, false);
         }
 
         /// <summary>Sends string data to the connection</summary>
@@ -164,14 +162,14 @@ namespace WheelMUD.Server
             byte[] bytes;
 
             // Check for MCCP (its not worth using for short strings as the overhead is quite high).
-            if (this.Terminal.UseMCCP && data.Length > MCCPThreshold)
+            if (Terminal.UseMCCP && data.Length > MCCPThreshold)
             {
                 // Compress the data
                 bytes = MCCPHandler.Compress(data);
 
                 // Send the sub request to say that the next load of data
                 // is compressed. The sub request is IAC SE COMPRESS2 IAC SB
-                this.Send(new byte[] { 255, 250, 86, 255, 240 });
+                Send(new byte[] { 255, 250, 86, 255, 240 });
             }
             else
             {
@@ -179,26 +177,26 @@ namespace WheelMUD.Server
             }
 
             // Send the data.
-            this.Send(bytes);
+            Send(bytes);
         }
 
         /// <summary>Sends data from the output buffer to the client.</summary>
         /// <param name="bufferDirection">Direction to move in the buffer.</param>
         public void ProcessBuffer(BufferDirection bufferDirection)
         {
-            if (this.OutputBuffer.HasMoreData)
+            if (OutputBuffer.HasMoreData)
             {
-                string[] output = this.OutputBuffer.GetRows(bufferDirection, this.PagingRowLimit);
+                string[] output = OutputBuffer.GetRows(bufferDirection, PagingRowLimit);
 
-                bool appendOverflow = this.OutputBuffer.HasMoreData;
+                bool appendOverflow = OutputBuffer.HasMoreData;
                 string data = BufferHandler.Format(
                     output,
                     false,
                     appendOverflow,
-                    this.OutputBuffer.CurrentLocation,
-                    this.OutputBuffer.Length);
+                    OutputBuffer.CurrentLocation,
+                    OutputBuffer.Length);
 
-                this.Send(data, false, true);
+                Send(data, false, true);
             }
         }
 
@@ -208,16 +206,16 @@ namespace WheelMUD.Server
             try
             {
                 // Start receiving any data written by the connected client asynchronously.
-                var callback = new AsyncCallback(this.OnDataReceived);
-                this.socket.BeginReceive(this.Data, 0, this.Data.Length, SocketFlags.None, callback, null);
+                var callback = new AsyncCallback(OnDataReceived);
+                socket.BeginReceive(Data, 0, Data.Length, SocketFlags.None, callback, null);
             }
             catch (ObjectDisposedException)
             {
-                this.OnConnectionDisconnect();
+                OnConnectionDisconnect();
             }
             catch (SocketException)
             {
-                this.OnConnectionDisconnect();
+                OnConnectionDisconnect();
             }
         }
 
@@ -227,14 +225,14 @@ namespace WheelMUD.Server
         {
             try
             {
-                this.socket.EndSend(asyncResult);
+                socket.EndSend(asyncResult);
 
                 // Raise our data sent event.
-                this.DataSent?.Invoke(this, new ConnectionArgs(this));
+                DataSent?.Invoke(this, new ConnectionArgs(this));
             }
             catch
             {
-                this.OnConnectionDisconnect();
+                OnConnectionDisconnect();
             }
         }
 
@@ -246,48 +244,47 @@ namespace WheelMUD.Server
             {
                 int iRx;
 
-                if (this.socket.Connected)
+                if (socket.Connected)
                 {
                     // Complete the BeginReceive() asynchronous call by EndReceive() method
                     // which will return the number of characters written to the stream 
                     // by the client
-                    iRx = this.socket.EndReceive(asyncResult);
+                    iRx = socket.EndReceive(asyncResult);
 
                     // If the number of bytes received is 0 then something fishy is going on, so
                     // we close the socket.
                     if (iRx == 0)
                     {
-                        this.OnConnectionDisconnect();
+                        OnConnectionDisconnect();
                     }
                     else
                     {
                         // Raise the Data Received Event. Signals that some data has arrived.
-                        this.DataReceived?.Invoke(this, new ConnectionArgs(this));
+                        DataReceived?.Invoke(this, new ConnectionArgs(this));
 
                         // Continue the waiting for data on the Socket
-                        this.ListenForData();
+                        ListenForData();
                     }
                 }
             }
             catch (ObjectDisposedException)
             {
                 // If we're shutting down, quietly ignore these exceptions and try to close the connection.
-                this.OnConnectionDisconnect();
+                OnConnectionDisconnect();
             }
             catch (ThreadAbortException)
             {
                 // If we're shutting down, quietly ignore these exceptions and try to close the connection.
-                this.OnConnectionDisconnect();
+                OnConnectionDisconnect();
             }
             catch (Exception ex)
             {
                 // In order to isolate connection-specific issues, we're going to trap the exception, log
                 // the details, and kill that connection.  (Other connections and the game itself should
                 // be able to continue through such situations.)
-                string ip = this.CurrentIPAddress == null ? "[null]" : this.CurrentIPAddress.ToString();
-                string format = "Exception encountered for connection:{0}IP: {1} (ID {2}):{0}{3}";
-                string message = string.Format(format, Environment.NewLine, ip, this.ID, ex.ToDeepString());
-                this.connectionHost.InformSubscribedSystem(message);
+                string ip = CurrentIPAddress == null ? "[null]" : CurrentIPAddress.ToString();
+                string message = $"Exception encountered for connection:{Environment.NewLine}IP: {ip}, ID {ID}:{Environment.NewLine}{ex.ToDeepString()}";
+                connectionHost.InformSubscribedSystem(message);
 
                 // If the debugger is attached, we probably want to break now in order to better debug 
                 // the issue closer to where it occurred; if your debugger broke here you may want to 
@@ -297,19 +294,19 @@ namespace WheelMUD.Server
                     Debugger.Break();
                 }
 
-                this.OnConnectionDisconnect();
+                OnConnectionDisconnect();
             }
         }
 
         /// <summary>Disconnects the sockets and raises the disconnected event.</summary>
         private void OnConnectionDisconnect()
         {
-            if (this.socket.Connected)
+            if (socket.Connected)
             {
-                this.socket.Shutdown(SocketShutdown.Both);
-                this.socket.Close();
+                socket.Shutdown(SocketShutdown.Both);
+                socket.Close();
 
-                this.ClientDisconnected?.Invoke(this, new ConnectionArgs(this));
+                ClientDisconnected?.Invoke(this, new ConnectionArgs(this));
             }
         }
     }

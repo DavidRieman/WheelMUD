@@ -26,11 +26,11 @@ namespace WheelMUD.Core
             SecurityRole securityRole,
             ActionInput actionInput)
         {
-            this.Name = name;
-            this.ExecuteDelegate = executeDelegate;
-            this.GuardsDelegate = guardsDelegate;
-            this.SecurityRole = securityRole;
-            this.ActionInput = actionInput;
+            Name = name;
+            ExecuteDelegate = executeDelegate;
+            GuardsDelegate = guardsDelegate;
+            SecurityRole = securityRole;
+            ActionInput = actionInput;
         }
 
         /// <summary>Gets the name of the scripting command.</summary>

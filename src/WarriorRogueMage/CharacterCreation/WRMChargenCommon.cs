@@ -5,12 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using WheelMUD.Core;
+using WheelMUD.Interfaces;
+
 namespace WarriorRogueMage.CharacterCreation
 {
-    using System;
-    using System.Text;
-    using WheelMUD.Core;
-
     /// <summary>Common methods for Warrior, Rogue, and Mage character creation.</summary>
     public class WrmChargenCommon
     {
@@ -49,6 +52,16 @@ namespace WarriorRogueMage.CharacterCreation
             }
 
             return retval;
+        }
+
+        public static T GetFirstPriorityMatch<T>(string userQuery, IEnumerable<T> collection) where T : INamed
+        {
+            return (from r in collection
+                    where r.Name.StartsWith(userQuery, StringComparison.OrdinalIgnoreCase)
+                    select r).FirstOrDefault() ??
+                   (from r in collection
+                    where r.Name.Contains(userQuery, StringComparison.OrdinalIgnoreCase)
+                    select r).FirstOrDefault();
         }
     }
 }

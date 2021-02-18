@@ -3,35 +3,28 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Provides a world time system to the mud. Actions can be scheduled to
-//   occur at various times, with 1-second resolution, without spawning
-//   new timers for each event. Necessary because there could be thousands
-//   of temporary effects, delayed commands, and so on.
-// </summary>
-// <remarks>
-//   This class was originally to be a custom calendar for the game, which
-//   would differ from real-world time system and broadcast periodic updates
-//   about the current time. Custom calendars are game-specific and usually
-//   can be implemented by transforming DateTime.Now and scheduling
-//   occasional broadcasts if desired.
-// </remarks>
 //-----------------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using WheelMUD.Core.Events;
+using WheelMUD.Interfaces;
 
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
-
     /// <summary>
     /// Provides a world time system to the mud. Actions can be scheduled to occur at various times, with
     /// a rounded off resolution, without spawning new timers for each event. Grouped processing like this
     /// is necessary because there could be thousands of temporary effects, delayed commands, and so on.
     /// </summary>
+    /// <remarks>
+    /// This class was originally to be a custom calendar for the game, which would differ from real-world
+    /// time system and broadcast periodic updates about the current game time. However, custom calendars
+    /// are going to be game-specific and usually can be implemented by transforming DateTime.Now and
+    /// scheduling occasional broadcasts if desired.
+    /// </remarks>
     public class TimeSystem : ManagerSystem
     {
         /// <summary>The singleton instance of this class.</summary>
@@ -53,25 +46,25 @@ namespace WheelMUD.Core
         /// <summary>Start the time system.</summary>
         public override void Start()
         {
-            this.SystemHost.UpdateSystemHost(this, "Starting...");
+            SystemHost.UpdateSystemHost(this, "Starting...");
 
-            if (this.timer == null)
+            if (timer == null)
             {
-                this.timer = new Timer(this.DoCallbacks, null, this.interval, this.interval);
+                timer = new Timer(DoCallbacks, null, interval, interval);
             }
 
-            this.SystemHost.UpdateSystemHost(this, "Started");
+            SystemHost.UpdateSystemHost(this, "Started");
         }
 
         /// <summary>Stops the time system.</summary>
         public override void Stop()
         {
-            this.SystemHost.UpdateSystemHost(this, "Stopping...");
+            SystemHost.UpdateSystemHost(this, "Stopping...");
 
-            this.timer.Change(Timeout.Infinite, Timeout.Infinite);
-            this.timer.Dispose();
+            timer.Change(Timeout.Infinite, Timeout.Infinite);
+            timer.Dispose();
 
-            this.SystemHost.UpdateSystemHost(this, "Stopped");
+            SystemHost.UpdateSystemHost(this, "Stopped");
         }
 
         /// <summary>Schedules an action according to the supplied <see cref="WheelMUD.Core.TimeEvent"/>.</summary>
@@ -83,9 +76,9 @@ namespace WheelMUD.Core
                 throw new ArgumentException("Cannot schedule a null event.", "args");
             }
 
-            lock (this.callbackQueue)
+            lock (callbackQueue)
             {
-                this.callbackQueue.Enqueue(timeEventArgs);
+                callbackQueue.Enqueue(timeEventArgs);
             }
         }
 
@@ -93,14 +86,14 @@ namespace WheelMUD.Core
         /// <param name="state">Currently unused.</param>
         private void DoCallbacks(object state)
         {
-            lock (this.callbackQueue)
+            lock (callbackQueue)
             {
                 // Loop over all events that have expired.
                 DateTime currentTime = DateTime.Now;
-                TimeEvent timeEvent = this.callbackQueue.Peek();
+                TimeEvent timeEvent = callbackQueue.Peek();
                 while (timeEvent != null && timeEvent.EndTime <= currentTime)
                 {
-                    var callback = this.callbackQueue.Dequeue().Callback;
+                    var callback = callbackQueue.Dequeue().Callback;
 
                     if (!timeEvent.IsCancelled)
                     {
@@ -110,7 +103,7 @@ namespace WheelMUD.Core
                         }
                     }
 
-                    timeEvent = this.callbackQueue.Peek();
+                    timeEvent = callbackQueue.Peek();
                 }
             }
         }
@@ -142,10 +135,10 @@ namespace WheelMUD.Core
             /// <param name="timeEventArgs">The <see cref="WheelMUD.Core.TimeEvent"/> instance containing the event data.</param>
             public void Enqueue(TimeEvent timeEventArgs)
             {
-                lock (this.heap)
+                lock (heap)
                 {
-                    this.heap.Add(timeEventArgs);
-                    this.UpHeap();
+                    heap.Add(timeEventArgs);
+                    UpHeap();
                 }
             }
 
@@ -153,9 +146,9 @@ namespace WheelMUD.Core
             /// <returns>The highest-priority <see cref="WheelMUD.Core.TimeEvent"/> item.</returns>
             public TimeEvent Peek()
             {
-                lock (this.heap)
+                lock (heap)
                 {
-                    return (this.heap.Count > 0) ? this.heap[0] : null;
+                    return (heap.Count > 0) ? heap[0] : null;
                 }
             }
 
@@ -163,14 +156,14 @@ namespace WheelMUD.Core
             /// <returns>The highest-priority <see cref="WheelMUD.Core.TimeEvent"/> item.</returns>
             public TimeEvent Dequeue()
             {
-                lock (this.heap)
+                lock (heap)
                 {
-                    if (this.heap.Count > 0)
+                    if (heap.Count > 0)
                     {
-                        var result = this.heap[0];
-                        this.heap[0] = this.heap.Last();
-                        this.heap.RemoveAt(this.heap.Count - 1);
-                        this.DownHeap();
+                        var result = heap[0];
+                        heap[0] = heap.Last();
+                        heap.RemoveAt(heap.Count - 1);
+                        DownHeap();
                         return result;
                     }
 
@@ -181,18 +174,18 @@ namespace WheelMUD.Core
             /// <summary>Adjusts the heap for the case where a new item was added.</summary>
             private void UpHeap()
             {
-                if (this.heap.Count < 2)
+                if (heap.Count < 2)
                 {
                     return;
                 }
 
-                int child = this.heap.Count - 1;
+                int child = heap.Count - 1;
                 int parent = (child - 1) / 2;
-                var newest = this.heap[child];
+                var newest = heap[child];
 
-                while (newest.EndTime < this.heap[parent].EndTime)
+                while (newest.EndTime < heap[parent].EndTime)
                 {
-                    this.heap[child] = this.heap[parent];
+                    heap[child] = heap[parent];
                     child = parent;
                     if (parent == 0)
                     {
@@ -202,13 +195,13 @@ namespace WheelMUD.Core
                     parent = (parent - 1) / 2;
                 }
 
-                this.heap[child] = newest;
+                heap[child] = newest;
             }
 
             /// <summary>Adjusts the heap for the case where the highest-priority item was removed.</summary>
             private void DownHeap()
             {
-                if (this.heap.Count < 2)
+                if (heap.Count < 2)
                 {
                     return;
                 }
@@ -216,27 +209,27 @@ namespace WheelMUD.Core
                 int parent = 0;
                 int leftChild = 1;
                 int rightChild = leftChild + 1;
-                var item = this.heap[parent];
+                var item = heap[parent];
 
-                if (rightChild < this.heap.Count - 1 && this.heap[rightChild].EndTime < this.heap[leftChild].EndTime)
+                if (rightChild < heap.Count - 1 && heap[rightChild].EndTime < heap[leftChild].EndTime)
                 {
                     leftChild = rightChild;
                 }
 
-                while (leftChild < this.heap.Count - 1 && this.heap[leftChild].EndTime < item.EndTime)
+                while (leftChild < heap.Count - 1 && heap[leftChild].EndTime < item.EndTime)
                 {
-                    this.heap[parent] = this.heap[leftChild];
+                    heap[parent] = heap[leftChild];
                     parent = leftChild;
                     leftChild = (parent * 2) + 1;
                     rightChild = leftChild + 1;
 
-                    if (rightChild < this.heap.Count - 1 && this.heap[rightChild].EndTime < this.heap[leftChild].EndTime)
+                    if (rightChild < heap.Count - 1 && heap[rightChild].EndTime < heap[leftChild].EndTime)
                     {
                         leftChild = rightChild;
                     }
                 }
 
-                this.heap[parent] = item;
+                heap[parent] = item;
             }
         }
     }

@@ -5,15 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Actions;
+using WheelMUD.Core;
+using WheelMUD.Core.Attributes;
+using WheelMUD.Core.Events;
+using WheelMUD.Interfaces;
+
 namespace WarriorRogueMage.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Actions;
-    using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
-
     /// <summary>Initiates non-lethal combat.</summary>
     /// <remarks>TODO: Implement or retire? Doesn't seem to do anything right now...</remarks>
     [ExportGameAction(100)]
@@ -53,7 +53,7 @@ namespace WarriorRogueMage.Actions
         /// <returns>An error message describing the failure for the user, or null if all guards pass.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

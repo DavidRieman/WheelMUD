@@ -8,7 +8,6 @@
 namespace WheelMUD.Core
 {
     using Newtonsoft.Json;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using WheelMUD.Core.Attributes;
@@ -46,7 +45,7 @@ namespace WheelMUD.Core
         public UserControlledBehavior(long instanceId, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceId;
+            ID = instanceId;
 
             // TODO: Subscribe to movement events for the attached Thing: Whenever a user-controlled
             // thing is moved from one location to another, we want to respond by automatically "looking"
@@ -69,7 +68,7 @@ namespace WheelMUD.Core
         /// <summary>Gets the human-readable list of role names attached to this user-controlled thing.</summary>
         public IEnumerable<string> GetRoleNames()
         {
-            return from role in this.GetIndividualSecurityRoles() select role.ToString();
+            return from role in GetIndividualSecurityRoles() select role.ToString();
         }
 
         /// <summary>Gets the individual security roles associated with this user.</summary>
@@ -77,7 +76,7 @@ namespace WheelMUD.Core
         {
             foreach (var role in SecurityRoleHelpers.IndividualSecurityRoles)
             {
-                if ((this.SecurityRoles & role) != SecurityRole.none)
+                if ((SecurityRoles & role) != SecurityRole.none)
                 {
                     yield return role;
                 }
@@ -87,7 +86,7 @@ namespace WheelMUD.Core
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.Controller = null;
+            Controller = null;
         }
     }
 }

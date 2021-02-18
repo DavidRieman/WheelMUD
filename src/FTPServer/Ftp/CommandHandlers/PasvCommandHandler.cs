@@ -20,25 +20,25 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected override string OnProcess(string message)
         {
-            if (this.ConnectionObject.PasvSocket == null)
+            if (ConnectionObject.PasvSocket == null)
             {
                 var listener = SocketHelpers.CreateTcpListener(Port);
                 if (listener == null)
                 {
-                    return this.GetMessage(550, string.Format("Couldn't start listener on port {0}", Port));
+                    return GetMessage(550, string.Format("Couldn't start listener on port {0}", Port));
                 }
 
-                this.SendPasvReply();
+                SendPasvReply();
 
                 listener.Start();
 
-                this.ConnectionObject.PasvSocket = listener.AcceptTcpClient();
+                ConnectionObject.PasvSocket = listener.AcceptTcpClient();
 
                 listener.Stop();
                 return string.Empty;
             }
 
-            this.SendPasvReply();
+            SendPasvReply();
             return string.Empty;
         }
 
@@ -50,7 +50,7 @@ namespace WheelMUD.Ftp.FtpCommands
             addr += "0";
             addr += ',';
             addr += Port.ToString();
-            SocketHelpers.Send(this.ConnectionObject.Socket, string.Format("227 ={0}\r\n", addr));
+            SocketHelpers.Send(ConnectionObject.Socket, string.Format("227 ={0}\r\n", addr));
         }
     }
 }

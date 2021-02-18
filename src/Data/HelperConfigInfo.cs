@@ -5,19 +5,19 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Configuration;
+using System.IO;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Data
 {
-    using System.Configuration;
-    using System.IO;
-    using WheelMUD.Utilities;
-
     /// <summary>Class to simplify reading application and data configuration information.</summary>
     public class AppConfigInfo
     {
         /// <summary>Prevents a default instance of the <see cref="AppConfigInfo"/> class from being created.</summary>
         private AppConfigInfo()
         {
-            this.GetConfigSettings();
+            GetConfigSettings();
         }
 
         /// <summary>Gets the singleton instance of the <see cref="AppConfigInfo"/> class.</summary>
@@ -56,21 +56,21 @@ namespace WheelMUD.Data
         /// <summary>Gets the configuration settings.</summary>
         private void GetConfigSettings()
         {
-            this.UserAccountIsPlayerCharacter = GameConfiguration.GetAppConfigBool("UserAccountIsPlayerCharacter");
-            this.PlayerCharacterNamesMustUseSingleCapital = GameConfiguration.GetAppConfigBool("PlayerCharacterNamesMustUseSingleCapital");
+            UserAccountIsPlayerCharacter = GameConfiguration.GetAppConfigBool("UserAccountIsPlayerCharacter");
+            PlayerCharacterNamesMustUseSingleCapital = GameConfiguration.GetAppConfigBool("PlayerCharacterNamesMustUseSingleCapital");
 
-            var relationalSettings = this.GetConnectionStringSettings("RelationalDataProviderName", "WheelMUDSQLite");
-            var documentSettings = this.GetConnectionStringSettings("DocumentDataProviderName", "RavenDB");
-            this.RelationalDataProviderName = relationalSettings.Name;
-            this.RelationalConnectionString = relationalSettings.ConnectionString;
-            this.DocumentDataProviderName = documentSettings.Name;
-            this.DocumentConnectionString = documentSettings.ConnectionString;
+            var relationalSettings = GetConnectionStringSettings("RelationalDataProviderName", "WheelMUDSQLite");
+            var documentSettings = GetConnectionStringSettings("DocumentDataProviderName", "RavenDB");
+            RelationalDataProviderName = relationalSettings.Name;
+            RelationalConnectionString = relationalSettings.ConnectionString;
+            DocumentDataProviderName = documentSettings.Name;
+            DocumentConnectionString = documentSettings.ConnectionString;
 
             // Replace any tokens like {DataDir} in the connection strings with evaluated values.
             // This prevents new administrators from having to adjust App.config for user-specific paths.
             var dataDir = GameConfiguration.DataStoragePath + Path.DirectorySeparatorChar;
-            this.RelationalConnectionString = this.RelationalConnectionString.Replace("{DataDir}", dataDir);
-            this.DocumentConnectionString = this.DocumentConnectionString.Replace("{DataDir}", dataDir);
+            RelationalConnectionString = RelationalConnectionString.Replace("{DataDir}", dataDir);
+            DocumentConnectionString = DocumentConnectionString.Replace("{DataDir}", dataDir);
         }
     }
 }

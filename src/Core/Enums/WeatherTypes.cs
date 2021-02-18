@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Enums
+namespace WheelMUD.Core
 {
     /// <summary>Enumeration of seasons.</summary>
     public enum Seasons

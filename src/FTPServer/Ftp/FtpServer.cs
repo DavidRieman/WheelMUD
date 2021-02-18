@@ -5,17 +5,18 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections;
+using System.ComponentModel.Composition;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using WheelMUD.Ftp.FileSystem;
+using WheelMUD.Ftp.General;
+using WheelMUD.Interfaces;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Ftp
 {
-    using System.Collections;
-    using System.ComponentModel.Composition;
-    using System.Net.Sockets;
-    using System.Threading;
-    using WheelMUD.Ftp.FileSystem;
-    using WheelMUD.Ftp.General;
-    using WheelMUD.Interfaces;
-    using WheelMUD.Utilities;
-
     /// <summary>Listens for incoming connections and accepts them.</summary>
     /// <remarks>Incoming socket connections are then passed to the socket handling class (FtpSocketHandler).</remarks>
     [Export(typeof(ISystemPlugIn))]
@@ -34,7 +35,7 @@ namespace WheelMUD.Ftp
 
         public FtpServer(IFileSystemClassFactory fileSystemClassFactory)
         {
-            this.connections = new ArrayList();
+            connections = new ArrayList();
             this.fileSystemClassFactory = fileSystemClassFactory;
         }
 
@@ -44,9 +45,9 @@ namespace WheelMUD.Ftp
 
         ~FtpServer()
         {
-            if (this.serverSocketListener != null)
+            if (serverSocketListener != null)
             {
-                this.serverSocketListener.Stop();
+                serverSocketListener.Stop();
             }
         }
 
@@ -59,8 +60,8 @@ namespace WheelMUD.Ftp
         public void Start(int port)
         {
             this.port = port;
-            this.serverThread = new Thread(this.ThreadRun);
-            this.serverThread.Start();
+            serverThread = new Thread(ThreadRun);
+            serverThread.Start();
         }
 
         public void Start()
@@ -68,22 +69,22 @@ namespace WheelMUD.Ftp
             int port = GameConfiguration.TryGetAppConfigInt("FtpPort", 0);
             if (port > 0)
             {
-                this.host.UpdateSystemHost(this, "Starting...");
-                this.Start();
-                this.host.UpdateSystemHost(this, "Started");
+                host.UpdateSystemHost(this, "Starting...");
+                Start();
+                host.UpdateSystemHost(this, "Started");
             }
             else
             {
-                this.host.UpdateSystemHost(this, "Omitting FTP support.");
+                host.UpdateSystemHost(this, "Omitting FTP support.");
             }
         }
 
         public void Stop()
         {
-            this.host.UpdateSystemHost(this, "Stopping");
-            this.shuttingDown = true;
+            host.UpdateSystemHost(this, "Stopping");
+            shuttingDown = true;
 
-            foreach (object t in this.connections)
+            foreach (object t in connections)
             {
                 var handler = t as FtpSocketHandler;
                 if (handler != null)
@@ -92,16 +93,16 @@ namespace WheelMUD.Ftp
                 }
             }
 
-            if (this.serverSocketListener != null)
+            if (serverSocketListener != null)
             {
-                this.serverSocketListener.Stop();
+                serverSocketListener.Stop();
             }
-            if (this.serverThread != null)
+            if (serverThread != null)
             {
-                this.serverThread.Join();
+                serverThread.Join();
             }
 
-            this.host.UpdateSystemHost(this, "Stopped");
+            host.UpdateSystemHost(this, "Stopped");
         }
 
         /// <summary>Allows the sub system host to receive an update when subscribed to this system.</summary>
@@ -109,14 +110,14 @@ namespace WheelMUD.Ftp
         /// <param name="msg">The message to be sent.</param>
         public void UpdateSubSystemHost(ISubSystem sender, string msg)
         {
-            this.host.UpdateSystemHost(this, msg);
+            host.UpdateSystemHost(this, msg);
         }
 
         /// <summary>Subscribes this system to the specified system host, so that host can receive updates.</summary>
         /// <param name="sender">The system host to receive our updates.</param>
         public void SubscribeToSystemHost(ISystemHost sender)
         {
-            this.host = sender;
+            host = sender;
         }
 
         /// <summary>Subscribe to receive system updates from this system.</summary>
@@ -133,47 +134,47 @@ namespace WheelMUD.Ftp
 
         private static void SendAcceptMessage(TcpClient socket)
         {
-            SocketHelpers.Send(socket, System.Text.Encoding.ASCII.GetBytes("220 WheelMUD FTP Server Ready\r\n"));
+            SocketHelpers.Send(socket, Encoding.ASCII.GetBytes("220 WheelMUD FTP Server Ready\r\n"));
         }
 
         private void ThreadRun()
         {
-            this.serverSocketListener = SocketHelpers.CreateTcpListener(this.port);
+            serverSocketListener = SocketHelpers.CreateTcpListener(port);
 
-            if (this.serverSocketListener != null)
+            if (serverSocketListener != null)
             {
-                this.serverSocketListener.Start();
+                serverSocketListener.Start();
 
                 FtpServerMessageHandler.SendMessage(0, "FTP Server Started");
-                this.UpdateSubSystemHost(this, "FTP Server Multi-Threaded Core Started");
+                UpdateSubSystemHost(this, "FTP Server Multi-Threaded Core Started");
 
-                while (!this.shuttingDown)
+                while (!shuttingDown)
                 {
                     TcpClient socket = null;
                     try
                     {
-                        socket = this.serverSocketListener.AcceptTcpClient();
+                        socket = serverSocketListener.AcceptTcpClient();
                     }
                     catch (SocketException)
                     {
-                        this.shuttingDown = true;
+                        shuttingDown = true;
                     }
                     finally
                     {
                         if (socket == null)
                         {
-                            this.shuttingDown = true;
+                            shuttingDown = true;
                         }
                         else
                         {
                             socket.NoDelay = false;
-                            this.id++;
+                            id++;
 
-                            FtpServerMessageHandler.SendMessage(this.id, "New connection");
-                            this.UpdateSubSystemHost(this, "New connection id = " + this.id);
+                            FtpServerMessageHandler.SendMessage(id, "New connection");
+                            UpdateSubSystemHost(this, "New connection id = " + id);
 
                             SendAcceptMessage(socket);
-                            this.InitialiseSocketHandler(socket);
+                            InitialiseSocketHandler(socket);
                         }
                     }
                 }
@@ -181,29 +182,29 @@ namespace WheelMUD.Ftp
             else
             {
                 FtpServerMessageHandler.SendMessage(0, "Error in starting FTP server");
-                this.UpdateSubSystemHost(this, "Error in starting FTP server");
+                UpdateSubSystemHost(this, "Error in starting FTP server");
             }
         }
 
         private void InitialiseSocketHandler(TcpClient socket)
         {
-            var handler = new FtpSocketHandler(this.fileSystemClassFactory, this.id);
+            var handler = new FtpSocketHandler(fileSystemClassFactory, id);
             handler.Start(socket);
-            this.connections.Add(handler);
-            handler.Closed += this.HandleClosed;
-            if (this.NewConnection != null)
+            connections.Add(handler);
+            handler.Closed += HandleClosed;
+            if (NewConnection != null)
             {
-                this.NewConnection(this.id);
+                NewConnection(id);
             }
         }
 
         private void HandleClosed(FtpSocketHandler handler)
         {
-            this.UpdateSubSystemHost(this, string.Format("Client #{0} has disconnected", handler.Id));
-            this.connections.Remove(handler);
-            if (this.ConnectionClosed != null)
+            UpdateSubSystemHost(this, string.Format("Client #{0} has disconnected", handler.Id));
+            connections.Remove(handler);
+            if (ConnectionClosed != null)
             {
-                this.ConnectionClosed(handler.Id);
+                ConnectionClosed(handler.Id);
             }
         }
     }

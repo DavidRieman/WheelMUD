@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.IO;
+using System.Text;
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using System;
-    using System.IO;
-    using System.Text;
-    using WheelMUD.Ftp.General;
-
     /// <summary>Base class for list commands</summary>
     public abstract class ListCommandHandlerBase : FtpCommandHandler
     {
@@ -22,40 +22,40 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected override string OnProcess(string message)
         {
-            SocketHelpers.Send(this.ConnectionObject.Socket, "150 Opening data connection for LIST\r\n");
+            SocketHelpers.Send(ConnectionObject.Socket, "150 Opening data connection for LIST\r\n");
 
             string[] asFiles = null;
             string[] asDirectories = null;
 
             message = message.Trim();
 
-            string path = this.GetPath(string.Empty);
+            string path = GetPath(string.Empty);
 
             if (message.Length == 0 || message[0] == '-')
             {
-                asFiles = this.ConnectionObject.FileSystemObject.GetFiles(path);
-                asDirectories = this.ConnectionObject.FileSystemObject.GetDirectories(path);
+                asFiles = ConnectionObject.FileSystemObject.GetFiles(path);
+                asDirectories = ConnectionObject.FileSystemObject.GetDirectories(path);
             }
             else
             {
-                asFiles = this.ConnectionObject.FileSystemObject.GetFiles(path, message);
-                asDirectories = this.ConnectionObject.FileSystemObject.GetDirectories(path, message);
+                asFiles = ConnectionObject.FileSystemObject.GetFiles(path, message);
+                asDirectories = ConnectionObject.FileSystemObject.GetDirectories(path, message);
             }
 
             var asAll = ArrayHelpers.Add(asDirectories, asFiles) as string[];
-            string fileList = this.BuildReply(message, asAll);
+            string fileList = BuildReply(message, asAll);
 
-            var socketReply = new FtpReplySocket(this.ConnectionObject);
+            var socketReply = new FtpReplySocket(ConnectionObject);
 
             if (!socketReply.Loaded)
             {
-                return this.GetMessage(550, "LIST unable to establish return connection.");
+                return GetMessage(550, "LIST unable to establish return connection.");
             }
 
             socketReply.Send(fileList);
             socketReply.Close();
 
-            return this.GetMessage(226, "LIST successful.");
+            return GetMessage(226, "LIST successful.");
         }
 
         protected abstract string BuildReply(string message, string[] asFiles);
@@ -69,7 +69,7 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected string BuildLongReply(string[] asFiles)
         {
-            string dir = this.GetPath(string.Empty);
+            string dir = GetPath(string.Empty);
 
             var stringBuilder = new StringBuilder();
 
@@ -78,7 +78,7 @@ namespace WheelMUD.Ftp.FtpCommands
                 string file = asFiles[index];
                 file = Path.Combine(dir, file);
 
-                var info = this.ConnectionObject.FileSystemObject.GetFileInfo(file);
+                var info = ConnectionObject.FileSystemObject.GetFileInfo(file);
                 if (info != null)
                 {
                     string attributes = info.GetAttributeString();

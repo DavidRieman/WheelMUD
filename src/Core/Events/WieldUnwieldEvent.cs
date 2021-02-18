@@ -18,9 +18,9 @@ namespace WheelMUD.Core.Events
         public WieldUnwieldEvent(Thing wieldedItem, bool isBeingWielded, Thing activeThing, SensoryMessage sensoryMessage)
             : base(activeThing, sensoryMessage)
         {
-            this.WieldedItem = wieldedItem;
-            this.IsBeingWielded = isBeingWielded;
-            sensoryMessage.Context.Add("WieldedItem", this.WieldedItem);
+            WieldedItem = wieldedItem;
+            IsBeingWielded = isBeingWielded;
+            sensoryMessage.Context.Add("WieldedItem", WieldedItem);
         }
 
         /// <summary>Gets a value indicating whether this event pertains to the target being wielded (true) or unwielded (false).</summary>

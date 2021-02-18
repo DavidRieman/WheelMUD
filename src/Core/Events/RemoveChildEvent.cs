@@ -15,7 +15,7 @@ namespace WheelMUD.Core.Events
         public RemoveChildEvent(Thing activeThing)
             : base(activeThing, null)
         {
-            this.OldParent = activeThing.Parent;
+            OldParent = activeThing.Parent;
         }
 
         /// <summary>Gets the parent of the thing before being removed.</summary>

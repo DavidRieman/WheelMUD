@@ -45,10 +45,10 @@ namespace WheelMUD.Actions
         {
             // TODO: Move item from one owner to another transactionally, if applicable.
             // TODO: Test, may be broken now... especially for only putting SOME of a stack...
-            this.thing.Parent.Remove(this.thing);
-            this.newParent.Add(this.thing);
+            thing.Parent.Remove(thing);
+            newParent.Add(thing);
 
-            string message = string.Format("You put {0} in {1}", this.thing.FullName, this.newParent.Name);
+            string message = string.Format("You put {0} in {1}", thing.FullName, newParent.Name);
             actionInput.Controller.Write(message);
         }
 
@@ -58,7 +58,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -71,12 +71,12 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the first parameter numeric?
-            int.TryParse(actionInput.Params[0], out this.numberToPut);
+            int.TryParse(actionInput.Params[0], out numberToPut);
             int itemParam = 0;
             string itemName = string.Empty;
 
             // Rule: If we have an amount then we shift our itemParam along one.
-            if (this.numberToPut > 0)
+            if (numberToPut > 0)
             {
                 itemParam = 1;
             }
@@ -124,9 +124,9 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the found thing capable of containing other things?
-            this.newParent = foundItem;
+            newParent = foundItem;
             var containerBehavior = foundItem.Behaviors.FindFirst<ContainerBehavior>();
-            if (this.newParent == null || containerBehavior == null)
+            if (newParent == null || containerBehavior == null)
             {
                 return containerName + " is not able to hold " + itemName + ".";
             }
@@ -141,8 +141,8 @@ namespace WheelMUD.Actions
             // TODO: Rule: If this item has a CapacityBehavior (or maybe just ContainerBehavior), does it have room left?
 
             // Rule: Do we have a matching item in our inventory?
-            this.thing = sender.Thing.Children.Find(i => i.Name == itemName.ToLower());
-            if (this.thing == null)
+            thing = sender.Thing.Children.Find(i => i.Name == itemName.ToLower());
+            if (thing == null)
             {
                 return "You do not hold " + itemName + ".";
             }

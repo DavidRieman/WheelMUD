@@ -25,7 +25,7 @@ namespace WheelMUD.Effects
         public PoisonEffect(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /* TODO: Rework against new Effect class and time/tick events.
@@ -45,23 +45,23 @@ namespace WheelMUD.Effects
         /// <param name="duration">duration 12</param>
         public override void Apply(TimeSpan duration)
         {
-            if (this.totalTime == new TimeSpan(0, 0, 0))
+            if (totalTime == new TimeSpan(0, 0, 0))
             {
-                this.totalTime = duration;
+                totalTime = duration;
             }
 
-            this.totalTime = this.totalTime - this.timeBetweenTicks;
-            this.health = this.Host.Stats["health"];
+            totalTime = totalTime - timeBetweenTicks;
+            health = Host.Stats["health"];
 
-            if (this.numOfTicks != 0)
+            if (numOfTicks != 0)
             {
-                this.health.Decrease(10, this.Host);
-                this.numOfTicks -= 1;
-                base.Apply(this.timeBetweenTicks);
+                health.Decrease(10, Host);
+                numOfTicks -= 1;
+                base.Apply(timeBetweenTicks);
             }
             else
             {
-                this.Remove();
+                Remove();
             }
         }
         */

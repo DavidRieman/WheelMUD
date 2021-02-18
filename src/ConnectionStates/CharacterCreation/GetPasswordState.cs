@@ -25,15 +25,17 @@ namespace WheelMUD.ConnectionStates
         {
             // Do not use the command parameter here. It is trimmed of whitespace, which will inhibit the use of passwords 
             // with whitespace on either end. Instead we need to respect the raw line of input for password entries.
-            this.Session.User.SetPassword(this.Session.Connection.LastRawInput);
-            this.Session.Connection.LastRawInput = null;
+            Session.User.SetPassword(Session.Connection.LastRawInput);
+            Session.Connection.LastRawInput = null;
 
-            this.StateMachine.HandleNextStep(this, StepStatus.Success);
+            StateMachine.HandleNextStep(this, StepStatus.Success);
         }
 
         public override string BuildPrompt()
         {
-            return "Enter a password for this character.\n> ";
+            // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
+            // is repeating received keystrokes back to their output.
+            return $"Enter a password for this character.{AnsiSequences.NewLine}> <%hidden%>";
         }
     }
 }

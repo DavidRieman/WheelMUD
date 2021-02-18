@@ -26,7 +26,7 @@ namespace WheelMUD.Core
         public MultipleParentsBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Gets the secondary parents.</summary>
@@ -38,8 +38,8 @@ namespace WheelMUD.Core
         public void AddParent(Thing newParent)
         {
             // Tracking parents for our attached thing only makes sense if we are indeed attached to a thing.
-            // (Avoid race conditions against behavior attachment by using a temporary reference to this.Parent).
-            var thing = this.Parent;
+            // (Avoid race conditions against behavior attachment by using a temporary reference to Parent).
+            var thing = Parent;
             if (thing != null)
             {
                 // If the object we apply to does not have a primary Parent yet, simply Add it to set Parent.
@@ -51,12 +51,12 @@ namespace WheelMUD.Core
 
                 // Go through our current secondary parents, and if we don't already track this as one of the
                 // parents, then add it.
-                if (this.SecondaryParents.Contains(newParent))
+                if (SecondaryParents.Contains(newParent))
                 {
                     return;
                 }
 
-                this.SecondaryParents.Add(newParent);
+                SecondaryParents.Add(newParent);
             }
         }
 
@@ -65,8 +65,8 @@ namespace WheelMUD.Core
         public void RemoveParent(Thing oldParent)
         {
             // Tracking parents for our attached thing only makes sense if we are indeed attached to a thing.
-            // (Avoid race conditions against behavior attachment by using a temporary reference to this.Parent).
-            var thing = this.Parent;
+            // (Avoid race conditions against behavior attachment by using a temporary reference to Parent).
+            var thing = Parent;
             if (thing != null)
             {
                 // If our thing has the parent being removed as it's primary parent, we need to shift one of the
@@ -74,19 +74,19 @@ namespace WheelMUD.Core
                 // (If there are no remaining secondary parents, this will correctly set the Parent as null.)
                 if (thing.Parent == oldParent)
                 {
-                    var newPrimaryParent = (from p in this.SecondaryParents where p != oldParent select p).FirstOrDefault();
+                    var newPrimaryParent = (from p in SecondaryParents where p != oldParent select p).FirstOrDefault();
                     thing.RigParentUnsafe(newPrimaryParent);
                 }
 
                 // Remove this oldParent from our tracked parents (if tracked).
-                this.SecondaryParents.Remove(oldParent);
+                SecondaryParents.Remove(oldParent);
             }
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.SecondaryParents = new List<Thing>();
+            SecondaryParents = new List<Thing>();
         }
     }
 }

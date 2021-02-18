@@ -25,10 +25,10 @@ namespace WheelMUD.Core
             ContextAvailability availability,
             SecurityRole securityRole)
         {
-            this.CommandScript = commandScript;
-            this.CommandKey = commandKey;
-            this.Availability = availability;
-            this.SecurityRole = securityRole;
+            CommandScript = commandScript;
+            CommandKey = commandKey;
+            Availability = availability;
+            SecurityRole = securityRole;
         }
 
         /// <summary>Gets the starting command text used to execute this command.</summary>

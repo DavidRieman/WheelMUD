@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Enums
+namespace WheelMUD.Core
 {
     /// <summary>Consumable types.</summary>
     public enum BufferDirection

@@ -41,8 +41,8 @@ namespace WheelMUD.Actions
 
             // TODO: Should use Request and Event pattern and avoid direct Controller.Writes.
             //var userControlledBehavior = sender.Thing.BehaviorManager.FindFirst<UserControlledBehavior>();
-            //userControlledBehavior.Controller.Write("You cast a web over " + this.target.Name);
-            //this.target.Controller.Write(sender.Thing.Name + " casts a web over you");
+            //userControlledBehavior.Controller.Write("You cast a web over " + target.Name);
+            //target.Controller.Write(sender.Thing.Name + " casts a web over you");
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>
@@ -51,7 +51,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -60,28 +60,28 @@ namespace WheelMUD.Actions
             string targetName = actionInput.Tail.Trim().ToLower();
 
             // Rule: Do we have a target?
-            this.target = GetPlayerOrMobile(targetName);
-            if (this.target == null)
+            target = GetPlayerOrMobile(targetName);
+            if (target == null)
             {
                 return "You cannot see " + targetName + ".";
             }
 
             // Rule: Is the target the initator?
-            if (sender.Thing.Name.ToLower() == this.target.Name.ToLower())
+            if (sender.Thing.Name.ToLower() == target.Name.ToLower())
             {
                 return "You can't punch yourself.";
             }
 
             // Rule: Is the target in the same room?
-            if (sender.Thing.Parent.Id != this.target.Parent.Id)
+            if (sender.Thing.Parent.Id != target.Parent.Id)
             {
                 return "You cannot see " + targetName + ".";
             }
 
             // Rule: Is the target alive?
-            if (this.target.Stats["health"].Value <= 0)
+            if (target.Stats["health"].Value <= 0)
             {
-                return this.target.Name + " is dead.";
+                return target.Name + " is dead.";
             }
 
             return null;

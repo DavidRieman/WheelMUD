@@ -24,7 +24,7 @@ namespace WheelMUD.Core
         public ExportGameActionAttribute(int priority)
             : base(typeof(GameAction))
         {
-            this.Priority = priority;
+            Priority = priority;
         }
 
         /// <summary>Initializes a new instance of the class.</summary>

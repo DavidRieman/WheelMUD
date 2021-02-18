@@ -49,8 +49,8 @@ namespace WheelMUD.Actions
             // This is to keep track of the previous rooms we've yelled at, to prevent echoes.
             List<Thing> previousRooms = new List<Thing>();
 
-            this.CreateYellEvent(sender.Thing);
-            this.TraverseRoom(parent, actionInput, sender, RoomFallOff, previousRooms);
+            CreateYellEvent(sender.Thing);
+            TraverseRoom(parent, actionInput, sender, RoomFallOff, previousRooms);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -58,13 +58,13 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            this.yellSentence = actionInput.Tail.Trim();
+            yellSentence = actionInput.Tail.Trim();
 
             return null;
         }
@@ -90,8 +90,8 @@ namespace WheelMUD.Actions
             visitedPlaces.Add(place);
 
             // Broadcast the yell request at the specified place.
-            place.Eventing.OnCommunicationRequest(this.yellEvent, EventScope.SelfDown);
-            if (!this.yellEvent.IsCancelled)
+            place.Eventing.OnCommunicationRequest(yellEvent, EventScope.SelfDown);
+            if (!yellEvent.IsCancelled)
             {
                 List<ExitBehavior> exits = place.FindAllChildrenBehaviors<ExitBehavior>();
                 foreach (ExitBehavior exit in exits)
@@ -100,7 +100,7 @@ namespace WheelMUD.Actions
                     if (opensClosesBehavior == null || opensClosesBehavior.IsOpen == true)
                     {
                         Thing destination = exit.GetDestination(place);
-                        this.TraverseRoom(destination, actionInput, sender, (timeToLive == -1) ? timeToLive : (timeToLive - 1), visitedPlaces);
+                        TraverseRoom(destination, actionInput, sender, (timeToLive == -1) ? timeToLive : (timeToLive - 1), visitedPlaces);
                     }
                 }
 
@@ -114,7 +114,7 @@ namespace WheelMUD.Actions
                 // doesn't necessarily mean all other branches of the yell should be suppressed too.  IE if
                 // something to the west of our position prevents noise from going through there, the noise 
                 // that was also going northwards shouldn't suddenly stop.
-                this.CreateYellEvent(sender.Thing);
+                CreateYellEvent(sender.Thing);
             }
         }
 
@@ -122,13 +122,13 @@ namespace WheelMUD.Actions
         {
             var contextMessage = new ContextualString(entity, null)
             {
-                ToOriginator = $"You yell: {this.yellSentence}",
-                ToReceiver = $"You hear {entity.Name} yell: {this.yellSentence}",
-                ToOthers = $"You hear {entity.Name} yell: {this.yellSentence}",
+                ToOriginator = $"You yell: {yellSentence}",
+                ToReceiver = $"You hear {entity.Name} yell: {yellSentence}",
+                ToOthers = $"You hear {entity.Name} yell: {yellSentence}",
             };
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 
-            this.yellEvent = new VerbalCommunicationEvent(entity, sm, VerbalCommunicationType.Yell);
+            yellEvent = new VerbalCommunicationEvent(entity, sm, VerbalCommunicationType.Yell);
         }
     }
 }

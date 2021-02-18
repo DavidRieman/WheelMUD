@@ -18,7 +18,7 @@ namespace WarriorRogueMage
         /// <summary>Prevents a default instance of the TalentFinder class from being created.</summary>
         private TalentFinder()
         {
-            this.Recompose();
+            Recompose();
         }
 
         /// <summary>Gets the singleton instance of the TalentFinder class.</summary>
@@ -35,8 +35,8 @@ namespace WarriorRogueMage
         {
             AttributedModelServices.ComposeParts(DefaultComposer.Container, this);
 
-            this.NormalTalents = (from t in this.AllTalents where t.TalentType == TalentType.Normal select t).ToList();
-            this.RacialTalents = (from t in this.AllTalents where t.TalentType == TalentType.Racial select t).ToList();
+            NormalTalents = (from t in AllTalents where t.TalentType == TalentType.Normal select t).ToList();
+            RacialTalents = (from t in AllTalents where t.TalentType == TalentType.Racial select t).ToList();
         }
     }
 }

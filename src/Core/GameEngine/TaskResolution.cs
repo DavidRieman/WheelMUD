@@ -3,10 +3,6 @@
 //   Copyright (c) WheelMUD Development Team. See LICENSE.txt. This file is
 //   subject to the Microsoft Public License. All other rights reserved.
 // </copyright>
-// <summary>
-//   This class will handle resolution of contests using skills, talents, 
-//   and other things.
-// </summary>
 //-----------------------------------------------------------------------------
 /* Disabled for now: Seems unused, and raised errors:
      TaskResolution.cs(24,23): error CS0414: Warning as Error: The private field `WheelMUD.Core.TaskResolution.contestantA' is assigned but its value is never used

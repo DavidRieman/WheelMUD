@@ -42,7 +42,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            this.enterableBehavior.Enter(sender.Thing);
+            enterableBehavior.Enter(sender.Thing);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -51,7 +51,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -72,8 +72,8 @@ namespace WheelMUD.Actions
             else if (enterableThings.Count == 1)
             {
                 Thing thing = enterableThings.First();
-                this.enterableBehavior = thing.Behaviors.FindFirst<EnterableExitableBehavior>();
-                if (this.enterableBehavior == null)
+                enterableBehavior = thing.Behaviors.FindFirst<EnterableExitableBehavior>();
+                if (enterableBehavior == null)
                 {
                     return "You can not enter " + thing.Name + ".";
                 }

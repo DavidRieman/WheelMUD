@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Text;
+using WheelMUD.Core;
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Server
 {
-    using System;
-    using System.Text;
-    using WheelMUD.Core;
-    using WheelMUD.Interfaces;
-
     /// <summary>The input parser handles data coming in over a connection.</summary>
     /// <remarks>Checks to see if the data is an action and if so notifies the interested parties for processing.</remarks>
     public class InputParser
@@ -38,6 +38,9 @@ namespace WheelMUD.Server
 
             // Append the data to our text buffer.
             sender.Buffer.Append(input);
+
+            // TODO: Optimize: We should only need to do the reconversion of the input buffer back to a string and look for input lines,
+            // if the new "input" includes a terminator (or if the connection is in per-character-handling and/or echoing modes).
 
             // Get the whole of our buffer.
             input = sender.Buffer.ToString();
@@ -68,7 +71,7 @@ namespace WheelMUD.Server
                 // We should pass that up as a valid command.
                 if (input == newLineMarker)
                 {
-                    this.RaiseInputReceived(new ConnectionArgs(sender), string.Empty);
+                    RaiseInputReceived(new ConnectionArgs(sender), string.Empty);
                 }
 
                 // Does our input "end" with \r if so then we have a series of full commands.
@@ -90,7 +93,7 @@ namespace WheelMUD.Server
                         sender.LastRawInput = currentInput;
 
                         // Raise the input received event.
-                        this.RaiseInputReceived(new ConnectionArgs(sender), currentInput.Trim());
+                        RaiseInputReceived(new ConnectionArgs(sender), currentInput.Trim());
                     }
                 }
 
@@ -154,7 +157,7 @@ namespace WheelMUD.Server
         /// <param name="action">The text that was received</param>
         private void RaiseInputReceived(ConnectionArgs connectionArgs, string action)
         {
-            this.InputReceived?.Invoke(this, connectionArgs, action);
+            InputReceived?.Invoke(this, connectionArgs, action);
         }
     }
 }

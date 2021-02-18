@@ -25,10 +25,10 @@ namespace WheelMUD.Core.Events
         public EffectEvent(Thing activeThing, Thing target, SensoryMessage sensoryMessage)
             : base(activeThing, sensoryMessage)
         {
-            this.Target = target;
+            Target = target;
             if (sensoryMessage != null)
             {
-                sensoryMessage.Context.Add("Target", this.Target);
+                sensoryMessage.Context.Add("Target", Target);
             }
         }
 

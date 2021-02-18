@@ -26,13 +26,13 @@ namespace WheelMUD.Universe
         public HoldsLiquidBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         public void FillFrom(IController sender, HoldsLiquidBehavior source)
         {
             // TODO: If this behavior's thing has no room left, abort.
-            // sender.Write(string.Format("The {0} is full and no more can be added to it.", this.destinationContainerName));
+            // sender.Write(string.Format("The {0} is full and no more can be added to it.", destinationContainerName));
 
             // Iterate through the source thing's Children to find the first Liquid thing.
             LiquidBehavior liquidBehavior = null;
@@ -57,11 +57,11 @@ namespace WheelMUD.Universe
             // TODO: Determine the maximum amount we can take from that liquid stack.
 
             // Move that liquid stack over into this liquid-holder.
-            if (this.Parent.Add(liquidBehavior.Parent))
+            if (Parent.Add(liquidBehavior.Parent))
             {
                 string message = string.Format(
                     "You filled {0} with {1} from {2}.",
-                    this.Parent.Name,
+                    Parent.Name,
                     liquidBehavior.Parent.Name,
                     source.Parent.Name);
                 sender.Write(message);

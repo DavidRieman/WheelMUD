@@ -16,7 +16,7 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected override string BuildReply(string message, string[] files)
         {
-            return this.BuildLongReply(files);
+            return BuildLongReply(files);
         }
     }
 }

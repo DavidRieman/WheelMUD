@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Enums
+namespace WheelMUD.Core
 {
     /// <summary>The types of parents that exits in WheelMUD.</summary>
     /// <remarks>

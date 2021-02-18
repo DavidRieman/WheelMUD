@@ -40,7 +40,7 @@ namespace WarriorRogueMage.Actions
                 // Save tail as player's new prompt
                 try
                 {
-                    this.playerBehavior.Prompt = actionInput.Tail;
+                    playerBehavior.Prompt = actionInput.Tail;
                 }
                 catch (Exception)
                 {
@@ -58,7 +58,7 @@ namespace WarriorRogueMage.Actions
             output.AppendFormat("{0}{1}{2}\n", "-----".PadRight(15), "-------------".PadRight(15), "-----------".PadRight(40));
 
             // Discover all methods with the promptable attribute in the adapter
-            foreach (var m in this.playerBehavior.GetType().GetMethods())
+            foreach (var m in playerBehavior.GetType().GetMethods())
             {
                 var promptAttr = m.GetCustomAttributes(typeof(PlayerPromptableAttribute), false);
                 if (promptAttr.Length > 0)
@@ -66,14 +66,14 @@ namespace WarriorRogueMage.Actions
                     var tokenInfo = (PlayerPromptableAttribute)promptAttr[0];
 
                     // Invoke the method to get current values
-                    var currentValue = (string)m.Invoke(this.playerBehavior, new object[] { });
+                    var currentValue = (string)m.Invoke(playerBehavior, new object[] { });
 
                     output.AppendFormat("{0}{1}{2}\n", tokenInfo.Token.PadRight(15), currentValue.PadRight(15), tokenInfo.Description.PadRight(40));
                 }
             }
 
-            output.AppendFormat("\nCurrent prompt is '{0}'\n", this.playerBehavior.Prompt);
-            output.AppendFormat("Parsed prompt is '{0}'\n", this.playerBehavior.BuildPrompt());
+            output.AppendFormat("\nCurrent prompt is '{0}'\n", playerBehavior.Prompt);
+            output.AppendFormat("Parsed prompt is '{0}'\n", playerBehavior.BuildPrompt());
             sender.Write(output.ToString());
         }
 
@@ -82,13 +82,13 @@ namespace WarriorRogueMage.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            this.playerBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<PlayerBehavior>();
+            playerBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<PlayerBehavior>();
 
             return null;
         }

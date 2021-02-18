@@ -22,24 +22,24 @@ namespace ServerHarness
         /// <param name="textLogFilePath">The log file path to append text messages to.</param>
         public TextLogUpdater(string textLogFilePath)
         {
-            this.writer = new StreamWriter(textLogFilePath, true, Encoding.ASCII);
+            writer = new StreamWriter(textLogFilePath, true, Encoding.ASCII);
         }
 
         /// <summary>Finalizes an instance of the TextLogUpdater class.</summary>
         ~TextLogUpdater()
         {
-            this.Dispose();
+            Dispose();
         }
 
         /// <summary>Dispose of any resources used by this TextLogUpdater.</summary>
         public void Dispose()
         {
-            if (this.writer != null)
+            if (writer != null)
             {
                 try
                 {
-                    this.writer.Dispose();
-                    this.writer = null;
+                    writer.Dispose();
+                    writer = null;
                 }
                 catch (Exception ex)
                 {
@@ -53,8 +53,8 @@ namespace ServerHarness
         /// <param name="message">The message to pass along.</param>
         public void Notify(string message)
         {
-            this.writer.WriteLine(message);
-            this.writer.Flush();
+            writer.WriteLine(message);
+            writer.Flush();
         }
     }
 }

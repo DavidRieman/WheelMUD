@@ -3,17 +3,13 @@
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   Enum of accepted item wear locations that are usable.
-//   Edited by Feverdream @ 4/24/2010 to update bit indexes and slots to include left/right distinctions.
-// </summary>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Enums
-{
-    using System;
+using System;
 
-    /// <summary>All of the different places you can wear a piece of equipment.</summary>
+namespace WheelMUD.Core
+{
+    /// <summary>Depicts the different places you can wear a piece of equipment.</summary>
     [Flags]
     public enum WearLocations : ulong
     {

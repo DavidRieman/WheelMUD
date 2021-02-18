@@ -5,16 +5,16 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using WheelMUD.Core;
+using WheelMUD.Core.Attributes;
+using WheelMUD.Interfaces;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Text;
-    using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
-    using WheelMUD.Utilities;
-
     /// <summary>Action description here.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("credits", CommandCategory.Inform)]
@@ -33,7 +33,7 @@ namespace WheelMUD.Actions
         private static string cachedContents = null;
 
         /// <summary>The synchronization locking object.</summary>
-        private static object cacheLockObject = new object();
+        private static readonly object cacheLockObject = new object();
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
@@ -70,7 +70,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

@@ -42,16 +42,16 @@ namespace WheelMUD.Actions
         {
             // Build our knock messages for this room and the next.  Only send message to the door-type thing once.
             IController sender = actionInput.Controller;
-            var thisRoomMessage = new ContextualString(sender.Thing, this.target)
+            var thisRoomMessage = new ContextualString(sender.Thing, target)
             {
-                ToOriginator = $"You knock on {this.target.Name}.",
-                ToOthers = $"{sender.Thing.Name} knocks on {this.target.Name}.",
+                ToOriginator = $"You knock on {target.Name}.",
+                ToOthers = $"{sender.Thing.Name} knocks on {target.Name}.",
                 ToReceiver = $"{sender.Thing.Name} knocks on you.",
             };
-            var nextRoomMessage = new ContextualString(sender.Thing, this.target)
+            var nextRoomMessage = new ContextualString(sender.Thing, target)
             {
                 ToOriginator = null,
-                ToOthers = $"Someone knocks on {this.target.Name}.",
+                ToOthers = $"Someone knocks on {target.Name}.",
                 ToReceiver = null,
             };
 
@@ -60,8 +60,8 @@ namespace WheelMUD.Actions
             var nextRoomSM = new SensoryMessage(SensoryType.Hearing, 100, nextRoomMessage);
 
             // Generate our knock events.
-            var thisRoomKnockEvent = new KnockEvent(this.target, thisRoomSM);
-            var nextRoomKnockEvent = new KnockEvent(this.target, nextRoomSM);
+            var thisRoomKnockEvent = new KnockEvent(target, thisRoomSM);
+            var nextRoomKnockEvent = new KnockEvent(target, nextRoomSM);
 
             // Broadcast the requests/events; the events handle sending the sensory messages.
             sender.Thing.Eventing.OnCommunicationRequest(thisRoomKnockEvent, EventScope.ParentsDown);
@@ -71,10 +71,10 @@ namespace WheelMUD.Actions
                 sender.Thing.Eventing.OnCommunicationEvent(thisRoomKnockEvent, EventScope.ParentsDown);
 
                 // Next try to send a knock event into the adjacent place too.
-                this.nextRoom.Eventing.OnCommunicationRequest(nextRoomKnockEvent, EventScope.SelfDown);
+                nextRoom.Eventing.OnCommunicationRequest(nextRoomKnockEvent, EventScope.SelfDown);
                 if (!nextRoomKnockEvent.IsCancelled)
                 {
-                    this.nextRoom.Eventing.OnCommunicationEvent(nextRoomKnockEvent, EventScope.SelfDown);
+                    nextRoom.Eventing.OnCommunicationEvent(nextRoomKnockEvent, EventScope.SelfDown);
                 }
             }
         }
@@ -84,7 +84,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -104,7 +104,7 @@ namespace WheelMUD.Actions
                 // Are they trying to knock on a door?
                 if (actionInput.Params[0].ToLower() == "door")
                 {
-                    return this.CheckForDoor(actionInput);
+                    return CheckForDoor(actionInput);
                 }
             }
 
@@ -189,16 +189,16 @@ namespace WheelMUD.Actions
                 return "That door is open. Why knock on an open door?";
             }
 
-            this.target = exit.Door;
+            target = exit.Door;
 
             // Which room does the door lead to?
             if (!Equals(exit.ExitEndA.Room, sender.Thing.Parent))
             {
-                this.adjacentRoom = exit.ExitEndA.Room;
+                adjacentRoom = exit.ExitEndA.Room;
             }
             else
             {
-                this.adjacentRoom = exit.ExitEndB.Room;
+                adjacentRoom = exit.ExitEndB.Room;
             }
             */
             return null;

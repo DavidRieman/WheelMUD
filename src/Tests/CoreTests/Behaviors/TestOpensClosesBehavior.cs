@@ -32,22 +32,22 @@ namespace WheelMUD.Tests.Behaviors
         public void Init()
         {
             // Create the basic actor instances and behavior for test.
-            this.witnessThing = new Thing() { Name = "WitnessThing", Id = TestThingID.Generate("testthing") };
-            this.actingThing = new Thing() { Name = "ActingThing", Id = TestThingID.Generate("testthing") };
-            this.openableThing = new Thing() { Name = "OpenableThing", Id = TestThingID.Generate("testthing") };
-            this.opensClosesBehavior = new OpensClosesBehavior();
+            witnessThing = new Thing() { Name = "WitnessThing", Id = TestThingID.Generate("testthing") };
+            actingThing = new Thing() { Name = "ActingThing", Id = TestThingID.Generate("testthing") };
+            openableThing = new Thing() { Name = "OpenableThing", Id = TestThingID.Generate("testthing") };
+            opensClosesBehavior = new OpensClosesBehavior();
 
             // Set up the actors inside another (which we'll call a "room" although it needn't actually be a room).
-            this.room = new Thing() { Name = "Room", Id = TestThingID.Generate("room") };
-            this.room.Add(this.witnessThing);
-            this.room.Add(this.actingThing);
-            this.room.Add(this.openableThing);
+            room = new Thing() { Name = "Room", Id = TestThingID.Generate("room") };
+            room.Add(witnessThing);
+            room.Add(actingThing);
+            room.Add(openableThing);
 
             // Prepare to verify correct eventing occurs.
-            this.witnessThing.Eventing.MiscellaneousRequest += (root, e) => { this.lastWitnessRequest = e; };
-            this.witnessThing.Eventing.MiscellaneousEvent += (root, e) => { this.lastWitnessEvent = e; };
-            this.actingThing.Eventing.MiscellaneousRequest += (root, e) => { this.lastActorRequest = e; };
-            this.actingThing.Eventing.MiscellaneousEvent += (root, e) => { this.lastActorEvent = e; };
+            witnessThing.Eventing.MiscellaneousRequest += (root, e) => { lastWitnessRequest = e; };
+            witnessThing.Eventing.MiscellaneousEvent += (root, e) => { lastWitnessEvent = e; };
+            actingThing.Eventing.MiscellaneousRequest += (root, e) => { lastActorRequest = e; };
+            actingThing.Eventing.MiscellaneousEvent += (root, e) => { lastActorEvent = e; };
         }
 
         /// <summary>Test OpensClosesBehavior without an attached parent.</summary>
@@ -57,70 +57,70 @@ namespace WheelMUD.Tests.Behaviors
             // Verify that an unattached behavior does not change state between Open/Close attempts, and
             // that such attempts do not throw. (This keeps the behavior solid in the face of the parent
             // being destroyed or whatnot as a race versus a user trying to activate it.)
-            bool initialState = this.opensClosesBehavior.IsOpen;
-            this.opensClosesBehavior.Close(this.actingThing);
-            Assert.AreEqual(initialState, this.opensClosesBehavior.IsOpen);
-            this.opensClosesBehavior.Open(this.actingThing);
-            Assert.AreEqual(initialState, this.opensClosesBehavior.IsOpen);
+            bool initialState = opensClosesBehavior.IsOpen;
+            opensClosesBehavior.Close(actingThing);
+            Assert.AreEqual(initialState, opensClosesBehavior.IsOpen);
+            opensClosesBehavior.Open(actingThing);
+            Assert.AreEqual(initialState, opensClosesBehavior.IsOpen);
         }
 
         /// <summary>Test normal OpensClosesBehavior operation.</summary>
         [Test]
         public void TestOpeningAndClosing()
         {
-            this.openableThing.Behaviors.Add(this.opensClosesBehavior);
+            openableThing.Behaviors.Add(opensClosesBehavior);
 
             // Verify that the default state is closed.
-            Assert.IsTrue(!this.opensClosesBehavior.IsOpen);
+            Assert.IsTrue(!opensClosesBehavior.IsOpen);
 
             // Closing closed thing => closed.
-            this.ClearTrackedEvents();
-            this.opensClosesBehavior.Close(this.actingThing);
-            Assert.IsTrue(!this.opensClosesBehavior.IsOpen);
+            ClearTrackedEvents();
+            opensClosesBehavior.Close(actingThing);
+            Assert.IsTrue(!opensClosesBehavior.IsOpen);
 
             // Verify that no event occurred (but any potentially-cancelled requests are irrelevant).
-            Assert.IsTrue(this.lastWitnessEvent == null);
-            Assert.IsTrue(this.lastActorEvent == null);
+            Assert.IsTrue(lastWitnessEvent == null);
+            Assert.IsTrue(lastActorEvent == null);
 
             // Opening a closed thing => open.
-            this.ClearTrackedEvents();
-            this.opensClosesBehavior.Open(this.actingThing);
-            Assert.IsTrue(this.opensClosesBehavior.IsOpen);
+            ClearTrackedEvents();
+            opensClosesBehavior.Open(actingThing);
+            Assert.IsTrue(opensClosesBehavior.IsOpen);
 
             // Verify that an appropriate close request and close event were witnessed by both the actor and the witness.
-            Assert.IsTrue(this.lastWitnessRequest != null);
-            Assert.IsTrue(this.lastActorRequest != null);
-            Assert.IsTrue(this.lastWitnessEvent != null);
-            Assert.IsTrue(this.lastActorEvent != null);
+            Assert.IsTrue(lastWitnessRequest != null);
+            Assert.IsTrue(lastActorRequest != null);
+            Assert.IsTrue(lastWitnessEvent != null);
+            Assert.IsTrue(lastActorEvent != null);
 
-            string witnessMessage = this.lastWitnessEvent.SensoryMessage.Message.Parse(this.witnessThing);
+            string witnessMessage = lastWitnessEvent.SensoryMessage.Message.Parse(witnessThing);
             Assert.IsTrue(witnessMessage.Contains("opens"));
-            string actorMessage = this.lastActorEvent.SensoryMessage.Message.Parse(this.actingThing);
+            string actorMessage = lastActorEvent.SensoryMessage.Message.Parse(actingThing);
             Assert.IsTrue(actorMessage.Contains("You open"));
 
             // Opening an open thing => open.
-            this.ClearTrackedEvents();
-            this.opensClosesBehavior.Open(this.actingThing);
-            Assert.IsTrue(this.opensClosesBehavior.IsOpen);
+            ClearTrackedEvents();
+            opensClosesBehavior.Open(actingThing);
+            Assert.IsTrue(opensClosesBehavior.IsOpen);
 
             // Verify that no event occurred (but any potentially-cancelled requests are irrelevant).
-            Assert.IsTrue(this.lastWitnessEvent == null);
-            Assert.IsTrue(this.lastActorEvent == null);
+            Assert.IsTrue(lastWitnessEvent == null);
+            Assert.IsTrue(lastActorEvent == null);
 
             // Closing an open thing => closed.
-            this.ClearTrackedEvents();
-            this.opensClosesBehavior.Close(this.actingThing);
-            Assert.IsTrue(!this.opensClosesBehavior.IsOpen);
+            ClearTrackedEvents();
+            opensClosesBehavior.Close(actingThing);
+            Assert.IsTrue(!opensClosesBehavior.IsOpen);
 
             // Verify that an appropriate open request and open event were witnessed by both the actor and the witness.
-            Assert.IsTrue(this.lastWitnessRequest != null);
-            Assert.IsTrue(this.lastActorRequest != null);
-            Assert.IsTrue(this.lastWitnessEvent != null);
-            Assert.IsTrue(this.lastActorEvent != null);
+            Assert.IsTrue(lastWitnessRequest != null);
+            Assert.IsTrue(lastActorRequest != null);
+            Assert.IsTrue(lastWitnessEvent != null);
+            Assert.IsTrue(lastActorEvent != null);
 
-            witnessMessage = this.lastWitnessEvent.SensoryMessage.Message.Parse(this.witnessThing);
+            witnessMessage = lastWitnessEvent.SensoryMessage.Message.Parse(witnessThing);
             Assert.IsTrue(witnessMessage.Contains("closes"));
-            actorMessage = this.lastActorEvent.SensoryMessage.Message.Parse(this.actingThing);
+            actorMessage = lastActorEvent.SensoryMessage.Message.Parse(actingThing);
             Assert.IsTrue(actorMessage.Contains("You close"));
         }
 
@@ -142,41 +142,41 @@ namespace WheelMUD.Tests.Behaviors
             var exitBehaviorB = new ExitBehavior();
             var opensClosesBehaviorB = new OpensClosesBehavior();
             openableExitA.Behaviors.Add(exitBehaviorA);
-            openableExitA.Behaviors.Add(this.opensClosesBehavior);
+            openableExitA.Behaviors.Add(opensClosesBehavior);
             openableExitB.Behaviors.Add(opensClosesBehaviorB);
             openableExitB.Behaviors.Add(exitBehaviorB);
 
             // Rig up behaviors so the actor can move, and move from one A to B, and from B to A.
-            this.actingThing.Behaviors.Add(new MovableBehavior());
+            actingThing.Behaviors.Add(new MovableBehavior());
             exitBehaviorA.AddDestination("toB", roomB.Id);
             exitBehaviorB.AddDestination("toA", roomA.Id);
 
             // Ensure that the actingThing cannot move through either exit while it is in default (closed) state.
-            roomA.Add(this.actingThing);
-            exitBehaviorA.MoveThrough(this.actingThing);
-            Assert.AreSame(roomA, this.actingThing.Parent);
+            roomA.Add(actingThing);
+            exitBehaviorA.MoveThrough(actingThing);
+            Assert.AreSame(roomA, actingThing.Parent);
 
-            roomB.Add(this.actingThing);
-            exitBehaviorB.MoveThrough(this.actingThing);
-            Assert.AreSame(roomB, this.actingThing.Parent);
+            roomB.Add(actingThing);
+            exitBehaviorB.MoveThrough(actingThing);
+            Assert.AreSame(roomB, actingThing.Parent);
 
             // Ensure that the actingThing can open and move through each openable exit to get between rooms.
-            opensClosesBehaviorB.Open(this.actingThing);
-            exitBehaviorB.MoveThrough(this.actingThing);
-            Assert.AreSame(roomA, this.actingThing.Parent);
+            opensClosesBehaviorB.Open(actingThing);
+            exitBehaviorB.MoveThrough(actingThing);
+            Assert.AreSame(roomA, actingThing.Parent);
 
-            this.opensClosesBehavior.Open(this.actingThing);
-            exitBehaviorA.MoveThrough(this.actingThing);
-            Assert.AreSame(roomB, this.actingThing.Parent);
+            opensClosesBehavior.Open(actingThing);
+            exitBehaviorA.MoveThrough(actingThing);
+            Assert.AreSame(roomB, actingThing.Parent);
         }
 
         /// <summary>Clear all potentially tracked events so we can verify new ones.</summary>
         private void ClearTrackedEvents()
         {
-            this.lastActorEvent = null;
-            this.lastActorRequest = null;
-            this.lastWitnessEvent = null;
-            this.lastWitnessRequest = null;
+            lastActorEvent = null;
+            lastActorRequest = null;
+            lastWitnessEvent = null;
+            lastWitnessRequest = null;
         }
     }
 }

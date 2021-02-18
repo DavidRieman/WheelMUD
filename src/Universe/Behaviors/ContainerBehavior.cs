@@ -25,7 +25,7 @@ namespace WheelMUD.Universe
         public ContainerBehavior(long instanceID, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            this.ID = instanceID;
+            ID = instanceID;
         }
 
         /// <summary>Gets or sets a value indicating whether the container is able to hold liquid without leaking.</summary>
@@ -40,9 +40,9 @@ namespace WheelMUD.Universe
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            this.HoldsLiquid = false;
-            this.Volume = 0;
-            this.VolumeUnitOfMeasurement = null;
+            HoldsLiquid = false;
+            Volume = 0;
+            VolumeUnitOfMeasurement = null;
         }
     }
 }

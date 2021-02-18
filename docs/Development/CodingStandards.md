@@ -31,9 +31,11 @@ The file headers will look like this:
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
-// <summary>
-//   A command that lets a character give items to a character or a mob.
-// </summary>
 //-----------------------------------------------------------------------------
 ```
-When creating a new file, just copy-paste an existing header and update the file name and the summary. Do not include any 'created', 'edited' or 'updated' elements in the header. Git is used as the history tracking solution for all files in this project. Please add comments to your commits explaining any changes made to the code.
+When creating a new file, just copy-paste an existing header and update the file name.
+Do not include any 'created', 'edited' or 'updated' elements in the header. Git is used as the history tracking solution for all files in this project. Please add comments to your commits explaining any changes made to the code.
+
+## Namespaces
+We are trying to use the [.NET standard "Names of Namespaces"](http://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-namespaces) guidance, going forward.
+(We definitely had too many and are dialing this back; Names that ended like ".Session" and ".Enums" introduced various problems.)

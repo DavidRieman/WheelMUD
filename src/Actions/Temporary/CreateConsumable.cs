@@ -15,7 +15,6 @@ namespace WheelMUD.Actions
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Enums;
     using WheelMUD.Interfaces;
 
     /// <summary>A command that allows an admin to create a consumable.</summary>
@@ -103,7 +102,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = this.VerifyCommonGuards(actionInput, ActionGuards);
+            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
