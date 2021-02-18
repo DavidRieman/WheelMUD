@@ -11,9 +11,11 @@ namespace WheelMUD.Interfaces
     public interface ITerminal
     {
         /// <summary>Gets or sets the height of the users terminal.</summary>
+        /// <remarks>Technically these could be ushort, but we're not storing millions of these, ushort can be slower to process on modern machines, etc.</remarks>
         int Height { get; set; }
 
         /// <summary>Gets or sets the width of the users terminal.</summary>
+        /// <remarks>Technically these could be ushort, but we're not storing millions of these, ushort can be slower to process on modern machines, etc.</remarks>
         int Width { get; set; }
 
         /// <summary>Gets or sets a value indicating whether a Client wants ANSI.</summary>

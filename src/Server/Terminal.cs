@@ -8,6 +8,7 @@
 namespace WheelMUD.Server
 {
     using WheelMUD.Interfaces;
+    using WheelMUD.Server.Telnet;
 
     /// <summary>The terminal options used for a connection.</summary>
     public class Terminal : ITerminal
@@ -17,10 +18,10 @@ namespace WheelMUD.Server
         public string Client { get; set; } = string.Empty;
 
         /// <summary>Gets or sets the height of the users terminal.</summary>
-        public int Height { get; set; }
+        public int Height { get; set; } = TelnetOptionNaws.DefaultTerminalHeight;
 
         /// <summary>Gets or sets the width of the users terminal.</summary>
-        public int Width { get; set; }
+        public int Width { get; set; } = TelnetOptionNaws.DefaultTerminalWidth;
 
         /// <summary>Gets or sets a value indicating whether the client wants ANSI.</summary>
         public bool UseANSI { get; set; } = true;
