@@ -84,18 +84,40 @@ You prepare to dice off for a <span style='color:#FFCC99'>huge two-handed sword<
 You win a <span style='color:#FFCC99'>huge two-handed sword</span> of <span style='color:#FFCC99'>flame strike</span>!  (You rolled 86. <span style='color:#aa55aa'>Ashon</span> rolled 13.)
 You are slightly encumbered.
 
+> glance
+<span style='color:#FF9900'>Abandoned Dwarven Mess Hall</span>
+Noticed: One <span style='color:#FFCC99'>corpse</span>. <span style='color:#aa55aa'>Karak</span>. A group (you, <span style='color:#aa55aa'>Ashon</span>).
+Exits: <span style='color:#CCFFFF'>North</span>, <span style='color:#CCFFFF'>South</span>.
+
+> groupname Burning Gnomes
+Your adventuring group is now known as Burning Gnomes.
+
+> glance
+<span style='color:#FF9900'>Abandoned Dwarven Mess Hall</span>
+Noticed: One <span style='color:#FFCC99'>corpse</span>. <span style='color:#aa55aa'>Karak</span>. Burning Gnomes (you, <span style='color:#aa55aa'>Ashon</span>).
+Exits: <span style='color:#CCFFFF'>North</span>, <span style='color:#CCFFFF'>South</span>.
+
 >
 </div>
 
 <div style="color:white; max-width:1000px; font-size:13pt">
     <p>Additional notes:</p>
     <ul>
+        <li>Another term often used for this feature is "parties" (like "adventuring party"). We could make it easy for the admin to choose which term is the primary term, and have the other term accepted through command aliases. For example, you could type "partytell hi" or "grouptell hi", but the MUD settings would determine if "You tell the group" or "You tell the party" is the printed response.</li>
         <li>For grouploot, we could have robust grouploot options as inspired by modern graphical MMO games, out of the box.</li>
         <li>In this example, we see grouploot settings that are heavily tied to a game system or setting (e.g. magic item teirs and auto-identify settings would be a weird way to organize looting for a space combat setting).  It will take some thinking to organize what aspects can be Core and which will be Reference Implementations.  Perhaps Core can have very basic random loot distribution tactics, and reference implementations could expand with additional options.</li>
         <li>While many aspects of "grouping" may be game-specific, we could strive to have reference implementations and Core code which help assist with such gameplay systems.</li>
         <li>A command form like `tell group hi` might be awkward if a player is also allowed to be named something like `group`. WheelMUD should offer a default deny-list of invalid character names, to block confusion with character names like `group`, and dynamically include all registered command keywords in that deny-list. (Also a partial deny-list to block profanity and slurs and the like would be helpful as well.)</li>
         <li>We could use the Renderers system to define the group status rendering, taking a list of Player Things to render information about. Thus this could be implemented in the game-system layer (showing game-system-specific stats for each character) and exported for pickup by the WheelMUD Core group commands without having to mess with the commands themselves.</li>
         <li>Help file for grouping could describe how to set some `auto-follow` setting (which could have its own help file too, or at least for a general `settigns` command) to control whether your character should automatically start following a group leader when joining a group, or only if they are a friend, or not at all.</li>
+        <li>Groups could be given special movement behaviors layered in by default. For example, if a followed group leader tries to move, they actually try to "move the group Thing" that contains all of them. The movement request event could be cancelled by any following member who is actually out of movement points or whatnot. This would solve the unrealistic "accidental group division" problem that plagues many MUDs during even routine non-combat travel.</li>
+        <li>Group movements could then be printed in bulk instead of spamming lines like "Ashon went west. Karak went west. You went west." by printing the group movement like "Burning Smurfs (you, Ashon, Karak) west west."  Care should be taken to handle individualized leader movements well too; if the leader is "fleeing" from combat or casting an individual teleport spell, then it shouldn't necessarily attempt to move other party members too.</li>
+        <li>Groups should either only persist with the leader, or probably not persist at all by default; if groups are implemented as a Thing whose Children are the players, we should take care to persist the group's Parent instead (typically a Room) as the player's current Parent location instead.</li>
+        <li>Another fun optional feature could be instantiating group names with a randomly-generated name from some basic algorithm and simple word tables: Like "The [adjective] [nouns]" to form initial group names like "The Dancing Wombats."</li>
+        <li>A reference MUD implementation could also include a sample "groupconsider" command for determining roughly how well suited a group would be to taking on a potential target.</li>
+        <li>Perhaps NPCs could also be formed into groups.</li>
+        <li>v1.1+ Possibly a game-specific reference implementation idea: Groups could be persisted almost like mini-clans/guilds, with enforced unique names, attached reputation/achievements, and so on. Sort of an extension of the leader's presence/character.</li>
+        <li>v1.1+ Another game-specific reference idea: player can gain "leadership" XP based on XP the group gains, to give mild leadership bonuses to the group based on their leadership level. (Perhaps a class-based effect or whatnot.)</li>
     </ul>
 </div>
 </body>
