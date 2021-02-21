@@ -23,16 +23,16 @@ namespace WheelMUD.Server
         /// <summary>Gets or sets the width of the users terminal.</summary>
         public int Width { get; set; } = TelnetOptionNaws.DefaultTerminalWidth;
 
-        /// <summary>Gets or sets a value indicating whether the client wants ANSI.</summary>
+        /// <summary>Gets or sets a value indicating whether the client wants to communicate ANSI escape sequences (for output colorization and such).</summary>
         public bool UseANSI { get; set; } = true;
 
-        /// <summary>Gets or sets a value indicating whether the client wants MXP.</summary>
+        /// <summary>Gets or sets a value indicating whether the client wants to use the MUD eXtension Protocol (MXP).</summary>
         public bool UseMXP { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether the client wants MCCP.</summary>
+        /// <summary>Gets or sets a value indicating whether the client wants to use the MUD Client Compression Protocol (MCCP).</summary>
         public bool UseMCCP { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether the client wants echo.</summary>
+        /// <summary>Gets or sets a value indicating whether the client wants to receive output text echoing what was sent to the server.</summary>
         public bool UseEcho { get; set; }
 
         /// <summary>Gets or sets a value indicating whether the client wants word-wrapping.</summary>
