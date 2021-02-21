@@ -18,9 +18,11 @@ namespace WheelMUD.Server
         public string Client { get; set; } = string.Empty;
 
         /// <summary>Gets or sets the height of the users terminal.</summary>
+        /// <remarks>Technically these could be ushort, but we're not storing millions of these, ushort can be slower to process on modern machines, etc.</remarks>
         public int Height { get; set; } = TelnetOptionNaws.DefaultTerminalHeight;
 
         /// <summary>Gets or sets the width of the users terminal.</summary>
+        /// <remarks>Technically these could be ushort, but we're not storing millions of these, ushort can be slower to process on modern machines, etc.</remarks>
         public int Width { get; set; } = TelnetOptionNaws.DefaultTerminalWidth;
 
         /// <summary>Gets or sets a value indicating whether the client wants to communicate ANSI escape sequences (for output colorization and such).</summary>
@@ -35,7 +37,7 @@ namespace WheelMUD.Server
         /// <summary>Gets or sets a value indicating whether the client wants to receive output text echoing what was sent to the server.</summary>
         public bool UseEcho { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether the client wants word-wrapping.</summary>
+        /// <summary>Gets or sets a value indicating whether the client wants the server to perform word-wrapping.</summary>
         public bool UseWordWrap { get; set; } = true;
 
         /// <summary>Gets or sets a value indicating whether the server side text output buffer should be used.</summary>
