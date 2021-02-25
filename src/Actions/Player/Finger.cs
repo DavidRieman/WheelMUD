@@ -46,6 +46,21 @@ namespace WheelMUD.Actions
             string addressIP = null;
 
             PlayerBehavior playerBehavior = target.Behaviors.FindFirst<PlayerBehavior>();
+            
+            sb.AppendAnsiLine($"<%yellow%><%b%>Name: {target.Name} Title: {target.Title}<%n%>");
+            sb.AppendAnsiLine($"Description: {target.Description}");
+            sb.AppendAnsiLine($"Full Name: {target.FullName}");
+            sb.AppendAnsiLine($"ID: {target.Id}");
+            sb.AppendAnsiLine($"Type: {target.GetType().Name}"); // identify npc ?
+            sb.AppendAnsiLine("Race: TBA      Guild: TBA     Class: TBA");
+            sb.AppendAnsiLine("Religion: TBA");
+            sb.AppendAnsiLine("Gender: TBA");
+            sb.AppendAnsiLine("Email: TBA         Messenger Id: TBA");
+            sb.AppendAnsiLine("Home Page: TBA");
+            sb.AppendAnsiLine("Spouse: TBA");
+            sb.AppendAnsiLine("Creation Date: TBA");
+            sb.AppendAnsiLine("Age: TBA");
+            
             if (playerBehavior != null)
             {
                 // TODO: Mine this data in a less invasive/dangerous way; maybe the PlayerBehavior
@@ -57,52 +72,19 @@ namespace WheelMUD.Actions
                 ////    isOnline = true;
                 ////    addressIP = connection.CurrentIPAddress;
                 ////}
-
-                sb.AppendLine("<%yellow%><%b%>Name: " + target.Name + " Title: " + target.Title + "<%n%>");
-                sb.AppendLine("Description: " + target.Description);
-                sb.AppendLine("Full Name: " + target.FullName);
-                sb.AppendLine("ID: " + target.Id);
-                sb.AppendLine("Type: " + target.GetType().Name); // identify npc ?
-                sb.AppendLine("Race: TBA      Guild: TBA     Class: TBA");
-                sb.AppendLine("Religion: TBA");
-                sb.AppendLine("Gender: TBA");
-                sb.AppendLine("Email: TBA         Messenger Id: TBA");
-                sb.AppendLine("Home Page: TBA");
-                sb.AppendLine("Spouse: TBA");
-                sb.AppendLine("Creation Date: TBA");
-                sb.AppendLine("Age: TBA");
-
-                if (isOnline)
-                {
-                    sb.AppendLine("Status: <%green%>Online<%n%>"); // need way to report both offline and online
-                    sb.AppendLine("Location: " + target.Parent.Name);
-                    sb.AppendLine(string.Format("Last Login: {0}", playerBehavior.PlayerData.LastLogin));
-                    sb.AppendLine(string.Format("Current IP Address: {0}", addressIP));
-                }
-                else
-                {
-                    sb.AppendLine("Status: <%red%>Offline<%n%>"); // need way to report both offline and online
-                    sb.AppendLine(string.Format("Last Login: {0}", playerBehavior.PlayerData.LastLogin));
-                }
-
-                sb.AppendLine("Plan: TBA");
-                sb.AppendLine("MXP: TBA");
-            }
-            else
-            {
-                sb.AppendLine("<%yellow%><%b%>Name: " + target.Name + " Title: " + target.Title + "<%n%>");
-                sb.AppendLine("Description: " + target.Description);
-                sb.AppendLine("Full Name: " + target.FullName);
-                sb.AppendLine("ID: " + target.Id);
-                sb.AppendLine("Type: " + target.GetType().Name); // identify npc ?
-                sb.AppendLine("Race: TBA      Guild: TBA     Class: TBA");
-                sb.AppendLine("Religion: TBA");
-                sb.AppendLine("Gender: TBA");
-                sb.AppendLine("Email: TBA         Messenger Id: TBA");
-                sb.AppendLine("Home Page: TBA");
-                sb.AppendLine("Spouse: TBA");
-                sb.AppendLine("Creation Date: TBA");
-                sb.AppendLine("Age: TBA");
+                
+                string statusString = isOnline ? "<%green%>Online<%n%>" : "<%red%>Offline<%n%>";
+                
+                sb.AppendAnsiLine($"Status: {statusString}"); // need way to report both offline and online
+                sb.AppendAnsiLine($"Location: {target.Parent.Name}");
+                sb.AppendAnsiLine($"Last Login: {playerBehavior.PlayerData.LastLogin}");
+                
+                if(isOnline)
+                    sb.AppendAnsiLine($"Current IP Address: {addressIP}");
+                
+                sb.AppendAnsiLine("Plan: TBA");
+                sb.AppendAnsiLine("MXP: TBA");
+                
             }
 
             actionInput.Controller.Write(sb.ToString().TrimEnd());
