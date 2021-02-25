@@ -40,7 +40,7 @@ namespace WheelMUD.Actions
                 output = TryLookAtThing(actionInput.Tail, sender.Thing);
                 if (string.IsNullOrEmpty(output))
                 {
-                    output = string.Format("You cannot see {0}.", actionInput.Tail);
+                    output = $"You cannot see {actionInput.Tail}.";
                 }
             }
             else
@@ -52,7 +52,7 @@ namespace WheelMUD.Actions
                 }
             }
 
-            sender.Write(output);
+            sender.Write(output + AnsiSequences.NewLine);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
