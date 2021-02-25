@@ -133,6 +133,13 @@ namespace WheelMUD.Core
             sb.Append(s + AnsiSequences.NewLine);
             return sb;
         }
+        
+        /// <summary>Extend StringBuilder class to provide an ANSI line ending version of AppendLine.</summary>
+        public static StringBuilder AppendAnsiLine(this StringBuilder sb)
+        {
+            sb.Append(AnsiSequences.NewLine);
+            return sb;
+        }
     }
 
 }
