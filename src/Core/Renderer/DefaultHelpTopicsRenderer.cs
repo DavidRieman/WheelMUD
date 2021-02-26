@@ -16,10 +16,10 @@ namespace WheelMUD.Core
         public override string Render(ITerminal terminal)
         {
             var sb = new StringBuilder();
-            sb.AppendLine("TODO: LIST OUT ALL HELP TOPICS FOUND VIA HelpManager.");
-            sb.AppendLine();
-            sb.AppendLine("You can also use the \"commands\" command to list out commands, and you can get help");
-            sb.AppendLine("for a specific command with \"help commandname\"");
+            sb.AppendAnsiLine("TODO: LIST OUT ALL HELP TOPICS FOUND VIA HelpManager.");
+            sb.AppendAnsiLine();
+            sb.AppendAnsiLine("You can also use the \"commands\" command to list out commands, and you can get help");
+            sb.AppendAnsiLine("for a specific command with \"help <command name>\"");
             return sb.ToString();
         }
     }

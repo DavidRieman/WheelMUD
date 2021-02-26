@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="Visuals.cs" company="WheelMUD Development Team">
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
@@ -66,7 +66,7 @@ namespace WheelMUD.Actions.Temporary
             {
                 // Add or update the description
                 room.Visuals[visualName] = visualDescription;
-                response.ToOriginator = string.Format("Visual '{0}' added/updated on room {1} [{2}].", visualName, roomName, roomId);
+                response.ToOriginator = $"Visual '{visualName}' added/updated on room {roomName} [{roomId}].";
 
                 //// TODO: Save change
                 //room.Save();
@@ -77,7 +77,7 @@ namespace WheelMUD.Actions.Temporary
                 {
                     room.Visuals.Remove(visualName);
 
-                    response.ToOriginator = string.Format("Visual '{0}' removed from room {1} [{2}]", visualName, roomName, roomId);
+                    response.ToOriginator = $"Visual '{visualName}' removed from room {roomName} [{roomId}]";
                 }
 
                 //// TODO: Save change
@@ -89,16 +89,16 @@ namespace WheelMUD.Actions.Temporary
 
                 if (room.Visuals.Count > 0)
                 {
-                    output.AppendLine(string.Format("Visuals for {0} [{1}]:", roomName, roomId)).AppendLine();
+                    output.AppendAnsiLine($"Visuals for {roomName} [{roomId}]:");
 
                     foreach (var name in room.Visuals.Keys)
                     {
-                        output.AppendLine(string.Format("  {0}: {1}", name, room.Visuals[name]));
+                        output.AppendAnsiLine($"  {name}: {room.Visuals[name]}");
                     }
                 }
                 else
                 {
-                    output.Append(string.Format("No visuals found for {0} [{1}].", roomName, roomId));
+                    output.AppendAnsiLine($"No visuals found for {roomName} [{roomId}].");
                 }
 
                 sender.Write(output.ToString());
@@ -131,27 +131,31 @@ namespace WheelMUD.Actions.Temporary
                 return "You must be located in a valid room to change its visuals.";
             }
 
-            string usageText = "Usage:\r\n  visuals add <name> <description>\r\n  visuals remove <name>\r\n  visuals show";
+            var usageText = new StringBuilder();
+            usageText.AppendAnsiLine("Usage:");
+            usageText.AppendAnsiLine("visuals add <name> <description>");
+            usageText.AppendAnsiLine("visuals remove <name>");
+            usageText.AppendAnsiLine("visuals show");
 
             switch (command)
             {
                 case "add":
                     // Ensure "add" syntax includes both a name and description.
                     return (string.IsNullOrEmpty(visualName) || string.IsNullOrEmpty(visualDescription))
-                               ? usageText
+                               ? usageText.ToString()
                                : null;
 
                 case "remove":
                     // Ensure "remove" syntax includes a name but nothing else.
-                    return (argCount != 2) ? usageText : null;
+                    return (argCount != 2) ? usageText.ToString() : null;
 
                 case "show":
                     // Ensure "show" syntax has no additional arguments.
-                    return (argCount > 1) ? usageText : null;
+                    return (argCount > 1) ? usageText.ToString() : null;
 
                 default:
                     // Handle case for "visuals aalkdsfj lkajf" etc.
-                    return usageText;
+                    return usageText.ToString();
             }
         }
 
