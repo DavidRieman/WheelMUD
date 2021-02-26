@@ -19,16 +19,12 @@ namespace WheelMUD.Ftp.FtpCommands
             string path = GetPath(message);
             if (!ConnectionObject.FileSystemObject.FileExists(path))
             {
-                return GetMessage(550, string.Format("File doesn't exist ({0})", path));
+                return GetMessage(550, $"File doesn't exist ({path})");
             }
 
             var info = ConnectionObject.FileSystemObject.GetFileInfo(path);
-            if (info == null)
-            {
-                return GetMessage(550, "Error in getting file information");
-            }
-
-            return GetMessage(220, info.GetSize().ToString());
+            return info == null ? 
+                GetMessage(550, "Error in getting file information") : GetMessage(220, info.GetSize().ToString());
         }
     }
 }

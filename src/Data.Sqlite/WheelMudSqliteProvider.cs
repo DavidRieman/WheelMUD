@@ -53,11 +53,12 @@ namespace WheelMUD.Data.Sqlite
             var fileInfo = new FileInfo(fileName);
             if (!fileInfo.Exists)
             {
-                throw new FileNotFoundException(string.Format("SQLite file is missing: {0}", fileName));
+                throw new FileNotFoundException($"SQLite file is missing: {fileName}");
             }
-            else if (fileInfo.Length <= 0)
+
+            if (fileInfo.Length <= 0)
             {
-                throw new FileLoadException(string.Format("SQLite file is unexpectedly empty: {0}", fileName));
+                throw new FileLoadException($"SQLite file is unexpectedly empty: {fileName}");
             }
         }
     }

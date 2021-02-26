@@ -102,7 +102,7 @@ namespace WheelMUD.Core
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine(string.Format("CoreManager.Stop():\n{0}\n{1}", ex.Message, ex.StackTrace));
+                Console.Error.WriteLine($"CoreManager.Stop():\n{ex.Message}\n{ex.StackTrace}");
                 throw;
             }
         }

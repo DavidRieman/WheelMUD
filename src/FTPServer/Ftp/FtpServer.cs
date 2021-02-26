@@ -45,10 +45,7 @@ namespace WheelMUD.Ftp
 
         ~FtpServer()
         {
-            if (serverSocketListener != null)
-            {
-                serverSocketListener.Stop();
-            }
+            serverSocketListener?.Stop();
         }
 
         public delegate void ConnectionHandler(int nId);
@@ -87,20 +84,12 @@ namespace WheelMUD.Ftp
             foreach (object t in connections)
             {
                 var handler = t as FtpSocketHandler;
-                if (handler != null)
-                {
-                    handler.Stop();
-                }
+                handler?.Stop();
             }
 
-            if (serverSocketListener != null)
-            {
-                serverSocketListener.Stop();
-            }
-            if (serverThread != null)
-            {
-                serverThread.Join();
-            }
+            serverSocketListener?.Stop();
+
+            serverThread?.Join();
 
             host.UpdateSystemHost(this, "Stopped");
         }
@@ -192,20 +181,14 @@ namespace WheelMUD.Ftp
             handler.Start(socket);
             connections.Add(handler);
             handler.Closed += HandleClosed;
-            if (NewConnection != null)
-            {
-                NewConnection(id);
-            }
+            NewConnection?.Invoke(id);
         }
 
         private void HandleClosed(FtpSocketHandler handler)
         {
-            UpdateSubSystemHost(this, string.Format("Client #{0} has disconnected", handler.Id));
+            UpdateSubSystemHost(this, $"Client #{handler.Id} has disconnected");
             connections.Remove(handler);
-            if (ConnectionClosed != null)
-            {
-                ConnectionClosed(handler.Id);
-            }
+            ConnectionClosed?.Invoke(handler.Id);
         }
     }
 }

@@ -39,7 +39,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            if ((actionInput.Params.Count() == 1 && actionInput.Params[0].ToLower() == "list") || actionInput.Params.Count() == 0)
+            if ((actionInput.Params.Count() == 1 && actionInput.Params[0].ToLower() == "list") || !actionInput.Params.Any())
             {
                 if (playerBehavior.Friends.Count == 0)
                 {
@@ -52,7 +52,7 @@ namespace WheelMUD.Actions
                     foreach (string friendName in playerBehavior.Friends)
                     {
                         string status = PlayerManager.Instance.FindLoadedPlayerByName(friendName, false) == null ? "Offline" : "Online";
-                        sb.AppendLine(string.Format("{0} [{1}]", friendName, status));
+                        sb.AppendAnsiLine($"{friendName} [{status}]");
                     }
 
                     sender.Write(sb.ToString().TrimEnd());
@@ -104,7 +104,7 @@ namespace WheelMUD.Actions
         {
             if (targetFriend == null)
             {
-                sender.Write(string.Format("{0} doesn't appear to be online at the moment.", targetFriend.Name));
+                sender.Write($"{targetFriend.Name} doesn't appear to be online at the moment.");
                 return;
             }
 
@@ -116,12 +116,12 @@ namespace WheelMUD.Actions
 
             if (playerBehavior.Friends.Contains(targetFriend.Name))
             {
-                sender.Write(string.Format("{0} is already on your friends list.", player.Name));
+                sender.Write($"{player.Name} is already on your friends list.");
                 return;
             }
 
             playerBehavior.AddFriend(player.Name);
-            sender.Write(string.Format("You have added {0} to your friends list.", targetFriend.Name));
+            sender.Write($"You have added {targetFriend.Name} to your friends list.");
         }
 
         private void RemoveFriend(IController sender, string targetedFriendName)
@@ -132,13 +132,13 @@ namespace WheelMUD.Actions
 
             if (string.IsNullOrEmpty(playerName))
             {
-                sender.Write(string.Format("{0} is not on your friends list.", targetedFriendName));
+                sender.Write($"{targetedFriendName} is not on your friends list.");
                 return;
             }
 
             playerBehavior.RemoveFriend(playerName);
 
-            sender.Write(string.Format("{0} has been removed from your friends list.", player.Name));
+            sender.Write($"{player.Name} has been removed from your friends list.");
         }
     }
 }

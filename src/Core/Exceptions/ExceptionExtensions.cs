@@ -44,7 +44,7 @@ namespace WheelMUD.Core
         /// <param name="sb">The StringBuilder to append.</param>
         private static void AppendExceptionInfo(Exception ex, StringBuilder sb)
         {
-            sb.AppendLine(string.Format("{0}: {1}", ex.GetType(), ex.Message));
+            sb.AppendLine($"{ex.GetType()}: {ex.Message}");
             sb.AppendLine();
             sb.AppendLine("At StackTrace:");
             sb.AppendLine(ex.StackTrace);

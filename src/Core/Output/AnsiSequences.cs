@@ -5,6 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using ServiceStack.Text;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Core
 {
 
@@ -140,6 +143,19 @@ namespace WheelMUD.Core
             sb.Append(AnsiSequences.NewLine);
             return sb;
         }
-    }
 
+        /// <summary>
+        /// Extend StringBuilder class to provide an ANSI separator. Yellow by default but can pass in colors as strings
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="design">repeating design of separator</param>
+        /// <param name="color">Color of the separator</param>
+        /// <param name="length">how long the separator is</param>
+        /// <returns></returns>
+        public static StringBuilder AppendAnsiSeparator(this StringBuilder sb, int length = 63, string design = "=", string color = "yellow")
+        {
+            sb.Append($"<%{color}%>{AnsiStringUtilities.ExpandString(design, length)}<%n%><%nl>");
+            return sb;
+        }
+    }
 }

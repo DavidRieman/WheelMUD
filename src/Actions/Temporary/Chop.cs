@@ -83,7 +83,7 @@ namespace WheelMUD.Actions
             Thing thing = parent.Children.Find(t => t.Name.Equals(actionInput.Params[0], StringComparison.CurrentCultureIgnoreCase));
             if (thing == null)
             {
-                return string.Format("{0} is not here.", actionInput.Params[0]);
+                return $"{actionInput.Params[0]} is not here.";
             }
 
             // TODO: Detect ConsumableProviderBehavior on the item, and detect if it is choppable.

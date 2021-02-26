@@ -46,20 +46,20 @@ namespace WheelMUD.Actions
 
             if (targetPlace == null)
             {
-                sender.Write("Room or Entity not found.\n");
+                sender.Write("Room or Entity not found.<%nl%>");
                 return;
             }
 
             if (targetPlace.FindBehavior<RoomBehavior>() == null)
             {
                 // If the target's parent is a room, go there instead
-                if (targetPlace.Parent != null && targetPlace.Parent.FindBehavior<RoomBehavior>() != null)
+                if (targetPlace.Parent?.FindBehavior<RoomBehavior>() != null)
                 {
                     targetPlace = targetPlace.Parent;
                 }
                 else
                 {
-                    sender.Write("Target is not a room and is not in a room!\n");
+                    sender.Write("Target is not a room and is not in a room!<%nl%>");
                     return;
                 }
             }
@@ -68,14 +68,14 @@ namespace WheelMUD.Actions
             var leaveContextMessage = new ContextualString(sender.Thing, sender.Thing.Parent)
             {
                 ToOriginator = null,
-                ToReceiver = $"{adminName} disappears into nothingness.",
-                ToOthers = $"{adminName} disappears into nothingness.",
+                ToReceiver = $"{adminName} disappears into nothingness.<%nl%>",
+                ToOthers = $"{adminName} disappears into nothingness.<%nl%>",
             };
             var arriveContextMessage = new ContextualString(sender.Thing, targetPlace)
             {
-                ToOriginator = $"You teleported to {targetPlace.Name}.",
-                ToReceiver = $"{adminName} appears from nothingness.",
-                ToOthers = $"{adminName} appears from nothingness.",
+                ToOriginator = $"You teleported to {targetPlace.Name}.<%nl%>",
+                ToReceiver = $"{adminName} appears from nothingness.<%nl%>",
+                ToOthers = $"{adminName} appears from nothingness.<%nl%>",
             };
             var leaveMessage = new SensoryMessage(SensoryType.Sight, 100, leaveContextMessage);
             var arriveMessage = new SensoryMessage(SensoryType.Sight, 100, arriveContextMessage);
@@ -100,12 +100,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return commonFailure;
         }
     }
 }

@@ -110,9 +110,9 @@ namespace WheelMUD.Ftp.FtpCommands
 
                     stringBuilder.Append(day);
                     stringBuilder.Append(" ");
-                    stringBuilder.Append(string.Format("{0:hh}", fileDate));
+                    stringBuilder.Append($"{fileDate:hh}");
                     stringBuilder.Append(":");
-                    stringBuilder.Append(string.Format("{0:mm}", fileDate));
+                    stringBuilder.Append($"{fileDate:mm}");
                     stringBuilder.Append(" ");
 
                     stringBuilder.Append(asFiles[index]);

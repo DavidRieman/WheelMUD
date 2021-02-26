@@ -19,7 +19,7 @@ namespace WheelMUD.Ftp.FtpCommands
             string filePath = GetPath(message);
             if (!ConnectionObject.FileSystemObject.CreateDirectory(filePath))
             {
-                return GetMessage(550, string.Format("Couldn't create directory. ({0})", filePath));
+                return GetMessage(550, $"Couldn't create directory. ({filePath})");
             }
 
             return GetMessage(257, filePath);

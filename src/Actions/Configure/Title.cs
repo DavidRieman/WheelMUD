@@ -34,19 +34,19 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            if (sender != null && sender.Thing != null)
+            if (sender is {Thing: { }})
             {
                 Thing player = sender.Thing;
                 if (player != null)
                 {
                     if (string.IsNullOrEmpty(actionInput.Tail))
                     {
-                        sender.Write(string.Format("Your current title is \"{0}\".", player.Title));
+                        sender.Write($"Your current title: {player.Title}");
                     }
                     else
                     {
                         player.Title = actionInput.Tail;
-                        sender.Write("Your title is now: " + player.Title);
+                        sender.Write($"Your title now: {player.Title}");
                     }
                 }
             }
@@ -58,12 +58,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return commonFailure;
         }
     }
 }

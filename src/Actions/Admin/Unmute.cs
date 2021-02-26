@@ -58,13 +58,13 @@ namespace WheelMUD.Actions
             playerToUnmute = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
             if (playerToUnmute == null)
             {
-                return string.Format("The player named \"{0}\" could not be found.", playerName);
+                return $"The player named \"{playerName}\" could not be found.<%nl%>";
             }
 
             // Make sure the player has a MuteEffect applied.
             if (!playerToUnmute.HasBehavior<MutedEffect>())
             {
-                return string.Format("The player {0} was not muted!", playerToUnmute.Name);
+                return $"The player {playerToUnmute.Name} was not muted!<%nl%>";
             }
 
             return null;

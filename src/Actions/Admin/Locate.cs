@@ -36,11 +36,11 @@ namespace WheelMUD.Actions
 
             if (entity != null)
             {
-                sender.Write(string.Format("You see {0} at {1}, id {2}", entity.Name, entity.Parent.Name, entity.Parent.Id));
+                sender.Write($"You see {entity.Name} at {entity.Parent.Name}, id {entity.Parent.Id}.<%nl%>");
             }
             else
             {
-                sender.Write("You cant find " + sender.LastActionInput.Tail);
+                sender.Write($"You cant find {sender.LastActionInput.Tail}<%nl%>");
             }
         }
 

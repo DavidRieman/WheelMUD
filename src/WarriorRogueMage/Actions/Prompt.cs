@@ -44,7 +44,7 @@ namespace WarriorRogueMage.Actions
                 }
                 catch (Exception)
                 {
-                    sender.Write("Error, prompt not saved.");
+                    sender.Write("Error, prompt not saved.<%nl%>");
                 }
 
                 return;
@@ -54,8 +54,8 @@ namespace WarriorRogueMage.Actions
             var output = new StringBuilder();
 
             // Create an array of values available to the player
-            output.AppendFormat("{0}{1}{2}\n", "Token".PadRight(15), "Current Value".PadRight(15), "Description".PadRight(40));
-            output.AppendFormat("{0}{1}{2}\n", "-----".PadRight(15), "-------------".PadRight(15), "-----------".PadRight(40));
+            output.AppendAnsiLine($"{"Token".PadRight(15)}{"Current Value".PadRight(15)}{"Description".PadRight(40)}");
+            output.AppendAnsiLine($"{"-----".PadRight(15)}{"-------------".PadRight(15)}{"-----------".PadRight(40)}");
 
             // Discover all methods with the promptable attribute in the adapter
             foreach (var m in playerBehavior.GetType().GetMethods())
@@ -68,12 +68,12 @@ namespace WarriorRogueMage.Actions
                     // Invoke the method to get current values
                     var currentValue = (string)m.Invoke(playerBehavior, new object[] { });
 
-                    output.AppendFormat("{0}{1}{2}\n", tokenInfo.Token.PadRight(15), currentValue.PadRight(15), tokenInfo.Description.PadRight(40));
+                    output.AppendAnsiLine($"{tokenInfo.Token.PadRight(15)}{currentValue.PadRight(15)}{tokenInfo.Description.PadRight(40)}");
                 }
             }
 
-            output.AppendFormat("\nCurrent prompt is '{0}'\n", playerBehavior.Prompt);
-            output.AppendFormat("Parsed prompt is '{0}'\n", playerBehavior.BuildPrompt());
+            output.AppendAnsiLine($"Current prompt is '{playerBehavior.Prompt}'");
+            output.AppendAnsiLine($"Parsed prompt is '{playerBehavior.BuildPrompt()}'");
             sender.Write(output.ToString());
         }
 

@@ -113,21 +113,21 @@ namespace WheelMUD.Actions
             Thing thing = sender.Thing.Children.Find(t => t.Name.Equals(sourceContainerName, StringComparison.CurrentCultureIgnoreCase));
             if (thing == null)
             {
-                return string.Format("You do not hold {0}.", sourceContainerName);
+                return $"You do not hold {sourceContainerName}.";
             }
 
             // Rule: The targeted thing must be a container of some sort.
             ContainerBehavior containerBehavior = thing.Behaviors.FindFirst<ContainerBehavior>();
             if (containerBehavior == null)
             {
-                return string.Format("The {0} is not a container.", thing.Name);
+                return $"The {thing.Name} is not a container.";
             }
 
             // Rule: The targeted container must not be empty already.
             sourceContainer = thing;
             if (sourceContainer.Children.Count == 0)
             {
-                return string.Format("The {0} is already empty.", sourceContainer.Name);
+                return $"The {sourceContainer.Name} is already empty.";
             }
 
             // TODO: Test; Not possible? If so, default to the current container's parent instead of failing?
@@ -145,13 +145,13 @@ namespace WheelMUD.Actions
                 Thing destinationThing = sender.Thing.Children.Find(t => t.Name == destinationParentName.ToLower());
                 if (destinationThing == null)
                 {
-                    return string.Format("You do not hold {0}.", destinationParentName);
+                    return $"You do not hold {destinationParentName}.";
                 }
 
                 containerBehavior = thing.Behaviors.FindFirst<ContainerBehavior>();
                 if (containerBehavior == null)
                 {
-                    return string.Format("{0} is not a container.", destinationParentName);
+                    return $"{destinationParentName} is not a container.";
                 }
 
                 destinationParent = thing.Parent;

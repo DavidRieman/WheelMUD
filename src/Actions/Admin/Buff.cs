@@ -56,12 +56,12 @@ namespace WheelMUD.Actions
             // Strings to be displayed when the effect is applied/removed.
             var buffString = new ContextualString(sender.Thing, target)
             {
-                ToOriginator = string.Format("\r\nThe '{0}' stat of {1} has changed by {2}.\r\n", stat.Name, target.Name, modAmount),
-                ToReceiver = string.Format("\r\nYour '{0}' stat has changed by {1}.\r\n", stat.Name, modAmount)
+                ToOriginator = $"The '{stat.Name}' stat of {target.Name} has changed by {modAmount}.<%nl%>",
+                ToReceiver = $"Your '{stat.Name}' stat has changed by {modAmount}.<%nl%>"
             };
             var unbuffString = new ContextualString(sender.Thing, target)
             {
-                ToReceiver = string.Format("\r\nYour '{0}' stat goes back to normal.", stat.Abbreviation)
+                ToReceiver = $"Your '{stat.Abbreviation}' stat goes back to normal.<%nl%>"
             };
 
             // Turn the above sets of strings into sensory messages.
@@ -113,7 +113,7 @@ namespace WheelMUD.Actions
 
             if (actionInput.Params.Length < 5)
             {
-                return "See 'help buff' for usage details.";
+                return "See 'help buff' for usage details.<%nl%>";
             }
 
             var args = actionInput.Params;
@@ -131,25 +131,25 @@ namespace WheelMUD.Actions
             target = PlayerManager.Instance.FindLoadedPlayerByName(targetString, true);
             if (target == null)
             {
-                return string.Format("Could not find a target named {0}.", targetString);
+                return $"Could not find a target named {targetString}.<%nl%>";
             }
 
             // Make sure a valid stat was specified.
             if (!target.Stats.TryGetValue(statString, out stat))
             {
-                return string.Format("{0} does not have a stat called {1}.", target.Name, statString);
+                return $"{target.Name} does not have a stat called {statString}.<%nl%>";
             }
 
             // Make sure the mod type ('value', 'min', or 'max') is valid.
             if (!validModTypes.Contains(modType))
             {
-                return string.Format("'{0}' is unrecognized. Try modifying the stat's 'value', 'min', or 'max'.", modType);
+                return $"'{modType}' is unrecognized. Try modifying the stat's 'value', 'min', or 'max'.<%nl%>";
             }
 
             // Parse the mod amount and make sure it is an integer.
             if (!int.TryParse(amountString, out modAmount))
             {
-                return string.Format("The amount '{0}' was not valid.", amountString);
+                return $"The amount '{amountString}' was not valid.<%nl%>";
             }
 
             // Parse the duration string and make sure it is valid.
@@ -167,7 +167,7 @@ namespace WheelMUD.Actions
                 }
                 else
                 {
-                    return "The duration specified was not valid.";
+                    return "The duration specified was not valid.<%nl%>";
                 }
             }
 

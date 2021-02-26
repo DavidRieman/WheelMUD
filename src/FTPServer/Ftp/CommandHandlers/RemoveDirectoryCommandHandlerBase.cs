@@ -19,7 +19,7 @@ namespace WheelMUD.Ftp.FtpCommands
             string file = GetPath(message);
             if (!ConnectionObject.FileSystemObject.DirectoryExists(file))
             {
-                return GetMessage(550, string.Format("Directory does not exist"));
+                return GetMessage(550, "Directory does not exist");
             }
 
             if (ConnectionObject.FileSystemObject.Delete(file))
@@ -27,7 +27,7 @@ namespace WheelMUD.Ftp.FtpCommands
                 return GetMessage(250, "Directory removed.");
             }
 
-            return GetMessage(550, string.Format("Couldn't remove directory ({0}).", file));
+            return GetMessage(550, $"Couldn't remove directory ({file}).");
         }
     }
 }

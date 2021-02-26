@@ -7,7 +7,6 @@
 
 namespace WheelMUD.ConnectionStates
 {
-    using System;
     using WheelMUD.Core;
     using WheelMUD.Data;
 
@@ -38,23 +37,17 @@ namespace WheelMUD.ConnectionStates
 
         public override string BuildPrompt()
         {
-            if (subStateHandler != null && subStateHandler.CurrentStep != null)
-            {
-                return subStateHandler.CurrentStep.BuildPrompt();
-            }
-
-            return "> ";
+            return subStateHandler is {CurrentStep: { }} ? subStateHandler.CurrentStep.BuildPrompt() : "> ";
         }
 
         /// <summary>Called upon the completion of character creation.</summary>
         /// <param name="newCharacter">The new Character.</param>
         private static void SubState_CharacterCreationCompleted(Session session)
         {
-            var nl = Environment.NewLine;
             var user = session.User;
             var character = session.Thing;
 
-            session.Write(string.Format("Saving character {0}.{1}", character.Name, nl));
+            session.Write($"Saving character {character.Name}.<%nl%>");
             using (var docSession = Helpers.OpenDocumentSession())
             {
                 // Save the character first so we can use the auto-assigned unique identity.
@@ -66,7 +59,7 @@ namespace WheelMUD.ConnectionStates
                 docSession.Store(user);
                 docSession.SaveChanges();
             }
-            session.Write(string.Format("Done saving {0}.{1}", character.Name, nl));
+            session.Write($"Done saving {character.Name}.<%nl%>");
 
             var playerBehavior = character.Behaviors.FindFirst<PlayerBehavior>();
             if (playerBehavior.LogIn(session))
@@ -78,7 +71,7 @@ namespace WheelMUD.ConnectionStates
             }
             else
             {
-                session.Write("Character was created but could not be logged in right now. Disconnecting.");
+                session.Write("Character was created but could not be logged in right now. Disconnecting.<%nl%>");
                 session.State = null;
                 session.Connection.Disconnect();
             }

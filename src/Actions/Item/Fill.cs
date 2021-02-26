@@ -65,7 +65,8 @@ namespace WheelMUD.Actions
                     sender.Write("The source does not hold any liquid.");
                     return;
                 }
-                else if (destinationHoldsLiquidBehavior == null)
+
+                if (destinationHoldsLiquidBehavior == null)
                 {
                     sender.Write("The destination cannot hold any liquid.");
                     return;
@@ -129,7 +130,7 @@ namespace WheelMUD.Actions
                     destinationContainer = parent.Children.Find(t => t.Name == destinationContainerName.ToLower());
                     if (destinationContainer == null)
                     {
-                        return "You cannot see " + destinationContainerName;
+                        return $"You cannot see {destinationContainerName}.";
                     }
                 }
 
@@ -137,24 +138,20 @@ namespace WheelMUD.Actions
                 this.containerBehavior = destinationContainer.Behaviors.FindFirst<ContainerBehavior>();
                 if (this.containerBehavior == null)
                 {
-                    return destinationContainerName + " is not able to hold things.";
+                    return $"{destinationContainerName} is not able to hold things.";
                 }
-                else
+
+                var holdsLiquidBehavior = destinationContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
+                if (holdsLiquidBehavior == null)
                 {
-                    var holdsLiquidBehavior = destinationContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
-                    if (holdsLiquidBehavior == null)
-                    {
-                        return string.Format(
-                            "It does not appear that the {0} will hold liquid.",
-                            destinationContainerName);
-                    }
+                    return $"It does not appear that the {destinationContainerName} will hold liquid.";
                 }
 
                 // Rule: Is the item open?
                 var openableBehavior = destinationContainer.Behaviors.FindFirst<OpensClosesBehavior>();
-                if (openableBehavior != null && !openableBehavior.IsOpen)
+                if (openableBehavior is {IsOpen: false})
                 {
-                    return string.Format("You cannot fill the {0} as it is closed.", destinationContainerName);
+                    return $"You cannot fill the {destinationContainerName} as it is closed.";
                 }
 
                 // Rule: Do we have an item matching the one specified in our inventory?
@@ -175,7 +172,7 @@ namespace WheelMUD.Actions
                 ContainerBehavior containerBehavior = sourceContainer.Behaviors.FindFirst<ContainerBehavior>();
                 if (containerBehavior == null)
                 {
-                    return string.Format("The {0} does not hold anything to fill the {1} with.", sourceContainerName, destinationContainerName);
+                    return $"The {sourceContainerName} does not hold anything to fill the {destinationContainerName} with.";
                 }
 
                 // TODO: HoldsLiquidBehavior?
@@ -184,12 +181,12 @@ namespace WheelMUD.Actions
                 OpensClosesBehavior opensClosesBehavior = sourceContainer.Behaviors.FindFirst<OpensClosesBehavior>();
                 if (!opensClosesBehavior.IsOpen)
                 {
-                    return string.Format("You cannot fill from the {0} as it is closed.", sourceContainerName);
+                    return $"You cannot fill from the {sourceContainerName} as it is closed.";
                 }
             }
             else
             {
-                return "You must use \"from\" to specify the source, as in, \"fill wine skin from fountain\".";
+                return "You must use [from] to specify the source, as in, [fill wine skin from fountain].";
             }
 
             return null;

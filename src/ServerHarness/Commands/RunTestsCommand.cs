@@ -47,7 +47,7 @@ namespace ServerHarness
                 if (!tsc.Connect(display))
                 {
                     // Test invalid, consider it a failure.
-                    failed.Add(string.Format("FATAL Error: Could not connect to run file {0}.", file));
+                    failed.Add($"FATAL Error: Could not connect to run file {file}.");
                     continue;
                 }
 
@@ -69,7 +69,7 @@ namespace ServerHarness
                     if (line.IndexOf("|", 0, StringComparison.OrdinalIgnoreCase) == -1)
                     {
                         // Test invalid, consider it a failure.
-                        failed.Add(string.Format("FATAL Error: In file {0}, line has no seperator. Contents: {1}", file, line));
+                        failed.Add($"FATAL Error: In file {file}, line has no separator. Contents: {line}");
                         break;
                     }
 
@@ -84,7 +84,7 @@ namespace ServerHarness
                             case "send":
                                 if (!tsc.Send(data[1]))
                                 {
-                                    throw new Exception(string.Format("FATAL Error: Data could not be sent: '{0}'.", data[1]));
+                                    throw new Exception($"FATAL Error: Data could not be sent: '{data[1]}'.");
                                 }
 
                                 break;
@@ -95,7 +95,8 @@ namespace ServerHarness
                                 tsc.Recieve(out rcv);
                                 if (false == Regex.IsMatch(rcv, data[1]))
                                 {
-                                    throw new Exception(string.Format("FATAL Error: Data Returned does not match regex of '{0}'.", data[1]));
+                                    throw new Exception(
+                                        $"FATAL Error: Data Returned does not match regex of '{data[1]}'.");
                                 }
 
                                 break;
@@ -115,7 +116,8 @@ namespace ServerHarness
 
                                 if (c > to)
                                 {
-                                    throw new Exception(string.Format("FATAL Error: Timed out while waiting for match of regex '{0}'.", data[2]));
+                                    throw new Exception(
+                                        $"FATAL Error: Timed out while waiting for match of regex '{data[2]}'.");
                                 }
 
                                 break;
@@ -130,7 +132,7 @@ namespace ServerHarness
                 if (!tsc.Connected)
                 {
                     // Thats bad.
-                    failed.Add(string.Format("FATAL Error: Still connected after test run."));
+                    failed.Add("FATAL Error: Still connected after test run.");
                 }
 
                 tsc.Disconnect();

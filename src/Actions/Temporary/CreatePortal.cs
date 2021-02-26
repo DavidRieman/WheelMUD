@@ -51,7 +51,7 @@ namespace WheelMUD.Actions
             // and Event pattern.
             sender.Thing.Parent.Add(portalItem);
             var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
-            userControlledBehavior.Controller.Write("A magical portal opens up in front of you.");
+            userControlledBehavior.Controller.Write("A magical portal opens up in front of you.<%nl%>");
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>
@@ -69,7 +69,7 @@ namespace WheelMUD.Actions
             int numberWords = actionInput.Params.Length;
             if (numberWords < 2)
             {
-                return "You must specify a room to create a portal to.";
+                return "You must specify a room to create a portal to.<%nl%>";
             }
 
             // Check to see if the first word is a number.
@@ -80,14 +80,14 @@ namespace WheelMUD.Actions
                 targetPlace = GetPlayerOrMobile(actionInput.Params[0]);
                 if (targetPlace == null)
                 {
-                    return "Could not convert " + actionInput.Params[0] + " to a room number.";
+                    return $"Could not convert {actionInput.Params[0]} to a room number.<%nl%>";
                 }
             }
 
             targetPlace = PlacesManager.Instance.WorldBehavior.FindRoom(roomToGet);
             if (targetPlace == null)
             {
-                return string.Format("Could not find the room {0}.", roomToGet);
+                return $"Could not find the room {roomToGet}.<%nl%>";
             }
 
             return null;

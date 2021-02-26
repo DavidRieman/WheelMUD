@@ -57,9 +57,9 @@ namespace WheelMUD.Actions
             // TODO: Fix Implementation of numberToGet.
             var contextMessage = new ContextualString(actor, thingToGet.Parent)
             {
-                ToOriginator = $"You pick up {thingToGet}.",
-                ToReceiver = $"{actor.Name} takes {thingToGet} from you.",
-                ToOthers = $"{actor.Name} picks up {thingToGet.Name}.",
+                ToOriginator = $"You pick up {thingToGet}.<%nl%>",
+                ToReceiver = $"{actor.Name} takes {thingToGet} from you.<%nl%>",
+                ToOthers = $"{actor.Name} picks up {thingToGet.Name}.<%nl%>",
             };
             var getMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
@@ -138,7 +138,7 @@ namespace WheelMUD.Actions
 
                     if (foundContainer == null)
                     {
-                        return string.Format("You cannot see {0}.", targetFromName);
+                        return $"You cannot see {targetFromName}.<%nl%>";
                     }
                 }
 
@@ -146,7 +146,7 @@ namespace WheelMUD.Actions
                 ContainerBehavior containerBehavior = foundContainer.Behaviors.FindFirst<ContainerBehavior>();
                 if (containerBehavior == null)
                 {
-                    return string.Format("{0} is not able to hold {1}.", foundContainer.Name, itemName);
+                    return $"{foundContainer.Name} is not able to hold {itemName}.<%nl%>";
                 }
 
                 // TODO: Removed OpensClosesBehavior check here... Test to ensure that 'get' is blocked by the
@@ -170,14 +170,14 @@ namespace WheelMUD.Actions
             thingToGet = targetParent.FindChild(itemName.ToLower());
             if (thingToGet == null)
             {
-                return string.Format("{0} does not contain {1}.", targetParent.Name, itemName);
+                return $"{targetParent.Name} does not contain {itemName}.<%nl%>";
             }
 
             // Rule: The targeted thing must be movable.
             movableBehavior = thingToGet.Behaviors.FindFirst<MovableBehavior>();
             if (movableBehavior == null)
             {
-                return thingToGet.Name + " does not appear to be movable.";
+                return $"{thingToGet.Name} does not appear to be movable.<%nl%>";
             }
 
             return null;

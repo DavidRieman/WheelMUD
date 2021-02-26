@@ -23,7 +23,7 @@ namespace WheelMUD.CommandSystem
                 // If you are debugging here after trying to set up your own action, 
                 // you probably forgot to assign an appropriate [ActionSecurity(...)] 
                 // attribute for your new GameAction class.
-                return string.Format("Nobody can use '{0}' right now!", command.Name);
+                return $"Nobody can use '{command.Name}' right now!";
             }
 
             Thing entity = command.ActionInput.Controller.Thing;
@@ -44,7 +44,7 @@ namespace WheelMUD.CommandSystem
 
                 // Otherwise, this player does not have permission; we do not want to 
                 // check the mobile/item/room security role on players, so we're done.
-                return string.Format("You do not have permission to use '{0}' right now.", command.Name);
+                return $"You do not have permission to use '{command.Name}' right now.";
             }
 
             MobileBehavior mobile = entity.Behaviors.FindFirst<MobileBehavior>();
@@ -55,7 +55,7 @@ namespace WheelMUD.CommandSystem
                     return null;
                 }
 
-                return string.Format("A mobile can not use '{0}' right now!", command.Name);
+                return $"A mobile can not use '{command.Name}' right now!";
             }
 
             RoomBehavior room = entity.Behaviors.FindFirst<RoomBehavior>();
@@ -66,7 +66,7 @@ namespace WheelMUD.CommandSystem
                     return null;
                 }
 
-                return string.Format("A room can not use '{0}' right now!", command.Name);
+                return $"A room can not use '{command.Name}' right now!";
             }
 
             // TODO: For now, everything else which doesn't meet any above category will need the 'item' security 
@@ -76,7 +76,7 @@ namespace WheelMUD.CommandSystem
                 return null;
             }
 
-            return string.Format("An item (or unrecognized entity) can not use '{0}' right now!", command.Name);
+            return $"An item (or unrecognized entity) can not use '{command.Name}' right now!";
         }
     }
 

@@ -49,13 +49,13 @@ namespace WheelMUD.Actions
             // Strings to be displayed when the effect is applied/removed.
             var muteString = new ContextualString(sender.Thing, playerToMute)
             {
-                ToOriginator = $"You mute {playerToMute.Name} for duration {muteDuration}.",
-                ToReceiver = $"You are now mute. Please reflect on recent choices.",
+                ToOriginator = $"You mute {playerToMute.Name} for duration {muteDuration}.<%nl%>",
+                ToReceiver = "You are now mute. Please reflect on recent choices.<%nl%>",
             };
             var unmuteString = new ContextualString(sender.Thing, playerToMute)
             {
-                ToOriginator = $"{playerToMute.Name} is no longer mute.",
-                ToReceiver = $"You are no longer mute."
+                ToOriginator = $"{playerToMute.Name} is no longer mute.<%nl%>",
+                ToReceiver = "You are no longer mute.<%nl%>"
             };
 
             // Turn the above sets of strings into sensory messages.
@@ -84,7 +84,7 @@ namespace WheelMUD.Actions
             playerToMute = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
             if (playerToMute == null)
             {
-                return string.Format("The player named \"{0}\" could not be found.", playerName);
+                return $"The player named \"{playerName}\" could not be found.<%nl%>";
             }
 
             // Parse the duration if it was provided. Otherwise, set a default duration.
@@ -92,7 +92,7 @@ namespace WheelMUD.Actions
             // can provide more flexible parsing of time strings to this and other commands.
             if (actionInput.Params.Length > 1)
             {
-                string timeString = actionInput.Tail.Substring(actionInput.Params[0].Length);
+                string timeString = actionInput.Tail[actionInput.Params[0].Length..];
 
                 if (double.TryParse(timeString, out double timeInMinutes))
                 {
@@ -100,7 +100,7 @@ namespace WheelMUD.Actions
                 }
                 else
                 {
-                    return "Could not determine how long you want the mute to last.";
+                    return "Could not determine how long you want the mute to last.<%nl%>";
                 }
             }
             else

@@ -59,17 +59,11 @@ namespace WheelMUD.Universe
             // Move that liquid stack over into this liquid-holder.
             if (Parent.Add(liquidBehavior.Parent))
             {
-                string message = string.Format(
-                    "You filled {0} with {1} from {2}.",
-                    Parent.Name,
-                    liquidBehavior.Parent.Name,
-                    source.Parent.Name);
+                string message = $"You filled {Parent.Name} with {liquidBehavior.Parent.Name} from {source.Parent.Name}.";
                 sender.Write(message);
 
                 // TODO: If the source is now empty, sender.Write that the source is empty.
             }
-
-            return;
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>

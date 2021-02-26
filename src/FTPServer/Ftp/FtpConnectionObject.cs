@@ -79,7 +79,7 @@ namespace WheelMUD.Ftp
             var handler = commandHashTable[command] as FtpCommandHandler;
             if (handler == null)
             {
-                FtpServerMessageHandler.SendMessage(Id, string.Format("\"{0}\" : Unknown command", command));
+                FtpServerMessageHandler.SendMessage(Id, $"\"{command}\" : Unknown command");
                 SocketHelpers.Send(Socket, "550 Unknown command\r\n");
             }
             else

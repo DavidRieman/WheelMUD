@@ -27,7 +27,7 @@ namespace WheelMUD.Ftp.FtpCommands
             ConnectionObject.PortCommandSocketPort = socketPort;
             ConnectionObject.PortCommandSocketAddress = string.Join(".", data, 0, 4);
 
-            return GetMessage(200, string.Format("{0} command succeeded", Command));
+            return GetMessage(200, $"{Command} command succeeded");
         }
     }
 }

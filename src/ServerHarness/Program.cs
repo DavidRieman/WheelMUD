@@ -101,7 +101,7 @@ namespace ServerHarness
                 }
                 else
                 {
-                    display.Notify(string.Format("> Command not recognized: {0}", input));
+                    display.Notify($"> Command not recognized: {input}.");
                 }
             }
 

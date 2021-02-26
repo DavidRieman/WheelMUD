@@ -23,11 +23,11 @@ namespace WheelMUD.Ftp.FtpCommands
             var info = ConnectionObject.FileSystemObject.GetFileInfo(file);
             if (info == null)
             {
-                return GetMessage(550, string.Format("File does not exist ({0}).", file));
+                return GetMessage(550, $"File does not exist ({file}).");
             }
 
             ConnectionObject.RenameDirectory = info.IsDirectory();
-            return GetMessage(350, string.Format("Rename file started ({0}).", file));
+            return GetMessage(350, $"Rename file started ({file}).");
         }
     }
 }

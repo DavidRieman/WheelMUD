@@ -41,7 +41,7 @@ namespace WheelMUD.Actions
 
             // Inform the admin
             IController sender = actionInput.Controller;
-            sender.Write(string.Format("The player named \"{0}\" was booted from game.", PlayerToBoot.Name));
+            sender.Write($"The player named \"{PlayerToBoot.Name}\" was booted from game.<%nl%>");
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -64,7 +64,7 @@ namespace WheelMUD.Actions
 
             if (PlayerToBoot == null || playerBehavior == null)
             {
-                return string.Format("The player named \"{0}\" specified could not be found.", playerName);
+                return $"The player named \"{playerName}\" specified could not be found.<%nl%>";
             }
 
             return null;

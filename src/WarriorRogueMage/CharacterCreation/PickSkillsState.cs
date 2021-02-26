@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities;
+
 namespace WarriorRogueMage.CharacterCreation
 {
     using System;
@@ -27,7 +29,7 @@ namespace WarriorRogueMage.CharacterCreation
         public PickSkillsState(Session session)
             : base(session)
         {
-            Session.Write($"You will now pick your character's starting skills.{AnsiSequences.NewLine}");
+            Session.Write($"You will now pick your character's starting skills.<%nl%>");
             gameSkills = GameSystemController.Instance.GameSkills;
             formattedSkills = FormatSkillText();
             RefreshScreen(false);
@@ -51,7 +53,11 @@ namespace WarriorRogueMage.CharacterCreation
                     }
                     else
                     {
-                        WrmChargenCommon.SendErrorMessage(Session, "Please select which skill you would like to view details for, like 'view axes'.");
+                        var sb = new StringBuilder();
+                        sb.AppendAnsiSeparator(color:"red", design: "=");
+                        sb.AppendAnsiLine("Please select which skill you would like to view details for, like 'view axes'.");
+                        sb.AppendAnsiSeparator(color:"red", design: "=");
+                        Session.Write(sb.ToString());
                     }
                     break;
                 case "list":
@@ -81,19 +87,31 @@ namespace WarriorRogueMage.CharacterCreation
             var selectedSkill = GetSkill(skillName);
             if (selectedSkill == null)
             {
-                WrmChargenCommon.SendErrorMessage(Session, "That skill does not exist.");
+                var sb = new StringBuilder();
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                sb.AppendAnsiLine("That skill does not exist.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                Session.Write(sb.ToString());
                 return false;
             }
 
             if (selectedSkills.Contains(selectedSkill))
             {
-                WrmChargenCommon.SendErrorMessage(Session, "You have already selected that skill.");
+                var sb = new StringBuilder();
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                sb.AppendAnsiLine("You have already selected that skill.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                Session.Write(sb.ToString());
                 return false;
             }
 
             if (selectedSkills.Count() >= 3)
             {
-                WrmChargenCommon.SendErrorMessage(Session, "You have already selected all 3 skills.");
+                var sb = new StringBuilder();
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                sb.AppendAnsiLine("You have already selected all 3 skills.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                Session.Write(sb.ToString());
                 return false;
             }
 
@@ -113,18 +131,22 @@ namespace WarriorRogueMage.CharacterCreation
         private void ViewSkillDescription(string skillName)
         {
             GameSkill foundSkill = GetSkill(skillName);
+            var sb = new StringBuilder();
+            
             if (foundSkill == null)
             {
-                WrmChargenCommon.SendErrorMessage(Session, "That skill does not exist.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                sb.AppendAnsiLine("That skill does not exist.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                Session.Write(sb.ToString());
                 return;
             }
 
-            var sb = new StringBuilder();
-            sb.AppendAnsiLine("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=");
+            sb.AppendAnsiSeparator(design:"=+");
             sb.AppendAnsiLine($"Description for {foundSkill.Name}");
-            sb.AppendAnsiLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
+            sb.AppendAnsiSeparator(design:"-");
             sb.AppendAnsiLine($"<%b%><%white%>{foundSkill.Description}");
-            sb.AppendAnsiLine("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
+            sb.AppendAnsiSeparator(design:"=+");
 
             Session.Write(sb.ToString());
         }
@@ -133,7 +155,11 @@ namespace WarriorRogueMage.CharacterCreation
         {
             if (selectedSkills.Count() != 3)
             {
-                WrmChargenCommon.SendErrorMessage(Session, "Please select all your starting skills before proceeding to the next step.");
+                var sb = new StringBuilder();
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                sb.AppendAnsiLine("Please select all your starting skills before proceeding to the next step.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                Session.Write(sb.ToString());
                 return;
             }
 
@@ -169,10 +195,10 @@ namespace WarriorRogueMage.CharacterCreation
             // TODO: The columns calculations and such look wrong...
             for (int i = 0; i < rows; i++)
             {
-                string skill1 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                string skill2 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                string skill3 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                string skill4 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
+                string skill1 = AnsiStringUtilities.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
+                string skill2 = AnsiStringUtilities.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
+                string skill3 = AnsiStringUtilities.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
+                string skill4 = AnsiStringUtilities.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                 text.AppendAnsiLine($"{skill1}  {skill2}  {skill3}  {skill4}");
             }
 
@@ -182,18 +208,18 @@ namespace WarriorRogueMage.CharacterCreation
                 switch (columns)
                 {
                     case 1:
-                        string skillcolumn1 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
+                        string skillcolumn1 = AnsiStringUtilities.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                         text.AppendAnsiLine($"{skillcolumn1}");
                         break;
                     case 2:
-                        string sk1 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                        string sk2 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
+                        string sk1 = AnsiStringUtilities.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
+                        string sk2 = AnsiStringUtilities.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                         text.AppendAnsiLine($"{sk1}  {sk2}");
                         break;
                     case 3:
-                        string skl1 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                        string skl2 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                        string skl3 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
+                        string skl1 = AnsiStringUtilities.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
+                        string skl2 = AnsiStringUtilities.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
+                        string skl3 = AnsiStringUtilities.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                         text.AppendAnsiLine($"{skl1}  {skl2}  {skl3}");
                         break;
                 }
@@ -205,27 +231,25 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen(bool sendPrompt = true)
         {
-            var nl = Environment.NewLine;
             var sb = new StringBuilder();
-            sb.AppendAnsiLine();
             sb.AppendAnsiLine();
             sb.AppendAnsiLine("You may pick three starting skills for your character.");
             int n = 1;
             foreach (var skill in selectedSkills)
             {
-                sb.AppendAnsiLine($"Skill #{n} : {skill.Name}{nl}");
+                sb.AppendAnsiLine($"Skill #{n} : {skill.Name}");
                 n++;
             }
             sb.AppendAnsiLine();
             sb.AppendAnsiLine("<%green%>Please select 3 from the list below:<%n%>");
             sb.AppendAnsiLine(formattedSkills);
             sb.AppendAnsiLine($"<%green%>You have {3 - selectedSkills.Count()} skills left.<%n%>");
-            sb.AppendAnsiLine("<%yellow%>=========================================================================");
+            sb.AppendAnsiSeparator();
             sb.AppendAnsiLine("To pick a skill, type the skill's name. Example: unarmed");
             sb.AppendAnsiLine("To view a skill's description use the view command. Example: view unarmed");
             sb.AppendAnsiLine("To see this screen again type list.");
             sb.AppendAnsiLine("When you are done picking your three skills, type done.");
-            sb.AppendAnsiLine("=========================================================================<%n%>");
+            sb.AppendAnsiSeparator();
 
             Session.Write(sb.ToString(), sendPrompt);
         }

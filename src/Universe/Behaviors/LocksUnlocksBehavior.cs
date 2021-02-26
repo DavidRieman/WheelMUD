@@ -153,10 +153,9 @@ namespace WheelMUD.Universe
                 if (parent != null)
                 {
                     // If this is a standard open request, find out if we need to cancel it.
-                    var openCloseEvent = e as OpenCloseEvent;
-                    if (openCloseEvent != null && openCloseEvent.IsBeingOpened && openCloseEvent.Target == Parent)
+                    if (e is OpenCloseEvent {IsBeingOpened: true} openCloseEvent && openCloseEvent.Target == Parent)
                     {
-                        string message = string.Format("You cannot open {0} since it is locked!", Parent.Name);
+                        string message = $"You cannot open {Parent.Name} since it is locked!";
                         openCloseEvent.Cancel(message);
                     }
                 }
@@ -212,12 +211,8 @@ namespace WheelMUD.Universe
                     return commonFailure;
                 }
 
-                if (actionInput.Controller.Thing.Behaviors.FindFirst<MovableBehavior>() == null)
-                {
-                    return "You do not have the ability to move it.";
-                }
-
-                return null;
+                return actionInput.Controller.Thing.Behaviors.FindFirst<MovableBehavior>() == null ? 
+                    "You do not have the ability to move it." : null;
             }
         }
     }

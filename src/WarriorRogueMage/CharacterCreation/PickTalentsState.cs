@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Text;
 using WheelMUD.ConnectionStates;
 using WheelMUD.Core;
+using WheelMUD.Utilities;
 
 namespace WarriorRogueMage.CharacterCreation
 {
@@ -47,7 +47,11 @@ namespace WarriorRogueMage.CharacterCreation
                     }
                     else
                     {
-                        WrmChargenCommon.SendErrorMessage(Session, "Please select which talent you would like to view details for, like 'view sailor'.");
+                        var sb = new StringBuilder();
+                        sb.AppendAnsiSeparator(color:"red", design: "=");
+                        sb.AppendAnsiLine("Please select which talent you would like to view details for, like 'view sailor'.");
+                        sb.AppendAnsiSeparator(color:"red", design: "=");
+                        Session.Write(sb.ToString());
                     }
                     break;
                 case "list":
@@ -62,7 +66,11 @@ namespace WarriorRogueMage.CharacterCreation
                     }
                     else
                     {
-                        WrmChargenCommon.SendErrorMessage(Session, "Invalid talent. Try again, or use 'view [talent]' or 'list'.");
+                        var sb = new StringBuilder();
+                        sb.AppendAnsiSeparator(color:"red", design: "=");
+                        sb.AppendAnsiLine("Invalid talent. Try again, or use 'view [talent]' or 'list'.");
+                        sb.AppendAnsiSeparator(color:"red", design: "=");
+                        Session.Write(sb.ToString());
                     }
                     break;
             }
@@ -70,7 +78,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override string BuildPrompt()
         {
-            return "Select the character's starting talent.\n> ";
+            return "Select the character's starting talent:<%nl%>";
         }
 
         private Talent GetTalent(string talentName)
@@ -81,21 +89,25 @@ namespace WarriorRogueMage.CharacterCreation
         private void ViewTalentDescription(string talent)
         {
             Talent foundTalent = GetTalent(talent);
+            var sb = new StringBuilder();
+            
             if (foundTalent != null)
             {
-                var sb = new StringBuilder();
-                sb.Append("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=" + Environment.NewLine);
-                sb.AppendFormat("Description for {0}" + Environment.NewLine, foundTalent.Name);
-                sb.Append("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>" + Environment.NewLine);
-                sb.Append("<%b%><%white%>" + foundTalent.Description + Environment.NewLine);
-                sb.Append("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
-
-                Session.Write(sb.ToString());
+                sb.AppendAnsiSeparator(design:"=+");
+                sb.AppendAnsiLine($"Description for {foundTalent.Name}");
+                sb.AppendAnsiSeparator(design:"-");
+                sb.AppendAnsiLine($"<%b%><%white%>{foundTalent.Description}");
+                sb.AppendAnsiSeparator(design:"=+");
+                
             }
             else
             {
-                WrmChargenCommon.SendErrorMessage(Session, "That talent does not exist.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                sb.AppendAnsiLine("That talent does not exist.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
             }
+            
+            Session.Write(sb.ToString());
         }
 
         private string FormatTalentText()
@@ -120,11 +132,11 @@ namespace WarriorRogueMage.CharacterCreation
             {
                 for (int i = 0; i < rows; i++)
                 {
-                    string talent1 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
-                    string talent2 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
-                    string talent3 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
-                    string talent4 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
-                    text.AppendFormat("{0}  {1}  {2}  {3}" + Environment.NewLine, talent1, talent2, talent3, talent4);
+                    string talent1 = AnsiStringUtilities.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                    string talent2 = AnsiStringUtilities.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                    string talent3 = AnsiStringUtilities.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                    string talent4 = AnsiStringUtilities.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                    text.AppendAnsiLine($"{talent1}  {talent2}  {talent3}  {talent4}");
                 }
 
                 if ((rows % 4) > 0)
@@ -134,44 +146,44 @@ namespace WarriorRogueMage.CharacterCreation
                     switch (columns)
                     {
                         case 1:
-                            string talentcolumn1 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
-                            text.AppendFormat("{0}" + Environment.NewLine, talentcolumn1);
+                            string talentcolumn1 = AnsiStringUtilities.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                            text.AppendAnsiLine($"{talentcolumn1}");
                             break;
                         case 2:
-                            string tk1 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
-                            string tk2 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
-                            text.AppendFormat("{0}  {1}" + Environment.NewLine, tk1, tk2);
+                            string tk1 = AnsiStringUtilities.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                            string tk2 = AnsiStringUtilities.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                            text.AppendAnsiLine($"{tk1}  {tk2}");
                             break;
                         case 3:
-                            string tkl1 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
-                            string tkl2 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
-                            string tkl3 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
-                            text.AppendFormat("{0}  {1}  {2}" + Environment.NewLine, tkl1, tkl2, tkl3);
+                            string tkl1 = AnsiStringUtilities.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                            string tkl2 = AnsiStringUtilities.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                            string tkl3 = AnsiStringUtilities.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
+                            text.AppendAnsiLine("{tkl1}  {tkl2}  {tkl3}");
                             break;
                     }
                 }
             }
             catch
             {
+                // ignored
             }
 
-            text.Append(Environment.NewLine);
+            text.AppendAnsiLine();
             return text.ToString();
         }
 
         private void RefreshScreen(bool sendPrompt = true)
         {
             var sb = new StringBuilder();
-            sb.AppendLine();
-            sb.AppendLine();
-            sb.AppendLine("You may pick one starting talent for your character.");
-            sb.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
-            sb.AppendLine(formattedTalents);
-            sb.AppendLine("<%yellow%>==========================================================================");
-            sb.AppendLine("To pick a talent, type the talent's name. Example: sailor");
-            sb.AppendLine("To view a talent's description use the view command. Example: view sailor");
-            sb.AppendLine("To see this screen again type list.");
-            sb.AppendLine("==========================================================================<%n%>");
+            sb.AppendAnsiLine();
+            sb.AppendAnsiLine("You may pick one starting talent for your character.");
+            sb.AppendAnsiLine("<%green%>Please select 1 from the list below:<%n%>");
+            sb.AppendAnsiLine(formattedTalents);
+            sb.AppendAnsiSeparator();
+            sb.AppendAnsiLine("To pick a talent, type the talent's name. Example: sailor");
+            sb.AppendAnsiLine("To view a talent's description use the view command. Example: view sailor");
+            sb.AppendAnsiLine("To see this screen again type list.");
+            sb.AppendAnsiSeparator();
             Session.Write(sb.ToString(), sendPrompt);
         }
     }

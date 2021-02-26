@@ -27,7 +27,7 @@ namespace WheelMUD.ConnectionStates
         {
             if (command.ToLower() == "yes" || command.ToLower() == "y")
             {
-                Session.User = new User()
+                Session.User = new User
                 {
                     AccountCreationDate = DateTime.Now,
                 };
@@ -42,7 +42,7 @@ namespace WheelMUD.ConnectionStates
         public override string BuildPrompt()
         {
             var creationType = AppConfigInfo.Instance.UserAccountIsPlayerCharacter ? "character" : "user account";
-            return string.Format("Are you sure you wish to create a new {0}?{1}Yes/No> ", creationType, Environment.NewLine);
+            return $"Are you sure you wish to create a new {creationType}?<%nl%><Yes/No> ";
         }
     }
 }

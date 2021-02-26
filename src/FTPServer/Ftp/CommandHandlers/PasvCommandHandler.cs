@@ -25,7 +25,7 @@ namespace WheelMUD.Ftp.FtpCommands
                 var listener = SocketHelpers.CreateTcpListener(Port);
                 if (listener == null)
                 {
-                    return GetMessage(550, string.Format("Couldn't start listener on port {0}", Port));
+                    return GetMessage(550, $"Couldn't start listener on port {Port}");
                 }
 
                 SendPasvReply();
@@ -50,7 +50,7 @@ namespace WheelMUD.Ftp.FtpCommands
             addr += "0";
             addr += ',';
             addr += Port.ToString();
-            SocketHelpers.Send(ConnectionObject.Socket, string.Format("227 ={0}\r\n", addr));
+            SocketHelpers.Send(ConnectionObject.Socket, $"227 ={addr}\r\n");
         }
     }
 }

@@ -33,7 +33,7 @@ namespace WheelMUD.Ftp.FtpCommands
             }
 
             ConnectionObject.CurrentDirectory = Path.Combine(ConnectionObject.CurrentDirectory, message);
-            return GetMessage(250, string.Format("CWD Successful ({0})", ConnectionObject.CurrentDirectory.Replace("\\", "/")));
+            return GetMessage(250, $"CWD Successful ({ConnectionObject.CurrentDirectory.Replace("\\", "/")})");
         }
     }
 }

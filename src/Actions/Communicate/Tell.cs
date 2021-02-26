@@ -5,6 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Text;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
@@ -39,11 +42,11 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            string fixedSentence = "\"<%yellow%>" + sentence + "<%n%>\"";
+            string fixedSentence = $"'<%yellow%>{sentence}<%n%>'";
             var contextMessage = new ContextualString(sender.Thing, target)
             {
                 ToOriginator = BuildOriginatorMessage(fixedSentence),
-                ToReceiver = string.Format("{0} tells you: {1}", sender.Thing.Name, fixedSentence),
+                ToReceiver = $"{sender.Thing.Name} tells you: {fixedSentence}<%nl%>",
                 ToOthers = null,
             };
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
@@ -83,27 +86,31 @@ namespace WheelMUD.Actions
             if (target == null)
             {
                 // Make first char Upper?  IE textInfo.ToTitleCase.
-                return targetName + " is not part of reality.";
+                return $"{targetName} is not part of reality.<%nl%>";
             }
 
             //// TODO what if player offline ?
 
             // Rule: Prevent talking to yourself.
-            if (actionInput.Controller.Thing.Name.ToLower() == target.Name.ToLower())
+            if (string.Equals(actionInput.Controller.Thing.Name, target.Name, StringComparison.CurrentCultureIgnoreCase))
             {
-                return "Talking to yourself is the first sign of madness!";
+                return "Talking to yourself is the first sign of madness!<%nl%>";
             }
 
             // Rule: Give help if too few Params, having problems with the causing casting errors ?
             if (actionInput.Params.Length <= 1)
             {
-                return "Syntax:\n<tell [player] [message]>\n\nSee also say, yell, shout, emote.";
+                var sb = new StringBuilder();
+                sb.AppendAnsiLine("Syntax:");
+                sb.AppendAnsiLine("<tell [player] [message]>");
+                sb.AppendAnsiLine("See also say, yell, shout, emote.");
+                return sb.ToString();
             }
 
             // The sentence to be relayed consists of all input beyond the first parameter, 
             // which was used to identify entity already.
             int firstCommandLength = actionInput.Params[0].Length;
-            sentence = actionInput.Tail.Substring(firstCommandLength).Trim();
+            sentence = actionInput.Tail[firstCommandLength..].Trim();
 
             return null;
         }
@@ -115,25 +122,14 @@ namespace WheelMUD.Actions
         {
             PlayerBehavior playerBehavior = target.Behaviors.FindFirst<PlayerBehavior>();
 
-            if (playerBehavior != null && playerBehavior.IsAFK)
+            if (playerBehavior is {IsAFK: true})
             {
-                string afkMessage;
+                var afkMessage = !string.IsNullOrEmpty(playerBehavior.AFKReason) ? string.Concat("AFK: ", playerBehavior.AFKReason) : "AFK";
 
-                if (!string.IsNullOrEmpty(playerBehavior.AFKReason))
-                {
-                    afkMessage = string.Concat("AFK: ", playerBehavior.AFKReason);
-                }
-                else
-                {
-                    afkMessage = "AFK";
-                }
+                return $"You tell {target.Name}: {fixedSentence}<%nl%>{target.Name} is {afkMessage}.";
+            }
 
-                return string.Format("You tell {0}: {1}<%nl%>{0} is {2}.", target.Name, fixedSentence, afkMessage);
-            }
-            else
-            {
-                return string.Format("You tell {0}: {1}", target.Name, fixedSentence);
-            }
+            return $"You tell {target.Name}: {fixedSentence}";
         }
     }
 }

@@ -29,7 +29,7 @@ namespace WheelMUD.ConnectionStates
 
         public override string BuildPrompt()
         {
-            return "Enter a description for your character:\n> ";
+            return "Enter a description for your character:<%nl%>";
         }
     }
 }

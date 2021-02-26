@@ -42,16 +42,16 @@ namespace WheelMUD.Actions
                     {
                         entity.Description = NewDescription;
                         entity.FindBehavior<PlayerBehavior>()?.SavePlayer();
-                        sender.Write("Description successfully changed.");
+                        sender.Write("Description successfully changed.<%nl%>");
                     }
                     else
                     {
-                        sender.Write(string.Format("Your current description is \"{0}\".", entity.Description));
+                        sender.Write($"Your current description is \"{entity.Description}\".<%nl%>");
                     }
                 }
                 else
                 {
-                    sender.Write("Unexpected error occurred changing description, please contact admin.");
+                    sender.Write("Unexpected error occurred changing description, please contact admin.<%nl%>");
                 }
             }
         }

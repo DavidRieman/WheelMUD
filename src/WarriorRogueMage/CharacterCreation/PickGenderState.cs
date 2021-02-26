@@ -36,13 +36,17 @@ namespace WarriorRogueMage.CharacterCreation
             }
             else if (!HandleCommand(command))
             {
-                WrmChargenCommon.SendErrorMessage(Session, "Invalid command. Please select a gender.");
+                var sb = new StringBuilder();
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                sb.AppendAnsiLine("Invalid command. Please select a gender.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                Session.Write(sb.ToString());
             }
         }
 
         public override string BuildPrompt()
         {
-            return string.Format("Select the character's gender.{0}>", Environment.NewLine);
+            return "Select the character's gender.<%nl%>";
         }
 
         private bool HandleCommand(string command)
@@ -63,7 +67,11 @@ namespace WarriorRogueMage.CharacterCreation
                               select g).FirstOrDefault();
             if (selectedGender == null)
             {
-                WrmChargenCommon.SendErrorMessage(Session, string.Format("'{0}' is an invalid gender selection.", currentGender));
+                var sb = new StringBuilder();
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                sb.AppendAnsiLine($"'{currentGender}' is an invalid gender selection.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                Session.Write(sb.ToString());
                 RefreshScreen();
             }
 
@@ -74,7 +82,7 @@ namespace WarriorRogueMage.CharacterCreation
         {
             var playerBehavior = Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
             playerBehavior.Gender = selectedGender;
-            string doneMessage = string.Format("<%green%>The chosen gender is {0}.<%n%>" + Environment.NewLine, selectedGender.Name);
+            string doneMessage = $"<%green%>The chosen gender is {selectedGender.Name}.<%n%><%nl%>";
             Session.Write(doneMessage, false);
 
             // Proceed to the next step.
@@ -84,19 +92,12 @@ namespace WarriorRogueMage.CharacterCreation
         private void RefreshScreen(bool sendPrompt = true)
         {
             var sb = new StringBuilder();
-            sb.AppendLine();
-            sb.AppendLine();
-            sb.AppendLine("You have the following gender choices:");
-
-            foreach (var gender in GameSystemController.Instance.GameGenders)
-            {
-                sb.AppendLine(gender.Name);
-            }
-
-            sb.AppendLine();
-            sb.AppendLine("<%yellow%>===============================================================");
-            sb.AppendLine("Type your gender selection.");
-            sb.AppendLine("===============================================================<%n%>");
+            sb.AppendAnsiLine();
+            sb.AppendAnsiLine("You have the following gender choices:");
+            sb.AppendAnsiLine(string.Join(", ", GameSystemController.Instance.GameGenders.Select(p => p.Name).ToArray()));
+            sb.AppendAnsiSeparator();
+            sb.AppendAnsiLine("Type your gender selection.");
+            sb.AppendAnsiSeparator();
 
             Session.Write(sb.ToString(), sendPrompt);
         }

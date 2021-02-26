@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using WheelMUD.Core;
 
 namespace ServerHarness
 {
@@ -71,7 +72,7 @@ namespace ServerHarness
         /// <returns>True if the data was successfully sent.</returns>
         public bool Send(string data)
         {
-            byte[] buf = Encoding.UTF8.GetBytes(string.Format("{0}{1}", data, Environment.NewLine));
+            byte[] buf = Encoding.UTF8.GetBytes($"{data}{AnsiSequences.NewLine}");
 
             try
             {

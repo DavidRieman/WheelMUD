@@ -7,7 +7,6 @@
 
 namespace WarriorRogueMage.CharacterCreation
 {
-    using System;
     using System.Text;
     using System.Text.RegularExpressions;
     using WheelMUD.ConnectionStates;
@@ -35,7 +34,7 @@ namespace WarriorRogueMage.CharacterCreation
     /// <summary>The character creation step where the player will set their stats.</summary>
     public class SetAttributesState : CharacterCreationSubState
     {
-        private static readonly string Prompt = string.Format("Select the character's starting attributes.{0}> ", Environment.NewLine);
+        private static readonly string Prompt = "Select the character's starting attributes:<%nl%>";
         private static readonly int MaxPoints = 10;
         private int warriorPoints;
         private int roguePoints;
@@ -46,15 +45,12 @@ namespace WarriorRogueMage.CharacterCreation
         public SetAttributesState(Session session)
             : base(session)
         {
-            Session.Write("You will now set your basic attributes.\n\n", false);
+            Session.Write("You will now set your basic attributes.<%nl%>", false);
             RefreshScreen(false);
         }
 
         /// <summary>Gets the total points spent so far by the character.</summary>
-        private int SpentPoints
-        {
-            get { return warriorPoints + roguePoints + magePoints; }
-        }
+        private int SpentPoints => warriorPoints + roguePoints + magePoints;
 
         /// <summary>Processes the text that the player sends while in this state.</summary>
         /// <param name="s">The command that the player just sent.</param>
@@ -75,7 +71,11 @@ namespace WarriorRogueMage.CharacterCreation
                 case SetAttributeCommand.Done:
                     if (SpentPoints != MaxPoints)
                     {
-                        WrmChargenCommon.SendErrorMessage(Session, "You have not spent all your points.");
+                        var sb = new StringBuilder();
+                        sb.AppendAnsiSeparator(color:"red", design: "=");
+                        sb.AppendAnsiLine("You have not spent all your points.");
+                        sb.AppendAnsiSeparator(color:"red", design: "=");
+                        Session.Write(sb.ToString());
                     }
                     else
                     {
@@ -84,10 +84,13 @@ namespace WarriorRogueMage.CharacterCreation
                         StateMachine.HandleNextStep(this, StepStatus.Success);
                         return;
                     }
-
                     break;
                 default:
-                    WrmChargenCommon.SendErrorMessage(Session, "Unknown command. Please use warrior, rogue, mage, or done.");
+                    var sb1 = new StringBuilder();
+                    sb1.AppendAnsiSeparator(color:"red", design: "=");
+                    sb1.AppendAnsiLine("Unknown command. Please use warrior, rogue, mage, or done.");
+                    sb1.AppendAnsiSeparator(color:"red", design: "=");
+                    Session.Write(sb1.ToString());
                     break;
             }
 
@@ -107,14 +110,22 @@ namespace WarriorRogueMage.CharacterCreation
             var numberString = Regex.Match(s, @"\d+").Value;
             if (string.IsNullOrWhiteSpace(numberString))
             {
-                WrmChargenCommon.SendErrorMessage(Session, "No valid number was found.");
+                var sb = new StringBuilder();
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                sb.AppendAnsiLine("No valid number was found.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                Session.Write(sb.ToString());
                 return;
             }
 
             int n;
             if (!int.TryParse(numberString, out n))
             {
-                WrmChargenCommon.SendErrorMessage(Session, "Could not process the number.");
+                var sb = new StringBuilder();
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                sb.AppendAnsiLine("Could not process the number.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                Session.Write(sb.ToString());
                 return;
             }
 
@@ -138,15 +149,27 @@ namespace WarriorRogueMage.CharacterCreation
             int netChange = newValue - targetPoints;
             if (newValue > 6)
             {
-                WrmChargenCommon.SendErrorMessage(Session, "No attribute can be greater than 6.");
+                var sb = new StringBuilder();
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                sb.AppendAnsiLine("No attribute can be greater than 6.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                Session.Write(sb.ToString());
             }
             else if (newValue < 0)
             {
-                WrmChargenCommon.SendErrorMessage(Session, "No attribute can be less than 0.");
+                var sb = new StringBuilder();
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                sb.AppendAnsiLine("No attribute can be less than 0.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                Session.Write(sb.ToString());
             }
             else if (SpentPoints + netChange > MaxPoints)
             {
-                WrmChargenCommon.SendErrorMessage(Session, "You do not have enough points to spend.");
+                var sb = new StringBuilder();
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                sb.AppendAnsiLine("You do not have enough points to spend.");
+                sb.AppendAnsiSeparator(color:"red", design: "=");
+                Session.Write(sb.ToString());
             }
             else
             {
@@ -158,21 +181,20 @@ namespace WarriorRogueMage.CharacterCreation
         {
             var sb = new StringBuilder();
             sb.AppendAnsiLine();
-            sb.AppendAnsiLine();
             sb.AppendAnsiLine("You have 10 character points to be divided between 3 attributes.");
             sb.AppendAnsiLine("No attribute can have more than 6 points. Attributes can be zero.");
             sb.AppendAnsiLine();
-            sb.AppendAnsiLine($"Warrior : {warriorPoints}" + AnsiSequences.NewLine);
-            sb.AppendAnsiLine($"Rogue   : {roguePoints}" + AnsiSequences.NewLine);
-            sb.AppendAnsiLine($"Mage    : {magePoints}" + AnsiSequences.NewLine);
+            sb.AppendAnsiLine($"Warrior : {warriorPoints}");
+            sb.AppendAnsiLine($"Rogue   : {roguePoints}");
+            sb.AppendAnsiLine($"Mage    : {magePoints}");
             sb.AppendAnsiLine();
             sb.AppendAnsiLine($"You have {MaxPoints - SpentPoints} character points left.");
             sb.AppendAnsiLine();
-            sb.AppendAnsiLine("<%yellow%>====================================================================");
+            sb.AppendAnsiSeparator();
             sb.AppendAnsiLine("To add points to an attribute, use the + operator. Example: warrior +6");
             sb.AppendAnsiLine("To subtract points from an attribute, use the - operator. Example: warrior -6");
             sb.AppendAnsiLine("When you are done distributing the character points, type done.");
-            sb.AppendAnsiLine("====================================================================<%n%>");
+            sb.AppendAnsiSeparator();
 
             Session.Write(sb.ToString(), sendPrompt);
         }
@@ -189,15 +211,18 @@ namespace WarriorRogueMage.CharacterCreation
             {
                 return SetAttributeCommand.Warrior;
             }
-            else if (s.StartsWith("r"))
+
+            if (s.StartsWith("r"))
             {
                 return SetAttributeCommand.Rogue;
             }
-            else if (s.StartsWith("m"))
+
+            if (s.StartsWith("m"))
             {
                 return SetAttributeCommand.Mage;
             }
-            else if (s.StartsWith("done") || s.StartsWith("end") || s.StartsWith("quit"))
+
+            if (s.StartsWith("done") || s.StartsWith("end") || s.StartsWith("quit"))
             {
                 return SetAttributeCommand.Done;
             }
@@ -211,11 +236,13 @@ namespace WarriorRogueMage.CharacterCreation
             {
                 return string.Empty;
             }
-            else if (s.Contains("+"))
+
+            if (s.Contains("+"))
             {
                 return "+";
             }
-            else if (s.Contains("-"))
+
+            if (s.Contains("-"))
             {
                 return "-";
             }

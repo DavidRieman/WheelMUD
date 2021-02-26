@@ -18,12 +18,12 @@ namespace WheelMUD.Core
             var sb = new StringBuilder();
             if (senses.CanPerceiveThing(room))
             {
-                sb.AppendAnsiLine($"<%red%><%b%>{room.Name}<%n%><%nl%>");
-                sb.AppendAnsiLine($"{room.Description}<%nl%>");
+                sb.AppendAnsiLine($"<%red%><%b%>{room.Name}<%n%>");
+                sb.AppendAnsiLine($"{room.Description}");
             }
             else
             {
-                sb.AppendAnsiLine($"You cannot perceive much of note about the room.");
+                sb.AppendAnsiLine("You cannot perceive much of note about the room.");
             }
 
             int insertAt = sb.Length;
@@ -37,7 +37,7 @@ namespace WheelMUD.Core
             bool hasNoticedSomething = false;
 
             // Handle exits differently from other Thing types
-            var exits = senses.PerceiveExits();        // TODO: Aso render closable exits like doors nicely; "(closed)"?
+            var exits = senses.PerceiveExits();        // TODO: Also render closable exits like doors nicely; "(closed)"?
             if (exits.Count > 0)
             {
                 sb.Append($"  routes: ");
@@ -48,7 +48,7 @@ namespace WheelMUD.Core
                 }
                 sb.Length--;
                 sb.Length--;
-                sb.AppendAnsiLine("");
+                sb.AppendAnsiLine();
             }
 
             foreach (var presentThing in room.Children)
@@ -64,11 +64,11 @@ namespace WheelMUD.Core
 
             if (hasNoticedSomething)
             {
-                sb.Insert(insertAt, $"<%yellow%>Here you notice:<%n%>" + AnsiSequences.NewLine);
+                sb.Insert(insertAt, "<%yellow%>Here you notice:<%n%><%nl%>");
             }
             else
             {
-                sb.Insert(insertAt, $"<%yellow%>You notice nothing else inside the room.<%n%>");
+                sb.Insert(insertAt, "<%yellow%>You notice nothing else inside the room.<%n%><%nl%>");
             }
 
             return sb.ToString();

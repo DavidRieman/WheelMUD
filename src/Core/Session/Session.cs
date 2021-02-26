@@ -46,25 +46,16 @@ namespace WheelMUD.Core
         public event SessionAuthenticatedEventHandler SessionAuthenticated;
 
         /// <summary>Gets the ID of the session.</summary>
-        public string ID
-        {
-            get { return Connection.ID; }
-        }
+        public string ID => Connection.ID;
 
         /// <summary>Gets the terminal this session is using.</summary>
-        public ITerminal Terminal
-        {
-            get { return Connection.Terminal; }
-        }
+        public ITerminal Terminal => Connection.Terminal;
 
         /// <summary>Gets or sets the player Thing attached to this session.</summary>
         public Thing Thing { get; set; }
 
         /// <summary>Gets the living behavior of the player attached to this session.</summary>
-        public LivingBehavior LivingBehavior
-        {
-            get { return Thing != null ? Thing.Behaviors.FindFirst<LivingBehavior>() : null; }
-        }
+        public LivingBehavior LivingBehavior => Thing?.Behaviors.FindFirst<LivingBehavior>();
 
         /// <summary>Gets the connection for this session.</summary>
         public IConnection Connection { get; private set; }
@@ -99,7 +90,7 @@ namespace WheelMUD.Core
         {
             if (!AtPrompt)
             {
-                Connection.Send(Environment.NewLine + State.BuildPrompt());
+                Connection.Send(AnsiSequences.NewLine + State.BuildPrompt());
             }
             else
             {
@@ -120,20 +111,23 @@ namespace WheelMUD.Core
         /// <param name="sendPrompt">true to send the prompt after, false otherwise.</param>
         public void Write(string data, bool sendPrompt = true)
         {
+            data = AnsiHandler.Parse(data);
+            
             if (AtPrompt)
             {
-                data = Environment.NewLine + data;
+                data = AnsiSequences.NewLine + data;
             }
 
             AtPrompt = false;
+            
             if (sendPrompt)
             {
                 string prompt = State != null ? State.BuildPrompt() : string.Empty;
 
                 // Protection against double prompt.
-                if (!data.EndsWith(AnsiSequences.NewLine + prompt))
+                if (!data.EndsWith(prompt))
                 {
-                    data = data + AnsiSequences.NewLine + prompt;
+                    data += prompt;
                 }
 
                 AtPrompt = true;

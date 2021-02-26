@@ -7,7 +7,6 @@
 
 namespace WheelMUD.ConnectionStates
 {
-    using System;
     using WheelMUD.Core;
     using WheelMUD.Data;
 
@@ -58,8 +57,8 @@ namespace WheelMUD.ConnectionStates
         /// <returns>The current prompt.</returns>
         public override string BuildPrompt()
         {
-            var creationType = AppConfigInfo.Instance.UserAccountIsPlayerCharacter ? "character name" : "user name";
-            return string.Format("Enter your {0} or type NEW to create a new one.{1}> ", creationType, Environment.NewLine);
+            var creationType = AppConfigInfo.Instance.UserAccountIsPlayerCharacter ? "character name" : "username";
+            return $"Enter your {creationType} or type NEW to create a new one.<%nl%>";
         }
     }
 }

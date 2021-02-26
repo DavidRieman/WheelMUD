@@ -27,7 +27,8 @@ namespace WheelMUD.Core
         /// <returns>Text that conforms to the buffer specified.</returns>
         public static string[] Parse(string originalText)
         {
-            string[] lines = originalText.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] separators = {Environment.NewLine, AnsiSequences.NewLine}; 
+            string[] lines = originalText.Split(separators, StringSplitOptions.None);
 
             return lines;
         }

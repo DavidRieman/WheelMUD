@@ -29,7 +29,7 @@ namespace WheelMUD.Ftp.FtpCommands
             if (ConnectionObject.FileSystemObject.FileExists(newFileName) ||
                 ConnectionObject.FileSystemObject.DirectoryExists(newFileName))
             {
-                return GetMessage(553, string.Format("File already exists ({0}).", newFileName));
+                return GetMessage(553, $"File already exists ({newFileName}).");
             }
 
             if (!ConnectionObject.FileSystemObject.Move(oldFileName, newFileName))

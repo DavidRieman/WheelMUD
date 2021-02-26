@@ -33,7 +33,7 @@ namespace WheelMUD.Actions.Temporary
             IController sender = actionInput.Controller;
 
             // Remove "weapon" from input tail and use the rest as the name.
-            string weaponName = actionInput.Tail.Substring(6).Trim().ToLower();
+            string weaponName = actionInput.Tail[6..].Trim().ToLower();
 
             Thing weaponItem = new Thing(new WieldableBehavior(), new MovableBehavior());
             weaponItem.Name = weaponName;
@@ -44,14 +44,9 @@ namespace WheelMUD.Actions.Temporary
             var wasAdded = sender.Thing.Parent.Add(weaponItem);
 
             var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
-            if (wasAdded)
-            {
-                userControlledBehavior.Controller.Write(string.Format("You create a weapon called {0}.", weaponItem.Name));
-            }
-            else
-            {
-                userControlledBehavior.Controller.Write(string.Format("Could not add {0} to the room!", weaponItem.Name));
-            }
+            userControlledBehavior.Controller.Write(wasAdded
+                ? $"You create a weapon called {weaponItem.Name}."
+                : $"Could not add {weaponItem.Name} to the room!");
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>
@@ -60,12 +55,7 @@ namespace WheelMUD.Actions.Temporary
         public override string Guards(ActionInput actionInput)
         {
             string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return commonFailure;
         }
     }
 }

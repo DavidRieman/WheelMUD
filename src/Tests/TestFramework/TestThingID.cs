@@ -25,7 +25,7 @@ namespace WheelMUD.Tests
             lock (lockObject)
             {
                 currentID++;
-                return string.Format("{0}/{1}", thingType, currentID.ToString());
+                return $"{thingType}/{currentID.ToString()}";
             }
         }
     }

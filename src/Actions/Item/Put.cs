@@ -48,7 +48,7 @@ namespace WheelMUD.Actions
             thing.Parent.Remove(thing);
             newParent.Add(thing);
 
-            string message = string.Format("You put {0} in {1}", thing.FullName, newParent.Name);
+            string message = $"You put {thing.FullName} in {newParent.Name}";
             actionInput.Controller.Write(message);
         }
 
@@ -120,7 +120,7 @@ namespace WheelMUD.Actions
             Thing foundItem = sender.Thing.FindLocalThing(containerName.ToLower());
             if (foundItem == null)
             {
-                return "You cannot see " + containerName + ".";
+                return $"You cannot see {containerName}.";
             }
 
             // Rule: Is the found thing capable of containing other things?
@@ -128,7 +128,7 @@ namespace WheelMUD.Actions
             var containerBehavior = foundItem.Behaviors.FindFirst<ContainerBehavior>();
             if (newParent == null || containerBehavior == null)
             {
-                return containerName + " is not able to hold " + itemName + ".";
+                return $"{containerName} is not able to hold {itemName}.";
             }
 
             // Rule: Is the container open?
@@ -144,7 +144,7 @@ namespace WheelMUD.Actions
             thing = sender.Thing.Children.Find(i => i.Name == itemName.ToLower());
             if (thing == null)
             {
-                return "You do not hold " + itemName + ".";
+                return $"You do not hold {itemName}.";
             }
 
             return null;

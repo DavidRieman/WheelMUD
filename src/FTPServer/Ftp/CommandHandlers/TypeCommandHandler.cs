@@ -18,20 +18,20 @@ namespace WheelMUD.Ftp.FtpCommands
         protected override string OnProcess(string message)
         {
             message = message.ToUpper();
+            
             if (message == "A")
             {
                 ConnectionObject.BinaryMode = false;
                 return GetMessage(200, "ASCII transfer mode active.");
             }
-            else if (message == "I")
+
+            if (message == "I")
             {
                 ConnectionObject.BinaryMode = true;
                 return GetMessage(200, "Binary transfer mode active.");
             }
-            else
-            {
-                return GetMessage(550, string.Format("Error - unknown binary mode \"{0}\"", message));
-            }
+            
+            return GetMessage(550, $"Error - unknown binary mode \"{message}\"");
         }
     }
 }

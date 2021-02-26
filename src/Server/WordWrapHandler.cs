@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using WheelMUD.Core;
 
 namespace WheelMUD.Server
 {
@@ -26,7 +27,7 @@ namespace WheelMUD.Server
         public static string Parse(string originalText, int maxWidth)
         {
             // TODO: Next line is a hack. Needs replacing.
-            originalText = originalText.Replace("<%nl%>", Environment.NewLine);
+            originalText = originalText.Replace("<%nl%>", AnsiSequences.NewLine);
 
             List<string> replacedTags = new List<string>();
             string taglessText = HideInvisibleTags(originalText, out replacedTags);
@@ -36,17 +37,12 @@ namespace WheelMUD.Server
             string wrappedBlock = string.Empty;
             foreach (string textLine in wrappedText)
             {
-                wrappedBlock = string.Format("{0}\r\n{1}", wrappedBlock, textLine);
+                wrappedBlock = $"{wrappedBlock}{AnsiSequences.NewLine}{textLine}";
             }
 
-            wrappedBlock = wrappedBlock.Substring(1).TrimStart();
+            wrappedBlock = wrappedBlock[1..].TrimStart();
 
-            if (replacedTags.Count > 0)
-            {
-                return ReplaceInvisibleTags(wrappedBlock, replacedTags);
-            }
-
-            return wrappedBlock;
+            return replacedTags.Count > 0 ? ReplaceInvisibleTags(wrappedBlock, replacedTags) : wrappedBlock;
         }
 
         /// <summary>Looks for ANSI tags and MXP tags that are "invisible" when it comes to word wrapping.</summary>

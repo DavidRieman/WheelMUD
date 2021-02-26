@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WheelMUD.Ftp.FtpCommands
 {
     using System.Diagnostics;
@@ -37,7 +39,7 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected string GetMessage(int returnCode, string message)
         {
-            return string.Format("{0} {1}\r\n", returnCode, message);
+            return $"{returnCode} {message}{AnsiSequences.NewLine}";
         }
 
         protected string GetPath(string path)

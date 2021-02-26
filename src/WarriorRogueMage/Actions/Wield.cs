@@ -111,7 +111,7 @@ namespace WarriorRogueMage.Actions
                 // Item was not found in inventory or the room.
                 if (itemInRoom == null)
                 {
-                    return "Unable to find: " + itemName;
+                    return $"Unable to find: {itemName}.";
                 }
 
                 itemToWieldBehavior = itemInRoom.Behaviors.FindFirst<WieldableBehavior>();
@@ -125,7 +125,7 @@ namespace WarriorRogueMage.Actions
                 // Item was found in the room, but it must be picked up first.
                 if (itemToWieldBehavior.MustBeHeld)
                 {
-                    return "You are not holding the " + itemInRoom.FullName + ".";
+                    return $"You are not holding the {itemInRoom.FullName}.";
                 }
 
                 itemToWield = itemInRoom;
@@ -135,12 +135,8 @@ namespace WarriorRogueMage.Actions
             // This shouldn't happen (famous last words) if the item is in
             // inventory, but it could happen with stationary wieldable items
             // in the room.
-            if (itemToWieldBehavior.Wielder != null)
-            {
-                return string.Format("The {0} is already wielded by {1}.", itemToWield.Name, itemToWieldBehavior.Wielder.FullName);
-            }
-
-            return null;
+            return itemToWieldBehavior.Wielder != null ? 
+                $"The {itemToWield.Name} is already wielded by {itemToWieldBehavior.Wielder.FullName}." : null;
         }
 
         /// <summary>Intercepts and cancels a movement request for the wielded item.</summary>
@@ -149,12 +145,11 @@ namespace WarriorRogueMage.Actions
         /// <param name="e">The event.</param>
         private void Eventing_MovementRequest(Thing root, CancellableGameEvent e)
         {
-            var evt = e as ChangeOwnerEvent;
-            if (evt != null)
+            if (e is ChangeOwnerEvent evt)
             {
                 if (evt.Thing.Id == itemToWield.Id)
                 {
-                    evt.Cancel(string.Format("The {0} is still wielded!", itemToWield.Name));
+                    evt.Cancel($"The {itemToWield.Name} is still wielded!");
                 }
             }
         }

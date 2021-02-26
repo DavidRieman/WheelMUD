@@ -35,7 +35,7 @@ namespace WheelMUD.Data.Repositories
         public static ICollection<MobRecord> GetMobsForRoom(this RelationalRepository<MobRecord> repository, long roomId)
         {
             using IDbCommand session = Helpers.OpenRelationalSession();
-            return session.Connection.Select<MobRecord>(string.Format("CurrentRoomID = {0}", roomId));
+            return session.Connection.Select<MobRecord>($"CurrentRoomID = {roomId}");
         }
     }
 }

@@ -58,7 +58,7 @@ namespace WheelMUD.ConnectionStates
                         }
                         else
                         {
-                            Session.Write("This character player state is broken. You may need to contact an admin for a possible recovery attempt.");
+                            Session.Write("This character player state is broken. You may need to contact an admin for a possible recovery attempt.<%nl%>");
                             Session.InformSubscribedSystem(Session.ID + " failed to load due to missing player behavior.");
                             Session.State = new ConnectedState(Session);
                             Session.WritePrompt();
@@ -67,7 +67,7 @@ namespace WheelMUD.ConnectionStates
                 }
                 else
                 {
-                    Session.Write("Incorrect user name or password.\r\n\r\n", false);
+                    Session.Write("Incorrect user name or password.<%nl%>", false);
                     Session.InformSubscribedSystem(Session.ID + " failed to log in");
                     Session.State = new ConnectedState(Session);
                     Session.WritePrompt();
@@ -77,7 +77,7 @@ namespace WheelMUD.ConnectionStates
 
         public override string BuildPrompt()
         {
-            return string.Format("Please enter your password:{0}> ", Environment.NewLine);
+            return "Please enter your password:<%nl%>";
         }
 
         /// <summary>Authenticate the user name and password supplied.</summary>

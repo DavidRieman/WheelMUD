@@ -19,7 +19,7 @@ namespace WheelMUD.Ftp.FtpCommands
         {
             string dir = ConnectionObject.CurrentDirectory;
             dir = dir.Replace('\\', '/');
-            return GetMessage(257, string.Format("\"{0}\" PWD Successful.", dir));
+            return GetMessage(257, $"\"{dir}\" PWD Successful.");
         }
     }
 }

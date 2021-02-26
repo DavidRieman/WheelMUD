@@ -50,7 +50,7 @@ namespace WheelMUD.Ftp.FtpCommands
             file.Close();
             socketReply.Close();
 
-            return GetMessage(226, string.Format("Appended file successfully. ({0})", filePath));
+            return GetMessage(226, $"Appended file successfully. ({filePath})");
         }
     }
 }

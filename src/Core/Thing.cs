@@ -287,7 +287,7 @@ namespace WheelMUD.Core
         /// <returns>A string representation of this Thing instance.</returns>
         public override string ToString()
         {
-            return string.Format("{0} (ID: {1})", FullName, Id);
+            return $"{FullName} (ID: {Id})";
         }
 
         /// <summary>Performs tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>

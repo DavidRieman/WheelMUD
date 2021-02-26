@@ -7,7 +7,6 @@
 
 namespace WheelMUD.Actions
 {
-    using System;
     using System.Collections.Generic;
     using System.Text;
     using WheelMUD.Core;
@@ -39,14 +38,14 @@ namespace WheelMUD.Actions
             {
                 sb.Append(kvp.Value.Name.PadRight(20));
                 sb.Append(kvp.Value.Value);
-                sb.Append(Environment.NewLine);
+                sb.AppendAnsiLine();
             }
 
             foreach (KeyValuePair<string, GameAttribute> kvp in sender.Thing.Attributes)
             {
                 sb.Append(kvp.Value.Name.PadRight(20));
                 sb.Append(kvp.Value.Value);
-                sb.Append(Environment.NewLine);
+                sb.AppendAnsiLine();
             }
 
             sender.Write(sb.ToString().Trim());
@@ -58,12 +57,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return commonFailure;
         }
     }
 }

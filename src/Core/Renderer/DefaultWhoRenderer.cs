@@ -36,27 +36,26 @@ namespace WheelMUD.Core
 
             // TODO: A game-system specific renderer could be used to includ race/class info and so on, if desired.
             // TODO: Dividing lines could be influenced by activePlayer connection Terminal.Width.
-            string div = "<%b%><%green%>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<%n%>";
             mudNameLine += mudName;
-            sb.AppendLine();
-            sb.AppendLine(div);
-            sb.AppendLine(mudNameLine);
-            sb.AppendLine(div);
-            sb.AppendLine();
-            sb.AppendLine("The following player" + plural + " " + plural1 + " currently online:");
+            sb.AppendAnsiLine();
+            sb.AppendAnsiSeparator(color: "green", design: "~");
+            sb.AppendAnsiLine(mudNameLine);
+            sb.AppendAnsiSeparator(color: "green", design: "~");
+            sb.AppendAnsiLine();
+            sb.AppendAnsiLine($"The following player {plural} {plural1} currently online:");
             foreach (PlayerBehavior player in PlayerManager.Instance.Players)
             {
                 // TODO: "tell {0}" is not a good menu command; possibly friend add/remove, invite to group, hailing, and so on.
                 var playerName = player.Parent.Name;
                 var playerState = GetPlayerState(player);
-                sb.AppendLine($"<%mxpsecureline%><send \"finger {playerName}|tell {playerName}\" \"|finger|tell\">{playerName}</send> - {player.Parent.FullName} {playerState}");
+                sb.AppendAnsiLine($"<%mxpsecureline%><send \"finger {playerName}|tell {playerName}\" \"|finger|tell\">{playerName}</send> - {player.Parent.FullName} {playerState}");
             }
 
-            sb.AppendLine();
-            sb.AppendLine(div);
-            sb.AppendFormat("Counted {0} player{1} online.", PlayerManager.Instance.Players.Count, plural);
-            sb.AppendLine();
-            sb.AppendLine(div);
+            sb.AppendAnsiLine();
+            sb.AppendAnsiSeparator(color: "green", design: "~");
+            sb.AppendAnsiLine($"Counted {PlayerManager.Instance.Players.Count} player{plural} online.");
+            sb.AppendAnsiLine();
+            sb.AppendAnsiSeparator(color: "green", design: "~");
             return sb.ToString();
         }
 

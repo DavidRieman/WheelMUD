@@ -43,7 +43,7 @@ namespace WheelMUD.Actions
                 thing = parent.FindChild(t => t.Id == itemID);
                 if (thing == null)
                 {
-                    sender.Write(string.Format("Cannot find {0}.", itemID));
+                    sender.Write($"Cannot find {itemID}.<%nl%>");
                     return;
                 }
             }
@@ -51,7 +51,7 @@ namespace WheelMUD.Actions
             Thing clonedThing = thing.Clone();
             parent.Add(clonedThing);
             var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
-            userControlledBehavior.Controller.Write("You clone " + thing.Id + ". New item is " + clonedThing.Id + ".");
+            userControlledBehavior.Controller.Write($"You clone {thing.Id}. New item is {clonedThing.Id}.<%nl%>");
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -60,12 +60,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return commonFailure;
         }
     }
 }

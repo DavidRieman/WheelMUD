@@ -42,7 +42,7 @@ namespace WheelMUD.Actions
             {
                 if (playerBehavior.IsAFK)
                 {
-                    sender.Write("Your are no longer AFK.");
+                    sender.Write("Your are no longer AFK.<%nl%>");
 
                     playerBehavior.IsAFK = false;
                     playerBehavior.WhenWentAFK = null;
@@ -54,11 +54,11 @@ namespace WheelMUD.Actions
 
                     if (!string.IsNullOrEmpty(afkReason))
                     {
-                        sender.Write(string.Format("You have set your status to AFK: {0}.", afkReason));
+                        sender.Write($"You have set your status to AFK: {afkReason}.<%nl%>");
                     }
                     else
                     {
-                        sender.Write("You have set your status to AFK.");
+                        sender.Write("You have set your status to AFK.<%nl%>");
                     }
 
                     playerBehavior.IsAFK = true;
@@ -83,7 +83,7 @@ namespace WheelMUD.Actions
 
             if (actionInput.Tail.Length > MAXREASONLENGTH)
             {
-                return $"That's too wordy.  Let's keep it to {MAXREASONLENGTH} characters.";
+                return $"That's too wordy. Let's keep it to {MAXREASONLENGTH} characters.<%nl%>";
             }
 
             return null;

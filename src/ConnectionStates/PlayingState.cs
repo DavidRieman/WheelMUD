@@ -27,9 +27,8 @@ namespace WheelMUD.ConnectionStates
                 var behavior = session.Thing.Behaviors.FindFirst<PlayerBehavior>();
                 playerBehavior = new SimpleWeakReference<PlayerBehavior>(behavior);
             }
-
-            string nl = Environment.NewLine;
-            session.Write(string.Format("{0}Welcome, {1}.{0}{0}", nl, Session.Thing.FullName), false);
+            
+            session.Write($"Welcome, {Session.Thing.FullName}.<%nl%>", false);
         }
 
         /// <summary>Process the specified input.</summary>
@@ -54,12 +53,7 @@ namespace WheelMUD.ConnectionStates
             try
             {
                 PlayerBehavior playerBehavior = this.playerBehavior.Target;
-                if (playerBehavior != null)
-                {
-                    return playerBehavior.BuildPrompt();
-                }
-
-                return "> ";
+                return playerBehavior != null ? playerBehavior.BuildPrompt() : "> ";
             }
             catch (Exception)
             {

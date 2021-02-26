@@ -31,7 +31,7 @@ namespace WheelMUD.Actions
         {
             IController sender = actionInput.Controller;
             Die die = DiceService.Instance.GetDie(6);
-            sender.Write(string.Format("You roll a {0}.", die.Roll()));
+            sender.Write($"You roll a {die.Roll()}.<%nl%>");
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -40,12 +40,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return commonFailure;
         }
     }
 }

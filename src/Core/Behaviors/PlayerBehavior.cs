@@ -52,8 +52,8 @@ namespace WheelMUD.Core
         [JsonIgnore]
         public string Name
         {
-            get { return PlayerData.DisplayName; }
-            set { PlayerData.DisplayName = value; }
+            get => PlayerData.DisplayName;
+            set => PlayerData.DisplayName = value;
         }
 
         /// <summary>Gets or sets the current room id.</summary>
@@ -95,10 +95,7 @@ namespace WheelMUD.Core
 
         /// <summary>Gets the friends of this player.</summary>
         [JsonIgnore]
-        public ReadOnlyCollection<string> Friends
-        {
-            get { return friends.AsReadOnly(); }
-        }
+        public ReadOnlyCollection<string> Friends => friends.AsReadOnly();
 
         /// <summary>Gets or sets the player's race.</summary>
         public GameRace Race { get; set; }
@@ -184,7 +181,7 @@ namespace WheelMUD.Core
             // Prepare a login request and event.
             var csb = new ContextualStringBuilder(player, targetPlayerStartingPosition);
             csb.Append($"{session.Thing.Name} enters the world.", ContextualStringUsage.WhenNotBeingPassedToOriginator);
-            csb.Append($"You enter the world.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
+            csb.Append("You enter the world.", ContextualStringUsage.OnlyWhenBeingPassedToOriginator);
             var message = new SensoryMessage(SensoryType.Sight, 100, csb);
             var e = new PlayerLogInEvent(player, message);
 
@@ -302,7 +299,7 @@ namespace WheelMUD.Core
             if (IsFriend(e.ActiveThing.Name) && e is PlayerLogInEvent)
             {
                 var userControlledBehavior = Parent.Behaviors.FindFirst<UserControlledBehavior>();
-                string message = string.Format("Your friend {0} has logged in.", e.ActiveThing.Name);
+                string message = $"Your friend {e.ActiveThing.Name} has logged in.";
                 userControlledBehavior.Controller.Write(message);
             }
         }
@@ -313,7 +310,7 @@ namespace WheelMUD.Core
             if (IsFriend(e.ActiveThing.Name) && e is PlayerLogOutEvent)
             {
                 var userControlledBehavior = Parent.Behaviors.FindFirst<UserControlledBehavior>();
-                string message = string.Format("Your friend {0} has logged out.", e.ActiveThing.Name);
+                string message = $"Your friend {e.ActiveThing.Name} has logged out.";
                 userControlledBehavior.Controller.Write(message);
             }
         }
