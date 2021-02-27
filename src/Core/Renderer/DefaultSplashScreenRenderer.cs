@@ -26,9 +26,7 @@ namespace WheelMUD.Core
         /// <summary>Load the splash screens.</summary>
         private static void LoadSplashScreens()
         {
-            string dir = Path.GetDirectoryName(GameConfiguration.DataStoragePath);
-            string path = Path.Combine(dir, "Files", "SplashScreens");
-
+            string path = Path.Combine(GameConfiguration.DataStoragePath, "SplashScreens");
             var dirInfo = new DirectoryInfo(path);
             var files = new List<FileInfo>(dirInfo.GetFiles());
 
@@ -54,7 +52,7 @@ namespace WheelMUD.Core
         {
             if (!splashScreens.Any())
             {
-                return $"Welcome to {GameConfiguration.Name}.<%nl%>";
+                return $"Welcome to {GameConfiguration.Name}.{AnsiSequences.NewLine}";
             }
 
             var random = new Random();
