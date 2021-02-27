@@ -87,21 +87,22 @@ namespace WheelMUD.Main
 
             string appDir = appFile.Directory.FullName;
 
+            // If there is no data directory yet, seed it with the source code's starting set of (source-controlled) initial data. After this,
+            // the copied set of data (living in the Data Storage area) will be living "game data" that evolve with the game instance.
             if (!Directory.Exists(GameConfiguration.DataStoragePath))
             {
-                // If the database file doesn't exist, try to copy the original source.
-                string sourcePath = null;
+                string sourcePath;
                 int i = appDir.IndexOf(Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar, StringComparison.Ordinal);
                 if (i > 0)
                 {
-                    sourcePath = appDir.Substring(0, i) + Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar + "Files" + Path.DirectorySeparatorChar;
+                    sourcePath = Path.Combine(appDir.Substring(0, i), "systemdata", "Files");
                 }
                 else
                 {
                     // The binDebug folder now houses a sub-folder like "netcoreapp3.1" so we need to go up
-                    // two levels to search for the starting system data.
-                    sourcePath = Path.GetDirectoryName(Path.GetDirectoryName(appDir));
-                    sourcePath = Path.Combine(sourcePath + Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar + "Files" + Path.DirectorySeparatorChar);
+                    // two levels to search for the starting base system data.
+                    string baseSourcePath = Path.GetDirectoryName(Path.GetDirectoryName(appDir));
+                    sourcePath = Path.Combine(baseSourcePath, "systemdata", "Files");
                 }
 
                 DirectoryCopy(sourcePath, GameConfiguration.DataStoragePath, true);
