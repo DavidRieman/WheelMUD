@@ -19,6 +19,7 @@
 * Duane King (honestduane / Feverdream)
 * Jeremy Holland
 * Rebekka Williamsdóttir (octave-syndicate)
+* Daniel (Ith'drak)
 
 ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ; We sincerely give our thanks to all members of the WheelMUD Development Team
