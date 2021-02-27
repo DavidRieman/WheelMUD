@@ -49,8 +49,7 @@ namespace WheelMUD.Utilities
             string root = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string rootPath = Path.Combine(root, "WheelMUD");
             string gamePath = Path.Combine(rootPath, GameConfiguration.Name);
-            string fullPath = Path.Combine(gamePath, "Files");
-            DataStoragePath = fullPath;
+            DataStoragePath = gamePath;
         }
 
         /// <summary>Gets or sets the copyright for this MUD.</summary>
