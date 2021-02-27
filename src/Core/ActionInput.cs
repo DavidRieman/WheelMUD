@@ -5,11 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+
 namespace WheelMUD.Core
 {
     using System;
     using System.Linq;
-    using WheelMUD.Interfaces;
 
     /// <summary>A base action command. This is created whenever input is detected on the sockets.</summary>
     /// <remarks>The text is parsed so that it can be presented to the command system easily.</remarks>

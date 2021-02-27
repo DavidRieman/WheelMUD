@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Universe
-{
-    using System.Collections.Generic;
-    using WheelMUD.Core;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
+namespace WheelMUD.Universe.Behaviors
+{
     /// <summary>FlammableBehavior adds the ability to an object to burn.</summary>
     public class FlammableBehavior : Behavior
     {

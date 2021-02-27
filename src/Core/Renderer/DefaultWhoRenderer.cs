@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core
-{
-    using System.Text;
-    using WheelMUD.Utilities;
+using System.Text;
+using WheelMUD.Utilities;
 
+namespace WheelMUD.Core.Renderer
+{
     /// <summary>The default "who" command output renderer.</summary>
     /// <remarks>
     /// The default "who" renderer may simply show all online players. One might wish to build a "who" renderer

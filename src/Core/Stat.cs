@@ -5,11 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Core
 {
     using Newtonsoft.Json;
     using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
 
     /// <summary>A base class used to help define various elements of game attributes/stats/skills/etc.</summary>
     public abstract class BaseStat
@@ -159,7 +161,7 @@ namespace WheelMUD.Core
                     if (hostThing != null)
                     {
                         var e = new StatChangeEvent(
-                            hostThing,
+                            (Thing)hostThing,
                             new SensoryMessage(SensoryType.Sight, 100, message),
                             this,
                             value - oldValue,

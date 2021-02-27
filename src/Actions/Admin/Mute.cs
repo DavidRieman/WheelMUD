@@ -5,6 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Actions
 {
     using System;
@@ -12,7 +15,6 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Effects;
-    using WheelMUD.Interfaces;
 
     /// <summary>An administrative action to block a player from communicating verbally.</summary>
     /// <remarks>

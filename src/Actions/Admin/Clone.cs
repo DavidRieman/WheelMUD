@@ -5,12 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
 
     /// <summary>A command that allows an admin to clone an item.</summary>
     [ExportGameAction(0)]

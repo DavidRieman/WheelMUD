@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core
-{
-    using System.Collections.Generic;
-    using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Server;
 
+namespace WheelMUD.Core.Renderer
+{
     /// <summary>
     /// Provides definitions for the set of easily-overridden view renderers.
     /// There will be a default renderer for each of these housed here in WheelMUD.Core.
@@ -19,27 +19,27 @@ namespace WheelMUD.Core
     {
         public abstract class CommandsCategories
         {
-            public abstract string Render(ITerminal terminal, IEnumerable<Command> commands);
+            public abstract string Render(TerminalOptions terminalOptions, IEnumerable<Command> commands);
         }
 
         public abstract class CommandsList
         {
-            public abstract string Render(ITerminal terminal, IEnumerable<Command> commands, string categoryName);
+            public abstract string Render(TerminalOptions terminalOptions, IEnumerable<Command> commands, string categoryName);
         }
 
         public abstract class HelpCommand
         {
-            public abstract string Render(ITerminal terminal, Command command);
+            public abstract string Render(TerminalOptions terminalOptions, Command command);
         }
 
         public abstract class HelpTopic
         {
-            public abstract string Render(ITerminal terminal, Core.HelpTopic helpTopic);
+            public abstract string Render(TerminalOptions terminalOptions, Core.HelpTopic helpTopic);
         }
 
         public abstract class HelpTopics
         {
-            public abstract string Render(ITerminal terminal);
+            public abstract string Render(TerminalOptions terminalOptions);
         }
 
         public abstract class Inventory

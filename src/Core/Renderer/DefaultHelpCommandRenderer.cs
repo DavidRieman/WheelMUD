@@ -5,15 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core
-{
-    using System.Text;
-    using WheelMUD.Interfaces;
+using System.Text;
+using WheelMUD.Server;
 
+namespace WheelMUD.Core.Renderer
+{
     [RendererExports.HelpCommand(0)]
     public class DefaultHelpCommandRenderer : RendererDefinitions.HelpCommand
     {
-        public override string Render(ITerminal terminal, Command command)
+        public override string Render(TerminalOptions terminalOptions, Command command)
         {
             var sb = new StringBuilder();
             sb.AppendLine($"<%yellow%>{command.Name.ToUpper()}<%n%>:");

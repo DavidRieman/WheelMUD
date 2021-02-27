@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core
-{
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using WheelMUD.Utilities;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using WheelMUD.Utilities;
 
+namespace WheelMUD.Core.Renderer
+{
     [RendererExports.SplashScreen(0)]
     public class DefaultSplashScreenRenderer : RendererDefinitions.SplashScreen
     {

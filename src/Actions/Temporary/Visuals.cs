@@ -5,6 +5,9 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Actions.Temporary
 {
     using System.Collections.Generic;
@@ -12,7 +15,6 @@ namespace WheelMUD.Actions.Temporary
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
 
     /// <summary>
     /// Command to add, remove, or display the "visuals" associated with a 

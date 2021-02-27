@@ -5,21 +5,22 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core
-{
-    using System;
-    using System.Linq;
-    using System.Text;
-    using WheelMUD.Interfaces;
+using System;
+using System.Linq;
+using System.Text;
+using WheelMUD.Server;
+using WheelMUD.Utilities;
 
+namespace WheelMUD.Core.Renderer
+{
     [RendererExports.HelpTopic(0)]
     public class DefaultHelpTopicRenderer : RendererDefinitions.HelpTopic
     {
         private const string HeaderLine = "<%b%><%yellow%>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<%n%>" + AnsiSequences.NewLine;
 
-        public override string Render(ITerminal terminal, HelpTopic helpTopic)
+        public override string Render(TerminalOptions terminalOptions, HelpTopic helpTopic)
         {
-            if (terminal.UseMXP)
+            if (terminalOptions.UseMXP)
             {
                 // TODO: What was this !element doing? Does it still work? Test with zMUD or something and re-read MXP specs?
                 var sb = new StringBuilder("<%mxpsecureline%><!element see '<send href=\"help &cref;\">' att='cref' open>");

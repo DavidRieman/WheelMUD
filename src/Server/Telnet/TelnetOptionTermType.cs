@@ -28,7 +28,7 @@ namespace WheelMUD.Server.Telnet
             // The RFC (1091) says that we can loop through the different terminal types
             // that the terminal supports and the last one we receive is the one the terminal
             // sets itself to. We only get the first one which is normally the primary terminal emulation.
-            Connection.Terminal.TerminalType = Encoding.ASCII.GetString(data).TrimStart(new char[] { '\0' }).ToLower();
+            Connection.TerminalOptions.TerminalType = Encoding.ASCII.GetString(data).TrimStart(new char[] { '\0' }).ToLower();
         }
 
         /// <summary>Post-processing as called after negotiation.</summary>

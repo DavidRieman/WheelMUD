@@ -8,7 +8,8 @@
 using System.Collections.Generic;
 using WheelMUD.Core;
 using WheelMUD.Core.Attributes;
-using WheelMUD.Interfaces;
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {

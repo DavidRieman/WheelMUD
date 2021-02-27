@@ -5,12 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
 
     /// <summary>An action to disconnect a player from the game.</summary>
     [ExportGameAction(0)]

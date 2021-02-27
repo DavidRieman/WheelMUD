@@ -5,15 +5,16 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core
-{
-    using System.Text;
-    using WheelMUD.Interfaces;
+using System.Text;
+using WheelMUD.Server;
+using WheelMUD.Utilities;
 
+namespace WheelMUD.Core.Renderer
+{
     [RendererExports.HelpTopics(0)]
     public class DefaultHelpTopicsRenderer : RendererDefinitions.HelpTopics
     {
-        public override string Render(ITerminal terminal)
+        public override string Render(TerminalOptions terminalOptions)
         {
             var sb = new StringBuilder();
             sb.AppendAnsiLine("TODO: LIST OUT ALL HELP TOPICS FOUND VIA HelpManager.");

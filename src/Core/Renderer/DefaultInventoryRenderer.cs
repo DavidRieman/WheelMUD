@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core
-{
-    using System.Text;
+using System.Text;
 
+namespace WheelMUD.Core.Renderer
+{
     [RendererExports.Inventory(0)]
     public class DefaultInventoryRenderer : RendererDefinitions.Inventory
     {

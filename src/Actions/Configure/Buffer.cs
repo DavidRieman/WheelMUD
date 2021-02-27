@@ -5,12 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
 
     /// <summary>An action to get or set your command prompt display.</summary>
     [ExportGameAction(0)]
@@ -63,7 +64,7 @@ namespace WheelMUD.Actions
             // Set the value for the current session
             if (session.Connection != null)
             {
-                session.Connection.PagingRowLimit = (parsedBufferLength == -1) ? session.Terminal.Height : parsedBufferLength;
+                session.Connection.PagingRowLimit = (parsedBufferLength == -1) ? session.TerminalOptions.Height : parsedBufferLength;
             }
 
             userControlledBehavior.PagingRowLimit = parsedBufferLength;
@@ -155,7 +156,7 @@ namespace WheelMUD.Actions
         {
             if (userControlledBehavior.PagingRowLimit == -1)
             {
-                sender.Write($"Your screen buffer size is 'auto' (currently {session.Terminal.Height} lines).");
+                sender.Write($"Your screen buffer size is 'auto' (currently {session.TerminalOptions.Height} lines).");
             }
             else
             {

@@ -10,9 +10,10 @@ using System.ComponentModel.Composition;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using WheelMUD.Core.Interfaces;
 using WheelMUD.Ftp.FileSystem;
 using WheelMUD.Ftp.General;
-using WheelMUD.Interfaces;
+using WheelMUD.Server.Interfaces;
 using WheelMUD.Utilities;
 
 namespace WheelMUD.Ftp

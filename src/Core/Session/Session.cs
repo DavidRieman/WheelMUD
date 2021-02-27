@@ -7,8 +7,11 @@
 
 using System;
 using WheelMUD.Core.Events;
+using WheelMUD.Core.Interfaces;
 using WheelMUD.Data;
-using WheelMUD.Interfaces;
+using WheelMUD.Server;
+using WheelMUD.Server.Interfaces;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Core
 {
@@ -52,19 +55,13 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets the terminal this session is using.</summary>
-        public ITerminal Terminal
-        {
-            get { return Connection.Terminal; }
-        }
+        public TerminalOptions TerminalOptions => Connection.TerminalOptions;
 
         /// <summary>Gets or sets the player Thing attached to this session.</summary>
         public Thing Thing { get; set; }
 
         /// <summary>Gets the living behavior of the player attached to this session.</summary>
-        public LivingBehavior LivingBehavior
-        {
-            get { return Thing != null ? Thing.Behaviors.FindFirst<LivingBehavior>() : null; }
-        }
+        public LivingBehavior LivingBehavior => Thing != null ? Thing.Behaviors.FindFirst<LivingBehavior>() : null;
 
         /// <summary>Gets the connection for this session.</summary>
         public IConnection Connection { get; private set; }

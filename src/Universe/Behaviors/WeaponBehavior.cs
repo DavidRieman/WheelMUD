@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Universe
-{
-    using System.Collections.Generic;
-    using WheelMUD.Core;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
+namespace WheelMUD.Universe.Behaviors
+{
     /// <summary>A weapon behavior adds the ability to wield and attack with the host Thing.</summary>
     /// <remarks>
     /// TODO: Add an interface for all behaviors which make statistical adjustments, to assist with recalculations?

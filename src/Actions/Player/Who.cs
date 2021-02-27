@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Renderer;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;

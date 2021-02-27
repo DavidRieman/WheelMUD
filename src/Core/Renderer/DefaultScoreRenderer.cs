@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core
-{
-    using System.Text;
+using System.Text;
 
+namespace WheelMUD.Core.Renderer
+{
     /// <summary>The default Score renderer.</summary>
     /// <remarks>
     /// The default score renderer is pretty basic. Game systems will generally be expected to replace this

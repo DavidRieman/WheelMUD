@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server.Interfaces;
+
 namespace WheelMUD.Server.Telnet
 {
-    using WheelMUD.Interfaces;
-
     /// <summary>TODO: What is this?</summary>
     internal class ConnectionTelnetStateOptionCode : ConnectionTelnetState
     {

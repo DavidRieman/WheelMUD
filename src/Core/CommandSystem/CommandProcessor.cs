@@ -5,6 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Server.Interfaces;
+using WheelMUD.Utilities.Exceptions;
+
 namespace WheelMUD.Core
 {
     using System;
@@ -12,7 +16,6 @@ namespace WheelMUD.Core
     using System.Reflection;
     using System.Threading;
     using WheelMUD.CommandSystem;
-    using WheelMUD.Interfaces;
 
     /// <summary>A command processor, which houses a thread to process commands.</summary>
     public class CommandProcessor : ISubSystem

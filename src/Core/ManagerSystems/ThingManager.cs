@@ -5,6 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Server.Interfaces;
+
 namespace WheelMUD.Core
 {
     using System;
@@ -12,7 +15,6 @@ namespace WheelMUD.Core
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using WheelMUD.Interfaces;
 
     /// <summary>High level manager that provides tracking and global collection of all Thing instances.</summary>
     /// <remarks>

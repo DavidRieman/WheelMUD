@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System;
@@ -12,7 +14,6 @@ namespace WheelMUD.Actions
     using System.Linq;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
 
     /// <summary>A command that allows a player to enter a Thing.</summary>
     /// <remarks>

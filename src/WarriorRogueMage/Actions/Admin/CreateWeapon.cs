@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using WarriorRogueMage.Behaviors;
 using WheelMUD.Core;
 using WheelMUD.Core.Attributes;
-using WheelMUD.Interfaces;
+using WheelMUD.Core.Interfaces;
 
 namespace WheelMUD.Actions.Temporary
 {

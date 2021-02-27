@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using WheelMUD.Interfaces;
-    using WheelMUD.Utilities;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using WheelMUD.Utilities;
+using WheelMUD.Utilities.Interfaces;
 
+namespace WheelMUD.Core.Renderer
+{
     public static class RendererExports
     {
         public class BaseExportAttribute : ExportAttribute, IExportWithPriority

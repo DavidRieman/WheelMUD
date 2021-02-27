@@ -5,12 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Core.Renderer;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
 
     /// <summary>A command to list the items in a player's inventory.</summary>
     [ExportGameAction(0)]

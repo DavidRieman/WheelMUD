@@ -5,10 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server.Interfaces;
+
 namespace WheelMUD.Server.Telnet
 {
     using System.Collections.Generic;
-    using WheelMUD.Interfaces;
 
     /// <summary>The possible response codes.</summary>
     internal enum TelnetResponseCode

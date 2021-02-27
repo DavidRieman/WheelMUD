@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core
+namespace WheelMUD.Core.Renderer
 {
     [RendererExports.PerceivedThing(0)]
     public class DefaultPerceivedThingRenderer : RendererDefinitions.PerceivedThing

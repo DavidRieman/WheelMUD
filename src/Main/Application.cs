@@ -9,14 +9,17 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using WheelMUD.Core;
+using WheelMUD.Core.Interfaces;
 using WheelMUD.Data;
-using WheelMUD.Interfaces;
+using WheelMUD.Server.Interfaces;
 using WheelMUD.Utilities;
+using WheelMUD.Utilities.Exceptions;
 
 namespace WheelMUD.Main
 {
@@ -95,14 +98,14 @@ namespace WheelMUD.Main
                 int i = appDir.IndexOf(Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar, StringComparison.Ordinal);
                 if (i > 0)
                 {
-                    sourcePath = Path.Combine(appDir.Substring(0, i), "systemdata", "Files");
+                    sourcePath = Path.Combine(appDir.Substring(0, i), "systemdata");
                 }
                 else
                 {
                     // The binDebug folder now houses a sub-folder like "netcoreapp3.1" so we need to go up
                     // two levels to search for the starting base system data.
                     string baseSourcePath = Path.GetDirectoryName(Path.GetDirectoryName(appDir));
-                    sourcePath = Path.Combine(baseSourcePath, "systemdata", "Files");
+                    sourcePath = Path.Combine(baseSourcePath, "systemdata");
                 }
 
                 DirectoryCopy(sourcePath, GameConfiguration.DataStoragePath, true);
@@ -325,7 +328,7 @@ namespace WheelMUD.Main
         private string DisplayStartup()
         {
             var sb = new StringBuilder();
-            sb.AppendLine("Starting up... " + DateTime.Now.ToString());
+            sb.AppendLine("Starting up... " + DateTime.Now.ToString(CultureInfo.InvariantCulture));
             sb.AppendLine(BasicAdministrativeGameInfo);
             return sb.ToString();
         }

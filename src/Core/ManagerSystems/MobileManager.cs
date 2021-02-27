@@ -5,11 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Server.Interfaces;
+
 namespace WheelMUD.Core
 {
     using System;
     using System.Collections.Generic;
-    using WheelMUD.Interfaces;
 
     /// <summary>The mobiles manager class.</summary>
     /// <remarks>

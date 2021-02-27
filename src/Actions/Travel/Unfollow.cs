@@ -4,6 +4,9 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
@@ -11,7 +14,6 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Behaviors;
     using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
 
     /// <summary>An action to stop following another player or mobile around.</summary>
     [ExportGameAction(0)]

@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using WheelMUD.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using WheelMUD.Server;
 
+namespace WheelMUD.Core.Renderer
+{
     public class Renderer
     {
         /// <summary>The singleton instance of the Renderer class.</summary>
@@ -100,29 +100,29 @@ namespace WheelMUD.Core
         [ImportMany]
         public Lazy<RendererDefinitions.Who, RendererExports.Who>[] WhoRenderers { get; private set; }
 
-        public string RenderCommandsCategories(ITerminal terminal, IEnumerable<Command> commands)
+        public string RenderCommandsCategories(TerminalOptions terminalOptions, IEnumerable<Command> commands)
         {
-            return currentCommandsCategoriesRenderer.Render(terminal, commands);
+            return currentCommandsCategoriesRenderer.Render(terminalOptions, commands);
         }
 
-        public string RenderCommandsList(ITerminal terminal, IEnumerable<Command> commands, string categoryName)
+        public string RenderCommandsList(TerminalOptions terminalOptions, IEnumerable<Command> commands, string categoryName)
         {
-            return currentCommandsListRenderer.Render(terminal, commands, categoryName);
+            return currentCommandsListRenderer.Render(terminalOptions, commands, categoryName);
         }
 
-        public string RenderHelpCommand(ITerminal terminal, Command command)
+        public string RenderHelpCommand(TerminalOptions terminalOptions, Command command)
         {
-            return currentHelpCommandRenderer.Render(terminal, command);
+            return currentHelpCommandRenderer.Render(terminalOptions, command);
         }
 
-        public string RenderHelpTopic(ITerminal terminal, HelpTopic helpTopic)
+        public string RenderHelpTopic(TerminalOptions terminalOptions, HelpTopic helpTopic)
         {
-            return currentHelpTopicRenderer.Render(terminal, helpTopic);
+            return currentHelpTopicRenderer.Render(terminalOptions, helpTopic);
         }
 
-        public string RenderHelpTopics(ITerminal terminal)
+        public string RenderHelpTopics(TerminalOptions terminalOptions)
         {
-            return currentHelpTopicsRenderer.Render(terminal);
+            return currentHelpTopicsRenderer.Render(terminalOptions);
         }
 
         public string RenderInventory(Thing player)

@@ -10,7 +10,8 @@ using WheelMUD.Actions;
 using WheelMUD.Core;
 using WheelMUD.Core.Attributes;
 using WheelMUD.Core.Events;
-using WheelMUD.Interfaces;
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Utilities;
 
 namespace WarriorRogueMage.Actions
 {

@@ -5,6 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Actions
 {
     using System;
@@ -13,7 +16,6 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Effects;
-    using WheelMUD.Interfaces;
 
     /// <summary>Allows changing the current value of an attribute, but not min, max, etc.</summary>
     [ExportGameAction(0)]

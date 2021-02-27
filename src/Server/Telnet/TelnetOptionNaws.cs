@@ -39,16 +39,16 @@ namespace WheelMUD.Server.Telnet
             {
                 int height = 256 * data[2] + data[3];
                 int width = 256 * data[0] + data[1];
-                Connection.Terminal.Height = height <= 0 ? DefaultTerminalHeight : height;
-                Connection.Terminal.Width = width <= 0 ? DefaultTerminalWidth : width;
+                Connection.TerminalOptions.Height = height <= 0 ? DefaultTerminalHeight : height;
+                Connection.TerminalOptions.Width = width <= 0 ? DefaultTerminalWidth : width;
             }
-            if (Connection.Terminal.Width < MinimumHonoredTerminalWidth)
+            if (Connection.TerminalOptions.Width < MinimumHonoredTerminalWidth)
             {
-                Connection.Terminal.Width = MinimumHonoredTerminalWidth;
+                Connection.TerminalOptions.Width = MinimumHonoredTerminalWidth;
             }
-            if (Connection.Terminal.Height < MinimumHonoredTerminalHeight)
+            if (Connection.TerminalOptions.Height < MinimumHonoredTerminalHeight)
             {
-                Connection.Terminal.Height = MinimumHonoredTerminalHeight;
+                Connection.TerminalOptions.Height = MinimumHonoredTerminalHeight;
             }
         }
     }

@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Renderer;
+
 namespace WheelMUD.Core
 {
     using System.Linq;

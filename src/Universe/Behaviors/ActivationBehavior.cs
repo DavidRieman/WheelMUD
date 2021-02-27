@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Universe
-{
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
+namespace WheelMUD.Universe.Behaviors
+{
     /// <summary>An activation item behavior adds the ability to trigger effects upon item activation.</summary>
     public class ActivationBehavior : Behavior
     {

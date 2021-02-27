@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Universe
-{
-    using System.Collections.Generic;
-    using WheelMUD.Core;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
+namespace WheelMUD.Universe.Behaviors
+{
     /// <summary>FlammableBehavior adds the ability to an object to be treated as furniture.</summary>
     /// <remarks>
     /// TODO: Revisit this behavior... perhaps "furniture" is not a great scope for behavior here; perhaps we could have

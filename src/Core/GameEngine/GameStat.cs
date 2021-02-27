@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+
 namespace WheelMUD.Core
 {
-    using WheelMUD.Interfaces;
-
     /// <summary>Represents a game-wide stat.</summary>
     /// <remarks>This is used as a template to let the system know what are the stats for the MUD.</remarks>
     public class GameStat : BaseStat, IPersistsWithPlayer

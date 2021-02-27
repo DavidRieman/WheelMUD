@@ -9,7 +9,7 @@ using System;
 using System.ComponentModel.Composition;
 using System.Reflection;
 using WheelMUD.Core;
-using WheelMUD.Interfaces;
+using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.ConnectionStates
 {

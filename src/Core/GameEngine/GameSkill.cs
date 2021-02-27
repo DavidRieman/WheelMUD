@@ -5,10 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Utilities.Interfaces;
+
 namespace WheelMUD.Core
 {
     using Newtonsoft.Json;
-    using WheelMUD.Interfaces;
 
     /// <summary>Holds data for an individual rule-set skill.</summary>
     public class GameSkill : IPersistsWithPlayer, INamed

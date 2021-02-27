@@ -5,10 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core
-{
-    using System.Text;
+using System.Text;
+using WheelMUD.Utilities;
 
+namespace WheelMUD.Core.Renderer
+{
     [RendererExports.PerceivedRoom(0)]
     public class DefaultPerceivedRoomRenderer : RendererDefinitions.PerceivedRoom
     {

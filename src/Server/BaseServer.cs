@@ -10,8 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using WheelMUD.Core;
-using WheelMUD.Interfaces;
+using WheelMUD.Server.Interfaces;
 
 namespace WheelMUD.Server
 {

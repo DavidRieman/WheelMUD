@@ -5,13 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Server.Interfaces;
+
 namespace WheelMUD.Core
 {
     using System;
     using System.Collections.Generic;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
 
     /// <summary>High level manager that provides tracking and global collection of online (and linkdead but still-loaded) players.</summary>
     public class PlayerManager : ManagerSystem

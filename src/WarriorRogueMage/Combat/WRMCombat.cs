@@ -9,7 +9,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Interfaces;
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Server.Interfaces;
 
 namespace WarriorRogueMage
 {

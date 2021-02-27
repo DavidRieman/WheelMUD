@@ -5,13 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities.Interfaces;
+
 namespace WheelMUD.Core
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using WheelMUD.Actions;
-    using WheelMUD.Interfaces;
     using WheelMUD.Utilities;
 
     /// <summary>An attribute to export GameActions with.</summary>

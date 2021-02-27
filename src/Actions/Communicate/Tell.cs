@@ -5,13 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
 
     /// <summary>A command to send a message directly to one entity.</summary>
     [ExportGameAction(0)]

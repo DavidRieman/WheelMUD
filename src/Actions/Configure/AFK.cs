@@ -5,13 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System;
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
 
     /// <summary>Sets your status as AFK to other players.  Optional reason can be specified (eg. AFK Back in 5).</summary>
     /// <remarks>Added a length limiter on the AFK reason to ensure it doesn't gum out anything displaying the message.</remarks>

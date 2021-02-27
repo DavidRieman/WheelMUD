@@ -10,7 +10,7 @@ using System.IO;
 using System.Text;
 using WheelMUD.Core;
 using WheelMUD.Core.Attributes;
-using WheelMUD.Interfaces;
+using WheelMUD.Core.Interfaces;
 using WheelMUD.Utilities;
 
 namespace WheelMUD.Actions

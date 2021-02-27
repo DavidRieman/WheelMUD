@@ -5,12 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Universe.Behaviors;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
     using WheelMUD.Universe;
 
     /// <summary>Action to pick something up from the room, or move something from an inventory container to their inventory.</summary>

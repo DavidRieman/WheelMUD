@@ -5,6 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Actions
 {
     using System;
@@ -13,7 +16,6 @@ namespace WheelMUD.Actions
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Events;
     using WheelMUD.Effects;
-    using WheelMUD.Interfaces;
 
     /// <summary>Test command to deafen a target.</summary>
     [ExportGameAction(0)]

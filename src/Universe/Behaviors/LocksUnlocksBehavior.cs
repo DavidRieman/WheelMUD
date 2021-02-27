@@ -5,16 +5,17 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Universe
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using WheelMUD.Actions;
-    using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using WheelMUD.Actions;
+using WheelMUD.Core;
+using WheelMUD.Core.Attributes;
+using WheelMUD.Core.Events;
+using WheelMUD.Utilities;
 
+namespace WheelMUD.Universe.Behaviors
+{
     /// <summary>LocksUnlocksBehavior provides the ability to lock and unlock a Thing.</summary>
     public class LocksUnlocksBehavior : Behavior
     {

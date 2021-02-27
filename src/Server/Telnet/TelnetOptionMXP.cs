@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Core;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Server.Telnet
 {
@@ -67,7 +67,7 @@ namespace WheelMUD.Server.Telnet
             // If we got a successful turn on.
             if (UsState == TelnetOptionState.YES)
             {
-                Connection.Terminal.UseMXP = true;
+                Connection.TerminalOptions.UseMXP = true;
 
                 // Request a version tag from the client.
                 Connection.Send(AnsiHandler.Parse("<%mxpsecureline%><VERSION>"), true);

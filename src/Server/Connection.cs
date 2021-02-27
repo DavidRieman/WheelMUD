@@ -11,9 +11,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using WheelMUD.Core;
-using WheelMUD.Interfaces;
+using WheelMUD.Server.Interfaces;
+using WheelMUD.Server.Output;
 using WheelMUD.Server.Telnet;
+using WheelMUD.Utilities.Exceptions;
 
 namespace WheelMUD.Server
 {
@@ -45,7 +46,7 @@ namespace WheelMUD.Server
             Buffer = new StringBuilder();
             OutputBuffer = new OutputBuffer();
             Data = new byte[1];
-            Terminal = new Terminal();
+            TerminalOptions = new TerminalOptions();
             this.socket = socket;
             var remoteEndPoint = (IPEndPoint)this.socket.RemoteEndPoint;
             CurrentIPAddress = remoteEndPoint.Address;
@@ -68,7 +69,7 @@ namespace WheelMUD.Server
         public event EventHandler<ConnectionArgs> DataSent;
 
         /// <summary>Gets the Terminal Options of this connection.</summary>
-        public ITerminal Terminal { get; private set; }
+        public TerminalOptions TerminalOptions { get; private set; }
 
         /// <summary>Gets the ID of this connection.</summary>
         public string ID { get; private set; }
@@ -162,7 +163,7 @@ namespace WheelMUD.Server
             byte[] bytes;
 
             // Check for MCCP (its not worth using for short strings as the overhead is quite high).
-            if (Terminal.UseMCCP && data.Length > MCCPThreshold)
+            if (TerminalOptions.UseMCCP && data.Length > MCCPThreshold)
             {
                 // Compress the data
                 bytes = MCCPHandler.Compress(data);

@@ -5,11 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Interfaces;
 
     /// <summary>A base class that represents an instance of an Action.</summary>
     public abstract class GameAction

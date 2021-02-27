@@ -5,10 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Server.Interfaces;
+
 namespace ServerHarness
 {
     using System.Collections.Generic;
-    using WheelMUD.Interfaces;
 
     /// <summary>Logs notifications to a multiple notifications updaters.</summary>
     public class MultiUpdater : ISuperSystemSubscriber

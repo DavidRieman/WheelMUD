@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Universe
+namespace WheelMUD.Universe.Behaviors
 {
     /// <summary>A request to use a shield.</summary>
     public class UseShieldRequest

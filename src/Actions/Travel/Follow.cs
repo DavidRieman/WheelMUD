@@ -4,6 +4,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
@@ -11,7 +13,6 @@ namespace WheelMUD.Actions
     using WheelMUD.Core;
     using WheelMUD.Core.Attributes;
     using WheelMUD.Core.Behaviors;
-    using WheelMUD.Interfaces;
 
     /// <summary>An action to start following another player or mobile around.</summary>
     [ExportGameAction(0)]

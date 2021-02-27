@@ -5,11 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Server.Interfaces;
+
 namespace WheelMUD.Core
 {
     using System;
     using System.Collections.Generic;
-    using WheelMUD.Interfaces;
 
     /// <summary>High level manager that provides tracking and global collection of all connected sessions.</summary>
     public class SessionManager : ManagerSystem
@@ -112,7 +114,7 @@ namespace WheelMUD.Core
             connection.TelnetCodeHandler.BeginNegotiation();
 
             // Load our splash screen.
-            connection.Send(Renderer.Instance.RenderSplashScreen(), false, true);
+            connection.Send(Renderer.Renderer.Instance.RenderSplashScreen(), false, true);
 
             // Create a new session for this connection.
             var session = new Session(connection);

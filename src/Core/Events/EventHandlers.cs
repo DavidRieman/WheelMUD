@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core.Interfaces;
+
 namespace WheelMUD.Core.Events
 {
-    using WheelMUD.Interfaces;
-
     /// <summary>A handler for GameEvents.</summary>
     /// <param name="root">The root Thing where this event broadcast started.</param>
     /// <param name="e">The event arguments.</param>

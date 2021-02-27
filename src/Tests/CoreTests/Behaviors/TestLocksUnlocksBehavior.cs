@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Universe.Behaviors;
+
 namespace WheelMUD.Tests.Behaviors
 {
     using NUnit.Framework;

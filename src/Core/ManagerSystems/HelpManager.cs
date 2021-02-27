@@ -9,7 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using WheelMUD.Interfaces;
+using WheelMUD.Core.Interfaces;
+using WheelMUD.Server.Interfaces;
 using WheelMUD.Utilities;
 
 namespace WheelMUD.Core
