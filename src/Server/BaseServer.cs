@@ -72,12 +72,10 @@ namespace WheelMUD.Server
                 // Convert port-in-use into a more useful/distinct exception.
                 if (se.ErrorCode == 10048)
                 {
-                    string format = "Error number {0}: {1}. Port number {2} is already in use.";
-                    string message = string.Format(format, se.ErrorCode, se.Message, Port);
-                    throw new PortInUseException(message);
+                    throw new PortInUseException($"Port number {Port} is already in use. (Error {se.ErrorCode}: {se.Message}.)");
                 }
 
-                // Any other unrecognized exception at startup should just be rethrown for debugging.
+                // Any other unrecognized exception at startup should just be rethrown as-is for debugging.
                 throw;
             }
         }

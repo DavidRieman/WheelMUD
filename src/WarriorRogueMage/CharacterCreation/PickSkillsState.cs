@@ -27,10 +27,14 @@ namespace WarriorRogueMage.CharacterCreation
         public PickSkillsState(Session session)
             : base(session)
         {
-            Session.Write($"You will now pick your character's starting skills.{AnsiSequences.NewLine}");
             gameSkills = GameSystemController.Instance.GameSkills;
             formattedSkills = FormatSkillText();
-            RefreshScreen(false);
+        }
+
+        public override void Begin()
+        {
+            Session.Write($"You will now pick your character's starting skills.{AnsiSequences.NewLine}", false);
+            RefreshScreen();
         }
 
         /// <summary>Processes the text that the player sends while in this state.</summary>
@@ -73,7 +77,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override string BuildPrompt()
         {
-            return $"Select the character's skills{AnsiSequences.NewLine}";
+            return "Select the character's skills: > ";
         }
 
         private bool SetSkill(string skillName)
@@ -99,7 +103,6 @@ namespace WarriorRogueMage.CharacterCreation
 
             selectedSkills.Add(selectedSkill);
             RefreshScreen();
-            Session.WritePrompt();
             return true;
         }
 
@@ -107,7 +110,6 @@ namespace WarriorRogueMage.CharacterCreation
         {
             selectedSkills.Clear();
             RefreshScreen();
-            Session.WritePrompt();
         }
 
         private void ViewSkillDescription(string skillName)
@@ -125,7 +127,6 @@ namespace WarriorRogueMage.CharacterCreation
             sb.AppendAnsiLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
             sb.AppendAnsiLine($"<%b%><%white%>{foundSkill.Description}");
             sb.AppendAnsiLine("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
-
             Session.Write(sb.ToString());
         }
 
@@ -199,21 +200,18 @@ namespace WarriorRogueMage.CharacterCreation
                 }
             }
 
-            text.AppendAnsiLine();
             return text.ToString();
         }
 
         private void RefreshScreen(bool sendPrompt = true)
         {
-            var nl = Environment.NewLine;
             var sb = new StringBuilder();
-            sb.AppendAnsiLine();
             sb.AppendAnsiLine();
             sb.AppendAnsiLine("You may pick three starting skills for your character.");
             int n = 1;
             foreach (var skill in selectedSkills)
             {
-                sb.AppendAnsiLine($"Skill #{n} : {skill.Name}{nl}");
+                sb.AppendAnsiLine($"Skill #{n} : {skill.Name}");
                 n++;
             }
             sb.AppendAnsiLine();
@@ -226,7 +224,6 @@ namespace WarriorRogueMage.CharacterCreation
             sb.AppendAnsiLine("To see this screen again type list.");
             sb.AppendAnsiLine("When you are done picking your three skills, type done.");
             sb.AppendAnsiLine("=========================================================================<%n%>");
-
             Session.Write(sb.ToString(), sendPrompt);
         }
     }

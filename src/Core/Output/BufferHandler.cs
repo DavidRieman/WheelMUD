@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 
 using System;
+using System.Diagnostics;
 using System.Text;
 
 namespace WheelMUD.Core
@@ -15,21 +16,13 @@ namespace WheelMUD.Core
     public class BufferHandler
     {
         /// <summary>The single-page overflow indication.</summary>
-        /// <remarks>TODO: Why is this mxpsecureline? Can that turn these options into clickable links?</remarks>
-        private const string OverflowIndicator = @"<%mxpsecureline%>Paging {0}%: [M]ore, [P]revious, [R]epeat, [A]ll, Enter to quit.";
+        /// <remarks>TODO: Add OverflowPromptFormatMXP, with clickable links.</remarks>
+        private const string OverflowPromptFormat = @"Paging {0}%: [M]ore, [P]revious, [R]epeat, [A]ll, Enter to quit. > ";
 
-        /// <summary>
-        /// Parses the text and checks to see if the number of lines is over the threshold
-        /// if it is then it splits the text and returns the first portion. The rest of the
-        /// text is passed back to the calling code in the out parameter BufferedText
-        /// </summary>
-        /// <param name="originalText">The text to parse.</param>
-        /// <returns>Text that conforms to the buffer specified.</returns>
-        public static string[] Parse(string originalText)
+        public static string FormatOverflowPrompt(int currentPosition, int totalRows)
         {
-            string[] lines = originalText.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-
-            return lines;
+            int percent = currentPosition * 100 / totalRows;
+            return string.Format(OverflowPromptFormat, percent);
         }
 
         /// <summary>
@@ -45,46 +38,30 @@ namespace WheelMUD.Core
         /// <returns>Returns the text to return to the user.</returns>
         public static string Format(
             string[] bufferLines,
-            bool appendLastLineFeed,
             bool appendOverflowIndicator,
             int currentPosition,
             int totalRows)
         {
-            if (bufferLines.Length > 0)
+            Debug.Assert(totalRows > 0);
+            Debug.Assert(currentPosition >= 0);
+            Debug.Assert(bufferLines.Length > 0);
+
+            StringBuilder output = new StringBuilder();
+            for (int i = 0; i < bufferLines.Length - 1; i++)
             {
-                StringBuilder output = new StringBuilder();
+                output.AppendAnsiLine(bufferLines[i]);
+            }
+            // Last line without NewLine; should always be a prompt (for output modes that would support this style of buffering)
+            // and the prompt can have the cursor beside it like most regular, user-comfortable shell-like experiences.
+            output.Append(bufferLines[bufferLines.Length - 1]);
 
-                for (int i = 0; i < bufferLines.Length - 1; i++)
-                {
-                    output.AppendLine(bufferLines[i]);
-                }
-
-                if (appendLastLineFeed || appendOverflowIndicator)
-                {
-                    output.AppendLine(bufferLines[bufferLines.Length - 1]);
-                }
-                else
-                {
-                    output.Append(bufferLines[bufferLines.Length - 1]);
-                }
-
-                if (appendOverflowIndicator)
-                {
-                    if (totalRows != 0)
-                    {
-                        int percent = Convert.ToInt32(currentPosition * 100 / totalRows);
-                        output.AppendLine(string.Format(OverflowIndicator, percent));
-                    }
-                    else
-                    {
-                        output.AppendLine(string.Format(OverflowIndicator, string.Empty));
-                    }
-                }
-
-                return output.ToString();
+            if (appendOverflowIndicator)
+            {
+                output.AppendAnsiLine();
+                output.AppendAnsiLine(FormatOverflowPrompt(currentPosition, totalRows));
             }
 
-            return null;
+            return output.ToString();
         }
     }
 }

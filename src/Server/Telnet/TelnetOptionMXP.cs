@@ -70,7 +70,7 @@ namespace WheelMUD.Server.Telnet
                 Connection.Terminal.UseMXP = true;
 
                 // Request a version tag from the client.
-                Connection.Send(AnsiHandler.Parse("<%mxpsecureline%><VERSION>"), true);
+                Connection.Send(AnsiHandler.ConvertCode("mxpsecureline") + "<VERSION>", true);
                 AwaitingVersionResponse = true;
 
                 // TODO: Send our mxp headers.

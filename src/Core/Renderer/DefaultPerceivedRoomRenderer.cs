@@ -5,10 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Linq;
+using System.Text;
+
 namespace WheelMUD.Core
 {
-    using System.Text;
-
     [RendererExports.PerceivedRoom(0)]
     public class DefaultPerceivedRoomRenderer : RendererDefinitions.PerceivedRoom
     {
@@ -18,15 +19,13 @@ namespace WheelMUD.Core
             var sb = new StringBuilder();
             if (senses.CanPerceiveThing(room))
             {
-                sb.AppendAnsiLine($"<%red%><%b%>{room.Name}<%n%><%nl%>");
-                sb.AppendAnsiLine($"{room.Description}<%nl%>");
+                sb.AppendAnsiLine($"<%red%><%b%>{room.Name}<%n%>");
+                sb.AppendAnsiLine(room.Description);
             }
             else
             {
                 sb.AppendAnsiLine($"You cannot perceive much of note about the room.");
             }
-
-            int insertAt = sb.Length;
 
             // TODO: Perhaps group things in the room by things you can pick up, things that are alive, etc?
             //   var senses = viewer.Behaviors.FindFirst<SensesBehavior>();
@@ -34,41 +33,32 @@ namespace WheelMUD.Core
             //   var entities = senses.PerceiveEntities();  and also render players nicely; "(AFK)" etc?
             //   var items = senses.PerceiveItems();        and also track tick or build sense-specific strings (like hearing only while blind...)
 
-            bool hasNoticedSomething = false;
-
             // Handle exits differently from other Thing types
-            var exits = senses.PerceiveExits();        // TODO: Aso render closable exits like doors nicely; "(closed)"?
-            if (exits.Count > 0)
-            {
-                sb.Append($"  routes: ");
-                foreach (var exit in exits)
-                {
-                    sb.Append($"<%magenta%>{exit}<%n%>, ");
-                    hasNoticedSomething = true;
-                }
-                sb.Length--;
-                sb.Length--;
-                sb.AppendAnsiLine("");
-            }
+            // TODO: Also render closable exits like doors nicely; "(closed)"?
+            // TODO: For viewer that is PlayerBehavior with negotiated MXP connection, render with embedded command links for click-to-execute support?
+            var coloredExits = from exit in senses.PerceiveExits() select $"<%magenta%>{exit}<%n%>";
 
-            foreach (var presentThing in room.Children)
-            {
-                if (senses.CanPerceiveThing(presentThing) &&
-                    presentThing != viewer &&
-                    !presentThing.HasBehavior<ExitBehavior>())
-                {
-                    sb.AppendAnsiLine($"  <%magenta%>{presentThing.FullName}<%n%>");
-                    hasNoticedSomething = true;
-                }
-            }
+            // TODO: Color the parts of the thing names which are also legit keywords for the thing...
+            // TODO: For viewer that is PlayerBehavior with negotiated MXP connection, render with embedded command links for click-to-execute support?
+            var coloredThings = from thing in room.Children
+                                where senses.CanPerceiveThing(thing) && thing != viewer && !thing.HasBehavior<ExitBehavior>()
+                                select $"  {thing.FullName}<%n%>";
 
-            if (hasNoticedSomething)
+            if (coloredExits.Any() || coloredThings.Any())
             {
-                sb.Insert(insertAt, $"<%yellow%>Here you notice:<%n%>" + AnsiSequences.NewLine);
+                sb.AppendAnsiLine($"<%yellow%>Here you notice:<%n%>");
+                if (coloredExits.Any())
+                {
+                    sb.AppendAnsiLine($"  Routes: {string.Join(", ", coloredExits)}");
+                }
+                foreach (var coloredThing in coloredThings)
+                {
+                    sb.AppendAnsiLine(coloredThing);
+                }
             }
             else
             {
-                sb.Insert(insertAt, $"<%yellow%>You notice nothing else inside the room.<%n%>");
+                sb.AppendAnsiLine($"<%yellow%>You notice nothing else inside the room.<%n%>");
             }
 
             return sb.ToString();

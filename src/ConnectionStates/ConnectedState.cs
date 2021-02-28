@@ -5,16 +5,20 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+using WheelMUD.Data;
+
 namespace WheelMUD.ConnectionStates
 {
-    using System;
-    using WheelMUD.Core;
-    using WheelMUD.Data;
-
     /// <summary>The 'connected' session state.</summary>
     [ExportSessionState(0)]
     public class ConnectedState : SessionState
     {
+        // TODO: Adjust message selection when guest characters / guest accounts are an available App.config option.
+        private static readonly string ConnectedPrompt = AppConfigInfo.Instance.UserAccountIsPlayerCharacter ? 
+            "Enter your character name or type NEW to create a new one: > " :
+            "Enter your account name or type NEW to create a new account: > ";
+
         /// <summary>Initializes a new instance of the <see cref="ConnectedState"/> class.</summary>
         /// <param name="session">The session entering this state.</param>
         public ConnectedState(Session session)
@@ -33,14 +37,12 @@ namespace WheelMUD.ConnectionStates
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {
-            Session.AtPrompt = false;
             switch (command.ToLower())
             {
                 case "":
                     break;
                 case "new":
-                    Session.State = new CreationState(Session);
-                    Session.WritePrompt();
+                    Session.SetState(new CreationState(Session));
                     break;
                 case "quit":
                 case "close":
@@ -48,8 +50,7 @@ namespace WheelMUD.ConnectionStates
                     Session.Connection.Disconnect();
                     break;
                 default:
-                    Session.State = new LoginState(Session, command);
-                    Session.WritePrompt();
+                    Session.SetState(new LoginState(Session, command));
                     break;
             }
         }
@@ -58,8 +59,7 @@ namespace WheelMUD.ConnectionStates
         /// <returns>The current prompt.</returns>
         public override string BuildPrompt()
         {
-            var creationType = AppConfigInfo.Instance.UserAccountIsPlayerCharacter ? "character name" : "user name";
-            return string.Format("Enter your {0} or type NEW to create a new one.{1}> ", creationType, Environment.NewLine);
+            return ConnectedPrompt;
         }
     }
 }

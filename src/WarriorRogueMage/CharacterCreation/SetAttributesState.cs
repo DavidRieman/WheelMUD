@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Text;
+using System.Text.RegularExpressions;
+using WheelMUD.ConnectionStates;
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.CharacterCreation
 {
-    using System;
-    using System.Text;
-    using System.Text.RegularExpressions;
-    using WheelMUD.ConnectionStates;
-    using WheelMUD.Core;
-
     /// <summary>Commands recognized by the Set Attributes character creation state.</summary>
     public enum SetAttributeCommand
     {
@@ -35,7 +34,6 @@ namespace WarriorRogueMage.CharacterCreation
     /// <summary>The character creation step where the player will set their stats.</summary>
     public class SetAttributesState : CharacterCreationSubState
     {
-        private static readonly string Prompt = string.Format("Select the character's starting attributes.{0}> ", Environment.NewLine);
         private static readonly int MaxPoints = 10;
         private int warriorPoints;
         private int roguePoints;
@@ -46,8 +44,12 @@ namespace WarriorRogueMage.CharacterCreation
         public SetAttributesState(Session session)
             : base(session)
         {
-            Session.Write("You will now set your basic attributes.\n\n", false);
-            RefreshScreen(false);
+        }
+
+        public override void Begin()
+        {
+            Session.Write("You will now set your basic attributes." + AnsiSequences.NewLine, false);
+            RefreshScreen();
         }
 
         /// <summary>Gets the total points spent so far by the character.</summary>
@@ -98,7 +100,7 @@ namespace WarriorRogueMage.CharacterCreation
         /// <returns>A prompt indicating how the player should proceed.</returns>
         public override string BuildPrompt()
         {
-            return Prompt;
+            return "Select the character's starting attributes: > ";
         }
 
         private void ProcessAttributeCommand(SetAttributeCommand command, string s, ref int targetPoints)
@@ -154,17 +156,16 @@ namespace WarriorRogueMage.CharacterCreation
             }
         }
 
-        private void RefreshScreen(bool sendPrompt = true)
+        private void RefreshScreen()
         {
             var sb = new StringBuilder();
-            sb.AppendAnsiLine();
             sb.AppendAnsiLine();
             sb.AppendAnsiLine("You have 10 character points to be divided between 3 attributes.");
             sb.AppendAnsiLine("No attribute can have more than 6 points. Attributes can be zero.");
             sb.AppendAnsiLine();
-            sb.AppendAnsiLine($"Warrior : {warriorPoints}" + AnsiSequences.NewLine);
-            sb.AppendAnsiLine($"Rogue   : {roguePoints}" + AnsiSequences.NewLine);
-            sb.AppendAnsiLine($"Mage    : {magePoints}" + AnsiSequences.NewLine);
+            sb.AppendAnsiLine($"Warrior : {warriorPoints}");
+            sb.AppendAnsiLine($"Rogue   : {roguePoints}");
+            sb.AppendAnsiLine($"Mage    : {magePoints}");
             sb.AppendAnsiLine();
             sb.AppendAnsiLine($"You have {MaxPoints - SpentPoints} character points left.");
             sb.AppendAnsiLine();
@@ -173,8 +174,7 @@ namespace WarriorRogueMage.CharacterCreation
             sb.AppendAnsiLine("To subtract points from an attribute, use the - operator. Example: warrior -6");
             sb.AppendAnsiLine("When you are done distributing the character points, type done.");
             sb.AppendAnsiLine("====================================================================<%n%>");
-
-            Session.Write(sb.ToString(), sendPrompt);
+            Session.Write(sb.ToString());
         }
 
         private SetAttributeCommand FindTargetCommand(string s)

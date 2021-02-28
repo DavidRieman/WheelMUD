@@ -22,7 +22,6 @@ namespace WheelMUD.ConnectionStates
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {
-            Session.AtPrompt = false;
             if (command != string.Empty)
             {
                 var actionInput = new ActionInput(command, Session);
@@ -30,7 +29,7 @@ namespace WheelMUD.ConnectionStates
             }
             else
             {
-                Session.SendPrompt();
+                Session.WritePrompt();
             }
         }
 

@@ -38,47 +38,17 @@ namespace WheelMUD.Core
             {
                 lock (lockObject)
                 {
-                    int length = outputBuffer.Count;
-
-                    if (length > 0 && CurrentLocation < length)
-                    {
-                        return true;
-                    }
-
-                    return false;
+                    return CurrentLocation < outputBuffer.Count;
                 }
             }
         }
 
-        /// <summary>Add a row to the buffer.</summary>
-        /// <param name="outputRow">Single row to add to the buffer.</param>
-        public void Append(string outputRow)
-        {
-            lock (lockObject)
-            {
-                outputBuffer.Add(outputRow);
-            }
-        }
-
-        /// <summary>Add an array of rows to the buffer.</summary>
-        /// <param name="outputRows">Rows to add to the buffer.</param>
-        public void Append(string[] outputRows)
-        {
-            lock (lockObject)
-            {
-                foreach (string outputRow in outputRows)
-                {
-                    outputBuffer.Add(outputRow);
-                }
-            }
-        }
-
-        /// <summary>Clears out the output buffer.</summary>
-        public void Clear()
+        public void Set(IEnumerable<string> newOutputRows)
         {
             lock (lockObject)
             {
                 outputBuffer.Clear();
+                outputBuffer.AddRange(newOutputRows);
                 CurrentLocation = 0;
             }
         }

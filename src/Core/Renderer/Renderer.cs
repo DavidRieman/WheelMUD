@@ -47,6 +47,9 @@ namespace WheelMUD.Core
         /// <summary>The current PerceivedThing renderer.</summary>
         private RendererDefinitions.PerceivedThing currentPerceivedThingRenderer;
 
+        /// <summary>The current Prompt renderer.</summary>
+        private RendererDefinitions.Prompt currentPromptRenderer;
+
         /// <summary>The current Score renderer.</summary>
         private RendererDefinitions.Score currentScoreRenderer;
 
@@ -87,6 +90,10 @@ namespace WheelMUD.Core
         /// <summary>Gets, via MEF composition, an enumerable collection of available PerceivedThing renderers.</summary>
         [ImportMany]
         public Lazy<RendererDefinitions.PerceivedThing, RendererExports.PerceivedThing>[] PerceivedThingRenderers { get; private set; }
+
+        /// <summary>Gets, via MEF composition, an enumerable collection of available PerceivedThing renderers.</summary>
+        [ImportMany]
+        public Lazy<RendererDefinitions.Prompt, RendererExports.Prompt>[] PromptRenderers { get; private set; }
 
         /// <summary>Gets, via MEF composition, an enumerable collection of available Score renderers.</summary>
         [ImportMany]
@@ -140,6 +147,11 @@ namespace WheelMUD.Core
             return currentPerceivedThingRenderer.Render(viewer, viewedThing);
         }
 
+        public string RenderPrompt(Thing player)
+        {
+            return currentPromptRenderer.Render(player);
+        }
+
         public string RenderScore(Thing player)
         {
             return currentScoreRenderer.Render(player);
@@ -169,6 +181,7 @@ namespace WheelMUD.Core
             currentInventoryRenderer = DefaultComposer.GetInstance(InventoryRenderers);
             currentPerceivedRoomRenderer = DefaultComposer.GetInstance(PerceivedRoomRenderers);
             currentPerceivedThingRenderer = DefaultComposer.GetInstance(PerceivedThingRenderers);
+            currentPromptRenderer = DefaultComposer.GetInstance(PromptRenderers);
             currentScoreRenderer = DefaultComposer.GetInstance(ScoreRenderers);
             currentSplashScreenRenderer = DefaultComposer.GetInstance(SplashScreenRenderers);
             currentWhoRenderer = DefaultComposer.GetInstance(WhoRenderers);

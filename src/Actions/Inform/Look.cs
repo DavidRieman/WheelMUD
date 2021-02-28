@@ -52,7 +52,7 @@ namespace WheelMUD.Actions
                 }
             }
 
-            sender.Write(output + AnsiSequences.NewLine);
+            sender.Write(output);
         }
 
         /// <summary>Checks against the guards for the command.</summary>

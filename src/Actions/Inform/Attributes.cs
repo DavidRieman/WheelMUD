@@ -39,14 +39,14 @@ namespace WheelMUD.Actions
             {
                 sb.Append(kvp.Value.Name.PadRight(20));
                 sb.Append(kvp.Value.Value);
-                sb.Append(Environment.NewLine);
+                sb.Append(AnsiSequences.NewLine);
             }
 
             foreach (KeyValuePair<string, GameAttribute> kvp in sender.Thing.Attributes)
             {
                 sb.Append(kvp.Value.Name.PadRight(20));
                 sb.Append(kvp.Value.Value);
-                sb.Append(Environment.NewLine);
+                sb.Append(AnsiSequences.NewLine);
             }
 
             sender.Write(sb.ToString().Trim());

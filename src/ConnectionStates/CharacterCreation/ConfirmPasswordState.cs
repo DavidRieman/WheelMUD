@@ -40,7 +40,7 @@ namespace WheelMUD.ConnectionStates
         {
             // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
             // is repeating received keystrokes back to their output.
-            return $"Please retype your password.{AnsiSequences.NewLine}> <%hidden%>";
+            return "Please retype your password: > <%hidden%>";
         }
     }
 }

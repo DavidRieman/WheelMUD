@@ -25,10 +25,14 @@ namespace WarriorRogueMage.CharacterCreation
         public PickTalentsState(Session session)
             : base(session)
         {
-            Session.Write("You will now pick your character's starting talent.");
             talents = TalentFinder.Instance.NormalTalents;
             formattedTalents = FormatTalentText();
-            RefreshScreen(false);
+        }
+
+        public override void Begin()
+        {
+            Session.Write("You will now pick your character's starting talent." + AnsiSequences.NewLine, false);
+            RefreshScreen();
         }
 
         /// <summary>ProcessInput is used to receive the user input during this state.</summary>
@@ -70,7 +74,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override string BuildPrompt()
         {
-            return "Select the character's starting talent.\n> ";
+            return "Select the character's starting talent: > ";
         }
 
         private Talent GetTalent(string talentName)
@@ -155,23 +159,21 @@ namespace WarriorRogueMage.CharacterCreation
             {
             }
 
-            text.Append(Environment.NewLine);
             return text.ToString();
         }
 
         private void RefreshScreen(bool sendPrompt = true)
         {
             var sb = new StringBuilder();
-            sb.AppendLine();
-            sb.AppendLine();
-            sb.AppendLine("You may pick one starting talent for your character.");
-            sb.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
-            sb.AppendLine(formattedTalents);
-            sb.AppendLine("<%yellow%>==========================================================================");
-            sb.AppendLine("To pick a talent, type the talent's name. Example: sailor");
-            sb.AppendLine("To view a talent's description use the view command. Example: view sailor");
-            sb.AppendLine("To see this screen again type list.");
-            sb.AppendLine("==========================================================================<%n%>");
+            sb.AppendAnsiLine();
+            sb.AppendAnsiLine("You may pick one starting talent for your character.");
+            sb.AppendAnsiLine("<%green%>Please select 1 from the list below:<%n%>");
+            sb.AppendAnsiLine(formattedTalents);
+            sb.AppendAnsiLine("<%yellow%>==========================================================================");
+            sb.AppendAnsiLine("To pick a talent, type the talent's name. Example: sailor");
+            sb.AppendAnsiLine("To view a talent's description use the view command. Example: view sailor");
+            sb.AppendAnsiLine("To see this screen again type list.");
+            sb.AppendAnsiLine("==========================================================================<%n%>");
             Session.Write(sb.ToString(), sendPrompt);
         }
     }

@@ -29,10 +29,14 @@ namespace WarriorRogueMage.CharacterCreation
         public PickRaceState(Session session)
             : base(session)
         {
-            Session.Write("You will now pick your character's race.");
             gameRaces = GameSystemController.Instance.GameRaces;
             FormatRaceText();
-            RefreshScreen(false);
+        }
+
+        public override void Begin()
+        {
+            Session.Write("You will now pick your character's race." + AnsiSequences.NewLine, false);
+            RefreshScreen();
         }
 
         /// <summary>ProcessInput is used to receive the user input during this state.</summary>
@@ -67,7 +71,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override string BuildPrompt()
         {
-            return "Select your character's race.\n> ";
+            return "Select your character's race: > ";
         }
 
         private GameRace GetRace(string raceName)
@@ -96,7 +100,6 @@ namespace WarriorRogueMage.CharacterCreation
                 sb.Append("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>" + Environment.NewLine);
                 sb.Append("<%b%><%white%>" + foundRace.Description + Environment.NewLine);
                 sb.Append("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
-
                 Session.Write(sb.ToString());
             }
             else
@@ -161,8 +164,6 @@ namespace WarriorRogueMage.CharacterCreation
             {
             }
 
-            text.Append(Environment.NewLine);
-
             formattedRaces = text.ToString();
         }
 
@@ -182,20 +183,18 @@ namespace WarriorRogueMage.CharacterCreation
             return retval;
         }
 
-        private void RefreshScreen(bool sendPrompt = true)
+        private void RefreshScreen()
         {
             var sb = new StringBuilder();
-            sb.AppendLine();
-            sb.AppendLine();
-            sb.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
-            sb.AppendLine(formattedRaces);
-            sb.AppendLine("<%yellow%>=========================================================================");
-            sb.AppendLine("To pick a race, just type the race's name. Example: human");
-            sb.AppendLine("To view a races's description use the view command. Example: view orc");
-            sb.AppendLine("To see this screen again type 'list'.");
-            sb.AppendLine("=========================================================================<%n%>");
-
-            Session.Write(sb.ToString(), sendPrompt);
+            sb.AppendAnsiLine();
+            sb.AppendAnsiLine("<%green%>Please select 1 from the list below:<%n%>");
+            sb.AppendAnsiLine(formattedRaces);
+            sb.AppendAnsiLine("<%yellow%>=========================================================================");
+            sb.AppendAnsiLine("To pick a race, just type the race's name. Example: human");
+            sb.AppendAnsiLine("To view a races's description use the view command. Example: view orc");
+            sb.AppendAnsiLine("To see this screen again type 'list'.");
+            sb.AppendAnsiLine("=========================================================================<%n%>");
+            Session.Write(sb.ToString());
         }
     }
 }

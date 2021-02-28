@@ -41,34 +41,33 @@ namespace WheelMUD.Tests
         [Test]
         public void TestInitialConnectionPromptsAfterEachWrite()
         {
-            string endl = Environment.NewLine;
-            var connection = new FakeConnection();
+            var connection = new FakeConnection() { AtNewLine = true };
             var session = new Session(connection);
 
-            // Send a prompt through the connection. (This should be asking which character to login, or to create a new one.)
-            var prompt = session.State.BuildPrompt();
-            Assert.IsTrue(prompt.Length > 0);
-            Assert.AreEqual(1, connection.FakeMessagesSent.Count);
+            // Ensure we Begin the session state with some introductory output, followed by the registered prompt.
+            Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
+            Assert.AreEqual(connection.FakeMessagesSent[0], $"Begin FakeSessionState!{AnsiSequences.NewLine}FakePrompt > ");
 
-            connection.Reset();
-
+            // Ensure writing another string from the prompt cursor position, writes the new text to a new line and can add in the prompt too.
+            connection.ResetMessages();
+            connection.AtNewLine = false;
             session.Write("test 1", true);
-            Assert.AreEqual(1, connection.FakeMessagesSent.Count);
-            Assert.AreEqual("test 1" + endl + prompt, connection.FakeMessagesSent[0]);
+            Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
+            Assert.AreEqual(connection.FakeMessagesSent[0], $"{AnsiSequences.NewLine}test 1{AnsiSequences.NewLine}FakePrompt > ");
 
-            connection.Reset();
-
+            // Ensure writing another string from the prompt cursor position, writes the new text to a new line and can omit adding the prompt too.
+            connection.ResetMessages();
+            connection.AtNewLine = false;
             session.Write("test 2", false);
-            Assert.AreEqual(1, connection.FakeMessagesSent.Count);
-            Assert.AreEqual(endl + "test 2", connection.FakeMessagesSent[0]);
+            Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
+            Assert.AreEqual(connection.FakeMessagesSent[0], $"{AnsiSequences.NewLine}test 2");
 
-            connection.Reset();
-
-            session.Write("test 3a");
-            session.Write("test 3b");
-            Assert.AreEqual(2, connection.FakeMessagesSent.Count);
-            Assert.AreEqual("test 3a" + endl + prompt, connection.FakeMessagesSent[0]);
-            Assert.AreEqual(endl + "test 3b" + endl + prompt, connection.FakeMessagesSent[1]);
+            // Ensure writing a string from a new line position already, does not append an extra opening line.
+            connection.ResetMessages();
+            connection.AtNewLine = true;
+            session.Write("test 3", false);
+            Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
+            Assert.AreEqual(connection.FakeMessagesSent[0], $"test 3");
         }
 
         /// <summary>A fake ConnectionState for testing purposes.</summary>
@@ -87,11 +86,16 @@ namespace WheelMUD.Tests
             {
             }
 
+            public override void Begin()
+            {
+                Session.Write("Begin FakeSessionState!");
+            }
+
             public static string LastProcessedInput { get; private set; }
 
             public override string BuildPrompt()
             {
-                return "FakePrompt>";
+                return "FakePrompt > ";
             }
 
             public override void ProcessInput(string command)
@@ -104,17 +108,16 @@ namespace WheelMUD.Tests
         /// <remarks>TODO: Consider which mocking framework we should use to create such things in a better way.</remarks>
         public class FakeConnection : IConnection
         {
-            public FakeConnection()
-            {
-                Reset();
-            }
+            public FakeConnection() { }
 
-            public List<string> FakeMessagesSent { get; set; }
+            public List<string> FakeMessagesSent { get; set; } = new List<string>();
 
             public string ID
             {
                 get { throw new NotImplementedException(); }
             }
+
+            public bool AtNewLine { get; set; }
 
             public string LastRawInput
             {
@@ -165,9 +168,9 @@ namespace WheelMUD.Tests
                 set { throw new NotImplementedException(); }
             }
 
-            public void Reset()
+            public void ResetMessages()
             {
-                FakeMessagesSent = new List<string>();
+                FakeMessagesSent.Clear();
             }
 
             public void Disconnect()
@@ -177,22 +180,12 @@ namespace WheelMUD.Tests
 
             public void Send(byte[] data)
             {
-                Send(Encoding.ASCII.GetString(data));
+                throw new NotImplementedException();
             }
 
-            public void Send(string data)
+            public void Send(string data, bool bypassDataFormatter = false, bool sendAllData = false)
             {
                 FakeMessagesSent.Add(data);
-            }
-
-            public void Send(string data, bool bypassDataFormatter)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void Send(string data, bool bypassDataFormatter, bool sendAllData)
-            {
-                throw new NotImplementedException();
             }
 
             public void ProcessBuffer(BufferDirection bufferDirection)

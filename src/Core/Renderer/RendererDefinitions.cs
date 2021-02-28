@@ -57,6 +57,11 @@ namespace WheelMUD.Core
             public abstract string Render(Thing viewer, Thing viewedThing);
         }
 
+        public abstract class Prompt
+        {
+            public abstract string Render(Thing player);
+        }
+
         public abstract class Score
         {
             public abstract string Render(Thing player);

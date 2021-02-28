@@ -9,6 +9,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <ProjectReference Include="..\..\Core\WheelMUD.Core.csproj" />
     <ProjectReference Include="..\..\Interfaces\WheelMUD.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Server\WheelMUD.Server.csproj" />
     <ProjectReference Include="..\..\Universe\WheelMUD.Universe.csproj" />
     <ProjectReference Include="..\TestFramework\TestHelpers.csproj" />
   </ItemGroup>

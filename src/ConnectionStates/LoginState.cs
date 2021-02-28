@@ -29,7 +29,6 @@ namespace WheelMUD.ConnectionStates
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {
-            Session.AtPrompt = false;
             if (command != string.Empty)
             {
                 var authenticatedUser = Authenticate(command);
@@ -45,7 +44,7 @@ namespace WheelMUD.ConnectionStates
                         var characterId = Session.User.PlayerCharacterIds[0];
                         Session.Thing = DocumentRepository<Thing>.Load(characterId);
                         // TODO: https://github.com/DavidRieman/WheelMUD/pull/66 - Clean up previous session properly (this won't always work).
-                        Session.Thing.Parent.Children.RemoveAll(t => t.Id == this.Session.Thing.Id);
+                        Session.Thing.Parent?.Children.RemoveAll(t => t.Id == this.Session.Thing.Id);
                         Session.Thing.Behaviors.SetParent(Session.Thing);
                         var playerBehavior = Session.Thing.FindBehavior<PlayerBehavior>();
                         if (playerBehavior != null)
@@ -53,14 +52,13 @@ namespace WheelMUD.ConnectionStates
                             Session.Thing.Behaviors.FindFirst<UserControlledBehavior>().Controller = Session;
                             playerBehavior.LogIn(Session);
                             Session.AuthenticateSession();
-                            Session.State = new PlayingState(Session);
-
+                            Session.SetState(new PlayingState(Session));
                         }
                         else
                         {
                             Session.Write("This character player state is broken. You may need to contact an admin for a possible recovery attempt.");
                             Session.InformSubscribedSystem(Session.ID + " failed to load due to missing player behavior.");
-                            Session.State = new ConnectedState(Session);
+                            Session.SetState(new ConnectedState(Session));
                             Session.WritePrompt();
                         }
                     }
@@ -69,7 +67,7 @@ namespace WheelMUD.ConnectionStates
                 {
                     Session.Write("Incorrect user name or password.\r\n\r\n", false);
                     Session.InformSubscribedSystem(Session.ID + " failed to log in");
-                    Session.State = new ConnectedState(Session);
+                    Session.SetState(new ConnectedState(Session));
                     Session.WritePrompt();
                 }
             }
@@ -77,7 +75,7 @@ namespace WheelMUD.ConnectionStates
 
         public override string BuildPrompt()
         {
-            return string.Format("Please enter your password:{0}> ", Environment.NewLine);
+            return "Please enter your password: > ";
         }
 
         /// <summary>Authenticate the user name and password supplied.</summary>

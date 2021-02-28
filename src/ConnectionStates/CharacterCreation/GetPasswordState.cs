@@ -5,18 +5,39 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Text;
+using WheelMUD.Core;
+using WheelMUD.Data;
+
 namespace WheelMUD.ConnectionStates
 {
-    using WheelMUD.Core;
-
     /// <summary>Character creation state used to request a password for the new character.</summary>
     public class GetPasswordState : CharacterCreationSubState
     {
+        private static readonly string InitialStateMessage;
+        static GetPasswordState()
+        {
+            var sb = new StringBuilder();
+            sb.AppendAnsiLine();
+            sb.AppendAnsiLine(AppConfigInfo.Instance.UserAccountIsPlayerCharacter ?
+                "Please carefully select a password for this character." :
+                "Please carefully select a password for this user account.");
+            sb.Append("Although the Telnet protocol provides an authentic retro experience, unfortunately it also sends password in plain-text. ");
+            sb.Append("Do not use the same password as you use for any other account. Do not use this password on a network with machines do not fully trust (especially public networks). ");
+            sb.AppendLine("Your password can be changed while logged in.");
+            InitialStateMessage = sb.ToString();
+        }
+
         /// <summary>Initializes a new instance of the <see cref="GetPasswordState"/> class.</summary>
         /// <param name="session">The session.</param>
         public GetPasswordState(Session session)
             : base(session)
         {
+        }
+
+        public override void Begin()
+        {
+            Session.Write(InitialStateMessage);
         }
 
         /// <summary>ProcessInput is used to receive the user input during this state.</summary>
@@ -35,7 +56,7 @@ namespace WheelMUD.ConnectionStates
         {
             // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
             // is repeating received keystrokes back to their output.
-            return $"Enter a password for this character.{AnsiSequences.NewLine}> <%hidden%>";
+            return "Enter a password: > <%hidden%>";
         }
     }
 }

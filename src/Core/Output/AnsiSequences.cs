@@ -7,7 +7,7 @@
 
 namespace WheelMUD.Core
 {
-
+    using System.Collections.Generic;
     using System.Text;
 
     /// <summary>Common ANSI sequences to simplify construction of correct ANSI for adherance to the Telnet protocol.</summary>
@@ -19,9 +19,11 @@ namespace WheelMUD.Core
     public class AnsiSequences
     {
         /// <summary>Gets the ANSI sequence to move the cursor to a new line.</summary>
-        /// <returns>The ANSI sequence to move the cursor to a new line.</returns>
         /// <remarks>Explicitly avoids Environment.NewLine, as a Telnet server is always supposed to send new lines as CR LF.</remarks>
         public const string NewLine = "\r\n";
+
+        /// <summary>Gets the ANSI sequence to move the cursor to a new line, but escaped for suitable usage in regular expressions.</summary>
+        public const string NewLineRegexPartEscaped = "\\r\\n";
 
         /// <summary>The ANSI 'escape sequence'.</summary>
         public const string Esc = "\x1B";
@@ -125,21 +127,18 @@ namespace WheelMUD.Core
         public const string BackgroundWhite = Esc + "[47m";
     }
 
-    public static class StringBuilderExtensions
+    public static class AnsiStringBuilderExtensions
     {
         /// <summary>Extend StringBuilder class to provide an ANSI line ending version of AppendLine.</summary>
-        public static StringBuilder AppendAnsiLine(this StringBuilder sb, string s)
+        /// <returns>A reference to this instance after the append operation has completed.</returns>
+        /// <remarks>
+        /// This extension method should be used instead of AppendLine for all output the server intends to send to a
+        /// connected client, since the Telnet specification states that all output send to the client should be using
+        /// a specific ANSI sequence instead of the server environment's typical end-of-line sequence.
+        /// </remarks>
+        public static StringBuilder AppendAnsiLine(this StringBuilder sb, string s = null)
         {
-            sb.Append(s + AnsiSequences.NewLine);
-            return sb;
-        }
-        
-        /// <summary>Extend StringBuilder class to provide an ANSI line ending version of AppendLine.</summary>
-        public static StringBuilder AppendAnsiLine(this StringBuilder sb)
-        {
-            sb.Append(AnsiSequences.NewLine);
-            return sb;
+            return sb.Append(s + AnsiSequences.NewLine);
         }
     }
-
 }

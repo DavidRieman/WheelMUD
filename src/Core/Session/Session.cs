@@ -29,13 +29,7 @@ namespace WheelMUD.Core
             if (connection != null)
             {
                 Connection = connection;
-                State = SessionStateManager.Instance.CreateDefaultState(this);
-
-                // The very first time we create a session, it couldn't write the prompt due to State
-                // not being set during that SessionState's construction, so force a prompt print here.
-                Write(string.Empty, true);
-
-                AtPrompt = false;
+                SetState(SessionStateManager.Instance.CreateDefaultState(this));
             }
         }
 
@@ -69,8 +63,13 @@ namespace WheelMUD.Core
         /// <summary>Gets the connection for this session.</summary>
         public IConnection Connection { get; private set; }
 
-        /// <summary>Gets or sets a value indicating whether the client is currently at a prompt or not.</summary>
-        public bool AtPrompt { get; set; }
+        /// <summary>Gets a value indicating whether the output sent to the client is currently at a prompt or not.</summary>
+        public bool AtPrompt
+        {
+            // As prompts let the cursor rest on the same line, this can be indicated via the connection's cursor position; any
+            // output other than prompts should occur as a full line that terminates with NewLine.
+            get { return !Connection.AtNewLine; }
+        }
 
         /// <summary>Gets or sets the User authenticated to this session (if any).</summary>
         public User User { get; set; }
@@ -79,7 +78,17 @@ namespace WheelMUD.Core
         public ActionInput LastActionInput { get; private set; }
 
         /// <summary>Gets or sets the state of this session.</summary>
-        public SessionState State { get; set; }
+        public SessionState State { get; private set; }
+
+        /// <summary>Sets a new SessionState for this Session, and tells it to begin.</summary>
+        public void SetState(SessionState newState)
+        {
+            this.State = newState;
+            if (newState != null)
+            {
+                newState.Begin();
+            }
+        }
 
         /// <summary>Provides authentication services for this session.</summary>
         public void AuthenticateSession()
@@ -99,47 +108,48 @@ namespace WheelMUD.Core
         {
             if (!AtPrompt)
             {
-                Connection.Send(Environment.NewLine + State.BuildPrompt());
+                Connection.Send(AnsiSequences.NewLine + State.BuildPrompt());
             }
             else
             {
                 Connection.Send(State.BuildPrompt());
             }
-
-            AtPrompt = true;
         }
 
-        /// <summary>Writes an empty string followed by a prompt.</summary>
+        /// <summary>Writes a fresh prompt to this session.</summary>
         public void WritePrompt()
         {
             Write(string.Empty, true);
         }
 
+        /// <summary>Writes a full line of output to the users screen, with an ANSI NewLine.</summary>
+        /// <param name="line">The line of text to write to this session's connected user.</param>
+        /// <param name="sendPrompt">true to send the prompt after, false otherwise.</param>
+        public void WriteAnsiLine(string line, bool sendPrompt = true)
+        {
+            Write(line + AnsiSequences.NewLine, sendPrompt);
+        }
+
         /// <summary>Write data to the users screen.</summary>
-        /// <param name="data">The data to write.</param>
+        /// <param name="data">The string of text to write to this session's connected user.</param>
         /// <param name="sendPrompt">true to send the prompt after, false otherwise.</param>
         public void Write(string data, bool sendPrompt = true)
         {
+            // If our last output to this session was printing the prompt, inject a new line in front of this next set of data,
+            // so the data won't potentially start printing on the same line as the prompt.
             if (AtPrompt)
             {
-                data = Environment.NewLine + data;
+                data = AnsiSequences.NewLine + data;
             }
 
-            AtPrompt = false;
             if (sendPrompt)
             {
-                string prompt = State != null ? State.BuildPrompt() : string.Empty;
-
-                // Protection against double prompt.
-                if (!data.EndsWith(AnsiSequences.NewLine + prompt))
-                {
-                    data = data + AnsiSequences.NewLine + prompt;
-                }
-
-                AtPrompt = true;
+                data += AnsiSequences.NewLine + State?.BuildPrompt();
             }
 
-            Connection.Send(data);
+            // If a particular state doesn't support the paging commands (like "m" or "more") then we should force sending all
+            // data instead of potentially printing paging output that isn't supported in the current state.
+            Connection.Send(data, sendAllData: !State.SupportsPaging);
         }
 
         /// <summary>Place an action on the command queue for execution.</summary>
