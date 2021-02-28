@@ -13,6 +13,9 @@ using System.ComponentModel.Composition.Hosting;
 using System.Text;
 using WheelMUD.Core;
 using WheelMUD.Interfaces;
+using WheelMUD.Server;
+using WheelMUD.Server.Interfaces;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Tests
 {
@@ -136,7 +139,7 @@ namespace WheelMUD.Tests
                 set { throw new NotImplementedException(); }
             }
 
-            public ITerminal Terminal
+            public TerminalOptions TerminalOptions
             {
                 get { throw new NotImplementedException(); }
             }

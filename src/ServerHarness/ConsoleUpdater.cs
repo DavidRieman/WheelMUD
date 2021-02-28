@@ -5,10 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities.Interfaces;
+
 namespace ServerHarness
 {
     using System;
-    using WheelMUD.Interfaces;
 
     /// <summary>Console Updater.</summary>
     public class ConsoleUpdater : ISuperSystemSubscriber

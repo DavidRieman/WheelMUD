@@ -9,7 +9,6 @@ namespace WheelMUD.Actions.Temporary
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
 
     /// <summary>A temporary command to blind an entity. (Just blinds yourself for now.)</summary>
     [ExportGameAction(0)]

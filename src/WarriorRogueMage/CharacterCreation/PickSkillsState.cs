@@ -5,16 +5,16 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using WheelMUD.ConnectionStates;
+using WheelMUD.Core;
+using WheelMUD.Utilities;
+
 namespace WarriorRogueMage.CharacterCreation
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using WheelMUD.ConnectionStates;
-    using WheelMUD.Core;
-
     /// <summary>The character creation step where the player will pick their skills.</summary>
     public class PickSkillsState : CharacterCreationSubState
     {

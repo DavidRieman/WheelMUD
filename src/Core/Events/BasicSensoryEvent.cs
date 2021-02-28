@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Events
+namespace WheelMUD.Core
 {
     /// <summary>A basic sensory event. Designed to be observed by senses of an entity.</summary>
     public class BasicSensoryEvent : GameEvent

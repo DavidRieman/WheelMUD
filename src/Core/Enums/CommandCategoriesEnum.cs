@@ -7,7 +7,7 @@
 
 using System;
 
-namespace WheelMUD.Core.Attributes
+namespace WheelMUD.Core
 {
     /// <summary>Categories that actions can be filed under.</summary>
     [Flags]

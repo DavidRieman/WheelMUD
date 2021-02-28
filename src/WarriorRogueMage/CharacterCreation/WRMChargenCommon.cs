@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WheelMUD.Core;
-using WheelMUD.Interfaces;
+using WheelMUD.Utilities.Interfaces;
 
 namespace WarriorRogueMage.CharacterCreation
 {

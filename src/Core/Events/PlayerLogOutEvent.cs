@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Events
+namespace WheelMUD.Core
 {
     /// <summary>A 'player logged out' event.</summary>
     public class PlayerLogOutEvent : CancellableGameEvent

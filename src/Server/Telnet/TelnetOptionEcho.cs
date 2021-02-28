@@ -31,10 +31,10 @@ namespace WheelMUD.Server.Telnet
             switch (UsState)
             {
                 case TelnetOptionState.YES:
-                    Connection.Terminal.UseEcho = true;
+                    Connection.TerminalOptions.UseEcho = true;
                     break;
                 case TelnetOptionState.NO:
-                    Connection.Terminal.UseEcho = false;
+                    Connection.TerminalOptions.UseEcho = false;
                     break;
             }
         }

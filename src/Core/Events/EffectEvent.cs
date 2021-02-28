@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Events
+namespace WheelMUD.Core
 {
     /// <summary>Event associated with effects - added, removed, expired, etc.</summary>
     public class EffectEvent : CancellableGameEvent

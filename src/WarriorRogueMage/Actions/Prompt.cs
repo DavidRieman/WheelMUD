@@ -10,9 +10,7 @@ namespace WarriorRogueMage.Actions
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using WheelMUD.Actions;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
 
     /// <summary>An action to get or set your command prompt display.</summary>
     [ExportGameAction(100)]

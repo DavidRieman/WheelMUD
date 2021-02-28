@@ -20,6 +20,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\WheelMUD.Core.csproj" />
-    <ProjectReference Include="..\Interfaces\WheelMUD.Interfaces.csproj" />
   </ItemGroup>
 </Project>

@@ -9,7 +9,6 @@ namespace WheelMUD.Core
 {
     using System.Collections.Generic;
     using System.Diagnostics;
-    using WheelMUD.Core.Events;
     using WheelMUD.Data.Entities;
     using WheelMUD.Data.Repositories;
 

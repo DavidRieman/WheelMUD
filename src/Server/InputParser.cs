@@ -7,8 +7,7 @@
 
 using System;
 using System.Text;
-using WheelMUD.Core;
-using WheelMUD.Interfaces;
+using WheelMUD.Server.Interfaces;
 
 namespace WheelMUD.Server
 {

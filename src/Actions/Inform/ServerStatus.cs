@@ -11,7 +11,6 @@ namespace WheelMUD.Actions
     using System.Management;
     using System.Text;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
 
     /// <summary>A command to display the server status information.</summary>
     [ExportGameAction(0)]

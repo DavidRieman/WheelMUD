@@ -11,7 +11,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using WheelMUD.Interfaces;
+using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
 {

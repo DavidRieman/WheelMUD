@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using WheelMUD.ConnectionStates;
 using WheelMUD.Core;
+using WheelMUD.Utilities;
 
 namespace WarriorRogueMage.CharacterCreation
 {

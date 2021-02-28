@@ -10,9 +10,6 @@ namespace WheelMUD.Core
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using WheelMUD.Actions;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
     using WheelMUD.Utilities;
 
     /// <summary>
@@ -212,7 +209,7 @@ namespace WheelMUD.Core
         /// <summary>Handle the events of our parent moving; need to adjust our exit context commands and such.</summary>
         /// <param name="root">The event sender.</param>
         /// <param name="e">The event args.</param>
-        private void ParentMovementEventHandler(Thing root, Events.GameEvent e)
+        private void ParentMovementEventHandler(Thing root, GameEvent e)
         {
             // If our parent (the thing with exit behavior) was removed from something (like a room)...
             var removeChildEvent = e as RemoveChildEvent;

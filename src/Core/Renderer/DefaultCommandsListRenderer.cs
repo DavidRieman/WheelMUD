@@ -5,16 +5,17 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
+
 namespace WheelMUD.Core
 {
     using System.Collections.Generic;
     using System.Text;
-    using WheelMUD.Interfaces;
 
     [RendererExports.CommandsList(0)]
     public class DefaultCommandsListRenderer : RendererDefinitions.CommandsList
     {
-        public override string Render(ITerminal terminal, IEnumerable<Command> commands, string categoryName)
+        public override string Render(TerminalOptions terminalOptions, IEnumerable<Command> commands, string categoryName)
         {
             var sb = new StringBuilder();
             sb.AppendLine($"<%yellow%>{categoryName} commands<%n%>:");

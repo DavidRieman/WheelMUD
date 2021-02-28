@@ -5,14 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Linq;
+using System.Text;
+using WheelMUD.ConnectionStates;
+using WheelMUD.Core;
+using WheelMUD.Utilities;
+
 namespace WarriorRogueMage.CharacterCreation
 {
-    using System;
-    using System.Linq;
-    using System.Text;
-    using WheelMUD.ConnectionStates;
-    using WheelMUD.Core;
-
     /// <summary>The character creation step where the player will pick their gender.</summary>
     /// <remarks>TODO: https://github.com/DavidRieman/WheelMUD/issues/68 - Change order, and refine to selecting character pronoun set instead of gender.</remarks>
     public class PickGenderState : CharacterCreationSubState

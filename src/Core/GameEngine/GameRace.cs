@@ -5,10 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+using WheelMUD.Utilities.Interfaces;
+
 namespace WheelMUD.Core
 {
     using System.Collections.Generic;
-    using WheelMUD.Interfaces;
 
     /// <summary>Describes the most basic characteristics for a race in the current gaming system.</summary>
     public class GameRace : IPersistsWithPlayer, INamed

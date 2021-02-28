@@ -10,7 +10,6 @@ namespace WheelMUD.Effects
     using System;
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Events;
 
     /// <summary>An effect to alter a stat on a thing.</summary>
     public class StatEffect : Effect

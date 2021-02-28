@@ -6,7 +6,6 @@
 //-----------------------------------------------------------------------------
 
 using WheelMUD.Core;
-using WheelMUD.Core.Attributes;
 
 namespace WarriorRogueMage.Behaviors
 {

@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Behaviors
-{
-    using Newtonsoft.Json;
-    using System.Collections.Generic;
-    using WheelMUD.Core.Events;
-    using WheelMUD.Utilities;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using WheelMUD.Utilities;
 
+namespace WheelMUD.Core
+{
     /// <summary>A behavior for an entity to follow another target entity around.</summary>
     /// <remarks>
     /// The FollowingBehavior is applied to a player or mobile thing that is following another

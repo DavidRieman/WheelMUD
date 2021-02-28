@@ -14,6 +14,7 @@ using WheelMUD.Ftp.FileSystem;
 using WheelMUD.Ftp.General;
 using WheelMUD.Interfaces;
 using WheelMUD.Utilities;
+using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Ftp
 {

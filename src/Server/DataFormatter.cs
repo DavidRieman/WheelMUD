@@ -8,7 +8,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using WheelMUD.Core;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Server
 {

@@ -9,7 +9,6 @@ namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
     using WheelMUD.Effects;
 
     /// <summary>Removes the mute effect from someone prior to its normal expiration.</summary>

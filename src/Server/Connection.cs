@@ -14,7 +14,10 @@ using System.Text;
 using System.Threading;
 using WheelMUD.Core;
 using WheelMUD.Interfaces;
+using WheelMUD.Server.Interfaces;
 using WheelMUD.Server.Telnet;
+using WheelMUD.Utilities;
+using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Server
 {
@@ -46,7 +49,7 @@ namespace WheelMUD.Server
             Buffer = new StringBuilder();
             OutputBuffer = new OutputBuffer();
             Data = new byte[1];
-            Terminal = new Terminal();
+            TerminalOptions = new TerminalOptions();
             this.socket = socket;
             var remoteEndPoint = (IPEndPoint)this.socket.RemoteEndPoint;
             CurrentIPAddress = remoteEndPoint.Address;
@@ -67,7 +70,7 @@ namespace WheelMUD.Server
         public event EventHandler<ConnectionArgs> DataSent;
 
         /// <summary>Gets the Terminal Options of this connection.</summary>
-        public ITerminal Terminal { get; private set; }
+        public TerminalOptions TerminalOptions { get; private set; }
 
         /// <summary>Gets the ID of this connection.</summary>
         public string ID { get; private set; }
@@ -145,10 +148,10 @@ namespace WheelMUD.Server
             //       trade-off of not printing to the right-most characters of some terminal sizes. (This would probably look fine, generally.)
             if (!bypassDataFormatter)
             {
-                var wordWrapWidth = Terminal.UseWordWrap ? Terminal.Width : 0;
-                var lines = DataFormatter.FormatData(data, wordWrapWidth, Terminal.UseANSI);
+                var wordWrapWidth = TerminalOptions.UseWordWrap ? TerminalOptions.Width : 0;
+                var lines = DataFormatter.FormatData(data, wordWrapWidth, TerminalOptions.UseANSI);
                 var totalLines = lines.Count;
-                if (Terminal.UseBuffer && totalLines >= PagingRowLimit && !sendAllData)
+                if (TerminalOptions.UseBuffer && totalLines >= PagingRowLimit && !sendAllData)
                 {
                     // Store all the lines of output, but for now we'll display as many as we can fit (plus reserving one line for the 
                     // buffering prompt itself).
@@ -165,9 +168,9 @@ namespace WheelMUD.Server
 
             // Check if the client wants to use compression (MCCP) and whether data is long enough to bother (as the overhead is quite high).
             byte[] bytes;
-            if (Terminal.UseMCCP && data.Length > MCCPThreshold)
+            if (TerminalOptions.UseMCCP && data.Length > MCCPThreshold)
             {
-                // Compress the data
+                // Compress the data.
                 bytes = MCCPHandler.Compress(data);
 
                 // Send the sub request to say that the next load of data

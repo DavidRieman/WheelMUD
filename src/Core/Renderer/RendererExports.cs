@@ -5,12 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities.Interfaces;
+
 namespace WheelMUD.Core
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
-    using WheelMUD.Interfaces;
     using WheelMUD.Utilities;
 
     public static class RendererExports

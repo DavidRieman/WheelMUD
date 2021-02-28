@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server.Interfaces;
+
 namespace WheelMUD.Server.Telnet
 {
     using System.Collections.Generic;

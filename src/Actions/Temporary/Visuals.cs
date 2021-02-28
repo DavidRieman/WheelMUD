@@ -5,14 +5,14 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Actions.Temporary
 {
     using System.Collections.Generic;
     using System.Text;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
 
     /// <summary>
     /// Command to add, remove, or display the "visuals" associated with a 

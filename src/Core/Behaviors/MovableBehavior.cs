@@ -8,7 +8,6 @@
 namespace WheelMUD.Core
 {
     using System.Collections.Generic;
-    using WheelMUD.Core.Events;
 
     /// <summary>Behavior applied to objects that can move or be moved.</summary>
     public class MovableBehavior : Behavior

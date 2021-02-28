@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Effects
 {
     using System;
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
 
     /// <summary>A class that represents the muted effect.</summary>
     public class MutedEffect : Effect

@@ -5,15 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Text;
+using WheelMUD.Core;
+using WheelMUD.Interfaces;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
-
     /// <summary>An action to show detailed information about your attributes.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("attributes", CommandCategory.Inform)]
@@ -39,14 +38,14 @@ namespace WheelMUD.Actions
             {
                 sb.Append(kvp.Value.Name.PadRight(20));
                 sb.Append(kvp.Value.Value);
-                sb.Append(AnsiSequences.NewLine);
+                sb.AppendAnsiLine();
             }
 
             foreach (KeyValuePair<string, GameAttribute> kvp in sender.Thing.Attributes)
             {
                 sb.Append(kvp.Value.Name.PadRight(20));
                 sb.Append(kvp.Value.Value);
-                sb.Append(AnsiSequences.NewLine);
+                sb.AppendAnsiLine();
             }
 
             sender.Write(sb.ToString().Trim());

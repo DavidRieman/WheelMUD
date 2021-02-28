@@ -21,7 +21,6 @@ namespace WheelMUD.Actions
     using System;
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
 
     /// <summary>A command to chop at a tree.</summary>
     [ExportGameAction(0)]

@@ -6,10 +6,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using WheelMUD.Actions;
 using WheelMUD.Core;
-using WheelMUD.Core.Attributes;
-using WheelMUD.Core.Events;
 using WheelMUD.Interfaces;
 
 namespace WarriorRogueMage.Actions

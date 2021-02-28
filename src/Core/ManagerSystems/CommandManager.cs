@@ -5,6 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+using WheelMUD.Utilities.Interfaces;
+
 namespace WheelMUD.Core
 {
     using System;
@@ -12,9 +15,6 @@ namespace WheelMUD.Core
     using System.ComponentModel.Composition;
     using System.Diagnostics;
     using System.Linq;
-    using WheelMUD.Actions;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
 
     /// <summary>High level manager that provides tracking and global collection of all commands.</summary>
     public class CommandManager : ManagerSystem, IRecomposable

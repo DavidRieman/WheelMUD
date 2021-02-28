@@ -5,17 +5,19 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using WheelMUD.ConnectionStates;
+using WheelMUD.Core;
+using WheelMUD.Utilities;
+
 namespace WarriorRogueMage.CharacterCreation
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Text;
-    using System.Text.RegularExpressions;
-    using System.Threading;
-    using WheelMUD.ConnectionStates;
-    using WheelMUD.Core;
 
     /// <summary>The character creation step where the player will pick their race.</summary>
     public class PickRaceState : CharacterCreationSubState

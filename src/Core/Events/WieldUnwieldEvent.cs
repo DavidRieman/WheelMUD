@@ -5,7 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace WheelMUD.Core.Events
+namespace WheelMUD.Core
 {
     /// <summary>Event raised when an item is wielded or unwielded.</summary>
     public class WieldUnwieldEvent : CancellableGameEvent

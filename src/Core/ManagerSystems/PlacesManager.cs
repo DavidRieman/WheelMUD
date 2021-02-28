@@ -5,10 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities.Interfaces;
+
 namespace WheelMUD.Core
 {
     using System;
-    using WheelMUD.Interfaces;
     using WheelMUD.Utilities;
 
     /// <summary>High level manager that provides tracking and global collection of all places.</summary>

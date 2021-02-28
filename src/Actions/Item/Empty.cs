@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System;
@@ -12,9 +14,6 @@ namespace WheelMUD.Actions
     using System.Diagnostics;
     using System.Linq;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
     using WheelMUD.Universe;
 
     /// <summary>An action to empty a container.</summary>

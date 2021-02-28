@@ -39,20 +39,20 @@ namespace WheelMUD.Server.Telnet
             {
                 int height = 256 * data[2] + data[3];
                 int width = 256 * data[0] + data[1];
-                Connection.Terminal.Height = height <= 0 ? DefaultTerminalHeight : height;
-                Connection.Terminal.Width = width <= 0 ? DefaultTerminalWidth : width;
+                Connection.TerminalOptions.Height = height <= 0 ? DefaultTerminalHeight : height;
+                Connection.TerminalOptions.Width = width <= 0 ? DefaultTerminalWidth : width;
 
                 // Also start the connection's PagingRowHeight based on this automatic negotiation, though a user could potentially
                 // override their PagingRowLimit manually with a "buffer" command.
-                Connection.PagingRowLimit = Connection.Terminal.Height;
+                Connection.PagingRowLimit = Connection.TerminalOptions.Height;
             }
-            if (Connection.Terminal.Width < MinimumHonoredTerminalWidth)
+            if (Connection.TerminalOptions.Width < MinimumHonoredTerminalWidth)
             {
-                Connection.Terminal.Width = MinimumHonoredTerminalWidth;
+                Connection.TerminalOptions.Width = MinimumHonoredTerminalWidth;
             }
-            if (Connection.Terminal.Height < MinimumHonoredTerminalHeight)
+            if (Connection.TerminalOptions.Height < MinimumHonoredTerminalHeight)
             {
-                Connection.Terminal.Height = MinimumHonoredTerminalHeight;
+                Connection.TerminalOptions.Height = MinimumHonoredTerminalHeight;
             }
         }
     }
