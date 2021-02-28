@@ -12,7 +12,6 @@ namespace WheelMUD.Actions
     using System.Text;
     using System.Threading;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
     using WheelMUD.Utilities;
 
     /// <summary>A command that gathers various information about an entity.</summary>

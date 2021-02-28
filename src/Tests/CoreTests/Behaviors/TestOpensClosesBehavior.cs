@@ -9,7 +9,6 @@ namespace WheelMUD.Tests.Behaviors
 {
     using NUnit.Framework;
     using WheelMUD.Core;
-    using WheelMUD.Core.Events;
 
     /// <summary>Tests for the OpensClosesBehavior class.</summary>
     [TestFixture]

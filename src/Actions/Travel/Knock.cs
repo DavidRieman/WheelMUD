@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
 
     /// <summary>An action to knock on a door.</summary>
     [ExportGameAction(0)]

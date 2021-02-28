@@ -5,11 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.CommandSystem
+namespace WheelMUD.Core
 {
-    using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-
     /// <summary>Command guard helper methods.</summary>
     public static class CommandGuardHelpers
     {

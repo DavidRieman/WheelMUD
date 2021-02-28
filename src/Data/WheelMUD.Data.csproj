@@ -22,7 +22,6 @@
     <PackageReference Include="ServiceStack.OrmLite.Core" Version="5.10.2" />
     <PackageReference Include="System.ComponentModel.Composition" Version="5.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
-    <ProjectReference Include="..\Interfaces\WheelMUD.Interfaces.csproj" />
     <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj" />
   </ItemGroup>
 </Project>

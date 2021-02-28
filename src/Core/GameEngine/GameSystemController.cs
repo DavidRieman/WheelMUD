@@ -5,6 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+using WheelMUD.Utilities.Interfaces;
+
 namespace WheelMUD.Core
 {
     using System;
@@ -12,7 +15,6 @@ namespace WheelMUD.Core
     using System.ComponentModel.Composition;
     using System.Linq;
     using System.Reflection;
-    using WheelMUD.Interfaces;
 
     /// <summary>Controls the games systems.</summary>
     public class GameSystemController : ISystem, IRecomposable

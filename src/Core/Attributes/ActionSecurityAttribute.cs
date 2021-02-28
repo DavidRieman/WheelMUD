@@ -8,7 +8,7 @@
 using System;
 using System.Linq;
 
-namespace WheelMUD.Core.Attributes
+namespace WheelMUD.Core
 {
     public static class SecurityRoleHelpers
     {

@@ -7,9 +7,6 @@
 
 namespace WheelMUD.Core
 {
-    using WheelMUD.CommandSystem;
-    using WheelMUD.Core.Attributes;
-
     /// <summary>A scripting command.</summary>
     public class ScriptingCommand
     {

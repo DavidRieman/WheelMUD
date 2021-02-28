@@ -9,8 +9,6 @@ namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
 
     /// <summary>An action to have a quick look at your surroundings.</summary>
     [ExportGameAction(0)]

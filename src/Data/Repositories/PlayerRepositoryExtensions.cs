@@ -7,9 +7,7 @@
 
 namespace WheelMUD.Data.Repositories
 {
-    using ServiceStack.OrmLite;
     using System;
-    using System.Data;
     using System.Linq;
 
     public static class PlayerRepositoryExtensions

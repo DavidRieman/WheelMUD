@@ -29,11 +29,11 @@ namespace WheelMUD.Server.Telnet
         {
             if (UsState == TelnetOptionState.YES)
             {
-                Connection.Terminal.UseMCCP = true;
+                Connection.TerminalOptions.UseMCCP = true;
             }
             else
             {
-                Connection.Terminal.UseMCCP = false;
+                Connection.TerminalOptions.UseMCCP = false;
             }
         }
     }

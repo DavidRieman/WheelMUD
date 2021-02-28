@@ -9,8 +9,6 @@ namespace WheelMUD.Tests.Behaviors
 {
     using NUnit.Framework;
     using WheelMUD.Core;
-    using WheelMUD.Core.Behaviors;
-    using WheelMUD.Core.Events;
 
     /// <summary>Test cases for FollowingBehavior.</summary>
     [TestFixture]

@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Core
 {
     using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.Linq;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
 
     /// <summary>A security role.</summary>
     public class Role

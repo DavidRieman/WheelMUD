@@ -5,10 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+using WheelMUD.Utilities.Interfaces;
+
 namespace WheelMUD.Core
 {
-    using WheelMUD.Interfaces;
-
     /// <summary>A base class for the various manager systems; handles much of the otherwise-redundant system details.</summary>
     public abstract class ManagerSystem : ISystem
     {

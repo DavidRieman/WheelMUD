@@ -10,10 +10,7 @@ namespace WheelMUD.Universe
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using WheelMUD.Actions;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
 
     /// <summary>LocksUnlocksBehavior provides the ability to lock and unlock a Thing.</summary>
     public class LocksUnlocksBehavior : Behavior

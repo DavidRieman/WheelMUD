@@ -8,7 +8,6 @@
 namespace WheelMUD.Core
 {
     using System.Collections.Generic;
-    using WheelMUD.Core.Events;
 
     /// <summary>TODO: Might be better renamed to AIBrainBehavior or something...?</summary>
     public class MobileBehavior : Behavior

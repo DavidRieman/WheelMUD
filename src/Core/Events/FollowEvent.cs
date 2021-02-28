@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Events
+namespace WheelMUD.Core
 {
     /// <summary>Event to convey that someone has begun following someone else.</summary>
     public class FollowEvent : CancellableGameEvent

@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Events
+namespace WheelMUD.Core
 {
     /// <summary>An 'open/close' event.</summary>
     public class OpenCloseEvent : CancellableGameEvent

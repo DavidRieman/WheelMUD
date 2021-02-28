@@ -6,9 +6,12 @@
 //-----------------------------------------------------------------------------
 
 using System;
-using WheelMUD.Core.Events;
 using WheelMUD.Data;
 using WheelMUD.Interfaces;
+using WheelMUD.Server;
+using WheelMUD.Server.Interfaces;
+using WheelMUD.Utilities;
+using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
 {
@@ -52,9 +55,9 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets the terminal this session is using.</summary>
-        public ITerminal Terminal
+        public TerminalOptions TerminalOptions
         {
-            get { return Connection.Terminal; }
+            get { return Connection.TerminalOptions; }
         }
 
         /// <summary>Gets or sets the player Thing attached to this session.</summary>

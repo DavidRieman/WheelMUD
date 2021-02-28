@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server.Interfaces;
+
 namespace WheelMUD.Server.Telnet
 {
-    using WheelMUD.Interfaces;
-
     /// <summary>A class that represents a telnet option and is able to negotiate itself with the client.</summary>
     internal class TelnetOption : ITelnetOption
     {

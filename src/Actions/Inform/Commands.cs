@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
 
     /// <summary>A command to list all commands. Can list by category.</summary>
     [ExportGameAction(0)]
@@ -32,7 +32,7 @@ namespace WheelMUD.Actions
         {
             IController sender = actionInput.Controller;
             string requestedCategory = actionInput.Tail.ToLower();
-            var terminal = (actionInput.Controller as Session).Terminal;
+            var terminal = (actionInput.Controller as Session).TerminalOptions;
 
             // Get a command array of all commands available to this controller
             var commands = CommandManager.Instance.GetCommandsForController(sender);

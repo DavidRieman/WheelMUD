@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Core
 {
-    using WheelMUD.Interfaces;
-
     /// <summary>An attribute such as strength, intelligence, etc.</summary>
     public class GameAttribute : BaseStat, IPersistsWithPlayer
     {
