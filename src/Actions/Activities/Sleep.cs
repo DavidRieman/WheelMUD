@@ -9,7 +9,6 @@ namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
 
     /// <summary>An action for going to sleep.</summary>
     [ExportGameAction(0)]

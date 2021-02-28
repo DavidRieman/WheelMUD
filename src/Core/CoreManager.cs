@@ -5,13 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities.Interfaces;
+
 namespace WheelMUD.Core
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Data;
-    using WheelMUD.Interfaces;
 
     /// <summary>
     /// Example of a Registry (singleton) object available throughout the application that contains

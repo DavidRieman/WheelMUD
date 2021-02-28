@@ -5,12 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server.Interfaces;
+using WheelMUD.Utilities.Interfaces;
+using System;
+using System.Collections.Generic;
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Interfaces;
-
     /// <summary>High level manager that provides tracking and global collection of all connected sessions.</summary>
     public class SessionManager : ManagerSystem
     {

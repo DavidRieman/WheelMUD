@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
 
     /// <summary>A command that allows a player to look at something.</summary>
     [ExportGameAction(0)]

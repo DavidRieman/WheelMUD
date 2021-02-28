@@ -5,12 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.CommandSystem
+namespace WheelMUD.Core
 {
     using System.Linq;
-    using WheelMUD.Actions;
-    using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
 
     /// <summary>A delegate used for calling CommandScripts Execute methods.</summary>
     /// <param name="actionInput">The full input specified for executing the command.</param>

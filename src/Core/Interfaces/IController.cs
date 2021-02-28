@@ -5,11 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WheelMUD.Interfaces
 {
-    using WheelMUD.Core;
-    using WheelMUD.Core.Events;
-
     /// <summary>An interface defining a Controller.</summary>
     public interface IController
     {

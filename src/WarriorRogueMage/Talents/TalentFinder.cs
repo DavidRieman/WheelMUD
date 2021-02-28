@@ -5,13 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities.Interfaces;
+
 namespace WarriorRogueMage
 {
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Linq;
     using WheelMUD.Core;
-    using WheelMUD.Interfaces;
 
     public class TalentFinder : IRecomposable
     {

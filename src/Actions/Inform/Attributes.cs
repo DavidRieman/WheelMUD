@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
 
     /// <summary>An action to show detailed information about your attributes.</summary>
     [ExportGameAction(0)]

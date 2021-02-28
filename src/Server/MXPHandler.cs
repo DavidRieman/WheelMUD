@@ -5,12 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server.Interfaces;
+
 namespace WheelMUD.Server
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using WheelMUD.Interfaces;
     using WheelMUD.Server.Telnet;
 
     /// <summary>The MUD Extension Protocol (MXP) handler.</summary>
@@ -123,12 +124,12 @@ namespace WheelMUD.Server
                 if (word.Trim().StartsWith("version", StringComparison.OrdinalIgnoreCase))
                 {
                     string[] parts = word.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    sender.Terminal.Version = parts[1].Trim().TrimEnd(new[] { '>' }).Trim(new[] { '"' });
+                    sender.TerminalOptions.Version = parts[1].Trim().TrimEnd(new[] { '>' }).Trim(new[] { '"' });
                 }
                 else if (word.Trim().StartsWith("client", StringComparison.OrdinalIgnoreCase))
                 {
                     string[] parts = word.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    sender.Terminal.Client = parts[1].Trim().TrimEnd(new[] { '>' }).Trim(new[] { '"' }).ToLower();
+                    sender.TerminalOptions.Client = parts[1].Trim().TrimEnd(new[] { '>' }).Trim(new[] { '"' }).ToLower();
                 }
             }
 
@@ -136,7 +137,7 @@ namespace WheelMUD.Server
 
             // TODO: This is a hack. zmud 6.16 doesn't support MCCP correctly but responds that it does.
             // We should disable the option here.
-            if (sender.Terminal.Client == "zmud" && sender.Terminal.Version == "6.16")
+            if (sender.TerminalOptions.Client == "zmud" && sender.TerminalOptions.Version == "6.16")
             {
                 ITelnetOption mccpOption =
                     sender.TelnetCodeHandler.TelnetOptions.Find(

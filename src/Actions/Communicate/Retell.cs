@@ -9,7 +9,6 @@ namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
 
     /// <summary>An action to repeat the last several tells you received.</summary>
     [ExportGameAction(0)]

@@ -8,7 +8,6 @@
 namespace WheelMUD.Core
 {
     using System;
-    using WheelMUD.Core.Events;
 
     /// <summary>An event processor for a Player.</summary>
     public class PlayerEventProcessor : IDisposable

@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Behaviors
-{
-    using Newtonsoft.Json;
-    using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
+namespace WheelMUD.Core
+{
     /// <summary>
     /// <para>
     /// The FollowedBehavior class is applied to players or mobile things that are being

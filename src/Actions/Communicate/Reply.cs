@@ -9,7 +9,6 @@ namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
 
     /// <summary>An action to reply to the last thing you were told.</summary>
     [ExportGameAction(0)]

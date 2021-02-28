@@ -5,16 +5,18 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities.Interfaces;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml.Serialization;
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Core
 {
-    using Newtonsoft.Json;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Xml.Serialization;
-    using WheelMUD.Core.Events;
-    using WheelMUD.Interfaces;
+    
 
     /// <summary>A base class that pretty much any interactive thing within the game world is based on.</summary>
     /// <remarks>

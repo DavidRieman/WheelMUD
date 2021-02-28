@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System;
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
     using WheelMUD.Effects;
-    using WheelMUD.Interfaces;
 
     /// <summary>Temporary script to to get out of a web.</summary>
     [ExportGameAction(0)]

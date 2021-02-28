@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Events
+namespace WheelMUD.Core
 {
     /// <summary>The applicable scope for an event.</summary>
     public enum EventScope

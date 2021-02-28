@@ -5,19 +5,19 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
+
 namespace WheelMUD.Core
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
 
     [RendererExports.CommandsCategories(0)]
     public class DefaultCommandsCategoriesRenderer : RendererDefinitions.CommandsCategories
     {
-        public override string Render(ITerminal terminal, IEnumerable<Command> commands)
+        public override string Render(TerminalOptions terminalOptions, IEnumerable<Command> commands)
         {
             // Build a list of categories for the commands available to this player.
             var sb = new StringBuilder();

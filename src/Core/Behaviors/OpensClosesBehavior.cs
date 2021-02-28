@@ -10,9 +10,6 @@ namespace WheelMUD.Core
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using WheelMUD.Actions;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
 
     /// <summary>OpensClosesBehavior adds the ability to open and close a thing.</summary>
     public class OpensClosesBehavior : Behavior

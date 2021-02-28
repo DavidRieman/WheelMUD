@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Events
+namespace WheelMUD.Core
 {
     /// <summary>A stat change event.</summary>
     public class StatChangeEvent : CancellableGameEvent

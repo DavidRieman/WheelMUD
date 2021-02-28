@@ -9,7 +9,6 @@ namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
 
     /// <summary>An action to sit down and rest.</summary>
     [ExportGameAction(0)]

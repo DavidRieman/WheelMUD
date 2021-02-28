@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Events
+namespace WheelMUD.Core
 {
     /// <summary>A death event.</summary>
     public class DeathEvent : CancellableGameEvent

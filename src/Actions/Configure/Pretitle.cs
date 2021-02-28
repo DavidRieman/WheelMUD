@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
 
     /// <summary>A command to set a player's title.</summary>
     /// <remarks>

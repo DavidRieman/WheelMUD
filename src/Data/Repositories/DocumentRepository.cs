@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities.Interfaces;
+
 namespace WheelMUD.Data.Repositories
 {
-    using WheelMUD.Interfaces;
-
     /// <summary>Generic document repository implementation for type T.</summary>
     public static class DocumentRepository<T> where T : IIdentifiable, new()
     {

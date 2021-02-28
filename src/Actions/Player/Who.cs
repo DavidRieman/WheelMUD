@@ -9,7 +9,6 @@ namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
 
     /// <summary>A command to list the characters who are currently in-game.</summary>
     [ExportGameAction(0)]

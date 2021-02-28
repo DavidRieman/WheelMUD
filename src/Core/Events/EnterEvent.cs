@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Events
+namespace WheelMUD.Core
 {
     /// <summary>Event associated with a thing entering another thing.</summary>
     public class EnterEvent : CancellableGameEvent

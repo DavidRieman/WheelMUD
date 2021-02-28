@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
 
     /// <summary>A command to look up help information from the help system.</summary>
     [ExportGameAction(0)]
@@ -32,7 +32,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            var terminal = (actionInput.Controller as Session).Terminal;
+            var terminal = (actionInput.Controller as Session).TerminalOptions;
             var commandTail = actionInput.Tail;
 
             // If no arguments were given, render the help topics list.

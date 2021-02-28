@@ -4,14 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Linq;
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
-    using System.Linq;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Behaviors;
-    using WheelMUD.Interfaces;
 
     /// <summary>An action to start following another player or mobile around.</summary>
     [ExportGameAction(0)]

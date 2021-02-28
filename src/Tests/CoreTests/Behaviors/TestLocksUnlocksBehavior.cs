@@ -9,7 +9,6 @@ namespace WheelMUD.Tests.Behaviors
 {
     using NUnit.Framework;
     using WheelMUD.Core;
-    using WheelMUD.Core.Events;
     using WheelMUD.Universe;
 
     /// <summary>Tests for the TestLocksUnlocksBehavior class.</summary>

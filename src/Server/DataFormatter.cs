@@ -6,7 +6,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Text.RegularExpressions;
-using WheelMUD.Core;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Server
 {
@@ -20,12 +20,12 @@ namespace WheelMUD.Server
         /// <returns>A formatted string of data</returns>
         internal static string FormatData(string data, Connection connection, bool sendAllData)
         {
-            if (connection.Terminal.UseWordWrap && connection.Terminal.Width > 0)
+            if (connection.TerminalOptions.UseWordWrap && connection.TerminalOptions.Width > 0)
             {
-                data = WordWrapHandler.Parse(data, connection.Terminal.Width);
+                data = WordWrapHandler.Parse(data, connection.TerminalOptions.Width);
             }
 
-            if (connection.Terminal.UseBuffer && !sendAllData)
+            if (connection.TerminalOptions.UseBuffer && !sendAllData)
             {
                 connection.OutputBuffer.Clear();
                 string[] temp = BufferHandler.Parse(data);
@@ -51,7 +51,7 @@ namespace WheelMUD.Server
                     connection.OutputBuffer.Length);
             }
 
-            if (connection.Terminal.UseANSI)
+            if (connection.TerminalOptions.UseANSI)
             {
                 data = AnsiHandler.Parse(data);
             }
@@ -65,7 +65,7 @@ namespace WheelMUD.Server
                 data = regex.Replace(input, replacement);
             }
 
-            if (!connection.Terminal.UseMXP)
+            if (!connection.TerminalOptions.UseMXP)
             {
                 // TODO: Remove regex into separate parser.
                 var options = RegexOptions.None;

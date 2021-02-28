@@ -10,15 +10,14 @@
 // one can change the player's SessionState.Prompt value via the debugger to 
 // something like "[health] [maxhealth]>" to test this out.
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System;
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
     using WheelMUD.Effects;
-    using WheelMUD.Interfaces;
 
     /// <summary>A temporary command to attempt some combat.</summary>
     [ExportGameAction(0)]

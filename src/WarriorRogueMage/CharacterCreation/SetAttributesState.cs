@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities;
+
 namespace WarriorRogueMage.CharacterCreation
 {
     using System;

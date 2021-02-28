@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Events
+namespace WheelMUD.Core
 {
     /// <summary>A sensory event.</summary>
     public class SensoryEvent : GameEvent

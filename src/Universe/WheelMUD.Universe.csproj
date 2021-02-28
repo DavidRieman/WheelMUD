@@ -22,6 +22,5 @@
     <ProjectReference Include="..\Core\WheelMUD.Core.csproj" />
     <ProjectReference Include="..\Data\WheelMUD.Data.csproj" />
     <ProjectReference Include="..\Effects\WheelMUD.Effects.csproj" />
-    <ProjectReference Include="..\Interfaces\WheelMUD.Interfaces.csproj" />
   </ItemGroup>
 </Project>

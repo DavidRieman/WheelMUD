@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Attributes
+namespace WheelMUD.Core
 {
     using System;
 

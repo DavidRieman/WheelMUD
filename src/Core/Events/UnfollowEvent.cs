@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Events
+namespace WheelMUD.Core
 {
     /// <summary>Event to convey that someone has stopped following someone else.</summary>
     public class UnfollowEvent : CancellableGameEvent

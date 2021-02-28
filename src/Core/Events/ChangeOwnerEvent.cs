@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-namespace WheelMUD.Core.Events
+namespace WheelMUD.Core
 {
     /// <summary>A 'change owner' event.</summary>
     public class ChangeOwnerEvent : CancellableGameEvent

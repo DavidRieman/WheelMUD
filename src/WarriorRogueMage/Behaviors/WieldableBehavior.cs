@@ -9,7 +9,6 @@ namespace WarriorRogueMage.Behaviors
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Events;
 
     /// <summary>A <see cref="Thing"/> having WieldableBehavior can be wielded by a player or NPC.</summary>
     /// <remarks>

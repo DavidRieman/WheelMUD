@@ -5,11 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Universe
 {
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Interfaces;
 
     /// <summary>OpensClosesBehavior adds the ability to open and close a thing.</summary>
     public class HoldsLiquidBehavior : Behavior

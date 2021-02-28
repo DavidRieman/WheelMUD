@@ -5,15 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System;
     using System.Collections.Generic;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Core.Events;
     using WheelMUD.Effects;
-    using WheelMUD.Interfaces;
 
     /// <summary>Test command to deafen a target.</summary>
     [ExportGameAction(0)]

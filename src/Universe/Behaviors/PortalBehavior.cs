@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Core.Events;
 
 namespace WheelMUD.Universe
 {

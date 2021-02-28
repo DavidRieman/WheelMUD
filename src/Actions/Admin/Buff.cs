@@ -5,15 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Interfaces;
+
 namespace WheelMUD.Actions
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
     using WheelMUD.Effects;
-    using WheelMUD.Interfaces;
 
     /// <summary>Allows changing the current value of an attribute, but not min, max, etc.</summary>
     [ExportGameAction(0)]
