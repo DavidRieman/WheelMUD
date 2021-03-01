@@ -49,7 +49,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override void Begin()
         {
-            Session.Write("You will now set your basic attributes." + AnsiSequences.NewLine, false);
+            Session.WriteAnsiLine("You will now set your basic attributes.", false);
             RefreshScreen();
         }
 

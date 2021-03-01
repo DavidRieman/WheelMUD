@@ -5,18 +5,31 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Text;
 using WheelMUD.Server.Interfaces;
+using WheelMUD.Server.Telnet;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Server
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using WheelMUD.Server.Telnet;
-
     /// <summary>The MUD Extension Protocol (MXP) handler.</summary>
+    /// <remarks>See: https://www.zuggsoft.com/zmud/mxp.htm for protocol details.</remarks>
     internal static class MXPHandler
     {
+        /// <summary>Begin an open line. Allows command tagging from the MXP "open" category to follow in the line of output.</summary>
+        internal static readonly string OpenLineCode = AnsiSequences.Esc + "[0z";
+
+        /// <summary>
+        /// Begin a secure line. Allows advanced command tagging to follow in the line of output.
+        /// WARNING: Only use with output that is fully controlled by the server, devoid of user-generated strings.
+        /// </summary>
+        internal static readonly string SecureLineCode = AnsiSequences.Esc + "[1z";
+
+        /// <summary>Begin a locked line. Disables all command tag processing for this line of output. Can be used to enforce rendering the output verbatim.</summary>
+        internal static readonly string LockedLineCode = AnsiSequences.Esc + "[2z";
+
         /// <summary>Parses incoming data for the MXP version tag if we are expecting it and returns an array of bytes.</summary>
         /// <param name="sender">The connection requesting the data be parsed</param>
         /// <param name="data">The data to parse.</param>

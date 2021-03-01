@@ -32,7 +32,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override void Begin()
         {
-            Session.Write("You will now pick your character's starting talent." + AnsiSequences.NewLine, false);
+            Session.WriteAnsiLine("You will now pick your character's starting talent.", false);
             RefreshScreen();
         }
 

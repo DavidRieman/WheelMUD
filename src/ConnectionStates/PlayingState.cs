@@ -32,22 +32,24 @@ namespace WheelMUD.ConnectionStates
             // If we have no automatic command (like "look") configured for processing upon login, then we should print the prompt
             // after the welcome text to indicate we are ready for user input now. Else skip the prompt as the automatic command
             // should generate one once that command has been processed in response to login.
-            bool includePrompt = string.IsNullOrWhiteSpace(AppConfigInfo.Instance.AutomaticLoginCommand);
-            string nl = AnsiSequences.NewLine;
-            this.Session.Write($"{nl}Welcome, {Session.Thing.FullName}.{nl}{nl}", includePrompt);
+            // TODO: https://github.com/DavidRieman/WheelMUD/issues/56 - Finish implementing AutomaticLoginCommand, and try:
+            //  bool includePrompt = !string.IsNullOrWhiteSpace(AppConfigInfo.Instance.AutomaticLoginCommand);
+            bool includePrompt = true;
+            Session.WriteAnsiLine($"Welcome, {Session.Thing.FullName}.", includePrompt);
         }
 
         /// <summary>Process the specified input.</summary>
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {
-            if (command != string.Empty)
+            if (!string.IsNullOrWhiteSpace(command))
             {
                 var actionInput = new ActionInput(command, Session);
                 Session.ExecuteAction(actionInput);
             }
             else
             {
+                // Just give the player a fresh prompt. (They may want to see stat recovery details in the prompt, or just verify their connection, etc.)
                 Session.WritePrompt();
             }
         }

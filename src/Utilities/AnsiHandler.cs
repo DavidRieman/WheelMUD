@@ -19,7 +19,6 @@ namespace WheelMUD.Utilities
     {
         // TODO: Consider separating ANSI from MXP handling.
         // NOTE: AnsiSequences.MxpSecureLine MUST NOT be honored from automatic conversion; e.g. cannot support "<%mxpsecureline%>" conversion.
-        //       Instead, explicit MXP line handling will need its own API where it is obvious the output must not contain user-generated content.
         private static readonly Dictionary<string, string> CodeSequenceMap = new Dictionary<string, string>()
         {
             { "n", AnsiSequences.TextNormal },

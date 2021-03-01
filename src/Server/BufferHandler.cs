@@ -16,7 +16,7 @@ namespace WheelMUD.Server
     public class BufferHandler
     {
         /// <summary>The single-page overflow indication.</summary>
-        /// <remarks>TODO: Add OverflowPromptFormatMXP, with clickable links.</remarks>
+        /// <remarks>TODO: https://github.com/DavidRieman/WheelMUD/issues/110 - Add OverflowPromptFormatMXP, with clickable links.</remarks>
         private const string OverflowPromptFormat = @"Paging {0}%: [M]ore, [P]revious, [R]epeat, [A]ll, Enter to quit. > ";
 
         public static string FormatOverflowPrompt(int currentPosition, int totalRows)

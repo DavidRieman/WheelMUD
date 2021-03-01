@@ -6,13 +6,6 @@
 //-----------------------------------------------------------------------------
 
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using System.Text;
-using WheelMUD.Core;
-using WheelMUD.Interfaces;
 
 namespace WheelMUD.Tests
 {
@@ -26,9 +19,6 @@ namespace WheelMUD.Tests
         {
         }
 
-        [Test]
-        public void TestASDF()
-        {
-        }
+        // TODO: https://github.com/DavidRieman/WheelMUD/issues/106 - Need to build these tests as many subtleties of the algorithm need to be protected from regression.
     }
 }

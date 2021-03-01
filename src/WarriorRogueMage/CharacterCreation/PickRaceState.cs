@@ -37,7 +37,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override void Begin()
         {
-            Session.Write("You will now pick your character's race." + AnsiSequences.NewLine, false);
+            Session.WriteAnsiLine("You will now pick your character's race.", false);
             RefreshScreen();
         }
 
