@@ -27,14 +27,7 @@ namespace WheelMUD.Server.Telnet
         /// <summary>Post-processing as called after negotiation.</summary>
         public override void AfterNegotiation()
         {
-            if (UsState == TelnetOptionState.YES)
-            {
-                Connection.TerminalOptions.UseMCCP = true;
-            }
-            else
-            {
-                Connection.TerminalOptions.UseMCCP = false;
-            }
+            Connection.TerminalOptions.UseMCCP = UsState == TelnetOptionState.YES;
         }
     }
 }

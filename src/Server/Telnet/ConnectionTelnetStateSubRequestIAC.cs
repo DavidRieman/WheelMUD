@@ -39,7 +39,7 @@ namespace WheelMUD.Server.Telnet
                     Parent.SubRequestBuffer.RemoveAt(0);
 
                     // Find the related option.
-                    TelnetOption option = (TelnetOption)Parent.TelnetOptions.Find(delegate (ITelnetOption o) { return o.OptionCode == optionCode; });
+                    TelnetOption option = (TelnetOption)Parent.FindOption(optionCode);
                     if (option == null)
                     {
                         // We have received an option code that we dont recognise, so we create a temporary

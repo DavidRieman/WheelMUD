@@ -29,10 +29,10 @@ namespace WheelMUD.Server.Telnet
         public override void ProcessInput(byte data)
         {
             // If the data is not one of our implemented options then we reset back.
-            TelnetOption option = (TelnetOption)Parent.TelnetOptions.Find(delegate (ITelnetOption o) { return o.OptionCode == data; });
+            TelnetOption option = (TelnetOption)Parent.FindOption(data);
             if (option == null)
             {
-                // We have received an option code that we dont recognise, so we create a temporary
+                // We have received an option code that we do not recognise, so we create a temporary
                 // telnet option to deal with it.
                 option = new TelnetOption("temp", data, false, Parent.Connection);
             }
