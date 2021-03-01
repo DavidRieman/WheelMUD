@@ -5,6 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
 using WheelMUD.Utilities;
 
 namespace WheelMUD.Server.Telnet
@@ -70,7 +71,10 @@ namespace WheelMUD.Server.Telnet
                 Connection.TerminalOptions.UseMXP = true;
 
                 // Request a version tag from the client.
-                Connection.Send(AnsiHandler.Parse("<%mxpsecureline%><VERSION>"), true);
+                var ab = new AnsiBuilder();
+                ab.Append("<%mxpsecureline%><VERSION>");
+
+                Connection.Send(ab.ToString(), true);
                 AwaitingVersionResponse = true;
 
                 // TODO: Send our mxp headers.

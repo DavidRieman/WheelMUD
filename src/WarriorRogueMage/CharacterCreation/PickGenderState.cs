@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities;
+using System;
+using System.Linq;
+using WheelMUD.ConnectionStates;
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.CharacterCreation
 {
-    using System;
-    using System.Linq;
-    using System.Text;
-    using WheelMUD.ConnectionStates;
-    using WheelMUD.Core;
-
     /// <summary>The character creation step where the player will pick their gender.</summary>
     public class PickGenderState : CharacterCreationSubState
     {
@@ -63,7 +63,7 @@ namespace WarriorRogueMage.CharacterCreation
                               select g).FirstOrDefault();
             if (selectedGender == null)
             {
-                WrmChargenCommon.SendErrorMessage(Session, string.Format("'{0}' is an invalid gender selection.", currentGender));
+                WrmChargenCommon.SendErrorMessage(Session, $"'{currentGender}' is an invalid gender selection.");
                 RefreshScreen();
             }
 
@@ -74,8 +74,10 @@ namespace WarriorRogueMage.CharacterCreation
         {
             var playerBehavior = Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
             playerBehavior.Gender = selectedGender;
-            string doneMessage = string.Format("<%green%>The chosen gender is {0}.<%n%>" + Environment.NewLine, selectedGender.Name);
-            Session.Write(doneMessage, false);
+
+            var ab = new AnsiBuilder();
+            ab.AppendLine($"<%green%>The chosen gender is {selectedGender.Name}.<%n%>");
+            Session.Write(ab.ToString(), false);
 
             // Proceed to the next step.
             StateMachine.HandleNextStep(this, StepStatus.Success);
@@ -83,7 +85,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen(bool sendPrompt = true)
         {
-            var sb = new StringBuilder();
+            var sb = new AnsiBuilder();
             sb.AppendLine();
             sb.AppendLine();
             sb.AppendLine("You have the following gender choices:");
@@ -94,9 +96,9 @@ namespace WarriorRogueMage.CharacterCreation
             }
 
             sb.AppendLine();
-            sb.AppendLine("<%yellow%>===============================================================");
+            sb.AppendSeparator('-', "yellow");
             sb.AppendLine("Type your gender selection.");
-            sb.AppendLine("===============================================================<%n%>");
+            sb.AppendSeparator('-', "yellow");
 
             Session.Write(sb.ToString(), sendPrompt);
         }

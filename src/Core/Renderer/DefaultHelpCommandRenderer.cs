@@ -6,17 +6,16 @@
 //-----------------------------------------------------------------------------
 
 using WheelMUD.Server;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Core
 {
-    using System.Text;
-
     [RendererExports.HelpCommand(0)]
     public class DefaultHelpCommandRenderer : RendererDefinitions.HelpCommand
     {
         public override string Render(TerminalOptions terminalOptions, Command command)
         {
-            var sb = new StringBuilder();
+            var sb = new AnsiBuilder();
             sb.AppendLine($"<%yellow%>{command.Name.ToUpper()}<%n%>:");
             if (!string.IsNullOrWhiteSpace(command.Description))
             {
@@ -25,7 +24,7 @@ namespace WheelMUD.Core
             // TODO: Add command.Usage?  Rename Example to "Examples" as string[]?
             if (!string.IsNullOrWhiteSpace(command.Example))
             {
-                sb.AppendLine($"<%yellow%>USAGE<%n%>:");
+                sb.AppendLine("<%yellow%>USAGE<%n%>:");
                 sb.AppendLine(command.Example);
             }
             // TODO: Add command.SeeAlso as string[]?

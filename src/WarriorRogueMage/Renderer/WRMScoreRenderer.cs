@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities;
+using System.Linq;
+using WheelMUD.Effects;
+
 namespace WheelMUD.Core
 {
-    using System.Linq;
-    using System.Text;
-    using WheelMUD.Effects;
-
     /// <summary>The WRM game system score renderer.</summary>
     /// <remarks>Overrides the default WheelMUD score renderer, to present game-system-specific details.</remarks>
     [RendererExports.Score(100)]
@@ -20,7 +20,7 @@ namespace WheelMUD.Core
         {
             var stats = player.Stats;
             var statEffects = player.Behaviors.OfType<StatEffect>();
-            var sb = new StringBuilder();
+            var sb = new AnsiBuilder();
 
             var health = stats["HP"];
             var healthMod = statEffects.Where(e => e.Stat.Abbreviation == "HP").Sum(e => e.ValueMod);
@@ -35,30 +35,30 @@ namespace WheelMUD.Core
             var familiar = stats["FAMILIAR"];
             var fate = stats["FATE"];
 
-            var healthLine = string.Format("{0,-13} {1,5:####0}/{2,-5:####0} ({3})", health.Name, health.Value, health.MaxValue, healthMod).PadRight(31);
-            var manaLine = string.Format("{0,-12} {1,5:####0}/{2,-5:####0}", mana.Name, mana.Value, mana.MaxValue).PadRight(31);
-            var damageLine = string.Format("{0,-13} {1,5:##0}/{2,-5:##0}", damage.Name, damage.Value, damage.MaxValue).PadRight(31);
-            var initLine = string.Format("{0,-16} {1,-6}", init.Name, init.Value).PadRight(31);
-            var attackLine = string.Format("{0,-15} {1,3:##0}/{2,-3:##0}", attack.Name, attack.Value, attack.MaxValue).PadRight(31);
-            var defenseLine = string.Format("{0,-14} {1,3:##0}/{2,-3:##0}", defense.Name, defense.Value, defense.MaxValue).PadRight(31);
-            var armorPenaltyLine = string.Format("{0,-16} {1,2}", armorPenalty.Name, armorPenalty.Value).PadRight(31);
-            var wieldMaxLine = string.Format("{0,-16} {1,1}/{2,-1}", wieldMax.Name, wieldMax.Value, wieldMax.MaxValue).PadRight(31);
-            var huntLine = string.Format("{0,-16} {1,2}({2,2})", hunt.Name, hunt.Value, hunt.MaxValue).PadRight(31);
-            var familiarLine = string.Format("{0,-16} {1,1:0}{2,-1:(0)}", familiar.Name, familiar.Value, familiar.MaxValue).PadRight(31);
-            var fateLine = string.Format("{0,-16} {1,2}({2,2})", fate.Name, fate.Value, fate.MaxValue).PadRight(31);
+            var healthLine = $"{health.Name,-13} {health.Value,5:####0}/{health.MaxValue,-5:####0} ({healthMod})".PadRight(31);
+            var manaLine = $"{mana.Name,-12} {mana.Value,5:####0}/{mana.MaxValue,-5:####0}".PadRight(31);
+            var damageLine = $"{damage.Name,-13} {damage.Value,5:##0}/{damage.MaxValue,-5:##0}".PadRight(31);
+            var initLine = $"{init.Name,-16} {init.Value,-6}".PadRight(31);
+            var attackLine = $"{attack.Name,-15} {attack.Value,3:##0}/{attack.MaxValue,-3:##0}".PadRight(31);
+            var defenseLine = $"{defense.Name,-14} {defense.Value,3:##0}/{defense.MaxValue,-3:##0}".PadRight(31);
+            var armorPenaltyLine = $"{armorPenalty.Name,-16} {armorPenalty.Value,2}".PadRight(31);
+            var wieldMaxLine = $"{wieldMax.Name,-16} {wieldMax.Value,1}/{wieldMax.MaxValue,-1}".PadRight(31);
+            var huntLine = $"{hunt.Name,-16} {hunt.Value,2}({hunt.MaxValue,2})".PadRight(31);
+            var familiarLine = $"{familiar.Name,-16} {familiar.Value,1:0}{familiar.MaxValue,-1:(0)}".PadRight(31);
+            var fateLine = $"{fate.Name,-16} {fate.Value,2}({fate.MaxValue,2})".PadRight(31);
             var nameAndTitle = string.IsNullOrWhiteSpace(player.Title) ? player.Name : $"{player.Name}, {player.Title}";
             var pipe = "<%green%>|<%n%>";
 
-            sb.AppendLine($"<%green%>+-------------------------------------------------------------------+");
+            sb.AppendLine("<%green%>+-------------------------------------------------------------------+");
             sb.AppendLine($"{pipe} {nameAndTitle,-19} Level {"?",-6}  Reputation {"?",-6}  Kudos {"?",-6} {pipe}");
-            sb.AppendLine($"<%green%>+----------------+----------------+----------------+----------------+");
+            sb.AppendLine("<%green%>+----------------+----------------+----------------+----------------+");
             sb.AppendLine($"{pipe} {healthLine} {pipe} {manaLine} {pipe}");
             sb.AppendLine($"{pipe} {damageLine} {pipe} {initLine} {pipe}");
             sb.AppendLine($"{pipe} {attackLine} {pipe} {defenseLine} {pipe}");
             sb.AppendLine($"{pipe} {armorPenaltyLine} {pipe} {wieldMaxLine} {pipe}");
             sb.AppendLine($"{pipe} {huntLine} {pipe} {familiarLine} {pipe}");
             sb.AppendLine($"{pipe} {fateLine} {pipe} {string.Empty.PadRight(31)} {pipe}");
-            sb.AppendLine($"<%green%>+---------------------------------^---------------------------------+<%n%>");
+            sb.AppendLine("<%green%>+---------------------------------^---------------------------------+<%n%>");
 
             return sb.ToString();
         }

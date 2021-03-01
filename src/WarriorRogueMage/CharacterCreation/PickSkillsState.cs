@@ -9,11 +9,9 @@ using WheelMUD.Utilities;
 
 namespace WarriorRogueMage.CharacterCreation
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using WheelMUD.ConnectionStates;
     using WheelMUD.Core;
 
@@ -121,12 +119,12 @@ namespace WarriorRogueMage.CharacterCreation
                 return;
             }
 
-            var sb = new StringBuilder();
-            sb.AppendAnsiLine("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=");
-            sb.AppendAnsiLine($"Description for {foundSkill.Name}");
-            sb.AppendAnsiLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
-            sb.AppendAnsiLine($"<%b%><%white%>{foundSkill.Description}");
-            sb.AppendAnsiLine("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
+            var sb = new AnsiBuilder();
+            sb.AppendLine("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=");
+            sb.AppendLine($"Description for {foundSkill.Name}");
+            sb.AppendLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
+            sb.AppendLine($"<%b%><%white%>{foundSkill.Description}");
+            sb.AppendLine("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
 
             Session.Write(sb.ToString());
         }
@@ -153,7 +151,7 @@ namespace WarriorRogueMage.CharacterCreation
         private string FormatSkillText()
         {
             var skillQueue = new Queue();
-            var text = new StringBuilder();
+            var text = new AnsiBuilder();
             int rows = gameSkills.Count / 4;
             var longestSkillName = 0;
 
@@ -175,7 +173,7 @@ namespace WarriorRogueMage.CharacterCreation
                 string skill2 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                 string skill3 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                 string skill4 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                text.AppendAnsiLine($"{skill1}  {skill2}  {skill3}  {skill4}");
+                text.AppendLine($"{skill1}  {skill2}  {skill3}  {skill4}");
             }
 
             if ((gameSkills.Count % 4) > 0)
@@ -185,49 +183,48 @@ namespace WarriorRogueMage.CharacterCreation
                 {
                     case 1:
                         string skillcolumn1 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                        text.AppendAnsiLine($"{skillcolumn1}");
+                        text.AppendLine($"{skillcolumn1}");
                         break;
                     case 2:
                         string sk1 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                         string sk2 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                        text.AppendAnsiLine($"{sk1}  {sk2}");
+                        text.AppendLine($"{sk1}  {sk2}");
                         break;
                     case 3:
                         string skl1 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                         string skl2 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                         string skl3 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                        text.AppendAnsiLine($"{skl1}  {skl2}  {skl3}");
+                        text.AppendLine($"{skl1}  {skl2}  {skl3}");
                         break;
                 }
             }
 
-            text.AppendAnsiLine();
+            text.AppendLine();
             return text.ToString();
         }
 
         private void RefreshScreen(bool sendPrompt = true)
         {
-            var nl = Environment.NewLine;
-            var sb = new StringBuilder();
-            sb.AppendAnsiLine();
-            sb.AppendAnsiLine();
-            sb.AppendAnsiLine("You may pick three starting skills for your character.");
+            var sb = new AnsiBuilder();
+            sb.AppendLine();
+            sb.AppendLine();
+            sb.AppendLine("You may pick three starting skills for your character.");
             int n = 1;
             foreach (var skill in selectedSkills)
             {
-                sb.AppendAnsiLine($"Skill #{n} : {skill.Name}{nl}");
+                sb.AppendLine($"Skill #{n} : {skill.Name}");
                 n++;
             }
-            sb.AppendAnsiLine();
-            sb.AppendAnsiLine("<%green%>Please select 3 from the list below:<%n%>");
-            sb.AppendAnsiLine(formattedSkills);
-            sb.AppendAnsiLine($"<%green%>You have {3 - selectedSkills.Count()} skills left.<%n%>");
-            sb.AppendAnsiLine("<%yellow%>=========================================================================");
-            sb.AppendAnsiLine("To pick a skill, type the skill's name. Example: unarmed");
-            sb.AppendAnsiLine("To view a skill's description use the view command. Example: view unarmed");
-            sb.AppendAnsiLine("To see this screen again type list.");
-            sb.AppendAnsiLine("When you are done picking your three skills, type done.");
-            sb.AppendAnsiLine("=========================================================================<%n%>");
+            sb.AppendLine();
+            sb.AppendLine("<%green%>Please select 3 from the list below:<%n%>");
+            sb.AppendLine(formattedSkills);
+            sb.AppendLine($"<%green%>You have {3 - selectedSkills.Count} skills left.<%n%>");
+            sb.AppendLine("<%yellow%>=========================================================================");
+            sb.AppendLine("To pick a skill, type the skill's name. Example: unarmed");
+            sb.AppendLine("To view a skill's description use the view command. Example: view unarmed");
+            sb.AppendLine("To see this screen again type list.");
+            sb.AppendLine("When you are done picking your three skills, type done.");
+            sb.AppendLine("=========================================================================<%n%>");
 
             Session.Write(sb.ToString(), sendPrompt);
         }

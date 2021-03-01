@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Core
 {
-    using System.Text;
-
     /// <summary>The default Score renderer.</summary>
     /// <remarks>
     /// The default score renderer is pretty basic. Game systems will generally be expected to replace this
@@ -23,7 +23,7 @@ namespace WheelMUD.Core
             // and races and attributes and so on, and provide a more traditional "score" breakdown of the
             // current character state as pertains to the actual game system.
             var livingBehavior = player.FindBehavior<LivingBehavior>();
-            var sb = new StringBuilder();
+            var sb = new AnsiBuilder();
             sb.AppendLine($"{player.Name}. You are {livingBehavior.Consciousness}");
             return sb.ToString();
         }

@@ -5,14 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-
 using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A command that allows a player to emote.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("emote", CommandCategory.Activities)]
@@ -59,12 +57,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return commonFailure;
         }
     }
 }

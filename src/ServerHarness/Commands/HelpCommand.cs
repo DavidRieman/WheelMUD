@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+using WheelMUD.Main;
+using WheelMUD.Utilities;
+
 namespace ServerHarness
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using WheelMUD.Main;
-
     /// <summary>Handle the 'help' command as specified by the administrator from the console.</summary>
     [ExportServerHarnessCommand(0)]
     public class HelpCommand : IServerHarnessCommand
@@ -19,7 +19,7 @@ namespace ServerHarness
         public string Description => "Retrieve basic help for this ServerHarness, including a list of commands.";
 
         /// <summary>Gets the recognized names for this command.</summary>
-        public IEnumerable<string> Names => new string[] { "?", "HELP", "help", "h" };
+        public IEnumerable<string> Names => new[] { "?", "HELP", "help", "h" };
 
         /// <summary>Execute the Help command.</summary>
         /// <param name="app">The application to display help for.</param>
@@ -33,10 +33,12 @@ namespace ServerHarness
         /// <summary>Present the console command-line "HELP" response to the administrator.</summary>
         private string DisplayHelp()
         {
-            var sb = new StringBuilder(Application.Instance.BasicAdministrativeGameInfo);
-            sb.AppendLine("==================================");
+            var sb = new AnsiBuilder();
+            sb.AppendLine(Application.Instance.BasicAdministrativeGameInfo);
+            sb.AppendSeparator();
             sb.AppendLine("Available administrative commands:");
-            sb.AppendLine("==================================");
+            sb.AppendSeparator();
+            
             foreach (var command in ServerHarnessCommands.Instance.AllCommands)
             {
                 sb.AppendLine($"{command.Names.First(),16} - {command.Description}");

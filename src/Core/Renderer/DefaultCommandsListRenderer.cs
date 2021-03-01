@@ -6,18 +6,17 @@
 //-----------------------------------------------------------------------------
 
 using WheelMUD.Server;
+using WheelMUD.Utilities;
+using System.Collections.Generic;
 
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-    using System.Text;
-
     [RendererExports.CommandsList(0)]
     public class DefaultCommandsListRenderer : RendererDefinitions.CommandsList
     {
         public override string Render(TerminalOptions terminalOptions, IEnumerable<Command> commands, string categoryName)
         {
-            var sb = new StringBuilder();
+            var sb = new AnsiBuilder();
             sb.AppendLine($"<%yellow%>{categoryName} commands<%n%>:");
             foreach (var command in commands)
             {

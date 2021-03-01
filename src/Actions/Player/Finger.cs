@@ -9,7 +9,6 @@ namespace WheelMUD.Actions
 {
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Text;
     using System.Threading;
     using WheelMUD.Core;
     using WheelMUD.Utilities;
@@ -39,26 +38,26 @@ namespace WheelMUD.Actions
         /// </remarks>
         public override void Execute(ActionInput actionInput)
         {
-            var sb = new StringBuilder();
+            var sb = new AnsiBuilder();
 
             bool isOnline = false;
             string addressIP = null;
 
             PlayerBehavior playerBehavior = target.Behaviors.FindFirst<PlayerBehavior>();
             
-            sb.AppendAnsiLine($"<%yellow%><%b%>Name: {target.Name} Title: {target.Title}<%n%>");
-            sb.AppendAnsiLine($"Description: {target.Description}");
-            sb.AppendAnsiLine($"Full Name: {target.FullName}");
-            sb.AppendAnsiLine($"ID: {target.Id}");
-            sb.AppendAnsiLine($"Type: {target.GetType().Name}"); // identify npc ?
-            sb.AppendAnsiLine("Race: TBA      Guild: TBA     Class: TBA");
-            sb.AppendAnsiLine("Religion: TBA");
-            sb.AppendAnsiLine("Gender: TBA");
-            sb.AppendAnsiLine("Email: TBA         Messenger Id: TBA");
-            sb.AppendAnsiLine("Home Page: TBA");
-            sb.AppendAnsiLine("Spouse: TBA");
-            sb.AppendAnsiLine("Creation Date: TBA");
-            sb.AppendAnsiLine("Age: TBA");
+            sb.AppendLine($"<%yellow%><%b%>Name: {target.Name} Title: {target.Title}<%n%>");
+            sb.AppendLine($"Description: {target.Description}");
+            sb.AppendLine($"Full Name: {target.FullName}");
+            sb.AppendLine($"ID: {target.Id}");
+            sb.AppendLine($"Type: {target.GetType().Name}"); // identify npc ?
+            sb.AppendLine("Race: TBA      Guild: TBA     Class: TBA");
+            sb.AppendLine("Religion: TBA");
+            sb.AppendLine("Gender: TBA");
+            sb.AppendLine("Email: TBA         Messenger Id: TBA");
+            sb.AppendLine("Home Page: TBA");
+            sb.AppendLine("Spouse: TBA");
+            sb.AppendLine("Creation Date: TBA");
+            sb.AppendLine("Age: TBA");
             
             if (playerBehavior != null)
             {
@@ -74,15 +73,15 @@ namespace WheelMUD.Actions
                 
                 string statusString = isOnline ? "<%green%>Online<%n%>" : "<%red%>Offline<%n%>";
                 
-                sb.AppendAnsiLine($"Status: {statusString}"); // need way to report both offline and online
-                sb.AppendAnsiLine($"Location: {target.Parent.Name}");
-                sb.AppendAnsiLine($"Last Login: {playerBehavior.PlayerData.LastLogin}");
+                sb.AppendLine($"Status: {statusString}"); // need way to report both offline and online
+                sb.AppendLine($"Location: {target.Parent.Name}");
+                sb.AppendLine($"Last Login: {playerBehavior.PlayerData.LastLogin}");
                 
                 if(isOnline)
-                    sb.AppendAnsiLine($"Current IP Address: {addressIP}");
+                    sb.AppendLine($"Current IP Address: {addressIP}");
                 
-                sb.AppendAnsiLine("Plan: TBA");
-                sb.AppendAnsiLine("MXP: TBA");
+                sb.AppendLine("Plan: TBA");
+                sb.AppendLine("MXP: TBA");
                 
             }
 
@@ -126,12 +125,8 @@ namespace WheelMUD.Actions
             }
 
             // Rule: If there is less than 1 parameter, show help.
-            if (actionInput.Params.Length != 1)
-            {
-                return "Syntax:\n<finger [entity]>\n\nRemarking line 31 in this file will help crash test the mud :)\n\nSee also who";
-            }
-
-            return null;
+            return actionInput.Params.Length != 1 ? 
+                "Syntax:\n<finger [entity]>\n\nRemarking line 31 in this file will help crash test the mud :)\n\nSee also who" : null;
         }
     }
 }

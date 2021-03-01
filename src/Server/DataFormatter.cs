@@ -6,7 +6,6 @@
 //-----------------------------------------------------------------------------
 
 using System.Text.RegularExpressions;
-using WheelMUD.Utilities;
 
 namespace WheelMUD.Server
 {
@@ -50,16 +49,13 @@ namespace WheelMUD.Server
                     connection.OutputBuffer.CurrentLocation,
                     connection.OutputBuffer.Length);
             }
-
-            if (connection.TerminalOptions.UseANSI)
-            {
-                data = AnsiHandler.Parse(data);
-            }
-            else
+            
+            if (!connection.TerminalOptions.UseANSI)
             {
                 // TODO: Remove regex into separate parser.
                 var options = RegexOptions.None;
-                var regex = new Regex(@"<%?\w+[^>]*%>", options);
+                // since we automatically parse with the ansi builder, we search for ansi codes
+                var regex = new Regex(@"\u001B\\[[;\\d]*[ -/]*[@-~]", options);
                 string input = data;
                 string replacement = string.Empty;
                 data = regex.Replace(input, replacement);
@@ -67,7 +63,7 @@ namespace WheelMUD.Server
 
             if (!connection.TerminalOptions.UseMXP)
             {
-                // TODO: Remove regex into separate parser.
+                // TODO: Remove regex into separate parser. Currently this would remove all ANSI codes, not just MXP
                 var options = RegexOptions.None;
                 var regex = new Regex(@"</?\w+[^>]*>", options);
                 string input = data;

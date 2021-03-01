@@ -7,13 +7,11 @@
 
 using WheelMUD.Interfaces;
 using WheelMUD.Utilities;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
 namespace WheelMUD.Actions.Temporary
 {
-    using System.Collections.Generic;
-    using System.Text;
-    using WheelMUD.Core;
-
     /// <summary>
     /// Command to add, remove, or display the "visuals" associated with a 
     /// room. Visuals are like pseudo-items that can be looked at, e.g. to
@@ -85,20 +83,20 @@ namespace WheelMUD.Actions.Temporary
             }
             else if (command == "show")
             {
-                var output = new StringBuilder();
+                var output = new AnsiBuilder();
 
                 if (room.Visuals.Count > 0)
                 {
-                    output.AppendAnsiLine($"Visuals for {roomName} [{roomId}]:");
+                    output.AppendLine($"Visuals for {roomName} [{roomId}]:");
 
                     foreach (var name in room.Visuals.Keys)
                     {
-                        output.AppendAnsiLine($"  {name}: {room.Visuals[name]}");
+                        output.AppendLine($"  {name}: {room.Visuals[name]}");
                     }
                 }
                 else
                 {
-                    output.AppendAnsiLine($"No visuals found for {roomName} [{roomId}].");
+                    output.AppendLine($"No visuals found for {roomName} [{roomId}].");
                 }
 
                 sender.Write(output.ToString());
@@ -131,27 +129,27 @@ namespace WheelMUD.Actions.Temporary
                 return "You must be located in a valid room to change its visuals.";
             }
 
-            var usageText = new StringBuilder();
-            usageText.AppendAnsiLine("Usage:");
-            usageText.AppendAnsiLine("visuals add <name> <description>");
-            usageText.AppendAnsiLine("visuals remove <name>");
-            usageText.AppendAnsiLine("visuals show");
+            var usageText = new AnsiBuilder();
+            usageText.AppendLine("Usage:");
+            usageText.AppendLine("visuals add <name> <description>");
+            usageText.AppendLine("visuals remove <name>");
+            usageText.AppendLine("visuals show");
 
             switch (command)
             {
                 case "add":
                     // Ensure "add" syntax includes both a name and description.
-                    return (string.IsNullOrEmpty(visualName) || string.IsNullOrEmpty(visualDescription))
+                    return string.IsNullOrEmpty(visualName) || string.IsNullOrEmpty(visualDescription)
                                ? usageText.ToString()
                                : null;
 
                 case "remove":
                     // Ensure "remove" syntax includes a name but nothing else.
-                    return (argCount != 2) ? usageText.ToString() : null;
+                    return argCount != 2 ? usageText.ToString() : null;
 
                 case "show":
                     // Ensure "show" syntax has no additional arguments.
-                    return (argCount > 1) ? usageText.ToString() : null;
+                    return argCount > 1 ? usageText.ToString() : null;
 
                 default:
                     // Handle case for "visuals aalkdsfj lkajf" etc.
@@ -213,8 +211,8 @@ namespace WheelMUD.Actions.Temporary
             // The remainder of the command text is assumed to be the description.
             if (argCount > 2)
             {
-                string tail = actionInput.Tail.Substring(command.Length).TrimStart();
-                tail = tail.Substring(visualName.Length).TrimStart();
+                string tail = actionInput.Tail[command.Length..].TrimStart();
+                tail = tail[visualName.Length..].TrimStart();
                 visualDescription = tail;
             }
         }

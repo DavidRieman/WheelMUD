@@ -8,8 +8,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Text.RegularExpressions;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Server
 {
@@ -27,26 +28,16 @@ namespace WheelMUD.Server
         {
             // TODO: Next line is a hack. Needs replacing.
             originalText = originalText.Replace("<%nl%>", Environment.NewLine);
+            
+            var taglessText = HideInvisibleTags(originalText, out var replacedTags);
 
-            List<string> replacedTags = new List<string>();
-            string taglessText = HideInvisibleTags(originalText, out replacedTags);
+            var wrappedText = Wrapper(taglessText, maxWidth);
 
-            string[] wrappedText = Wrapper(taglessText, maxWidth);
+            var wrappedBlock = wrappedText.Aggregate(string.Empty, (current, textLine) => $"{current}{AnsiSequences.NewLine}{textLine}");
 
-            string wrappedBlock = string.Empty;
-            foreach (string textLine in wrappedText)
-            {
-                wrappedBlock = string.Format("{0}\r\n{1}", wrappedBlock, textLine);
-            }
+            wrappedBlock = wrappedBlock[1..].TrimStart();
 
-            wrappedBlock = wrappedBlock.Substring(1).TrimStart();
-
-            if (replacedTags.Count > 0)
-            {
-                return ReplaceInvisibleTags(wrappedBlock, replacedTags);
-            }
-
-            return wrappedBlock;
+            return replacedTags.Count > 0 ? ReplaceInvisibleTags(wrappedBlock, replacedTags) : wrappedBlock;
         }
 
         /// <summary>Looks for ANSI tags and MXP tags that are "invisible" when it comes to word wrapping.</summary>
@@ -56,19 +47,19 @@ namespace WheelMUD.Server
         private static string HideInvisibleTags(string originalText, out List<string> replacedText)
         {
             // Regex match
-            RegexOptions options = RegexOptions.None;
+            var options = RegexOptions.None;
 
             ////Regex regex = new Regex(@"</?\w+[^>]*>", options);
-            Regex regex = new Regex(@"</?.[^>]*>", options);
+            var regex = new Regex(@"</?.[^>]*>", options);
             ////Regex regex = new Regex(@"</?\w+((\s+\w+(\s*=\s*(?:"".*?""|'.*?'|[^'"">\s]+))?)+\s*|\s*)/?>", options);
 
-            StringBuilder modifiedText = new StringBuilder();
+            var modifiedText = new AnsiBuilder();
             replacedText = new List<string>();
 
             // Get matches
-            Match match = regex.Match(originalText);
-            int matchPosition = 0;
-            while (match.Success == true)
+            var match = regex.Match(originalText);
+            var matchPosition = 0;
+            while (match.Success)
             {
                 replacedText.Add(match.Value);
                 modifiedText.Append(originalText.Substring(matchPosition, match.Index - matchPosition));
@@ -77,13 +68,11 @@ namespace WheelMUD.Server
                 match = match.NextMatch();
             }
 
-            if (modifiedText.Length > 0)
-            {
-                modifiedText.Append(originalText.Substring(matchPosition));
-                return modifiedText.ToString();
-            }
+            if (modifiedText.Length <= 0) return originalText;
+            
+            modifiedText.Append(originalText[matchPosition..]);
+            return modifiedText.ToString();
 
-            return originalText;
         }
 
         /// <summary>Replaces all place holder tags with their original invisible tags.</summary>
@@ -92,14 +81,14 @@ namespace WheelMUD.Server
         /// <returns>The output, with all place holder tags replaced with their original tags.</returns>
         private static string ReplaceInvisibleTags(string originalText, IList<string> replacements)
         {
-            StringBuilder modifiedText = new StringBuilder();
+            var modifiedText = new AnsiBuilder();
 
-            string[] sections =
-                originalText.Split(new string[] { TagPlaceHolder }, StringSplitOptions.None);
+            var sections =
+                originalText.Split(new[] { TagPlaceHolder }, StringSplitOptions.None);
 
-            int i = 0;
+            var i = 0;
 
-            foreach (string section in sections)
+            foreach (var section in sections)
             {
                 if (section.Length > 0)
                 {
@@ -126,28 +115,28 @@ namespace WheelMUD.Server
             originalText = originalText.Replace("\r\n", "\n");
             originalText = originalText.Replace("\r", "\n");
             originalText = originalText.Replace("\t", " ");
-            string[] textParagraphs = originalText.Split('\n');
-            ArrayList textLines = new ArrayList();
+            var textParagraphs = originalText.Split('\n');
+            var textLines = new ArrayList();
 
-            for (int i = 0; i < textParagraphs.Length; i++)
+            foreach (var t in textParagraphs)
             {
-                if (textParagraphs[i].Length <= maxWidth)
+                if (t.Length <= maxWidth)
                 {
                     // Block of text is smaller then width, add it.
-                    textLines.Add(textParagraphs[i]);
+                    textLines.Add(t);
                 }
                 else
                 {
                     // Block of text is longer, break it up in seperate lines.
-                    string[] lines = BreakLines(textParagraphs[i], maxWidth);
-                    for (int j = 0; j < lines.Length; j++)
+                    var lines = BreakLines(t, maxWidth);
+                    foreach (var t1 in lines)
                     {
-                        textLines.Add(lines[j]);
+                        textLines.Add(t1);
                     }
                 }
             }
 
-            string[] wrappedText = new string[textLines.Count];
+            var wrappedText = new string[textLines.Count];
             textLines.CopyTo(wrappedText, 0);
             return wrappedText;
         }
@@ -158,10 +147,10 @@ namespace WheelMUD.Server
         /// <returns>The finished text, with line breaks inserted.</returns>
         private static string[] BreakLines(string originalText, int maxWidth)
         {
-            string[] textWords = originalText.Trim().Split(' ');
-            int wordIndex = 0;
-            string tmpLine = string.Empty;
-            ArrayList textLines = new ArrayList();
+            var textWords = originalText.Trim().Split(' ');
+            var wordIndex = 0;
+            var tmpLine = string.Empty;
+            var textLines = new ArrayList();
 
             while (wordIndex < textWords.Length)
             {
@@ -171,7 +160,7 @@ namespace WheelMUD.Server
                 }
                 else
                 {
-                    string backupLine = tmpLine;
+                    var backupLine = tmpLine;
                     if (tmpLine == string.Empty)
                     {
                         tmpLine = textWords[wordIndex];
@@ -208,7 +197,7 @@ namespace WheelMUD.Server
                 }
             }
 
-            string[] textLinesStr = new string[textLines.Count];
+            var textLinesStr = new string[textLines.Count];
             textLines.CopyTo(textLinesStr, 0);
             return textLinesStr;
         }

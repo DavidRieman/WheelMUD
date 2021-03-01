@@ -6,14 +6,12 @@
 //-----------------------------------------------------------------------------
 
 using WheelMUD.Interfaces;
+using WheelMUD.Utilities;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using WheelMUD.Core;
-
     /// <summary>An action to show detailed information about your attributes.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("attributes", CommandCategory.Inform)]
@@ -33,23 +31,23 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            var sb = new StringBuilder();
+            var ab = new AnsiBuilder();
 
             foreach (KeyValuePair<string, GameStat> kvp in sender.Thing.Stats)
             {
-                sb.Append(kvp.Value.Name.PadRight(20));
-                sb.Append(kvp.Value.Value);
-                sb.Append(Environment.NewLine);
+                ab.Append(kvp.Value.Name.PadRight(20));
+                ab.Append(kvp.Value.Value);
+                ab.AppendLine();
             }
 
             foreach (KeyValuePair<string, GameAttribute> kvp in sender.Thing.Attributes)
             {
-                sb.Append(kvp.Value.Name.PadRight(20));
-                sb.Append(kvp.Value.Value);
-                sb.Append(Environment.NewLine);
+                ab.Append(kvp.Value.Name.PadRight(20));
+                ab.Append(kvp.Value.Value);
+                ab.AppendLine();
             }
 
-            sender.Write(sb.ToString().Trim());
+            sender.Write(ab.ToString().Trim());
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -58,12 +56,7 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return commonFailure;
         }
     }
 }

@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities;
+using System.Collections.Generic;
+using System.Management;
+using WheelMUD.Core;
+
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using System.Management;
-    using System.Text;
-    using WheelMUD.Core;
-
     /// <summary>A command to display the server status information.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("serverstatus", CommandCategory.Inform)]
@@ -29,54 +29,46 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            StringBuilder sb = new StringBuilder();
-            ulong totalMemory;
+            var sb = new AnsiBuilder();
+
             //// TODO Reference to config file
-            string appName = string.Empty;
-            string div = string.Empty;
+            var appName = "WheelMUD.vshost.exe";
 
-            appName = "WheelMUD.vshost.exe";
-            div = "<%b%><%red%>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<%n%>";
-
-            sb.AppendLine(div);
+            sb.AppendSeparator('=', "red", true);
             sb.AppendLine("System Status:");
-            sb.AppendLine(div);
-            ManagementObjectSearcher query1; // = new ManagementObjectSearcher("SELECT * FROM Win32_ComputerSystem");
-            ManagementObjectCollection queryCollection1;
+            sb.AppendSeparator('-', "red");
 
             ////ManagementObjectCollection queryCollection1 = query1.Get();
 
-            query1 = new ManagementObjectSearcher("SELECT * FROM Win32_ComputerSystem");
-            queryCollection1 = query1.Get();
+            var query1 = new ManagementObjectSearcher("SELECT * FROM Win32_ComputerSystem");
+            var queryCollection1 = query1.Get();
             foreach (ManagementObject mo in queryCollection1)
             {
-                sb.Append("Manufacturer : " + mo["manufacturer"].ToString() + " - ");
-                sb.Append("Model : " + mo["model"].ToString() + " - ");
-                //// UInt64.TryParse
-                totalMemory = (ulong)mo["totalphysicalmemory"] / 1024;
-                sb.AppendLine("Physical Ram : " + totalMemory.ToString());
+                sb.Append($"Manufacturer : {mo["manufacturer"]}");
+                sb.AppendLine($"Model : {mo["model"]}");
+                sb.AppendLine($"Physical Ram : {(ulong)mo["totalphysicalmemory"] / 1024}");
             }
 
-            sb.AppendLine(div);
+            sb.AppendSeparator('-', "red");
             query1 = new ManagementObjectSearcher("SELECT * FROM Win32_process where NAME = '" + appName + "'");
             queryCollection1 = query1.Get();
             foreach (ManagementObject mo in queryCollection1)
             {
-                foreach (PropertyData item in mo.Properties)
+                foreach (var item in mo.Properties)
                 {
-                    sb.AppendLine("<%b%><%red%>" + item.Name + " - " + "<%b%><%yellow%>" + item.Value + "<%n%>");
+                    sb.AppendLine($"<%b%><%red%>{item.Name}<%b%><%yellow%>{item.Value}<%n%>");
                 }
             }
 
-            sb.AppendLine(div);
+            sb.AppendSeparator('-', "red");
             query1 = new ManagementObjectSearcher("SELECT * FROM Win32_timezone");
             queryCollection1 = query1.Get();
             foreach (ManagementObject mo in queryCollection1)
             {
-                sb.AppendLine("This Server lives in:" + mo["caption"].ToString());
+                sb.AppendLine($"This Server lives in:{mo["caption"]}");
             }
 
-            actionInput.Controller.Write(sb.ToString().TrimEnd(null));
+            actionInput.Controller.Write(sb.ToString());
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -84,13 +76,8 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            return commonFailure;
         }
     }
 }

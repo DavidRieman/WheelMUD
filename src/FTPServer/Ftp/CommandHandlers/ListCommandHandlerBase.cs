@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using System;
 using System.IO;
 using System.Text;
 using WheelMUD.Ftp.General;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Ftp.FtpCommands
 {
@@ -29,7 +29,7 @@ namespace WheelMUD.Ftp.FtpCommands
 
             message = message.Trim();
 
-            string path = GetPath(string.Empty);
+            var path = GetPath(string.Empty);
 
             if (message.Length == 0 || message[0] == '-')
             {
@@ -43,7 +43,7 @@ namespace WheelMUD.Ftp.FtpCommands
             }
 
             var asAll = ArrayHelpers.Add(asDirectories, asFiles) as string[];
-            string fileList = BuildReply(message, asAll);
+            var fileList = BuildReply(message, asAll);
 
             var socketReply = new FtpReplySocket(ConnectionObject);
 
@@ -62,65 +62,52 @@ namespace WheelMUD.Ftp.FtpCommands
 
         protected string BuildShortReply(string[] asFiles)
         {
-            string fileList = string.Join("\r\n", asFiles);
-            fileList += "\r\n";
+            var fileList = string.Join(AnsiSequences.NewLine, asFiles);
+            fileList += AnsiSequences.NewLine;
             return fileList;
         }
 
         protected string BuildLongReply(string[] asFiles)
         {
-            string dir = GetPath(string.Empty);
+            var dir = GetPath(string.Empty);
 
-            var stringBuilder = new StringBuilder();
+            var ab = new StringBuilder();
 
-            for (int index = 0; index < asFiles.Length; index++)
+            foreach (var t in asFiles)
             {
-                string file = asFiles[index];
+                var file = t;
                 file = Path.Combine(dir, file);
 
                 var info = ConnectionObject.FileSystemObject.GetFileInfo(file);
-                if (info != null)
+                if (info == null) continue;
+                
+                ab.Append($"{info.GetAttributeString()} 1 owner group ");
+
+                if (info.IsDirectory())
                 {
-                    string attributes = info.GetAttributeString();
-                    stringBuilder.Append(attributes);
-                    stringBuilder.Append(" 1 owner group");
-
-                    if (info.IsDirectory())
-                    {
-                        stringBuilder.Append("            1 ");
-                    }
-                    else
-                    {
-                        string fileSize = info.GetSize().ToString();
-                        stringBuilder.Append(General.TextHelpers.RightAlignString(fileSize, 13, ' '));
-                        stringBuilder.Append(" ");
-                    }
-
-                    DateTime fileDate = info.GetModifiedTime();
-
-                    string day = fileDate.Day.ToString();
-
-                    stringBuilder.Append(TextHelpers.Month(fileDate.Month));
-                    stringBuilder.Append(" ");
-
-                    if (day.Length == 1)
-                    {
-                        stringBuilder.Append(" ");
-                    }
-
-                    stringBuilder.Append(day);
-                    stringBuilder.Append(" ");
-                    stringBuilder.Append(string.Format("{0:hh}", fileDate));
-                    stringBuilder.Append(":");
-                    stringBuilder.Append(string.Format("{0:mm}", fileDate));
-                    stringBuilder.Append(" ");
-
-                    stringBuilder.Append(asFiles[index]);
-                    stringBuilder.Append("\r\n");
+                    ab.Append("            1 ");
                 }
+                else
+                {
+                    var fileSize = info.GetSize().ToString();
+                    ab.Append($"{TextHelpers.RightAlignString(fileSize, 13, ' ')} ");
+                }
+
+                var fileDate = info.GetModifiedTime();
+
+                var day = fileDate.Day.ToString();
+
+                ab.Append($"{TextHelpers.Month(fileDate.Month)} ");
+
+                if (day.Length == 1)
+                {
+                    ab.Append(" ");
+                }
+
+                ab.AppendLine($"{day} {fileDate:hh} : {fileDate:mm} {t}");
             }
 
-            return stringBuilder.ToString();
+            return ab.ToString();
         }
     }
 }
