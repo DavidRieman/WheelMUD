@@ -16,20 +16,20 @@ namespace WheelMUD.Core
         public override string Render(Thing player)
         {
             var senses = player.FindBehavior<SensesBehavior>();
-            var sb = new AnsiBuilder();
+            var ab = new AnsiBuilder();
 
             var invThings = player.Children.Where(presentThing => senses.CanPerceiveThing(presentThing)).ToArray();
 
-            sb.AppendLine(invThings.Length > 0
+            ab.AppendLine(invThings.Length > 0
                 ? "<%yellow%>Searching your inventory, you find:<%n%>"
                 : "<%yellow%>You found no inventory.<%n%>");
 
             foreach (var presentThing in invThings)
             {
-                sb.AppendLine($"  <%magenta%>{presentThing.FullName}<%n%>");
+                ab.AppendLine($"  <%magenta%>{presentThing.FullName}<%n%>");
             }
 
-            return sb.ToString();
+            return ab.ToString();
         }
     }
 }

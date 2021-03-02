@@ -46,15 +46,15 @@ namespace WheelMUD.Actions
                 }
                 else
                 {
-                    var sb = new AnsiBuilder();
-                    sb.AppendLine("Your Friends:");
+                    var ab = new AnsiBuilder();
+                    ab.AppendLine("Your Friends:");
                     foreach (var friendName in playerBehavior.Friends)
                     {
                         var status = PlayerManager.Instance.FindLoadedPlayerByName(friendName, false) == null ? "Offline" : "Online";
-                        sb.AppendLine($"{friendName} [{status}]");
+                        ab.AppendLine($"{friendName} [{status}]");
                     }
 
-                    sender.Write(sb.ToString());
+                    sender.Write(ab.ToString());
                 }
 
                 return;

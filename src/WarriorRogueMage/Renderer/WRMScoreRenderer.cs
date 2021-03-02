@@ -20,7 +20,7 @@ namespace WheelMUD.Core
         {
             var stats = player.Stats;
             var statEffects = player.Behaviors.OfType<StatEffect>();
-            var sb = new AnsiBuilder();
+            var ab = new AnsiBuilder();
 
             var health = stats["HP"];
             var healthMod = statEffects.Where(e => e.Stat.Abbreviation == "HP").Sum(e => e.ValueMod);
@@ -49,18 +49,18 @@ namespace WheelMUD.Core
             var nameAndTitle = string.IsNullOrWhiteSpace(player.Title) ? player.Name : $"{player.Name}, {player.Title}";
             var pipe = "<%green%>|<%n%>";
 
-            sb.AppendLine("<%green%>+-------------------------------------------------------------------+");
-            sb.AppendLine($"{pipe} {nameAndTitle,-19} Level {"?",-6}  Reputation {"?",-6}  Kudos {"?",-6} {pipe}");
-            sb.AppendLine("<%green%>+----------------+----------------+----------------+----------------+");
-            sb.AppendLine($"{pipe} {healthLine} {pipe} {manaLine} {pipe}");
-            sb.AppendLine($"{pipe} {damageLine} {pipe} {initLine} {pipe}");
-            sb.AppendLine($"{pipe} {attackLine} {pipe} {defenseLine} {pipe}");
-            sb.AppendLine($"{pipe} {armorPenaltyLine} {pipe} {wieldMaxLine} {pipe}");
-            sb.AppendLine($"{pipe} {huntLine} {pipe} {familiarLine} {pipe}");
-            sb.AppendLine($"{pipe} {fateLine} {pipe} {string.Empty.PadRight(31)} {pipe}");
-            sb.AppendLine("<%green%>+---------------------------------^---------------------------------+<%n%>");
+            ab.AppendLine("<%green%>+-------------------------------------------------------------------+");
+            ab.AppendLine($"{pipe} {nameAndTitle,-19} Level {"?",-6}  Reputation {"?",-6}  Kudos {"?",-6} {pipe}");
+            ab.AppendLine("<%green%>+----------------+----------------+----------------+----------------+");
+            ab.AppendLine($"{pipe} {healthLine} {pipe} {manaLine} {pipe}");
+            ab.AppendLine($"{pipe} {damageLine} {pipe} {initLine} {pipe}");
+            ab.AppendLine($"{pipe} {attackLine} {pipe} {defenseLine} {pipe}");
+            ab.AppendLine($"{pipe} {armorPenaltyLine} {pipe} {wieldMaxLine} {pipe}");
+            ab.AppendLine($"{pipe} {huntLine} {pipe} {familiarLine} {pipe}");
+            ab.AppendLine($"{pipe} {fateLine} {pipe} {string.Empty.PadRight(31)} {pipe}");
+            ab.AppendLine("<%green%>+---------------------------------^---------------------------------+<%n%>");
 
-            return sb.ToString();
+            return ab.ToString();
         }
     }
 }

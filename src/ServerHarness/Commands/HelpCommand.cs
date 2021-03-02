@@ -33,18 +33,18 @@ namespace ServerHarness
         /// <summary>Present the console command-line "HELP" response to the administrator.</summary>
         private string DisplayHelp()
         {
-            var sb = new AnsiBuilder();
-            sb.AppendLine(Application.Instance.BasicAdministrativeGameInfo);
-            sb.AppendSeparator();
-            sb.AppendLine("Available administrative commands:");
-            sb.AppendSeparator();
+            var ab = new AnsiBuilder();
+            ab.AppendLine(Application.Instance.BasicAdministrativeGameInfo);
+            ab.AppendSeparator();
+            ab.AppendLine("Available administrative commands:");
+            ab.AppendSeparator();
             
             foreach (var command in ServerHarnessCommands.Instance.AllCommands)
             {
-                sb.AppendLine($"{command.Names.First(),16} - {command.Description}");
+                ab.AppendLine($"{command.Names.First(),16} - {command.Description}");
             }
 
-            return sb.ToString();
+            return ab.ToString();
         }
     }
 }

@@ -29,14 +29,14 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            var sb = new AnsiBuilder();
+            var ab = new AnsiBuilder();
 
             //// TODO Reference to config file
             var appName = "WheelMUD.vshost.exe";
 
-            sb.AppendSeparator('=', "red", true);
-            sb.AppendLine("System Status:");
-            sb.AppendSeparator('-', "red");
+            ab.AppendSeparator('=', "red", true);
+            ab.AppendLine("System Status:");
+            ab.AppendSeparator('-', "red");
 
             ////ManagementObjectCollection queryCollection1 = query1.Get();
 
@@ -44,31 +44,31 @@ namespace WheelMUD.Actions
             var queryCollection1 = query1.Get();
             foreach (ManagementObject mo in queryCollection1)
             {
-                sb.Append($"Manufacturer : {mo["manufacturer"]}");
-                sb.AppendLine($"Model : {mo["model"]}");
-                sb.AppendLine($"Physical Ram : {(ulong)mo["totalphysicalmemory"] / 1024}");
+                ab.Append($"Manufacturer : {mo["manufacturer"]}");
+                ab.AppendLine($"Model : {mo["model"]}");
+                ab.AppendLine($"Physical Ram : {(ulong)mo["totalphysicalmemory"] / 1024}");
             }
 
-            sb.AppendSeparator('-', "red");
+            ab.AppendSeparator('-', "red");
             query1 = new ManagementObjectSearcher("SELECT * FROM Win32_process where NAME = '" + appName + "'");
             queryCollection1 = query1.Get();
             foreach (ManagementObject mo in queryCollection1)
             {
                 foreach (var item in mo.Properties)
                 {
-                    sb.AppendLine($"<%b%><%red%>{item.Name}<%b%><%yellow%>{item.Value}<%n%>");
+                    ab.AppendLine($"<%b%><%red%>{item.Name}<%b%><%yellow%>{item.Value}<%n%>");
                 }
             }
 
-            sb.AppendSeparator('-', "red");
+            ab.AppendSeparator('-', "red");
             query1 = new ManagementObjectSearcher("SELECT * FROM Win32_timezone");
             queryCollection1 = query1.Get();
             foreach (ManagementObject mo in queryCollection1)
             {
-                sb.AppendLine($"This Server lives in:{mo["caption"]}");
+                ab.AppendLine($"This Server lives in:{mo["caption"]}");
             }
 
-            actionInput.Controller.Write(sb.ToString());
+            actionInput.Controller.Write(ab.ToString());
         }
 
         /// <summary>Checks against the guards for the command.</summary>

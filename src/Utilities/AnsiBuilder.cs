@@ -1,17 +1,23 @@
+//-----------------------------------------------------------------------------
+// <copyright file="AnsiBuilder.cs" company="WheelMUD Development Team">
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   subject to the Microsoft Public License.  All other rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace WheelMUD.Utilities
 {
     /// <summary>
     /// Mutable String class for Ansi based strings, optimized for speed and memory while retrieving the final result
-    /// as a string. Similar use to StringBuilder, but avoid a lot of allocations done by StringBuilder
+    /// as a string. Similar use to StringBuilder, but avoid a lot of allocations done by StringBuilder.
     /// </summary>
     public class AnsiBuilder
     {
         /// <summary>
-        ///     Working mutable string
+        /// Working mutable string.
         /// </summary>
         private char[] buffer;
 
@@ -19,17 +25,17 @@ namespace WheelMUD.Utilities
         private int charsCapacity;
 
         /// <summary>
-        /// Temporary string used for the Replace method
+        /// Temporary string used for the replace method.
         /// </summary>
         private List<char> replacement;
 
         /// <summary>
-        /// Immutable string. Generated at last moment, only if needed
+        /// Immutable string. Generated at last moment, only if needed.
         /// </summary>
         private string stringGenerated = "";
 
         /// <summary>
-        /// Dirty flag for AnsiBuilder containing ansi that needs parsing
+        /// Dirty flag for AnsiBuilder containing ansi that needs parsing.
         /// </summary>
         private bool needsParsing;
 
@@ -41,7 +47,7 @@ namespace WheelMUD.Utilities
         public int Length => ToString().Length;
 
         /// <summary>
-        /// Return the string
+        /// Returns the string.
         /// </summary>
         public override string ToString()
         {
@@ -51,7 +57,7 @@ namespace WheelMUD.Utilities
         }
 
         /// <summary>
-        /// Reset the char array
+        /// Reset the char array.
         /// </summary>
         public AnsiBuilder Clear()
         {
@@ -77,7 +83,7 @@ namespace WheelMUD.Utilities
         }
 
         /// <summary>
-        /// Append a string without memory allocation with ansi new line added
+        /// Append a string without memory allocation with ansi new line added.
         /// </summary>
         public AnsiBuilder AppendLine(string value)
         {
@@ -92,7 +98,7 @@ namespace WheelMUD.Utilities
         }
         
         /// <summary>
-        /// Append a ansi new line
+        /// Append a ansi new line.
         /// </summary>
         public AnsiBuilder AppendLine()
         {
@@ -106,7 +112,7 @@ namespace WheelMUD.Utilities
         }
 
         /// <summary>
-        /// Append a string without memory allocation
+        /// Append a string without memory allocation.
         /// </summary>
         public AnsiBuilder Append(string value)
         {
@@ -120,21 +126,21 @@ namespace WheelMUD.Utilities
         }
 
         /// <summary>
-        /// Append an int without memory allocation
+        /// Append an int without memory allocation.
         /// </summary>
         public AnsiBuilder Append(int value)
         {
-            // Allocate enough memory to handle any int number
+            // Allocate enough memory to handle any int number.
             ReallocateIfn(16);
 
-            // Handle the negative case
+            // Handle the negative case.
             if (value < 0)
             {
                 value = -value;
                 buffer[bufferPos++] = '-';
             }
 
-            // Copy the digits in reverse order
+            // Copy the digits in reverse order.
             var nbChars = 0;
             do
             {
@@ -143,7 +149,7 @@ namespace WheelMUD.Utilities
                 nbChars++;
             } while (value != 0);
 
-            // Reverse the result
+            // Reverse the result.
             for (var i = nbChars / 2 - 1; i >= 0; i--)
             {
                 var c = buffer[bufferPos - i - 1];
@@ -160,24 +166,24 @@ namespace WheelMUD.Utilities
         public AnsiBuilder Append(float valueF)
         {
             double value = valueF;
-            // Check we have enough buffer allocated to handle any float number
+            // Check we have enough buffer allocated to handle any float number.
             ReallocateIfn(32);
 
-            // Handle the 0 case
+            // Handle the 0 case.
             if (value == 0)
             {
                 buffer[bufferPos++] = '0';
                 return this;
             }
 
-            // Handle the negative case
+            // Handle the negative case.
             if (value < 0)
             {
                 value = -value;
                 buffer[bufferPos++] = '-';
             }
 
-            // Get the 7 meaningful digits as a long
+            // Get the 7 meaningful digits as a long.
             var nbDecimals = 0;
             while (value < 1000000)
             {
@@ -187,20 +193,20 @@ namespace WheelMUD.Utilities
 
             var valueLong = (long) Math.Round(value);
 
-            // Parse the number in reverse order
+            // Parse the number in reverse order.
             var nbChars = 0;
             var isLeadingZero = true;
             while (valueLong != 0 || nbDecimals >= 0)
             {
-                // We stop removing leading 0 when non-0 or decimal digit
+                // We stop removing leading 0 when non-0 or decimal digit.
                 if (valueLong % 10 != 0 || nbDecimals <= 0)
                     isLeadingZero = false;
 
-                // Write the last digit (unless a leading zero)
+                // Write the last digit (unless a leading zero).
                 if (!isLeadingZero)
                     buffer[bufferPos + nbChars++] = (char) ('0' + valueLong % 10);
 
-                // Add the decimal point
+                // Add the decimal point.
                 if (--nbDecimals == 0 && !isLeadingZero)
                     buffer[bufferPos + nbChars++] = '.';
 
@@ -209,7 +215,7 @@ namespace WheelMUD.Utilities
 
             bufferPos += nbChars;
 
-            // Reverse the result
+            // Reverse the result.
             for (var i = nbChars / 2 - 1; i >= 0; i--)
             {
                 var c = buffer[bufferPos - i - 1];
@@ -221,7 +227,7 @@ namespace WheelMUD.Utilities
         }
 
         /// <summary>
-        /// Replace all occurrences of a string by another one
+        /// Replace all occurrences of a string by another one.
         /// </summary>
         public AnsiBuilder Replace(string oldStr, string newStr)
         {
@@ -230,11 +236,11 @@ namespace WheelMUD.Utilities
 
             replacement ??= new List<char>();
 
-            // Create the new string into replacement
+            // Create the new string into replacement.
             for (var i = 0; i < bufferPos; i++)
             {
                 var isToReplace = false;
-                // If first character found, check for the rest of the string to replace
+                // If first character found, check for the rest of the string to replace.
                 if (buffer[i] == oldStr[0])
                 {
                     var k = 1;
@@ -256,7 +262,7 @@ namespace WheelMUD.Utilities
                 }
             }
 
-            // Copy back the new string into chars
+            // Copy back the new string into chars.
             ReallocateIfn(replacement.Count - bufferPos);
             for (var k = 0; k < replacement.Count; k++)
                 buffer[k] = replacement[k];
@@ -274,7 +280,9 @@ namespace WheelMUD.Utilities
             buffer = newChars;
         }
 
-        /// <summary>Parses a string for special tags and replaces them with ANSI codes.</summary>
+        /// <summary>
+        /// Parses a string for special tags and replaces them with ANSI codes.
+        /// </summary>
         private void Parse()
         {
             // Seek out all tags and replace them with the equivalent ANSI codes.

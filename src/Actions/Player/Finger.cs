@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
+using WheelMUD.Core;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Threading;
-    using WheelMUD.Core;
-    using WheelMUD.Utilities;
-
     /// <summary>A command that gathers various information about an entity.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("finger", CommandCategory.Player)]
@@ -38,26 +38,26 @@ namespace WheelMUD.Actions
         /// </remarks>
         public override void Execute(ActionInput actionInput)
         {
-            var sb = new AnsiBuilder();
+            var ab = new AnsiBuilder();
 
             bool isOnline = false;
             string addressIP = null;
 
             PlayerBehavior playerBehavior = target.Behaviors.FindFirst<PlayerBehavior>();
             
-            sb.AppendLine($"<%yellow%><%b%>Name: {target.Name} Title: {target.Title}<%n%>");
-            sb.AppendLine($"Description: {target.Description}");
-            sb.AppendLine($"Full Name: {target.FullName}");
-            sb.AppendLine($"ID: {target.Id}");
-            sb.AppendLine($"Type: {target.GetType().Name}"); // identify npc ?
-            sb.AppendLine("Race: TBA      Guild: TBA     Class: TBA");
-            sb.AppendLine("Religion: TBA");
-            sb.AppendLine("Gender: TBA");
-            sb.AppendLine("Email: TBA         Messenger Id: TBA");
-            sb.AppendLine("Home Page: TBA");
-            sb.AppendLine("Spouse: TBA");
-            sb.AppendLine("Creation Date: TBA");
-            sb.AppendLine("Age: TBA");
+            ab.AppendLine($"<%yellow%><%b%>Name: {target.Name} Title: {target.Title}<%n%>");
+            ab.AppendLine($"Description: {target.Description}");
+            ab.AppendLine($"Full Name: {target.FullName}");
+            ab.AppendLine($"ID: {target.Id}");
+            ab.AppendLine($"Type: {target.GetType().Name}"); // identify npc ?
+            ab.AppendLine("Race: TBA      Guild: TBA     Class: TBA");
+            ab.AppendLine("Religion: TBA");
+            ab.AppendLine("Gender: TBA");
+            ab.AppendLine("Email: TBA         Messenger Id: TBA");
+            ab.AppendLine("Home Page: TBA");
+            ab.AppendLine("Spouse: TBA");
+            ab.AppendLine("Creation Date: TBA");
+            ab.AppendLine("Age: TBA");
             
             if (playerBehavior != null)
             {
@@ -73,19 +73,19 @@ namespace WheelMUD.Actions
                 
                 string statusString = isOnline ? "<%green%>Online<%n%>" : "<%red%>Offline<%n%>";
                 
-                sb.AppendLine($"Status: {statusString}"); // need way to report both offline and online
-                sb.AppendLine($"Location: {target.Parent.Name}");
-                sb.AppendLine($"Last Login: {playerBehavior.PlayerData.LastLogin}");
+                ab.AppendLine($"Status: {statusString}"); // need way to report both offline and online
+                ab.AppendLine($"Location: {target.Parent.Name}");
+                ab.AppendLine($"Last Login: {playerBehavior.PlayerData.LastLogin}");
                 
                 if(isOnline)
-                    sb.AppendLine($"Current IP Address: {addressIP}");
+                    ab.AppendLine($"Current IP Address: {addressIP}");
                 
-                sb.AppendLine("Plan: TBA");
-                sb.AppendLine("MXP: TBA");
+                ab.AppendLine("Plan: TBA");
+                ab.AppendLine("MXP: TBA");
                 
             }
 
-            actionInput.Controller.Write(sb.ToString().TrimEnd());
+            actionInput.Controller.Write(ab.ToString().TrimEnd());
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>

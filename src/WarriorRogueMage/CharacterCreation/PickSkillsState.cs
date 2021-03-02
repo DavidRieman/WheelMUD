@@ -119,14 +119,14 @@ namespace WarriorRogueMage.CharacterCreation
                 return;
             }
 
-            var sb = new AnsiBuilder();
-            sb.AppendLine("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=");
-            sb.AppendLine($"Description for {foundSkill.Name}");
-            sb.AppendLine("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
-            sb.AppendLine($"<%b%><%white%>{foundSkill.Description}");
-            sb.AppendLine("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
+            var ab = new AnsiBuilder();
+            ab.AppendSeparator('=', "yellow", true);
+            ab.AppendLine($"Description for {foundSkill.Name}");
+            ab.AppendSeparator('-', "yellow");
+            ab.AppendLine($"<%b%><%white%>{foundSkill.Description}");
+            ab.AppendSeparator('=', "yellow", true);
 
-            Session.Write(sb.ToString());
+            Session.Write(ab.ToString());
         }
 
         private void ProcessDone()
@@ -205,28 +205,28 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen(bool sendPrompt = true)
         {
-            var sb = new AnsiBuilder();
-            sb.AppendLine();
-            sb.AppendLine();
-            sb.AppendLine("You may pick three starting skills for your character.");
+            var ab = new AnsiBuilder();
+            ab.AppendLine();
+            ab.AppendLine();
+            ab.AppendLine("You may pick three starting skills for your character.");
             int n = 1;
             foreach (var skill in selectedSkills)
             {
-                sb.AppendLine($"Skill #{n} : {skill.Name}");
+                ab.AppendLine($"Skill #{n} : {skill.Name}");
                 n++;
             }
-            sb.AppendLine();
-            sb.AppendLine("<%green%>Please select 3 from the list below:<%n%>");
-            sb.AppendLine(formattedSkills);
-            sb.AppendLine($"<%green%>You have {3 - selectedSkills.Count} skills left.<%n%>");
-            sb.AppendLine("<%yellow%>=========================================================================");
-            sb.AppendLine("To pick a skill, type the skill's name. Example: unarmed");
-            sb.AppendLine("To view a skill's description use the view command. Example: view unarmed");
-            sb.AppendLine("To see this screen again type list.");
-            sb.AppendLine("When you are done picking your three skills, type done.");
-            sb.AppendLine("=========================================================================<%n%>");
+            ab.AppendLine();
+            ab.AppendLine("<%green%>Please select 3 from the list below:<%n%>");
+            ab.AppendLine(formattedSkills);
+            ab.AppendLine($"<%green%>You have {3 - selectedSkills.Count} skills left.<%n%>");
+            ab.AppendSeparator('=', "yellow", true);
+            ab.AppendLine("To pick a skill, type the skill's name. Example: unarmed");
+            ab.AppendLine("To view a skill's description use the view command. Example: view unarmed");
+            ab.AppendLine("To see this screen again type list.");
+            ab.AppendLine("When you are done picking your three skills, type done.");
+            ab.AppendSeparator('=', "yellow", true);
 
-            Session.Write(sb.ToString(), sendPrompt);
+            Session.Write(ab.ToString(), sendPrompt);
         }
     }
 }

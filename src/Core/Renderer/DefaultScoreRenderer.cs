@@ -23,9 +23,9 @@ namespace WheelMUD.Core
             // and races and attributes and so on, and provide a more traditional "score" breakdown of the
             // current character state as pertains to the actual game system.
             var livingBehavior = player.FindBehavior<LivingBehavior>();
-            var sb = new AnsiBuilder();
-            sb.AppendLine($"{player.Name}. You are {livingBehavior.Consciousness}");
-            return sb.ToString();
+            var ab = new AnsiBuilder();
+            ab.AppendLine($"{player.Name}. You are {livingBehavior.Consciousness}");
+            return ab.ToString();
         }
     }
 }

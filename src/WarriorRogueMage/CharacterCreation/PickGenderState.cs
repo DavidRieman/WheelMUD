@@ -85,22 +85,22 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen(bool sendPrompt = true)
         {
-            var sb = new AnsiBuilder();
-            sb.AppendLine();
-            sb.AppendLine();
-            sb.AppendLine("You have the following gender choices:");
+            var ab = new AnsiBuilder();
+            ab.AppendLine();
+            ab.AppendLine();
+            ab.AppendLine("You have the following gender choices:");
 
             foreach (var gender in GameSystemController.Instance.GameGenders)
             {
-                sb.AppendLine(gender.Name);
+                ab.AppendLine(gender.Name);
             }
 
-            sb.AppendLine();
-            sb.AppendSeparator('-', "yellow");
-            sb.AppendLine("Type your gender selection.");
-            sb.AppendSeparator('-', "yellow");
+            ab.AppendLine();
+            ab.AppendSeparator('-', "yellow");
+            ab.AppendLine("Type your gender selection.");
+            ab.AppendSeparator('-', "yellow");
 
-            Session.Write(sb.ToString(), sendPrompt);
+            Session.Write(ab.ToString(), sendPrompt);
         }
     }
 }

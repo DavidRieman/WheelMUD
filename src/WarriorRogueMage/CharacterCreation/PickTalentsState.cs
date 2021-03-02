@@ -84,14 +84,14 @@ namespace WarriorRogueMage.CharacterCreation
             var foundTalent = GetTalent(talent);
             if (foundTalent != null)
             {
-                var sb = new AnsiBuilder();
-                sb.AppendSeparator('=', "yellow", true);
-                sb.AppendLine($"Description for {foundTalent.Name}");
-                sb.AppendSeparator('-', "yellow");
-                sb.AppendLine($"<%b%><%white%>{foundTalent.Description}");
-                sb.AppendSeparator('=', "yellow", true);
+                var ab = new AnsiBuilder();
+                ab.AppendSeparator('=', "yellow", true);
+                ab.AppendLine($"Description for {foundTalent.Name}");
+                ab.AppendSeparator('-', "yellow");
+                ab.AppendLine($"<%b%><%white%>{foundTalent.Description}");
+                ab.AppendSeparator('=', "yellow", true);
 
-                Session.Write(sb.ToString());
+                Session.Write(ab.ToString());
             }
             else
             {
@@ -163,18 +163,18 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen(bool sendPrompt = true)
         {
-            var sb = new AnsiBuilder();
-            sb.AppendLine();
-            sb.AppendLine();
-            sb.AppendLine("You may pick one starting talent for your character.");
-            sb.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
-            sb.AppendLine(formattedTalents);
-            sb.AppendSeparator('=', "yellow");
-            sb.AppendLine("To pick a talent, type the talent's name. Example: sailor");
-            sb.AppendLine("To view a talent's description use the view command. Example: view sailor");
-            sb.AppendLine("To see this screen again type list.");
-            sb.AppendSeparator('=', "yellow");
-            Session.Write(sb.ToString(), sendPrompt);
+            var ab = new AnsiBuilder();
+            ab.AppendLine();
+            ab.AppendLine();
+            ab.AppendLine("You may pick one starting talent for your character.");
+            ab.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
+            ab.AppendLine(formattedTalents);
+            ab.AppendSeparator('=', "yellow");
+            ab.AppendLine("To pick a talent, type the talent's name. Example: sailor");
+            ab.AppendLine("To view a talent's description use the view command. Example: view sailor");
+            ab.AppendLine("To see this screen again type list.");
+            ab.AppendSeparator('=', "yellow");
+            Session.Write(ab.ToString(), sendPrompt);
         }
     }
 }

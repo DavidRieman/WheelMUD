@@ -71,7 +71,7 @@ namespace WheelMUD.Ftp.FtpCommands
         {
             var dir = GetPath(string.Empty);
 
-            var ab = new StringBuilder();
+            var sb = new StringBuilder();
 
             foreach (var t in asFiles)
             {
@@ -81,33 +81,33 @@ namespace WheelMUD.Ftp.FtpCommands
                 var info = ConnectionObject.FileSystemObject.GetFileInfo(file);
                 if (info == null) continue;
                 
-                ab.Append($"{info.GetAttributeString()} 1 owner group ");
+                sb.Append($"{info.GetAttributeString()} 1 owner group ");
 
                 if (info.IsDirectory())
                 {
-                    ab.Append("            1 ");
+                    sb.Append("            1 ");
                 }
                 else
                 {
                     var fileSize = info.GetSize().ToString();
-                    ab.Append($"{TextHelpers.RightAlignString(fileSize, 13, ' ')} ");
+                    sb.Append($"{TextHelpers.RightAlignString(fileSize, 13, ' ')} ");
                 }
 
                 var fileDate = info.GetModifiedTime();
 
                 var day = fileDate.Day.ToString();
 
-                ab.Append($"{TextHelpers.Month(fileDate.Month)} ");
+                sb.Append($"{TextHelpers.Month(fileDate.Month)} ");
 
                 if (day.Length == 1)
                 {
-                    ab.Append(" ");
+                    sb.Append(" ");
                 }
 
-                ab.AppendLine($"{day} {fileDate:hh} : {fileDate:mm} {t}");
+                sb.AppendLine($"{day} {fileDate:hh} : {fileDate:mm} {t}");
             }
 
-            return ab.ToString();
+            return sb.ToString();
         }
     }
 }

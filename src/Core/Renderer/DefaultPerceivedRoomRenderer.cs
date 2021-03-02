@@ -15,15 +15,15 @@ namespace WheelMUD.Core
         public override string Render(Thing viewer, Thing room)
         {
             var senses = viewer.FindBehavior<SensesBehavior>();
-            var sb = new AnsiBuilder();
+            var ab = new AnsiBuilder();
             if (senses.CanPerceiveThing(room))
             {
-                sb.AppendLine($"<%red%><%b%>{room.Name}<%n%><%nl%>");
-                sb.AppendLine($"{room.Description}<%nl%>");
+                ab.AppendLine($"<%red%><%b%>{room.Name}<%n%><%nl%>");
+                ab.AppendLine($"{room.Description}<%nl%>");
             }
             else
             {
-                sb.AppendLine("You cannot perceive much of note about the room.");
+                ab.AppendLine("You cannot perceive much of note about the room.");
             }
 
             // TODO: Perhaps group things in the room by things you can pick up, things that are alive, etc?
@@ -36,27 +36,27 @@ namespace WheelMUD.Core
             
             if (exits.Count > 0 || room.Children.Count > 0)
             {
-                sb.AppendLine("<%yellow%>Here you notice:<%n%>");
+                ab.AppendLine("<%yellow%>Here you notice:<%n%>");
             }
             else
             {
-                sb.AppendLine("<%yellow%>You notice nothing else inside the room.<%n%>");
+                ab.AppendLine("<%yellow%>You notice nothing else inside the room.<%n%>");
             }
 
             // Handle exits differently from other Thing types
                    // TODO: Also render closable exits like doors nicely; "(closed)"?
             if (exits.Count > 0)
             {
-                sb.Append($"  routes: ");
+                ab.Append($"  routes: ");
 
                 for (var i = 0; i < exits.Count; i++)
                 {
-                    sb.Append($"<%magenta%>{exits[i]}<%n%>");
+                    ab.Append($"<%magenta%>{exits[i]}<%n%>");
                     if(i != exits.Count - 1)
-                        sb.Append(", ");
+                        ab.Append(", ");
                 }
                 
-                sb.AppendLine();
+                ab.AppendLine();
             }
 
             foreach (var presentThing in room.Children)
@@ -64,10 +64,10 @@ namespace WheelMUD.Core
                 if (!senses.CanPerceiveThing(presentThing) || presentThing == viewer ||
                     presentThing.HasBehavior<ExitBehavior>()) continue;
                 
-                sb.AppendLine($"  <%magenta%>{presentThing.FullName}<%n%>");
+                ab.AppendLine($"  <%magenta%>{presentThing.FullName}<%n%>");
             }
 
-            return sb.ToString();
+            return ab.ToString();
         }
     }
 }

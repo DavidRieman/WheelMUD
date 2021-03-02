@@ -21,7 +21,7 @@ namespace WheelMUD.Core
         {
             string mudNameLine = "                                "; // TODO: Dynamic centering instead, if we want centering!
             string plural = string.Empty;
-            var sb = new AnsiBuilder();
+            var ab = new AnsiBuilder();
 
             string plural1 = "is";
 
@@ -35,26 +35,26 @@ namespace WheelMUD.Core
             // TODO: A game-system specific renderer could be used to includ race/class info and so on, if desired.
             // TODO: Dividing lines could be influenced by activePlayer connection Terminal.Width.
             mudNameLine += GameConfiguration.Name;
-            sb.AppendLine();
-            sb.AppendSeparator();
-            sb.AppendLine(mudNameLine);
-            sb.AppendSeparator();
-            sb.AppendLine();
-            sb.AppendLine($"The following player{plural} {plural1} currently online:");
+            ab.AppendLine();
+            ab.AppendSeparator();
+            ab.AppendLine(mudNameLine);
+            ab.AppendSeparator();
+            ab.AppendLine();
+            ab.AppendLine($"The following player{plural} {plural1} currently online:");
             foreach (PlayerBehavior player in PlayerManager.Instance.Players)
             {
                 // TODO: "tell {0}" is not a good menu command; possibly friend add/remove, invite to group, hailing, and so on.
                 var playerName = player.Parent.Name;
                 var playerState = GetPlayerState(player);
-                sb.AppendLine($"<%mxpsecureline%><send \"finger {playerName}|tell {playerName}\" \"|finger|tell\">{playerName}</send> - {player.Parent.FullName} {playerState}");
+                ab.AppendLine($"<%mxpsecureline%><send \"finger {playerName}|tell {playerName}\" \"|finger|tell\">{playerName}</send> - {player.Parent.FullName} {playerState}");
             }
 
-            sb.AppendLine();
-            sb.AppendSeparator();
-            sb.AppendLine($"Counted {PlayerManager.Instance.Players.Count} player{plural} online.");
-            sb.AppendLine();
-            sb.AppendSeparator();
-            return sb.ToString();
+            ab.AppendLine();
+            ab.AppendSeparator();
+            ab.AppendLine($"Counted {PlayerManager.Instance.Players.Count} player{plural} online.");
+            ab.AppendLine();
+            ab.AppendSeparator();
+            return ab.ToString();
         }
 
         private string GetPlayerState(PlayerBehavior player)
