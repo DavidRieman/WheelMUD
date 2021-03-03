@@ -6,15 +6,13 @@
 //-----------------------------------------------------------------------------
 
 using WheelMUD.Utilities;
+using System;
+using System.Text.RegularExpressions;
+using WheelMUD.ConnectionStates;
+using WheelMUD.Core;
 
 namespace WarriorRogueMage.CharacterCreation
 {
-    using System;
-    using System.Text;
-    using System.Text.RegularExpressions;
-    using WheelMUD.ConnectionStates;
-    using WheelMUD.Core;
-
     /// <summary>Commands recognized by the Set Attributes character creation state.</summary>
     public enum SetAttributeCommand
     {
@@ -158,25 +156,25 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen(bool sendPrompt = true)
         {
-            var sb = new StringBuilder();
-            sb.AppendAnsiLine();
-            sb.AppendAnsiLine();
-            sb.AppendAnsiLine("You have 10 character points to be divided between 3 attributes.");
-            sb.AppendAnsiLine("No attribute can have more than 6 points. Attributes can be zero.");
-            sb.AppendAnsiLine();
-            sb.AppendAnsiLine($"Warrior : {warriorPoints}" + AnsiSequences.NewLine);
-            sb.AppendAnsiLine($"Rogue   : {roguePoints}" + AnsiSequences.NewLine);
-            sb.AppendAnsiLine($"Mage    : {magePoints}" + AnsiSequences.NewLine);
-            sb.AppendAnsiLine();
-            sb.AppendAnsiLine($"You have {MaxPoints - SpentPoints} character points left.");
-            sb.AppendAnsiLine();
-            sb.AppendAnsiLine("<%yellow%>====================================================================");
-            sb.AppendAnsiLine("To add points to an attribute, use the + operator. Example: warrior +6");
-            sb.AppendAnsiLine("To subtract points from an attribute, use the - operator. Example: warrior -6");
-            sb.AppendAnsiLine("When you are done distributing the character points, type done.");
-            sb.AppendAnsiLine("====================================================================<%n%>");
+            var ab = new AnsiBuilder();
+            ab.AppendLine();
+            ab.AppendLine();
+            ab.AppendLine("You have 10 character points to be divided between 3 attributes.");
+            ab.AppendLine("No attribute can have more than 6 points. Attributes can be zero.");
+            ab.AppendLine();
+            ab.AppendLine($"Warrior : {warriorPoints}" + AnsiSequences.NewLine);
+            ab.AppendLine($"Rogue   : {roguePoints}" + AnsiSequences.NewLine);
+            ab.AppendLine($"Mage    : {magePoints}" + AnsiSequences.NewLine);
+            ab.AppendLine();
+            ab.AppendLine($"You have {MaxPoints - SpentPoints} character points left.");
+            ab.AppendLine();
+            ab.AppendLine("<%yellow%>====================================================================");
+            ab.AppendLine("To add points to an attribute, use the + operator. Example: warrior +6");
+            ab.AppendLine("To subtract points from an attribute, use the - operator. Example: warrior -6");
+            ab.AppendLine("When you are done distributing the character points, type done.");
+            ab.AppendLine("====================================================================<%n%>");
 
-            Session.Write(sb.ToString(), sendPrompt);
+            Session.Write(ab.ToString(), sendPrompt);
         }
 
         private SetAttributeCommand FindTargetCommand(string s)

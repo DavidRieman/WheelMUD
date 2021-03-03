@@ -8,8 +8,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using WheelMUD.Core;
+using WheelMUD.Utilities;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WarriorRogueMage.CharacterCreation
@@ -22,14 +22,11 @@ namespace WarriorRogueMage.CharacterCreation
         /// <param name="message">The message.</param>
         public static void SendErrorMessage(Session session, string message)
         {
-            var divider = new StringBuilder();
-            var wrappedMessage = new StringBuilder();
-
-            divider.Append('=', message.Length);
-
-            wrappedMessage.Append("<%red%>" + divider + Environment.NewLine);
-            wrappedMessage.Append(message + Environment.NewLine);
-            wrappedMessage.Append(divider + "<%n%>");
+            var wrappedMessage = new AnsiBuilder();
+            
+            wrappedMessage.AppendSeparator('=', "red", true, message.Length);
+            wrappedMessage.AppendLine(message);
+            wrappedMessage.AppendSeparator('=', "red", true, message.Length);
 
             session.Write(wrappedMessage.ToString());
         }
@@ -40,18 +37,7 @@ namespace WarriorRogueMage.CharacterCreation
         /// <returns>Formatted row to match the column width.</returns>
         public static string FormatToColumn(int columnWidth, string stringToFormat)
         {
-            string retval = string.Empty;
-
-            if (stringToFormat.Length < columnWidth)
-            {
-                retval = stringToFormat.PadRight(columnWidth, ' ');
-            }
-            else
-            {
-                retval = stringToFormat;
-            }
-
-            return retval;
+            return stringToFormat.Length < columnWidth ? stringToFormat.PadRight(columnWidth, ' ') : stringToFormat;
         }
 
         public static T GetFirstPriorityMatch<T>(string userQuery, IEnumerable<T> collection) where T : INamed

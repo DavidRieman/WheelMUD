@@ -7,39 +7,39 @@
 
 using WheelMUD.Server;
 using WheelMUD.Utilities;
+using System;
+using System.Linq;
 
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Linq;
-    using System.Text;
-
     [RendererExports.HelpTopic(0)]
     public class DefaultHelpTopicRenderer : RendererDefinitions.HelpTopic
     {
-        private const string HeaderLine = "<%b%><%yellow%>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<%n%>" + AnsiSequences.NewLine;
-
         public override string Render(TerminalOptions terminalOptions, HelpTopic helpTopic)
         {
+            var ab = new AnsiBuilder();
+            
+            // TODO: What was this !element doing? Does it still work? Test with zMUD or something and re-read MXP specs?
+            if (terminalOptions.UseMXP)
+                ab.AppendLine("<%mxpsecureline%><!element see '<send href=\"help &cref;\">' att='cref' open>");
+            
+            ab.AppendSeparator(color:"yellow", design:'=');
+            ab.AppendLine($"HELP TOPIC: {helpTopic.Aliases.First()}");
+            ab.AppendSeparator(color:"yellow");
+
             if (terminalOptions.UseMXP)
             {
-                // TODO: What was this !element doing? Does it still work? Test with zMUD or something and re-read MXP specs?
-                var sb = new StringBuilder("<%mxpsecureline%><!element see '<send href=\"help &cref;\">' att='cref' open>");
-                sb.Append($"{HeaderLine}HELP TOPIC: {helpTopic.Aliases.First()}{AnsiSequences.NewLine}{HeaderLine}{AnsiSequences.NewLine}");
-
                 var lines = helpTopic.Contents.Split(new string[] { AnsiSequences.NewLine }, StringSplitOptions.None);
-                foreach (string line in lines)
+                foreach (var line in lines)
                 {
-                    sb.Append($"<%mxpopenline%>{line}{AnsiSequences.NewLine}");
+                    ab.AppendLine($"<%mxpopenline%>{line}<%n%>");
                 }
-                sb.Append("<%n%>");
-
-                return sb.ToString().Trim();
             }
             else
-            {
-                return $"{HeaderLine}HELP TOPIC: {helpTopic.Aliases.First()}{AnsiSequences.NewLine}{HeaderLine}{AnsiSequences.NewLine}{helpTopic.Contents}<%n%>";
-            }
+                ab.AppendLine($"{helpTopic.Contents}");
+            
+            ab.AppendSeparator(color:"yellow", design:'=');
+            return ab.ToString();
         }
     }
 }

@@ -6,24 +6,23 @@
 //-----------------------------------------------------------------------------
 
 using WheelMUD.Server;
+using WheelMUD.Utilities;
+using System.Collections.Generic;
 
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-    using System.Text;
-
     [RendererExports.CommandsList(0)]
     public class DefaultCommandsListRenderer : RendererDefinitions.CommandsList
     {
         public override string Render(TerminalOptions terminalOptions, IEnumerable<Command> commands, string categoryName)
         {
-            var sb = new StringBuilder();
-            sb.AppendLine($"<%yellow%>{categoryName} commands<%n%>:");
+            var ab = new AnsiBuilder();
+            ab.AppendLine($"<%yellow%>{categoryName} commands<%n%>:");
             foreach (var command in commands)
             {
-                sb.AppendLine($"<%mxpsecureline%><send \"help {command.Name}\">{command.Name.PadRight(15)}</send> {command.Description}");
+                ab.AppendLine($"<%mxpsecureline%><send \"help {command.Name}\">{command.Name.PadRight(15)}</send> {command.Description}");
             }
-            return sb.ToString();
+            return ab.ToString();
         }
     }
 }

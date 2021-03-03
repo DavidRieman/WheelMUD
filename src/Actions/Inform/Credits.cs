@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using WheelMUD.Core;
 using WheelMUD.Interfaces;
 using WheelMUD.Utilities;
@@ -44,20 +43,20 @@ namespace WheelMUD.Actions
             // Ensure two 'credits' commands at the same time do not race for shared cache, etc.
             lock (cacheLockObject)
             {
-                if (cachedContents == null || (parameters.Length > 0 && parameters[0].ToLower() == "reload"))
+                if (cachedContents == null || parameters.Length > 0 && parameters[0].ToLower() == "reload")
                 {
-                    using StreamReader reader = new StreamReader(Path.Combine(GameConfiguration.DataStoragePath, "Credits.txt"));
-                    StringBuilder stringBuilder = new StringBuilder();
+                    using var reader = new StreamReader(Path.Combine(GameConfiguration.DataStoragePath, "Credits.txt"));
+                    var ab = new AnsiBuilder();
                     string s;
                     while ((s = reader.ReadLine()) != null)
                     {
                         if (!s.StartsWith(";"))
                         {
-                            stringBuilder.AppendLine(s);
+                            ab.AppendLine(s);
                         }
                     }
 
-                    cachedContents = stringBuilder.ToString();
+                    cachedContents = ab.ToString();
                 }
 
                 sender.Write(cachedContents);
@@ -70,13 +69,9 @@ namespace WheelMUD.Actions
         public override string Guards(ActionInput actionInput)
         {
             string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
+            return commonFailure;
 
             // There are currently no arguments nor situations where we expect failure.
-            return null;
         }
     }
 }

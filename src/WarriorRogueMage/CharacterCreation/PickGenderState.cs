@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities;
+using System;
+using System.Linq;
+using WheelMUD.ConnectionStates;
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.CharacterCreation
 {
-    using System;
-    using System.Linq;
-    using System.Text;
-    using WheelMUD.ConnectionStates;
-    using WheelMUD.Core;
-
     /// <summary>The character creation step where the player will pick their gender.</summary>
     public class PickGenderState : CharacterCreationSubState
     {
@@ -63,7 +63,7 @@ namespace WarriorRogueMage.CharacterCreation
                               select g).FirstOrDefault();
             if (selectedGender == null)
             {
-                WrmChargenCommon.SendErrorMessage(Session, string.Format("'{0}' is an invalid gender selection.", currentGender));
+                WrmChargenCommon.SendErrorMessage(Session, $"'{currentGender}' is an invalid gender selection.");
                 RefreshScreen();
             }
 
@@ -74,8 +74,10 @@ namespace WarriorRogueMage.CharacterCreation
         {
             var playerBehavior = Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
             playerBehavior.Gender = selectedGender;
-            string doneMessage = string.Format("<%green%>The chosen gender is {0}.<%n%>" + Environment.NewLine, selectedGender.Name);
-            Session.Write(doneMessage, false);
+
+            var ab = new AnsiBuilder();
+            ab.AppendLine($"<%green%>The chosen gender is {selectedGender.Name}.<%n%>");
+            Session.Write(ab.ToString(), false);
 
             // Proceed to the next step.
             StateMachine.HandleNextStep(this, StepStatus.Success);
@@ -83,22 +85,22 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen(bool sendPrompt = true)
         {
-            var sb = new StringBuilder();
-            sb.AppendLine();
-            sb.AppendLine();
-            sb.AppendLine("You have the following gender choices:");
+            var ab = new AnsiBuilder();
+            ab.AppendLine();
+            ab.AppendLine();
+            ab.AppendLine("You have the following gender choices:");
 
             foreach (var gender in GameSystemController.Instance.GameGenders)
             {
-                sb.AppendLine(gender.Name);
+                ab.AppendLine(gender.Name);
             }
 
-            sb.AppendLine();
-            sb.AppendLine("<%yellow%>===============================================================");
-            sb.AppendLine("Type your gender selection.");
-            sb.AppendLine("===============================================================<%n%>");
+            ab.AppendLine();
+            ab.AppendSeparator('-', "yellow");
+            ab.AppendLine("Type your gender selection.");
+            ab.AppendSeparator('-', "yellow");
 
-            Session.Write(sb.ToString(), sendPrompt);
+            Session.Write(ab.ToString(), sendPrompt);
         }
     }
 }

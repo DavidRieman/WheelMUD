@@ -123,22 +123,4 @@ namespace WheelMUD.Utilities
         /// <summary>The ANSI sequence for setting character background color to white.</summary>
         public const string BackgroundWhite = Esc + "[47m";
     }
-
-    public static class StringBuilderExtensions
-    {
-        /// <summary>Extend StringBuilder class to provide an ANSI line ending version of AppendLine.</summary>
-        public static StringBuilder AppendAnsiLine(this StringBuilder sb, string s)
-        {
-            sb.Append(s + AnsiSequences.NewLine);
-            return sb;
-        }
-        
-        /// <summary>Extend StringBuilder class to provide an ANSI line ending version of AppendLine.</summary>
-        public static StringBuilder AppendAnsiLine(this StringBuilder sb)
-        {
-            sb.Append(AnsiSequences.NewLine);
-            return sb;
-        }
-    }
-
 }

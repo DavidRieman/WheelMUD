@@ -5,11 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Core
 {
-    using System.Text;
-    using WheelMUD.Utilities;
-
     /// <summary>The default "who" command output renderer.</summary>
     /// <remarks>
     /// The default "who" renderer may simply show all online players. One might wish to build a "who" renderer
@@ -20,10 +19,9 @@ namespace WheelMUD.Core
     {
         public override string Render(Thing activePlayer)
         {
-            string mudName = GameConfiguration.Name;
             string mudNameLine = "                                "; // TODO: Dynamic centering instead, if we want centering!
             string plural = string.Empty;
-            var sb = new StringBuilder();
+            var ab = new AnsiBuilder();
 
             string plural1 = "is";
 
@@ -36,28 +34,27 @@ namespace WheelMUD.Core
 
             // TODO: A game-system specific renderer could be used to includ race/class info and so on, if desired.
             // TODO: Dividing lines could be influenced by activePlayer connection Terminal.Width.
-            string div = "<%b%><%green%>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<%n%>";
-            mudNameLine += mudName;
-            sb.AppendLine();
-            sb.AppendLine(div);
-            sb.AppendLine(mudNameLine);
-            sb.AppendLine(div);
-            sb.AppendLine();
-            sb.AppendLine("The following player" + plural + " " + plural1 + " currently online:");
+            mudNameLine += GameConfiguration.Name;
+            ab.AppendLine();
+            ab.AppendSeparator();
+            ab.AppendLine(mudNameLine);
+            ab.AppendSeparator();
+            ab.AppendLine();
+            ab.AppendLine($"The following player{plural} {plural1} currently online:");
             foreach (PlayerBehavior player in PlayerManager.Instance.Players)
             {
                 // TODO: "tell {0}" is not a good menu command; possibly friend add/remove, invite to group, hailing, and so on.
                 var playerName = player.Parent.Name;
                 var playerState = GetPlayerState(player);
-                sb.AppendLine($"<%mxpsecureline%><send \"finger {playerName}|tell {playerName}\" \"|finger|tell\">{playerName}</send> - {player.Parent.FullName} {playerState}");
+                ab.AppendLine($"<%mxpsecureline%><send \"finger {playerName}|tell {playerName}\" \"|finger|tell\">{playerName}</send> - {player.Parent.FullName} {playerState}");
             }
 
-            sb.AppendLine();
-            sb.AppendLine(div);
-            sb.AppendFormat("Counted {0} player{1} online.", PlayerManager.Instance.Players.Count, plural);
-            sb.AppendLine();
-            sb.AppendLine(div);
-            return sb.ToString();
+            ab.AppendLine();
+            ab.AppendSeparator();
+            ab.AppendLine($"Counted {PlayerManager.Instance.Players.Count} player{plural} online.");
+            ab.AppendLine();
+            ab.AppendSeparator();
+            return ab.ToString();
         }
 
         private string GetPlayerState(PlayerBehavior player)

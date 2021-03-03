@@ -8,9 +8,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using WheelMUD.Core;
 using WheelMUD.Interfaces;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Actions
 {
@@ -38,7 +38,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             IController sender = actionInput.Controller;
-            if ((actionInput.Params.Count() == 1 && actionInput.Params[0].ToLower() == "list") || actionInput.Params.Count() == 0)
+            if (actionInput.Params.Length == 1 && actionInput.Params[0].ToLower() == "list" || !actionInput.Params.Any())
             {
                 if (playerBehavior.Friends.Count == 0)
                 {
@@ -46,21 +46,21 @@ namespace WheelMUD.Actions
                 }
                 else
                 {
-                    StringBuilder sb = new StringBuilder();
-                    sb.AppendLine("Your Friends:");
-                    foreach (string friendName in playerBehavior.Friends)
+                    var ab = new AnsiBuilder();
+                    ab.AppendLine("Your Friends:");
+                    foreach (var friendName in playerBehavior.Friends)
                     {
-                        string status = PlayerManager.Instance.FindLoadedPlayerByName(friendName, false) == null ? "Offline" : "Online";
-                        sb.AppendLine(string.Format("{0} [{1}]", friendName, status));
+                        var status = PlayerManager.Instance.FindLoadedPlayerByName(friendName, false) == null ? "Offline" : "Online";
+                        ab.AppendLine($"{friendName} [{status}]");
                     }
 
-                    sender.Write(sb.ToString().TrimEnd());
+                    sender.Write(ab.ToString());
                 }
 
                 return;
             }
 
-            if (actionInput.Params.Count() != 2 &&
+            if (actionInput.Params.Length != 2 &&
                 actionInput.Params[0].ToLower() != "add" &&
                 actionInput.Params[0].ToLower() != "remove")
             {
@@ -92,7 +92,7 @@ namespace WheelMUD.Actions
                 return commonFailure;
             }
 
-            // The comon guards already guarantees the sender is a player, hence no null checks here.
+            // The common guards already guarantees the sender is a player, hence no null checks here.
             player = actionInput.Controller.Thing;
             playerBehavior = player.Behaviors.FindFirst<PlayerBehavior>();
 
@@ -101,26 +101,34 @@ namespace WheelMUD.Actions
 
         private void AddFriend(IController sender, Thing targetFriend)
         {
+            var ab = new AnsiBuilder();
+            
             if (targetFriend == null)
             {
-                sender.Write(string.Format("{0} doesn't appear to be online at the moment.", targetFriend.Name));
+                ab.AppendLine("Doesn't appear to be online at the moment.");
+                sender.Write(ab.ToString());
                 return;
             }
 
             if (targetFriend == player)
             {
-                sender.Write("You cannot add yourself as a friend.");
+                ab.AppendLine("You cannot add yourself as a friend.");
+                sender.Write(ab.ToString());
                 return;
             }
 
             if (playerBehavior.Friends.Contains(targetFriend.Name))
             {
-                sender.Write(string.Format("{0} is already on your friends list.", player.Name));
+                
+                ab.AppendLine($"{player.Name} is already on your friends list.");
+                sender.Write(ab.ToString());
                 return;
             }
 
             playerBehavior.AddFriend(player.Name);
-            sender.Write(string.Format("You have added {0} to your friends list.", targetFriend.Name));
+
+            ab.AppendLine($"You have added {targetFriend.Name} to your friends list.");
+            sender.Write(ab.ToString());
         }
 
         private void RemoveFriend(IController sender, string targetedFriendName)
@@ -129,15 +137,19 @@ namespace WheelMUD.Actions
                                  where f.Equals(targetedFriendName, StringComparison.CurrentCultureIgnoreCase)
                                  select f).FirstOrDefault();
 
+            var ab = new AnsiBuilder();
+            
             if (string.IsNullOrEmpty(playerName))
             {
-                sender.Write(string.Format("{0} is not on your friends list.", targetedFriendName));
+                ab.AppendLine($"{targetedFriendName} is not on your friends list.");
+                sender.Write(ab.ToString());
                 return;
             }
 
             playerBehavior.RemoveFriend(playerName);
 
-            sender.Write(string.Format("{0} has been removed from your friends list.", player.Name));
+            ab.AppendLine($"{player.Name} has been removed from your friends list.");
+            sender.Write(ab.ToString());
         }
     }
 }
