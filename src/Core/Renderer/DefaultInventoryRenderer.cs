@@ -5,37 +5,31 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Linq;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Core
 {
-    using System.Text;
-
     [RendererExports.Inventory(0)]
     public class DefaultInventoryRenderer : RendererDefinitions.Inventory
     {
         public override string Render(Thing player)
         {
             var senses = player.FindBehavior<SensesBehavior>();
-            var sb = new StringBuilder();
+            var ab = new AnsiBuilder();
 
-            bool hasNoticedSomething = false;
-            foreach (var presentThing in player.Children)
+            var invThings = player.Children.Where(presentThing => senses.CanPerceiveThing(presentThing)).ToArray();
+
+            ab.AppendLine(invThings.Length > 0
+                ? "<%yellow%>Searching your inventory, you find:<%n%>"
+                : "<%yellow%>You found no inventory.<%n%>");
+
+            foreach (var presentThing in invThings)
             {
-                if (senses.CanPerceiveThing(presentThing))
-                {
-                    if (!hasNoticedSomething)
-                    {
-                        sb.AppendLine($"<%yellow%>Searching your inventory, you find:<%n%>");
-                        hasNoticedSomething = true;
-                    }
-                    sb.AppendLine($"  <%magenta%>{presentThing.FullName}<%n%>");
-                }
-            }
-            if (!hasNoticedSomething)
-            {
-                sb.AppendLine($"<%yellow%>You found no inventory.<%n%>");
+                ab.AppendLine($"  <%magenta%>{presentThing.FullName}<%n%>");
             }
 
-            return sb.ToString();
+            return ab.ToString();
         }
     }
 }

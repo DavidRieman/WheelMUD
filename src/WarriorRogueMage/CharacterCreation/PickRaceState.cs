@@ -7,9 +7,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using WheelMUD.ConnectionStates;
@@ -18,7 +16,6 @@ using WheelMUD.Utilities;
 
 namespace WarriorRogueMage.CharacterCreation
 {
-
     /// <summary>The character creation step where the player will pick their race.</summary>
     public class PickRaceState : CharacterCreationSubState
     {
@@ -45,7 +42,7 @@ namespace WarriorRogueMage.CharacterCreation
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {
-            string currentCommand = command.ToLower().Trim();
+            var currentCommand = command.ToLower().Trim();
 
             switch (currentCommand)
             {
@@ -83,12 +80,12 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void ViewRaceDescription(string race)
         {
-            string raceToView = race.Replace("view ", string.Empty);
+            var raceToView = race.Replace("view ", string.Empty);
 
-            CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
-            TextInfo textInfo = cultureInfo.TextInfo;
+            var cultureInfo = Thread.CurrentThread.CurrentCulture;
+            var textInfo = cultureInfo.TextInfo;
 
-            string properCaseRace = textInfo.ToTitleCase(raceToView);
+            var properCaseRace = textInfo.ToTitleCase(raceToView);
 
             var foundRace = (from r in gameRaces
                              where r.Name == properCaseRace
@@ -96,13 +93,13 @@ namespace WarriorRogueMage.CharacterCreation
 
             if (foundRace != null)
             {
-                var sb = new StringBuilder();
-                sb.Append("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=" + Environment.NewLine);
-                sb.AppendFormat("Description for {0}" + Environment.NewLine, foundRace.Name);
-                sb.Append("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>" + Environment.NewLine);
-                sb.Append("<%b%><%white%>" + foundRace.Description + Environment.NewLine);
-                sb.Append("<%b%><%yellow%>=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=<%n%>");
-                Session.Write(sb.ToString());
+                var ab = new AnsiBuilder();
+                ab.AppendSeparator('=', "yellow", true);
+                ab.AppendLine($"Description for {foundRace.Name}");
+                ab.AppendSeparator('-', "yellow");
+                ab.AppendLine($"<%b%><%white%>{foundRace.Description}<%n%>");
+                ab.AppendSeparator('=', "yellow", true);
+                Session.Write(ab.ToString());
             }
             else
             {
@@ -113,8 +110,8 @@ namespace WarriorRogueMage.CharacterCreation
         private void FormatRaceText()
         {
             var raceQueue = new Queue<GameRace>();
-            var text = new StringBuilder();
-            int rows = gameRaces.Count / 4;
+            var text = new AnsiBuilder();
+            var rows = gameRaces.Count / 4;
 
             foreach (var gameRace in gameRaces)
             {
@@ -129,41 +126,42 @@ namespace WarriorRogueMage.CharacterCreation
 
             try
             {
-                for (int i = 0; i < rows; i++)
+                for (var i = 0; i < rows; i++)
                 {
-                    string race1 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
-                    string race2 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
-                    string race3 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
-                    string race4 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
-                    text.AppendFormat("{0}  {1}  {2}  {3}" + Environment.NewLine, race1, race2, race3, race4);
+                    var race1 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
+                    var race2 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
+                    var race3 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
+                    var race4 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
+                    text.AppendLine($"{race1}  {race2}  {race3}  {race4}");
                 }
 
-                if ((gameRaces.Count % 4) > 0)
+                if (gameRaces.Count % 4 > 0)
                 {
-                    int columns = gameRaces.Count - (rows * 4);
+                    var columns = gameRaces.Count - (rows * 4);
 
                     switch (columns)
                     {
                         case 1:
-                            string racecolumn1 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
-                            text.AppendFormat("{0}" + Environment.NewLine, racecolumn1);
+                            var racecolumn1 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
+                            text.AppendLine($"{racecolumn1}");
                             break;
                         case 2:
-                            string rc = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
-                            string rcc1 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
-                            text.AppendFormat("{0}  {1}" + Environment.NewLine, rc, rcc1);
+                            var rc = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
+                            var rcc1 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
+                            text.AppendLine($"{rc}  {rcc1}");
                             break;
                         case 3:
-                            string rc1 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
-                            string rc2 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
-                            string rc3 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
-                            text.AppendFormat("{0}  {1}  {2}" + Environment.NewLine, rc1, rc2, rc3);
+                            var rc1 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
+                            var rc2 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
+                            var rc3 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
+                            text.AppendLine($"{rc1}  {rc2}  {rc3}");
                             break;
                     }
                 }
             }
             catch (Exception)
             {
+                // ignored
             }
 
             formattedRaces = text.ToString();
@@ -171,7 +169,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         private string GetCommardPart(string command)
         {
-            string retval = string.Empty;
+            var retval = string.Empty;
 
             try
             {
@@ -187,16 +185,16 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen()
         {
-            var sb = new StringBuilder();
-            sb.AppendAnsiLine();
-            sb.AppendAnsiLine("<%green%>Please select 1 from the list below:<%n%>");
-            sb.AppendAnsiLine(formattedRaces);
-            sb.AppendAnsiLine("<%yellow%>=========================================================================");
-            sb.AppendAnsiLine("To pick a race, just type the race's name. Example: human");
-            sb.AppendAnsiLine("To view a races's description use the view command. Example: view orc");
-            sb.AppendAnsiLine("To see this screen again type 'list'.");
-            sb.AppendAnsiLine("=========================================================================<%n%>");
-            Session.Write(sb.ToString());
+            var ab = new AnsiBuilder();
+            ab.AppendLine();
+            ab.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
+            ab.AppendLine(formattedRaces);
+            ab.AppendSeparator('=', "yellow");
+            ab.AppendLine("To pick a race, just type the race's name. Example: human");
+            ab.AppendLine("To view a races' description use the view command. Example: view orc");
+            ab.AppendLine("To see this screen again type 'list'.");
+            ab.AppendSeparator('=', "yellow");
+            Session.Write(ab.ToString());
         }
     }
 }

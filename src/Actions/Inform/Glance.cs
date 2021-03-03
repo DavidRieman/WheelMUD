@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An action to have a quick look at your surroundings.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("glance", CommandCategory.Inform)]
@@ -77,50 +77,34 @@ namespace WheelMUD.Actions
             {
                 if (perceivedEntities.Count != 0)
                 {
-                    if (perceivedExits.Count != 0)
-                    {
-                        glanceString.Append("There are various items, figures, and exits here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
-                    }
-                    else
-                    {
-                        glanceString.Append("There are various items, and figures here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
-                    }
+                    glanceString.Append(
+                        perceivedExits.Count != 0
+                            ? "There are various items, figures, and exits here."
+                            : "There are various items, and figures here.",
+                        ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                 }
                 else
                 {
-                    if (perceivedExits.Count != 0)
-                    {
-                        glanceString.Append("There are various items, and exits here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
-                    }
-                    else
-                    {
-                        glanceString.Append("There are various items here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
-                    }
+                    glanceString.Append(
+                        perceivedExits.Count != 0
+                            ? "There are various items, and exits here."
+                            : "There are various items here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                 }
             }
             else
             {
                 if (perceivedEntities.Count != 0)
                 {
-                    if (perceivedExits.Count != 0)
-                    {
-                        glanceString.Append("There are various figures, and exits here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
-                    }
-                    else
-                    {
-                        glanceString.Append("There are various figures here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
-                    }
+                    glanceString.Append(
+                        perceivedExits.Count != 0
+                            ? "There are various figures, and exits here."
+                            : "There are various figures here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                 }
                 else
                 {
-                    if (perceivedExits.Count != 0)
-                    {
-                        glanceString.Append("There are various exits here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
-                    }
-                    else
-                    {
-                        glanceString.Append("You don't see anything here.", ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
-                    }
+                    glanceString.Append(
+                        perceivedExits.Count != 0 ? "There are various exits here." : "You don't see anything here.",
+                        ContextualStringUsage.OnlyWhenBeingPassedToReceiver);
                 }
             }
 

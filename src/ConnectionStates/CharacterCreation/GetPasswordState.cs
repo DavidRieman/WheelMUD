@@ -5,7 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using System.Text;
 using WheelMUD.Core;
 using WheelMUD.Data;
 using WheelMUD.Utilities;
@@ -18,15 +17,15 @@ namespace WheelMUD.ConnectionStates
         private static readonly string InitialStateMessage;
         static GetPasswordState()
         {
-            var sb = new StringBuilder();
-            sb.AppendAnsiLine();
-            sb.AppendAnsiLine(AppConfigInfo.Instance.UserAccountIsPlayerCharacter ?
+            var ab = new AnsiBuilder();
+            ab.AppendLine();
+            ab.AppendLine(AppConfigInfo.Instance.UserAccountIsPlayerCharacter ?
                 "Please carefully select a password for this character." :
                 "Please carefully select a password for this user account.");
-            sb.Append("Although the Telnet protocol provides an authentic retro experience, unfortunately it also sends password in plain-text. ");
-            sb.Append("Do not use the same password as you use for any other account. Do not use this password on a network with machines do not fully trust (especially public networks). ");
-            sb.AppendLine("Your password can be changed while logged in.");
-            InitialStateMessage = sb.ToString();
+            ab.Append("Although the Telnet protocol provides an authentic retro experience, unfortunately it also sends password in plain-text. ");
+            ab.Append("Do not use the same password as you use for any other account. Do not use this password on a network with machines do not fully trust (especially public networks). ");
+            ab.AppendLine("Your password can be changed while logged in.");
+            InitialStateMessage = ab.ToString();
         }
 
         /// <summary>Initializes a new instance of the <see cref="GetPasswordState"/> class.</summary>

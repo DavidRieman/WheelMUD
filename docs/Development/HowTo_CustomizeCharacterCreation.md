@@ -180,7 +180,7 @@ private void RefreshScreen()
     }
     else
     {
-        sb.AppendAnsiLine($"<%green%>The chosen gender is {playerGender}.<%n%>");
+        sb.AppendAnsiLine($"The chosen gender is <%green%>{playerGender}<%n%>.");
     }
  
     sb.AppendAnsiLine("<%yellow%>===============================================================");

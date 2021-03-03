@@ -125,19 +125,4 @@ namespace WheelMUD.Utilities
         /// <summary>The ANSI sequence for setting character background color to white.</summary>
         public const string BackgroundWhite = Esc + "[47m";
     }
-
-    public static class AnsiStringBuilderExtensions
-    {
-        /// <summary>Extend StringBuilder class to provide an ANSI line ending version of AppendLine.</summary>
-        /// <returns>A reference to this instance after the append operation has completed.</returns>
-        /// <remarks>
-        /// This extension method should be used instead of AppendLine for all output the server intends to send to a
-        /// connected client, since the Telnet specification states that all output send to the client should be using
-        /// a specific ANSI sequence instead of the server environment's typical end-of-line sequence.
-        /// </remarks>
-        public static StringBuilder AppendAnsiLine(this StringBuilder sb, string s = null)
-        {
-            return sb.Append(s + AnsiSequences.NewLine);
-        }
-    }
 }

@@ -56,7 +56,7 @@ namespace WheelMUD.Utilities
         /// <returns>The ANSI sequence to move the cursor up the specified number of lines.</returns>
         public static string MoveCursorUp(int numLines)
         {
-            return AnsiSequences.Esc + string.Format("[{0}A", numLines);
+            return AnsiSequences.Esc + $"[{numLines}A";
         }
 
         /// <summary>Gets the ANSI sequence to move the cursor down the specified number of lines.</summary>
@@ -64,7 +64,7 @@ namespace WheelMUD.Utilities
         /// <returns>The ANSI sequence to move the cursor down the specified number of lines.</returns>
         public static string MoveCursorDown(int numberLines)
         {
-            return AnsiSequences.Esc + string.Format("[{0}B", numberLines);
+            return AnsiSequences.Esc + $"[{numberLines}B";
         }
 
         /// <summary>Gets the ANSI sequence to move the cursor right the specified number of columns.</summary>
@@ -72,7 +72,7 @@ namespace WheelMUD.Utilities
         /// <returns>The ANSI sequence to move the cursor right the specified number of columns.</returns>
         public static string MoveCursorRight(int numberColumns)
         {
-            return AnsiSequences.Esc + string.Format("[{0}C", numberColumns);
+            return AnsiSequences.Esc + $"[{numberColumns}C";
         }
 
         /// <summary>Gets the ANSI sequence to move the cursor left the specified number of columns.</summary>
@@ -80,7 +80,7 @@ namespace WheelMUD.Utilities
         /// <returns>The ANSI sequence to move the cursor left the specified number of columns.</returns>
         public static string MoveCursorLeft(int numberColumns)
         {
-            return AnsiSequences.Esc + string.Format("[{0}D", numberColumns);
+            return AnsiSequences.Esc + $"[{numberColumns}D";
         }
 
         /// <summary>Gets the ANSI sequence to set the foreground to the specified color.</summary>
@@ -88,7 +88,7 @@ namespace WheelMUD.Utilities
         /// <returns>The ANSI sequence to set the foreground to the specified color.</returns>
         public static string SetForegroundColor(AnsiForegroundColor foregroundColor)
         {
-            return AnsiSequences.Esc + string.Format("[{0}m", (int)foregroundColor);
+            return AnsiSequences.Esc + $"[{(int) foregroundColor}m";
         }
 
         /// <summary>Gets the ANSI sequence to set the background to the specified color.</summary>
@@ -96,7 +96,7 @@ namespace WheelMUD.Utilities
         /// <returns>The ANSI sequence to set the background to the specified color.</returns>
         public static string SetBackgroundColor(AnsiBackgroundColor backgroundColor)
         {
-            return AnsiSequences.Esc + string.Format("[{0}m", (int)backgroundColor);
+            return AnsiSequences.Esc + $"[{(int) backgroundColor}m";
         }
 
         /// <summary>Gets the ANSI sequence to set all of the attribute, foreground, and background colors.</summary>
@@ -106,7 +106,7 @@ namespace WheelMUD.Utilities
         /// <returns>The ANSI sequence to set all of the attribute, foreground, and background colors.</returns>
         public static string SetTextAttributes(AnsiTextAttribute attribute, AnsiForegroundColor foregroundColor, AnsiBackgroundColor backgroundColor)
         {
-            return AnsiSequences.Esc + string.Format("[{0};{1};{2}m", (int)attribute, (int)foregroundColor, (int)backgroundColor);
+            return AnsiSequences.Esc + $"[{(int) attribute};{(int) foregroundColor};{(int) backgroundColor}m";
         }
 
         /// <summary>Gets the ANSI sequence to set the text attribute.</summary>
@@ -114,7 +114,7 @@ namespace WheelMUD.Utilities
         /// <returns>The ANSI sequence to set the text attribute.</returns>
         public static string SetTextAttributes(AnsiTextAttribute attribute)
         {
-            return AnsiSequences.Esc + string.Format("[{0}m", (int)attribute);
+            return AnsiSequences.Esc + $"[{(int) attribute}m";
         }
 
         /// <summary>Gets the ANSI sequence to set the text foreground and background colors.</summary>
@@ -123,7 +123,7 @@ namespace WheelMUD.Utilities
         /// <returns>The ANSI sequence to set the text foreground and background colors.</returns>
         public static string SetTextAttributes(AnsiForegroundColor foregroundColor, AnsiBackgroundColor backgroundColor)
         {
-            return AnsiSequences.Esc + string.Format("[{0};{1}m", (int)foregroundColor, (int)backgroundColor);
+            return AnsiSequences.Esc + $"[{(int) foregroundColor};{(int) backgroundColor}m";
         }
 
         /// <summary>Gets the ANSI sequence to set the cursor to the specified coordinates.</summary>
@@ -132,7 +132,7 @@ namespace WheelMUD.Utilities
         /// <returns>The ANSI sequence to set the cursor to the specified coordinates.</returns>
         public static string MoveCursorTo(int line, int column)
         {
-            return AnsiSequences.Esc + string.Format("[{0};{1}H", line, column);
+            return AnsiSequences.Esc + $"[{line};{column}H";
         }
 
         /// <summary>Converts an ANSI code name to the ANSI code sequence suitable for sending to the Telnet client.</summary>

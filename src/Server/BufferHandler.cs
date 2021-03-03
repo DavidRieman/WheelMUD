@@ -46,19 +46,22 @@ namespace WheelMUD.Server
             Debug.Assert(currentPosition >= 0);
             Debug.Assert(bufferLines.Length > 0);
 
+            // The buffered output was already processed for ANSI and such. Using StringBuilder instead of AnsiBuilder here is
+            // intended, to avoid double-processing. If we did not avoid double-processing, then things like help files trying
+            // to explain how to use <%tokens%> for ANSI via escaped <% and %> sections would instead get replaced in processing.
             StringBuilder output = new StringBuilder();
             for (int i = 0; i < bufferLines.Length - 1; i++)
             {
-                output.AppendAnsiLine(bufferLines[i]);
+                output.AppendLine(bufferLines[i] + AnsiSequences.NewLine);
             }
-            // Last line without NewLine; should always be a prompt (for output modes that would support this style of buffering)
-            // and the prompt can have the cursor beside it like most regular, user-comfortable shell-like experiences.
-            output.Append(bufferLines[bufferLines.Length - 1]);
+            // Last line without NewLine; if we're not appending another overflow indicator, then this is assumed to be a prompt,
+            // and if we are appending overflow indicator, we'll add the new line before adding said prompt.
+            output.Append(bufferLines[^1]);
 
             if (appendOverflowIndicator)
             {
-                output.AppendAnsiLine();
-                output.AppendAnsiLine(FormatOverflowPrompt(currentPosition, totalRows));
+                output.Append(AnsiSequences.NewLine);
+                output.Append(FormatOverflowPrompt(currentPosition, totalRows));
             }
 
             return output.ToString();
