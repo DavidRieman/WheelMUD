@@ -168,25 +168,25 @@ Session.Write is how we send text to the player's screen. We set the prompt mess
 private void RefreshScreen()
 {
     var sb = new StringBuilder();
-    sb.Append("+++++++" + Environment.NewLine);
-    sb.Append("You have the following gender choices:" + Environment.NewLine + Environment.NewLine);
-    sb.Append("Male" + Environment.NewLine);
-    sb.Append("Female" + Environment.NewLine);
-    sb.Append("Eunuch" + Environment.NewLine);
-    sb.Append(Environment.NewLine);
+    sb.AppendAnsiLine("+++++++");
+    sb.AppendAnsiLine("You have the following gender choices:");
+    sb.AppendAnsiLine("Male");
+    sb.AppendAnsiLine("Female");
+    sb.AppendAnsiLine("Eunuch");
+    sb.AppendAnsiLine();
     if (string.IsNullOrEmpty(playerGender))
     {
-        sb.Append("<%b%><%red%>No gender has been selected.<%n%>" + Environment.NewLine);
+        sb.AppendAnsiLine("<%b%><%red%>No gender has been selected.<%n%>");
     }
     else
     {
-        sb.AppendFormat("<%green%>The chosen gender is {0}.<%n%>" + Environment.NewLine, playerGender);
+        sb.AppendAnsiLine($"The chosen gender is <%green%>{playerGender}<%n%>.");
     }
  
-    sb.Append("<%yellow%>===============================================================" + Environment.NewLine);
-    sb.Append("To pick a gender use the select command. Example: select female" + Environment.NewLine);
-    sb.Append("When you are done picking a gender type done." + Environment.NewLine);
-    sb.Append("===============================================================<%n%>");
+    sb.AppendAnsiLine("<%yellow%>===============================================================");
+    sb.AppendAnsiLine("To pick a gender use the select command. Example: select female");
+    sb.AppendAnsiLine("When you are done picking a gender type done.");
+    sb.AppendAnsiLine("===============================================================<%n%>");
  
     Session.Write(sb.ToString());
 }

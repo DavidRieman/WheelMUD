@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace WheelMUD.Utilities
 {
     /// <summary>Class For parsing MUD ANSI tags into ANSI.</summary>
@@ -15,6 +17,40 @@ namespace WheelMUD.Utilities
     /// </remarks>
     public static class AnsiHandler
     {
+        // TODO: Consider separating ANSI from MXP handling.
+        // NOTE: AnsiSequences.MxpSecureLine MUST NOT be honored from automatic conversion; e.g. cannot support "<%mxpsecureline%>" conversion.
+        private static readonly Dictionary<string, string> CodeSequenceMap = new Dictionary<string, string>()
+        {
+            { "n", AnsiSequences.TextNormal },
+            { "reset", AnsiSequences.TextNormal }, // Avoid usage; favor the <%n%> form.
+            { "nl", AnsiSequences.NewLine },
+            { "black", AnsiSequences.ForegroundBlack },
+            { "red", AnsiSequences.ForegroundRed },
+            { "green", AnsiSequences.ForegroundGreen },
+            { "yellow", AnsiSequences.ForegroundYellow },
+            { "blue", AnsiSequences.ForegroundBlue },
+            { "magenta", AnsiSequences.ForegroundMagenta },
+            { "cyan", AnsiSequences.ForegroundCyan },
+            { "white", AnsiSequences.ForegroundWhite },
+            { "bblack", AnsiSequences.BackgroundBlack },
+            { "bred", AnsiSequences.BackgroundRed },
+            { "bgreen", AnsiSequences.BackgroundGreen },
+            { "byellow", AnsiSequences.BackgroundYellow },
+            { "bblue", AnsiSequences.BackgroundBlue },
+            { "bmagenta", AnsiSequences.BackgroundMagenta },
+            { "bcyan", AnsiSequences.BackgroundCyan },
+            { "bwhite", AnsiSequences.BackgroundWhite },
+            { "b", AnsiSequences.TextBold },
+            { "cls", AnsiSequences.ClearScreenAndHomeCursor },
+            { "u", AnsiSequences.TextUnderline },
+            { "underline", AnsiSequences.TextUnderline },
+            { "hidden", AnsiSequences.TextHidden },
+            { "up", AnsiSequences.MoveCursorUp1 },
+            { "down", AnsiSequences.MoveCursorDown1 },
+            { "left", AnsiSequences.MoveCursorLeft1 },
+            { "right", AnsiSequences.MoveCursorRight1 },
+        };
+
         /// <summary>Gets the ANSI sequence to move the cursor up the specified number of lines.</summary>
         /// <param name="numLines">The number of lines to move the cursor up.</param>
         /// <returns>The ANSI sequence to move the cursor up the specified number of lines.</returns>
@@ -97,6 +133,14 @@ namespace WheelMUD.Utilities
         public static string MoveCursorTo(int line, int column)
         {
             return AnsiSequences.Esc + $"[{line};{column}H";
+        }
+
+        /// <summary>Converts an ANSI code name to the ANSI code sequence suitable for sending to the Telnet client.</summary>
+        /// <param name="code">The code name, such as "red" or "underline".</param>
+        /// <returns>The ANSI code sequence, or null when the code is unrecognized.</returns>
+        public static string ConvertCode(string code)
+        {
+            return CodeSequenceMap.ContainsKey(code) ? CodeSequenceMap[code] : null;
         }
     }
 }

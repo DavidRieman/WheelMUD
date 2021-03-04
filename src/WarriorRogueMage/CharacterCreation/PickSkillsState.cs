@@ -5,16 +5,16 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using WheelMUD.ConnectionStates;
+using WheelMUD.Core;
 using WheelMUD.Utilities;
 
 namespace WarriorRogueMage.CharacterCreation
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using WheelMUD.ConnectionStates;
-    using WheelMUD.Core;
-
     /// <summary>The character creation step where the player will pick their skills.</summary>
     public class PickSkillsState : CharacterCreationSubState
     {
@@ -27,10 +27,14 @@ namespace WarriorRogueMage.CharacterCreation
         public PickSkillsState(Session session)
             : base(session)
         {
-            Session.Write($"You will now pick your character's starting skills.{AnsiSequences.NewLine}");
             gameSkills = GameSystemController.Instance.GameSkills;
             formattedSkills = FormatSkillText();
-            RefreshScreen(false);
+        }
+
+        public override void Begin()
+        {
+            Session.WriteAnsiLine("You will now pick your character's starting skills.", false);
+            RefreshScreen();
         }
 
         /// <summary>Processes the text that the player sends while in this state.</summary>
@@ -73,7 +77,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override string BuildPrompt()
         {
-            return $"Select the character's skills{AnsiSequences.NewLine}";
+            return "Select the character's skills: > ";
         }
 
         private bool SetSkill(string skillName)
@@ -99,7 +103,6 @@ namespace WarriorRogueMage.CharacterCreation
 
             selectedSkills.Add(selectedSkill);
             RefreshScreen();
-            Session.WritePrompt();
             return true;
         }
 
@@ -107,7 +110,6 @@ namespace WarriorRogueMage.CharacterCreation
         {
             selectedSkills.Clear();
             RefreshScreen();
-            Session.WritePrompt();
         }
 
         private void ViewSkillDescription(string skillName)
@@ -125,7 +127,6 @@ namespace WarriorRogueMage.CharacterCreation
             ab.AppendSeparator('-', "yellow");
             ab.AppendLine($"<%b%><%white%>{foundSkill.Description}");
             ab.AppendSeparator('=', "yellow", true);
-
             Session.Write(ab.ToString());
         }
 
@@ -199,14 +200,12 @@ namespace WarriorRogueMage.CharacterCreation
                 }
             }
 
-            text.AppendLine();
             return text.ToString();
         }
 
-        private void RefreshScreen(bool sendPrompt = true)
+        private void RefreshScreen()
         {
             var ab = new AnsiBuilder();
-            ab.AppendLine();
             ab.AppendLine();
             ab.AppendLine("You may pick three starting skills for your character.");
             int n = 1;
@@ -226,7 +225,7 @@ namespace WarriorRogueMage.CharacterCreation
             ab.AppendLine("When you are done picking your three skills, type done.");
             ab.AppendSeparator('=', "yellow", true);
 
-            Session.Write(ab.ToString(), sendPrompt);
+            Session.Write(ab.ToString());
         }
     }
 }

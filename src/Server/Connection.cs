@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
@@ -38,7 +39,7 @@ namespace WheelMUD.Server
         private readonly ISubSystem connectionHost;
 
         /// <summary>How many rows of text the client can handle as a single display page.</summary>
-        private int pagingRowLimit;
+        private int pagingRowLimit = 1000;
 
         /// <summary>Initializes a new instance of the <see cref="Connection"/> class.</summary>
         /// <param name="socket">The socket upon which this connection is to be based.</param>
@@ -54,12 +55,10 @@ namespace WheelMUD.Server
             CurrentIPAddress = remoteEndPoint.Address;
             ID = Guid.NewGuid().ToString();
             TelnetCodeHandler = new TelnetCodeHandler(this);
-
-            // TODO: Paging row size should be dynamic from Telnet (NAWS?) or a player-chosen override.
-            //       (This used to be called BufferLength in old discussions.)
-            PagingRowLimit = 40;
             this.connectionHost = connectionHost;
         }
+
+        public bool AtNewLine { get; private set; } = true;
 
         /// <summary>The 'client disconnected' event handler.</summary>
         public event EventHandler<ConnectionArgs> ClientDisconnected;
@@ -95,7 +94,7 @@ namespace WheelMUD.Server
 
             set
             {
-                pagingRowLimit = value == 0 ? 1000 : value;
+                pagingRowLimit = (value <= 0 || value > 1000) ? 1000 : value;
             }
         }
 
@@ -135,39 +134,43 @@ namespace WheelMUD.Server
             }
         }
 
-        /// <summary>Sends string data to the connection.</summary>
-        /// <remarks>The data passes through the handlers to be formatted for display.</remarks>
-        /// <param name="data">The data to send</param>
-        public void Send(string data)
-        {
-            Send(data, false);
-        }
-
-        /// <summary>Sends string data to the connection.</summary>
-        /// <param name="data">The data to send.</param>
-        /// <param name="bypassDataFormatter">Indicates whether the data formatter should be bypassed (for a quicker send).</param>
-        public void Send(string data, bool bypassDataFormatter)
-        {
-            Send(data, bypassDataFormatter, false);
-        }
-
         /// <summary>Sends string data to the connection</summary>
-        /// <param name="data">data to send.</param>
-        /// <param name="bypassDataFormatter">Indicates whether the data formatter should be bypassed (for a quicker send).</param>
-        /// <param name="sendAllData">Indicates if paging should be allowed</param>
-        public void Send(string data, bool bypassDataFormatter, bool sendAllData)
+        /// <param name="data">The string to send.</param>
+        /// <param name="bypassDataFormatter">If true, the data formatter should be bypassed (for a quicker send of data known to be already formatted well for client display).</param>
+        /// <param name="sendAllData">If true, send all data without letting the paging system pause the output.</param>
+        public void Send(string data, bool bypassDataFormatter = false, bool sendAllData = false)
         {
+            // TODO: Eventually, certain large blocks of text might be good candidates for caching the final result due to high frequency of sending to clients (such as welcome
+            //       messages or the most popular room descriptions and so on), so here might be a good place to perform an options-sensitive cache lookup of the source data to
+            //       the final (potentially word-wrapped, potentially compressed) data. This could reduce total word-wrapping and compression work. (Such a potential improvement
+            //       should be carefully measured for whether it is worth the complexity and potential bugs.) As such, it may make sense to coalesce the honored word wrap widths
+            //       when formatting data below, into common groupings (such as rounding down to nearest multiple of 20 and enforcing a max) to increase those cache hits at the
+            //       trade-off of not printing to the right-most characters of some terminal sizes. (This would probably look fine, generally.)
             if (!bypassDataFormatter)
             {
-                data = DataFormatter.FormatData(data, this, sendAllData);
+                var wordWrapWidth = TerminalOptions.UseWordWrap ? TerminalOptions.Width : 0;
+                var lines = DataFormatter.FormatData(data, wordWrapWidth, TerminalOptions.UseANSI);
+                var totalLines = lines.Count;
+                if (TerminalOptions.UseBuffer && totalLines >= PagingRowLimit && !sendAllData)
+                {
+                    // Store all the lines of output, but for now we'll display as many as we can fit (plus reserving one line for the 
+                    // buffering prompt itself).
+                    OutputBuffer.Set(lines);
+                    lines = new List<string>(OutputBuffer.GetRows(BufferDirection.Forward, PagingRowLimit - 1))
+                    {
+                        BufferHandler.FormatOverflowPrompt(PagingRowLimit, totalLines)
+                    };
+                }
+
+                // Put the lines back together, but with ANSI NewLines between each line.
+                data = string.Join(AnsiSequences.NewLine, lines);
             }
 
+            // Check if the client wants to use compression (MCCP) and whether data is long enough to bother (as the overhead is quite high).
             byte[] bytes;
-
-            // Check for MCCP (its not worth using for short strings as the overhead is quite high).
             if (TerminalOptions.UseMCCP && data.Length > MCCPThreshold)
             {
-                // Compress the data
+                // Compress the data.
                 bytes = MCCPHandler.Compress(data);
 
                 // Send the sub request to say that the next load of data
@@ -181,6 +184,9 @@ namespace WheelMUD.Server
 
             // Send the data.
             Send(bytes);
+
+            // Track whether we've finished with a NewLine, so we can avoid new lines of output going to the same one.
+            AtNewLine = data.EndsWith(AnsiSequences.NewLine);
         }
 
         /// <summary>Sends data from the output buffer to the client.</summary>
@@ -192,9 +198,8 @@ namespace WheelMUD.Server
                 string[] output = OutputBuffer.GetRows(bufferDirection, PagingRowLimit);
 
                 bool appendOverflow = OutputBuffer.HasMoreData;
-                string data = BufferHandler.Format(
+                string data = (AtNewLine ? null : AnsiSequences.NewLine) + BufferHandler.Format(
                     output,
-                    false,
                     appendOverflow,
                     OutputBuffer.CurrentLocation,
                     OutputBuffer.Length);

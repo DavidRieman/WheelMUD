@@ -115,6 +115,18 @@ namespace WheelMUD.Core
             public PerceivedThing(IDictionary<string, object> metadata) : base(metadata) { }
         }
 
+        /// <summary>Class for exporting a Prompt renderer for composition into the WheelMUD framework.</summary>
+        public class Prompt : BaseExportAttribute
+        {
+            /// <summary>Initializes a new instance of the class.</summary>
+            /// <param name="rendererPriority">The priority for this renderer. Highest number among composed renderers gets used.</param>
+            public Prompt(int rendererPriority) : base(rendererPriority, typeof(RendererDefinitions.Prompt)) { }
+
+            /// <summary>Initializes a new instance of the class.</summary>
+            /// <param name="metadata">The metadata.</param>
+            public Prompt(IDictionary<string, object> metadata) : base(metadata) { }
+        }
+
         /// <summary>Class for exporting a Score renderer for composition into the WheelMUD framework.</summary>
         public class Score : BaseExportAttribute
         {

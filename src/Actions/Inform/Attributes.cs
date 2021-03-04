@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
-using WheelMUD.Utilities;
 using System.Collections.Generic;
 using WheelMUD.Core;
+using WheelMUD.Interfaces;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Actions
 {

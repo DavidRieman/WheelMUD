@@ -5,7 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using WheelMUD.ConnectionStates;
 using WheelMUD.Core;
+using WheelMUD.Utilities;
 
 namespace WarriorRogueMage.CharacterCreation
 {
@@ -28,10 +28,14 @@ namespace WarriorRogueMage.CharacterCreation
         public PickRaceState(Session session)
             : base(session)
         {
-            Session.Write("You will now pick your character's race.");
             gameRaces = GameSystemController.Instance.GameRaces;
             FormatRaceText();
-            RefreshScreen(false);
+        }
+
+        public override void Begin()
+        {
+            Session.WriteAnsiLine("You will now pick your character's race.", false);
+            RefreshScreen();
         }
 
         /// <summary>ProcessInput is used to receive the user input during this state.</summary>
@@ -66,7 +70,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override string BuildPrompt()
         {
-            return "Select your character's race.\n> ";
+            return "Select your character's race: > ";
         }
 
         private GameRace GetRace(string raceName)
@@ -95,7 +99,6 @@ namespace WarriorRogueMage.CharacterCreation
                 ab.AppendSeparator('-', "yellow");
                 ab.AppendLine($"<%b%><%white%>{foundRace.Description}<%n%>");
                 ab.AppendSeparator('=', "yellow", true);
-
                 Session.Write(ab.ToString());
             }
             else
@@ -161,8 +164,6 @@ namespace WarriorRogueMage.CharacterCreation
                 // ignored
             }
 
-            text.Append(Environment.NewLine);
-
             formattedRaces = text.ToString();
         }
 
@@ -182,10 +183,9 @@ namespace WarriorRogueMage.CharacterCreation
             return retval;
         }
 
-        private void RefreshScreen(bool sendPrompt = true)
+        private void RefreshScreen()
         {
             var ab = new AnsiBuilder();
-            ab.AppendLine();
             ab.AppendLine();
             ab.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
             ab.AppendLine(formattedRaces);
@@ -194,8 +194,7 @@ namespace WarriorRogueMage.CharacterCreation
             ab.AppendLine("To view a races' description use the view command. Example: view orc");
             ab.AppendLine("To see this screen again type 'list'.");
             ab.AppendSeparator('=', "yellow");
-
-            Session.Write(ab.ToString(), sendPrompt);
+            Session.Write(ab.ToString());
         }
     }
 }

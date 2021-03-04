@@ -18,9 +18,11 @@ namespace WheelMUD.Utilities
     public class AnsiSequences
     {
         /// <summary>Gets the ANSI sequence to move the cursor to a new line.</summary>
-        /// <returns>The ANSI sequence to move the cursor to a new line.</returns>
         /// <remarks>Explicitly avoids Environment.NewLine, as a Telnet server is always supposed to send new lines as CR LF.</remarks>
         public const string NewLine = "\r\n";
+
+        /// <summary>Gets the ANSI sequence to move the cursor to a new line, but escaped for suitable usage in regular expressions.</summary>
+        public const string NewLineRegexPartEscaped = "\\r\\n";
 
         /// <summary>The ANSI 'escape sequence'.</summary>
         public const string Esc = "\x1B";

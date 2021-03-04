@@ -44,6 +44,9 @@ namespace WheelMUD.Server
             // Get the whole of our buffer.
             input = sender.Buffer.ToString();
 
+            // TODO: We probably don't need to do this OR SetLastTerminator. We can probably just string split the input on ['\r', '\n'],
+            //       ignore any blank line input. Unless there is just one, in which case we can process it to the user's input processing
+            //       queue, as the user may just want to print a fresh prompt with latest time-base details / test their connectivity / etc.
             input = StripDodgyTerminator(sender, input);
 
             // If we have nothing left to process then bail out.

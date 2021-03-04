@@ -71,10 +71,8 @@ namespace WheelMUD.Server.Telnet
                 Connection.TerminalOptions.UseMXP = true;
 
                 // Request a version tag from the client.
-                var ab = new AnsiBuilder();
-                ab.Append("<%mxpsecureline%><VERSION>");
-
-                Connection.Send(ab.ToString(), true);
+                // TODO: https://github.com/DavidRieman/WheelMUD/issues/107 - Fix handling of MXP Secure Lines with dedicated API.
+                Connection.Send(MXPHandler.SecureLineCode + "<VERSION>", true);
                 AwaitingVersionResponse = true;
 
                 // TODO: Send our mxp headers.

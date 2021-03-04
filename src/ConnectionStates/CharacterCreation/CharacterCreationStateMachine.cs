@@ -22,8 +22,13 @@ namespace WheelMUD.ConnectionStates
             if (Session != null)
             {
                 Session.Thing = PlayerManager.PrepareBaseCharacter(session);
-                HandleNextStep(null, StepStatus.Success);
             }
+        }
+
+        /// <summary>Begin running this CharacterCreationStateMachine.</summary>
+        public virtual void Begin()
+        {
+            HandleNextStep(null, StepStatus.Success);
         }
 
         /// <summary>An event for the completion of character creation.</summary>
@@ -56,8 +61,8 @@ namespace WheelMUD.ConnectionStates
         }
 
         /// <summary>Processes the next step in the character creation chain, or completes the process if there are no more steps.</summary>
-        /// <param name="step">The current step</param>
-        /// <param name="result">The result of the current step</param>
+        /// <param name="step">The current step.</param>
+        /// <param name="result">The result of the current step.</param>
         public void HandleNextStep(CharacterCreationSubState step, StepStatus result)
         {
             CurrentStep = GetNextStep(step, result);
@@ -68,9 +73,12 @@ namespace WheelMUD.ConnectionStates
                 OnCreationComplete();
                 return;
             }
+            else
+            {
+                CurrentStep.Begin();
+            }
 
             CurrentStep.StateMachine = this;
-            Session.WritePrompt();
         }
 
         /// <summary>Signals abortion of character creation.</summary>

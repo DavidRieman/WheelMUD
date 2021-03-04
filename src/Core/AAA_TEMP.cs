@@ -765,7 +765,7 @@ namespace WheelMUD.Universe.Things
                     if (HoldsLiquid)
                     {
                         sb.AppendFormat("It appears that this {0} will hold liquids.", Name);
-                        sb.Append(Environment.NewLine);
+                        sb.AppendAnsiLine();
                     }
 
                     if (Count > 0)
@@ -780,7 +780,7 @@ namespace WheelMUD.Universe.Things
                     else
                     {
                         sb.AppendFormat("The {0} ({1}) is empty", Name, Id);
-                        sb.Append(Environment.NewLine);
+                        sb.AppendAnsiLine();
                     }
                 }
                 else
@@ -790,7 +790,7 @@ namespace WheelMUD.Universe.Things
                     if (HoldsLiquid)
                     {
                         sb.AppendFormat("It appears that this {0} will hold liquids.", Name);
-                        sb.Append(Environment.NewLine);
+                        sb.AppendAnsiLine();
                     }
                 }
 

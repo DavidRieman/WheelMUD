@@ -43,7 +43,7 @@ namespace WheelMUD.ConnectionStates
                 // The name is valid, but has it been taken already?
                 if (PlayerRepositoryExtensions.UserNameExists(command))
                 {
-                    Session.Write("I'm sorry, that name is already taken. Please choose another.");
+                    Session.WriteAnsiLine("I'm sorry, that name is already taken. Please choose another.");
                 }
                 else if (StateMachine != null)
                 {
@@ -64,8 +64,8 @@ namespace WheelMUD.ConnectionStates
         public override string BuildPrompt()
         {
             return AppConfigInfo.Instance.UserAccountIsPlayerCharacter ?
-                "Please enter a name for your character.\n> " :
-                "Please enter your user account name.\n> ";
+                "Please enter a name for your character: > " :
+                "Please enter a user account name or email address: > ";
         }
 
         /// <summary>Validate a proposed new user name against some basic criteria.</summary>
@@ -96,16 +96,14 @@ namespace WheelMUD.ConnectionStates
             // it is checked first to have consistent messagine each time you try a really long one in sequence.
             if (isAlsoPlayerName && (newUserName.Length < MinimumPlayerCharacterNameLength || newUserName.Length > MaximumPlayerCharacterNameLength))
             {
-                var format = "Player name must be between {0} and {1} letters long. Please choose another.";
-                Session.Write(string.Format(format, MinimumPlayerCharacterNameLength, MaximumPlayerCharacterNameLength));
+                Session.Write($"Player name must be between {MinimumPlayerCharacterNameLength} and {MaximumPlayerCharacterNameLength} letters long. Please choose another.");
                 return false;
             }
 
             // Rule: User name can not be too short nor too long.
             if (newUserName.Length < MinimumUserNameLength || newUserName.Length > MaximumUserNameLength)
             {
-                var format = "User name must be between {0} and {1} letters long. Please choose another.";
-                Session.Write(string.Format(format, MinimumUserNameLength, MaximumUserNameLength));
+                Session.Write($"User name must be between {MinimumUserNameLength} and {MaximumUserNameLength} letters long. Please choose another.");
                 return false;
             }
 

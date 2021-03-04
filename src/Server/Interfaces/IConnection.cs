@@ -18,6 +18,9 @@ namespace WheelMUD.Server.Interfaces
         /// <summary>Gets the ID of the connection.</summary>
         string ID { get; }
 
+        /// <summary>Gets a value indicating whether the output sent to the client is resting at the beginning of a line.</summary>
+        bool AtNewLine { get; }
+
         /// <summary>Gets or sets the last raw input received from the connection.</summary>
         string LastRawInput { get; set; }
 
@@ -39,33 +42,24 @@ namespace WheelMUD.Server.Interfaces
         /// <summary>Gets the textual representation of the data still waiting to be returned as an input string.</summary>
         StringBuilder Buffer { get; }
 
-        /// <summary>Gets or sets the number of rows that are buffered</summary>
+        /// <summary>Gets or sets the number of rows that are buffered.</summary>
         int PagingRowLimit { get; set; }
 
         /// <summary>Gets or sets the line terminator used on the last command.</summary>
         string LastInputTerminator { get; set; }
 
-        /// <summary>Disconnect a connection from the server</summary>
+        /// <summary>Disconnect a connection from the server.</summary>
         void Disconnect();
 
         /// <summary>Send data to the connection.</summary>
-        /// <param name="data">The byte array to send</param>
+        /// <param name="data">The data to send to the connection.</param>
         void Send(byte[] data);
 
         /// <summary>Send data to the connection.</summary>
-        /// <param name="data">The string to send</param>
-        void Send(string data);
-
-        /// <summary>Send data to the connection.</summary>
-        /// <param name="data">The string to send</param>
-        /// <param name="bypassDataFormatter">Allows the data formmater to be bypassed</param>
-        void Send(string data, bool bypassDataFormatter);
-
-        /// <summary>Send data to the connection.</summary>
-        /// <param name="data">The string to send</param>
-        /// <param name="bypassDataFormatter">Allows the data formmater to be bypassed</param>
-        /// <param name="sendAllData">Allows all data to be sent without paging</param>
-        void Send(string data, bool bypassDataFormatter, bool sendAllData);
+        /// <param name="data">The string to send.</param>
+        /// <param name="bypassDataFormatter">If true, the data formatter should be bypassed (for a quicker send of data known to be already formatted well for client display).</param>
+        /// <param name="sendAllData">If true, send all data without letting the paging system pause the output.</param>
+        void Send(string data, bool bypassDataFormatter = false, bool sendAllData = false);
 
         /// <summary>Doesn't modify the buffer but utilizes it to produce output.</summary>
         /// <param name="bufferDirection">Direction to process data</param>

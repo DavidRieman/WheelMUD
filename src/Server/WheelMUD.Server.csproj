@@ -20,13 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SharpZipLib" Version="1.3.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="CommandServer.cs" />
-    <Compile Remove="ConnectionTelnetState.cs" />
-    <Compile Remove="TermHandler.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj" />
   </ItemGroup>
 </Project>

@@ -28,5 +28,16 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the prompt builder for the session.</summary>
         /// <returns>The prompt.</returns>
         public abstract string BuildPrompt();
+
+        /// <summary>Called when this SessionState has become the active state for a session.</summary>
+        /// <remarks>This is the first opportunity to write introductory information for the state (with a prompt, instead of defaulting to only printing a prompt) to the client.</remarks>
+        public virtual void Begin()
+        {
+            Session.WritePrompt();
+        }
+
+        /// <summary>Gets a value indicating whether this SessionState supports the Paging system (by responding to commands like "m" or "more").</summary>
+        /// <remarks>SessionStates which do not support paging will always send all data regardless of the client's negotiated terminal size.</remarks>
+        public virtual bool SupportsPaging { get; } = false;
     }
 }

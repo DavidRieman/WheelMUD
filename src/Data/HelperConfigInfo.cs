@@ -43,6 +43,10 @@ namespace WheelMUD.Data
         public bool UserAccountIsPlayerCharacter { get; private set; }
         public bool PlayerCharacterNamesMustUseSingleCapital { get; private set; }
 
+        /// <summary>If supplied, this command will be executed on behalf of freshly connected players.</summary>
+        /// <remarks>TODO: Consider whether this or a similar value should exist specifically for reconnected players who were still in the world.</remarks>
+        public string AutomaticLoginCommand { get; private set; }
+
         private ConnectionStringSettings GetConnectionStringSettings(string appSettingsName, string defaultProviderName)
         {
             var providerName = ConfigurationManager.AppSettings[appSettingsName];

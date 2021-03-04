@@ -28,11 +28,16 @@ namespace WheelMUD.ConnectionStates
             subStateHandler.CharacterCreationCompleted += SubState_CharacterCreationCompleted;
         }
 
+        public override void Begin()
+        {
+            // Beginning the character creation sub-state handler should automatically set and Begin the first sub-state, and print the associated input prompt.
+            subStateHandler.Begin();
+        }
+
         /// <summary>Process the specified input.</summary>
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {
-            Session.AtPrompt = false;
             subStateHandler.ProcessInput(command);
         }
 
@@ -50,11 +55,10 @@ namespace WheelMUD.ConnectionStates
         /// <param name="newCharacter">The new Character.</param>
         private static void SubState_CharacterCreationCompleted(Session session)
         {
-            var nl = Environment.NewLine;
             var user = session.User;
             var character = session.Thing;
 
-            session.Write(string.Format("Saving character {0}.{1}", character.Name, nl));
+            session.WriteAnsiLine($"Saving character {character.Name}.", false);
             using (var docSession = Helpers.OpenDocumentSession())
             {
                 // Save the character first so we can use the auto-assigned unique identity.
@@ -66,7 +70,7 @@ namespace WheelMUD.ConnectionStates
                 docSession.Store(user);
                 docSession.SaveChanges();
             }
-            session.Write(string.Format("Done saving {0}.{1}", character.Name, nl));
+            session.WriteAnsiLine($"Done saving {character.Name}.", false);
 
             var playerBehavior = character.Behaviors.FindFirst<PlayerBehavior>();
             if (playerBehavior.LogIn(session))
@@ -74,12 +78,12 @@ namespace WheelMUD.ConnectionStates
                 // Automatically authenticate (the user just created username and password) and
                 // get in-game when character creation is completed.)
                 session.AuthenticateSession();
-                session.State = new PlayingState(session);
+                session.SetState(new PlayingState(session));
             }
             else
             {
                 session.Write("Character was created but could not be logged in right now. Disconnecting.");
-                session.State = null;
+                session.SetState(null);
                 session.Connection.Disconnect();
             }
         }
@@ -87,8 +91,7 @@ namespace WheelMUD.ConnectionStates
         /// <summary>Called upon the abortion of character creation.</summary>
         private void SubState_CharacterCreationAborted()
         {
-            Session.State = new ConnectedState(Session);
-            Session.WritePrompt();
+            Session.SetState(new ConnectedState(Session));
         }
     }
 }

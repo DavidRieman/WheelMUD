@@ -39,7 +39,7 @@ namespace WheelMUD.Actions
             }
             else
             {
-                sender.Write("There is no more data");
+                sender.Write("There is no more data.");
             }
         }
 

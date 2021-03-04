@@ -24,12 +24,16 @@ namespace WarriorRogueMage.CharacterCreation
         public PickTalentsState(Session session)
             : base(session)
         {
-            var ab = new AnsiBuilder();
-            ab.AppendLine("You will now pick your character's starting talent.");
-            Session.Write(ab.ToString());
             talents = TalentFinder.Instance.NormalTalents;
             formattedTalents = FormatTalentText();
-            RefreshScreen(false);
+        }
+
+        public override void Begin()
+        {
+            var ab = new AnsiBuilder();
+            ab.AppendLine("You will now pick your character's starting talent.");
+            Session.Write(ab.ToString(), false);
+            RefreshScreen();
         }
 
         /// <summary>ProcessInput is used to receive the user input during this state.</summary>
@@ -71,7 +75,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override string BuildPrompt()
         {
-            return "Select the character's starting talent.\n> ";
+            return "Select the character's starting talent: > ";
         }
 
         private Talent GetTalent(string talentName)
@@ -157,14 +161,12 @@ namespace WarriorRogueMage.CharacterCreation
                 // ignored
             }
 
-            text.AppendLine();
             return text.ToString();
         }
 
-        private void RefreshScreen(bool sendPrompt = true)
+        private void RefreshScreen()
         {
             var ab = new AnsiBuilder();
-            ab.AppendLine();
             ab.AppendLine();
             ab.AppendLine("You may pick one starting talent for your character.");
             ab.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
@@ -174,7 +176,7 @@ namespace WarriorRogueMage.CharacterCreation
             ab.AppendLine("To view a talent's description use the view command. Example: view sailor");
             ab.AppendLine("To see this screen again type list.");
             ab.AppendSeparator('=', "yellow");
-            Session.Write(ab.ToString(), sendPrompt);
+            Session.Write(ab.ToString());
         }
     }
 }

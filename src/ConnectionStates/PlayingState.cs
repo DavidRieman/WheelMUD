@@ -5,12 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
+using WheelMUD.Core;
+using WheelMUD.Data;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.ConnectionStates
 {
-    using System;
-    using WheelMUD.Core;
-    using WheelMUD.Utilities;
-
     /// <summary>The 'playing' session state.</summary>
     public class PlayingState : SessionState
     {
@@ -21,50 +22,50 @@ namespace WheelMUD.ConnectionStates
         public PlayingState(Session session)
             : base(session)
         {
-            // JFED -- Temporary workaround - null exceptions
-            if (session.Thing != null)
-            {
-                var behavior = session.Thing.Behaviors.FindFirst<PlayerBehavior>();
-                playerBehavior = new SimpleWeakReference<PlayerBehavior>(behavior);
-            }
+            Debug.Assert(session.Thing != null);
+            var behavior = session.Thing.Behaviors.FindFirst<PlayerBehavior>();
+            playerBehavior = new SimpleWeakReference<PlayerBehavior>(behavior);
+        }
 
-            string nl = Environment.NewLine;
-            session.Write(string.Format("{0}Welcome, {1}.{0}{0}", nl, Session.Thing.FullName), false);
+        public override void Begin()
+        {
+            // If we have no automatic command (like "look") configured for processing upon login, then we should print the prompt
+            // after the welcome text to indicate we are ready for user input now. Else skip the prompt as the automatic command
+            // should generate one once that command has been processed in response to login.
+            // TODO: https://github.com/DavidRieman/WheelMUD/issues/56 - Finish implementing AutomaticLoginCommand, and try:
+            //  bool includePrompt = !string.IsNullOrWhiteSpace(AppConfigInfo.Instance.AutomaticLoginCommand);
+            bool includePrompt = true;
+            Session.WriteAnsiLine($"Welcome, {Session.Thing.FullName}.", includePrompt);
         }
 
         /// <summary>Process the specified input.</summary>
         /// <param name="command">The input to process.</param>
         public override void ProcessInput(string command)
         {
-            Session.AtPrompt = false;
-            if (command != string.Empty)
+            if (!string.IsNullOrWhiteSpace(command))
             {
                 var actionInput = new ActionInput(command, Session);
                 Session.ExecuteAction(actionInput);
             }
             else
             {
-                Session.SendPrompt();
+                // Just give the player a fresh prompt. (They may want to see stat recovery details in the prompt, or just verify their connection, etc.)
+                Session.WritePrompt();
             }
         }
 
         public override string BuildPrompt()
         {
-            // JFED -- Temporary workaround - null exceptions
-            try
+            PlayerBehavior playerBehavior = this.playerBehavior.Target;
+            if (playerBehavior != null)
             {
-                PlayerBehavior playerBehavior = this.playerBehavior.Target;
-                if (playerBehavior != null)
-                {
-                    return playerBehavior.BuildPrompt();
-                }
+                return playerBehavior.BuildPrompt();
+            }
 
-                return "> ";
-            }
-            catch (Exception)
-            {
-                return "Err> ";
-            }
+            Debug.Assert(false, "A non-Player is in PlayingState, receiving a Prompt?");
+            return "> ";
         }
+
+        public override bool SupportsPaging { get; } = true;
     }
 }

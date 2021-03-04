@@ -105,14 +105,6 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the player's gender.</summary>
         public GameGender Gender { get; set; }
 
-        /// <summary>Loads the specified player by their id.</summary>
-        /// <param name="playerId">The player's id.</param>
-        public void Load(int playerId)
-        {
-            var repository = new RelationalRepository<PlayerRecord>();
-            PlayerData = repository.GetById(playerId);
-        }
-
         /// <summary>Save the whole player Thing (not just this PlayerBehavior).</summary>
         public void SavePlayer()
         {
@@ -208,6 +200,10 @@ namespace WheelMUD.Core
                 // Broadcast that the player successfully logged in, to their login location.
                 player.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
 
+                // TODO: Fix: Sending this before the player has registered as being in the PlayingState causes some problems,
+                //       including the last character creation or password prompt from printing again as the user's prompt.
+                //       Need to figure out if this can be straightened out in a clean way.
+                //       See: https://github.com/DavidRieman/WheelMUD/issues/86#issuecomment-787057858
                 PlayerManager.Instance.OnPlayerLogIn(player, e);
 
                 return true;
@@ -218,13 +214,9 @@ namespace WheelMUD.Core
 
         /// <summary>Builds the player's prompt.</summary>
         /// <returns>The player's current prompt.</returns>
-        /// <remarks>
-        /// Other game systems should have their own, deriving versions of PlayerBehavior override
-        /// this default prompt printer with one which is aware of game-specific details...
-        /// </remarks>
         public virtual string BuildPrompt()
         {
-            return "> ";
+            return Renderer.Instance.RenderPrompt(this.Parent);
         }
 
         /// <summary>Try to log this player out of the game.</summary>
