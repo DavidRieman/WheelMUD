@@ -7,7 +7,8 @@
 
 using System;
 using System.Collections.Generic;
-using WheelMUD.Utilities;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
 namespace WheelMUD.Server
 {
@@ -15,8 +16,17 @@ namespace WheelMUD.Server
     /// Mutable String class for Ansi based strings, optimized for speed and memory while retrieving the final result
     /// as a string. Similar use to StringBuilder, but avoid a lot of allocations done by StringBuilder.
     /// </summary>
-    public class OutputBuilder
+    public class OutputBuilder : IDisposable
     {
+        // To detect redundant calls
+        private bool _disposed = false;
+        
+        // Instantiate a SafeHandle instance.
+        private SafeHandle _safeHandle = new SafeFileHandle(IntPtr.Zero, true);
+        
+        // Public implementation of Dispose pattern callable by consumers.
+        public void Dispose() => Dispose(true);
+        
         /// <summary>
         /// Working mutable string.
         /// </summary>
@@ -304,144 +314,24 @@ namespace WheelMUD.Server
 
         private string Parse()
         {
-            return useAnsi ? ParseAnsi() : ParseBase();
+            return useAnsi ? OutputParser.Ansi(buffer, wordWrapLength) : OutputParser.NonAnsi(buffer, wordWrapLength);
         }
         
-        //TODO: Optimize more
-        private string ParseBase()
+        // Protected implementation of Dispose pattern.
+        protected virtual void Dispose(bool disposing)
         {
-            var baseResult = "";
-            var token = "";
-            var charFromNewline = 0;
-
-            var isToken = false;
-
-            for (var i = 0; i < bufferPos; i++)
+            if (_disposed)
             {
-                if (isToken && buffer[i] == '>')
-                {
-                    if (buffer[i - 1] == '%')
-                    {
-                        isToken = false;
-                        token = token.Trim('%');
-                        if (token == "nl")
-                        {
-                            charFromNewline = 0;
-                        }
-
-                        token = "";
-                        continue;
-                    }
-                }
-                
-                if (!isToken && buffer[i] == '<')
-                {
-                    if (buffer[i + 1] == '%')
-                    {
-                        if (i == 0 || buffer[i - 1] != '\\')
-                        {
-                            isToken = true;
-                            continue;
-                        }
-                        
-                        baseResult = baseResult.Remove(baseResult.Length - 1);
-                    }
-                }
-
-                if (!isToken)
-                {
-                    baseResult += buffer[i];
-                    charFromNewline++;
-
-                    if (charFromNewline <= wordWrapLength) continue;
-                    
-                    var lastSpaceIndex = baseResult.LastIndexOf(' ');
-                        
-                    if (lastSpaceIndex > 0)
-                    {
-                        baseResult = baseResult.Remove(lastSpaceIndex, 1);
-                        charFromNewline = baseResult.Length - lastSpaceIndex;
-                        baseResult = baseResult.Insert(lastSpaceIndex, AnsiSequences.NewLine);
-                    }
-                    else
-                    {
-                        baseResult += AnsiSequences.NewLine;
-                        charFromNewline = 0;
-                    }
-                }
-                else token += buffer[i];
+                return;
             }
 
-            return baseResult;
-        }
-        
-        //TODO: Optimize more
-        private string ParseAnsi()
-        {
-            var ansiResult = "";
-            var token = "";
-            var charFromNewline = 0;
-
-            var isToken = false;
-
-            for (var i = 0; i < bufferPos; i++)
+            if (disposing)
             {
-                if (isToken && buffer[i] == '>')
-                {
-                    if (buffer[i - 1] == '%')
-                    {
-                        isToken = false;
-                        token = token.Trim('%');
-
-                        if (token == "nl") charFromNewline = 0;
-                        
-                        AnsiSequences.TokenMap.TryGetValue(token, out var ansiCode);
-                        ansiResult += ansiCode;
-                        
-                        token = "";
-                        continue;
-                    }
-                }
-                
-                if (!isToken && buffer[i] == '<')
-                {
-                    if (buffer[i + 1] == '%')
-                    {
-                        if (i == 0 || buffer[i - 1] != '\\')
-                        {
-                            isToken = true;
-                            continue;
-                        }
-                        
-                        ansiResult = ansiResult.Remove(ansiResult.Length - 1);
-                    }
-                }
-
-                if (!isToken)
-                {
-                    ansiResult += buffer[i];
-                    charFromNewline++;
-
-                    if (charFromNewline <= wordWrapLength) continue;
-                    
-                    var lastSpaceIndex = ansiResult.LastIndexOf(' ');
-                        
-                    if (lastSpaceIndex > 0)
-                    {
-                        ansiResult = ansiResult.Remove(lastSpaceIndex, 1);
-                        charFromNewline = ansiResult.Length - lastSpaceIndex;
-                        ansiResult = ansiResult.Insert(lastSpaceIndex, AnsiSequences.NewLine);
-                    }
-                    else
-                    {
-                        ansiResult += AnsiSequences.NewLine;
-                        charFromNewline = 0;
-                    }
-                }
-                else token += buffer[i];
+                // Dispose managed state (managed objects).
+                _safeHandle?.Dispose();
             }
 
-            return ansiResult;
+            _disposed = true;
         }
     }
 }
