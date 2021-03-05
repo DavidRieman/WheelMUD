@@ -6,7 +6,6 @@
 //-----------------------------------------------------------------------------
 
 using WheelMUD.Server;
-using WheelMUD.Utilities;
 
 namespace WheelMUD.Core
 {
@@ -15,7 +14,7 @@ namespace WheelMUD.Core
     {
         public override string Render(TerminalOptions terminalOptions, Command command)
         {
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(terminalOptions);
             ab.AppendLine($"<%yellow%>{command.Name.ToUpper()}<%n%>:");
             if (!string.IsNullOrWhiteSpace(command.Description))
             {

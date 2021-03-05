@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Effects;
+
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Effects;
-
     /// <summary>Removes the mute effect from someone prior to its normal expiration.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("unmute", CommandCategory.Admin)]
@@ -46,24 +46,24 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             // Make sure the target exists.
-            string playerName = actionInput.Params[0];
+            var playerName = actionInput.Params[0];
             playerToUnmute = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
             if (playerToUnmute == null)
             {
-                return string.Format("The player named \"{0}\" could not be found.", playerName);
+                return $"The player named \"{playerName}\" could not be found.";
             }
 
             // Make sure the player has a MuteEffect applied.
             if (!playerToUnmute.HasBehavior<MutedEffect>())
             {
-                return string.Format("The player {0} was not muted!", playerToUnmute.Name);
+                return $"The player {playerToUnmute.Name} was not muted!";
             }
 
             return null;

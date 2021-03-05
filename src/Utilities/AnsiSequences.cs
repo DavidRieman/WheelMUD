@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using System.Text;
+using System.Collections.Generic;
 
 namespace WheelMUD.Utilities
 {
@@ -17,6 +17,38 @@ namespace WheelMUD.Utilities
     /// </remarks>
     public class AnsiSequences
     {
+        public static readonly Dictionary<string, string> TokenMap = new Dictionary<string, string>
+        {
+            {"n", TextNormal},
+            {"reset", TextNormal}, // Avoid usage; favor the <%n%> form.
+            {"nl", NewLine},
+            {"black", ForegroundBlack},
+            {"red", ForegroundRed},
+            {"green", ForegroundGreen},
+            {"yellow", ForegroundYellow},
+            {"blue", ForegroundBlue},
+            {"magenta", ForegroundMagenta},
+            {"cyan", ForegroundCyan},
+            {"white", ForegroundWhite},
+            {"bblack", BackgroundBlack},
+            {"bred", BackgroundRed},
+            {"bgreen", BackgroundGreen},
+            {"byellow", BackgroundYellow},
+            {"bblue", BackgroundBlue},
+            {"bmagenta", BackgroundMagenta},
+            {"bcyan", BackgroundCyan},
+            {"bwhite", BackgroundWhite},
+            {"b", TextBold},
+            {"cls", ClearScreenAndHomeCursor},
+            {"u", TextUnderline},
+            {"underline", TextUnderline},
+            {"hidden", TextHidden},
+            {"up", MoveCursorUp1},
+            {"down", MoveCursorDown1},
+            {"left", MoveCursorLeft1},
+            {"right", MoveCursorRight1},
+        };
+    
         /// <summary>Gets the ANSI sequence to move the cursor to a new line.</summary>
         /// <remarks>Explicitly avoids Environment.NewLine, as a Telnet server is always supposed to send new lines as CR LF.</remarks>
         public const string NewLine = "\r\n";

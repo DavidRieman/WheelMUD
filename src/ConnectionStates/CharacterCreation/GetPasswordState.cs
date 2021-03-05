@@ -7,17 +7,21 @@
 
 using WheelMUD.Core;
 using WheelMUD.Data;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WheelMUD.ConnectionStates
 {
     /// <summary>Character creation state used to request a password for the new character.</summary>
     public class GetPasswordState : CharacterCreationSubState
     {
-        private static readonly string InitialStateMessage;
-        static GetPasswordState()
+        private readonly string InitialStateMessage;
+
+        /// <summary>Initializes a new instance of the <see cref="GetPasswordState"/> class.</summary>
+        /// <param name="session">The session.</param>
+        public GetPasswordState(Session session)
+            : base(session)
         {
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(session.TerminalOptions);
             ab.AppendLine();
             ab.AppendLine(AppConfigInfo.Instance.UserAccountIsPlayerCharacter ?
                 "Please carefully select a password for this character." :
@@ -26,13 +30,6 @@ namespace WheelMUD.ConnectionStates
             ab.Append("Do not use the same password as you use for any other account. Do not use this password on a network with machines do not fully trust (especially public networks). ");
             ab.AppendLine("Your password can be changed while logged in.");
             InitialStateMessage = ab.ToString();
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="GetPasswordState"/> class.</summary>
-        /// <param name="session">The session.</param>
-        public GetPasswordState(Session session)
-            : base(session)
-        {
         }
 
         public override void Begin()

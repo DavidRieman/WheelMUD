@@ -5,9 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Utilities;
 using System.Linq;
 using WheelMUD.Effects;
+using WheelMUD.Server;
 
 namespace WheelMUD.Core
 {
@@ -16,11 +16,11 @@ namespace WheelMUD.Core
     [RendererExports.Score(100)]
     public class DefaultScoreRenderer : RendererDefinitions.Score
     {
-        public override string Render(Thing player)
+        public override string Render(TerminalOptions terminalOptions, Thing player)
         {
             var stats = player.Stats;
             var statEffects = player.Behaviors.OfType<StatEffect>();
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(terminalOptions);
 
             var health = stats["HP"];
             var healthMod = statEffects.Where(e => e.Stat.Abbreviation == "HP").Sum(e => e.ValueMod);

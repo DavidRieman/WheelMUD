@@ -6,17 +6,17 @@
 //-----------------------------------------------------------------------------
 
 using System.Linq;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WheelMUD.Core
 {
     [RendererExports.Inventory(0)]
     public class DefaultInventoryRenderer : RendererDefinitions.Inventory
     {
-        public override string Render(Thing player)
+        public override string Render(TerminalOptions terminalOptions, Thing player)
         {
             var senses = player.FindBehavior<SensesBehavior>();
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(terminalOptions);
 
             var invThings = player.Children.Where(presentThing => senses.CanPerceiveThing(presentThing)).ToArray();
 

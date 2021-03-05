@@ -45,17 +45,17 @@ namespace WheelMUD.Core
 
         public abstract class Inventory
         {
-            public abstract string Render(Thing player);
+            public abstract string Render(TerminalOptions terminalOptions, Thing player);
         }
 
         public abstract class PerceivedRoom
         {
-            public abstract string Render(Thing viewer, Thing viewedRoom);
+            public abstract string Render(TerminalOptions terminalOptions, Thing viewer, Thing viewedRoom);
         }
 
         public abstract class PerceivedThing
         {
-            public abstract string Render(Thing viewer, Thing viewedThing);
+            public abstract string Render(TerminalOptions terminalOptions, Thing viewer, Thing viewedThing);
         }
 
         public abstract class Prompt
@@ -65,17 +65,17 @@ namespace WheelMUD.Core
 
         public abstract class Score
         {
-            public abstract string Render(Thing player);
+            public abstract string Render(TerminalOptions terminalOptions, Thing player);
         }
 
         public abstract class SplashScreen
         {
-            public abstract string Render();
+            public abstract string Render(TerminalOptions terminalOptions);
         }
 
         public abstract class Who
         {
-            public abstract string Render(Thing player);
+            public abstract string Render(TerminalOptions terminalOptions, Thing player);
         }
     }
 }

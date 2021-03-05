@@ -57,9 +57,8 @@ namespace WheelMUD.Server.Interfaces
 
         /// <summary>Send data to the connection.</summary>
         /// <param name="data">The string to send.</param>
-        /// <param name="bypassDataFormatter">If true, the data formatter should be bypassed (for a quicker send of data known to be already formatted well for client display).</param>
         /// <param name="sendAllData">If true, send all data without letting the paging system pause the output.</param>
-        void Send(string data, bool bypassDataFormatter = false, bool sendAllData = false);
+        void Send(string data, bool sendAllData = false);
 
         /// <summary>Doesn't modify the buffer but utilizes it to produce output.</summary>
         /// <param name="bufferDirection">Direction to process data</param>

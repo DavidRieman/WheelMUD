@@ -1,17 +1,19 @@
-﻿// <copyright file="Follow.cs" company="WheelMUD Development Team">
+﻿//-----------------------------------------------------------------------------
+// <copyright file="Follow.cs" company="WheelMUD Development Team">
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using WheelMUD.Interfaces;
+using WheelMUD.Core;
+using WheelMUD.Server;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An action to start following another player or mobile around.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("follow", CommandCategory.Travel)]
@@ -29,14 +31,13 @@ namespace WheelMUD.Actions
         };
 
         /// <summary>The found target object.</summary>
-        private Thing target = null;
+        private Thing target;
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            var self = sender.Thing;
+            var self = actionInput.Controller.Thing;
 
             if (actionInput.Params.Length == 0)
             {
@@ -87,8 +88,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
 
             if (commonFailure != null)
             {
@@ -101,8 +101,8 @@ namespace WheelMUD.Actions
             }
 
             // TODO: CommonGuards.RequiresAtLeastOneArgument makes the length check redundant?
-            string targetName = (actionInput.Params.Length > 0) ? actionInput.Params[0] : string.Empty;
-            string targetFullName = actionInput.Tail.Trim().ToLower();
+            var targetName = (actionInput.Params.Length > 0) ? actionInput.Params[0] : string.Empty;
+            var targetFullName = actionInput.Tail.Trim().ToLower();
 
             // Try to find the target either by all the parameter text or by just the first parameter.
             target = GetPlayerOrMobile(targetFullName) ?? GetPlayerOrMobile(targetName);
@@ -113,23 +113,23 @@ namespace WheelMUD.Actions
                 return "You cannot see " + targetName + ".";
             }
 
-            // Rule: Is the target the initator?
-            if (sender.Thing.Name.ToLower() == target.Name.ToLower())
+            // Rule: Is the target the initiator?
+            if (string.Equals(actionInput.Controller.Thing.Name, target.Name, StringComparison.CurrentCultureIgnoreCase))
             {
                 return "You can't follow yourself.";
             }
 
             // Rule: Is the target in the same room?
-            if (sender.Thing.Parent.Id != target.Parent.Id)
+            if (actionInput.Controller.Thing.Parent.Id != target.Parent.Id)
             {
-                return targetName + " does not appear to be in the vicinity.";
+                return $"{targetName} does not appear to be in the vicinity.";
             }
 
-            SenseManager senses = new SenseManager();
+            var senses = new SenseManager();
             senses.AddSense(new Sense { SensoryType = SensoryType.Sight, Enabled = true });
             if (!target.IsDetectableBySense(senses))
             {
-                return targetName + " does not appear to be in the vicinity.";
+                return $"{targetName} does not appear to be in the vicinity.";
             }
 
             return null;
@@ -140,37 +140,34 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The action input.</param>
         private void ShowStatus(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-
-            sender.Write("You are following: ", false);
-
-            var senderBehaviors = sender.Thing.Behaviors;
+            if (!(actionInput.Controller is Session session)) return;
+            
+            var senderBehaviors = actionInput.Controller.Thing.Behaviors;
             var followingBehavior = senderBehaviors.FindFirst<FollowingBehavior>();
             var followedBehavior = senderBehaviors.FindFirst<FollowedBehavior>();
 
-            if (followingBehavior == null)
-            {
-                sender.Write("(nobody)");
-            }
-            else
-            {
-                sender.Write(followingBehavior.Target.Name);
-            }
+            var ob = new OutputBuilder(session.TerminalOptions);
+            
+            ob.Append("You are following: ");
 
-            sender.Write("You are being followed by: ", false);
+            ob.AppendLine(followingBehavior == null ? "(nobody)" : followingBehavior.Target.Name);
+
+            ob.Append("You are being followed by: ");
 
             if (followedBehavior == null)
             {
-                sender.Write("(nobody)");
+                ob.AppendLine("(nobody)");
             }
             else
             {
                 lock (followedBehavior.Followers)
                 {
-                    string followers = string.Join(", ", followedBehavior.Followers.Select(f => f.Name));
-                    sender.Write(followers);
+                    var followers = followedBehavior.Followers.Select(f => f.Name).BuildPrettyList();
+                    ob.AppendLine(followers);
                 }
             }
+            
+            actionInput.Controller.Write(ob.ToString());
         }
     }
 }

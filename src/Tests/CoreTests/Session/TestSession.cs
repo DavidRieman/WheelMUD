@@ -115,60 +115,42 @@ namespace WheelMUD.Tests
 
             public List<string> FakeMessagesSent { get; set; } = new List<string>();
 
-            public string ID
-            {
-                get { throw new NotImplementedException(); }
-            }
+            public string ID => throw new NotImplementedException();
 
             public bool AtNewLine { get; set; }
 
             public string LastRawInput
             {
-                get { throw new NotImplementedException(); }
-                set { throw new NotImplementedException(); }
+                get => throw new NotImplementedException();
+                set => throw new NotImplementedException();
             }
 
-            public System.Net.IPAddress CurrentIPAddress
-            {
-                get { throw new NotImplementedException(); }
-            }
+            public System.Net.IPAddress CurrentIPAddress => throw new NotImplementedException();
 
             public OutputBuffer OutputBuffer
             {
-                get { throw new NotImplementedException(); }
-                set { throw new NotImplementedException(); }
+                get => throw new NotImplementedException();
+                set => throw new NotImplementedException();
             }
 
-            public TerminalOptions TerminalOptions
-            {
-                get { throw new NotImplementedException(); }
-            }
+            public TerminalOptions TerminalOptions => throw new NotImplementedException();
 
-            public ITelnetCodeHandler TelnetCodeHandler
-            {
-                get { throw new NotImplementedException(); }
-            }
+            public ITelnetCodeHandler TelnetCodeHandler => throw new NotImplementedException();
 
-            public byte[] Data
-            {
-                get { throw new NotImplementedException(); }
-            }
+            public byte[] Data => throw new NotImplementedException();
 
-            public StringBuilder Buffer
-            {
-                get { throw new NotImplementedException(); }
-            }
+            public StringBuilder Buffer => throw new NotImplementedException();
 
             public int PagingRowLimit
             {
-                get { throw new NotImplementedException(); }
-                set { throw new NotImplementedException(); }
+                get => throw new NotImplementedException();
+                set => throw new NotImplementedException();
             }
 
             public string LastInputTerminator
             {
-                get { throw new NotImplementedException(); }
-                set { throw new NotImplementedException(); }
+                get => throw new NotImplementedException();
+                set => throw new NotImplementedException();
             }
 
             public void ResetMessages()
@@ -186,7 +168,7 @@ namespace WheelMUD.Tests
                 throw new NotImplementedException();
             }
 
-            public void Send(string data, bool bypassDataFormatter = false, bool sendAllData = false)
+            public void Send(string data, bool sendAllData = false)
             {
                 FakeMessagesSent.Add(data);
             }

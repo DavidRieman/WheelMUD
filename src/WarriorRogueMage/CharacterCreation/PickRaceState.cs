@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using WheelMUD.ConnectionStates;
 using WheelMUD.Core;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WarriorRogueMage.CharacterCreation
 {
@@ -93,7 +93,7 @@ namespace WarriorRogueMage.CharacterCreation
 
             if (foundRace != null)
             {
-                var ab = new AnsiBuilder();
+                var ab = new OutputBuilder(Session.TerminalOptions);
                 ab.AppendSeparator('=', "yellow", true);
                 ab.AppendLine($"Description for {foundRace.Name}");
                 ab.AppendSeparator('-', "yellow");
@@ -110,7 +110,7 @@ namespace WarriorRogueMage.CharacterCreation
         private void FormatRaceText()
         {
             var raceQueue = new Queue<GameRace>();
-            var text = new AnsiBuilder();
+            var text = new OutputBuilder(Session.TerminalOptions);
             var rows = gameRaces.Count / 4;
 
             foreach (var gameRace in gameRaces)
@@ -185,7 +185,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen()
         {
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(Session.TerminalOptions);
             ab.AppendLine();
             ab.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
             ab.AppendLine(formattedRaces);

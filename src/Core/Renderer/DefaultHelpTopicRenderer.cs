@@ -17,7 +17,7 @@ namespace WheelMUD.Core
     {
         public override string Render(TerminalOptions terminalOptions, HelpTopic helpTopic)
         {
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(terminalOptions);
             
             // TODO: What was this !element doing? Does it still work? Test with zMUD or something and re-read MXP specs?
             if (terminalOptions.UseMXP)

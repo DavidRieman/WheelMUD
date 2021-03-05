@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An action to list the description of known effects upon you.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("effects", CommandCategory.Inform)]
@@ -19,9 +19,7 @@ namespace WheelMUD.Actions
     public class Effects : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
-        {
-        };
+        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>();
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
@@ -73,13 +71,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

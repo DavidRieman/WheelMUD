@@ -9,7 +9,7 @@ using System;
 using System.Linq;
 using WheelMUD.ConnectionStates;
 using WheelMUD.Core;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WarriorRogueMage.CharacterCreation
 {
@@ -80,7 +80,7 @@ namespace WarriorRogueMage.CharacterCreation
             var playerBehavior = Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
             playerBehavior.Gender = selectedGender;
 
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(Session.TerminalOptions);
             ab.AppendLine($"The chosen gender is <%green%>{selectedGender.Name}<%n%>.");
             Session.Write(ab.ToString(), false);
 
@@ -90,7 +90,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen()
         {
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(Session.TerminalOptions);
             ab.AppendLine();
             ab.AppendLine("You have the following gender choices:");
             foreach (var gender in GameSystemController.Instance.GameGenders)

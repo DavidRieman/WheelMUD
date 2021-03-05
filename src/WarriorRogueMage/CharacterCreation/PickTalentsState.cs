@@ -8,7 +8,7 @@
 using System.Collections.Generic;
 using WheelMUD.ConnectionStates;
 using WheelMUD.Core;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WarriorRogueMage.CharacterCreation
 {
@@ -30,7 +30,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override void Begin()
         {
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(Session.TerminalOptions);
             ab.AppendLine("You will now pick your character's starting talent.");
             Session.Write(ab.ToString(), false);
             RefreshScreen();
@@ -88,7 +88,7 @@ namespace WarriorRogueMage.CharacterCreation
             var foundTalent = GetTalent(talent);
             if (foundTalent != null)
             {
-                var ab = new AnsiBuilder();
+                var ab = new OutputBuilder(Session.TerminalOptions);
                 ab.AppendSeparator('=', "yellow", true);
                 ab.AppendLine($"Description for {foundTalent.Name}");
                 ab.AppendSeparator('-', "yellow");
@@ -106,7 +106,7 @@ namespace WarriorRogueMage.CharacterCreation
         private string FormatTalentText()
         {
             var talentQueue = new Queue<Talent>();
-            var text = new AnsiBuilder();
+            var text = new OutputBuilder(Session.TerminalOptions);
 
             foreach (var gameTalent in talents)
             {
@@ -166,7 +166,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen()
         {
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(Session.TerminalOptions);
             ab.AppendLine();
             ab.AppendLine("You may pick one starting talent for your character.");
             ab.AppendLine("<%green%>Please select 1 from the list below:<%n%>");

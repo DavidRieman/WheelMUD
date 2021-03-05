@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Utilities;
-
 namespace WheelMUD.ConnectionStates
 {
     using WheelMUD.Core;

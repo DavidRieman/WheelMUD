@@ -7,7 +7,6 @@
 
 namespace WheelMUD.ConnectionStates
 {
-    using System;
     using WheelMUD.Core;
     using WheelMUD.Data;
 

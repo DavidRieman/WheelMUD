@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WheelMUD.Core;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WarriorRogueMage.CharacterCreation
@@ -22,7 +22,7 @@ namespace WarriorRogueMage.CharacterCreation
         /// <param name="message">The message.</param>
         public static void SendErrorMessage(Session session, string message)
         {
-            var wrappedMessage = new AnsiBuilder();
+            var wrappedMessage = new OutputBuilder(session.TerminalOptions);
             
             wrappedMessage.AppendSeparator('=', "red", true, message.Length);
             wrappedMessage.AppendLine(message);

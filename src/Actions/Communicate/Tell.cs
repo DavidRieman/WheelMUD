@@ -5,13 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A command to send a message directly to one entity.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("tell", CommandCategory.Communicate)]
@@ -27,7 +25,7 @@ namespace WheelMUD.Actions
         };
 
         /// <summary>The found target object.</summary>
-        private Thing target = null;
+        private Thing target;
 
         /// <summary>Sentence to tell to player, stored globally so as to not build twice.</summary>
         private string sentence;
@@ -37,26 +35,25 @@ namespace WheelMUD.Actions
         /// <remarks>TODO: ability to block via ear muffs, send tell to NPC? Also remote rtell via @</remarks>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            string fixedSentence = "\"<%yellow%>" + sentence + "<%n%>\"";
-            var contextMessage = new ContextualString(sender.Thing, target)
+            var fixedSentence = $"'<%yellow%> {sentence}<%n%>'";
+            var contextMessage = new ContextualString(actionInput.Controller.Thing, target)
             {
                 ToOriginator = BuildOriginatorMessage(fixedSentence),
-                ToReceiver = string.Format("{0} tells you: {1}", sender.Thing.Name, fixedSentence),
+                ToReceiver = $"{actionInput.Controller.Thing.Name} tells you: {fixedSentence}",
                 ToOthers = null,
             };
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 
-            var tellEvent = new VerbalCommunicationEvent(sender.Thing, sm, VerbalCommunicationType.Tell);
+            var tellEvent = new VerbalCommunicationEvent(actionInput.Controller.Thing, sm, VerbalCommunicationType.Tell);
 
             // Make sure both the user is allowed to do the tell and the target is allowed to receive it.
             target.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
-            sender.Thing.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
+            actionInput.Controller.Thing.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
             if (!tellEvent.IsCancelled)
             {
                 // Printing the sensory message is all that's left to do, which the event itself will take care of.
                 target.Eventing.OnCommunicationEvent(tellEvent, EventScope.SelfDown);
-                sender.Thing.Eventing.OnCommunicationEvent(tellEvent, EventScope.SelfDown);
+                actionInput.Controller.Thing.Eventing.OnCommunicationEvent(tellEvent, EventScope.SelfDown);
             }
         }
 
@@ -65,7 +62,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -73,7 +70,7 @@ namespace WheelMUD.Actions
 
             // Changing strings here seem to cause casting error?
             // string targetName = command.Action.Tail.Trim().ToLower();
-            string targetName = actionInput.Params[0].Trim().ToLower();
+            var targetName = actionInput.Params[0].Trim().ToLower();
 
             // TODO: InterMUD support? string mudName = GameConfiguration.GameName;
 
@@ -101,8 +98,8 @@ namespace WheelMUD.Actions
 
             // The sentence to be relayed consists of all input beyond the first parameter, 
             // which was used to identify entity already.
-            int firstCommandLength = actionInput.Params[0].Length;
-            sentence = actionInput.Tail.Substring(firstCommandLength).Trim();
+            var firstCommandLength = actionInput.Params[0].Length;
+            sentence = actionInput.Tail[firstCommandLength..].Trim();
 
             return null;
         }
@@ -112,27 +109,16 @@ namespace WheelMUD.Actions
         /// <returns>The final string the sender of the tell will see.</returns>
         private string BuildOriginatorMessage(string fixedSentence)
         {
-            PlayerBehavior playerBehavior = target.Behaviors.FindFirst<PlayerBehavior>();
+            var playerBehavior = target.Behaviors.FindFirst<PlayerBehavior>();
 
-            if (playerBehavior != null && playerBehavior.IsAFK)
+            if (playerBehavior is {IsAFK: true})
             {
-                string afkMessage;
+                var afkMessage = !string.IsNullOrEmpty(playerBehavior.AFKReason) ? string.Concat("AFK: ", playerBehavior.AFKReason) : "AFK";
 
-                if (!string.IsNullOrEmpty(playerBehavior.AFKReason))
-                {
-                    afkMessage = string.Concat("AFK: ", playerBehavior.AFKReason);
-                }
-                else
-                {
-                    afkMessage = "AFK";
-                }
+                return $"You tell {target.Name}: {fixedSentence}<%nl%>{target.Name} is {afkMessage}.";
+            }
 
-                return string.Format("You tell {0}: {1}<%nl%>{0} is {2}.", target.Name, fixedSentence, afkMessage);
-            }
-            else
-            {
-                return string.Format("You tell {0}: {1}", target.Name, fixedSentence);
-            }
+            return $"You tell {target.Name}: {fixedSentence}";
         }
     }
 }

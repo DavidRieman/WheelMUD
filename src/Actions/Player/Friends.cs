@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WheelMUD.Core;
 using WheelMUD.Interfaces;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -37,24 +37,26 @@ namespace WheelMUD.Actions
         /// <remarks>Verify that the Guards pass first.</remarks>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
+            if (!(actionInput.Controller is Session session)) return;
+            
             if (actionInput.Params.Length == 1 && actionInput.Params[0].ToLower() == "list" || !actionInput.Params.Any())
             {
                 if (playerBehavior.Friends.Count == 0)
                 {
-                    sender.Write("You currently have no friends listed.");
+                    actionInput.Controller.Write("You currently have no friends listed.");
                 }
                 else
                 {
-                    var ab = new AnsiBuilder();
+                    var ab = new OutputBuilder(session.TerminalOptions);
                     ab.AppendLine("Your Friends:");
                     foreach (var friendName in playerBehavior.Friends)
                     {
-                        var status = PlayerManager.Instance.FindLoadedPlayerByName(friendName, false) == null ? "Offline" : "Online";
+                        var status = PlayerManager.Instance.
+                            FindLoadedPlayerByName(friendName, false) == null ? "Offline" : "Online";
                         ab.AppendLine($"{friendName} [{status}]");
                     }
 
-                    sender.Write(ab.ToString());
+                    actionInput.Controller.Write(ab.ToString());
                 }
 
                 return;
@@ -64,20 +66,21 @@ namespace WheelMUD.Actions
                 actionInput.Params[0].ToLower() != "add" &&
                 actionInput.Params[0].ToLower() != "remove")
             {
-                sender.Write("Please use the format friends add/remove player name.");
+                actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
+                    SingleLine("Please use the format friends add/remove player name."));
                 return;
             }
 
-            string targetedFriendName = actionInput.Params[1].ToLower();
-            Thing targetFriend = PlayerManager.Instance.FindLoadedPlayerByName(targetedFriendName, false);
+            var targetedFriendName = actionInput.Params[1].ToLower();
+            var targetFriend = PlayerManager.Instance.FindLoadedPlayerByName(targetedFriendName, false);
 
             if (actionInput.Params[0].ToLower() == "add")
             {
-                AddFriend(sender, targetFriend);
+                AddFriend(actionInput.Controller, targetFriend);
             }
             else if (actionInput.Params[0].ToLower() == "remove")
             {
-                RemoveFriend(sender, targetedFriendName);
+                RemoveFriend(actionInput.Controller, targetedFriendName);
             }
         }
 
@@ -86,7 +89,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -101,7 +104,9 @@ namespace WheelMUD.Actions
 
         private void AddFriend(IController sender, Thing targetFriend)
         {
-            var ab = new AnsiBuilder();
+            if (!(sender is Session session)) return;
+            
+            var ab = new OutputBuilder(session.TerminalOptions);
             
             if (targetFriend == null)
             {
@@ -133,11 +138,13 @@ namespace WheelMUD.Actions
 
         private void RemoveFriend(IController sender, string targetedFriendName)
         {
-            string playerName = (from string f in playerBehavior.Friends
+            if (!(sender is Session session)) return;
+            
+            var playerName = (from string f in playerBehavior.Friends
                                  where f.Equals(targetedFriendName, StringComparison.CurrentCultureIgnoreCase)
                                  select f).FirstOrDefault();
 
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(session.TerminalOptions);
             
             if (string.IsNullOrEmpty(playerName))
             {

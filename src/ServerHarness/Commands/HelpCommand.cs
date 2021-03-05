@@ -7,8 +7,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using WheelMUD.Main;
-using WheelMUD.Utilities;
 
 namespace ServerHarness
 {
@@ -33,11 +33,11 @@ namespace ServerHarness
         /// <summary>Present the console command-line "HELP" response to the administrator.</summary>
         private string DisplayHelp()
         {
-            var ab = new AnsiBuilder();
+            var ab = new StringBuilder();
             ab.AppendLine(Application.Instance.BasicAdministrativeGameInfo);
-            ab.AppendSeparator();
+            ab.AppendLine("----------------------------------");
             ab.AppendLine("Available administrative commands:");
-            ab.AppendSeparator();
+            ab.AppendLine("----------------------------------");
             
             foreach (var command in ServerHarnessCommands.Instance.AllCommands)
             {

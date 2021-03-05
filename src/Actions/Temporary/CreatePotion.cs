@@ -5,15 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
+using WheelMUD.Universe;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Universe;
-
     /// <summary>A command that allows an admin to create a potion.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("create potion", CommandCategory.Admin)]
@@ -35,8 +34,9 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            Thing potionItem = new Thing(new PotionBehavior()
+            if (!(actionInput.Controller is Session session)) return;
+            
+            var potionItem = new Thing(new PotionBehavior()
             {
                 PotionType = "health",
                 Modifier = 30,
@@ -47,13 +47,14 @@ namespace WheelMUD.Actions
             {
                 Name = "A colourful potion",
                 Description = "This colourful potion is bubbling slowly.",
-                KeyWords = new List<string>() { "potion", "colourful" }
+                KeyWords = new List<string> { "potion", "colourful" }
             };
 
-            sender.Thing.Parent.Children.Add(potionItem);
+            actionInput.Controller.Thing.Parent.Children.Add(potionItem);
 
-            var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
-            userControlledBehavior.Controller.Write("You create a colourful potion");
+            var userControlledBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<UserControlledBehavior>();
+            userControlledBehavior.Controller.Write(new OutputBuilder(session.TerminalOptions).
+                SingleLine("You create a colourful potion"));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -61,13 +62,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

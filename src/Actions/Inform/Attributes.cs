@@ -7,8 +7,7 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Interfaces;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -22,32 +21,31 @@ namespace WheelMUD.Actions
     public class Attributes : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
-        {
-        };
+        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>();
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            var ab = new AnsiBuilder();
+            if (!(actionInput.Controller is Session session)) return;
+            
+            var ab = new OutputBuilder(session.TerminalOptions);
 
-            foreach (KeyValuePair<string, GameStat> kvp in sender.Thing.Stats)
+            foreach (var kvp in actionInput.Controller.Thing.Stats)
             {
                 ab.Append(kvp.Value.Name.PadRight(20));
                 ab.Append(kvp.Value.Value);
                 ab.AppendLine();
             }
 
-            foreach (KeyValuePair<string, GameAttribute> kvp in sender.Thing.Attributes)
+            foreach (var kvp in actionInput.Controller.Thing.Attributes)
             {
                 ab.Append(kvp.Value.Name.PadRight(20));
                 ab.Append(kvp.Value.Value);
                 ab.AppendLine();
             }
 
-            sender.Write(ab.ToString().Trim());
+            actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).SingleLine(ab.ToString()));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -55,8 +53,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            return commonFailure;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

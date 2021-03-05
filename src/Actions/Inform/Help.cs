@@ -5,15 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using WheelMUD.Core;
-
     /// <summary>A command to look up help information from the help system.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("help", CommandCategory.Inform)]
@@ -23,31 +22,28 @@ namespace WheelMUD.Actions
     public class Help : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
-        {
-        };
+        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>();
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            var terminal = (actionInput.Controller as Session).TerminalOptions;
+            if (!(actionInput.Controller is Session session)) return;
+            
             var commandTail = actionInput.Tail;
 
             // If no arguments were given, render the help topics list.
             if (string.IsNullOrWhiteSpace(commandTail))
             {
-                sender.Write(Renderer.Instance.RenderHelpTopics(terminal));
+                actionInput.Controller.Write(Renderer.Instance.RenderHelpTopics(session.TerminalOptions));
                 return;
             }
 
             // Check to see if the help topic is in the help manager.
-            HelpTopic helpTopic = HelpManager.Instance.FindHelpTopic(commandTail);
+            var helpTopic = HelpManager.Instance.FindHelpTopic(commandTail);
             if (helpTopic != null)
             {
-                var contents = Renderer.Instance.RenderHelpTopic(terminal, helpTopic);
-                sender.Write(contents);
+                actionInput.Controller.Write(Renderer.Instance.RenderHelpTopic(session.TerminalOptions, helpTopic));
                 return;
             }
 
@@ -55,22 +51,18 @@ namespace WheelMUD.Actions
             var commands = CommandManager.Instance.MasterCommandList;
 
             // First check for an exact match with a command name.
-            var action = commands.Values.FirstOrDefault(c => c.Name.Equals(commandTail, StringComparison.OrdinalIgnoreCase));
-
-            // If no exact match, check for a partial match.
-            if (action == null)
-            {
-                action = commands.Values.FirstOrDefault(c => c.Name.ToLower().StartsWith(commandTail));
-            }
+            var action = commands.Values.FirstOrDefault(c => c.Name.Equals(commandTail, StringComparison.OrdinalIgnoreCase)) ??
+                         commands.Values.FirstOrDefault(c => c.Name.ToLower().StartsWith(commandTail));
 
             // Show result if a match was found
             if (action != null)
             {
-                sender.Write(Renderer.Instance.RenderHelpCommand(terminal, action));
+                actionInput.Controller.Write(Renderer.Instance.RenderHelpCommand(session.TerminalOptions, action));
                 return;
             }
 
-            sender.Write("No such help topic or command was found.");
+            actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
+                SingleLine("No such help topic or command was found."));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -78,14 +70,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            // There are currently no arguments nor situations where we expect failure.
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

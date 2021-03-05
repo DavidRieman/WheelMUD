@@ -5,15 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
+using WheelMUD.Universe.Information;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Universe.Information;
-
     /// <summary>A command to report a simple typographical error.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("typo", CommandCategory.Communicate)]
@@ -34,8 +33,9 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            TypoEntry typoEntry = new TypoEntry
+            if (!(actionInput.Controller is Session session)) return;
+            
+            var typoEntry = new TypoEntry
             {
                 Note = actionInput.Tail,
                 PlaceID = player.Parent.Id,
@@ -46,7 +46,8 @@ namespace WheelMUD.Actions
 
             typoEntry.Save();
 
-            sender.Write("Thank you.  Your typo report has been submitted.");
+            actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
+                SingleLine("Thank you. Your typo report has been submitted."));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -54,7 +55,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

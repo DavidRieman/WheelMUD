@@ -5,14 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Universe;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Universe;
-
     /// <summary>Action to pick something up from the room, or move something from an inventory container to their inventory.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("get", CommandCategory.Item)]
@@ -38,7 +36,7 @@ namespace WheelMUD.Actions
         private MovableBehavior movableBehavior;
 
         /// <summary>The quantity of the item that we wish to 'get'.</summary>
-        private int numberToGet = 0;
+        private int numberToGet;
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
@@ -76,8 +74,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -88,8 +85,8 @@ namespace WheelMUD.Actions
             //       this might be throwing a caught exception upon each fail, which is a typical case here.
             int.TryParse(actionInput.Params[0], out numberToGet);
 
-            int itemParam = 0;
-            string itemName = string.Empty;
+            var itemParam = 0;
+            var itemName = string.Empty;
 
             // Rule: If we have to get a number of something, shunt up the positions of our other params.
             if (numberToGet > 0)
@@ -99,12 +96,12 @@ namespace WheelMUD.Actions
 
             // Rule: is the player using the command to get something from a container
             //       or to get something from the room?
-            Thing targetParent = sender.Thing.Parent;
+            Thing targetParent = actionInput.Controller.Thing.Parent;
             if (actionInput.Tail.ToLower().Contains("from"))
             {
                 // Find the from keyword in the params.
-                int itemMarker = 0;
-                for (int i = 0; i < actionInput.Params.Length; i++)
+                var itemMarker = 0;
+                for (var i = 0; i < actionInput.Params.Length; i++)
                 {
                     if (actionInput.Params[i].ToLower() == "from")
                     {
@@ -113,7 +110,7 @@ namespace WheelMUD.Actions
                 }
 
                 // Item name is everything from number (if present) to the from marker.
-                for (int j = itemParam; j < itemMarker; j++)
+                for (var j = itemParam; j < itemMarker; j++)
                 {
                     itemName += actionInput.Params[j] + ' ';
                 }
@@ -121,8 +118,8 @@ namespace WheelMUD.Actions
                 itemName = itemName.Trim();
 
                 // Container name is everything from the marker to the end.
-                string targetFromName = string.Empty;
-                for (int i = itemMarker + 1; i < actionInput.Params.Length; i++)
+                var targetFromName = string.Empty;
+                for (var i = itemMarker + 1; i < actionInput.Params.Length; i++)
                 {
                     targetFromName += actionInput.Params[i] + ' ';
                 }
@@ -131,22 +128,22 @@ namespace WheelMUD.Actions
 
                 // Rule: Do we have an item matching the one specified in our inventory?
                 // If not then does the room have a container with the name.
-                Thing foundContainer = sender.Thing.FindChild(targetFromName.ToLower());
+                Thing foundContainer = actionInput.Controller.Thing.FindChild(targetFromName.ToLower());
                 if (foundContainer == null)
                 {
                     foundContainer = targetParent.FindChild(targetFromName.ToLower());
 
                     if (foundContainer == null)
                     {
-                        return string.Format("You cannot see {0}.", targetFromName);
+                        return $"You cannot see {targetFromName}.";
                     }
                 }
 
                 // Rule: Is the 'from' thing specified as a container actually a container?
-                ContainerBehavior containerBehavior = foundContainer.Behaviors.FindFirst<ContainerBehavior>();
+                var containerBehavior = foundContainer.Behaviors.FindFirst<ContainerBehavior>();
                 if (containerBehavior == null)
                 {
-                    return string.Format("{0} is not able to hold {1}.", foundContainer.Name, itemName);
+                    return $"{foundContainer.Name} is not able to hold {itemName}.";
                 }
 
                 // TODO: Removed OpensClosesBehavior check here... Test to ensure that 'get' is blocked by the
@@ -158,7 +155,7 @@ namespace WheelMUD.Actions
             {
                 // From the room.
                 // Item name is everything from number (if present) to the from marker.
-                for (int j = itemParam; j < actionInput.Params.Length; j++)
+                for (var j = itemParam; j < actionInput.Params.Length; j++)
                 {
                     itemName += actionInput.Params[j] + ' ';
                 }
@@ -170,14 +167,14 @@ namespace WheelMUD.Actions
             thingToGet = targetParent.FindChild(itemName.ToLower());
             if (thingToGet == null)
             {
-                return string.Format("{0} does not contain {1}.", targetParent.Name, itemName);
+                return $"{targetParent.Name} does not contain {itemName}.";
             }
 
             // Rule: The targeted thing must be movable.
             movableBehavior = thingToGet.Behaviors.FindFirst<MovableBehavior>();
             if (movableBehavior == null)
             {
-                return thingToGet.Name + " does not appear to be movable.";
+                return $"{thingToGet.Name} does not appear to be movable.";
             }
 
             return null;

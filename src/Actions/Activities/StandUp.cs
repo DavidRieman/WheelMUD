@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An action for standing up.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("stand up", CommandCategory.Activities)]
@@ -40,13 +40,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

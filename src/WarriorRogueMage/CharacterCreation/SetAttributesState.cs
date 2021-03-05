@@ -8,7 +8,7 @@
 using System.Text.RegularExpressions;
 using WheelMUD.ConnectionStates;
 using WheelMUD.Core;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WarriorRogueMage.CharacterCreation
 {
@@ -158,7 +158,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen()
         {
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(Session.TerminalOptions);
             ab.AppendLine();
             ab.AppendLine("You have 10 character points to be divided between 3 attributes.");
             ab.AppendLine("No attribute can have more than 6 points. Attributes can be zero.");
@@ -189,15 +189,18 @@ namespace WarriorRogueMage.CharacterCreation
             {
                 return SetAttributeCommand.Warrior;
             }
-            else if (s.StartsWith("r"))
+
+            if (s.StartsWith("r"))
             {
                 return SetAttributeCommand.Rogue;
             }
-            else if (s.StartsWith("m"))
+
+            if (s.StartsWith("m"))
             {
                 return SetAttributeCommand.Mage;
             }
-            else if (s.StartsWith("done") || s.StartsWith("end") || s.StartsWith("quit"))
+
+            if (s.StartsWith("done") || s.StartsWith("end") || s.StartsWith("quit"))
             {
                 return SetAttributeCommand.Done;
             }
@@ -211,11 +214,13 @@ namespace WarriorRogueMage.CharacterCreation
             {
                 return string.Empty;
             }
-            else if (s.Contains("+"))
+
+            if (s.Contains("+"))
             {
                 return "+";
             }
-            else if (s.Contains("-"))
+
+            if (s.Contains("-"))
             {
                 return "-";
             }

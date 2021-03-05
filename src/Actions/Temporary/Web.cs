@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>Temporary command to demonstrate a web effect.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("web", CommandCategory.Temporary)]
@@ -50,38 +49,37 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            string targetName = actionInput.Tail.Trim().ToLower();
+            var targetName = actionInput.Tail.Trim().ToLower();
 
             // Rule: Do we have a target?
             target = GetPlayerOrMobile(targetName);
             if (target == null)
             {
-                return "You cannot see " + targetName + ".";
+                return $"You cannot see {targetName}.";
             }
 
-            // Rule: Is the target the initator?
-            if (sender.Thing.Name.ToLower() == target.Name.ToLower())
+            // Rule: Is the target the initiator?
+            if (string.Equals(actionInput.Controller.Thing.Name, target.Name, StringComparison.CurrentCultureIgnoreCase))
             {
                 return "You can't punch yourself.";
             }
 
             // Rule: Is the target in the same room?
-            if (sender.Thing.Parent.Id != target.Parent.Id)
+            if (actionInput.Controller.Thing.Parent.Id != target.Parent.Id)
             {
-                return "You cannot see " + targetName + ".";
+                return $"You cannot see {targetName}.";
             }
 
             // Rule: Is the target alive?
             if (target.Stats["health"].Value <= 0)
             {
-                return target.Name + " is dead.";
+                return $"{target.Name} is dead.";
             }
 
             return null;

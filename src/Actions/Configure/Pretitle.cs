@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A command to set a player's title.</summary>
     /// <remarks>
     /// TODO: Maybe use an App.config flag to decide if this command should be something users do for themselves,
@@ -32,8 +31,6 @@ namespace WheelMUD.Actions
             CommonGuards.InitiatorMustBeAPlayer,
         };
 
-        private Thing player;
-
         private string oldPretitle;
 
         private string newPretitle;
@@ -42,19 +39,17 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            player.SingularPrefix = newPretitle;
+            if (!(actionInput.Controller is Session session)) return;
 
-            if (string.IsNullOrEmpty(newPretitle))
-            {
-                sender.Write($"Your old pretitle was \"{oldPretitle}\" and is now removed.");
-            }
-            else
-            {
-                sender.Write($"Your old pretitle was \"{oldPretitle}\" and is now \"{newPretitle}\".");
-            }
+            actionInput.Controller.Thing.SingularPrefix = newPretitle;
 
-            player.FindBehavior<PlayerBehavior>()?.SavePlayer();
+            actionInput.Controller.Write(string.IsNullOrEmpty(newPretitle)
+                ? new OutputBuilder(session.TerminalOptions).SingleLine(
+                    $"Your old pretitle was \"{oldPretitle}\" and is now removed.")
+                : new OutputBuilder(session.TerminalOptions).SingleLine(
+                    $"Your old pretitle was \"{oldPretitle}\" and is now \"{newPretitle}\"."));
+
+            actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -62,18 +57,14 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
-
-            // The comon guards already guarantees the sender is a player, hence no null checks here.
-            player = sender.Thing;
-
+            
             // Rule: The new pretitle must be empty or meet the length requirements.
-            oldPretitle = player.SingularPrefix;
+            oldPretitle = actionInput.Controller.Thing.SingularPrefix;
 
             if (!string.IsNullOrEmpty(actionInput.Tail))
             {

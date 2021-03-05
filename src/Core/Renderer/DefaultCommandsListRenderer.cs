@@ -6,7 +6,6 @@
 //-----------------------------------------------------------------------------
 
 using WheelMUD.Server;
-using WheelMUD.Utilities;
 using System.Collections.Generic;
 
 namespace WheelMUD.Core
@@ -16,7 +15,7 @@ namespace WheelMUD.Core
     {
         public override string Render(TerminalOptions terminalOptions, IEnumerable<Command> commands, string categoryName)
         {
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(terminalOptions);
             ab.AppendLine($"<%yellow%>{categoryName} commands<%n%>:");
             foreach (var command in commands)
             {

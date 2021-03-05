@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
 using WheelMUD.Interfaces;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An action to get or set your command prompt display.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("buffer", CommandCategory.Configure)]
@@ -46,13 +46,6 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            // Not sure what would call this other than a player, but exit early just in case.
-            // Implicitly also verifies that sender exists.
-            if (userControlledBehavior == null)
-            {
-                return;
-            }
-
             // No arguments were provided. Just show the current buffer setting and exit.
             if (string.IsNullOrEmpty(actionInput.Tail))
             {
@@ -63,7 +56,7 @@ namespace WheelMUD.Actions
             // Set the value for the current session
             if (session.Connection != null)
             {
-                session.Connection.PagingRowLimit = (parsedBufferLength == -1) ? session.TerminalOptions.Height : parsedBufferLength;
+                session.Connection.PagingRowLimit = parsedBufferLength == -1 ? session.TerminalOptions.Height : parsedBufferLength;
             }
 
             userControlledBehavior.PagingRowLimit = parsedBufferLength;
@@ -76,7 +69,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -100,7 +93,7 @@ namespace WheelMUD.Actions
             // Make sure there is a sender.
             sender = actionInput.Controller;
             session = sender as Session;
-            if (sender == null || sender.Thing == null)
+            if (sender?.Thing == null)
             {
                 return;
             }
@@ -113,7 +106,7 @@ namespace WheelMUD.Actions
             }
 
             // Parse and store the desired buffer length, if one was provided.
-            string lengthText = actionInput.Tail.ToLower().Trim();
+            var lengthText = actionInput.Tail.ToLower().Trim();
             if (string.IsNullOrEmpty(lengthText))
             {
                 parseSucceeded = true;
@@ -139,7 +132,7 @@ namespace WheelMUD.Actions
         /// <returns>True if the string was parsed successfully; otherwise, false.</returns>
         private bool TryParse(string str, out int bufferLength)
         {
-            str = str.ToLower().Trim(new[] { ' ', '\t', '\'', '"' });
+            str = str.ToLower().Trim(' ', '\t', '\'', '"');
 
             if (str == "auto")
             {
@@ -153,14 +146,11 @@ namespace WheelMUD.Actions
         /// <summary>Displays the current buffer length to the user, handling the special case of "auto" instead of -1.</summary>
         private void ShowCurrentBuffer()
         {
-            if (userControlledBehavior.PagingRowLimit == -1)
-            {
-                sender.Write($"Your screen buffer size is 'auto' (currently {session.TerminalOptions.Height} lines).");
-            }
-            else
-            {
-                sender.Write($"Your screen buffer is {userControlledBehavior.PagingRowLimit} lines.");
-            }
+            sender.Write(userControlledBehavior.PagingRowLimit == -1
+                ? new OutputBuilder(session.TerminalOptions).SingleLine(
+                    $"Your screen buffer size is 'auto' (currently {session.TerminalOptions.Height} lines).")
+                : new OutputBuilder(session.TerminalOptions).SingleLine(
+                    $"Your screen buffer is {userControlledBehavior.PagingRowLimit} lines."));
         }
     }
 }

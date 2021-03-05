@@ -6,7 +6,6 @@
 //-----------------------------------------------------------------------------
 
 using WheelMUD.Server;
-using WheelMUD.Utilities;
 
 namespace WheelMUD.Core
 {
@@ -15,7 +14,7 @@ namespace WheelMUD.Core
     {
         public override string Render(TerminalOptions terminalOptions)
         {
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(terminalOptions);
             ab.AppendLine("TODO: LIST OUT ALL HELP TOPICS FOUND VIA HelpManager.");
             ab.AppendLine();
             ab.AppendLine("You can also use the \"commands\" command to list out commands, and you can get help");

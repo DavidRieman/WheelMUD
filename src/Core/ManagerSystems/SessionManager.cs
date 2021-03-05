@@ -114,7 +114,7 @@ namespace WheelMUD.Core
             connection.TelnetCodeHandler.BeginNegotiation();
 
             // Load our splash screen.
-            connection.Send(Renderer.Instance.RenderSplashScreen(), false, true);
+            connection.Send(Renderer.Instance.RenderSplashScreen(connection.TerminalOptions), true);
 
             // Create a new session for this connection.
             var session = new Session(connection);

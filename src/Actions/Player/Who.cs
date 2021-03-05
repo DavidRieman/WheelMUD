@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A command to list the characters who are currently in-game.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("who", CommandCategory.Player)]
@@ -18,16 +18,15 @@ namespace WheelMUD.Actions
     public class Who : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
-        {
-        };
+        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>();
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            var sender = actionInput.Controller;
-            sender.Write(Renderer.Instance.RenderWho(sender.Thing));
+            if (!(actionInput.Controller is Session session)) return;
+        
+            actionInput.Controller.Write(Renderer.Instance.RenderWho(session.TerminalOptions, actionInput.Controller.Thing));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -35,13 +34,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

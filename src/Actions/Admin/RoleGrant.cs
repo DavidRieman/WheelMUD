@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
 using WheelMUD.Interfaces;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An administrative action which gives a role to a player.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("role grant", CommandCategory.Admin)]
@@ -34,12 +34,14 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
+            if (!(actionInput.Controller is Session session)) return;
+            
             var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
             userControlledBehavior.SecurityRoles |= role;
-            sender.Write($"{player.Name} has been granted the {role.ToString()} role.");
-            sender.Write($"{player.Name} is now: {userControlledBehavior.SecurityRoles}.");
-            // TODO: Should this notify the target user too?
+            actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).SingleLine($"{player.Name} has been granted the {role.ToString()} role."));
+            actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).SingleLine($"{player.Name} is now: {userControlledBehavior.SecurityRoles}."));
+            
+            userControlledBehavior.Controller.Write(new OutputBuilder(session.TerminalOptions).SingleLine($"You have been granted the {role.ToString()} role."));
             player.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 
@@ -48,15 +50,15 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            string[] normalizedParams = NormalizeParameters(actionInput.Controller);
-            string roleName = normalizedParams[0];
-            string playerName = normalizedParams[1];
+            var normalizedParams = NormalizeParameters(actionInput.Controller);
+            var roleName = normalizedParams[0];
+            var playerName = normalizedParams[1];
 
             // Rule: The targeted player must exist and be online. (For safety, this must be a full name match only.)
             // TODO: Consider a mode where the player document exists in the DB is enough; add ability to modify said doc.
@@ -69,7 +71,7 @@ namespace WheelMUD.Actions
             // Rule: The roleName must be a valid role.
             if (!Enum.TryParse(roleName, true, out role))
             {
-                string rolesList = string.Join(", ", SecurityRoleHelpers.IndividualSecurityRoles);
+                var rolesList = string.Join(", ", SecurityRoleHelpers.IndividualSecurityRoles);
                 return $"The role '{roleName}' is not a valid role. Try one of: {rolesList}";
             }
 
@@ -81,8 +83,8 @@ namespace WheelMUD.Actions
         /// <returns>Returns a string array that has been pasteurized.</returns>
         private static string[] NormalizeParameters(IController sender)
         {
-            string normalizedInput = sender.LastActionInput.Tail.Replace("grant", string.Empty).Trim();
-            string[] normalizedParams = normalizedInput.Split(' ');
+            var normalizedInput = sender.LastActionInput.Tail.Replace("grant", string.Empty).Trim();
+            var normalizedParams = normalizedInput.Split(' ');
             return normalizedParams;
         }
     }

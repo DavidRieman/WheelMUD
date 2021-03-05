@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>Sets your status as AFK to other players.  Optional reason can be specified (eg. AFK Back in 5).</summary>
     /// <remarks>Added a length limiter on the AFK reason to ensure it doesn't gum out anything displaying the message.</remarks>
     [ExportGameAction(0)]
@@ -35,31 +34,27 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
+            if (!(actionInput.Controller is Session session)) return;
 
-            PlayerBehavior playerBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<PlayerBehavior>();
+            var playerBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<PlayerBehavior>();
+            
             if (playerBehavior != null)
             {
                 if (playerBehavior.IsAFK)
                 {
-                    sender.Write("Your are no longer AFK.");
-
+                    actionInput.Controller.Write("Your are no longer AFK.");
                     playerBehavior.IsAFK = false;
                     playerBehavior.WhenWentAFK = null;
                     playerBehavior.AFKReason = string.Empty;
                 }
                 else
                 {
-                    string afkReason = actionInput.Tail;
+                    var afkReason = actionInput.Tail;
 
-                    if (!string.IsNullOrEmpty(afkReason))
-                    {
-                        sender.Write(string.Format("You have set your status to AFK: {0}.", afkReason));
-                    }
-                    else
-                    {
-                        sender.Write("You have set your status to AFK.");
-                    }
+                    actionInput.Controller.Write(!string.IsNullOrEmpty(afkReason)
+                        ? new OutputBuilder(session.TerminalOptions).SingleLine(
+                            $"You have set your status to AFK: {afkReason}.")
+                        : new OutputBuilder(session.TerminalOptions).SingleLine("You have set your status to AFK."));
 
                     playerBehavior.IsAFK = true;
 
@@ -75,18 +70,13 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            if (actionInput.Tail.Length > MAXREASONLENGTH)
-            {
-                return $"That's too wordy.  Let's keep it to {MAXREASONLENGTH} characters.";
-            }
-
-            return null;
+            return actionInput.Tail.Length > MAXREASONLENGTH ? $"That's too wordy.  Let's keep it to {MAXREASONLENGTH} characters." : null;
         }
     }
 }

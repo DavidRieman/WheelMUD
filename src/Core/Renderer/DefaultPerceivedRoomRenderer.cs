@@ -6,18 +6,17 @@
 //-----------------------------------------------------------------------------
 
 using System.Linq;
-using System.Text;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WheelMUD.Core
 {
     [RendererExports.PerceivedRoom(0)]
     public class DefaultPerceivedRoomRenderer : RendererDefinitions.PerceivedRoom
     {
-        public override string Render(Thing viewer, Thing room)
+        public override string Render(TerminalOptions terminalOptions, Thing viewer, Thing room)
         {
             var senses = viewer.FindBehavior<SensesBehavior>();
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(terminalOptions);
             if (senses.CanPerceiveThing(room))
             {
                 ab.AppendLine($"<%red%><%b%>{room.Name}<%n%>");
@@ -45,7 +44,7 @@ namespace WheelMUD.Core
 
             if (outputExits.Any() || outputThings.Any())
             {
-                ab.AppendLine($"<%yellow%>Here you notice:<%n%>");
+                ab.AppendLine("<%yellow%>Here you notice:<%n%>");
                 if (outputExits.Any())
                 {
                     ab.AppendLine($"  Routes: {string.Join(", ", outputExits)}");
@@ -57,7 +56,7 @@ namespace WheelMUD.Core
             }
             else
             {
-                ab.AppendLine($"<%yellow%>You notice nothing else inside the room.<%n%>");
+                ab.AppendLine("<%yellow%>You notice nothing else inside the room.<%n%>");
             }
 
             return ab.ToString();

@@ -5,6 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
 using WheelMUD.Utilities;
 
 namespace WheelMUD.Core
@@ -17,11 +18,11 @@ namespace WheelMUD.Core
     [RendererExports.Who(0)]
     public class DefaultWhoRenderer : RendererDefinitions.Who
     {
-        public override string Render(Thing activePlayer)
+        public override string Render(TerminalOptions terminalOptions, Thing activePlayer)
         {
             string mudNameLine = "                                "; // TODO: Dynamic centering instead, if we want centering!
             string plural = string.Empty;
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(terminalOptions);
 
             string plural1 = "is";
 

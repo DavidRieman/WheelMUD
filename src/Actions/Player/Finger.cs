@@ -6,9 +6,9 @@
 //-----------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Globalization;
 using System.Threading;
 using WheelMUD.Core;
+using WheelMUD.Server;
 using WheelMUD.Utilities;
 
 namespace WheelMUD.Actions
@@ -29,7 +29,7 @@ namespace WheelMUD.Actions
         };
 
         /// <summary>The target entity that we wish to get information for.</summary>
-        private Thing target = null;
+        private Thing target;
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
@@ -38,12 +38,14 @@ namespace WheelMUD.Actions
         /// </remarks>
         public override void Execute(ActionInput actionInput)
         {
-            var ab = new AnsiBuilder();
+            if (!(actionInput.Controller is Session session)) return;
 
-            bool isOnline = false;
+            var ab = new OutputBuilder(session.TerminalOptions);
+
+            var isOnline = false;
             string addressIP = null;
 
-            PlayerBehavior playerBehavior = target.Behaviors.FindFirst<PlayerBehavior>();
+            var playerBehavior = target.Behaviors.FindFirst<PlayerBehavior>();
             
             ab.AppendLine($"<%yellow%><%b%>Name: {target.Name} Title: {target.Title}<%n%>");
             ab.AppendLine($"Description: {target.Description}");
@@ -71,7 +73,7 @@ namespace WheelMUD.Actions
                 ////    addressIP = connection.CurrentIPAddress;
                 ////}
                 
-                string statusString = isOnline ? "<%green%>Online<%n%>" : "<%red%>Offline<%n%>";
+                var statusString = isOnline ? "<%green%>Online<%n%>" : "<%red%>Offline<%n%>";
                 
                 ab.AppendLine($"Status: {statusString}"); // need way to report both offline and online
                 ab.AppendLine($"Location: {target.Parent.Name}");
@@ -93,16 +95,16 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
-            TextInfo textInfo = cultureInfo.TextInfo;
+            var cultureInfo = Thread.CurrentThread.CurrentCulture;
+            var textInfo = cultureInfo.TextInfo;
             ////string targetName = command.Action.Tail.Trim().ToLower();
-            string targetName = textInfo.ToTitleCase(actionInput.Tail.Trim().ToLower());
+            var targetName = textInfo.ToTitleCase(actionInput.Tail.Trim().ToLower());
 
             // Rule: Is the target an entity?
             target = GetPlayerOrMobile(targetName);
@@ -120,7 +122,7 @@ namespace WheelMUD.Actions
                 //target = PlayerBehavior.Load(targetName);
                 if (target == null)
                 {
-                    return targetName + " has never visited " + GameConfiguration.Name + ".";
+                    return $"{targetName} has never visited {GameConfiguration.Name}.";
                 }
             }
 

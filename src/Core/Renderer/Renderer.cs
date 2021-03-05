@@ -133,19 +133,19 @@ namespace WheelMUD.Core
             return currentHelpTopicsRenderer.Render(terminalOptions);
         }
 
-        public string RenderInventory(Thing player)
+        public string RenderInventory(TerminalOptions terminalOptions, Thing player)
         {
-            return currentInventoryRenderer.Render(player);
+            return currentInventoryRenderer.Render(terminalOptions, player);
         }
 
-        public string RenderPerceivedRoom(Thing viewer, Thing viewedRoom)
+        public string RenderPerceivedRoom(TerminalOptions terminalOptions, Thing viewer, Thing viewedRoom)
         {
-            return currentPerceivedRoomRenderer.Render(viewer, viewedRoom);
+            return currentPerceivedRoomRenderer.Render(terminalOptions, viewer, viewedRoom);
         }
 
-        public string RenderPerceivedThing(Thing viewer, Thing viewedThing)
+        public string RenderPerceivedThing(TerminalOptions terminalOptions, Thing viewer, Thing viewedThing)
         {
-            return currentPerceivedThingRenderer.Render(viewer, viewedThing);
+            return currentPerceivedThingRenderer.Render(terminalOptions, viewer, viewedThing);
         }
 
         public string RenderPrompt(Thing player)
@@ -153,19 +153,19 @@ namespace WheelMUD.Core
             return currentPromptRenderer.Render(player);
         }
 
-        public string RenderScore(Thing player)
+        public string RenderScore(TerminalOptions terminalOptions, Thing player)
         {
-            return currentScoreRenderer.Render(player);
+            return currentScoreRenderer.Render(terminalOptions, player);
         }
 
-        public string RenderSplashScreen()
+        public string RenderSplashScreen(TerminalOptions terminalOptions)
         {
-            return currentSplashScreenRenderer.Render();
+            return currentSplashScreenRenderer.Render(terminalOptions);
         }
 
-        public string RenderWho(Thing player)
+        public string RenderWho(TerminalOptions terminalOptions, Thing player)
         {
-            return currentWhoRenderer.Render(player);
+            return currentWhoRenderer.Render(terminalOptions, player);
         }
 
         /// <summary>Recompose the subcomponents of this Renderer.</summary>

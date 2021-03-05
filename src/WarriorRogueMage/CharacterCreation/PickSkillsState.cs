@@ -8,10 +8,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using WheelMUD.ConnectionStates;
 using WheelMUD.Core;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WarriorRogueMage.CharacterCreation
 {
@@ -121,7 +120,7 @@ namespace WarriorRogueMage.CharacterCreation
                 return;
             }
 
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(Session.TerminalOptions);
             ab.AppendSeparator('=', "yellow", true);
             ab.AppendLine($"Description for {foundSkill.Name}");
             ab.AppendSeparator('-', "yellow");
@@ -152,7 +151,7 @@ namespace WarriorRogueMage.CharacterCreation
         private string FormatSkillText()
         {
             var skillQueue = new Queue();
-            var text = new AnsiBuilder();
+            var text = new OutputBuilder(Session.TerminalOptions);
             int rows = gameSkills.Count / 4;
             var longestSkillName = 0;
 
@@ -205,7 +204,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen()
         {
-            var ab = new AnsiBuilder();
+            var ab = new OutputBuilder(Session.TerminalOptions);
             ab.AppendLine();
             ab.AppendLine("You may pick three starting skills for your character.");
             int n = 1;

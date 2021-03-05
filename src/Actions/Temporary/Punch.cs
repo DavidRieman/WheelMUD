@@ -10,15 +10,13 @@
 // one can change the player's SessionState.Prompt value via the debugger to 
 // something like "[health] [maxhealth]>" to test this out.
 
-using WheelMUD.Interfaces;
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Effects;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Effects;
-
     /// <summary>A temporary command to attempt some combat.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("punch", CommandCategory.Temporary)]
@@ -37,47 +35,46 @@ namespace WheelMUD.Actions
         };
 
         /// <summary>The found target object.</summary>
-        private Thing target = null;
+        private Thing target;
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
             // Send the attack event.
-            IController sender = actionInput.Controller;
-            UnbalanceEffect unbalanceEffect = new UnbalanceEffect()
+            var unbalanceEffect = new UnbalanceEffect
             {
                 Duration = new TimeSpan(0, 0, 0, 0, 5000),
             };
 
-            sender.Thing.Behaviors.Add(unbalanceEffect);
+            actionInput.Controller.Thing.Behaviors.Add(unbalanceEffect);
 
             // Set up the dice for attack and defense rolls.
             // Currently does not consider equipment, skills or stats.
-            DiceService dice = DiceService.Instance;
-            Die attackDie = dice.GetDie(20);
-            Die defenseDie = dice.GetDie(20);
+            var dice = DiceService.Instance;
+            var attackDie = dice.GetDie(20);
+            var defenseDie = dice.GetDie(20);
 
             // Roll the dice to determine if the attacker hits.
-            int attackRoll = attackDie.Roll();
-            int defenseRoll = defenseDie.Roll();
+            var attackRoll = attackDie.Roll();
+            var defenseRoll = defenseDie.Roll();
 
             // Determine amount of damage, if any. Cannot exceed the target's current health.
-            int targetHealth = target.Stats["HP"].Value;
-            int damage = Math.Max(attackRoll - defenseRoll, 0);
+            var targetHealth = target.Stats["HP"].Value;
+            var damage = Math.Max(attackRoll - defenseRoll, 0);
             damage = Math.Min(damage, targetHealth);
 
             // Choose sensory messaging based on whether or not the hit landed.
-            SensoryMessage message = CreateResultMessage(sender.Thing, target, attackRoll, defenseRoll, damage);
+            var message = CreateResultMessage(actionInput.Controller.Thing, target, attackRoll, defenseRoll, damage);
 
-            var attackEvent = new AttackEvent(target, message, sender.Thing);
+            var attackEvent = new AttackEvent(target, message, actionInput.Controller.Thing);
 
             // Broadcast combat requests/events to the room they're happening in.
-            sender.Thing.Eventing.OnCombatRequest(attackEvent, EventScope.ParentsDown);
+            actionInput.Controller.Thing.Eventing.OnCombatRequest(attackEvent, EventScope.ParentsDown);
             if (!attackEvent.IsCancelled)
             {
-                target.Stats["HP"].Decrease(damage, sender.Thing);
-                sender.Thing.Eventing.OnCombatEvent(attackEvent, EventScope.ParentsDown);
+                target.Stats["HP"].Decrease(damage, actionInput.Controller.Thing);
+                actionInput.Controller.Thing.Eventing.OnCombatEvent(attackEvent, EventScope.ParentsDown);
             }
         }
 
@@ -86,45 +83,44 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             // Find the most appropriate matching target.
-            string targetName = actionInput.Tail.Trim().ToLower();
+            var targetName = actionInput.Tail.Trim().ToLower();
             target = GetPlayerOrMobile(targetName);
 
             // Rule: Is the target an entity?
             if (target == null)
             {
-                return "You cannot see " + targetName + ".";
+                return $"You cannot see {targetName}.";
             }
 
-            // Rule: Is the target the initator?
-            if (sender.Thing.Name.ToLower() == target.Name.ToLower())
+            // Rule: Is the target the initiator?
+            if (string.Equals(actionInput.Controller.Thing.Name, target.Name, StringComparison.CurrentCultureIgnoreCase))
             {
                 return "You can't punch yourself.";
             }
 
             // Rule: Is the target in the same room?
-            if (sender.Thing.Parent.Id != target.Parent.Id)
+            if (actionInput.Controller.Thing.Parent.Id != target.Parent.Id)
             {
-                return "You cannot see " + targetName + ".";
+                return $"You cannot see {targetName}.";
             }
 
             // Rule: Is the target alive?
             if (target.Stats["HP"].Value <= 0)
             {
-                return target.Name + " is dead.";
+                return $"{target.Name} is dead.";
             }
 
-            var unbalanceEffect = sender.Thing.Behaviors.FindFirst<UnbalanceEffect>();
+            var unbalanceEffect = actionInput.Controller.Thing.Behaviors.FindFirst<UnbalanceEffect>();
             if (unbalanceEffect != null)
             {
-                return "You are too unbalanced to punch right now. Wait " + unbalanceEffect.RemainingDuration.Seconds + " seconds.";
+                return $"You are too unbalanced to punch right now. Wait {unbalanceEffect.RemainingDuration.Seconds} seconds.";
             }
 
             return null;

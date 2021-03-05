@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A command that allows an admin to locate an entity.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("locate", CommandCategory.Admin)]
@@ -31,17 +30,15 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            Thing entity = GetPlayerOrMobile(sender.LastActionInput.Tail);
+            if (!(actionInput.Controller is Session session)) return;
+            
+            var entity = GetPlayerOrMobile(actionInput.Controller.LastActionInput.Tail);
 
-            if (entity != null)
-            {
-                sender.Write(string.Format("You see {0} at {1}, id {2}", entity.Name, entity.Parent.Name, entity.Parent.Id));
-            }
-            else
-            {
-                sender.Write("You cant find " + sender.LastActionInput.Tail);
-            }
+            actionInput.Controller.Write(entity != null
+                ? new OutputBuilder(session.TerminalOptions).SingleLine(
+                    $"You see {entity.Name} at {entity.Parent.Name}, id {entity.Parent.Id}")
+                : new OutputBuilder(session.TerminalOptions).SingleLine(
+                    $"You cant find {actionInput.Controller.LastActionInput.Tail}."));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -49,13 +46,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

@@ -74,6 +74,7 @@ namespace WheelMUD.Core
         /// <param name="actionInput">The full input specified for executing the command.</param>
         /// <param name="guards">The list of CommonGuards that all need to pass.</param>
         /// <returns>An error message describing the failure for the user, or null if all guards pass.</returns>
+        /// TODO: Perhaps make this return a bool with the out being the string? Then you can check a guard with if statement instead of null check
         protected string VerifyCommonGuards(ActionInput actionInput, List<CommonGuards> guards)
         {
             // Rule: Is the sender and sender entity specified?  (This shouldn't be allowed to happen ever?)

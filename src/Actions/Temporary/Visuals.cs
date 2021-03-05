@@ -6,9 +6,9 @@
 // -----------------------------------------------------------------------
 
 using WheelMUD.Interfaces;
-using WheelMUD.Utilities;
 using System.Collections.Generic;
 using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions.Temporary
 {
@@ -25,12 +25,7 @@ namespace WheelMUD.Actions.Temporary
     public class Visuals : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
-        {
-        };
-
-        /// <summary>Origin of the action.</summary>
-        private IController sender;
+        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>();
 
         /// <summary>Number of arguments supplied to the action.</summary>
         private int argCount;
@@ -57,8 +52,10 @@ namespace WheelMUD.Actions.Temporary
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
+            if (!(actionInput.Controller is Session session)) return;
+            
             // Contextual message text to be supplied based on the action below
-            var response = new ContextualString(sender.Thing, room.Parent);
+            var response = new ContextualString(actionInput.Controller.Thing, room.Parent);
 
             if (command == "add")
             {
@@ -83,7 +80,7 @@ namespace WheelMUD.Actions.Temporary
             }
             else if (command == "show")
             {
-                var output = new AnsiBuilder();
+                var output = new OutputBuilder(session.TerminalOptions);
 
                 if (room.Visuals.Count > 0)
                 {
@@ -99,15 +96,15 @@ namespace WheelMUD.Actions.Temporary
                     output.AppendLine($"No visuals found for {roomName} [{roomId}].");
                 }
 
-                sender.Write(output.ToString());
+                actionInput.Controller.Write(output.ToString());
 
                 // No need to raise event.
                 return;
             }
 
             var message = new SensoryMessage(SensoryType.Sight, 100, response);
-            var evt = new GameEvent(sender.Thing, message);
-            sender.Thing.Eventing.OnMiscellaneousEvent(evt, EventScope.SelfDown);
+            var evt = new GameEvent(actionInput.Controller.Thing, message);
+            actionInput.Controller.Thing.Eventing.OnMiscellaneousEvent(evt, EventScope.SelfDown);
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>
@@ -115,11 +112,13 @@ namespace WheelMUD.Actions.Temporary
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
+            
+            if (!(actionInput.Controller is Session session)) return null;
 
             PreprocessInput(actionInput);
 
@@ -129,7 +128,7 @@ namespace WheelMUD.Actions.Temporary
                 return "You must be located in a valid room to change its visuals.";
             }
 
-            var usageText = new AnsiBuilder();
+            var usageText = new OutputBuilder(session.TerminalOptions);
             usageText.AppendLine("Usage:");
             usageText.AppendLine("visuals add <name> <description>");
             usageText.AppendLine("visuals remove <name>");
@@ -161,12 +160,10 @@ namespace WheelMUD.Actions.Temporary
         /// <param name="actionInput">The full input specified for executing the command.</param>
         private void PreprocessInput(ActionInput actionInput)
         {
-            sender = actionInput.Controller;
-
             argCount = actionInput.Params.Length;
 
             // Location of the sender of the command.
-            var location = sender.Thing.Parent;
+            var location = actionInput.Controller.Thing.Parent;
 
             if (location.HasBehavior<RoomBehavior>())
             {
@@ -184,7 +181,7 @@ namespace WheelMUD.Actions.Temporary
             // Name of the sub-command, i.e. "add", "remove", or "show".
             if (argCount > 0)
             {
-                string firstParam = actionInput.Params[0].ToLower();
+                var firstParam = actionInput.Params[0].ToLower();
                 switch (firstParam)
                 {
                     case "add":
@@ -211,7 +208,7 @@ namespace WheelMUD.Actions.Temporary
             // The remainder of the command text is assumed to be the description.
             if (argCount > 2)
             {
-                string tail = actionInput.Tail[command.Length..].TrimStart();
+                var tail = actionInput.Tail[command.Length..].TrimStart();
                 tail = tail[visualName.Length..].TrimStart();
                 visualDescription = tail;
             }

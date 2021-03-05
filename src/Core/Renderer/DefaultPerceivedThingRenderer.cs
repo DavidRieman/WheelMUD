@@ -5,19 +5,18 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
+
 namespace WheelMUD.Core
 {
     [RendererExports.PerceivedThing(0)]
     public class DefaultPerceivedThingRenderer : RendererDefinitions.PerceivedThing
     {
-        public override string Render(Thing viewer, Thing viewedThing)
+        public override string Render(TerminalOptions terminalOptions, Thing viewer, Thing viewedThing)
         {
             var senses = viewer.FindBehavior<SensesBehavior>();
-            if (senses.CanPerceiveThing(viewedThing))
-            {
-                return $"You examine <%cyan%><%b%>{viewedThing.Name}<%n%>:<%nl%>{viewedThing.Description}<%nl%>";
-            }
-            return "You cannot perceive that thing.";
+            return senses.CanPerceiveThing(viewedThing) ? 
+                $"You examine <%cyan%><%b%>{viewedThing.Name}<%n%>:<%nl%>{viewedThing.Description}<%nl%>" : "You cannot perceive that thing.";
         }
     }
 }

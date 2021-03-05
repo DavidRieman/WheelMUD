@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Utilities;
 using System.Collections.Generic;
 using System.Management;
 using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -21,15 +21,15 @@ namespace WheelMUD.Actions
     public class ServerStatus : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
-        {
-        };
+        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>();
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            var ab = new AnsiBuilder();
+            if (!(actionInput.Controller is Session session)) return;
+            
+            var ab = new OutputBuilder(session.TerminalOptions);
 
             //// TODO Reference to config file
             var appName = "WheelMUD.vshost.exe";
@@ -76,8 +76,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            return commonFailure;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A command that allows an admin to clone an item.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("clone", CommandCategory.Admin)]
@@ -33,25 +32,28 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            string itemID = actionInput.Params[0];
-            IController sender = actionInput.Controller;
-            Thing parent = sender.Thing.Parent;
-            Thing thing = parent.FindChild(t => t.Id == itemID);
+            if (!(actionInput.Controller is Session session)) return;
+            
+            var itemID = actionInput.Params[0];
+            var parent = actionInput.Controller.Thing.Parent;
+            var thing = parent.FindChild(t => t.Id == itemID);
             if (thing == null)
             {
-                parent = sender.Thing;
+                parent = actionInput.Controller.Thing;
                 thing = parent.FindChild(t => t.Id == itemID);
                 if (thing == null)
                 {
-                    sender.Write(string.Format("Cannot find {0}.", itemID));
+                    actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
+                        SingleLine($"Cannot find {itemID}."));
                     return;
                 }
             }
 
-            Thing clonedThing = thing.Clone();
+            var clonedThing = thing.Clone();
             parent.Add(clonedThing);
-            var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
-            userControlledBehavior.Controller.Write("You clone " + thing.Id + ". New item is " + clonedThing.Id + ".");
+            var userControlledBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<UserControlledBehavior>();
+            userControlledBehavior.Controller.Write(new OutputBuilder(session.TerminalOptions).
+                SingleLine($"You clone {thing.Id}. New item is {clonedThing.Id}."));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -59,13 +61,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }
