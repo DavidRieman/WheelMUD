@@ -10,6 +10,7 @@ using WheelMUD.Server.Interfaces;
 namespace WheelMUD.Server.Telnet
 {
     using System.Collections.Generic;
+    using System.Linq;
     using WheelMUD.Interfaces;
 
     /// <summary>The possible response codes.</summary>
@@ -35,46 +36,56 @@ namespace WheelMUD.Server.Telnet
         /// <summary>The buffer.</summary>
         private readonly List<byte> buffer = new List<byte>();
 
-        /// <summary>The sub request buffer.</summary>
-        private readonly List<byte> subRequestBuffer = new List<byte>();
-
-        /// <summary>A list of telnet options negotiated for this connection.</summary>
-        private readonly List<ITelnetOption> telnetOptions = new List<ITelnetOption>();
-
-        /// <summary>The connection upon which this telnet code handler operates.</summary>
-        private readonly Connection connection;
+        /// <summary>The connection telnet state.</summary>
+        private ConnectionTelnetState connectionTelnetState;
 
         /// <summary>The synchronization locking object for this class.</summary>
         private readonly object lockObject = new object();
 
-        /// <summary>The connection telnet state.</summary>
-        private ConnectionTelnetState connectionTelnetState;
+        /// <summary>The telnet options this handler supports.</summary>
+        private readonly List<ITelnetOption> telnetOptions;
 
         /// <summary>Initializes a new instance of the TelnetCodeHandler class.</summary>
         /// <param name="connection">The connection upon which this telnet code handler is based.</param>
         public TelnetCodeHandler(Connection connection)
         {
             connectionTelnetState = new ConnectionTelnetStateText(this);
-            this.connection = connection;
-            SetupRequiredOptions();
-        }
-
-        /// <summary>Gets the telnet options this handler supports.</summary>
-        public List<ITelnetOption> TelnetOptions
-        {
-            get { return telnetOptions; }
+            Connection = connection;
+            telnetOptions = new List<ITelnetOption>() {
+                new TelnetOptionEcho(true, Connection),
+                new TelnetOptionNaws(true, Connection),
+                new TelnetOptionTermType(true, Connection),
+                new TelnetOptionMXP(true, Connection),
+                new TelnetOptionMCCP(true, Connection)
+            };
         }
 
         /// <summary>Gets the connection this handler relates to.</summary>
-        public Connection Connection
-        {
-            get { return connection; }
-        }
+        public Connection Connection { get; private set; }
 
         /// <summary>Gets the sub request buffer.</summary>
-        public List<byte> SubRequestBuffer
+        public List<byte> SubRequestBuffer { get; } = new List<byte>();
+
+        /// <summary>Find the TelnetOption class instance of the given type.</summary>
+        /// <typeparam name="T">The ITelnetOption type to search for.</typeparam>
+        /// <returns>The TelnetOption instance of the given type, or null if it can not be found.</returns>
+        public T FindOption<T>() where T : ITelnetOption
         {
-            get { return subRequestBuffer; }
+            lock (lockObject)
+            {
+                return telnetOptions.OfType<T>().FirstOrDefault();
+            }
+        }
+
+        /// <summary>Find the TelnetOption class instance via the given option code.</summary>
+        /// <param name="optionCode">The OptionCode to search for.</param>
+        /// <returns>The TelnetOption instance, or null if it can not be found.</returns>
+        public ITelnetOption FindOption(int optionCode)
+        {
+            lock (lockObject)
+            {
+                return telnetOptions.Find(o => o.OptionCode == optionCode);
+            }
         }
 
         /// <summary>We pass each byte that comes in to our state classes for processing.</summary>
@@ -87,40 +98,18 @@ namespace WheelMUD.Server.Telnet
                 connectionTelnetState.ProcessInput(bit);
             }
 
-            byte[] rtnData = buffer.ToArray();
+            byte[] returnData = buffer.ToArray();
             buffer.Clear();
-            return rtnData;
+            return returnData;
         }
 
         /// <summary>Begin the negotiation of telnet options.</summary>
         public void BeginNegotiation()
         {
-            lock (lockObject)
-            {
-                ITelnetOption naws = telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("naws"); });
-                if (naws != null)
-                {
-                    naws.Enable();
-                }
-
-                ITelnetOption termType = telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("termtype"); });
-                if (termType != null)
-                {
-                    termType.Enable();
-                }
-
-                ITelnetOption mxp = telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("mxp"); });
-                if (mxp != null)
-                {
-                    mxp.Enable();
-                }
-
-                ITelnetOption mccp = telnetOptions.Find(delegate (ITelnetOption o) { return o.Name.Equals("compress2"); });
-                if (mccp != null)
-                {
-                    mccp.Enable();
-                }
-            }
+            FindOption<TelnetOptionNaws>()?.Enable();
+            FindOption<TelnetOptionTermType>()?.Enable();
+            FindOption<TelnetOptionMXP>()?.Enable();
+            FindOption<TelnetOptionMCCP>()?.Enable();
         }
 
         /// <summary>Allows our state classes to change the state being used.</summary>
@@ -137,19 +126,6 @@ namespace WheelMUD.Server.Telnet
             lock (lockObject)
             {
                 buffer.Add(data);
-            }
-        }
-
-        /// <summary>Sets up the options we want to negotiate.</summary>
-        private void SetupRequiredOptions()
-        {
-            lock (lockObject)
-            {
-                telnetOptions.Add(new TelnetOptionEcho(false, Connection));
-                telnetOptions.Add(new TelnetOptionNaws(true, Connection));
-                telnetOptions.Add(new TelnetOptionTermType(true, Connection));
-                telnetOptions.Add(new TelnetOptionMXP(true, Connection));
-                telnetOptions.Add(new TelnetOptionMCCP(true, Connection));
             }
         }
     }

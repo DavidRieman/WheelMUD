@@ -28,15 +28,7 @@ namespace WheelMUD.Server.Telnet
         /// <summary>Post-processing as called after negotiation.</summary>
         public override void AfterNegotiation()
         {
-            switch (UsState)
-            {
-                case TelnetOptionState.YES:
-                    Connection.TerminalOptions.UseEcho = true;
-                    break;
-                case TelnetOptionState.NO:
-                    Connection.TerminalOptions.UseEcho = false;
-                    break;
-            }
+            Connection.TerminalOptions.UseEcho = UsState == TelnetOptionState.YES;
         }
     }
 }

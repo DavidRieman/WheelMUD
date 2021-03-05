@@ -39,7 +39,7 @@ namespace WheelMUD.Server
             // Not a nice implementation of a state machine, but it does the job for this tiny piece of functionality.
 
             // Get our mxp telnet option.
-            var mxpOption = sender.TelnetCodeHandler.TelnetOptions.Find(o => o.Name.Equals("mxp")) as TelnetOptionMXP;
+            var mxpOption = sender.TelnetCodeHandler.FindOption<TelnetOptionMXP>();
 
             if (mxpOption != null && mxpOption.AwaitingVersionResponse)
             {
@@ -131,18 +131,18 @@ namespace WheelMUD.Server
         /// <param name="mxpOption">The option we are processing.</param>
         private static void ProcessBuffer(IConnection sender, TelnetOptionMXP mxpOption)
         {
-            string[] words = mxpOption.VersionResponseBuffer.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] words = mxpOption.VersionResponseBuffer.Split(new[] { ' ', '>' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string word in words)
             {
-                if (word.Trim().StartsWith("version", StringComparison.OrdinalIgnoreCase))
+                if (word.StartsWith("version", StringComparison.OrdinalIgnoreCase))
                 {
-                    string[] parts = word.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    sender.TerminalOptions.Version = parts[1].Trim().TrimEnd(new[] { '>' }).Trim(new[] { '"' });
+                    string[] keyValueParts = word.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                    sender.TerminalOptions.Version = keyValueParts[1].Trim('"');
                 }
-                else if (word.Trim().StartsWith("client", StringComparison.OrdinalIgnoreCase))
+                else if (word.StartsWith("client", StringComparison.OrdinalIgnoreCase))
                 {
-                    string[] parts = word.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                    sender.TerminalOptions.Client = parts[1].Trim().TrimEnd(new[] { '>' }).Trim(new[] { '"' }).ToLower();
+                    string[] keyValueParts = word.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                    sender.TerminalOptions.Client = keyValueParts[1].Trim('"').ToLower();
                 }
             }
 
@@ -152,13 +152,7 @@ namespace WheelMUD.Server
             // We should disable the option here.
             if (sender.TerminalOptions.Client == "zmud" && sender.TerminalOptions.Version == "6.16")
             {
-                ITelnetOption mccpOption =
-                    sender.TelnetCodeHandler.TelnetOptions.Find(
-                        delegate (ITelnetOption o) { return o.Name.Equals("compress2"); });
-                if (mccpOption != null)
-                {
-                    mccpOption.Disable();
-                }
+                sender.TelnetCodeHandler.FindOption<TelnetOptionMCCP>()?.Disable();
             }
         }
     }
