@@ -7,23 +7,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using Microsoft.Win32.SafeHandles;
 
 namespace WheelMUD.Server
 {
     /// <summary>
-    /// Mutable String class for Ansi based strings, optimized for speed and memory while retrieving the final result
+    /// Custom mutable String class, optimized for speed and memory while retrieving the final result
     /// as a string. Similar use to StringBuilder, but avoid a lot of allocations done by StringBuilder.
+    /// Also implements idisposable becuase this will be call a lot and we dont want it sitting in memory
     /// </summary>
     public class OutputBuilder : IDisposable
     {
         // To detect redundant calls
-        private bool _disposed = false;
-        
-        // Instantiate a SafeHandle instance.
-        private SafeHandle _safeHandle = new SafeFileHandle(IntPtr.Zero, true);
-        
+        private bool disposed;
+
         // Public implementation of Dispose pattern callable by consumers.
         public void Dispose() => Dispose(true);
         
@@ -314,24 +310,25 @@ namespace WheelMUD.Server
 
         private string Parse()
         {
-            return useAnsi ? OutputParser.Ansi(buffer, wordWrapLength) : OutputParser.NonAnsi(buffer, wordWrapLength);
+            return useAnsi ? OutputParser.Ansi(buffer, bufferPos, wordWrapLength) : OutputParser.NonAnsi(buffer, bufferPos, wordWrapLength);
         }
         
-        // Protected implementation of Dispose pattern.
+        ~OutputBuilder()
+        {
+            Dispose(false);
+        }
+        
         protected virtual void Dispose(bool disposing)
         {
-            if (_disposed)
+            if (disposed)
             {
                 return;
             }
 
-            if (disposing)
-            {
-                // Dispose managed state (managed objects).
-                _safeHandle?.Dispose();
-            }
+            buffer = null;
+            replacement = null;
 
-            _disposed = true;
+            disposed = true;
         }
     }
 }

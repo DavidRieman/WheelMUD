@@ -12,7 +12,7 @@ namespace WheelMUD.Server
     public static class OutputParser
     {
         //TODO: Optimize more
-        public static string NonAnsi(char[] buffer, int wordWrapLength)
+        public static string NonAnsi(char[] buffer, int bufferPos, int wordWrapLength)
         {
             var baseResult = "";
             var token = "";
@@ -20,7 +20,7 @@ namespace WheelMUD.Server
 
             var isToken = false;
 
-            for (var i = 0; i < buffer.Length; i++)
+            for (var i = 0; i < bufferPos; i++)
             {
                 if (isToken && buffer[i] == '>')
                 {
@@ -80,7 +80,7 @@ namespace WheelMUD.Server
         }
         
         //TODO: Optimize more
-        public static string Ansi(char[] buffer, int wordWrapLength)
+        public static string Ansi(char[] buffer,int bufferPos, int wordWrapLength)
         {
             var ansiResult = "";
             var token = "";
@@ -88,7 +88,7 @@ namespace WheelMUD.Server
 
             var isToken = false;
 
-            for (var i = 0; i < buffer.Length; i++)
+            for (var i = 0; i < bufferPos; i++)
             {
                 if (isToken && buffer[i] == '>')
                 {
