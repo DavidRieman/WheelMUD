@@ -9,13 +9,13 @@ using WheelMUD.Server.Interfaces;
 
 namespace WheelMUD.Interfaces
 {
-    using System.Collections.Generic;
-
     /// <summary>An interface defining a TelnetCodeHandler.</summary>
     public interface ITelnetCodeHandler
     {
-        /// <summary>Gets a list of the telnet options recognised by the server.</summary>
-        List<ITelnetOption> TelnetOptions { get; }
+        /// <summary>Find the TelnetOption class instance of the given type.</summary>
+        /// <typeparam name="T">The ITelnetOption type to search for.</typeparam>
+        /// <returns>The TelnetOption instance of the given type, or null if it can not be found.</returns>
+        T FindOption<T>() where T : ITelnetOption;
 
         /// <summary>Instruct the handler to process the data for telnet option codes</summary>
         /// <param name="data">The data to process</param>

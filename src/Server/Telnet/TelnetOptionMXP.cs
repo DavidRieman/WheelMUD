@@ -16,10 +16,6 @@ namespace WheelMUD.Server.Telnet
         public TelnetOptionMXP(bool wantOption, Connection connection)
             : base("mxp", 91, wantOption, connection)
         {
-            // Initialize the values of all automatic properties that need values 
-            // to be assumed non-zero or null.
-            AwaitingVersionResponse = false;
-            VersionResponseBuffer = string.Empty;
         }
 
         /// <summary>Represents version response state in the MXP telnet option.</summary>
@@ -51,7 +47,7 @@ namespace WheelMUD.Server.Telnet
         internal ResponseState VersionResponseState { get; set; }
 
         /// <summary>Gets or sets the version response buffer contents.</summary>
-        internal string VersionResponseBuffer { get; set; }
+        internal string VersionResponseBuffer { get; set; } = string.Empty;
 
         /// <summary>Process the sub negotiation.</summary>
         /// <param name="data">The data to process.</param>
@@ -68,7 +64,6 @@ namespace WheelMUD.Server.Telnet
                 Connection.TerminalOptions.UseMXP = true;
 
                 // Request a version tag from the client.
-                // TODO: https://github.com/DavidRieman/WheelMUD/issues/107 - Fix handling of MXP Secure Lines with dedicated API.
                 Connection.Send(MXPHandler.SecureLineCode + "<VERSION>", true);
                 AwaitingVersionResponse = true;
 

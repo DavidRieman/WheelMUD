@@ -202,7 +202,7 @@ namespace WheelMUD.Main
                 sb.AppendLine("game engine, visit: https://github.com/DavidRieman/WheelMUD");
                 sb.AppendLine();
                 sb.AppendLine("This application runs the game server. When running as a console program, it");
-                sb.AppendLine("provides an adminstrative command prompt. Type \"HELP\" to list the commands.");
+                sb.AppendLine("provides an administrative command prompt. Type \"HELP\" to list the commands.");
                 sb.AppendLine();
                 sb.AppendLine("If Windows prompts you for networking access options, you may wish to allow all");
                 sb.AppendLine("access if you want to let additional computers/players join the game instance.");

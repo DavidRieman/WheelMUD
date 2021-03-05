@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// <copyright file="DefaultSplashScreenRenderer.cs" company="WheelMUD Development Team">
+// <copyright file="SplashHandler.cs" company="WheelMUD Development Team">
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>

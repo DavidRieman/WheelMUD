@@ -1,3 +1,10 @@
+//-----------------------------------------------------------------------------
+// <copyright file="StringHelper.cs" company="WheelMUD Development Team">
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   subject to the Microsoft Public License.  All other rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------------
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +13,7 @@ namespace WheelMUD.Utilities
     public static class StringHelper
     {
         /// <summary>
-        /// Builds a string with , or and depending on item count.
+        /// Returns a string with ',' or 'and' depending on item count.
         /// </summary>
         /// <param name="items"></param>
         /// <returns></returns>

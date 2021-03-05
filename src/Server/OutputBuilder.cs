@@ -304,7 +304,80 @@ namespace WheelMUD.Server
 
         private string Parse()
         {
+            return useAnsi ? ParseAnsi() : ParseBase();
+        }
+        
+        //TODO: Optimize more
+        private string ParseBase()
+        {
             var baseResult = "";
+            var token = "";
+            var charFromNewline = 0;
+
+            var isToken = false;
+
+            for (var i = 0; i < bufferPos; i++)
+            {
+                if (isToken && buffer[i] == '>')
+                {
+                    if (buffer[i - 1] == '%')
+                    {
+                        isToken = false;
+                        token = token.Trim('%');
+                        if (token == "nl")
+                        {
+                            charFromNewline = 0;
+                        }
+
+                        token = "";
+                        continue;
+                    }
+                }
+                
+                if (!isToken && buffer[i] == '<')
+                {
+                    if (buffer[i + 1] == '%')
+                    {
+                        if (i == 0 || buffer[i - 1] != '\\')
+                        {
+                            isToken = true;
+                            continue;
+                        }
+                        
+                        baseResult = baseResult.Remove(baseResult.Length - 1);
+                    }
+                }
+
+                if (!isToken)
+                {
+                    baseResult += buffer[i];
+                    charFromNewline++;
+
+                    if (charFromNewline <= wordWrapLength) continue;
+                    
+                    var lastSpaceIndex = baseResult.LastIndexOf(' ');
+                        
+                    if (lastSpaceIndex > 0)
+                    {
+                        baseResult = baseResult.Remove(lastSpaceIndex, 1);
+                        charFromNewline = baseResult.Length - lastSpaceIndex;
+                        baseResult = baseResult.Insert(lastSpaceIndex, AnsiSequences.NewLine);
+                    }
+                    else
+                    {
+                        baseResult += AnsiSequences.NewLine;
+                        charFromNewline = 0;
+                    }
+                }
+                else token += buffer[i];
+            }
+
+            return baseResult;
+        }
+        
+        //TODO: Optimize more
+        private string ParseAnsi()
+        {
             var ansiResult = "";
             var token = "";
             var charFromNewline = 0;
@@ -340,28 +413,35 @@ namespace WheelMUD.Server
                             continue;
                         }
                         
-                        baseResult = baseResult.Remove(baseResult.Length - 1);
                         ansiResult = ansiResult.Remove(ansiResult.Length - 1);
                     }
                 }
 
                 if (!isToken)
                 {
-                    if (charFromNewline + 1 > wordWrapLength)
+                    ansiResult += buffer[i];
+                    charFromNewline++;
+
+                    if (charFromNewline <= wordWrapLength) continue;
+                    
+                    var lastSpaceIndex = ansiResult.LastIndexOf(' ');
+                        
+                    if (lastSpaceIndex > 0)
                     {
-                        baseResult += AnsiSequences.NewLine;
+                        ansiResult = ansiResult.Remove(lastSpaceIndex, 1);
+                        charFromNewline = ansiResult.Length - lastSpaceIndex;
+                        ansiResult = ansiResult.Insert(lastSpaceIndex, AnsiSequences.NewLine);
+                    }
+                    else
+                    {
                         ansiResult += AnsiSequences.NewLine;
                         charFromNewline = 0;
                     }
-                    
-                    baseResult += buffer[i];
-                    ansiResult += buffer[i];
-                    charFromNewline++;
                 }
                 else token += buffer[i];
             }
 
-            return useAnsi ? ansiResult : baseResult;
+            return ansiResult;
         }
     }
 }
