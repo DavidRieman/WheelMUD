@@ -15,6 +15,7 @@ namespace WheelMUD.Utilities
         /// <summary>
         /// Returns a string with ',' or 'and' depending on item count.
         /// </summary>
+        /// <remarks>Output example: "apples, oranges and bananas".</remarks>
         /// <param name="items"></param>
         /// <returns></returns>
         public static string BuildPrettyList(this IEnumerable<string>  items)

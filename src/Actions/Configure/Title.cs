@@ -32,19 +32,18 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
             if (actionInput.Controller.Thing == null) return;
             
             if (string.IsNullOrEmpty(actionInput.Tail))
             {
-                actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                    SingleLine($"Your current title is '{actionInput.Controller.Thing.Title}'."));
+                actionInput.Controller.Write(new OutputBuilder().
+                    AppendLine($"Your current title is '{actionInput.Controller.Thing.Title}'."));
             }
             else
             {
                 actionInput.Controller.Thing.Title = actionInput.Tail;
-                actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                    SingleLine($"Your title is now '{actionInput.Controller.Thing.Title}'"));
+                actionInput.Controller.Write(new OutputBuilder().
+                    AppendLine($"Your title is now '{actionInput.Controller.Thing.Title}'"));
             }
         }
 

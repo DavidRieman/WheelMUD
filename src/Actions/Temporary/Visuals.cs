@@ -5,8 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
 using System.Collections.Generic;
+using System.Text;
 using WheelMUD.Core;
 using WheelMUD.Server;
 
@@ -52,8 +52,6 @@ namespace WheelMUD.Actions.Temporary
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
             // Contextual message text to be supplied based on the action below
             var response = new ContextualString(actionInput.Controller.Thing, room.Parent);
 
@@ -80,7 +78,7 @@ namespace WheelMUD.Actions.Temporary
             }
             else if (command == "show")
             {
-                var output = new OutputBuilder(session.TerminalOptions);
+                var output = new OutputBuilder();
 
                 if (room.Visuals.Count > 0)
                 {
@@ -96,7 +94,7 @@ namespace WheelMUD.Actions.Temporary
                     output.AppendLine($"No visuals found for {roomName} [{roomId}].");
                 }
 
-                actionInput.Controller.Write(output.ToString());
+                actionInput.Controller.Write(output);
 
                 // No need to raise event.
                 return;
@@ -128,7 +126,7 @@ namespace WheelMUD.Actions.Temporary
                 return "You must be located in a valid room to change its visuals.";
             }
 
-            var usageText = new OutputBuilder(session.TerminalOptions);
+            var usageText = new StringBuilder();
             usageText.AppendLine("Usage:");
             usageText.AppendLine("visuals add <name> <description>");
             usageText.AppendLine("visuals remove <name>");

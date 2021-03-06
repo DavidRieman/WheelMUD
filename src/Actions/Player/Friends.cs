@@ -36,29 +36,28 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         /// <remarks>Verify that the Guards pass first.</remarks>
         public override void Execute(ActionInput actionInput)
-        {
-            if (!(actionInput.Controller is Session session)) return;
-            
+        {            
             if (actionInput.Params.Length == 1 && actionInput.Params[0].ToLower() == "list" || !actionInput.Params.Any())
             {
+                var output = new OutputBuilder();
+                
                 if (playerBehavior.Friends.Count == 0)
                 {
-                    actionInput.Controller.Write("You currently have no friends listed.");
+                    output.AppendLine("You currently have no friends listed.");
                 }
                 else
                 {
-                    var ab = new OutputBuilder(session.TerminalOptions);
-                    ab.AppendLine("Your Friends:");
+                    output.AppendLine("Your Friends:");
                     foreach (var friendName in playerBehavior.Friends)
                     {
                         var status = PlayerManager.Instance.
                             FindLoadedPlayerByName(friendName, false) == null ? "Offline" : "Online";
-                        ab.AppendLine($"{friendName} [{status}]");
+                        output.AppendLine($"{friendName} [{status}]");
                     }
-
-                    actionInput.Controller.Write(ab.ToString());
                 }
 
+                actionInput.Controller.Write(output);
+                
                 return;
             }
 
@@ -66,8 +65,8 @@ namespace WheelMUD.Actions
                 actionInput.Params[0].ToLower() != "add" &&
                 actionInput.Params[0].ToLower() != "remove")
             {
-                actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                    SingleLine("Please use the format friends add/remove player name."));
+                actionInput.Controller.Write(new OutputBuilder().
+                    AppendLine("Please use the format friends add/remove player name."));
                 return;
             }
 
@@ -104,59 +103,55 @@ namespace WheelMUD.Actions
 
         private void AddFriend(IController sender, Thing targetFriend)
         {
-            if (!(sender is Session session)) return;
-            
-            var ab = new OutputBuilder(session.TerminalOptions);
+            var output = new OutputBuilder();
             
             if (targetFriend == null)
             {
-                ab.AppendLine("Doesn't appear to be online at the moment.");
-                sender.Write(ab.ToString());
+                output.AppendLine("Doesn't appear to be online at the moment.");
+                sender.Write(output);
                 return;
             }
 
             if (targetFriend == player)
             {
-                ab.AppendLine("You cannot add yourself as a friend.");
-                sender.Write(ab.ToString());
+                output.AppendLine("You cannot add yourself as a friend.");
+                sender.Write(output);
                 return;
             }
 
             if (playerBehavior.Friends.Contains(targetFriend.Name))
             {
                 
-                ab.AppendLine($"{player.Name} is already on your friends list.");
-                sender.Write(ab.ToString());
+                output.AppendLine($"{player.Name} is already on your friends list.");
+                sender.Write(output);
                 return;
             }
 
             playerBehavior.AddFriend(player.Name);
 
-            ab.AppendLine($"You have added {targetFriend.Name} to your friends list.");
-            sender.Write(ab.ToString());
+            output.AppendLine($"You have added {targetFriend.Name} to your friends list.");
+            sender.Write(output);
         }
 
         private void RemoveFriend(IController sender, string targetedFriendName)
         {
-            if (!(sender is Session session)) return;
-            
             var playerName = (from string f in playerBehavior.Friends
                                  where f.Equals(targetedFriendName, StringComparison.CurrentCultureIgnoreCase)
                                  select f).FirstOrDefault();
 
-            var ab = new OutputBuilder(session.TerminalOptions);
+            var output = new OutputBuilder();
             
             if (string.IsNullOrEmpty(playerName))
             {
-                ab.AppendLine($"{targetedFriendName} is not on your friends list.");
-                sender.Write(ab.ToString());
+                output.AppendLine($"{targetedFriendName} is not on your friends list.");
+                sender.Write(output);
                 return;
             }
 
             playerBehavior.RemoveFriend(playerName);
 
-            ab.AppendLine($"{player.Name} has been removed from your friends list.");
-            sender.Write(ab.ToString());
+            output.AppendLine($"{player.Name} has been removed from your friends list.");
+            sender.Write(output);
         }
     }
 }

@@ -34,8 +34,6 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
             var potionItem = new Thing(new PotionBehavior()
             {
                 PotionType = "health",
@@ -53,8 +51,8 @@ namespace WheelMUD.Actions
             actionInput.Controller.Thing.Parent.Children.Add(potionItem);
 
             var userControlledBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<UserControlledBehavior>();
-            userControlledBehavior.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                SingleLine("You create a colourful potion"));
+            userControlledBehavior.Controller.Write(new OutputBuilder().
+                AppendLine("You create a colourful potion"));
         }
 
         /// <summary>Checks against the guards for the command.</summary>

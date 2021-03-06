@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Text;
 using WheelMUD.ConnectionStates;
 using WheelMUD.Core;
 using WheelMUD.Server;
@@ -16,7 +17,6 @@ namespace WarriorRogueMage.CharacterCreation
     public class PickTalentsState : CharacterCreationSubState
     {
         private int longestTalentName;
-        private readonly string formattedTalents;
         private readonly List<Talent> talents;
 
         /// <summary>Initializes a new instance of the <see cref="PickTalentsState"/> class.</summary>
@@ -25,14 +25,13 @@ namespace WarriorRogueMage.CharacterCreation
             : base(session)
         {
             talents = TalentFinder.Instance.NormalTalents;
-            formattedTalents = FormatTalentText();
         }
 
         public override void Begin()
         {
-            var ab = new OutputBuilder(Session.TerminalOptions);
-            ab.AppendLine("You will now pick your character's starting talent.");
-            Session.Write(ab.ToString(), false);
+            var output = new OutputBuilder();
+            output.AppendLine("You will now pick your character's starting talent.");
+            Session.Write(output, false);
             RefreshScreen();
         }
 
@@ -73,9 +72,9 @@ namespace WarriorRogueMage.CharacterCreation
             }
         }
 
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
-            return "Select the character's starting talent: > ";
+            return new OutputBuilder().Append("Select the character's starting talent: > ");
         }
 
         private Talent GetTalent(string talentName)
@@ -88,14 +87,14 @@ namespace WarriorRogueMage.CharacterCreation
             var foundTalent = GetTalent(talent);
             if (foundTalent != null)
             {
-                var ab = new OutputBuilder(Session.TerminalOptions);
-                ab.AppendSeparator('=', "yellow", true);
-                ab.AppendLine($"Description for {foundTalent.Name}");
-                ab.AppendSeparator('-', "yellow");
-                ab.AppendLine($"<%b%><%white%>{foundTalent.Description}");
-                ab.AppendSeparator('=', "yellow", true);
+                var output = new OutputBuilder();
+                output.AppendSeparator('=', "yellow", true);
+                output.AppendLine($"Description for {foundTalent.Name}");
+                output.AppendSeparator('-', "yellow");
+                output.AppendLine($"<%b%><%white%>{foundTalent.Description}");
+                output.AppendSeparator('=', "yellow", true);
 
-                Session.Write(ab.ToString());
+                Session.Write(output);
             }
             else
             {
@@ -103,10 +102,9 @@ namespace WarriorRogueMage.CharacterCreation
             }
         }
 
-        private string FormatTalentText()
+        private void FormatTalentText(OutputBuilder outputBuilder)
         {
             var talentQueue = new Queue<Talent>();
-            var text = new OutputBuilder(Session.TerminalOptions);
 
             foreach (var gameTalent in talents)
             {
@@ -129,7 +127,7 @@ namespace WarriorRogueMage.CharacterCreation
                     var talent2 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
                     var talent3 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
                     var talent4 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
-                    text.AppendLine($"{talent1}  {talent2}  {talent3}  {talent4}");
+                    outputBuilder.AppendLine($"{talent1}  {talent2}  {talent3}  {talent4}");
                 }
 
                 if ((rows % 4) > 0)
@@ -140,18 +138,18 @@ namespace WarriorRogueMage.CharacterCreation
                     {
                         case 1:
                             var talentcolumn1 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
-                            text.AppendLine($"{talentcolumn1}");
+                            outputBuilder.AppendLine($"{talentcolumn1}");
                             break;
                         case 2:
                             var tk1 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
                             var tk2 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
-                            text.AppendLine($"{tk1}  {tk2}");
+                            outputBuilder.AppendLine($"{tk1}  {tk2}");
                             break;
                         case 3:
                             var tkl1 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
                             var tkl2 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
                             var tkl3 = WrmChargenCommon.FormatToColumn(longestTalentName, talentQueue.Dequeue().Name);
-                            text.AppendLine($"{tkl1}  {tkl2}  {tkl3}");
+                            outputBuilder.AppendLine($"{tkl1}  {tkl2}  {tkl3}");
                             break;
                     }
                 }
@@ -160,23 +158,21 @@ namespace WarriorRogueMage.CharacterCreation
             {
                 // ignored
             }
-
-            return text.ToString();
         }
 
         private void RefreshScreen()
         {
-            var ab = new OutputBuilder(Session.TerminalOptions);
-            ab.AppendLine();
-            ab.AppendLine("You may pick one starting talent for your character.");
-            ab.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
-            ab.AppendLine(formattedTalents);
-            ab.AppendSeparator('=', "yellow");
-            ab.AppendLine("To pick a talent, type the talent's name. Example: sailor");
-            ab.AppendLine("To view a talent's description use the view command. Example: view sailor");
-            ab.AppendLine("To see this screen again type list.");
-            ab.AppendSeparator('=', "yellow");
-            Session.Write(ab.ToString());
+            var output = new OutputBuilder();
+            output.AppendLine();
+            output.AppendLine("You may pick one starting talent for your character.");
+            output.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
+            FormatTalentText(output);
+            output.AppendSeparator('=', "yellow");
+            output.AppendLine("To pick a talent, type the talent's name. Example: sailor");
+            output.AppendLine("To view a talent's description use the view command. Example: view sailor");
+            output.AppendLine("To see this screen again type list.");
+            output.AppendSeparator('=', "yellow");
+            Session.Write(output);
         }
     }
 }

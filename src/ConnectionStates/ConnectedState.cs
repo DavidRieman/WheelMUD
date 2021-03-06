@@ -7,6 +7,7 @@
 
 using WheelMUD.Core;
 using WheelMUD.Data;
+using WheelMUD.Server;
 
 namespace WheelMUD.ConnectionStates
 {
@@ -57,9 +58,9 @@ namespace WheelMUD.ConnectionStates
 
         /// <summary>Builds the current prompt for this state.</summary>
         /// <returns>The current prompt.</returns>
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
-            return ConnectedPrompt;
+            return new OutputBuilder(ConnectedPrompt.Length).Append(ConnectedPrompt);
         }
     }
 }

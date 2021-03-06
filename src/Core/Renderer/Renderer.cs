@@ -108,64 +108,64 @@ namespace WheelMUD.Core
         [ImportMany]
         public Lazy<RendererDefinitions.Who, RendererExports.Who>[] WhoRenderers { get; private set; }
 
-        public string RenderCommandsCategories(TerminalOptions terminalOptions, IEnumerable<Command> commands)
+        public OutputBuilder RenderCommandsCategories(IEnumerable<Command> commands)
         {
-            return currentCommandsCategoriesRenderer.Render(terminalOptions, commands);
+            return currentCommandsCategoriesRenderer.Render(commands);
         }
 
-        public string RenderCommandsList(TerminalOptions terminalOptions, IEnumerable<Command> commands, string categoryName)
+        public OutputBuilder RenderCommandsList(IEnumerable<Command> commands, string categoryName)
         {
-            return currentCommandsListRenderer.Render(terminalOptions, commands, categoryName);
+            return currentCommandsListRenderer.Render(commands, categoryName);
         }
 
-        public string RenderHelpCommand(TerminalOptions terminalOptions, Command command)
+        public OutputBuilder RenderHelpCommand(Command command)
         {
-            return currentHelpCommandRenderer.Render(terminalOptions, command);
+            return currentHelpCommandRenderer.Render(command);
         }
 
-        public string RenderHelpTopic(TerminalOptions terminalOptions, HelpTopic helpTopic)
+        public OutputBuilder RenderHelpTopic(TerminalOptions terminalOptions, HelpTopic helpTopic)
         {
             return currentHelpTopicRenderer.Render(terminalOptions, helpTopic);
         }
 
-        public string RenderHelpTopics(TerminalOptions terminalOptions)
+        public OutputBuilder RenderHelpTopics()
         {
-            return currentHelpTopicsRenderer.Render(terminalOptions);
+            return currentHelpTopicsRenderer.Render();
         }
 
-        public string RenderInventory(TerminalOptions terminalOptions, Thing player)
+        public OutputBuilder RenderInventory(Thing player)
         {
-            return currentInventoryRenderer.Render(terminalOptions, player);
+            return currentInventoryRenderer.Render(player);
         }
 
-        public string RenderPerceivedRoom(TerminalOptions terminalOptions, Thing viewer, Thing viewedRoom)
+        public OutputBuilder RenderPerceivedRoom(Thing viewer, Thing viewedRoom)
         {
-            return currentPerceivedRoomRenderer.Render(terminalOptions, viewer, viewedRoom);
+            return currentPerceivedRoomRenderer.Render(viewer, viewedRoom);
         }
 
-        public string RenderPerceivedThing(TerminalOptions terminalOptions, Thing viewer, Thing viewedThing)
+        public OutputBuilder RenderPerceivedThing(Thing viewer, Thing viewedThing)
         {
-            return currentPerceivedThingRenderer.Render(terminalOptions, viewer, viewedThing);
+            return currentPerceivedThingRenderer.Render(viewer, viewedThing);
         }
 
-        public string RenderPrompt(Thing player)
+        public OutputBuilder RenderPrompt(Thing player)
         {
             return currentPromptRenderer.Render(player);
         }
 
-        public string RenderScore(TerminalOptions terminalOptions, Thing player)
+        public OutputBuilder RenderScore(Thing player)
         {
-            return currentScoreRenderer.Render(terminalOptions, player);
+            return currentScoreRenderer.Render(player);
         }
 
-        public string RenderSplashScreen(TerminalOptions terminalOptions)
+        public OutputBuilder RenderSplashScreen()
         {
-            return currentSplashScreenRenderer.Render(terminalOptions);
+            return currentSplashScreenRenderer.Render();
         }
 
-        public string RenderWho(TerminalOptions terminalOptions, Thing player)
+        public OutputBuilder RenderWho(Thing player)
         {
-            return currentWhoRenderer.Render(terminalOptions, player);
+            return currentWhoRenderer.Render(player);
         }
 
         /// <summary>Recompose the subcomponents of this Renderer.</summary>

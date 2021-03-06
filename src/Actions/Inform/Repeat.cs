@@ -34,8 +34,8 @@ namespace WheelMUD.Actions
             }
             else
             {
-                actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                    SingleLine("There is no more data."));
+                actionInput.Controller.Write(new OutputBuilder().
+                    AppendLine("There is no more data."));
             }
         }
 

@@ -16,11 +16,11 @@ namespace WheelMUD.Core
     [RendererExports.Score(100)]
     public class DefaultScoreRenderer : RendererDefinitions.Score
     {
-        public override string Render(TerminalOptions terminalOptions, Thing player)
+        public override OutputBuilder Render(Thing player)
         {
             var stats = player.Stats;
             var statEffects = player.Behaviors.OfType<StatEffect>();
-            var ab = new OutputBuilder(terminalOptions);
+            var output = new OutputBuilder();
 
             var health = stats["HP"];
             var healthMod = statEffects.Where(e => e.Stat.Abbreviation == "HP").Sum(e => e.ValueMod);
@@ -49,18 +49,18 @@ namespace WheelMUD.Core
             var nameAndTitle = string.IsNullOrWhiteSpace(player.Title) ? player.Name : $"{player.Name}, {player.Title}";
             var pipe = "<%green%>|<%n%>";
 
-            ab.AppendLine("<%green%>+-------------------------------------------------------------------+");
-            ab.AppendLine($"{pipe} {nameAndTitle,-19} Level {"?",-6}  Reputation {"?",-6}  Kudos {"?",-6} {pipe}");
-            ab.AppendLine("<%green%>+----------------+----------------+----------------+----------------+");
-            ab.AppendLine($"{pipe} {healthLine} {pipe} {manaLine} {pipe}");
-            ab.AppendLine($"{pipe} {damageLine} {pipe} {initLine} {pipe}");
-            ab.AppendLine($"{pipe} {attackLine} {pipe} {defenseLine} {pipe}");
-            ab.AppendLine($"{pipe} {armorPenaltyLine} {pipe} {wieldMaxLine} {pipe}");
-            ab.AppendLine($"{pipe} {huntLine} {pipe} {familiarLine} {pipe}");
-            ab.AppendLine($"{pipe} {fateLine} {pipe} {string.Empty.PadRight(31)} {pipe}");
-            ab.AppendLine("<%green%>+---------------------------------^---------------------------------+<%n%>");
+            output.AppendLine("<%green%>+-------------------------------------------------------------------+");
+            output.AppendLine($"{pipe} {nameAndTitle,-19} Level {"?",-6}  Reputation {"?",-6}  Kudos {"?",-6} {pipe}");
+            output.AppendLine("<%green%>+----------------+----------------+----------------+----------------+");
+            output.AppendLine($"{pipe} {healthLine} {pipe} {manaLine} {pipe}");
+            output.AppendLine($"{pipe} {damageLine} {pipe} {initLine} {pipe}");
+            output.AppendLine($"{pipe} {attackLine} {pipe} {defenseLine} {pipe}");
+            output.AppendLine($"{pipe} {armorPenaltyLine} {pipe} {wieldMaxLine} {pipe}");
+            output.AppendLine($"{pipe} {huntLine} {pipe} {familiarLine} {pipe}");
+            output.AppendLine($"{pipe} {fateLine} {pipe} {string.Empty.PadRight(31)} {pipe}");
+            output.AppendLine("<%green%>+---------------------------------^---------------------------------+<%n%>");
 
-            return ab.ToString();
+            return output;
         }
     }
 }

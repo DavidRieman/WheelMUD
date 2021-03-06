@@ -50,8 +50,6 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
             // Remove the item from the character's possession.
             // TODO: Test, this may be broken now... esp for numberToGive != max
             if (numberToGive > 0 && thing != null)
@@ -70,8 +68,8 @@ namespace WheelMUD.Actions
             // Try to move the thing from the sender to the target; this handles eventing and whatnot for us.
             if (!movableBehavior.Move(target, actionInput.Controller.Thing, null, message))
             {
-                actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                    SingleLine($"Failed to give {thing.Name} to {target.Name}."));
+                actionInput.Controller.Write(new OutputBuilder().
+                    AppendLine($"Failed to give {thing.Name} to {target.Name}."));
             }
         }
 

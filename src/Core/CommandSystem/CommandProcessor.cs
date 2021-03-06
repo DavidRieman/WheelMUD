@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using WheelMUD.Interfaces;
+using WheelMUD.Server;
 
 namespace WheelMUD.Core
 {
@@ -117,7 +118,7 @@ namespace WheelMUD.Core
                 {
                     // Otherwise display what went wrong to the user of the action.
                     IController controller = actionInput.Controller;
-                    controller.Write(guardsErrorMessage);
+                    controller.Write(new OutputBuilder().AppendLine(guardsErrorMessage));
                 }
             }
             catch (Exception ex)
@@ -157,9 +158,9 @@ namespace WheelMUD.Core
                 if (controller != null)
                 {
 #if DEBUG
-                    controller.Write(message);
+                    controller.Write(new OutputBuilder().AppendLine(message));
 #else
-                    controller.Write("An error occured processing your command.");
+                    controller.Write(new OutputBuilder().AppendLine("An error occured processing your command."));
 #endif
                 }
             }

@@ -29,7 +29,7 @@ namespace WheelMUD.Actions
             if (!(actionInput.Controller is Session session)) return;
             
             var die = DiceService.Instance.GetDie(6);
-            actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).SingleLine($"You roll a {die.Roll()}."));
+            actionInput.Controller.Write(new OutputBuilder().AppendLine($"You roll a {die.Roll()}."));
         }
 
         /// <summary>Checks against the guards for the command.</summary>

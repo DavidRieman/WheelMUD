@@ -18,11 +18,11 @@ namespace WheelMUD.Core
     [RendererExports.Who(0)]
     public class DefaultWhoRenderer : RendererDefinitions.Who
     {
-        public override string Render(TerminalOptions terminalOptions, Thing activePlayer)
+        public override OutputBuilder Render(Thing activePlayer)
         {
             string mudNameLine = "                                "; // TODO: Dynamic centering instead, if we want centering!
             string plural = string.Empty;
-            var ab = new OutputBuilder(terminalOptions);
+            var output = new OutputBuilder();
 
             string plural1 = "is";
 
@@ -36,26 +36,26 @@ namespace WheelMUD.Core
             // TODO: A game-system specific renderer could be used to includ race/class info and so on, if desired.
             // TODO: Dividing lines could be influenced by activePlayer connection Terminal.Width.
             mudNameLine += GameConfiguration.Name;
-            ab.AppendLine();
-            ab.AppendSeparator();
-            ab.AppendLine(mudNameLine);
-            ab.AppendSeparator();
-            ab.AppendLine();
-            ab.AppendLine($"The following player{plural} {plural1} currently online:");
+            output.AppendLine();
+            output.AppendSeparator();
+            output.AppendLine(mudNameLine);
+            output.AppendSeparator();
+            output.AppendLine();
+            output.AppendLine($"The following player{plural} {plural1} currently online:");
             foreach (PlayerBehavior player in PlayerManager.Instance.Players)
             {
                 // TODO: "tell {0}" is not a good menu command; possibly friend add/remove, invite to group, hailing, and so on.
                 var playerName = player.Parent.Name;
                 var playerState = GetPlayerState(player);
-                ab.AppendLine($"<%mxpsecureline%><send \"finger {playerName}|tell {playerName}\" \"|finger|tell\">{playerName}</send> - {player.Parent.FullName} {playerState}");
+                output.AppendLine($"<%mxpsecureline%><send \"finger {playerName}|tell {playerName}\" \"|finger|tell\">{playerName}</send> - {player.Parent.FullName} {playerState}");
             }
 
-            ab.AppendLine();
-            ab.AppendSeparator();
-            ab.AppendLine($"Counted {PlayerManager.Instance.Players.Count} player{plural} online.");
-            ab.AppendLine();
-            ab.AppendSeparator();
-            return ab.ToString();
+            output.AppendLine();
+            output.AppendSeparator();
+            output.AppendLine($"Counted {PlayerManager.Instance.Players.Count} player{plural} online.");
+            output.AppendLine();
+            output.AppendSeparator();
+            return output;
         }
 
         private string GetPlayerState(PlayerBehavior player)

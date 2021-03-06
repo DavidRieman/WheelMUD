@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
+
 namespace WheelMUD.ConnectionStates
 {
     using WheelMUD.Core;
@@ -34,7 +36,7 @@ namespace WheelMUD.ConnectionStates
 
         /// <summary>Builds the player prompt for this stage of character creation.</summary>
         /// <returns>The build player prompt.</returns>
-        public abstract string BuildPrompt();
+        public abstract OutputBuilder BuildPrompt();
 
         /// <summary>Called when this CharacterCreationSubState has become the active sub-state for a character creation session.</summary>
         /// <remarks>This is the first opportunity to Write introductory information for the sub-state (with a prompt, instead of defaulting to only printing a prompt) to the client.</remarks>

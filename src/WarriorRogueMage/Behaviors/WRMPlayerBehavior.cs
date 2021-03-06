@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 
 using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WarriorRogueMage.Behaviors
 {
@@ -22,9 +23,9 @@ namespace WarriorRogueMage.Behaviors
 
         /// <summary>Builds the prompt string for this player.</summary>
         /// <returns>The formatted prompt for this player.</returns>
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
-            return "WRM> ";
+            return new OutputBuilder(5).Append("WRM> ");
             /* TODO: Allow for player-customized prompts...
             // Returns a string with the %tokens% replaced with appropriate values
             string prompt = Prompt;

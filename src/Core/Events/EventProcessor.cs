@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
+
 namespace WheelMUD.Core
 {
     using System;
@@ -60,7 +62,7 @@ namespace WheelMUD.Core
                 string output = ProcessMessage(e.SensoryMessage);
                 if (output != string.Empty)
                 {
-                    userControlledBehavior.Controller.Write(output);
+                    userControlledBehavior.Controller.Write(new OutputBuilder().AppendLine(output));
                 }
             }
         }

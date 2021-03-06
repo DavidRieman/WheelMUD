@@ -32,8 +32,6 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
             var itemID = actionInput.Params[0];
             var parent = actionInput.Controller.Thing.Parent;
             var thing = parent.FindChild(t => t.Id == itemID);
@@ -43,8 +41,8 @@ namespace WheelMUD.Actions
                 thing = parent.FindChild(t => t.Id == itemID);
                 if (thing == null)
                 {
-                    actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                        SingleLine($"Cannot find {itemID}."));
+                    actionInput.Controller.Write(new OutputBuilder().
+                        AppendLine($"Cannot find {itemID}."));
                     return;
                 }
             }
@@ -52,8 +50,8 @@ namespace WheelMUD.Actions
             var clonedThing = thing.Clone();
             parent.Add(clonedThing);
             var userControlledBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<UserControlledBehavior>();
-            userControlledBehavior.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                SingleLine($"You clone {thing.Id}. New item is {clonedThing.Id}."));
+            userControlledBehavior.Controller.Write(new OutputBuilder().
+                AppendLine($"You clone {thing.Id}. New item is {clonedThing.Id}."));
         }
 
         /// <summary>Checks against the guards for the command.</summary>

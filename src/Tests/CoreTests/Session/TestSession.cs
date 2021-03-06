@@ -54,21 +54,21 @@ namespace WheelMUD.Tests
             // Ensure writing another string from the prompt cursor position, writes the new text to a new line and can add in the prompt too.
             connection.ResetMessages();
             connection.AtNewLine = false;
-            session.Write("test 1", true);
+            session.Write(new OutputBuilder().AppendLine("test 1"), true);
             Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
             Assert.AreEqual(connection.FakeMessagesSent[0], $"{AnsiSequences.NewLine}test 1{AnsiSequences.NewLine}FakePrompt > ");
 
             // Ensure writing another string from the prompt cursor position, writes the new text to a new line and can omit adding the prompt too.
             connection.ResetMessages();
             connection.AtNewLine = false;
-            session.Write("test 2", false);
+            session.Write(new OutputBuilder().AppendLine("test 2"), false);
             Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
             Assert.AreEqual(connection.FakeMessagesSent[0], $"{AnsiSequences.NewLine}test 2");
 
             // Ensure writing a string from a new line position already, does not append an extra opening line.
             connection.ResetMessages();
             connection.AtNewLine = true;
-            session.Write("test 3", false);
+            session.Write(new OutputBuilder().AppendLine("test 3"), false);
             Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
             Assert.AreEqual(connection.FakeMessagesSent[0], $"test 3");
         }
@@ -91,14 +91,14 @@ namespace WheelMUD.Tests
 
             public override void Begin()
             {
-                Session.Write("Begin FakeSessionState!");
+                Session.Write(new OutputBuilder().AppendLine("Begin FakeSessionState!"));
             }
 
             public static string LastProcessedInput { get; private set; }
 
-            public override string BuildPrompt()
+            public override OutputBuilder BuildPrompt()
             {
-                return "FakePrompt > ";
+                return new OutputBuilder().Append("FakePrompt > ");
             }
 
             public override void ProcessInput(string command)

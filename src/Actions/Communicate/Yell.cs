@@ -94,10 +94,11 @@ namespace WheelMUD.Actions
             if (!yellEvent.IsCancelled)
             {
                 var exits = place.FindAllChildrenBehaviors<ExitBehavior>();
-                foreach (var destination in from exit in exits let opensClosesBehavior = 
-                    exit.Parent.Behaviors.FindFirst<OpensClosesBehavior>() where opensClosesBehavior == null || 
-                    opensClosesBehavior.IsOpen select exit.GetDestination(place))
-                {
+                var destinations = from exit in exits
+                    let opensClosesBehavior = exit.Parent.Behaviors.FindFirst<OpensClosesBehavior>()
+                    where opensClosesBehavior == null || opensClosesBehavior.IsOpen
+                    select exit.GetDestination(place);
+                foreach (var destination in destinations) {
                     TraverseRoom(destination, actionInput, sender, (timeToLive == -1) ? timeToLive : (timeToLive - 1), visitedPlaces);
                 }
 

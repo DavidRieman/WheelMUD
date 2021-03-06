@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using WarriorRogueMage.Behaviors;
 using WheelMUD.Core;
 using WheelMUD.Interfaces;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions.Temporary
 {
@@ -29,27 +30,27 @@ namespace WheelMUD.Actions.Temporary
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
+            var sender = actionInput.Controller;
 
             // Remove "weapon" from input tail and use the rest as the name.
-            string weaponName = actionInput.Tail.Substring(6).Trim().ToLower();
+            var weaponName = actionInput.Tail[6..].Trim().ToLower();
 
-            Thing weaponItem = new Thing(new WieldableBehavior(), new MovableBehavior());
-            weaponItem.Name = weaponName;
-            weaponItem.SingularPrefix = "a";
+            var weaponItem = new Thing(new WieldableBehavior(), new MovableBehavior())
+            {
+                Name = weaponName, SingularPrefix = "a", Id = "0"
+            };
             //weaponItem.ID = Guid.NewGuid().ToString();
-            weaponItem.Id = "0";
 
             var wasAdded = sender.Thing.Parent.Add(weaponItem);
 
             var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
             if (wasAdded)
             {
-                userControlledBehavior.Controller.Write(string.Format("You create a weapon called {0}.", weaponItem.Name));
+                userControlledBehavior.Controller.Write(new OutputBuilder().AppendLine($"You create a weapon called {weaponItem.Name}."));
             }
             else
             {
-                userControlledBehavior.Controller.Write(string.Format("Could not add {0} to the room!", weaponItem.Name));
+                userControlledBehavior.Controller.Write(new OutputBuilder().AppendLine($"Could not add {weaponItem.Name} to the room!"));
             }
         }
 
@@ -58,13 +59,7 @@ namespace WheelMUD.Actions.Temporary
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

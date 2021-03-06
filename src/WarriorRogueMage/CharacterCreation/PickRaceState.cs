@@ -20,7 +20,6 @@ namespace WarriorRogueMage.CharacterCreation
     public class PickRaceState : CharacterCreationSubState
     {
         private int longestRaceName;
-        private string formattedRaces;
         private readonly List<GameRace> gameRaces;
 
         /// <summary>Initializes a new instance of the <see cref="PickRaceState"/> class.</summary>
@@ -29,12 +28,11 @@ namespace WarriorRogueMage.CharacterCreation
             : base(session)
         {
             gameRaces = GameSystemController.Instance.GameRaces;
-            FormatRaceText();
         }
 
         public override void Begin()
         {
-            Session.WriteAnsiLine("You will now pick your character's race.", false);
+            Session.Write(new OutputBuilder().AppendLine("You will now pick your character's race."), false);
             RefreshScreen();
         }
 
@@ -68,9 +66,9 @@ namespace WarriorRogueMage.CharacterCreation
             }
         }
 
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
-            return "Select your character's race: > ";
+            return new OutputBuilder().Append("Select your character's race: > ");
         }
 
         private GameRace GetRace(string raceName)
@@ -93,13 +91,13 @@ namespace WarriorRogueMage.CharacterCreation
 
             if (foundRace != null)
             {
-                var ab = new OutputBuilder(Session.TerminalOptions);
-                ab.AppendSeparator('=', "yellow", true);
-                ab.AppendLine($"Description for {foundRace.Name}");
-                ab.AppendSeparator('-', "yellow");
-                ab.AppendLine($"<%b%><%white%>{foundRace.Description}<%n%>");
-                ab.AppendSeparator('=', "yellow", true);
-                Session.Write(ab.ToString());
+                var output = new OutputBuilder();
+                output.AppendSeparator('=', "yellow", true);
+                output.AppendLine($"Description for {foundRace.Name}");
+                output.AppendSeparator('-', "yellow");
+                output.AppendLine($"<%b%><%white%>{foundRace.Description}<%n%>");
+                output.AppendSeparator('=', "yellow", true);
+                Session.Write(output);
             }
             else
             {
@@ -107,10 +105,9 @@ namespace WarriorRogueMage.CharacterCreation
             }
         }
 
-        private void FormatRaceText()
+        private void FormatRaceText(OutputBuilder outputBuilder)
         {
             var raceQueue = new Queue<GameRace>();
-            var text = new OutputBuilder(Session.TerminalOptions);
             var rows = gameRaces.Count / 4;
 
             foreach (var gameRace in gameRaces)
@@ -132,7 +129,7 @@ namespace WarriorRogueMage.CharacterCreation
                     var race2 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
                     var race3 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
                     var race4 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
-                    text.AppendLine($"{race1}  {race2}  {race3}  {race4}");
+                    outputBuilder.AppendLine($"{race1}  {race2}  {race3}  {race4}");
                 }
 
                 if (gameRaces.Count % 4 > 0)
@@ -143,18 +140,18 @@ namespace WarriorRogueMage.CharacterCreation
                     {
                         case 1:
                             var racecolumn1 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
-                            text.AppendLine($"{racecolumn1}");
+                            outputBuilder.AppendLine($"{racecolumn1}");
                             break;
                         case 2:
                             var rc = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
                             var rcc1 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
-                            text.AppendLine($"{rc}  {rcc1}");
+                            outputBuilder.AppendLine($"{rc}  {rcc1}");
                             break;
                         case 3:
                             var rc1 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
                             var rc2 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
                             var rc3 = WrmChargenCommon.FormatToColumn(longestRaceName, raceQueue.Dequeue().Name);
-                            text.AppendLine($"{rc1}  {rc2}  {rc3}");
+                            outputBuilder.AppendLine($"{rc1}  {rc2}  {rc3}");
                             break;
                     }
                 }
@@ -163,8 +160,6 @@ namespace WarriorRogueMage.CharacterCreation
             {
                 // ignored
             }
-
-            formattedRaces = text.ToString();
         }
 
         private string GetCommardPart(string command)
@@ -185,16 +180,16 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen()
         {
-            var ab = new OutputBuilder(Session.TerminalOptions);
-            ab.AppendLine();
-            ab.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
-            ab.AppendLine(formattedRaces);
-            ab.AppendSeparator('=', "yellow");
-            ab.AppendLine("To pick a race, just type the race's name. Example: human");
-            ab.AppendLine("To view a races' description use the view command. Example: view orc");
-            ab.AppendLine("To see this screen again type 'list'.");
-            ab.AppendSeparator('=', "yellow");
-            Session.Write(ab.ToString());
+            var output = new OutputBuilder();
+            output.AppendLine();
+            output.AppendLine("<%green%>Please select 1 from the list below:<%n%>");
+            FormatRaceText(output);
+            output.AppendSeparator('=', "yellow");
+            output.AppendLine("To pick a race, just type the race's name. Example: human");
+            output.AppendLine("To view a races' description use the view command. Example: view orc");
+            output.AppendLine("To see this screen again type 'list'.");
+            output.AppendSeparator('=', "yellow");
+            Session.Write(output);
         }
     }
 }

@@ -32,27 +32,16 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
-            string output;
             if (!string.IsNullOrEmpty(actionInput.Tail))
             {
-                output = TryLookAtThing(session, actionInput.Tail, actionInput.Controller.Thing);
-                if (string.IsNullOrEmpty(output))
-                {
-                    output = $"You cannot see {actionInput.Tail}.";
-                }
-            }
-            else
-            {
-                output = LookAtRoom(session, actionInput.Controller.Thing);
-                if (string.IsNullOrEmpty(output))
-                {
-                    output = "You cannot see.";
-                }
+                if (!TryLookAtThing(actionInput.Tail, actionInput.Controller.Thing, out var found))
+                    found.AppendLine($"You cannot see {actionInput.Tail}.");
+
+                actionInput.Controller.Write(found);
+                return;
             }
 
-            actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).SingleLine(output));
+            actionInput.Controller.Write(LookAtRoom(actionInput.Controller.Thing));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -71,17 +60,20 @@ namespace WheelMUD.Actions
         }
 
         /// <summary>Tries to look at a thing.</summary>
-        /// <param name="session"></param>
         /// <param name="thingToLookAt">The thing to look at.</param>
         /// <param name="sender">The sender.</param>
+        /// <param name="found"></param>
         /// <returns>Returns the rendered view.</returns>
-        private string TryLookAtThing(Session session, string thingToLookAt, Thing sender)
+        private bool TryLookAtThing(string thingToLookAt, Thing sender, out OutputBuilder found)
         {
+            found = new OutputBuilder();
+            
             // Look for the target in the current room.
             var thing = sender.Parent.FindChild(thingToLookAt);
             if (thing != null && sensesBehavior.CanPerceiveThing(thing))
             {
-                return Renderer.Instance.RenderPerceivedThing(session.TerminalOptions, sender, thing);
+                found = Renderer.Instance.RenderPerceivedThing(sender, thing);
+                return true;
             }
 
             // If no target was found, see if it matches any of the room's visuals.
@@ -91,7 +83,8 @@ namespace WheelMUD.Actions
                 var visual = room.FindVisual(thingToLookAt);
                 if (!string.IsNullOrEmpty(visual))
                 {
-                    return visual;
+                    found = new OutputBuilder(visual.Length).AppendLine(visual);
+                    return true;
                 }
             }
 
@@ -99,20 +92,20 @@ namespace WheelMUD.Actions
             thing = sender.FindChild(thingToLookAt);
             if (thing != null && sensesBehavior.CanPerceiveThing(thing))
             {
-                return Renderer.Instance.RenderPerceivedThing(session.TerminalOptions, sender, thing);
+                found = Renderer.Instance.RenderPerceivedThing(sender, thing);
+                return true;
             }
 
             // At this point, target was not found.
-            return string.Empty;
+            return false;
         }
 
         /// <summary>Looks at room. TODO: Move to SensesBehavior?</summary>
-        /// <param name="session"></param>
         /// <param name="sender">The sender.</param>
         /// <returns>Returns the text of the rendered room template.</returns>
-        private string LookAtRoom(Session session, Thing sender)
+        private OutputBuilder LookAtRoom(Thing sender)
         {
-            return Renderer.Instance.RenderPerceivedRoom(session.TerminalOptions,sender, sender.Parent);
+            return Renderer.Instance.RenderPerceivedRoom(sender, sender.Parent);
         }
     }
 }

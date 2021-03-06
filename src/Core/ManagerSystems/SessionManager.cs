@@ -113,11 +113,11 @@ namespace WheelMUD.Core
             // Negotiate our telnet options.
             connection.TelnetCodeHandler.BeginNegotiation();
 
-            // Load our splash screen.
-            connection.Send(Renderer.Instance.RenderSplashScreen(connection.TerminalOptions), true);
-
             // Create a new session for this connection.
             var session = new Session(connection);
+            
+            // Load our splash screen.
+            session.Write(Renderer.Instance.RenderSplashScreen(), true);
 
             // Handle our session authenticated event.
             session.SessionAuthenticated += OnSessionAuthenticated;

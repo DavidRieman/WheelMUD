@@ -34,14 +34,18 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
             var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
             userControlledBehavior.SecurityRoles |= role;
-            actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).SingleLine($"{player.Name} has been granted the {role.ToString()} role."));
-            actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).SingleLine($"{player.Name} is now: {userControlledBehavior.SecurityRoles}."));
+
+            var ob = new OutputBuilder();
+            ob.AppendLine($"{player.Name} has been granted the {role.ToString()} role.");
+            ob.AppendLine($"{player.Name} is now: {userControlledBehavior.SecurityRoles}.");
+            actionInput.Controller.Write(ob);
+
+            ob.Clear();
+            ob.AppendLine($"You have been granted the {role.ToString()} role.");
+            userControlledBehavior.Controller.Write(ob);
             
-            userControlledBehavior.Controller.Write(new OutputBuilder(session.TerminalOptions).SingleLine($"You have been granted the {role.ToString()} role."));
             player.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 

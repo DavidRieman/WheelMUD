@@ -147,9 +147,9 @@ namespace WheelMUD.Actions
         private void ShowCurrentBuffer()
         {
             sender.Write(userControlledBehavior.PagingRowLimit == -1
-                ? new OutputBuilder(session.TerminalOptions).SingleLine(
+                ? new OutputBuilder().AppendLine(
                     $"Your screen buffer size is 'auto' (currently {session.TerminalOptions.Height} lines).")
-                : new OutputBuilder(session.TerminalOptions).SingleLine(
+                : new OutputBuilder().AppendLine(
                     $"Your screen buffer is {userControlledBehavior.PagingRowLimit} lines."));
         }
     }

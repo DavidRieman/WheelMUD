@@ -24,7 +24,7 @@ namespace WheelMUD.Server
             {
                 if (isToken && buffer[i] == '>')
                 {
-                    if (buffer[i - 1] == '%')
+                    if (i > 0 && buffer[i - 1] == '%')
                     {
                         isToken = false;
                         token = token.Trim('%');
@@ -40,7 +40,7 @@ namespace WheelMUD.Server
                 
                 if (!isToken && buffer[i] == '<')
                 {
-                    if (buffer[i + 1] == '%')
+                    if (i < buffer.Length && buffer[i + 1] == '%')
                     {
                         if (i == 0 || buffer[i - 1] != '\\')
                         {
@@ -99,8 +99,7 @@ namespace WheelMUD.Server
 
                         if (token == "nl") charFromNewline = 0;
                         
-                        AnsiSequences.TokenMap.TryGetValue(token, out var ansiCode);
-                        ansiResult += ansiCode;
+                        ansiResult += AnsiHandler.ConvertCode(token);
                         
                         token = "";
                         continue;

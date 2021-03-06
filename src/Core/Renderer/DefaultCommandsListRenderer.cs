@@ -7,21 +7,22 @@
 
 using WheelMUD.Server;
 using System.Collections.Generic;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Core
 {
     [RendererExports.CommandsList(0)]
     public class DefaultCommandsListRenderer : RendererDefinitions.CommandsList
     {
-        public override string Render(TerminalOptions terminalOptions, IEnumerable<Command> commands, string categoryName)
+        public override OutputBuilder Render(IEnumerable<Command> commands, string categoryName)
         {
-            var ab = new OutputBuilder(terminalOptions);
-            ab.AppendLine($"<%yellow%>{categoryName} commands<%n%>:");
+            var output = new OutputBuilder();
+            output.AppendLine($"<%yellow%>{categoryName} commands<%n%>:");
             foreach (var command in commands)
             {
-                ab.AppendLine($"<%mxpsecureline%><send \"help {command.Name}\">{command.Name.PadRight(15)}</send> {command.Description}");
+                output.AppendLine($"{AnsiSequences.MxpSecureLine}<send \"help {command.Name}\">{command.Name.PadRight(15)}</send> {command.Description}");
             }
-            return ab.ToString();
+            return output;
         }
     }
 }

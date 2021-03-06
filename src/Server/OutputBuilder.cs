@@ -13,16 +13,9 @@ namespace WheelMUD.Server
     /// <summary>
     /// Custom mutable String class, optimized for speed and memory while retrieving the final result
     /// as a string. Similar use to StringBuilder, but avoid a lot of allocations done by StringBuilder.
-    /// Also implements idisposable becuase this will be call a lot and we dont want it sitting in memory
     /// </summary>
-    public class OutputBuilder : IDisposable
+    public class OutputBuilder
     {
-        // To detect redundant calls
-        private bool disposed;
-
-        // Public implementation of Dispose pattern callable by consumers.
-        public void Dispose() => Dispose(true);
-        
         /// <summary>
         /// Working mutable string.
         /// </summary>
@@ -30,40 +23,15 @@ namespace WheelMUD.Server
 
         private int bufferPos;
         private int charsCapacity;
-        
-        private readonly int wordWrapLength;
-        
-        private readonly bool useAnsi;
 
         /// <summary>
         /// Temporary string used for the replace method.
         /// </summary>
         private List<char> replacement;
 
-        public OutputBuilder(TerminalOptions terminalOptions, int initialCapacity = 32)
+        public OutputBuilder(int initialCapacity = 32)
         {
             buffer = new char[charsCapacity = initialCapacity];
-            wordWrapLength = terminalOptions.Width;
-            useAnsi = terminalOptions.UseANSI;
-        }
-
-        /// <summary>
-        /// Returns the string.
-        /// </summary>
-        public override string ToString()
-        {
-            return Parse();
-        }
-
-        /// <summary>
-        /// Handles a single line return
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public string SingleLine(string input)
-        {
-            AppendLine(input);
-            return Parse();
         }
 
         /// <summary>
@@ -71,12 +39,11 @@ namespace WheelMUD.Server
         /// </summary>
         /// <param name="error"></param>
         /// <returns></returns>
-        public string ErrorMessage(string error)
+        public void ErrorMessage(string error)
         {
-            AppendSeparator('=', "red", true, wordWrapLength);
+            AppendSeparator('=', "red", true, error.Length);
             AppendLine($"<%red%>{error}<%n%>");
-            AppendSeparator('=', "red", true, wordWrapLength);
-            return Parse();
+            AppendSeparator('=', "red", true, error.Length);
         }
         
         /// <summary>
@@ -84,21 +51,19 @@ namespace WheelMUD.Server
         /// </summary>
         /// <param name="error"></param>
         /// <returns></returns>
-        public string WarningMessage(string error)
+        public void WarningMessage(string error)
         {
-            AppendSeparator('=', "yellow", true, wordWrapLength);
+            AppendSeparator('=', "yellow", true, error.Length);
             AppendLine($"<%yellow%>{error}<%n%>");
-            AppendSeparator('=', "yellow", true, wordWrapLength);
-            return Parse();
+            AppendSeparator('=', "yellow", true, error.Length);
         }
 
         /// <summary>
         /// Reset the char array.
         /// </summary>
-        public OutputBuilder Clear()
+        public void Clear()
         {
             bufferPos = 0;
-            return this;
         }
 
         /// <summary>
@@ -308,27 +273,11 @@ namespace WheelMUD.Server
             buffer = newChars;
         }
 
-        private string Parse()
+        public string Parse(TerminalOptions terminalOptions)
         {
-            return useAnsi ? OutputParser.Ansi(buffer, bufferPos, wordWrapLength) : OutputParser.NonAnsi(buffer, bufferPos, wordWrapLength);
-        }
-        
-        ~OutputBuilder()
-        {
-            Dispose(false);
-        }
-        
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposed)
-            {
-                return;
-            }
-
-            buffer = null;
-            replacement = null;
-
-            disposed = true;
+            return terminalOptions.UseANSI ? 
+                OutputParser.Ansi(buffer, bufferPos, terminalOptions.Width) : 
+                OutputParser.NonAnsi(buffer, bufferPos, terminalOptions.Width);
         }
     }
 }

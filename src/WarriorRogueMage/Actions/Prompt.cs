@@ -31,8 +31,6 @@ namespace WarriorRogueMage.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
             if (!string.IsNullOrEmpty(actionInput.Tail))
             {
                 // Save tail as player's new prompt
@@ -42,14 +40,14 @@ namespace WarriorRogueMage.Actions
                 }
                 catch (Exception)
                 {
-                    actionInput.Controller.Write("Error, prompt not saved.");
+                    actionInput.Controller.Write(new OutputBuilder().AppendLine("Error, prompt not saved."));
                 }
 
                 return;
             }
 
             // No new prompt supplied, so we display help and current values to the player
-            var output = new OutputBuilder(session.TerminalOptions);
+            var output = new OutputBuilder();
 
             // Create an array of values available to the player
             output.AppendLine($"{"Token".PadRight(15)}{"Current Value".PadRight(15)}{"Description".PadRight(40)}");
@@ -72,7 +70,7 @@ namespace WarriorRogueMage.Actions
 
             output.AppendLine($"Current prompt is '{playerBehavior.Prompt}'");
             output.AppendLine($"Parsed prompt is '{playerBehavior.BuildPrompt()}'");
-            actionInput.Controller.Write(output.ToString());
+            actionInput.Controller.Write(output);
         }
 
         /// <summary>Checks against the guards for the command.</summary>

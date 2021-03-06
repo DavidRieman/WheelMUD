@@ -7,6 +7,7 @@
 
 using System.Diagnostics;
 using WheelMUD.Core;
+using WheelMUD.Server;
 using WheelMUD.Utilities;
 
 namespace WheelMUD.ConnectionStates
@@ -34,7 +35,7 @@ namespace WheelMUD.ConnectionStates
             // TODO: https://github.com/DavidRieman/WheelMUD/issues/56 - Finish implementing AutomaticLoginCommand, and try:
             //  bool includePrompt = !string.IsNullOrWhiteSpace(AppConfigInfo.Instance.AutomaticLoginCommand);
             bool includePrompt = true;
-            Session.WriteAnsiLine($"Welcome, {Session.Thing.FullName}.", includePrompt);
+            Session.Write(new OutputBuilder().AppendLine($"Welcome, {Session.Thing.FullName}."), includePrompt);
         }
 
         /// <summary>Process the specified input.</summary>
@@ -53,7 +54,7 @@ namespace WheelMUD.ConnectionStates
             }
         }
 
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
             PlayerBehavior playerBehavior = this.playerBehavior.Target;
             if (playerBehavior != null)
@@ -62,7 +63,9 @@ namespace WheelMUD.ConnectionStates
             }
 
             Debug.Assert(false, "A non-Player is in PlayingState, receiving a Prompt?");
-            return "> ";
+            
+            
+            return new OutputBuilder().Append("> ");
         }
 
         public override bool SupportsPaging { get; } = true;

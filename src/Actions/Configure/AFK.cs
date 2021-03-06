@@ -34,15 +34,13 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-
             var playerBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<PlayerBehavior>();
             
             if (playerBehavior != null)
             {
                 if (playerBehavior.IsAFK)
                 {
-                    actionInput.Controller.Write("Your are no longer AFK.");
+                    actionInput.Controller.Write(new OutputBuilder().AppendLine("Your are no longer AFK."));
                     playerBehavior.IsAFK = false;
                     playerBehavior.WhenWentAFK = null;
                     playerBehavior.AFKReason = string.Empty;
@@ -52,9 +50,8 @@ namespace WheelMUD.Actions
                     var afkReason = actionInput.Tail;
 
                     actionInput.Controller.Write(!string.IsNullOrEmpty(afkReason)
-                        ? new OutputBuilder(session.TerminalOptions).SingleLine(
-                            $"You have set your status to AFK: {afkReason}.")
-                        : new OutputBuilder(session.TerminalOptions).SingleLine("You have set your status to AFK."));
+                        ? new OutputBuilder().AppendLine($"You have set your status to AFK: {afkReason}.")
+                        : new OutputBuilder().AppendLine("You have set your status to AFK."));
 
                     playerBehavior.IsAFK = true;
 

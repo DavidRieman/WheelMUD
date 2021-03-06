@@ -33,8 +33,6 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
             var typoEntry = new TypoEntry
             {
                 Note = actionInput.Tail,
@@ -46,8 +44,8 @@ namespace WheelMUD.Actions
 
             typoEntry.Save();
 
-            actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                SingleLine("Thank you. Your typo report has been submitted."));
+            actionInput.Controller.Write(new OutputBuilder().
+                AppendLine("Thank you. Your typo report has been submitted."));
         }
 
         /// <summary>Checks against the guards for the command.</summary>

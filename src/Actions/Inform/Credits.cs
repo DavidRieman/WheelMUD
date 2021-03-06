@@ -26,7 +26,7 @@ namespace WheelMUD.Actions
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>();
 
         /// <summary>Cache these contents to reduce file I/O.</summary>
-        private static string cachedContents;
+        private static OutputBuilder cachedContents;
 
         /// <summary>The synchronization locking object.</summary>
         private static readonly object cacheLockObject = new object();
@@ -35,8 +35,6 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
             var parameters = actionInput.Params;
 
             // Ensure two 'credits' commands at the same time do not race for shared cache, etc.
@@ -45,17 +43,17 @@ namespace WheelMUD.Actions
                 if (cachedContents == null || parameters.Length > 0 && parameters[0].ToLower() == "reload")
                 {
                     using var reader = new StreamReader(Path.Combine(GameConfiguration.DataStoragePath, "Credits.txt"));
-                    var ab = new OutputBuilder(session.TerminalOptions);
+                    var output = new OutputBuilder();
                     string s;
                     while ((s = reader.ReadLine()) != null)
                     {
                         if (!s.StartsWith(";"))
                         {
-                            ab.AppendLine(s);
+                            output.AppendLine(s);
                         }
                     }
 
-                    cachedContents = ab.ToString();
+                    cachedContents = output;
                 }
 
                 actionInput.Controller.Write(cachedContents);

@@ -15,31 +15,31 @@ namespace WheelMUD.Core
     [RendererExports.HelpTopic(0)]
     public class DefaultHelpTopicRenderer : RendererDefinitions.HelpTopic
     {
-        public override string Render(TerminalOptions terminalOptions, HelpTopic helpTopic)
+        public override OutputBuilder Render(TerminalOptions terminalOptions, HelpTopic helpTopic)
         {
-            var ab = new OutputBuilder(terminalOptions);
+            var output = new OutputBuilder();
             
             // TODO: What was this !element doing? Does it still work? Test with zMUD or something and re-read MXP specs?
             if (terminalOptions.UseMXP)
-                ab.AppendLine("<%mxpsecureline%><!element see '<send href=\"help &cref;\">' att='cref' open>");
+                output.AppendLine($"{AnsiSequences.MxpSecureLine}<!element see '<send href=\"help &cref;\">' att='cref' open>");
             
-            ab.AppendSeparator(color:"yellow", design:'=');
-            ab.AppendLine($"HELP TOPIC: {helpTopic.Aliases.First()}");
-            ab.AppendSeparator(color:"yellow");
+            output.AppendSeparator(color:"yellow", design:'=');
+            output.AppendLine($"HELP TOPIC: {helpTopic.Aliases.First()}");
+            output.AppendSeparator(color:"yellow");
 
             if (terminalOptions.UseMXP)
             {
                 var lines = helpTopic.Contents.Split(new string[] { AnsiSequences.NewLine }, StringSplitOptions.None);
                 foreach (var line in lines)
                 {
-                    ab.AppendLine($"<%mxpopenline%>{line}<%n%>");
+                    output.AppendLine($"{AnsiSequences.MxpOpenLine}{line}<%n%>");
                 }
             }
             else
-                ab.AppendLine($"{helpTopic.Contents}");
+                output.AppendLine($"{helpTopic.Contents}");
             
-            ab.AppendSeparator(color:"yellow", design:'=');
-            return ab.ToString();
+            output.AppendSeparator(color:"yellow", design:'=');
+            return output;
         }
     }
 }

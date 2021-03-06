@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
+
 namespace WheelMUD.ConnectionStates
 {
     using System;
@@ -16,8 +18,8 @@ namespace WheelMUD.ConnectionStates
     {
         // TODO: Add and serve ConfirmCreationPromptMXP as well, with clickable menu options to supporting clients?
         private static string ConfirmCreationPrompt = AppConfigInfo.Instance.UserAccountIsPlayerCharacter ?
-            $"Are you sure you wish to create a new character? [Y]es/[N]o: > " :
-            $"Are you sure you wish to create a new user account? [Y]es/[N]o: > ";
+            "Are you sure you wish to create a new character? [Y]es/[N]o: > " :
+            "Are you sure you wish to create a new user account? [Y]es/[N]o: > ";
 
         /// <summary>Initializes a new instance of the <see cref="ConfirmCreationEntryState"/> class.</summary>
         /// <param name="session">The session.</param>
@@ -44,9 +46,9 @@ namespace WheelMUD.ConnectionStates
             }
         }
 
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
-            return ConfirmCreationPrompt;
+            return new OutputBuilder(ConfirmCreationPrompt.Length).Append(ConfirmCreationPrompt);
         }
     }
 }

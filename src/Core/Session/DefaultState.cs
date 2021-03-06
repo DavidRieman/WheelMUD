@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
+
 namespace WheelMUD.Core
 {
     /// <summary>Minimal implementation of <see cref="SessionState"/>.</summary>
@@ -15,16 +17,16 @@ namespace WheelMUD.Core
         public DefaultState(Session session)
             : base(session)
         {
-            Prompt = string.Empty;
+            Prompt = new OutputBuilder(0).Append(string.Empty);
         }
 
         /// <summary>Gets or sets the prompt string to be shown by BuildPrompt.</summary>
         /// <value>The prompt.</value>
-        public string Prompt { get; set; }
+        public OutputBuilder Prompt { get; set; }
 
         /// <summary>Gets or sets the prompt builder for the session.</summary>
         /// <returns>The prompt.</returns>
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
             return Prompt;
         }

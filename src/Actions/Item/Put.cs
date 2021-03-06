@@ -7,6 +7,7 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
+using WheelMUD.Server;
 using WheelMUD.Universe;
 
 namespace WheelMUD.Actions
@@ -45,9 +46,8 @@ namespace WheelMUD.Actions
             // TODO: Test, may be broken now... especially for only putting SOME of a stack...
             thing.Parent.Remove(thing);
             newParent.Add(thing);
-
-            var message = $"You put {thing.FullName} in {newParent.Name}";
-            actionInput.Controller.Write(message);
+            
+            actionInput.Controller.Write(new OutputBuilder().AppendLine($"You put {thing.FullName} in {newParent.Name}."));
         }
 
         /// <summary>Checks against the guards for the command.</summary>

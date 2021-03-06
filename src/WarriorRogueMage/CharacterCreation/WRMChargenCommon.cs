@@ -22,13 +22,13 @@ namespace WarriorRogueMage.CharacterCreation
         /// <param name="message">The message.</param>
         public static void SendErrorMessage(Session session, string message)
         {
-            var wrappedMessage = new OutputBuilder(session.TerminalOptions);
+            var wrappedMessage = new OutputBuilder();
             
             wrappedMessage.AppendSeparator('=', "red", true, message.Length);
             wrappedMessage.AppendLine(message);
             wrappedMessage.AppendSeparator('=', "red", true, message.Length);
 
-            session.Write(wrappedMessage.ToString());
+            session.Write(wrappedMessage);
         }
 
         /// <summary>Formats the string to fit the column width. It will be padded with spaces on the right side.</summary>

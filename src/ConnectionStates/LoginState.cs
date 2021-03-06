@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
+
 namespace WheelMUD.ConnectionStates
 {
     using System;
@@ -56,7 +58,7 @@ namespace WheelMUD.ConnectionStates
                         }
                         else
                         {
-                            Session.Write("This character player state is broken. You may need to contact an admin for a possible recovery attempt.");
+                            Session.Write(new OutputBuilder().AppendLine("This character player state is broken. You may need to contact an admin for a possible recovery attempt."));
                             Session.InformSubscribedSystem(Session.ID + " failed to load due to missing player behavior.");
                             Session.SetState(new ConnectedState(Session));
                             Session.WritePrompt();
@@ -65,7 +67,7 @@ namespace WheelMUD.ConnectionStates
                 }
                 else
                 {
-                    Session.Write("Incorrect user name or password.\r\n\r\n", false);
+                    Session.Write(new OutputBuilder().AppendLine("Incorrect user name or password."), false);
                     Session.InformSubscribedSystem(Session.ID + " failed to log in");
                     Session.SetState(new ConnectedState(Session));
                     Session.WritePrompt();
@@ -73,9 +75,9 @@ namespace WheelMUD.ConnectionStates
             }
         }
 
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
-            return "Please enter your password: > ";
+            return new OutputBuilder().Append("Please enter your password: > ");
         }
 
         /// <summary>Authenticate the user name and password supplied.</summary>

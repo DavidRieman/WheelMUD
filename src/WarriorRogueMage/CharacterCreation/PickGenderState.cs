@@ -45,9 +45,9 @@ namespace WarriorRogueMage.CharacterCreation
             }
         }
 
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
-            return "Select the character's gender: > ";
+            return new OutputBuilder().Append("Select the character's gender: > ");
         }
 
         private bool HandleCommand(string command)
@@ -79,10 +79,8 @@ namespace WarriorRogueMage.CharacterCreation
         {
             var playerBehavior = Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
             playerBehavior.Gender = selectedGender;
-
-            var ab = new OutputBuilder(Session.TerminalOptions);
-            ab.AppendLine($"The chosen gender is <%green%>{selectedGender.Name}<%n%>.");
-            Session.Write(ab.ToString(), false);
+            
+            Session.Write(new OutputBuilder().AppendLine($"The chosen gender is <%green%>{selectedGender.Name}<%n%>."), false);
 
             // Proceed to the next step.
             StateMachine.HandleNextStep(this, StepStatus.Success);
@@ -90,18 +88,18 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen()
         {
-            var ab = new OutputBuilder(Session.TerminalOptions);
-            ab.AppendLine();
-            ab.AppendLine("You have the following gender choices:");
+            var output = new OutputBuilder();
+            output.AppendLine();
+            output.AppendLine("You have the following gender choices:");
             foreach (var gender in GameSystemController.Instance.GameGenders)
             {
-                ab.AppendLine(gender.Name);
+                output.AppendLine(gender.Name);
             }
-            ab.AppendLine();
-            ab.AppendSeparator('-', "yellow");
-            ab.AppendLine("Type your gender selection.");
-            ab.AppendSeparator('-', "yellow");
-            Session.Write(ab.ToString());
+            output.AppendLine();
+            output.AppendSeparator('-', "yellow");
+            output.AppendLine("Type your gender selection.");
+            output.AppendSeparator('-', "yellow");
+            Session.Write(output);
         }
     }
 }

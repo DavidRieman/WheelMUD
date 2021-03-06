@@ -54,23 +54,21 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
             if (sourceContainer != null && destinationContainer != null)
             {
                 var sourceHoldsLiquidBehavior = sourceContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
                 var destinationHoldsLiquidBehavior = destinationContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
                 if (sourceHoldsLiquidBehavior == null)
                 {
-                    actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                        SingleLine("The source does not hold any liquid."));
+                    actionInput.Controller.Write(new OutputBuilder().
+                        AppendLine("The source does not hold any liquid."));
                     return;
                 }
 
                 if (destinationHoldsLiquidBehavior == null)
                 {
-                    actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                        SingleLine("The destination cannot hold any liquid."));
+                    actionInput.Controller.Write(new OutputBuilder().
+                        AppendLine("The destination cannot hold any liquid."));
                     return;
                 }
 

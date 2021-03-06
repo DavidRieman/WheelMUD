@@ -13,18 +13,18 @@ namespace WheelMUD.Core
     [RendererExports.PerceivedRoom(0)]
     public class DefaultPerceivedRoomRenderer : RendererDefinitions.PerceivedRoom
     {
-        public override string Render(TerminalOptions terminalOptions, Thing viewer, Thing room)
+        public override OutputBuilder Render(Thing viewer, Thing room)
         {
             var senses = viewer.FindBehavior<SensesBehavior>();
-            var ab = new OutputBuilder(terminalOptions);
+            var output = new OutputBuilder();
             if (senses.CanPerceiveThing(room))
             {
-                ab.AppendLine($"<%red%><%b%>{room.Name}<%n%>");
-                ab.AppendLine(room.Description);
+                output.AppendLine($"<%red%><%b%>{room.Name}<%n%>");
+                output.AppendLine(room.Description);
             }
             else
             {
-                ab.AppendLine("You cannot perceive much of note about the room.");
+                output.AppendLine("You cannot perceive much of note about the room.");
             }
 
             // TODO: Perhaps group things in the room by things you can pick up, things that are alive, etc?
@@ -44,22 +44,22 @@ namespace WheelMUD.Core
 
             if (outputExits.Any() || outputThings.Any())
             {
-                ab.AppendLine("<%yellow%>Here you notice:<%n%>");
+                output.AppendLine("<%yellow%>Here you notice:<%n%>");
                 if (outputExits.Any())
                 {
-                    ab.AppendLine($"  Routes: {string.Join(", ", outputExits)}");
+                    output.AppendLine($"  Routes: {string.Join(", ", outputExits)}");
                 }
                 foreach (var outputThing in outputThings)
                 {
-                    ab.AppendLine(outputThing);
+                    output.AppendLine(outputThing);
                 }
             }
             else
             {
-                ab.AppendLine("<%yellow%>You notice nothing else inside the room.<%n%>");
+                output.AppendLine("<%yellow%>You notice nothing else inside the room.<%n%>");
             }
 
-            return ab.ToString();
+            return output;
         }
     }
 }

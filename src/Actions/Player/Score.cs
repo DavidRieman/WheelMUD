@@ -35,7 +35,7 @@ namespace WheelMUD.Actions
         {
             if (!(actionInput.Controller is Session session)) return;
         
-            actionInput.Controller.Write(Renderer.Instance.RenderScore(session.TerminalOptions, actionInput.Controller.Thing));
+            actionInput.Controller.Write(Renderer.Instance.RenderScore(actionInput.Controller.Thing));
         }
 
         /// <summary>Checks against the guards for the command.</summary>

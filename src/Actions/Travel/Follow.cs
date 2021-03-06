@@ -140,34 +140,32 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The action input.</param>
         private void ShowStatus(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
             var senderBehaviors = actionInput.Controller.Thing.Behaviors;
             var followingBehavior = senderBehaviors.FindFirst<FollowingBehavior>();
             var followedBehavior = senderBehaviors.FindFirst<FollowedBehavior>();
 
-            var ob = new OutputBuilder(session.TerminalOptions);
+            var output = new OutputBuilder();
             
-            ob.Append("You are following: ");
+            output.Append("You are following: ");
 
-            ob.AppendLine(followingBehavior == null ? "(nobody)" : followingBehavior.Target.Name);
+            output.AppendLine(followingBehavior == null ? "(nobody)" : followingBehavior.Target.Name);
 
-            ob.Append("You are being followed by: ");
+            output.Append("You are being followed by: ");
 
             if (followedBehavior == null)
             {
-                ob.AppendLine("(nobody)");
+                output.AppendLine("(nobody)");
             }
             else
             {
                 lock (followedBehavior.Followers)
                 {
                     var followers = followedBehavior.Followers.Select(f => f.Name).BuildPrettyList();
-                    ob.AppendLine(followers);
+                    output.AppendLine(followers);
                 }
             }
             
-            actionInput.Controller.Write(ob.ToString());
+            actionInput.Controller.Write(output);
         }
     }
 }

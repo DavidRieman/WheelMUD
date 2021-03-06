@@ -39,14 +39,12 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-
             actionInput.Controller.Thing.SingularPrefix = newPretitle;
 
             actionInput.Controller.Write(string.IsNullOrEmpty(newPretitle)
-                ? new OutputBuilder(session.TerminalOptions).SingleLine(
+                ? new OutputBuilder().AppendLine(
                     $"Your old pretitle was \"{oldPretitle}\" and is now removed.")
-                : new OutputBuilder(session.TerminalOptions).SingleLine(
+                : new OutputBuilder().AppendLine(
                     $"Your old pretitle was \"{oldPretitle}\" and is now \"{newPretitle}\"."));
 
             actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SavePlayer();

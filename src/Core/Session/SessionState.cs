@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
+
 namespace WheelMUD.Core
 {
     /// <summary>A base class that represents the current state of a session.</summary>
@@ -27,7 +29,7 @@ namespace WheelMUD.Core
 
         /// <summary>Gets or sets the prompt builder for the session.</summary>
         /// <returns>The prompt.</returns>
-        public abstract string BuildPrompt();
+        public abstract OutputBuilder BuildPrompt();
 
         /// <summary>Called when this SessionState has become the active state for a session.</summary>
         /// <remarks>This is the first opportunity to write introductory information for the state (with a prompt, instead of defaulting to only printing a prompt) to the client.</remarks>

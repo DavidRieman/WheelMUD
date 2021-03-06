@@ -43,36 +43,25 @@ namespace WheelMUD.Core
         public event SessionAuthenticatedEventHandler SessionAuthenticated;
 
         /// <summary>Gets the ID of the session.</summary>
-        public string ID
-        {
-            get { return Connection.ID; }
-        }
+        public string ID => Connection.ID;
 
         /// <summary>Gets the terminal this session is using.</summary>
-        public TerminalOptions TerminalOptions
-        {
-            get { return Connection.TerminalOptions; }
-        }
+        public TerminalOptions TerminalOptions => Connection.TerminalOptions;
 
         /// <summary>Gets or sets the player Thing attached to this session.</summary>
         public Thing Thing { get; set; }
 
         /// <summary>Gets the living behavior of the player attached to this session.</summary>
-        public LivingBehavior LivingBehavior
-        {
-            get { return Thing != null ? Thing.Behaviors.FindFirst<LivingBehavior>() : null; }
-        }
+        public LivingBehavior LivingBehavior => Thing?.Behaviors.FindFirst<LivingBehavior>();
 
         /// <summary>Gets the connection for this session.</summary>
         public IConnection Connection { get; private set; }
 
         /// <summary>Gets a value indicating whether the output sent to the client is currently at a prompt or not.</summary>
-        public bool AtPrompt
-        {
+        public bool AtPrompt =>
             // As prompts let the cursor rest on the same line, this can be indicated via the connection's cursor position; any
             // output other than prompts should occur as a full line that terminates with NewLine.
-            get { return !Connection.AtNewLine; }
-        }
+            !Connection.AtNewLine;
 
         /// <summary>Gets or sets the User authenticated to this session (if any).</summary>
         public User User { get; set; }
@@ -86,11 +75,8 @@ namespace WheelMUD.Core
         /// <summary>Sets a new SessionState for this Session, and tells it to begin.</summary>
         public void SetState(SessionState newState)
         {
-            this.State = newState;
-            if (newState != null)
-            {
-                newState.Begin();
-            }
+            State = newState;
+            newState?.Begin();
         }
 
         /// <summary>Provides authentication services for this session.</summary>
@@ -107,36 +93,27 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Sends the prompt to the connection.</summary>
-        public void SendPrompt()
-        {
-            if (!AtPrompt)
-            {
-                Connection.Send(AnsiSequences.NewLine + State.BuildPrompt());
-            }
-            else
-            {
-                Connection.Send(State.BuildPrompt());
-            }
-        }
-
-        /// <summary>Writes a fresh prompt to this session.</summary>
         public void WritePrompt()
         {
-            Write(string.Empty, true);
+            var prompt = State.BuildPrompt().Parse(Connection.TerminalOptions);
+            
+            if (!AtPrompt)
+            {
+                prompt = AnsiSequences.NewLine + prompt;
+            }
+            
+            Connection.Send(prompt);
         }
 
-        /// <summary>Writes a full line of output to the users screen, with an ANSI NewLine.</summary>
-        /// <param name="line">The line of text to write to this session's connected user.</param>
-        /// <param name="sendPrompt">true to send the prompt after, false otherwise.</param>
-        public void WriteAnsiLine(string line, bool sendPrompt = true)
+        public void Write(OutputBuilder output, bool sendPrompt = true)
         {
-            Write(line + AnsiSequences.NewLine, sendPrompt);
+            FinalWrite(output.Parse(Connection.TerminalOptions), sendPrompt);
         }
 
         /// <summary>Write data to the users screen.</summary>
         /// <param name="data">The string of text to write to this session's connected user.</param>
         /// <param name="sendPrompt">true to send the prompt after, false otherwise.</param>
-        public void Write(string data, bool sendPrompt = true)
+        private void FinalWrite(string data, bool sendPrompt)
         {
             // If our last output to this session was printing the prompt, inject a new line in front of this next set of data,
             // so the data won't potentially start printing on the same line as the prompt.
@@ -147,12 +124,14 @@ namespace WheelMUD.Core
 
             if (sendPrompt)
             {
-                data += AnsiSequences.NewLine + State?.BuildPrompt();
+                if (!data.EndsWith(AnsiSequences.NewLine))
+                    data += AnsiSequences.NewLine;
+                data += State?.BuildPrompt().Parse(Connection.TerminalOptions);
             }
 
             // If a particular state doesn't support the paging commands (like "m" or "more") then we should force sending all
             // data instead of potentially printing paging output that isn't supported in the current state.
-            Connection.Send(data, sendAllData: !State.SupportsPaging);
+            Connection.Send(data, !State.SupportsPaging);
         }
 
         /// <summary>Place an action on the command queue for execution.</summary>

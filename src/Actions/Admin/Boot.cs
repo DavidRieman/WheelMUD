@@ -39,10 +39,8 @@ namespace WheelMUD.Actions
             playerBehavior.LogOut();
 
             // Inform the admin
-            if (!(actionInput.Controller is Session session)) return;
-            
-            actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                SingleLine($"The player named \"{PlayerToBoot.Name}\" was booted from game."));
+            actionInput.Controller.Write(new OutputBuilder().
+                AppendLine($"The player named \"{PlayerToBoot.Name}\" was booted from game."));
         }
 
         /// <summary>Checks against the guards for the command.</summary>

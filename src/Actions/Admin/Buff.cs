@@ -50,12 +50,12 @@ namespace WheelMUD.Actions
             // Strings to be displayed when the effect is applied/removed.
             var buffString = new ContextualString(actionInput.Controller.Thing, target)
             {
-                ToOriginator = $"\r\nThe '{stat.Name}' stat of {target.Name} has changed by {modAmount}.\r\n",
-                ToReceiver = $"\r\nYour '{stat.Name}' stat has changed by {modAmount}.\r\n"
+                ToOriginator = $"The '{stat.Name}' stat of {target.Name} has changed by {modAmount}.",
+                ToReceiver = $"Your '{stat.Name}' stat has changed by {modAmount}."
             };
             var unbuffString = new ContextualString(actionInput.Controller.Thing, target)
             {
-                ToReceiver = $"\r\nYour '{stat.Abbreviation}' stat goes back to normal."
+                ToReceiver = $"Your '{stat.Abbreviation}' stat goes back to normal."
             };
 
             // Turn the above sets of strings into sensory messages.

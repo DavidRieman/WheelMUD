@@ -38,10 +38,8 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
-            actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                SingleLine($"You take a drink from {thingToDrink.Name}."));
+            actionInput.Controller.Write(new OutputBuilder().
+                AppendLine($"You take a drink from {thingToDrink.Name}."));
             drinkableBehavior.Drink(actionInput.Controller.Thing);
         }
 

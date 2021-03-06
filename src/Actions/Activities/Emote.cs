@@ -32,8 +32,6 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
             var emoteString = $"<*{actionInput.Controller.Thing.Name} {actionInput.Tail}>";
 
             var contextualString = new ContextualString(actionInput.Controller.Thing, actionInput.Controller.Thing.Parent)

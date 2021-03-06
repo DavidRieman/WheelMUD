@@ -33,14 +33,12 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-
             // If input is a simple number, assume we mean a room
             var targetPlace = int.TryParse(actionInput.Tail, out var roomNum) ? ThingManager.Instance.FindThing("room/" + roomNum) : ThingManager.Instance.FindThingByName(actionInput.Tail, false, true);
 
             if (targetPlace == null)
             {
-                actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).SingleLine("Room or Entity not found."));
+                actionInput.Controller.Write(new OutputBuilder().AppendLine("Room or Entity not found."));
                 return;
             }
 
@@ -53,7 +51,7 @@ namespace WheelMUD.Actions
                 }
                 else
                 {
-                    actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).SingleLine("Target is not a room and is not in a room!"));
+                    actionInput.Controller.Write(new OutputBuilder().AppendLine("Target is not a room and is not in a room!"));
                     return;
                 }
             }

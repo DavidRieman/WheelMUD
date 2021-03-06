@@ -48,7 +48,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override void Begin()
         {
-            Session.WriteAnsiLine("You will now set your basic attributes.", false);
+            Session.Write(new OutputBuilder().AppendLine("You will now set your basic attributes."), false);
             RefreshScreen();
         }
 
@@ -98,9 +98,9 @@ namespace WarriorRogueMage.CharacterCreation
 
         /// <summary>Builds the prompt.</summary>
         /// <returns>A prompt indicating how the player should proceed.</returns>
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
-            return "Select the character's starting attributes: > ";
+            return new OutputBuilder().Append("Select the character's starting attributes: > ");
         }
 
         private void ProcessAttributeCommand(SetAttributeCommand command, string s, ref int targetPoints)
@@ -158,23 +158,23 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void RefreshScreen()
         {
-            var ab = new OutputBuilder(Session.TerminalOptions);
-            ab.AppendLine();
-            ab.AppendLine("You have 10 character points to be divided between 3 attributes.");
-            ab.AppendLine("No attribute can have more than 6 points. Attributes can be zero.");
-            ab.AppendLine();
-            ab.AppendLine($"Warrior : {warriorPoints}");
-            ab.AppendLine($"Rogue   : {roguePoints}");
-            ab.AppendLine($"Mage    : {magePoints}");
-            ab.AppendLine();
-            ab.AppendLine($"You have {MaxPoints - SpentPoints} character points left.");
-            ab.AppendLine();
-            ab.AppendLine("<%yellow%>====================================================================");
-            ab.AppendLine("To add points to an attribute, use the + operator. Example: warrior +6");
-            ab.AppendLine("To subtract points from an attribute, use the - operator. Example: warrior -6");
-            ab.AppendLine("When you are done distributing the character points, type done.");
-            ab.AppendLine("====================================================================<%n%>");
-            Session.Write(ab.ToString());
+            var output = new OutputBuilder();
+            output.AppendLine();
+            output.AppendLine("You have 10 character points to be divided between 3 attributes.");
+            output.AppendLine("No attribute can have more than 6 points. Attributes can be zero.");
+            output.AppendLine();
+            output.AppendLine($"Warrior : {warriorPoints}");
+            output.AppendLine($"Rogue   : {roguePoints}");
+            output.AppendLine($"Mage    : {magePoints}");
+            output.AppendLine();
+            output.AppendLine($"You have {MaxPoints - SpentPoints} character points left.");
+            output.AppendLine();
+            output.AppendLine("<%yellow%>====================================================================");
+            output.AppendLine("To add points to an attribute, use the + operator. Example: warrior +6");
+            output.AppendLine("To subtract points from an attribute, use the - operator. Example: warrior -6");
+            output.AppendLine("When you are done distributing the character points, type done.");
+            output.AppendLine("====================================================================<%n%>");
+            Session.Write(output);
         }
 
         private SetAttributeCommand FindTargetCommand(string s)

@@ -37,8 +37,6 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-
             // Create a portal targeting the specified room.
             var portalItem = new Thing();
             portalItem.Behaviors.Add(new PortalBehavior
@@ -51,8 +49,8 @@ namespace WheelMUD.Actions
             // and Event pattern.
             actionInput.Controller.Thing.Parent.Add(portalItem);
             var userControlledBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<UserControlledBehavior>();
-            userControlledBehavior.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                SingleLine("A magical portal opens up in front of you."));
+            userControlledBehavior.Controller.Write(new OutputBuilder().
+                AppendLine("A magical portal opens up in front of you."));
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>

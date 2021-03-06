@@ -29,27 +29,25 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
             if (actionInput.Controller.Thing != null)
             {
                 if (!string.IsNullOrEmpty(NewDescription))
                 {
                     actionInput.Controller.Thing.Description = NewDescription;
                     actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SavePlayer();
-                    actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                        SingleLine("Description successfully changed."));
+                    actionInput.Controller.Write(new OutputBuilder().
+                        AppendLine("Description successfully changed."));
                 }
                 else
                 {
-                    actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                        SingleLine($"Your current description is \"{actionInput.Controller.Thing.Description}\"."));
+                    actionInput.Controller.Write(new OutputBuilder().
+                        AppendLine($"Your current description is \"{actionInput.Controller.Thing.Description}\"."));
                 }
             }
             else
             {
-                actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                    SingleLine("Unexpected error occurred changing description, please contact admin."));
+                actionInput.Controller.Write(new OutputBuilder().
+                    AppendLine("Unexpected error occurred changing description, please contact admin."));
             }
         }
 

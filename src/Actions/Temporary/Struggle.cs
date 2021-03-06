@@ -33,8 +33,6 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
             // Set up the dice
             var die = DiceService.Instance.GetDie(10);
 
@@ -44,13 +42,13 @@ namespace WheelMUD.Actions
             if (die.Roll() > 5)
             {
                 actionInput.Controller.Thing.Behaviors.Remove(immobileEffect);
-                userControlledBehavior.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                    SingleLine("You manager to struggle free"));
+                userControlledBehavior.Controller.Write(new OutputBuilder().
+                    AppendLine("You manager to struggle free"));
             }
             else
             {
-                userControlledBehavior.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                    SingleLine("You fail to struggle from the web"));
+                userControlledBehavior.Controller.Write(new OutputBuilder().
+                    AppendLine("You fail to struggle from the web"));
             }
 
             actionInput.Controller.Thing.Behaviors.Add(new UnbalanceEffect()

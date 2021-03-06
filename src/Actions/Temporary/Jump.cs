@@ -31,14 +31,12 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-            
             var die = DiceService.Instance.GetDie(3);
 
             // This is how you send text back to the player
             var height = die.Roll();
-            actionInput.Controller.Write(new OutputBuilder(session.TerminalOptions).
-                SingleLine($"You've jumped {height} feet!"));
+            actionInput.Controller.Write(new OutputBuilder().
+                AppendLine($"You've jumped {height} feet!"));
         }
 
         /// <summary>Checks against the guards for the command.</summary>

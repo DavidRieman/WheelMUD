@@ -5,6 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
@@ -156,7 +157,7 @@ namespace WheelMUD.Core
                 var existingUserControlledBehavior = previousPlayer.Parent.Behaviors.FindFirst<UserControlledBehavior>();
                 if (existingUserControlledBehavior != null)
                 {
-                    existingUserControlledBehavior.Controller.Write("Another connection has logged in as you; closing this connection.");
+                    existingUserControlledBehavior.Controller.Write(new OutputBuilder().AppendLine("Another connection has logged in as you; closing this connection."));
                 }
 
                 previousPlayer.LogOut();
@@ -171,8 +172,10 @@ namespace WheelMUD.Core
             // don't want to load a duplicate version of the just-created player Thing.
             if (session.Thing == null)
             {
-                session.Write("User was authenticated but the player character could not be loaded.");
-                session.Write("Please contact an administrator. Disconnecting.");
+                var output = new OutputBuilder();
+                output.AppendLine("User was authenticated but the player character could not be loaded.");
+                output.AppendLine("Please contact an administrator. Disconnecting.");
+                session.Write(output);
                 session.Connection.Disconnect();
             }
 

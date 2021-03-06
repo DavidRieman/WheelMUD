@@ -32,7 +32,7 @@ namespace WheelMUD.Actions
         {
             if (!(actionInput.Controller is Session session)) return;
             
-            actionInput.Controller.Write(Renderer.Instance.RenderInventory(session.TerminalOptions, actionInput.Controller.Thing));
+            actionInput.Controller.Write(Renderer.Instance.RenderInventory(actionInput.Controller.Thing));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
