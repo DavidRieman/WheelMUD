@@ -5,15 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using WheelMUD.Core;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using WheelMUD.Core;
-
     /// <summary>A command to list all commands. Can list by category.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("commands", CommandCategory.Inform)]
@@ -22,33 +20,29 @@ namespace WheelMUD.Actions
     public class Commands : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
-        {
-        };
+        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>();
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            string requestedCategory = actionInput.Tail.ToLower();
-            var terminal = (actionInput.Controller as Session).TerminalOptions;
+            var requestedCategory = actionInput.Tail.ToLower();
 
             // Get a command array of all commands available to this controller
-            var commands = CommandManager.Instance.GetCommandsForController(sender);
+            var commands = CommandManager.Instance.GetCommandsForController(actionInput.Controller);
 
             if (requestedCategory == "all")
             {
-                sender.Write(Renderer.Instance.RenderCommandsList(terminal, commands, "All"));
+                actionInput.Controller.Write(Renderer.Instance.RenderCommandsList(commands, "All"));
             }
             else if (Enum.TryParse(requestedCategory, true, out CommandCategory category))
             {
                 var commandsInCategory = from c in commands where c.Category.HasFlag(category) select c;
-                sender.Write(Renderer.Instance.RenderCommandsList(terminal, commandsInCategory, category.ToString()));
+                actionInput.Controller.Write(Renderer.Instance.RenderCommandsList(commandsInCategory, category.ToString()));
             }
             else
             {
-                sender.Write(Renderer.Instance.RenderCommandsCategories(terminal, commands));
+                actionInput.Controller.Write(Renderer.Instance.RenderCommandsCategories(commands));
             }
         }
 
@@ -57,14 +51,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            // There are currently no arguments nor situations where we expect failure.
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

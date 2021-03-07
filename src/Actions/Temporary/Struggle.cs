@@ -5,15 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Effects;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Effects;
-
     /// <summary>Temporary script to to get out of a web.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("struggle", CommandCategory.Temporary)]
@@ -35,23 +34,24 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             // Set up the dice
-            IController sender = actionInput.Controller;
-            Die die = DiceService.Instance.GetDie(10);
+            var die = DiceService.Instance.GetDie(10);
 
             // Die has to be > 5 to get out
             // If this were non-temporary, it should be using events instead of Write.
-            var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
+            var userControlledBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<UserControlledBehavior>();
             if (die.Roll() > 5)
             {
-                sender.Thing.Behaviors.Remove(immobileEffect);
-                userControlledBehavior.Controller.Write("You manager to struggle free");
+                actionInput.Controller.Thing.Behaviors.Remove(immobileEffect);
+                userControlledBehavior.Controller.Write(new OutputBuilder().
+                    AppendLine("You manager to struggle free"));
             }
             else
             {
-                userControlledBehavior.Controller.Write("You fail to struggle from the web");
+                userControlledBehavior.Controller.Write(new OutputBuilder().
+                    AppendLine("You fail to struggle from the web"));
             }
 
-            sender.Thing.Behaviors.Add(new UnbalanceEffect()
+            actionInput.Controller.Thing.Behaviors.Add(new UnbalanceEffect()
             {
                 Duration = new TimeSpan(0, 0, 0, 0, 500),
             });
@@ -62,7 +62,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

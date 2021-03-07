@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Actions.Temporary
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A temporary command to blind an entity. (Just blinds yourself for now.)</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("blind", CommandCategory.Temporary)]
@@ -44,13 +44,7 @@ namespace WheelMUD.Actions.Temporary
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

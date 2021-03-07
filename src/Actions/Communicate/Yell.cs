@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+using WheelMUD.Core;
 using WheelMUD.Interfaces;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>Allows a player to communicate across several rooms to all entities.</summary>
     /// <remarks>yell hey you!</remarks>
     [ExportGameAction(0)]
@@ -42,14 +42,15 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            Thing parent = sender.Thing.Parent;
+            if (!(actionInput.Controller is Session session)) return;
+            
+            var parent = actionInput.Controller.Thing.Parent;
 
             // This is to keep track of the previous rooms we've yelled at, to prevent echoes.
-            List<Thing> previousRooms = new List<Thing>();
+            var previousRooms = new List<Thing>();
 
-            CreateYellEvent(sender.Thing);
-            TraverseRoom(parent, actionInput, sender, RoomFallOff, previousRooms);
+            CreateYellEvent(actionInput.Controller.Thing);
+            TraverseRoom(parent, actionInput, actionInput.Controller, RoomFallOff, previousRooms);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -57,7 +58,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -92,15 +93,13 @@ namespace WheelMUD.Actions
             place.Eventing.OnCommunicationRequest(yellEvent, EventScope.SelfDown);
             if (!yellEvent.IsCancelled)
             {
-                List<ExitBehavior> exits = place.FindAllChildrenBehaviors<ExitBehavior>();
-                foreach (ExitBehavior exit in exits)
-                {
-                    var opensClosesBehavior = exit.Parent.Behaviors.FindFirst<OpensClosesBehavior>();
-                    if (opensClosesBehavior == null || opensClosesBehavior.IsOpen == true)
-                    {
-                        Thing destination = exit.GetDestination(place);
-                        TraverseRoom(destination, actionInput, sender, (timeToLive == -1) ? timeToLive : (timeToLive - 1), visitedPlaces);
-                    }
+                var exits = place.FindAllChildrenBehaviors<ExitBehavior>();
+                var destinations = from exit in exits
+                    let opensClosesBehavior = exit.Parent.Behaviors.FindFirst<OpensClosesBehavior>()
+                    where opensClosesBehavior == null || opensClosesBehavior.IsOpen
+                    select exit.GetDestination(place);
+                foreach (var destination in destinations) {
+                    TraverseRoom(destination, actionInput, sender, (timeToLive == -1) ? timeToLive : (timeToLive - 1), visitedPlaces);
                 }
 
                 // TODO: Consider traversing into portal destinations and the like?

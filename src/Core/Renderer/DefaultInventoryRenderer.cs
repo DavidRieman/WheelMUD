@@ -6,30 +6,30 @@
 //-----------------------------------------------------------------------------
 
 using System.Linq;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WheelMUD.Core
 {
     [RendererExports.Inventory(0)]
     public class DefaultInventoryRenderer : RendererDefinitions.Inventory
     {
-        public override string Render(Thing player)
+        public override OutputBuilder Render(Thing player)
         {
             var senses = player.FindBehavior<SensesBehavior>();
-            var ab = new AnsiBuilder();
+            var output = new OutputBuilder();
 
             var invThings = player.Children.Where(presentThing => senses.CanPerceiveThing(presentThing)).ToArray();
 
-            ab.AppendLine(invThings.Length > 0
+            output.AppendLine(invThings.Length > 0
                 ? "<%yellow%>Searching your inventory, you find:<%n%>"
                 : "<%yellow%>You found no inventory.<%n%>");
 
             foreach (var presentThing in invThings)
             {
-                ab.AppendLine($"  <%magenta%>{presentThing.FullName}<%n%>");
+                output.AppendLine($"  <%magenta%>{presentThing.FullName}<%n%>");
             }
 
-            return ab.ToString();
+            return output;
         }
     }
 }

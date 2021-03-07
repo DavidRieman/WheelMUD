@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using System.Text;
-
 namespace WheelMUD.Utilities
 {
     /// <summary>Common ANSI sequences to simplify construction of correct ANSI for adherance to the Telnet protocol.</summary>

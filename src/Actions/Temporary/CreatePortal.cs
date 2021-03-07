@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
+using WheelMUD.Universe;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Universe;
-
     /// <summary>A command that allows an admin to create a portal.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("create portal", CommandCategory.Admin)]
@@ -32,16 +31,15 @@ namespace WheelMUD.Actions
         };
 
         /// <summary>The current room that the player is within.</summary>
-        private Thing targetPlace = null;
+        private Thing targetPlace;
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
             // Create a portal targeting the specified room.
-            IController sender = actionInput.Controller;
-            Thing portalItem = new Thing();
-            portalItem.Behaviors.Add(new PortalBehavior()
+            var portalItem = new Thing();
+            portalItem.Behaviors.Add(new PortalBehavior
             {
                 DestinationThingID = targetPlace.Id,
             });
@@ -49,9 +47,10 @@ namespace WheelMUD.Actions
             // TODO: Should not be needed after OLC and instant-spawn commands which should work
             // for any type of Thing; not just portals.  Spawning (either way) should use the Request
             // and Event pattern.
-            sender.Thing.Parent.Add(portalItem);
-            var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
-            userControlledBehavior.Controller.Write("A magical portal opens up in front of you.");
+            actionInput.Controller.Thing.Parent.Add(portalItem);
+            var userControlledBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<UserControlledBehavior>();
+            userControlledBehavior.Controller.Write(new OutputBuilder().
+                AppendLine("A magical portal opens up in front of you."));
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>
@@ -59,35 +58,35 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             // Rule: We should have at least 1 item in our words array.
-            int numberWords = actionInput.Params.Length;
+            var numberWords = actionInput.Params.Length;
             if (numberWords < 2)
             {
                 return "You must specify a room to create a portal to.";
             }
 
             // Check to see if the first word is a number.
-            string roomToGet = actionInput.Params[1];
+            var roomToGet = actionInput.Params[1];
             if (string.IsNullOrEmpty(roomToGet))
             {
                 // Its not a number so it could be an entity... try it.
                 targetPlace = GetPlayerOrMobile(actionInput.Params[0]);
                 if (targetPlace == null)
                 {
-                    return "Could not convert " + actionInput.Params[0] + " to a room number.";
+                    return $"Could not convert {actionInput.Params[0]} to a room number.";
                 }
             }
 
             targetPlace = PlacesManager.Instance.WorldBehavior.FindRoom(roomToGet);
             if (targetPlace == null)
             {
-                return string.Format("Could not find the room {0}.", roomToGet);
+                return $"Could not find the room {roomToGet}.";
             }
 
             return null;

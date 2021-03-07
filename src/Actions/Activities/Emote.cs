@@ -5,7 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
 using System.Collections.Generic;
 using WheelMUD.Core;
 
@@ -33,21 +32,20 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            string emoteString = $"<*{sender.Thing.Name} {actionInput.Tail}>";
+            var emoteString = $"<*{actionInput.Controller.Thing.Name} {actionInput.Tail}>";
 
-            var contextualString = new ContextualString(sender.Thing, sender.Thing.Parent)
+            var contextualString = new ContextualString(actionInput.Controller.Thing, actionInput.Controller.Thing.Parent)
             {
                 ToOriginator = emoteString,
                 ToOthers = emoteString
             };
 
             var msg = new SensoryMessage(SensoryType.Sight, 100, contextualString);
-            var emoteEvent = new VerbalCommunicationEvent(sender.Thing, msg, VerbalCommunicationType.Emote);
-            sender.Thing.Eventing.OnCommunicationRequest(emoteEvent, EventScope.ParentsDown);
+            var emoteEvent = new VerbalCommunicationEvent(actionInput.Controller.Thing, msg, VerbalCommunicationType.Emote);
+            actionInput.Controller.Thing.Eventing.OnCommunicationRequest(emoteEvent, EventScope.ParentsDown);
             if (!emoteEvent.IsCancelled)
             {
-                sender.Thing.Eventing.OnCommunicationEvent(emoteEvent, EventScope.ParentsDown);
+                actionInput.Controller.Thing.Eventing.OnCommunicationEvent(emoteEvent, EventScope.ParentsDown);
             }
         }
 
@@ -56,8 +54,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            return commonFailure;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

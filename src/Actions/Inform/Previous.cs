@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Interfaces;
 using WheelMUD.Server;
 
 namespace WheelMUD.Actions
@@ -21,25 +20,22 @@ namespace WheelMUD.Actions
     public class Previous : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards> { };
+        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>();
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            Session session = sender as Session;
-            if (session == null)
-            {
-                sender.Write("There is no valid session for this command.");
-            }
-            else if (session.Connection.OutputBuffer.HasMoreData)
+            if (!(actionInput.Controller is Session session)) return;
+
+            if (session.Connection.OutputBuffer.HasMoreData)
             {
                 session.Connection.ProcessBuffer(BufferDirection.Backward);
             }
             else
             {
-                sender.Write("There is no more data.");
+                actionInput.Controller.Write(new OutputBuilder().
+                    AppendLine("There is no more data."));
             }
         }
 
@@ -48,13 +44,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

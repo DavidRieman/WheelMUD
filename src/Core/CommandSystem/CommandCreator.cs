@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
+
 namespace WheelMUD.Core
 {
     using System.Linq;
@@ -49,7 +51,7 @@ namespace WheelMUD.Core
 
             if (command == null)
             {
-                actionInput.Controller.Write(unknownCommandResponse);
+                actionInput.Controller.Write(new OutputBuilder().AppendLine(unknownCommandResponse));
             }
 
             return command;

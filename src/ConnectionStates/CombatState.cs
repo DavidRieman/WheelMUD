@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
+
 namespace WheelMUD.ConnectionStates
 {
     using WheelMUD.Core;
@@ -33,9 +35,9 @@ namespace WheelMUD.ConnectionStates
             }
         }
 
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
-            return "> ";
+            return new OutputBuilder(2).Append("> ");
         }
     }
 }

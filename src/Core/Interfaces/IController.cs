@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 
 using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Interfaces
 {
@@ -27,7 +28,7 @@ namespace WheelMUD.Interfaces
         /// <summary>Write data to the users screen.</summary>
         /// <param name="data">The data to write.</param>
         /// <param name="sendPrompt">true to send the prompt after, false otherwise.</param>
-        void Write(string data, bool sendPrompt = true);
+        void Write(OutputBuilder data, bool sendPrompt = true);
 
         /// <summary>Place an action on the command queue for immediate execution.</summary>
         /// <param name="actionInput">The action input to try to execute as an action.</param>

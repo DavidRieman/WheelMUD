@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
 using WheelMUD.Interfaces;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An action to grant a role to a player.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("role revoke", CommandCategory.Admin)]
@@ -33,13 +33,20 @@ namespace WheelMUD.Actions
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
-        {
-            IController sender = actionInput.Controller;
+        {   
             var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
             userControlledBehavior.SecurityRoles &= ~role;
-            sender.Write($"{player.Name} has been revoked the {role.ToString()} role.");
-            sender.Write($"{player.Name} is now: {userControlledBehavior.SecurityRoles}.");
-            // TODO: Should this notify the target user too?
+
+            var ob = new OutputBuilder();
+            ob.AppendLine($"{player.Name} has been revoked the {role.ToString()} role.");
+            ob.AppendLine($"{player.Name} is now: {userControlledBehavior.SecurityRoles}.");
+            
+            actionInput.Controller.Write(ob);
+            
+            ob.Clear();
+            ob.AppendLine($"You have been revoked the {role.ToString()} role.");
+            
+            userControlledBehavior.Controller.Write(ob);
             player.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 
@@ -48,15 +55,15 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            string[] normalizedParams = NormalizeParameters(actionInput.Controller);
-            string roleName = normalizedParams[0];
-            string playerName = normalizedParams[1];
+            var normalizedParams = NormalizeParameters(actionInput.Controller);
+            var roleName = normalizedParams[0];
+            var playerName = normalizedParams[1];
 
             // Rule: The targeted player must exist and be online. (For safety, this must be a full name match only.)
             // TODO: Consider a mode where the player document exists in the DB is enough; add ability to modify said doc.
@@ -69,7 +76,7 @@ namespace WheelMUD.Actions
             // Rule: The roleName must be a valid role.
             if (!Enum.TryParse(roleName, true, out role))
             {
-                string rolesList = string.Join(", ", SecurityRoleHelpers.IndividualSecurityRoles);
+                var rolesList = string.Join(", ", SecurityRoleHelpers.IndividualSecurityRoles);
                 return $"The role '{roleName}' is not a valid role. Try one of: {rolesList}";
             }
 
@@ -81,8 +88,8 @@ namespace WheelMUD.Actions
         /// <returns>Returns a string array that has been pasteurized.</returns>
         private static string[] NormalizeParameters(IController sender)
         {
-            string normalizedInput = sender.LastActionInput.Tail.Replace("revoke", string.Empty).Trim();
-            string[] normalizedParams = normalizedInput.Split(' ');
+            var normalizedInput = sender.LastActionInput.Tail.Replace("revoke", string.Empty).Trim();
+            var normalizedParams = normalizedInput.Split(' ');
             return normalizedParams;
         }
     }

@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
+
 namespace WheelMUD.Core
 {
     using Newtonsoft.Json;
@@ -168,7 +170,7 @@ namespace WheelMUD.Core
             var targetPlayerStartingPosition = player.Parent != null ? player.Parent : FindDefaultRoom();
             if (targetPlayerStartingPosition == null)
             {
-                session.Write("Could not place character in the game world. Please contact an administrator.");
+                session.Write(new OutputBuilder().AppendLine("Could not place character in the game world. Please contact an administrator."));
                 return false;
             }
 
@@ -214,7 +216,7 @@ namespace WheelMUD.Core
 
         /// <summary>Builds the player's prompt.</summary>
         /// <returns>The player's current prompt.</returns>
-        public virtual string BuildPrompt()
+        public virtual OutputBuilder BuildPrompt()
         {
             return Renderer.Instance.RenderPrompt(this.Parent);
         }
@@ -293,8 +295,7 @@ namespace WheelMUD.Core
             if (IsFriend(e.ActiveThing.Name) && e is PlayerLogInEvent)
             {
                 var userControlledBehavior = Parent.Behaviors.FindFirst<UserControlledBehavior>();
-                string message = string.Format("Your friend {0} has logged in.", e.ActiveThing.Name);
-                userControlledBehavior.Controller.Write(message);
+                userControlledBehavior.Controller.Write(new OutputBuilder().AppendLine($"Your friend {e.ActiveThing.Name} has logged in."));
             }
         }
 
@@ -304,8 +305,7 @@ namespace WheelMUD.Core
             if (IsFriend(e.ActiveThing.Name) && e is PlayerLogOutEvent)
             {
                 var userControlledBehavior = Parent.Behaviors.FindFirst<UserControlledBehavior>();
-                string message = string.Format("Your friend {0} has logged out.", e.ActiveThing.Name);
-                userControlledBehavior.Controller.Write(message);
+                userControlledBehavior.Controller.Write(new OutputBuilder().AppendLine($"Your friend {e.ActiveThing.Name} has logged out."));
             }
         }
 

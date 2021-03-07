@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WheelMUD.Core
 {
@@ -17,15 +17,15 @@ namespace WheelMUD.Core
     [RendererExports.Score(0)]
     public class DefaultScoreRenderer : RendererDefinitions.Score
     {
-        public override string Render(Thing player)
+        public override OutputBuilder Render(Thing player)
         {
             // Pretty basic placeholder. Most game systems will probably want to define their own stats systems
             // and races and attributes and so on, and provide a more traditional "score" breakdown of the
             // current character state as pertains to the actual game system.
             var livingBehavior = player.FindBehavior<LivingBehavior>();
-            var ab = new AnsiBuilder();
-            ab.AppendLine($"{player.Name}. You are {livingBehavior.Consciousness}");
-            return ab.ToString();
+            var output = new OutputBuilder();
+            output.AppendLine($"{player.Name}. You are {livingBehavior.Consciousness}");
+            return output;
         }
     }
 }

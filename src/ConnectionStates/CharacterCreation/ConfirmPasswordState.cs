@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WheelMUD.ConnectionStates
 {
@@ -33,16 +33,16 @@ namespace WheelMUD.ConnectionStates
             }
             else
             {
-                Session.Write("I am afraid the passwords entered do not match.\r\n", false);
+                Session.Write(new OutputBuilder().AppendLine("I am afraid the passwords entered do not match."), false);
                 StateMachine.HandleNextStep(this, StepStatus.Failure);
             }
         }
 
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
             // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
             // is repeating received keystrokes back to their output.
-            return "Please retype your password: > <%hidden%>";
+            return new OutputBuilder().Append("Please retype your password: > <%hidden%>");
         }
     }
 }

@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
+
 namespace WheelMUD.ConnectionStates
 {
     using WheelMUD.Core;
@@ -27,9 +29,9 @@ namespace WheelMUD.ConnectionStates
             StateMachine.HandleNextStep(this, StepStatus.Success);
         }
 
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
-            return "Enter a description for your character: > ";
+            return new OutputBuilder().Append("Enter a description for your character: > ");
         }
     }
 }

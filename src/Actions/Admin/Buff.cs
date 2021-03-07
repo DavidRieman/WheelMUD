@@ -5,16 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Effects;
+using System.Linq;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using WheelMUD.Core;
-    using WheelMUD.Effects;
-
     /// <summary>Allows changing the current value of an attribute, but not min, max, etc.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("buff", CommandCategory.Admin)]
@@ -35,8 +34,7 @@ namespace WheelMUD.Actions
         private int modAmount;
         private TimeSpan duration;
 
-        private string[] validModTypes = new string[]
-        {
+        private string[] validModTypes = {
             "value",
             "min",
             "max"
@@ -50,18 +48,15 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            var originator = sender.Thing;
-
             // Strings to be displayed when the effect is applied/removed.
-            var buffString = new ContextualString(sender.Thing, target)
+            var buffString = new ContextualString(actionInput.Controller.Thing, target)
             {
-                ToOriginator = string.Format("\r\nThe '{0}' stat of {1} has changed by {2}.\r\n", stat.Name, target.Name, modAmount),
-                ToReceiver = string.Format("\r\nYour '{0}' stat has changed by {1}.\r\n", stat.Name, modAmount)
+                ToOriginator = $"The '{stat.Name}' stat of {target.Name} has changed by {modAmount}.",
+                ToReceiver = $"Your '{stat.Name}' stat has changed by {modAmount}."
             };
-            var unbuffString = new ContextualString(sender.Thing, target)
+            var unbuffString = new ContextualString(actionInput.Controller.Thing, target)
             {
-                ToReceiver = string.Format("\r\nYour '{0}' stat goes back to normal.", stat.Abbreviation)
+                ToReceiver = $"Your '{stat.Abbreviation}' stat goes back to normal."
             };
 
             // Turn the above sets of strings into sensory messages.
@@ -74,7 +69,7 @@ namespace WheelMUD.Actions
             {
                 if (effect.Stat.Abbreviation == stat.Abbreviation)
                 {
-                    sender.Thing.Behaviors.Remove(effect);
+                    actionInput.Controller.Thing.Behaviors.Remove(effect);
                 }
             }
 
@@ -83,13 +78,13 @@ namespace WheelMUD.Actions
             switch (modType)
             {
                 case "value":
-                    statEffect = new StatEffect(sender.Thing, stat, modAmount, 0, 0, duration, sensoryMessage, expirationMessage);
+                    statEffect = new StatEffect(actionInput.Controller.Thing, stat, modAmount, 0, 0, duration, sensoryMessage, expirationMessage);
                     break;
                 case "min":
-                    statEffect = new StatEffect(sender.Thing, stat, 0, modAmount, 0, duration, sensoryMessage, expirationMessage);
+                    statEffect = new StatEffect(actionInput.Controller.Thing, stat, 0, modAmount, 0, duration, sensoryMessage, expirationMessage);
                     break;
                 case "max":
-                    statEffect = new StatEffect(sender.Thing, stat, 0, 0, modAmount, duration, sensoryMessage, expirationMessage);
+                    statEffect = new StatEffect(actionInput.Controller.Thing, stat, 0, 0, modAmount, duration, sensoryMessage, expirationMessage);
                     break;
             }
 
@@ -105,7 +100,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -117,10 +112,10 @@ namespace WheelMUD.Actions
             }
 
             var args = actionInput.Params;
-            string targetString = args[0];
-            string statString = args[1];
+            var targetString = args[0];
+            var statString = args[1];
             modType = args[2].ToLower().Trim();
-            string amountString = args[3];
+            var amountString = args[3];
             string durationString = null;
             if (args.Length > 4)
             {
@@ -131,25 +126,25 @@ namespace WheelMUD.Actions
             target = PlayerManager.Instance.FindLoadedPlayerByName(targetString, true);
             if (target == null)
             {
-                return string.Format("Could not find a target named {0}.", targetString);
+                return $"Could not find a target named {targetString}.";
             }
 
             // Make sure a valid stat was specified.
             if (!target.Stats.TryGetValue(statString, out stat))
             {
-                return string.Format("{0} does not have a stat called {1}.", target.Name, statString);
+                return $"{target.Name} does not have a stat called {statString}.";
             }
 
             // Make sure the mod type ('value', 'min', or 'max') is valid.
             if (!validModTypes.Contains(modType))
             {
-                return string.Format("'{0}' is unrecognized. Try modifying the stat's 'value', 'min', or 'max'.", modType);
+                return $"'{modType}' is unrecognized. Try modifying the stat's 'value', 'min', or 'max'.";
             }
 
             // Parse the mod amount and make sure it is an integer.
             if (!int.TryParse(amountString, out modAmount))
             {
-                return string.Format("The amount '{0}' was not valid.", amountString);
+                return $"The amount '{amountString}' was not valid.";
             }
 
             // Parse the duration string and make sure it is valid.
@@ -160,8 +155,7 @@ namespace WheelMUD.Actions
             }
             else
             {
-                double minutes;
-                if (double.TryParse(durationString, out minutes))
+                if (double.TryParse(durationString, out var minutes))
                 {
                     duration = TimeSpan.FromMinutes(minutes);
                 }

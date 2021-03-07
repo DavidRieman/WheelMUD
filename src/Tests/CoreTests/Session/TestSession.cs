@@ -54,21 +54,21 @@ namespace WheelMUD.Tests
             // Ensure writing another string from the prompt cursor position, writes the new text to a new line and can add in the prompt too.
             connection.ResetMessages();
             connection.AtNewLine = false;
-            session.Write("test 1", true);
+            session.Write(new OutputBuilder().AppendLine("test 1"), true);
             Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
             Assert.AreEqual(connection.FakeMessagesSent[0], $"{AnsiSequences.NewLine}test 1{AnsiSequences.NewLine}FakePrompt > ");
 
             // Ensure writing another string from the prompt cursor position, writes the new text to a new line and can omit adding the prompt too.
             connection.ResetMessages();
             connection.AtNewLine = false;
-            session.Write("test 2", false);
+            session.Write(new OutputBuilder().AppendLine("test 2"), false);
             Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
-            Assert.AreEqual(connection.FakeMessagesSent[0], $"{AnsiSequences.NewLine}test 2");
+            Assert.AreEqual(connection.FakeMessagesSent[0], $"{AnsiSequences.NewLine}test 2{AnsiSequences.NewLine}");
 
             // Ensure writing a string from a new line position already, does not append an extra opening line.
             connection.ResetMessages();
             connection.AtNewLine = true;
-            session.Write("test 3", false);
+            session.Write(new OutputBuilder().Append("test 3"), false);
             Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
             Assert.AreEqual(connection.FakeMessagesSent[0], $"test 3");
         }
@@ -91,14 +91,14 @@ namespace WheelMUD.Tests
 
             public override void Begin()
             {
-                Session.Write("Begin FakeSessionState!");
+                Session.Write(new OutputBuilder().AppendLine("Begin FakeSessionState!"));
             }
 
             public static string LastProcessedInput { get; private set; }
 
-            public override string BuildPrompt()
+            public override OutputBuilder BuildPrompt()
             {
-                return "FakePrompt > ";
+                return new OutputBuilder().Append("FakePrompt > ");
             }
 
             public override void ProcessInput(string command)
@@ -115,60 +115,42 @@ namespace WheelMUD.Tests
 
             public List<string> FakeMessagesSent { get; set; } = new List<string>();
 
-            public string ID
-            {
-                get { throw new NotImplementedException(); }
-            }
+            public string ID => throw new NotImplementedException();
 
             public bool AtNewLine { get; set; }
 
             public string LastRawInput
             {
-                get { throw new NotImplementedException(); }
-                set { throw new NotImplementedException(); }
+                get => throw new NotImplementedException();
+                set => throw new NotImplementedException();
             }
 
-            public System.Net.IPAddress CurrentIPAddress
-            {
-                get { throw new NotImplementedException(); }
-            }
+            public System.Net.IPAddress CurrentIPAddress => throw new NotImplementedException();
 
             public OutputBuffer OutputBuffer
             {
-                get { throw new NotImplementedException(); }
-                set { throw new NotImplementedException(); }
+                get => throw new NotImplementedException();
+                set => throw new NotImplementedException();
             }
 
-            public TerminalOptions TerminalOptions
-            {
-                get { throw new NotImplementedException(); }
-            }
+            public TerminalOptions TerminalOptions => new TerminalOptions();
 
-            public ITelnetCodeHandler TelnetCodeHandler
-            {
-                get { throw new NotImplementedException(); }
-            }
+            public ITelnetCodeHandler TelnetCodeHandler => throw new NotImplementedException();
 
-            public byte[] Data
-            {
-                get { throw new NotImplementedException(); }
-            }
+            public byte[] Data => throw new NotImplementedException();
 
-            public StringBuilder Buffer
-            {
-                get { throw new NotImplementedException(); }
-            }
+            public StringBuilder Buffer => throw new NotImplementedException();
 
             public int PagingRowLimit
             {
-                get { throw new NotImplementedException(); }
-                set { throw new NotImplementedException(); }
+                get => throw new NotImplementedException();
+                set => throw new NotImplementedException();
             }
 
             public string LastInputTerminator
             {
-                get { throw new NotImplementedException(); }
-                set { throw new NotImplementedException(); }
+                get => throw new NotImplementedException();
+                set => throw new NotImplementedException();
             }
 
             public void ResetMessages()
@@ -186,7 +168,7 @@ namespace WheelMUD.Tests
                 throw new NotImplementedException();
             }
 
-            public void Send(string data, bool bypassDataFormatter = false, bool sendAllData = false)
+            public void Send(string data, bool sendAllData = false)
             {
                 FakeMessagesSent.Add(data);
             }

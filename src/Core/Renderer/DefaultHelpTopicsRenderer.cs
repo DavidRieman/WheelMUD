@@ -6,21 +6,20 @@
 //-----------------------------------------------------------------------------
 
 using WheelMUD.Server;
-using WheelMUD.Utilities;
 
 namespace WheelMUD.Core
 {
     [RendererExports.HelpTopics(0)]
     public class DefaultHelpTopicsRenderer : RendererDefinitions.HelpTopics
     {
-        public override string Render(TerminalOptions terminalOptions)
+        public override OutputBuilder Render()
         {
-            var ab = new AnsiBuilder();
-            ab.AppendLine("TODO: LIST OUT ALL HELP TOPICS FOUND VIA HelpManager.");
-            ab.AppendLine();
-            ab.AppendLine("You can also use the \"commands\" command to list out commands, and you can get help");
-            ab.AppendLine("for a specific command with \"help <command name>\"");
-            return ab.ToString();
+            var output = new OutputBuilder();
+            output.AppendLine("TODO: LIST OUT ALL HELP TOPICS FOUND VIA HelpManager.");
+            output.AppendLine();
+            output.AppendLine("You can also use the \"commands\" command to list out commands, and you can get help");
+            output.AppendLine("for a specific command with \"help <command name>\"");
+            return output;
         }
     }
 }

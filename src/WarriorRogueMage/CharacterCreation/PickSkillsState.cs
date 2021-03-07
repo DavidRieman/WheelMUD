@@ -8,17 +8,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using WheelMUD.ConnectionStates;
 using WheelMUD.Core;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WarriorRogueMage.CharacterCreation
 {
     /// <summary>The character creation step where the player will pick their skills.</summary>
     public class PickSkillsState : CharacterCreationSubState
     {
-        private readonly string formattedSkills;
         private readonly List<GameSkill> gameSkills;
         private readonly List<GameSkill> selectedSkills = new List<GameSkill>();
 
@@ -28,12 +26,11 @@ namespace WarriorRogueMage.CharacterCreation
             : base(session)
         {
             gameSkills = GameSystemController.Instance.GameSkills;
-            formattedSkills = FormatSkillText();
         }
 
         public override void Begin()
         {
-            Session.WriteAnsiLine("You will now pick your character's starting skills.", false);
+            Session.Write(new OutputBuilder().AppendLine("You will now pick your character's starting skills."), false);
             RefreshScreen();
         }
 
@@ -75,9 +72,9 @@ namespace WarriorRogueMage.CharacterCreation
             return WrmChargenCommon.GetFirstPriorityMatch(skillName, gameSkills);
         }
 
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
-            return "Select the character's skills: > ";
+            return new OutputBuilder().Append("Select the character's skills: > ");
         }
 
         private bool SetSkill(string skillName)
@@ -121,13 +118,13 @@ namespace WarriorRogueMage.CharacterCreation
                 return;
             }
 
-            var ab = new AnsiBuilder();
-            ab.AppendSeparator('=', "yellow", true);
-            ab.AppendLine($"Description for {foundSkill.Name}");
-            ab.AppendSeparator('-', "yellow");
-            ab.AppendLine($"<%b%><%white%>{foundSkill.Description}");
-            ab.AppendSeparator('=', "yellow", true);
-            Session.Write(ab.ToString());
+            var output = new OutputBuilder();
+            output.AppendSeparator('=', "yellow", true);
+            output.AppendLine($"Description for {foundSkill.Name}");
+            output.AppendSeparator('-', "yellow");
+            output.AppendLine($"<%b%><%white%>{foundSkill.Description}");
+            output.AppendSeparator('=', "yellow", true);
+            Session.Write(output);
         }
 
         private void ProcessDone()
@@ -149,10 +146,9 @@ namespace WarriorRogueMage.CharacterCreation
             StateMachine.HandleNextStep(this, StepStatus.Success);
         }
 
-        private string FormatSkillText()
+        private void FormatSkillText(OutputBuilder outputBuilder)
         {
             var skillQueue = new Queue();
-            var text = new AnsiBuilder();
             int rows = gameSkills.Count / 4;
             var longestSkillName = 0;
 
@@ -174,7 +170,7 @@ namespace WarriorRogueMage.CharacterCreation
                 string skill2 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                 string skill3 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                 string skill4 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                text.AppendLine($"{skill1}  {skill2}  {skill3}  {skill4}");
+                outputBuilder.AppendLine($"{skill1}  {skill2}  {skill3}  {skill4}");
             }
 
             if ((gameSkills.Count % 4) > 0)
@@ -184,48 +180,46 @@ namespace WarriorRogueMage.CharacterCreation
                 {
                     case 1:
                         string skillcolumn1 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                        text.AppendLine($"{skillcolumn1}");
+                        outputBuilder.AppendLine($"{skillcolumn1}");
                         break;
                     case 2:
                         string sk1 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                         string sk2 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                        text.AppendLine($"{sk1}  {sk2}");
+                        outputBuilder.AppendLine($"{sk1}  {sk2}");
                         break;
                     case 3:
                         string skl1 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                         string skl2 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
                         string skl3 = WrmChargenCommon.FormatToColumn(longestSkillName, ((GameSkill)skillQueue.Dequeue()).Name);
-                        text.AppendLine($"{skl1}  {skl2}  {skl3}");
+                        outputBuilder.AppendLine($"{skl1}  {skl2}  {skl3}");
                         break;
                 }
             }
-
-            return text.ToString();
         }
 
         private void RefreshScreen()
         {
-            var ab = new AnsiBuilder();
-            ab.AppendLine();
-            ab.AppendLine("You may pick three starting skills for your character.");
+            var output = new OutputBuilder();
+            output.AppendLine();
+            output.AppendLine("You may pick three starting skills for your character.");
             int n = 1;
             foreach (var skill in selectedSkills)
             {
-                ab.AppendLine($"Skill #{n} : {skill.Name}");
+                output.AppendLine($"Skill #{n} : {skill.Name}");
                 n++;
             }
-            ab.AppendLine();
-            ab.AppendLine("<%green%>Please select 3 from the list below:<%n%>");
-            ab.AppendLine(formattedSkills);
-            ab.AppendLine($"<%green%>You have {3 - selectedSkills.Count} skills left.<%n%>");
-            ab.AppendSeparator('=', "yellow", true);
-            ab.AppendLine("To pick a skill, type the skill's name. Example: unarmed");
-            ab.AppendLine("To view a skill's description use the view command. Example: view unarmed");
-            ab.AppendLine("To see this screen again type list.");
-            ab.AppendLine("When you are done picking your three skills, type done.");
-            ab.AppendSeparator('=', "yellow", true);
+            output.AppendLine();
+            output.AppendLine("<%green%>Please select 3 from the list below:<%n%>");
+            FormatSkillText(output);
+            output.AppendLine($"<%green%>You have {3 - selectedSkills.Count} skills left.<%n%>");
+            output.AppendSeparator('=', "yellow", true);
+            output.AppendLine("To pick a skill, type the skill's name. Example: unarmed");
+            output.AppendLine("To view a skill's description use the view command. Example: view unarmed");
+            output.AppendLine("To see this screen again type list.");
+            output.AppendLine("When you are done picking your three skills, type done.");
+            output.AppendSeparator('=', "yellow", true);
 
-            Session.Write(ab.ToString());
+            Session.Write(output);
         }
     }
 }

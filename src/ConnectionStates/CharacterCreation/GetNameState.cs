@@ -9,6 +9,7 @@ using System;
 using WheelMUD.Core;
 using WheelMUD.Data;
 using WheelMUD.Data.Repositories;
+using WheelMUD.Server;
 
 namespace WheelMUD.ConnectionStates
 {
@@ -43,7 +44,7 @@ namespace WheelMUD.ConnectionStates
                 // The name is valid, but has it been taken already?
                 if (PlayerRepositoryExtensions.UserNameExists(command))
                 {
-                    Session.WriteAnsiLine("I'm sorry, that name is already taken. Please choose another.");
+                    Session.Write(new OutputBuilder().AppendLine("I'm sorry, that name is already taken. Please choose another."));
                 }
                 else if (StateMachine != null)
                 {
@@ -61,11 +62,11 @@ namespace WheelMUD.ConnectionStates
             }
         }
 
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
             return AppConfigInfo.Instance.UserAccountIsPlayerCharacter ?
-                "Please enter a name for your character: > " :
-                "Please enter a user account name or email address: > ";
+                new OutputBuilder().Append("Please enter a name for your character: > ") :
+                new OutputBuilder().Append("Please enter a user account name or email address: > ");
         }
 
         /// <summary>Validate a proposed new user name against some basic criteria.</summary>
@@ -87,7 +88,7 @@ namespace WheelMUD.ConnectionStates
             // Rule: User and character names may not be missing or empty.
             if (string.IsNullOrEmpty(newUserName))
             {
-                Session.Write("You must supply a name.");
+                Session.Write(new OutputBuilder().AppendLine("You must supply a name."));
                 return false;
             }
 
@@ -96,14 +97,14 @@ namespace WheelMUD.ConnectionStates
             // it is checked first to have consistent messagine each time you try a really long one in sequence.
             if (isAlsoPlayerName && (newUserName.Length < MinimumPlayerCharacterNameLength || newUserName.Length > MaximumPlayerCharacterNameLength))
             {
-                Session.Write($"Player name must be between {MinimumPlayerCharacterNameLength} and {MaximumPlayerCharacterNameLength} letters long. Please choose another.");
+                Session.Write(new OutputBuilder().AppendLine($"Player name must be between {MinimumPlayerCharacterNameLength} and {MaximumPlayerCharacterNameLength} letters long. Please choose another."));
                 return false;
             }
 
             // Rule: User name can not be too short nor too long.
             if (newUserName.Length < MinimumUserNameLength || newUserName.Length > MaximumUserNameLength)
             {
-                Session.Write($"User name must be between {MinimumUserNameLength} and {MaximumUserNameLength} letters long. Please choose another.");
+                Session.Write(new OutputBuilder().AppendLine($"User name must be between {MinimumUserNameLength} and {MaximumUserNameLength} letters long. Please choose another."));
                 return false;
             }
 
@@ -116,7 +117,7 @@ namespace WheelMUD.ConnectionStates
                 {
                     if (!char.IsLetter(c))
                     {
-                        Session.Write("Character name must include only letters. Please choose another.");
+                        Session.Write(new OutputBuilder().AppendLine("Character name must include only letters. Please choose another."));
                         return false;
                     }
                 }
@@ -126,7 +127,7 @@ namespace WheelMUD.ConnectionStates
                 // Otherwise, if false, the user may use names like "McGraw" but now "MCGRAW" etc.
                 if (AppConfigInfo.Instance.PlayerCharacterNamesMustUseSingleCapital)
                 {
-                    newUserName = newUserName.Substring(0, 1).ToUpper() + newUserName.Substring(1).ToLower();
+                    newUserName = newUserName[..1].ToUpper() + newUserName[1..].ToLower();
                 }
 
                 int capitalCount = 0;
@@ -144,14 +145,14 @@ namespace WheelMUD.ConnectionStates
                 // Rule: Character name must include at least one vowel or equivalent character.
                 if (vowelCount <= 0)
                 {
-                    Session.Write("Character name may not exclude vowels. Please choose another.");
+                    Session.Write(new OutputBuilder().AppendLine("Character name may not exclude vowels. Please choose another."));
                     return false;
                 }
 
                 // Rule: Character name may not only consist too heavily of uppercase characters.
                 if (capitalCount > 1 && capitalCount >= newUserName.Length / 2)
                 {
-                    Session.Write("Character name may not be heavily uppercased. Please choose another.");
+                    Session.Write(new OutputBuilder().AppendLine("Character name may not be heavily uppercased. Please choose another."));
                     return false;
                 }
 
@@ -159,7 +160,7 @@ namespace WheelMUD.ConnectionStates
                 // However, if it does, we will adjust the name automatically with a single starting capital.
                 if (newUserName == newUserName.ToLower())
                 {
-                    newUserName = newUserName.Substring(0, 1).ToUpper() + newUserName.Substring(1);
+                    newUserName = newUserName[..1].ToUpper() + newUserName[1..];
                 }
             }
 

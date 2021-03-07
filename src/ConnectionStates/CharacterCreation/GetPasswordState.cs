@@ -7,32 +7,28 @@
 
 using WheelMUD.Core;
 using WheelMUD.Data;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WheelMUD.ConnectionStates
 {
     /// <summary>Character creation state used to request a password for the new character.</summary>
     public class GetPasswordState : CharacterCreationSubState
     {
-        private static readonly string InitialStateMessage;
-        static GetPasswordState()
-        {
-            var ab = new AnsiBuilder();
-            ab.AppendLine();
-            ab.AppendLine(AppConfigInfo.Instance.UserAccountIsPlayerCharacter ?
-                "Please carefully select a password for this character." :
-                "Please carefully select a password for this user account.");
-            ab.Append("Although the Telnet protocol provides an authentic retro experience, unfortunately it also sends password in plain-text. ");
-            ab.Append("Do not use the same password as you use for any other account. Do not use this password on a network with machines do not fully trust (especially public networks). ");
-            ab.AppendLine("Your password can be changed while logged in.");
-            InitialStateMessage = ab.ToString();
-        }
+        private readonly OutputBuilder InitialStateMessage;
 
         /// <summary>Initializes a new instance of the <see cref="GetPasswordState"/> class.</summary>
         /// <param name="session">The session.</param>
         public GetPasswordState(Session session)
             : base(session)
         {
+            var output = new OutputBuilder();
+            output.AppendLine();
+            output.AppendLine(AppConfigInfo.Instance.UserAccountIsPlayerCharacter ?
+                "Please carefully select a password for this character." :
+                "Please carefully select a password for this user account.");
+            output.AppendLine("Although the Telnet protocol provides an authentic retro experience, unfortunately it also sends password in plain-text. Do not use the same password as you use for any other account. Do not use this password on a network with machines do not fully trust (especially public networks).");
+            output.AppendLine("Your password can be changed while logged in.");
+            InitialStateMessage = output;
         }
 
         public override void Begin()
@@ -52,11 +48,11 @@ namespace WheelMUD.ConnectionStates
             StateMachine.HandleNextStep(this, StepStatus.Success);
         }
 
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
             // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
             // is repeating received keystrokes back to their output.
-            return "Enter a password: > <%hidden%>";
+            return new OutputBuilder().Append("Enter a password: > <%hidden%>");
         }
     }
 }

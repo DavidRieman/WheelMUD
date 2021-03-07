@@ -5,58 +5,83 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using WheelMUD.Server;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using WheelMUD.Utilities;
-
     [RendererExports.SplashScreen(0)]
     public class DefaultSplashScreenRenderer : RendererDefinitions.SplashScreen
     {
-        private static readonly List<string> splashScreens = new List<string>();
-
-        static DefaultSplashScreenRenderer()
+        public override OutputBuilder Render()
         {
-            LoadSplashScreens();
+            return new OutputBuilder().AppendLine(Get());
         }
 
-        /// <summary>Load the splash screens.</summary>
-        private static void LoadSplashScreens()
-        {
-            string path = Path.Combine(GameConfiguration.DataStoragePath, "SplashScreens");
-            var dirInfo = new DirectoryInfo(path);
-            var files = new List<FileInfo>(dirInfo.GetFiles());
-
-            foreach (var fileInfo in files)
-            {
-                string splashContent;
-                using (var streamReader = new StreamReader(fileInfo.FullName))
+        private static string Get(int number = -1)
                 {
-                    splashContent = streamReader.ReadToEnd();
+                    var random = new Random();
+        
+                    if (number < 0 || number > SplashScreens.Length - 1)
+                    {
+                        return SplashScreens[random.Next(0, SplashScreens.Length)];
+                    }
+        
+                    return SplashScreens[number];
                 }
-
-                string renderedScreen = string.Format(splashContent,
-                    GameConfiguration.Name,        // {0} in splash screen files
-                    GameConfiguration.Version,     // {1} in splash screen files
-                    GameConfiguration.Website,     // {2} in splash screen files
-                    GameConfiguration.Copyright);  // {3} in splash screen files
-
-                splashScreens.Add(renderedScreen);
-            }
-        }
-
-        public override string Render()
-        {
-            if (!splashScreens.Any())
-            {
-                return $"Welcome to {GameConfiguration.Name}.{AnsiSequences.NewLine}";
-            }
-
-            var random = new Random();
-            return splashScreens[random.Next(0, splashScreens.Count)];
-        }
+        
+                private static readonly string[] SplashScreens =
+                {"<%green%>" + "<%nl%>" +
+                 " _       _  _                    __    __   __   _     _  _____  " + "<%nl%>" +
+                 "(_)  _  (_)(_)      ____   ____ (__)  (__)_(__) (_)   (_)(_____) " + "<%nl%>" +
+                 "(_) (_) (_)(_)__   (____) (____) (_) (_) (_) (_)(_)   (_)(_)  (_)" + "<%nl%>" +
+                 "(_) (_) (_)(____) (_)_(_)(_)_(_) (_) (_) (_) (_)(_)   (_)(_)  (_)" + "<%nl%>" +
+                 "(_)_(_)_(_)(_) (_)(__)__ (__)__  (_) (_)     (_)(_)___(_)(_)__(_)" + "<%nl%>" +
+                 "(__) (__) (_) (_) (____) (____)(___)(_)     (_) (_____) (_____)  " + "<%nl%>" +
+                 "<%n%>" + "<%nl%>" +
+                 $"{GameConfiguration.Copyright}" + "<%nl%>" +
+                 "" + "<%nl%>" +
+                 $"Welcome to {GameConfiguration.Name} {GameConfiguration.Version}.",
+                 
+                 "<%green%>" + "<%nl%>" +
+                 "Y8b Y8b Y888P 888                     888     e   e     8888 8888 888 88e" + "<%nl%>" +
+                 "Y8b Y8b Y8P  888 ee   ,e e,   ,e e,  888    d8b d8b    8888 8888 888 888b" + "<%nl%>" +
+                 "Y8b Y8b Y   888 88b d88 88b d88 88b 888   e Y8b Y8b   8888 8888 888 8888D" + "<%nl%>" +
+                 "Y8b Y8b    888 888 888   , 888   , 888  d8b Y8b Y8b  8888 8888 888 888P  " + "<%nl%>" +
+                 "Y8P Y     888 888  'YeeP'  'YeeP' 888 d888b Y8b Y8b 'Y88 88P' 888 88     " + "<%nl%>" +
+                 "<%n%>" + "<%nl%>" +
+                 $"{GameConfiguration.Copyright}" + "<%nl%>" +
+                 "" + "<%nl%>" +
+                 $"Welcome to {GameConfiguration.Name} {GameConfiguration.Version}.",
+                 
+                    "<%green%>" + "<%nl%>" +
+                    "       @@@@@@      @@@@@@@@                                       " + "<%nl%>" +
+                    "      @@    @@@  @@@      @@                                      " + "<%nl%>" +
+                    "      @        @@@@         @    @   @   @  @                    @" + "<%nl%>" +
+                    "     @@         @@          @@   @  @ @  @  @                    @" + "<%nl%>" +
+                    "    @@          @@           @   @  @ @  @  @ @@    @@@    @@@   @" + "<%nl%>" +
+                    "    @@          @@           @   @  @ @  @  @@  @  @   @  @   @  @" + "<%nl%>" +
+                    "    @@         @@@@@         @   @ @   @ @  @   @  @   @  @   @  @" + "<%nl%>" +
+                    "    @@      @@@@@@@@@@@     @@   @ @   @ @  @   @  @@@@@  @@@@@  @" + "<%nl%>" +
+                    "    @@     @@@@@@@@@@@@     @@   @ @   @ @  @   @  @      @      @" + "<%nl%>" +
+                    "    @@@    @@@@@@@@@@@@@   @@     @     @   @   @  @   @  @   @  @" + "<%nl%>" +
+                    "     @@   @@@@@@@@@@@@@@@ @@      @     @   @   @   @@@    @@@   @" + "<%nl%>" +
+                    "      @@@ @@@ @  @  @ @@@@@                                       " + "<%nl%>" +
+                    "        @@@@@  @ @ @  @@@@             @     @   @     @  @@@@@   " + "<%nl%>" +
+                    "         @@@    @@@    @@@             @@   @@   @     @  @    @  " + "<%nl%>" +
+                    "         @@@@ @ @@@ @ @@@@             @@   @@   @     @  @     @ " + "<%nl%>" +
+                    "         @@@    @@@    @@@             @ @ @ @   @     @  @     @ " + "<%nl%>" +
+                    "         @@@   @ @ @   @@@             @ @ @ @   @     @  @     @ " + "<%nl%>" +
+                    "          @@@ @  @  @ @@@              @ @ @ @   @     @  @     @ " + "<%nl%>" +
+                    "          @@@@   @   @@@@              @ @ @ @   @     @  @     @ " + "<%nl%>" +
+                    "           @@@@@@@@@@@@@@              @  @  @    @   @   @    @  " + "<%nl%>" +
+                    "            @@@@@@@@@@@                @  @  @     @@@    @@@@@   " + "<%nl%>" +
+                    "              @@@@@@                                              " + "<%nl%>" +
+                    "<%n%>" + "<%nl%>" +
+                    $"{GameConfiguration.Copyright}" + "<%nl%>" +
+                    "" + "<%nl%>" +
+                    $"Welcome to {GameConfiguration.Name} {GameConfiguration.Version}."
+                };
     }
 }

@@ -5,14 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A command to drop an object from the player inventory to the room.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("drop", CommandCategory.Item)]
@@ -31,29 +29,26 @@ namespace WheelMUD.Actions
         };
 
         /// <summary>The thing that we are to 'drop'.</summary>
-        private Thing thingToDrop = null;
+        private Thing thingToDrop;
 
         /// <summary>The movable behavior of the thing we are to 'drop'.</summary>
         private MovableBehavior movableBehavior;
 
         /// <summary>The quantity of the item that we are to 'drop'.</summary>
-        private int numberToDrop = 0;
+        private int numberToDrop;
 
         /// <summary>The current place that the player is within.</summary>
-        private Thing dropLocation = null;
+        private Thing dropLocation;
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            // Generate an item changed owner event.
-            IController sender = actionInput.Controller;
-
-            var contextMessage = new ContextualString(sender.Thing, thingToDrop.Parent)
+            var contextMessage = new ContextualString(actionInput.Controller.Thing, thingToDrop.Parent)
             {
                 ToOriginator = $"You drop up {thingToDrop.Name}.",
-                ToReceiver = $"{sender.Thing.Name} drops $Thing.Name in you.",
-                ToOthers = $"{sender.Thing.Name} drops $Thing.Name.",
+                ToReceiver = $"{actionInput.Controller.Thing.Name} drops {thingToDrop.Name} in you.",
+                ToOthers = $"{actionInput.Controller.Thing.Name} drops {thingToDrop.Name}."
             };
             var dropMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
@@ -71,28 +66,22 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            string targetName = actionInput.Tail.Trim().ToLower();
+            var targetName = actionInput.Tail.Trim().ToLower();
 
             // Rule: if 2 params
             if (actionInput.Params.Length == 2)
             {
                 int.TryParse(actionInput.Params[0], out numberToDrop);
 
-                if (numberToDrop == 0)
-                {
-                    targetName = actionInput.Tail.ToLower();
-                }
-                else
-                {
-                    targetName = actionInput.Tail.Remove(0, actionInput.Params[0].Length).Trim().ToLower();
-                }
+                targetName = numberToDrop == 0 ? actionInput.Tail.ToLower() : 
+                    actionInput.Tail.Remove(0, actionInput.Params[0].Length).Trim().ToLower();
             }
 
             // Rule: Did the initiator look to drop something?
@@ -101,23 +90,18 @@ namespace WheelMUD.Actions
                 return "What did you want to drop?";
             }
 
-            dropLocation = sender.Thing.Parent;
+            dropLocation = actionInput.Controller.Thing.Parent;
 
             // Rule: Is the target an item in the entity's inventory?
-            thingToDrop = sender.Thing.Children.Find(t => t.Name.Equals(targetName, StringComparison.CurrentCultureIgnoreCase));
+            thingToDrop = actionInput.Controller.Thing.Children.Find(t => t.Name.Equals(targetName, StringComparison.CurrentCultureIgnoreCase));
             if (thingToDrop == null)
             {
-                return "You do not hold " + targetName + ".";
+                return $"You do not hold {targetName}.";
             }
 
             // Rule: The target thing must be movable.
             movableBehavior = thingToDrop.Behaviors.FindFirst<MovableBehavior>();
-            if (movableBehavior == null)
-            {
-                return thingToDrop.Name + " does not appear to be movable.";
-            }
-
-            return null;
+            return movableBehavior == null ? $"{thingToDrop.Name} does not appear to be movable." : null;
         }
     }
 }

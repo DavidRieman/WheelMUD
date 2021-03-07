@@ -5,9 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server;
+
 namespace WheelMUD.ConnectionStates
 {
-    using System;
     using WheelMUD.Core;
     using WheelMUD.Data;
 
@@ -41,14 +42,14 @@ namespace WheelMUD.ConnectionStates
             subStateHandler.ProcessInput(command);
         }
 
-        public override string BuildPrompt()
+        public override OutputBuilder BuildPrompt()
         {
             if (subStateHandler != null && subStateHandler.CurrentStep != null)
             {
                 return subStateHandler.CurrentStep.BuildPrompt();
             }
 
-            return "> ";
+            return new OutputBuilder(2).Append("> ");
         }
 
         /// <summary>Called upon the completion of character creation.</summary>
@@ -58,7 +59,7 @@ namespace WheelMUD.ConnectionStates
             var user = session.User;
             var character = session.Thing;
 
-            session.WriteAnsiLine($"Saving character {character.Name}.", false);
+            session.Write(new OutputBuilder().AppendLine($"Saving character {character.Name}."), false);
             using (var docSession = Helpers.OpenDocumentSession())
             {
                 // Save the character first so we can use the auto-assigned unique identity.
@@ -70,7 +71,7 @@ namespace WheelMUD.ConnectionStates
                 docSession.Store(user);
                 docSession.SaveChanges();
             }
-            session.WriteAnsiLine($"Done saving {character.Name}.", false);
+            session.Write(new OutputBuilder().AppendLine($"Done saving {character.Name}."), false);
 
             var playerBehavior = character.Behaviors.FindFirst<PlayerBehavior>();
             if (playerBehavior.LogIn(session))
@@ -82,7 +83,7 @@ namespace WheelMUD.ConnectionStates
             }
             else
             {
-                session.Write("Character was created but could not be logged in right now. Disconnecting.");
+                session.Write(new OutputBuilder().AppendLine("Character was created but could not be logged in right now. Disconnecting."));
                 session.SetState(null);
                 session.Connection.Disconnect();
             }

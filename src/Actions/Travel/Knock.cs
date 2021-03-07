@@ -5,13 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An action to knock on a door.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("knock", CommandCategory.Travel)]
@@ -40,14 +38,13 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             // Build our knock messages for this room and the next.  Only send message to the door-type thing once.
-            IController sender = actionInput.Controller;
-            var thisRoomMessage = new ContextualString(sender.Thing, target)
+            var thisRoomMessage = new ContextualString(actionInput.Controller.Thing, target)
             {
                 ToOriginator = $"You knock on {target.Name}.",
-                ToOthers = $"{sender.Thing.Name} knocks on {target.Name}.",
-                ToReceiver = $"{sender.Thing.Name} knocks on you.",
+                ToOthers = $"{actionInput.Controller.Thing.Name} knocks on {target.Name}.",
+                ToReceiver = $"{actionInput.Controller.Thing.Name} knocks on you.",
             };
-            var nextRoomMessage = new ContextualString(sender.Thing, target)
+            var nextRoomMessage = new ContextualString(actionInput.Controller.Thing, target)
             {
                 ToOriginator = null,
                 ToOthers = $"Someone knocks on {target.Name}.",
@@ -63,11 +60,11 @@ namespace WheelMUD.Actions
             var nextRoomKnockEvent = new KnockEvent(target, nextRoomSM);
 
             // Broadcast the requests/events; the events handle sending the sensory messages.
-            sender.Thing.Eventing.OnCommunicationRequest(thisRoomKnockEvent, EventScope.ParentsDown);
+            actionInput.Controller.Thing.Eventing.OnCommunicationRequest(thisRoomKnockEvent, EventScope.ParentsDown);
             if (!thisRoomKnockEvent.IsCancelled)
             {
                 // The knocking here happens regardless of whether it's cancelled on the inside.
-                sender.Thing.Eventing.OnCommunicationEvent(thisRoomKnockEvent, EventScope.ParentsDown);
+                actionInput.Controller.Thing.Eventing.OnCommunicationEvent(thisRoomKnockEvent, EventScope.ParentsDown);
 
                 // Next try to send a knock event into the adjacent place too.
                 nextRoom.Eventing.OnCommunicationRequest(nextRoomKnockEvent, EventScope.SelfDown);
@@ -83,13 +80,13 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            string targetName = actionInput.Tail.Trim().ToLower();
+            var targetName = actionInput.Tail.Trim().ToLower();
 
             // Rule: Do we have a target?
             if (targetName.Length == 0)

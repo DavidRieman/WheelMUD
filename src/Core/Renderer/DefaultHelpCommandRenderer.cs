@@ -6,29 +6,28 @@
 //-----------------------------------------------------------------------------
 
 using WheelMUD.Server;
-using WheelMUD.Utilities;
 
 namespace WheelMUD.Core
 {
     [RendererExports.HelpCommand(0)]
     public class DefaultHelpCommandRenderer : RendererDefinitions.HelpCommand
     {
-        public override string Render(TerminalOptions terminalOptions, Command command)
+        public override OutputBuilder Render(Command command)
         {
-            var ab = new AnsiBuilder();
-            ab.AppendLine($"<%yellow%>{command.Name.ToUpper()}<%n%>:");
+            var output = new OutputBuilder();
+            output.AppendLine($"<%yellow%>{command.Name.ToUpper()}<%n%>:");
             if (!string.IsNullOrWhiteSpace(command.Description))
             {
-                ab.AppendLine(command.Description);
+                output.AppendLine(command.Description);
             }
             // TODO: Add command.Usage?  Rename Example to "Examples" as string[]?
             if (!string.IsNullOrWhiteSpace(command.Example))
             {
-                ab.AppendLine("<%yellow%>USAGE<%n%>:");
-                ab.AppendLine(command.Example);
+                output.AppendLine("<%yellow%>USAGE<%n%>:");
+                output.AppendLine(command.Example);
             }
             // TODO: Add command.SeeAlso as string[]?
-            return ab.ToString();
+            return output;
         }
     }
 }

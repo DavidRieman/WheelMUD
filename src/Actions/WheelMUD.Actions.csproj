@@ -27,9 +27,6 @@
     <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Combat\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Remove="Inform\Done.cs" />
     <Compile Remove="Inform\Uptime.cs" />
     <Compile Remove="Inform\Version.cs" />

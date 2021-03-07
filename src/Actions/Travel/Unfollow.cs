@@ -1,16 +1,15 @@
-﻿// <copyright file="Unfollow.cs" company="WheelMUD Development Team">
+﻿//-----------------------------------------------------------------------------
+// <copyright file="Unfollow.cs" company="WheelMUD Development Team">
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An action to stop following another player or mobile around.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("unfollow", CommandCategory.Travel)]
@@ -31,9 +30,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-
-            var myBehaviors = sender.Thing.Behaviors;
+            var myBehaviors = actionInput.Controller.Thing.Behaviors;
 
             var followingBehavior = myBehaviors.FindFirst<FollowingBehavior>();
             if (followingBehavior != null)
@@ -47,7 +44,7 @@ namespace WheelMUD.Actions
                     {
                         lock (followedBehavior.Followers)
                         {
-                            followedBehavior.Followers.Remove(sender.Thing);
+                            followedBehavior.Followers.Remove(actionInput.Controller.Thing);
                             if (followedBehavior.Followers.Count == 0)
                             {
                                 targetBehaviors.Remove(followedBehavior);
@@ -60,17 +57,17 @@ namespace WheelMUD.Actions
             }
             else
             {
-                var message = new ContextualString(sender.Thing, null)
+                var message = new ContextualString(actionInput.Controller.Thing, null)
                 {
                     ToOriginator = "You aren't following anybody."
                 };
 
                 var senseMessage = new SensoryMessage(SensoryType.All, 100, message);
 
-                var followEvent = new FollowEvent(sender.Thing, senseMessage, sender.Thing, null);
+                var followEvent = new FollowEvent(actionInput.Controller.Thing, senseMessage, actionInput.Controller.Thing, null);
 
                 // Broadcast the event
-                sender.Thing.Eventing.OnMiscellaneousEvent(followEvent, EventScope.ParentsDown);
+                actionInput.Controller.Thing.Eventing.OnMiscellaneousEvent(followEvent, EventScope.ParentsDown);
             }
         }
 
@@ -79,14 +76,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

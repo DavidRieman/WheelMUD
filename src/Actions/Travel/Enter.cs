@@ -5,15 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using WheelMUD.Core;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using WheelMUD.Core;
-
     /// <summary>A command that allows a player to enter a Thing.</summary>
     /// <remarks>
     /// TODO: An "enter" action should only be present through a ContextCommand added by an EnterableBehavior,
@@ -41,8 +39,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            enterableBehavior.Enter(sender.Thing);
+            enterableBehavior.Enter(actionInput.Controller.Thing);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -50,8 +47,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -63,19 +59,20 @@ namespace WheelMUD.Actions
             // TODO: This sort of find pattern may become common; maybe we need to simplify 
             //       to having a Thing method which does this?  IE "List<Thing> FindChildren<T>(string id)"?
             Predicate<Thing> findPredicate = (Thing t) => t.Behaviors.FindFirst<EnterableExitableBehavior>() != null;
-            List<Thing> enterableThings = sender.Thing.Parent.FindAllChildren(findPredicate);
+            var enterableThings = actionInput.Controller.Thing.Parent.FindAllChildren(findPredicate);
 
             if (enterableThings.Count > 1)
             {
                 return "There is more than one thing by that identity.";
             }
-            else if (enterableThings.Count == 1)
+
+            if (enterableThings.Count == 1)
             {
-                Thing thing = enterableThings.First();
+                var thing = enterableThings.First();
                 enterableBehavior = thing.Behaviors.FindFirst<EnterableExitableBehavior>();
                 if (enterableBehavior == null)
                 {
-                    return "You can not enter " + thing.Name + ".";
+                    return $"You can not enter {thing.Name}.";
                 }
             }
 

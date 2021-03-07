@@ -5,13 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An action to set your login password.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("password", CommandCategory.Configure)]
@@ -36,19 +34,14 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-
-            if (sender != null && sender.Thing != null)
+            /* TODO: #65: This is on the User object now.
             {
-                /* TODO: #65: This is on the User object now.
-                {
-                    sender.Write("Password successfully changed.");
-                }
-                else
-                {
-                    sender.Write("Unexpected error occurred changing password, please contact admin.");
-                }*/
+                sender.Write("Password successfully changed.");
             }
+            else
+            {
+                sender.Write("Unexpected error occurred changing password, please contact admin.");
+            }*/
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -56,7 +49,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -65,8 +58,8 @@ namespace WheelMUD.Actions
             // TODO: Use temporary change of command context for verification (rather than single line confirmation).
             if (actionInput.Params.Length == 2)
             {
-                string password1 = actionInput.Params[0];
-                string password2 = actionInput.Params[1];
+                var password1 = actionInput.Params[0];
+                var password2 = actionInput.Params[1];
 
                 if (password1 != password2)
                 {

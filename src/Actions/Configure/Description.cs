@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An action to change your character's description.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("description", CommandCategory.Configure)]
@@ -21,9 +20,7 @@ namespace WheelMUD.Actions
     public class Description : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
-        {
-        };
+        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>();
 
         /// <summary>Gets or sets the new description that will be used.</summary>
         private string NewDescription { get; set; }
@@ -32,27 +29,25 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            if (sender != null && sender.Thing != null)
+            if (actionInput.Controller.Thing != null)
             {
-                Thing entity = sender.Thing;
-                if (entity != null)
+                if (!string.IsNullOrEmpty(NewDescription))
                 {
-                    if (!string.IsNullOrEmpty(NewDescription))
-                    {
-                        entity.Description = NewDescription;
-                        entity.FindBehavior<PlayerBehavior>()?.SavePlayer();
-                        sender.Write("Description successfully changed.");
-                    }
-                    else
-                    {
-                        sender.Write(string.Format("Your current description is \"{0}\".", entity.Description));
-                    }
+                    actionInput.Controller.Thing.Description = NewDescription;
+                    actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SavePlayer();
+                    actionInput.Controller.Write(new OutputBuilder().
+                        AppendLine("Description successfully changed."));
                 }
                 else
                 {
-                    sender.Write("Unexpected error occurred changing description, please contact admin.");
+                    actionInput.Controller.Write(new OutputBuilder().
+                        AppendLine($"Your current description is \"{actionInput.Controller.Thing.Description}\"."));
                 }
+            }
+            else
+            {
+                actionInput.Controller.Write(new OutputBuilder().
+                    AppendLine("Unexpected error occurred changing description, please contact admin."));
             }
         }
 
@@ -61,7 +56,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;

@@ -20,62 +20,62 @@ namespace WheelMUD.Core
     {
         public abstract class CommandsCategories
         {
-            public abstract string Render(TerminalOptions terminalOptions, IEnumerable<Command> commands);
+            public abstract OutputBuilder Render(IEnumerable<Command> commands);
         }
 
         public abstract class CommandsList
         {
-            public abstract string Render(TerminalOptions terminalOptions, IEnumerable<Command> commands, string categoryName);
+            public abstract OutputBuilder Render(IEnumerable<Command> commands, string categoryName);
         }
 
         public abstract class HelpCommand
         {
-            public abstract string Render(TerminalOptions terminalOptions, Command command);
+            public abstract OutputBuilder Render(Command command);
         }
 
         public abstract class HelpTopic
         {
-            public abstract string Render(TerminalOptions terminalOptions, Core.HelpTopic helpTopic);
+            public abstract OutputBuilder Render(TerminalOptions terminalOptions, Core.HelpTopic helpTopic);
         }
 
         public abstract class HelpTopics
         {
-            public abstract string Render(TerminalOptions terminalOptions);
+            public abstract OutputBuilder Render();
         }
 
         public abstract class Inventory
         {
-            public abstract string Render(Thing player);
+            public abstract OutputBuilder Render(Thing player);
         }
 
         public abstract class PerceivedRoom
         {
-            public abstract string Render(Thing viewer, Thing viewedRoom);
+            public abstract OutputBuilder Render(Thing viewer, Thing viewedRoom);
         }
 
         public abstract class PerceivedThing
         {
-            public abstract string Render(Thing viewer, Thing viewedThing);
+            public abstract OutputBuilder Render(Thing viewer, Thing viewedThing);
         }
 
         public abstract class Prompt
         {
-            public abstract string Render(Thing player);
+            public abstract OutputBuilder Render(Thing player);
         }
 
         public abstract class Score
         {
-            public abstract string Render(Thing player);
+            public abstract OutputBuilder Render(Thing player);
         }
 
         public abstract class SplashScreen
         {
-            public abstract string Render();
+            public abstract OutputBuilder Render();
         }
 
         public abstract class Who
         {
-            public abstract string Render(Thing player);
+            public abstract OutputBuilder Render(Thing player);
         }
     }
 }

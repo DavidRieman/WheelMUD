@@ -5,14 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
-using WheelMUD.Utilities;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A command that allows a player to look at things and their environment.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("look", CommandCategory.Inform)]
@@ -34,26 +32,16 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            string output;
             if (!string.IsNullOrEmpty(actionInput.Tail))
             {
-                output = TryLookAtThing(actionInput.Tail, sender.Thing);
-                if (string.IsNullOrEmpty(output))
-                {
-                    output = $"You cannot see {actionInput.Tail}.";
-                }
-            }
-            else
-            {
-                output = LookAtRoom(sender.Thing);
-                if (string.IsNullOrEmpty(output))
-                {
-                    output = "You cannot see.";
-                }
+                if (!TryLookAtThing(actionInput.Tail, actionInput.Controller.Thing, out var found))
+                    found.AppendLine($"You cannot see {actionInput.Tail}.");
+
+                actionInput.Controller.Write(found);
+                return;
             }
 
-            sender.Write(output);
+            actionInput.Controller.Write(LookAtRoom(actionInput.Controller.Thing));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -61,42 +49,42 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             sensesBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<SensesBehavior>();
-            if (sensesBehavior == null)
-            {
-                return "You do not have any senses to perceive with.";
-            }
-
-            return null;
+            return sensesBehavior == null ? "You do not have any senses to perceive with." : null;
         }
 
         /// <summary>Tries to look at a thing.</summary>
         /// <param name="thingToLookAt">The thing to look at.</param>
         /// <param name="sender">The sender.</param>
+        /// <param name="found"></param>
         /// <returns>Returns the rendered view.</returns>
-        private string TryLookAtThing(string thingToLookAt, Thing sender)
+        private bool TryLookAtThing(string thingToLookAt, Thing sender, out OutputBuilder found)
         {
+            found = new OutputBuilder();
+            
             // Look for the target in the current room.
-            Thing thing = sender.Parent.FindChild(thingToLookAt);
+            var thing = sender.Parent.FindChild(thingToLookAt);
             if (thing != null && sensesBehavior.CanPerceiveThing(thing))
             {
-                return Renderer.Instance.RenderPerceivedThing(sender, thing);
+                found = Renderer.Instance.RenderPerceivedThing(sender, thing);
+                return true;
             }
 
             // If no target was found, see if it matches any of the room's visuals.
             var room = sender.Parent.FindBehavior<RoomBehavior>();
             if (room != null)
             {
-                string visual = room.FindVisual(thingToLookAt);
+                var visual = room.FindVisual(thingToLookAt);
                 if (!string.IsNullOrEmpty(visual))
                 {
-                    return visual;
+                    found = new OutputBuilder(visual.Length).AppendLine(visual);
+                    return true;
                 }
             }
 
@@ -104,17 +92,18 @@ namespace WheelMUD.Actions
             thing = sender.FindChild(thingToLookAt);
             if (thing != null && sensesBehavior.CanPerceiveThing(thing))
             {
-                return Renderer.Instance.RenderPerceivedThing(sender, thing);
+                found = Renderer.Instance.RenderPerceivedThing(sender, thing);
+                return true;
             }
 
             // At this point, target was not found.
-            return string.Empty;
+            return false;
         }
 
         /// <summary>Looks at room. TODO: Move to SensesBehavior?</summary>
         /// <param name="sender">The sender.</param>
         /// <returns>Returns the text of the rendered room template.</returns>
-        private string LookAtRoom(Thing sender)
+        private OutputBuilder LookAtRoom(Thing sender)
         {
             return Renderer.Instance.RenderPerceivedRoom(sender, sender.Parent);
         }

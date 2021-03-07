@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
+using WheelMUD.Universe;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Universe;
-
     /// <summary>An action to fill a liquid container from a large source of liquid.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("fill", CommandCategory.Item)]
@@ -31,23 +30,23 @@ namespace WheelMUD.Actions
         };
 
         /// <summary>The container that we are to 'empty'.</summary>
-        private Thing sourceContainer = null;
+        private Thing sourceContainer;
 
         /// <summary>The name container that we are to 'empty'.</summary>
-        private string sourceContainerName = null;
+        private string sourceContainerName;
 
         /// <summary>The percentage of the item that we are to 'drop'.</summary>
         /// bengecko - Concept only at this point
         ////private double percentToEmpty = 0;
 
         /// <summary>The current room that the player is within.</summary>
-        private Thing parent = null;
+        private Thing parent;
 
         /// <summary>The name of the container that you want to tranfer data to.</summary>
-        private string destinationContainerName = null;
+        private string destinationContainerName;
 
         /// <summary>The container that you want to tranfer data to.</summary>
-        private Thing destinationContainer = null;
+        private Thing destinationContainer;
 
         private ContainerBehavior containerBehavior;
 
@@ -57,22 +56,24 @@ namespace WheelMUD.Actions
         {
             if (sourceContainer != null && destinationContainer != null)
             {
-                IController sender = actionInput.Controller;
                 var sourceHoldsLiquidBehavior = sourceContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
                 var destinationHoldsLiquidBehavior = destinationContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
                 if (sourceHoldsLiquidBehavior == null)
                 {
-                    sender.Write("The source does not hold any liquid.");
+                    actionInput.Controller.Write(new OutputBuilder().
+                        AppendLine("The source does not hold any liquid."));
                     return;
                 }
-                else if (destinationHoldsLiquidBehavior == null)
+
+                if (destinationHoldsLiquidBehavior == null)
                 {
-                    sender.Write("The destination cannot hold any liquid.");
+                    actionInput.Controller.Write(new OutputBuilder().
+                        AppendLine("The destination cannot hold any liquid."));
                     return;
                 }
 
                 // TODO: Get and display more details from FillFrom about failure cases?
-                destinationHoldsLiquidBehavior.FillFrom(sender, sourceHoldsLiquidBehavior);
+                destinationHoldsLiquidBehavior.FillFrom(actionInput.Controller, sourceHoldsLiquidBehavior);
             }
         }
 
@@ -81,21 +82,20 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            int itemParam = 0;
-            parent = sender.Thing.Parent;
+            var itemParam = 0;
+            parent = actionInput.Controller.Thing.Parent;
 
             if (actionInput.Tail.ToLower().Contains("from"))
             {
                 // Find the from keyword in the params.
-                int itemMarker = 0;
-                for (int i = 0; i < actionInput.Params.Length; i++)
+                var itemMarker = 0;
+                for (var i = 0; i < actionInput.Params.Length; i++)
                 {
                     if (actionInput.Params[i].ToLower() == "from")
                     {
@@ -104,7 +104,7 @@ namespace WheelMUD.Actions
                 }
 
                 // Destination container
-                for (int j = itemParam; j < itemMarker; j++)
+                for (var j = itemParam; j < itemMarker; j++)
                 {
                     destinationContainerName += actionInput.Params[j] + ' ';
                 }
@@ -113,7 +113,7 @@ namespace WheelMUD.Actions
 
                 // Source Container name is everything from the marker to the end.
                 sourceContainerName = string.Empty;
-                for (int i = itemMarker + 1; i < actionInput.Params.Length; i++)
+                for (var i = itemMarker + 1; i < actionInput.Params.Length; i++)
                 {
                     sourceContainerName += actionInput.Params[i] + ' ';
                 }
@@ -123,13 +123,13 @@ namespace WheelMUD.Actions
                 // Rule: Do we have an item matching the one specified in our inventory?
                 // If not then does the room have a container with the name.
                 // TODO: Fix: This Find pattern is probably broken...
-                destinationContainer = sender.Thing.Children.Find(t => t.Name == destinationContainerName.ToLower());
+                destinationContainer = actionInput.Controller.Thing.Children.Find(t => t.Name == destinationContainerName.ToLower());
                 if (destinationContainer == null)
                 {
                     destinationContainer = parent.Children.Find(t => t.Name == destinationContainerName.ToLower());
                     if (destinationContainer == null)
                     {
-                        return "You cannot see " + destinationContainerName;
+                        return $"You cannot see {destinationContainerName}.";
                     }
                 }
 
@@ -137,30 +137,26 @@ namespace WheelMUD.Actions
                 this.containerBehavior = destinationContainer.Behaviors.FindFirst<ContainerBehavior>();
                 if (this.containerBehavior == null)
                 {
-                    return destinationContainerName + " is not able to hold things.";
+                    return $"{destinationContainerName} is not able to hold things.";
                 }
-                else
+
+                var holdsLiquidBehavior = destinationContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
+                if (holdsLiquidBehavior == null)
                 {
-                    var holdsLiquidBehavior = destinationContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
-                    if (holdsLiquidBehavior == null)
-                    {
-                        return string.Format(
-                            "It does not appear that the {0} will hold liquid.",
-                            destinationContainerName);
-                    }
+                    return $"It does not appear that the {destinationContainerName} will hold liquid.";
                 }
 
                 // Rule: Is the item open?
                 var openableBehavior = destinationContainer.Behaviors.FindFirst<OpensClosesBehavior>();
-                if (openableBehavior != null && !openableBehavior.IsOpen)
+                if (openableBehavior is {IsOpen: false})
                 {
-                    return string.Format("You cannot fill the {0} as it is closed.", destinationContainerName);
+                    return $"You cannot fill the {destinationContainerName} as it is closed.";
                 }
 
                 // Rule: Do we have an item matching the one specified in our inventory?
                 // If not then does the room have a container with the name.
                 // TODO: Investigate; This search method is probably broken.
-                sourceContainer = sender.Thing.Children.Find(t => t.Name == sourceContainerName.ToLower());
+                sourceContainer = actionInput.Controller.Thing.Children.Find(t => t.Name == sourceContainerName.ToLower());
                 if (sourceContainer == null)
                 {
                     sourceContainer = parent.Children.Find(t => t.Name == sourceContainerName.ToLower());
@@ -172,19 +168,20 @@ namespace WheelMUD.Actions
                 }
 
                 // Rule: Is the item specified as a container actually a container?
-                ContainerBehavior containerBehavior = sourceContainer.Behaviors.FindFirst<ContainerBehavior>();
+                var containerBehavior = sourceContainer.Behaviors.FindFirst<ContainerBehavior>();
                 if (containerBehavior == null)
                 {
-                    return string.Format("The {0} does not hold anything to fill the {1} with.", sourceContainerName, destinationContainerName);
+                    return
+                        $"The {sourceContainerName} does not hold anything to fill the {destinationContainerName} with.";
                 }
 
                 // TODO: HoldsLiquidBehavior?
 
                 // Rule: Is the item open?
-                OpensClosesBehavior opensClosesBehavior = sourceContainer.Behaviors.FindFirst<OpensClosesBehavior>();
+                var opensClosesBehavior = sourceContainer.Behaviors.FindFirst<OpensClosesBehavior>();
                 if (!opensClosesBehavior.IsOpen)
                 {
-                    return string.Format("You cannot fill from the {0} as it is closed.", sourceContainerName);
+                    return $"You cannot fill from the {sourceContainerName} as it is closed.";
                 }
             }
             else

@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Utilities;
 using System;
 using System.Collections.Generic;
 using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WarriorRogueMage.Actions
 {
@@ -31,8 +31,6 @@ namespace WarriorRogueMage.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            var sender = actionInput.Controller;
-
             if (!string.IsNullOrEmpty(actionInput.Tail))
             {
                 // Save tail as player's new prompt
@@ -42,14 +40,14 @@ namespace WarriorRogueMage.Actions
                 }
                 catch (Exception)
                 {
-                    sender.Write("Error, prompt not saved.");
+                    actionInput.Controller.Write(new OutputBuilder().AppendLine("Error, prompt not saved."));
                 }
 
                 return;
             }
 
             // No new prompt supplied, so we display help and current values to the player
-            var output = new AnsiBuilder();
+            var output = new OutputBuilder();
 
             // Create an array of values available to the player
             output.AppendLine($"{"Token".PadRight(15)}{"Current Value".PadRight(15)}{"Description".PadRight(40)}");
@@ -72,7 +70,7 @@ namespace WarriorRogueMage.Actions
 
             output.AppendLine($"Current prompt is '{playerBehavior.Prompt}'");
             output.AppendLine($"Parsed prompt is '{playerBehavior.BuildPrompt()}'");
-            sender.Write(output.ToString());
+            actionInput.Controller.Write(output);
         }
 
         /// <summary>Checks against the guards for the command.</summary>

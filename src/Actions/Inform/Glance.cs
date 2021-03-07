@@ -44,7 +44,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -52,12 +52,8 @@ namespace WheelMUD.Actions
 
             // Rule: the sender must be capable of sensing/perceiving things.
             sensesBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<SensesBehavior>();
-            if (sensesBehavior == null)
-            {
-                return "You are incapable of perceiving anything.";
-            }
-
-            return null;
+            
+            return sensesBehavior == null ? "You are incapable of perceiving anything." : null;
         }
 
         /// <summary>Build the glance command response.</summary>

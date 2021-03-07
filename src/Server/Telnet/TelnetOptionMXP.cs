@@ -5,9 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Core;
-using WheelMUD.Utilities;
-
 namespace WheelMUD.Server.Telnet
 {
     /// <summary>Class that handles the sub-negotiation of the MUD eXtension Protocol (MXP) telnet option code.</summary>
@@ -67,7 +64,6 @@ namespace WheelMUD.Server.Telnet
                 Connection.TerminalOptions.UseMXP = true;
 
                 // Request a version tag from the client.
-                // TODO: https://github.com/DavidRieman/WheelMUD/issues/107 - Fix handling of MXP Secure Lines with dedicated API.
                 Connection.Send(MXPHandler.SecureLineCode + "<VERSION>", true);
                 AwaitingVersionResponse = true;
 

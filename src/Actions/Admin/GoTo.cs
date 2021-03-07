@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A command that allows a player move to the room Id or entity specified.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("goto", CommandCategory.Admin)]
@@ -34,19 +33,12 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            // Send just one message to the command sender since they know what's going on.
-            IController sender = actionInput.Controller;
-
-            // Attempt exact ID match
-            var targetPlace = ThingManager.Instance.FindThing(actionInput.Tail);
-
             // If input is a simple number, assume we mean a room
-            int roomNum;
-            targetPlace = int.TryParse(actionInput.Tail, out roomNum) ? ThingManager.Instance.FindThing("room/" + roomNum) : ThingManager.Instance.FindThingByName(actionInput.Tail, false, true);
+            var targetPlace = int.TryParse(actionInput.Tail, out var roomNum) ? ThingManager.Instance.FindThing("room/" + roomNum) : ThingManager.Instance.FindThingByName(actionInput.Tail, false, true);
 
             if (targetPlace == null)
             {
-                sender.Write("Room or Entity not found.\n");
+                actionInput.Controller.Write(new OutputBuilder().AppendLine("Room or Entity not found."));
                 return;
             }
 
@@ -59,19 +51,19 @@ namespace WheelMUD.Actions
                 }
                 else
                 {
-                    sender.Write("Target is not a room and is not in a room!\n");
+                    actionInput.Controller.Write(new OutputBuilder().AppendLine("Target is not a room and is not in a room!"));
                     return;
                 }
             }
 
-            var adminName = sender.Thing.Name;
-            var leaveContextMessage = new ContextualString(sender.Thing, sender.Thing.Parent)
+            var adminName = actionInput.Controller.Thing.Name;
+            var leaveContextMessage = new ContextualString(actionInput.Controller.Thing, actionInput.Controller.Thing.Parent)
             {
                 ToOriginator = null,
                 ToReceiver = $"{adminName} disappears into nothingness.",
                 ToOthers = $"{adminName} disappears into nothingness.",
             };
-            var arriveContextMessage = new ContextualString(sender.Thing, targetPlace)
+            var arriveContextMessage = new ContextualString(actionInput.Controller.Thing, targetPlace)
             {
                 ToOriginator = $"You teleported to {targetPlace.Name}.",
                 ToReceiver = $"{adminName} appears from nothingness.",
@@ -86,11 +78,11 @@ namespace WheelMUD.Actions
             // TODO: This should not 'enqueue' a command since, should the player have a bunch of 
             //     other commands entered, the 'look' feedback will not immediately accompany the 'goto' 
             //     command results like it should.
-            var movableBehavior = sender.Thing.FindBehavior<MovableBehavior>();
+            var movableBehavior = actionInput.Controller.Thing.FindBehavior<MovableBehavior>();
 
-            if (movableBehavior != null && movableBehavior.Move(targetPlace, sender.Thing, leaveMessage, arriveMessage))
+            if (movableBehavior != null && movableBehavior.Move(targetPlace, actionInput.Controller.Thing, leaveMessage, arriveMessage))
             {
-                CommandManager.Instance.EnqueueAction(new ActionInput("look", sender));
+                CommandManager.Instance.EnqueueAction(new ActionInput("look", actionInput.Controller));
             }
         }
 
@@ -99,13 +91,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

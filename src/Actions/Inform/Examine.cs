@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A command that allows a player to look at something.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("examine", CommandCategory.Inform)]
@@ -34,34 +33,30 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            Thing parent = sender.Thing.Parent;
-            string searchString = actionInput.Tail.Trim().ToLower();
+            var parent = actionInput.Controller.Thing.Parent;
+            var searchString = actionInput.Tail.Trim().ToLower();
 
             if (string.IsNullOrEmpty(searchString))
             {
-                sender.Write("You must specify something to search for.");
+                actionInput.Controller.Write(new OutputBuilder().
+                    AppendLine("You must specify something to search for."));
                 return;
             }
 
             // Unique case. Try to perceive the room (and its contents) instead; same as "look".
             if (searchString == "here")
             {
-                sender.Write(Renderer.Instance.RenderPerceivedRoom(sender.Thing, parent));
+                actionInput.Controller.Write(Renderer.Instance.RenderPerceivedRoom(actionInput.Controller.Thing, parent));
                 return;
             }
 
             // First check the place where the sender is located (like a room) for the target,
             // and if not found, search the sender's children (like inventory) for the target.
-            Thing thing = parent.FindChild(searchString) ?? sender.Thing.FindChild(searchString);
-            if (thing != null)
-            {
-                sender.Write(Renderer.Instance.RenderPerceivedThing(sender.Thing, thing));
-            }
-            else
-            {
-                sender.Write($"You cannot find {searchString}.");
-            }
+            var thing = parent.FindChild(searchString) ?? actionInput.Controller.Thing.FindChild(searchString);
+            
+            actionInput.Controller.Write(thing != null
+                ? Renderer.Instance.RenderPerceivedThing(actionInput.Controller.Thing, thing)
+                : new OutputBuilder().AppendLine($"You cannot find {searchString}."));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -69,13 +64,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

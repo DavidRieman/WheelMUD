@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A command to set a player's title.</summary>
     /// <remarks>
     /// TODO: Maybe use an App.config flag to decide if this command should be something users do for themselves,
@@ -33,22 +32,18 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            if (sender != null && sender.Thing != null)
+            if (actionInput.Controller.Thing == null) return;
+            
+            if (string.IsNullOrEmpty(actionInput.Tail))
             {
-                Thing player = sender.Thing;
-                if (player != null)
-                {
-                    if (string.IsNullOrEmpty(actionInput.Tail))
-                    {
-                        sender.Write(string.Format("Your current title is \"{0}\".", player.Title));
-                    }
-                    else
-                    {
-                        player.Title = actionInput.Tail;
-                        sender.Write("Your title is now: " + player.Title);
-                    }
-                }
+                actionInput.Controller.Write(new OutputBuilder().
+                    AppendLine($"Your current title is '{actionInput.Controller.Thing.Title}'."));
+            }
+            else
+            {
+                actionInput.Controller.Thing.Title = actionInput.Tail;
+                actionInput.Controller.Write(new OutputBuilder().
+                    AppendLine($"Your title is now '{actionInput.Controller.Thing.Title}'"));
             }
         }
 
@@ -57,13 +52,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

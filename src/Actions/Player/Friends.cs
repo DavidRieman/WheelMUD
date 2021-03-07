@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WheelMUD.Core;
 using WheelMUD.Interfaces;
-using WheelMUD.Utilities;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -36,27 +36,28 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         /// <remarks>Verify that the Guards pass first.</remarks>
         public override void Execute(ActionInput actionInput)
-        {
-            IController sender = actionInput.Controller;
+        {            
             if (actionInput.Params.Length == 1 && actionInput.Params[0].ToLower() == "list" || !actionInput.Params.Any())
             {
+                var output = new OutputBuilder();
+                
                 if (playerBehavior.Friends.Count == 0)
                 {
-                    sender.Write("You currently have no friends listed.");
+                    output.AppendLine("You currently have no friends listed.");
                 }
                 else
                 {
-                    var ab = new AnsiBuilder();
-                    ab.AppendLine("Your Friends:");
+                    output.AppendLine("Your Friends:");
                     foreach (var friendName in playerBehavior.Friends)
                     {
-                        var status = PlayerManager.Instance.FindLoadedPlayerByName(friendName, false) == null ? "Offline" : "Online";
-                        ab.AppendLine($"{friendName} [{status}]");
+                        var status = PlayerManager.Instance.
+                            FindLoadedPlayerByName(friendName, false) == null ? "Offline" : "Online";
+                        output.AppendLine($"{friendName} [{status}]");
                     }
-
-                    sender.Write(ab.ToString());
                 }
 
+                actionInput.Controller.Write(output);
+                
                 return;
             }
 
@@ -64,20 +65,21 @@ namespace WheelMUD.Actions
                 actionInput.Params[0].ToLower() != "add" &&
                 actionInput.Params[0].ToLower() != "remove")
             {
-                sender.Write("Please use the format friends add/remove player name.");
+                actionInput.Controller.Write(new OutputBuilder().
+                    AppendLine("Please use the format friends add/remove player name."));
                 return;
             }
 
-            string targetedFriendName = actionInput.Params[1].ToLower();
-            Thing targetFriend = PlayerManager.Instance.FindLoadedPlayerByName(targetedFriendName, false);
+            var targetedFriendName = actionInput.Params[1].ToLower();
+            var targetFriend = PlayerManager.Instance.FindLoadedPlayerByName(targetedFriendName, false);
 
             if (actionInput.Params[0].ToLower() == "add")
             {
-                AddFriend(sender, targetFriend);
+                AddFriend(actionInput.Controller, targetFriend);
             }
             else if (actionInput.Params[0].ToLower() == "remove")
             {
-                RemoveFriend(sender, targetedFriendName);
+                RemoveFriend(actionInput.Controller, targetedFriendName);
             }
         }
 
@@ -86,7 +88,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -101,55 +103,55 @@ namespace WheelMUD.Actions
 
         private void AddFriend(IController sender, Thing targetFriend)
         {
-            var ab = new AnsiBuilder();
+            var output = new OutputBuilder();
             
             if (targetFriend == null)
             {
-                ab.AppendLine("Doesn't appear to be online at the moment.");
-                sender.Write(ab.ToString());
+                output.AppendLine("Doesn't appear to be online at the moment.");
+                sender.Write(output);
                 return;
             }
 
             if (targetFriend == player)
             {
-                ab.AppendLine("You cannot add yourself as a friend.");
-                sender.Write(ab.ToString());
+                output.AppendLine("You cannot add yourself as a friend.");
+                sender.Write(output);
                 return;
             }
 
             if (playerBehavior.Friends.Contains(targetFriend.Name))
             {
                 
-                ab.AppendLine($"{player.Name} is already on your friends list.");
-                sender.Write(ab.ToString());
+                output.AppendLine($"{player.Name} is already on your friends list.");
+                sender.Write(output);
                 return;
             }
 
             playerBehavior.AddFriend(player.Name);
 
-            ab.AppendLine($"You have added {targetFriend.Name} to your friends list.");
-            sender.Write(ab.ToString());
+            output.AppendLine($"You have added {targetFriend.Name} to your friends list.");
+            sender.Write(output);
         }
 
         private void RemoveFriend(IController sender, string targetedFriendName)
         {
-            string playerName = (from string f in playerBehavior.Friends
+            var playerName = (from string f in playerBehavior.Friends
                                  where f.Equals(targetedFriendName, StringComparison.CurrentCultureIgnoreCase)
                                  select f).FirstOrDefault();
 
-            var ab = new AnsiBuilder();
+            var output = new OutputBuilder();
             
             if (string.IsNullOrEmpty(playerName))
             {
-                ab.AppendLine($"{targetedFriendName} is not on your friends list.");
-                sender.Write(ab.ToString());
+                output.AppendLine($"{targetedFriendName} is not on your friends list.");
+                sender.Write(output);
                 return;
             }
 
             playerBehavior.RemoveFriend(playerName);
 
-            ab.AppendLine($"{player.Name} has been removed from your friends list.");
-            sender.Write(ab.ToString());
+            output.AppendLine($"{player.Name} has been removed from your friends list.");
+            sender.Write(output);
         }
     }
 }

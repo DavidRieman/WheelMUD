@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>Action for the actor to jump.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("jump", CommandCategory.Temporary)]
@@ -32,12 +31,12 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            Die die = DiceService.Instance.GetDie(3);
+            var die = DiceService.Instance.GetDie(3);
 
             // This is how you send text back to the player
-            int height = die.Roll();
-            sender.Write("Congrats!  You've jumped " + height + " feet!  You're special boy!  This is for testing, so George quits punching me back.");
+            var height = die.Roll();
+            actionInput.Controller.Write(new OutputBuilder().
+                AppendLine($"You've jumped {height} feet!"));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -45,14 +44,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            // There are currently no arguments nor situations where we expect failure.
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

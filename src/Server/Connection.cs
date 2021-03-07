@@ -6,7 +6,6 @@
 //-----------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
@@ -136,9 +135,8 @@ namespace WheelMUD.Server
 
         /// <summary>Sends string data to the connection</summary>
         /// <param name="data">The string to send.</param>
-        /// <param name="bypassDataFormatter">If true, the data formatter should be bypassed (for a quicker send of data known to be already formatted well for client display).</param>
         /// <param name="sendAllData">If true, send all data without letting the paging system pause the output.</param>
-        public void Send(string data, bool bypassDataFormatter = false, bool sendAllData = false)
+        public void Send(string data, bool sendAllData = false)
         {
             // TODO: Eventually, certain large blocks of text might be good candidates for caching the final result due to high frequency of sending to clients (such as welcome
             //       messages or the most popular room descriptions and so on), so here might be a good place to perform an options-sensitive cache lookup of the source data to
@@ -146,25 +144,6 @@ namespace WheelMUD.Server
             //       should be carefully measured for whether it is worth the complexity and potential bugs.) As such, it may make sense to coalesce the honored word wrap widths
             //       when formatting data below, into common groupings (such as rounding down to nearest multiple of 20 and enforcing a max) to increase those cache hits at the
             //       trade-off of not printing to the right-most characters of some terminal sizes. (This would probably look fine, generally.)
-            if (!bypassDataFormatter)
-            {
-                var wordWrapWidth = TerminalOptions.UseWordWrap ? TerminalOptions.Width : 0;
-                var lines = DataFormatter.FormatData(data, wordWrapWidth, TerminalOptions.UseANSI);
-                var totalLines = lines.Count;
-                if (TerminalOptions.UseBuffer && totalLines >= PagingRowLimit && !sendAllData)
-                {
-                    // Store all the lines of output, but for now we'll display as many as we can fit (plus reserving one line for the 
-                    // buffering prompt itself).
-                    OutputBuffer.Set(lines);
-                    lines = new List<string>(OutputBuffer.GetRows(BufferDirection.Forward, PagingRowLimit - 1))
-                    {
-                        BufferHandler.FormatOverflowPrompt(PagingRowLimit, totalLines)
-                    };
-                }
-
-                // Put the lines back together, but with ANSI NewLines between each line.
-                data = string.Join(AnsiSequences.NewLine, lines);
-            }
 
             // Check if the client wants to use compression (MCCP) and whether data is long enough to bother (as the overhead is quite high).
             byte[] bytes;
@@ -204,7 +183,7 @@ namespace WheelMUD.Server
                     OutputBuffer.CurrentLocation,
                     OutputBuffer.Length);
 
-                Send(data, false, true);
+                Send(data, true);
             }
         }
 

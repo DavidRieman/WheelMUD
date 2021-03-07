@@ -5,15 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Effects;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Effects;
-
     /// <summary>Test command to deafen a target.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("ThunderClap", CommandCategory.Temporary)]
@@ -31,23 +29,22 @@ namespace WheelMUD.Actions
         };
 
         /// <summary>The target of the ThunderClap action.</summary>
-        private Thing target = null;
+        private Thing target;
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            var contextMessage = new ContextualString(sender.Thing, target)
+            var contextMessage = new ContextualString(actionInput.Controller.Thing, target)
             {
                 ToOriginator = $"You cast ThunderClap at {target.Name}!",
-                ToReceiver = $"{sender.Thing.Name} casts ThunderClap at you. You only hear a ringing in your ears now.",
-                ToOthers = $"You hear {sender.Thing.Name} cast ThunderClap at {target.Name}! It was very loud.",
+                ToReceiver = $"{actionInput.Controller.Thing.Name} casts ThunderClap at you. You only hear a ringing in your ears now.",
+                ToOthers = $"You hear {actionInput.Controller.Thing.Name} cast ThunderClap at {target.Name}! It was very loud.",
             };
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 
-            var attackEvent = new AttackEvent(target, sm, sender.Thing);
-            sender.Thing.Eventing.OnCombatRequest(attackEvent, EventScope.ParentsDown);
+            var attackEvent = new AttackEvent(target, sm, actionInput.Controller.Thing);
+            actionInput.Controller.Thing.Eventing.OnCombatRequest(attackEvent, EventScope.ParentsDown);
             if (!attackEvent.IsCancelled)
             {
                 var deafenEffect = new AlterSenseEffect()
@@ -58,7 +55,7 @@ namespace WheelMUD.Actions
                 };
 
                 target.Behaviors.Add(deafenEffect);
-                sender.Thing.Eventing.OnCombatEvent(attackEvent, EventScope.ParentsDown);
+                actionInput.Controller.Thing.Eventing.OnCombatEvent(attackEvent, EventScope.ParentsDown);
             }
         }
 
@@ -79,19 +76,19 @@ namespace WheelMUD.Actions
             target = GetPlayerOrMobile(targetName);
             if (target == null)
             {
-                return "You cannot see " + targetName + ".";
+                return $"You cannot see {targetName}.";
             }
 
             // Rule: Is the target in the same room?
             if (actionInput.Controller.Thing.Parent.Id != target.Parent.Id)
             {
-                return "You cannot see " + targetName + ".";
+                return $"You cannot see {targetName}.";
             }
 
             // Rule: Is the target alive?
             if (target.Stats["health"].Value <= 0)
             {
-                return target.Name + " is dead.";
+                return $"{target.Name} is dead.";
             }
 
             return null;

@@ -5,13 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A command to quit the game, and disconnect gracefully.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("quit", CommandCategory.Activities)]
@@ -41,15 +39,14 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
             // This initiator is already guaranteed by VerifyCommonGuards to be a player, hence no null check.
-            playerBehavior = sender.Thing.Behaviors.FindFirst<PlayerBehavior>();
+            playerBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<PlayerBehavior>();
 
             return null;
         }

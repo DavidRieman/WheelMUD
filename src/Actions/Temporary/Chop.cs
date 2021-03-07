@@ -16,12 +16,12 @@
 // action (as it should not be used for combat actions), and if the user issues 
 // any new command, it is also cancelled.
 
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A command to chop at a tree.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("chop", CommandCategory.Temporary)]
@@ -70,7 +70,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
@@ -78,11 +78,11 @@ namespace WheelMUD.Actions
 
             // Rule: Did they specify a tree to chop?
             // TODO: Better thing finders...
-            Thing parent = actionInput.Controller.Thing.Parent;
-            Thing thing = parent.Children.Find(t => t.Name.Equals(actionInput.Params[0], StringComparison.CurrentCultureIgnoreCase));
+            var parent = actionInput.Controller.Thing.Parent;
+            var thing = parent.Children.Find(t => t.Name.Equals(actionInput.Params[0], StringComparison.CurrentCultureIgnoreCase));
             if (thing == null)
             {
-                return string.Format("{0} is not here.", actionInput.Params[0]);
+                return $"{actionInput.Params[0]} is not here.";
             }
 
             // TODO: Detect ConsumableProviderBehavior on the item, and detect if it is choppable.

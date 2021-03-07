@@ -5,13 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>Command to spawn a mobile NPC for testing.</summary>
     /// <remarks>TODO: Expose more options than just the name.</remarks>
     [ExportGameAction(0)]
@@ -31,16 +29,13 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
+            var mobName = actionInput.Tail.Trim();
 
-            string mobName = actionInput.Tail.Trim();
-
-            var thing = new Thing();
-            thing.Id = "0";
-            thing.Name = mobName;
-            var targetRoom = sender.Thing.Parent;
+            var thing = new Thing {Id = "0", Name = mobName};
+            
+            var targetRoom = actionInput.Controller.Thing.Parent;
             targetRoom.Add(thing);
-            thing.Stats["HP"] = new GameStat(sender, "Hit Points", "HP", null, 10, 0, 10, true);
+            thing.Stats["HP"] = new GameStat(actionInput.Controller, "Hit Points", "HP", null, 10, 0, 10, true);
 
             thing.Behaviors.Add(new MobileBehavior());
             thing.Behaviors.Add(new LivingBehavior() { Consciousness = Consciousness.Awake });
@@ -49,7 +44,7 @@ namespace WheelMUD.Actions
 
             MobileManager.Instance.RegisterMobile(thing);
 
-            sender.Thing.Parent.Add(thing);
+            actionInput.Controller.Thing.Parent.Add(thing);
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>
@@ -57,13 +52,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
-            if (commonFailure != null)
-            {
-                return commonFailure;
-            }
-
-            return null;
+            return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
 }

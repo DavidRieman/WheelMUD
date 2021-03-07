@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An action to disconnect a player from the game.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("boot", CommandCategory.Admin)]
@@ -40,8 +39,8 @@ namespace WheelMUD.Actions
             playerBehavior.LogOut();
 
             // Inform the admin
-            IController sender = actionInput.Controller;
-            sender.Write(string.Format("The player named \"{0}\" was booted from game.", PlayerToBoot.Name));
+            actionInput.Controller.Write(new OutputBuilder().
+                AppendLine($"The player named \"{PlayerToBoot.Name}\" was booted from game."));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -49,13 +48,13 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            string playerName = actionInput.Tail;
+            var playerName = actionInput.Tail;
             PlayerToBoot = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
             if (PlayerToBoot != null)
             {
@@ -64,7 +63,7 @@ namespace WheelMUD.Actions
 
             if (PlayerToBoot == null || playerBehavior == null)
             {
-                return string.Format("The player named \"{0}\" specified could not be found.", playerName);
+                return $"The player named \"{playerName}\" specified could not be found.";
             }
 
             return null;

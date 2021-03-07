@@ -5,15 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Effects;
 
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Effects;
-
     /// <summary>An administrative action to block a player from communicating verbally.</summary>
     /// <remarks>
     /// Generally used to halt speech that is not in line with the game's terms of service (e.g. abusive speech).
@@ -44,18 +42,18 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
+            if (!(actionInput.Controller is Session session)) return;
 
             // Strings to be displayed when the effect is applied/removed.
-            var muteString = new ContextualString(sender.Thing, playerToMute)
+            var muteString = new ContextualString(actionInput.Controller.Thing, playerToMute)
             {
                 ToOriginator = $"You mute {playerToMute.Name} for duration {muteDuration}.",
-                ToReceiver = $"You are now mute. Please reflect on recent choices.",
+                ToReceiver = "You are now mute. Please reflect on recent choices."
             };
-            var unmuteString = new ContextualString(sender.Thing, playerToMute)
+            var unmuteString = new ContextualString(actionInput.Controller.Thing, playerToMute)
             {
                 ToOriginator = $"{playerToMute.Name} is no longer mute.",
-                ToReceiver = $"You are no longer mute."
+                ToReceiver = "You are no longer mute."
             };
 
             // Turn the above sets of strings into sensory messages.
@@ -63,7 +61,7 @@ namespace WheelMUD.Actions
             var unmuteMessage = new SensoryMessage(SensoryType.Sight, 100, unmuteString);
 
             // Create the effect.
-            var muteEffect = new MutedEffect(sender.Thing, muteDuration, muteMessage, unmuteMessage);
+            var muteEffect = new MutedEffect(actionInput.Controller.Thing, muteDuration, muteMessage, unmuteMessage);
 
             // Apply the effect.
             playerToMute.Behaviors.Add(muteEffect);
@@ -74,17 +72,17 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
+            var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            string playerName = actionInput.Params[0];
+            var playerName = actionInput.Params[0];
             playerToMute = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
             if (playerToMute == null)
             {
-                return string.Format("The player named \"{0}\" could not be found.", playerName);
+                return $"The player named \"{playerName}\" could not be found.";
             }
 
             // Parse the duration if it was provided. Otherwise, set a default duration.
@@ -92,7 +90,7 @@ namespace WheelMUD.Actions
             // can provide more flexible parsing of time strings to this and other commands.
             if (actionInput.Params.Length > 1)
             {
-                string timeString = actionInput.Tail.Substring(actionInput.Params[0].Length);
+                var timeString = actionInput.Tail[actionInput.Params[0].Length..];
 
                 if (double.TryParse(timeString, out double timeInMinutes))
                 {
