@@ -19,7 +19,7 @@ namespace WheelMUD.Core
             // renderer with a higher priority, and do something smarter here. The Core PlayerBehavior has a Prompt
             // property which can be used to store player-customized prompt templates, and your Prompt renderer can
             // (for example) transform their custom prompt template into their final prompt output.
-            return new OutputBuilder(2).AppendLine("> ");
+            return new OutputBuilder(2).Append("> ");
         }
     }
 }
