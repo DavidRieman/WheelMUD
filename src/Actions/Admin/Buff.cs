@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using WheelMUD.Core;
 using WheelMUD.Effects;
+using System.Linq;
 
 namespace WheelMUD.Actions
 {
@@ -135,7 +136,7 @@ namespace WheelMUD.Actions
             }
 
             // Make sure the mod type ('value', 'min', or 'max') is valid.
-            if (!((IList) validModTypes).Contains(modType))
+            if (!validModTypes.Contains(modType))
             {
                 return $"'{modType}' is unrecognized. Try modifying the stat's 'value', 'min', or 'max'.";
             }

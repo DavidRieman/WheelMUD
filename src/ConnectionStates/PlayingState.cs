@@ -64,7 +64,6 @@ namespace WheelMUD.ConnectionStates
 
             Debug.Assert(false, "A non-Player is in PlayingState, receiving a Prompt?");
             
-            
             return new OutputBuilder().Append("> ");
         }
 

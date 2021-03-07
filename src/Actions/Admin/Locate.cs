@@ -32,10 +32,8 @@ namespace WheelMUD.Actions
         {            
             var entity = GetPlayerOrMobile(actionInput.Controller.LastActionInput.Tail);
 
-            actionInput.Controller.Write(entity != null
-                ? new OutputBuilder().AppendLine(
-                    $"You see {entity.Name} at {entity.Parent.Name}, id {entity.Parent.Id}")
-                : new OutputBuilder().AppendLine(
+            actionInput.Controller.Write(new OutputBuilder().AppendLine(entity != null ?
+                    $"You see {entity.Name} at {entity.Parent.Name}, id {entity.Parent.Id}" : 
                     $"You cant find {actionInput.Controller.LastActionInput.Tail}."));
         }
 

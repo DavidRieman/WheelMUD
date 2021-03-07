@@ -146,10 +146,8 @@ namespace WheelMUD.Actions
         /// <summary>Displays the current buffer length to the user, handling the special case of "auto" instead of -1.</summary>
         private void ShowCurrentBuffer()
         {
-            sender.Write(userControlledBehavior.PagingRowLimit == -1
-                ? new OutputBuilder().AppendLine(
-                    $"Your screen buffer size is 'auto' (currently {session.TerminalOptions.Height} lines).")
-                : new OutputBuilder().AppendLine(
+            sender.Write(new OutputBuilder().AppendLine(userControlledBehavior.PagingRowLimit == -1 ? 
+                    $"Your screen buffer size is 'auto' (currently {session.TerminalOptions.Height} lines)." :
                     $"Your screen buffer is {userControlledBehavior.PagingRowLimit} lines."));
         }
     }

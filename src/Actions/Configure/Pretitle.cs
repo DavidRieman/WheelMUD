@@ -41,10 +41,8 @@ namespace WheelMUD.Actions
         {
             actionInput.Controller.Thing.SingularPrefix = newPretitle;
 
-            actionInput.Controller.Write(string.IsNullOrEmpty(newPretitle)
-                ? new OutputBuilder().AppendLine(
-                    $"Your old pretitle was \"{oldPretitle}\" and is now removed.")
-                : new OutputBuilder().AppendLine(
+            actionInput.Controller.Write(new OutputBuilder().AppendLine(string.IsNullOrEmpty(newPretitle) ? 
+                    $"Your old pretitle was \"{oldPretitle}\" and is now removed." : 
                     $"Your old pretitle was \"{oldPretitle}\" and is now \"{newPretitle}\"."));
 
             actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SavePlayer();

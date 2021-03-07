@@ -15,9 +15,9 @@ namespace WheelMUD.Core
         public override OutputBuilder Render(Thing viewer, Thing viewedThing)
         {
             var senses = viewer.FindBehavior<SensesBehavior>();
-            return senses.CanPerceiveThing(viewedThing) ? 
-                new OutputBuilder().AppendLine($"You examine <%cyan%><%b%>{viewedThing.Name}<%n%>:<%nl%>{viewedThing.Description}") :
-                new OutputBuilder().AppendLine("You cannot perceive that thing.");
+            return new OutputBuilder().AppendLine(senses.CanPerceiveThing(viewedThing) ? 
+                $"You examine <%cyan%><%b%>{viewedThing.Name}<%n%>:<%nl%>{viewedThing.Description}" :
+                "You cannot perceive that thing.");
         }
     }
 }

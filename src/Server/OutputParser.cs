@@ -12,77 +12,9 @@ namespace WheelMUD.Server
     public static class OutputParser
     {
         //TODO: Optimize more
-        public static string NonAnsi(char[] buffer, int bufferPos, int wordWrapLength)
+        public static string Parse(char[] buffer,int bufferPos, TerminalOptions terminalOptions)
         {
-            var baseResult = "";
-            var token = "";
-            var charFromNewline = 0;
-
-            var isToken = false;
-
-            for (var i = 0; i < bufferPos; i++)
-            {
-                if (isToken && buffer[i] == '>')
-                {
-                    if (i > 0 && buffer[i - 1] == '%')
-                    {
-                        isToken = false;
-                        token = token.Trim('%');
-                        if (token == "nl")
-                        {
-                            charFromNewline = 0;
-                        }
-
-                        token = "";
-                        continue;
-                    }
-                }
-                
-                if (!isToken && buffer[i] == '<')
-                {
-                    if (i < buffer.Length && buffer[i + 1] == '%')
-                    {
-                        if (i == 0 || buffer[i - 1] != '\\')
-                        {
-                            isToken = true;
-                            continue;
-                        }
-                        
-                        baseResult = baseResult.Remove(baseResult.Length - 1);
-                    }
-                }
-
-                if (!isToken)
-                {
-                    baseResult += buffer[i];
-                    charFromNewline++;
-
-                    if (charFromNewline <= wordWrapLength) continue;
-                    
-                    var lastSpaceIndex = baseResult.LastIndexOf(' ');
-                        
-                    if (lastSpaceIndex > 0)
-                    {
-                        baseResult = baseResult.Remove(lastSpaceIndex, 1);
-                        charFromNewline = baseResult.Length - lastSpaceIndex;
-                        baseResult = baseResult.Insert(lastSpaceIndex, AnsiSequences.NewLine);
-                    }
-                    else
-                    {
-                        baseResult += AnsiSequences.NewLine;
-                        charFromNewline = 0;
-                    }
-                }
-                else token += buffer[i];
-            }
-
-            return baseResult;
-        }
-        
-        //TODO: Optimize more
-        public static string Ansi(char[] buffer,int bufferPos, int wordWrapLength)
-        {
-            var ansiResult = "";
+            var result = "";
             var token = "";
             var charFromNewline = 0;
 
@@ -97,9 +29,18 @@ namespace WheelMUD.Server
                         isToken = false;
                         token = token.Trim('%');
 
-                        if (token == "nl") charFromNewline = 0;
-                        
-                        ansiResult += AnsiHandler.ConvertCode(token);
+                        if (token == "nl")
+                        {
+                            charFromNewline = 0;
+                            token = "";
+                            result += AnsiSequences.NewLine;
+                            continue;
+                        }
+
+                        if (terminalOptions.UseANSI)
+                        {
+                            result += AnsiHandler.ConvertCode(token);
+                        }
                         
                         token = "";
                         continue;
@@ -116,35 +57,35 @@ namespace WheelMUD.Server
                             continue;
                         }
                         
-                        ansiResult = ansiResult.Remove(ansiResult.Length - 1);
+                        result = result.Remove(result.Length - 1);
                     }
                 }
 
                 if (!isToken)
                 {
-                    ansiResult += buffer[i];
+                    result += buffer[i];
                     charFromNewline++;
 
-                    if (charFromNewline <= wordWrapLength) continue;
+                    if (charFromNewline <= terminalOptions.Width || terminalOptions.UseWordWrap == false) continue;
                     
-                    var lastSpaceIndex = ansiResult.LastIndexOf(' ');
+                    var lastSpaceIndex = result.LastIndexOf(' ');
                         
                     if (lastSpaceIndex > 0)
                     {
-                        ansiResult = ansiResult.Remove(lastSpaceIndex, 1);
-                        charFromNewline = ansiResult.Length - lastSpaceIndex;
-                        ansiResult = ansiResult.Insert(lastSpaceIndex, AnsiSequences.NewLine);
+                        result = result.Remove(lastSpaceIndex, 1);
+                        charFromNewline = result.Length - lastSpaceIndex;
+                        result = result.Insert(lastSpaceIndex, AnsiSequences.NewLine);
                     }
                     else
                     {
-                        ansiResult += AnsiSequences.NewLine;
+                        result += AnsiSequences.NewLine;
                         charFromNewline = 0;
                     }
                 }
                 else token += buffer[i];
             }
 
-            return ansiResult;
+            return result;
         }
     }
 }

@@ -86,29 +86,15 @@ namespace WheelMUD.Server
         /// <summary>
         /// Append a string without memory allocation with ansi new line added.
         /// </summary>
-        public OutputBuilder AppendLine(string value)
+        public OutputBuilder AppendLine(string value = null)
         {
             value += "<%nl%>";
             ReallocateIfn(value.Length);
-            var n = value.Length;
-            for (var i = 0; i < n; i++)
+            var length = value.Length;
+            for (var i = 0; i < length; i++)
                 buffer[bufferPos + i] = value[i];
-            bufferPos += n;
-
-            return this;
-        }
-
-        /// <summary>
-        /// Append a ansi new line.
-        /// </summary>
-        public OutputBuilder AppendLine()
-        {
-            var value = "<%nl%>";
-            ReallocateIfn(value.Length);
-            var n = value.Length;
-            for (var i = 0; i < n; i++)
-                buffer[bufferPos + i] = value[i];
-            bufferPos += n;
+            bufferPos += length;
+            
             return this;
         }
 
@@ -118,10 +104,10 @@ namespace WheelMUD.Server
         public OutputBuilder Append(string value)
         {
             ReallocateIfn(value.Length);
-            var n = value.Length;
-            for (var i = 0; i < n; i++)
+            var length = value.Length;
+            for (var i = 0; i < length; i++)
                 buffer[bufferPos + i] = value[i];
-            bufferPos += n;
+            bufferPos += length;
 
             return this;
         }
@@ -140,91 +126,92 @@ namespace WheelMUD.Server
             }
 
             // Copy the digits in reverse order
-            var nbChars = 0;
+            var chars = 0;
             do
             {
                 buffer[ bufferPos++ ] = (char)('0' + value%10);
                 value /= 10;
-                nbChars++;
+                chars++;
             } while( value != 0 );
 
             // Reverse the result
-            for( var i=nbChars/2-1; i>=0; i-- )
+            for( var i=chars/2-1; i>=0; i-- )
             {
                 var c = buffer[ bufferPos-i-1 ];
-                buffer[ bufferPos-i-1 ] = buffer[ bufferPos-nbChars+i ];
-                buffer[ bufferPos-nbChars+i ] = c;
+                buffer[ bufferPos-i-1 ] = buffer[ bufferPos-chars+i ];
+                buffer[ bufferPos-chars+i ] = c;
             }
             return this;
         }
 
+        //TODO: Fix.
         ///<summary>Append a float without memory allocation.</summary>
-        public OutputBuilder Append( float valueF )
-        {
-            double value = valueF;
-            ReallocateIfn( 32 ); // Check we have enough buffer allocated to handle any float number
-
-            // Handle the 0 case
-            if( value == 0 )
-            {
-                buffer[ bufferPos++ ] = '0';
-                return this;
-            }
-
-            // Handle the negative case
-            if( value < 0 )
-            {
-                value = -value;
-                buffer[ bufferPos++ ] = '-';
-            }
-
-            // Get the 7 meaningful digits as a long
-            var nbDecimals = 0;
-            while( value < 1000000 )
-            {
-                value *= 10;
-                nbDecimals++;
-            }
-            var valueLong = (long)Math.Round( value );
-
-            // Parse the number in reverse order
-            var nbChars = 0;
-            var isLeadingZero = true;
-            while( valueLong != 0 || nbDecimals >= 0 )
-            {
-                // We stop removing leading 0 when non-0 or decimal digit
-                if( valueLong%10 != 0 || nbDecimals <= 0 )
-                    isLeadingZero = false;
-
-                // Write the last digit (unless a leading zero)
-                if( !isLeadingZero )
-                    buffer[ bufferPos + nbChars++ ] = (char)('0' + valueLong%10);
-
-                // Add the decimal point
-                if( --nbDecimals == 0 && !isLeadingZero )
-                    buffer[ bufferPos + nbChars++ ] = '.';
-
-                valueLong /= 10;
-            }
-            bufferPos += nbChars;
-            
-            // Reverse the result
-            for( var i=nbChars/2-1; i>=0; i-- )
-            {
-                var c = buffer[ bufferPos-i-1 ];
-                buffer[ bufferPos-i-1 ] = buffer[ bufferPos-nbChars+i ];
-                buffer[ bufferPos-nbChars+i ] = c;
-            }
-
-            return this;
-        }
+        // public OutputBuilder Append( float valueF )
+        // {
+        //     double value = valueF;
+        //     ReallocateIfn( 32 ); // Check we have enough buffer allocated to handle any float number
+        //
+        //     // Handle the 0 case
+        //     if( value == 0 )
+        //     {
+        //         buffer[ bufferPos++ ] = '0';
+        //         return this;
+        //     }
+        //
+        //     // Handle the negative case
+        //     if( value < 0 )
+        //     {
+        //         value = -value;
+        //         buffer[ bufferPos++ ] = '-';
+        //     }
+        //
+        //     // Get the 7 meaningful digits as a long
+        //     var decimals = 0;
+        //     while( value < 1000000 )
+        //     {
+        //         value *= 10;
+        //         decimals++;
+        //     }
+        //     var valueLong = (long)Math.Round( value );
+        //
+        //     // Parse the number in reverse order
+        //     var chars = 0;
+        //     var isLeadingZero = true;
+        //     while( valueLong != 0 || decimals >= 0 )
+        //     {
+        //         // We stop removing leading 0 when non-0 or decimal digit
+        //         if( valueLong%10 != 0 || decimals <= 0 )
+        //             isLeadingZero = false;
+        //
+        //         // Write the last digit (unless a leading zero)
+        //         if( !isLeadingZero )
+        //             buffer[ bufferPos + chars++ ] = (char)('0' + valueLong%10);
+        //
+        //         // Add the decimal point
+        //         if( --decimals == 0 && !isLeadingZero )
+        //             buffer[ bufferPos + chars++ ] = '.';
+        //
+        //         valueLong /= 10;
+        //     }
+        //     bufferPos += chars;
+        //     
+        //     // Reverse the result
+        //     for( var i=chars/2-1; i>=0; i-- )
+        //     {
+        //         var c = buffer[ bufferPos-i-1 ];
+        //         buffer[ bufferPos-i-1 ] = buffer[ bufferPos-chars+i ];
+        //         buffer[ bufferPos-chars+i ] = c;
+        //     }
+        //
+        //     return this;
+        // }
 
         /// <summary>
         /// Replace all occurrences of a string by another one.
         /// </summary>
         public OutputBuilder Replace(string oldStr, string newStr)
         {
-            if (bufferPos == 0)
+            if (bufferPos == 0 || oldStr == null)
                 return this;
 
             replacement ??= new List<char>();
@@ -264,10 +251,10 @@ namespace WheelMUD.Server
             return this;
         }
 
-        private void ReallocateIfn(int nbCharsToAdd)
+        private void ReallocateIfn(int charsToAdd)
         {
-            if (bufferPos + nbCharsToAdd <= charsCapacity) return;
-            charsCapacity = Math.Max(charsCapacity + nbCharsToAdd, charsCapacity * 2);
+            if (bufferPos + charsToAdd <= charsCapacity) return;
+            charsCapacity = Math.Max(charsCapacity + charsToAdd, charsCapacity * 2);
             var newChars = new char[charsCapacity];
             buffer.CopyTo(newChars, 0);
             buffer = newChars;
@@ -275,9 +262,7 @@ namespace WheelMUD.Server
 
         public string Parse(TerminalOptions terminalOptions)
         {
-            return terminalOptions.UseANSI ? 
-                OutputParser.Ansi(buffer, bufferPos, terminalOptions.Width) : 
-                OutputParser.NonAnsi(buffer, bufferPos, terminalOptions.Width);
+            return OutputParser.Parse(buffer, bufferPos, terminalOptions);
         }
     }
 }

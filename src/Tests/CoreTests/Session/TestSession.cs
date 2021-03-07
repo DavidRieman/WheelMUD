@@ -63,12 +63,12 @@ namespace WheelMUD.Tests
             connection.AtNewLine = false;
             session.Write(new OutputBuilder().AppendLine("test 2"), false);
             Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
-            Assert.AreEqual(connection.FakeMessagesSent[0], $"{AnsiSequences.NewLine}test 2");
+            Assert.AreEqual(connection.FakeMessagesSent[0], $"{AnsiSequences.NewLine}test 2{AnsiSequences.NewLine}");
 
             // Ensure writing a string from a new line position already, does not append an extra opening line.
             connection.ResetMessages();
             connection.AtNewLine = true;
-            session.Write(new OutputBuilder().AppendLine("test 3"), false);
+            session.Write(new OutputBuilder().Append("test 3"), false);
             Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
             Assert.AreEqual(connection.FakeMessagesSent[0], $"test 3");
         }
@@ -133,7 +133,7 @@ namespace WheelMUD.Tests
                 set => throw new NotImplementedException();
             }
 
-            public TerminalOptions TerminalOptions => throw new NotImplementedException();
+            public TerminalOptions TerminalOptions => new TerminalOptions();
 
             public ITelnetCodeHandler TelnetCodeHandler => throw new NotImplementedException();
 

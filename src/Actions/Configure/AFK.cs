@@ -49,9 +49,9 @@ namespace WheelMUD.Actions
                 {
                     var afkReason = actionInput.Tail;
 
-                    actionInput.Controller.Write(!string.IsNullOrEmpty(afkReason)
-                        ? new OutputBuilder().AppendLine($"You have set your status to AFK: {afkReason}.")
-                        : new OutputBuilder().AppendLine("You have set your status to AFK."));
+                    actionInput.Controller.Write(new OutputBuilder().AppendLine(!string.IsNullOrEmpty(afkReason) ?
+                        $"You have set your status to AFK: {afkReason}." : 
+                        "You have set your status to AFK."));
 
                     playerBehavior.IsAFK = true;
 
