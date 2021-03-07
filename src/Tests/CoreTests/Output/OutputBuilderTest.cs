@@ -1,13 +1,13 @@
 //-----------------------------------------------------------------------------
-// <copyright file="TestPlayerBehavior.cs" company="WheelMUD Development Team">
+// <copyright file="OutputBuilderTest.cs" company="WheelMUD Development Team">
 //   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
 using System;
-using WheelMUD.Server;
 using NUnit.Framework;
+using WheelMUD.Server;
 using WheelMUD.Utilities;
 
 namespace WheelMUD.Tests.Output
@@ -26,7 +26,6 @@ namespace WheelMUD.Tests.Output
         public void Init()
         {
             terminalOptions = new TerminalOptions();
-            
         }
 
         [Test]
@@ -55,6 +54,21 @@ namespace WheelMUD.Tests.Output
             var parsedMessage = output.Parse(terminalOptions);
             
             Assert.AreEqual(baseMessage, parsedMessage);
+        }
+        
+        [Test]
+        public void TestReplace()
+        {
+            var replaceWord = "big";
+            var replaceWithWord = "small";
+            var originalMessage = "The big brown dog.";
+            var correctedMessage = "The small brown dog.";
+            
+            var output = new OutputBuilder().Append(originalMessage);
+            output.Replace(replaceWord, replaceWithWord);
+            var parsedMessage = output.Parse(terminalOptions);
+            
+            Assert.AreEqual(correctedMessage, parsedMessage);
         }
     }
 }
