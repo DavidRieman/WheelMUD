@@ -19,5 +19,7 @@ WARNING: If you skip this or install the wrong one, RavenDB will crash with cons
 Currently we are focusing on supporting one solution file, for use with [Visual Studio](https://visualstudio.microsoft.com/downloads/) 2019 or 2017.
 (The free, full-featured Visual Studio Community 2019 edition, is a good way to go. Paid versions will work as well, if you happen to have them.)
 
-The solution will likely continue working in Visual Studio versions before 2017 as well (although not officially supported).
-Solution files existed before for MonoDevelop, SharpDevelop, and a VS2010 Express solution (because that edition did not support solution folders); however, these are not currently supported by the core WheelMUD team. If you are blocked because your IDE of choice cannot open the current main WheelMUD.sln, please open a thread in the "discussion" section of GitHub.
+We're not doing anything super fancy with the solution file, so you should even be able to use alternative IDEs for code editing and build the solution with a command-line task, if you want to.
+The solution will likely continue working in Visual Studio versions earlier than 2017 as well (although not officially supported).
+Solution files existed before for MonoDevelop, SharpDevelop, and a VS2010 Express solution (because that edition did not support solution folders); however, these are not currently supported by the core WheelMUD team.
+If you feel blocked because your IDE of choice is not cooperating, feel free to open a thread in the GitHub "discussion" area.

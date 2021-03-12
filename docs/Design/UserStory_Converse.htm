@@ -16,29 +16,30 @@ You tell <span style='color:#aa55aa'>Ashon</span> “<span style='color:#BBBB00'
 You start conversing with <span style='color:#aa55aa'>Ashon</span>.
 <span style='color:#BBBB00'>(!)</span> Welcome to your first conversation.
 * Everything you type will now be relayed as a conversation instead of as a command.
+* Start a line with a period to execute the rest of the line as a command instead.
 * Type ‘<span style='color:#AAFFAA'>.end</span>’ to stop conversing.
 * Type ‘<span style='color:#AAFFAA'>.help converse</span>’ for more detailed information.
 
-tell ashon> Testing
+<span style='color:#AAFFAA'>tell Ashon</span>> Testing
 You tell <span style='color:#aa55aa'>Ashon</span> “<span style='color:#BBBB00'>Testing</span>”
 
-tell ashon> Wow this is awesome!
+<span style='color:#AAFFAA'>tell Ashon</span>> Wow this is awesome!
 You tell <span style='color:#aa55aa'>Ashon</span> “<span style='color:#BBBB00'>Wow this is awesome!</span>”
 
 <span style='color:#aa55aa'>Ashon</span> tells you “<span style='color:#BBBB00'>Yeah, saves time.  Use . to preface actual commands like .sit</span>”
 
-tell ashon> .hug ashon
+<span style='color:#AAFFAA'>tell Ashon</span>> .hug ashon
 You hug <span style='color:#aa55aa'>Ashon</span>.
 
-tell ashon>
-<span style='color:#aa55aa'>Ashon</span> tells you “<span style='color:#BBBB00'>Use ‘end’ to end the conversation.</span>”
+<span style='color:#AAFFAA'>tell Ashon</span>>
+<span style='color:#aa55aa'>Ashon</span> tells you “<span style='color:#BBBB00'>Use ‘.end’ to end the conversation.</span>”
 
-tell ashon> Why?  Now I can bug you relentlessly!
+<span style='color:#AAFFAA'>tell Ashon</span>> Why?  Now I can bug you relentlessly!
 You tell <span style='color:#aa55aa'>Ashon</span> “<span style='color:#BBBB00'>Why?  Now I can bug you relentlessly!</span>”
 
-<span style='color:#aa55aa'>Ashon</span> tells you “<span style='color:#BBBB00'>Ha ha.</span>”
-    
-tell ashon> .end
+<span style='color:#aa55aa'>Ashon</span> tells you “<span style='color:#BBBB00'>Ha, ha.</span>”
+
+<span style='color:#AAFFAA'>tell Ashon</span>> .end
 
 >
 </div>
@@ -46,11 +47,17 @@ tell ashon> .end
 <div style="color:white; max-width:1000px; font-size:13pt">
     <p>Additional notes:</p>
     <ul>
-        <li>Basically a special command processor mode which "falls back" to the regular command processor with input that started with "." (after stripping the "." for the fallback attempt).</li>
-        <li>Some edge cases to consider deeper might be that other special modes could potentially kick in, like after issuing a "dot command" which resulted in Paging mode or Y/N confirmations, etc. Perhaps the user just has to keep "dotting" those interactions like ".Y" to confirm, or ".end" to ineract and then go back to conversation mode.</li>
+        <li>While in this mode, any non-dotted input might just get appended the relevant command part ("tell Ashon" in this example). This approach would also allow for variants like "converse gossip" to enter "converse mode" with a chat channel instead of with a specific player.</li>
+        <li>Basically a special command processor mode which "falls back" to the regular command processor with input that started with "." (after stripping the period).</li>
+        <li>Note that converse mode is one-way and does not have to be "reciprocated" or accepted; one player might be "conversing at" another player while they are still in regular playing mode. (Of course, converse mode should not bypass other muting or "ignore" type commands.)</li>
         <li>Note that the prompt change from ">" serves as a continuous reminder that the user is in converse mode, since forgetting can result in sending what was intended as a command to the target. This could be especially helpful if they step away for a few minutes and forgot; their command attempts would be sent as commands.</li>
         <li>Similarly, after idling for a minute or so: Perhaps the user could be warned and then automatically kicked out of converse mode.</li>
         <li>If a player loses their connection, we could automatically inform anyone conversing at them (if they have permission to know this).</li>
+        <li>If a MUD allows triggers, they may want to consider disabling converse mode. (We'll want it to be easy to disable certain commands like this without touching core code.)</li>
+        <li>Perhaps the command-start symbol should actually be "/" by default to align well with some modern popular chat programs. The default symbol should be configurable by an admin without modifying core (perhaps via app.config setting). On top of those, players could perhaps configure their own command symbol override.</li>
+        <li>Consider if we should support opening converse mode with multiple targets, such as ".converse Ashon and Karak" to just send tells to each target in succession. (Alternately, adding the ability to create impromptu, temporary mini-channels and using "converse" against those channels may be an even better avenue.)</li>
+        <li>Edge case: Other special modes could potentially kick in when issuing a "dot command" or other timing races, which result in Paging mode or Y/N confirmations, etc. Perhaps the user just has to keep "dotting" those interactions like ".Y" to confirm, or ".end" to ineract and then go back to conversation mode. (Do we have to stack prompts?)</li>
+        <li>Edge case: If we ".converse [other target]" while already in converse mode, should we exit the existing conversation to engage the next conversation, switch to creating a temporary mini-channel and inviting the target, ignore the input, or something else?</li>
     </ul>
 </div>
 </body>

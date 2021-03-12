@@ -20,9 +20,9 @@ Our road map may change over time. Most likely a few features that are less comm
 | 0.6.1   |             | Documentation polish. (Try to help early adopting game admins to get up and running on our important dev model/concepts and administration tactics).
 | 0.7     |             | Quests, paging, message boards (including advanced multi-line text editing), creating/editing help files, ticketing, announce/motd. |
 | 0.8     |             | InterMUD communication, player housing / in-game building (OLC) (though OLC likely needs to move up in priority), professions. |
-| 0.9     |             | Admin-events support, MCCP, [improved modularization](https://github.com/DavidRieman/WheelMUD/discussions/125), pets (and mounts), alpha testing. |
+| 0.9     |             | Admin-events support, utilize MCCP, [improved modularization](https://github.com/DavidRieman/WheelMUD/discussions/125), pets (and mounts), alpha testing. |
 | 1.0     |             | Performance and stress testing, optimizations, release polish, UX testing and iteration, publicize official release. |
-| 1.1+    |             | Ranged combat, multiple currencies, item durability, flight, underwater, a default new user tutorial area, auctions, banking, embedded mini-games, aliases/macros, area instancing, player customized prompts, alternate multi-line text editors (e.g. "vi" versus "ed" styles), import/export of areas/things for sharing, offline world creation UI, etc... |
+| 1.1+    |             | Ranged combat, multiple currencies, item durability, flight, underwater, a default new user tutorial area, auctions, banking, embedded mini-games, aliases/macros, area instancing, player customized prompts, alternate multi-line text editors (e.g. "vi" versus "ed" styles), import/export of areas/things for sharing, offline world creation UI, MSP, MXP images, etc... |
 
 ### After Version 1.0
 We're not stopping at v1. We just mark any issues that we felt were not required for our V1 release as 1.1+.
