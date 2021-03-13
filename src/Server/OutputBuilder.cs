@@ -118,11 +118,19 @@ namespace WheelMUD.Server
             // Allocate enough memory to handle any int number
             ReallocateIfn( 16 );
 
+            var minVal = false;
+            
             // Handle the negative case
             if( value < 0 )
             {
+                if (value == int.MinValue)
+                {
+                    minVal = true;
+                    value += 1;
+                }
+                
                 value = -value;
-                buffer[ bufferPos++ ] = '-';
+                buffer[bufferPos++] = '-';
             }
 
             // Copy the digits in reverse order
@@ -140,7 +148,11 @@ namespace WheelMUD.Server
                 var c = buffer[ bufferPos-i-1 ];
                 buffer[ bufferPos-i-1 ] = buffer[ bufferPos-chars+i ];
                 buffer[ bufferPos-chars+i ] = c;
+                
+                if(i == 0 && minVal)
+                    buffer[ bufferPos-i-1 ] = '8';
             }
+
             return this;
         }
 
