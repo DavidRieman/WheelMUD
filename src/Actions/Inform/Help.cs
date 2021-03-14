@@ -29,7 +29,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             if (!(actionInput.Controller is Session session)) return;
-            
+
             var commandTail = actionInput.Tail;
 
             // If no arguments were given, render the help topics list.

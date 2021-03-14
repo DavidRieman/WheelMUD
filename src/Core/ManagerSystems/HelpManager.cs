@@ -20,15 +20,26 @@ namespace WheelMUD.Core
         /// <summary>Prevents a default instance of the <see cref="HelpManager"/> class from being created.</summary>
         private HelpManager()
         {
-            HelpTopics = new List<HelpTopic>();
         }
 
         /// <summary>Gets the singleton instance of HelpManager.</summary>
         /// <value>The HelpManager instance.</value>
         public static HelpManager Instance { get; } = new HelpManager();
 
+        public int MaxPrimaryAliasLength { get; private set; }
+
         /// <summary>Gets the complete list of HelpTopics that are loaded into memory.</summary>
-        public List<HelpTopic> HelpTopics { get; private set; }
+        private List<HelpTopic> HelpTopics { get; set; } = new List<HelpTopic>();
+
+        /// <summary>Gets an immutable list of all currently available help topics.</summary>
+        /// <returns></returns>
+        public IReadOnlyCollection<HelpTopic> GetHelpTopics()
+        {
+            lock (lockObject)
+            {
+                return HelpTopics.AsReadOnly();
+            }
+        }
 
         /// <summary>Starts the manager and loads all help records into memory</summary>
         public override void Start()
@@ -43,21 +54,7 @@ namespace WheelMUD.Core
                 Directory.CreateDirectory(helpDir);
             }
 
-            foreach (string file in Directory.GetFiles(helpDir))
-            {
-                // We need to read in each line of the file and put it back together explicitly with AnsiSequences.NewLines,
-                // so that we are prepared to send the contents with the expected NewLine of the Telnet protocal, regardless
-                // of what line endings the help file was saved with.
-                var contentLines = File.ReadAllLines(file);
-                string contents = string.Join(AnsiSequences.NewLine, contentLines);
-
-                // The file name depicts the help topic. Something like "foo_bar" would be a single keyword with an underscore
-                // as part of the help topic alias, while "foo__bar" depicts two aliases ("foo" and "bar").
-                string nameOnly = Path.GetFileNameWithoutExtension(file);
-                string[] aliases = nameOnly.Split("__");
-                var helpTopic = new HelpTopic(contents, new List<string>(aliases));
-                HelpTopics.Add(helpTopic);
-            }
+            ReloadHelpTopics(helpDir);
 
             SystemHost.UpdateSystemHost(this, "Started");
         }
@@ -85,6 +82,35 @@ namespace WheelMUD.Core
             // However, a help file can use multiple aliases by separating them with "__" in the help file name, with
             // the "primary" alias (one we would display to the user when listing topics) being the first one.
             return HelpTopics.Find(h => h.Aliases.Contains(helpTopic, StringComparer.OrdinalIgnoreCase));
+        }
+
+        private void ReloadHelpTopics(string helpDir)
+        {
+            lock (lockObject)
+            {
+                HelpTopics.Clear();
+                MaxPrimaryAliasLength = 0;
+                foreach (string file in Directory.GetFiles(helpDir))
+                {
+                    // We need to read in each line of the file and put it back together explicitly with AnsiSequences.NewLines,
+                    // so that we are prepared to send the contents with the expected NewLine of the Telnet protocal, regardless
+                    // of what line endings the help file was saved with.
+                    var contentLines = File.ReadAllLines(file);
+                    string contents = string.Join(AnsiSequences.NewLine, contentLines);
+
+                    // The file name depicts the help topic. Something like "foo_bar" would be a single keyword with an underscore
+                    // as part of the help topic alias, while "foo__bar" depicts two aliases ("foo" and "bar").
+                    string nameOnly = Path.GetFileNameWithoutExtension(file);
+                    string[] aliases = nameOnly.Split("__");
+                    var helpTopic = new HelpTopic(contents, new List<string>(aliases));
+                    HelpTopics.Add(helpTopic);
+                }
+
+                MaxPrimaryAliasLength = (from topic in HelpTopics
+                                         let primaryAlias = topic.Aliases.FirstOrDefault()
+                                         where !string.IsNullOrWhiteSpace(primaryAlias)
+                                         select primaryAlias.Length).Max();
+            }
         }
 
         /// <summary>Registers the <see cref="HelpManager"/> system for export.</summary>
