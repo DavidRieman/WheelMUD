@@ -16,19 +16,20 @@
 * David Rieman (Karak)
 
 <%cyan%>==== ACTIVE DEVELOPERS ====<%n%>:
-* Duane King (honestduane / Feverdream)
 * Jeremy Holland
 * Rebekka Williamsdóttir (octave-syndicate)
 * Daniel (Ith'drak)
 
 ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ; We sincerely give our thanks to all members of the WheelMUD Development Team
-; who have moved on to other things, including at least the following people:
+; who have moved on to other things. This includes, but is not limited to, the
+; following people:
 
 <%cyan%>==== RETIRED CHAMPION ====<%n%>:
 * Hector Sosa, Jr (Fastalanasa)
 
 <%cyan%>==== RETIRED DEVELOPERS ====<%n%>:
+* Duane King (honestduane / Feverdream)
 * Joseph Roberts (Pure)
 * Jason F. (JFed)
 * James McNamus (James)
