@@ -184,7 +184,7 @@ namespace WheelMUD.Server
             return this;
         }
         
-        ///<summary>Append a float without memory allocation.</summary>
+
         public OutputBuilder Append( float value )
         {
             Append(value.ToString(CultureInfo.InvariantCulture));
