@@ -17,6 +17,8 @@ namespace WheelMUD.Server
             var result = "";
             var token = "";
             var charFromNewline = 0;
+            var isError = false;
+            var isWarning = false;
 
             var isToken = false;
 
@@ -34,6 +36,20 @@ namespace WheelMUD.Server
                             charFromNewline = 0;
                             token = "";
                             result += AnsiSequences.NewLine;
+                            continue;
+                        }
+
+                        if (token == "error")
+                        {
+                            token = "";
+                            isError = true;
+                            continue;
+                        }
+
+                        if (token == "warning")
+                        {
+                            token = "";
+                            isWarning = true;
                             continue;
                         }
 
@@ -85,6 +101,28 @@ namespace WheelMUD.Server
                 else token += buffer[i];
             }
 
+            if (isError)
+            {
+                if (!terminalOptions.UseANSI)
+                    return $"ERROR MESSAGE:{AnsiSequences.NewLine}{result}{AnsiSequences.NewLine}";
+                
+                var firstline = $"{AnsiSequences.ForegroundRed}{new string('X', terminalOptions.Width)}";
+                var lastline = $"{new string('=', terminalOptions.Width)}{AnsiSequences.TextNormal}";
+                return $"{AnsiSequences.NewLine}{firstline}{AnsiSequences.NewLine}{result}{AnsiSequences.NewLine}{lastline}{AnsiSequences.NewLine}";
+
+            }
+            
+            if (isWarning)
+            {
+                if (!terminalOptions.UseANSI)
+                    return $"WARNING MESSAGE:{AnsiSequences.NewLine}{result}{AnsiSequences.NewLine}";
+                
+                var firstline = $"{AnsiSequences.ForegroundYellow}{new string('x', terminalOptions.Width)}";
+                var lastline = $"{new string('=', terminalOptions.Width)}{AnsiSequences.TextNormal}";
+                return $"{AnsiSequences.NewLine}{firstline}{AnsiSequences.NewLine}{result}{AnsiSequences.NewLine}{lastline}{AnsiSequences.NewLine}";
+
+            }
+            
             return result;
         }
     }
