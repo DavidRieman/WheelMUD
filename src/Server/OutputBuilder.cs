@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace WheelMUD.Server
 {
@@ -23,13 +24,37 @@ namespace WheelMUD.Server
 
         private int bufferPos;
         private int charsCapacity;
+        
+        //Static Char Numbers
+        private static readonly char[] CharNumbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
+        private static readonly string[] CharBool = {"False", "True"};
 
         /// <summary>
         /// Temporary string used for the replace method.
         /// </summary>
         private List<char> replacement;
+        
+        /// <summary>
+        /// Quickly gets buffer length of int
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns>buffer length</returns>
+        private static int GetIntLength(long n)
+        {
+            if (n < 10) return 1;
+            if (n < 100) return 2;
+            if (n < 1000) return 3;
+            if (n < 10000) return 4;
+            if (n < 100000) return 5;
+            if (n < 1000000) return 6;
+            if (n < 10000000) return 7;
+            if (n < 100000000) return 8;
+            if (n < 1000000000) return 9;
+            return 10;
+        }
 
-        public OutputBuilder(int initialCapacity = 32)
+        public OutputBuilder(int initialCapacity = 16)
         {
             buffer = new char[charsCapacity = initialCapacity];
         }
@@ -41,21 +66,17 @@ namespace WheelMUD.Server
         /// <returns></returns>
         public void ErrorMessage(string error)
         {
-            AppendSeparator('=', "red", true, error.Length);
-            AppendLine($"<%red%>{error}<%n%>");
-            AppendSeparator('=', "red", true, error.Length);
+            AppendLine($"<%error%>{error}");
         }
         
         /// <summary>
         /// Returns a warning message
         /// </summary>
-        /// <param name="error"></param>
+        /// <param name="warning"></param>
         /// <returns></returns>
-        public void WarningMessage(string error)
+        public void WarningMessage(string warning)
         {
-            AppendSeparator('=', "yellow", true, error.Length);
-            AppendLine($"<%yellow%>{error}<%n%>");
-            AppendSeparator('=', "yellow", true, error.Length);
+            AppendLine($"<%warning%>{warning}");
         }
 
         /// <summary>
@@ -111,100 +132,64 @@ namespace WheelMUD.Server
 
             return this;
         }
-        
-        ///<summary>Append an int without memory allocation</summary>
-        public OutputBuilder Append( int value )
+
+        ///<summary>Append bool without memory allocation</summary>
+        public OutputBuilder Append(bool value)
         {
-            // Allocate enough memory to handle any int number
-            ReallocateIfn( 16 );
-
-            // Handle the negative case
-            if( value < 0 )
-            {
-                value = -value;
-                buffer[ bufferPos++ ] = '-';
-            }
-
-            // Copy the digits in reverse order
-            var chars = 0;
-            do
-            {
-                buffer[ bufferPos++ ] = (char)('0' + value%10);
-                value /= 10;
-                chars++;
-            } while( value != 0 );
-
-            // Reverse the result
-            for( var i=chars/2-1; i>=0; i-- )
-            {
-                var c = buffer[ bufferPos-i-1 ];
-                buffer[ bufferPos-i-1 ] = buffer[ bufferPos-chars+i ];
-                buffer[ bufferPos-chars+i ] = c;
-            }
-            return this;
+            return Append(value ? CharBool[1] : CharBool[0]);
         }
 
-        //TODO: Fix.
+        ///<summary>Append an int without memory allocation</summary>
+        public OutputBuilder Append(int value)
+        {
+            return Append((long) value);
+        }
+        
+        ///<summary>Converts int to long to handle int.MinValue</summary>
+        private OutputBuilder Append(long value)
+        {
+            var isNegative = false;
+
+            if (value < 0)
+            {
+                value = -value;
+                isNegative = true;
+            }
+            
+            var length = GetIntLength(value);
+            
+            // Allocate enough memory to handle this int
+            ReallocateIfn(length);
+
+            // Handle the negative case
+            if(isNegative)
+                buffer[ bufferPos++ ] = '-';
+
+            if (value <= 9)
+            {
+                //between 0-9
+                buffer[bufferPos++] = CharNumbers[value];
+                return this;
+            }
+
+            bufferPos += length;
+            var nbChars = bufferPos - 1;
+            
+            do
+            {
+                buffer[nbChars--] = CharNumbers[value % 10];
+                value /= 10;
+            } while (value != 0);
+
+            return this;
+        }
+        
         ///<summary>Append a float without memory allocation.</summary>
-        // public OutputBuilder Append( float valueF )
-        // {
-        //     double value = valueF;
-        //     ReallocateIfn( 32 ); // Check we have enough buffer allocated to handle any float number
-        //
-        //     // Handle the 0 case
-        //     if( value == 0 )
-        //     {
-        //         buffer[ bufferPos++ ] = '0';
-        //         return this;
-        //     }
-        //
-        //     // Handle the negative case
-        //     if( value < 0 )
-        //     {
-        //         value = -value;
-        //         buffer[ bufferPos++ ] = '-';
-        //     }
-        //
-        //     // Get the 7 meaningful digits as a long
-        //     var decimals = 0;
-        //     while( value < 1000000 )
-        //     {
-        //         value *= 10;
-        //         decimals++;
-        //     }
-        //     var valueLong = (long)Math.Round( value );
-        //
-        //     // Parse the number in reverse order
-        //     var chars = 0;
-        //     var isLeadingZero = true;
-        //     while( valueLong != 0 || decimals >= 0 )
-        //     {
-        //         // We stop removing leading 0 when non-0 or decimal digit
-        //         if( valueLong%10 != 0 || decimals <= 0 )
-        //             isLeadingZero = false;
-        //
-        //         // Write the last digit (unless a leading zero)
-        //         if( !isLeadingZero )
-        //             buffer[ bufferPos + chars++ ] = (char)('0' + valueLong%10);
-        //
-        //         // Add the decimal point
-        //         if( --decimals == 0 && !isLeadingZero )
-        //             buffer[ bufferPos + chars++ ] = '.';
-        //
-        //         valueLong /= 10;
-        //     }
-        //     bufferPos += chars;
-        //     
-        //     // Reverse the result
-        //     for( var i=chars/2-1; i>=0; i-- )
-        //     {
-        //         var c = buffer[ bufferPos-i-1 ];
-        //         buffer[ bufferPos-i-1 ] = buffer[ bufferPos-chars+i ];
-        //         buffer[ bufferPos-chars+i ] = c;
-        //     }
-        //
-        //     return this;
-        // }
+        public OutputBuilder Append( float value )
+        {
+            Append(value.ToString(CultureInfo.InvariantCulture));
+            return this;
+        }
 
         /// <summary>
         /// Replace all occurrences of a string by another one.
