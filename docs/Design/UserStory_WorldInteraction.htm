@@ -119,6 +119,8 @@ Someone unlocks the <span style='color:#AAFFAA'>heavy wooden chest</span>.
         <li>We should probably just guarantee every Thing instance created gets a unique ID from the moment it is created (regardless if it was made via a Spawner, clone command, or something else). This should help with detection of item duplication exploits and the like, too.</li>
         <li>The user should not be barraged with numeric IDs except in cases where they definitely help (like during target disambiguation).</li>
         <li>Whether commands should be available to power gamers that expose the actual underlying GUID of their item instances for reference via commands (or macros), is something we can revisit and discuss closer to v1.0. (Perhaps an app.config option that influences some default commands.)</li>
+        <li>Some commands may need multiple disambiguations, such as "put sword in bag" may match multiple swords and bags. In these cases we can probably just try to resolve one of them and then the reissuing of the command with the one disambiguated, will naturally ask for disambiguation of the second in turn.</li>
+        <li>If we try to allow multiple word targets, commands with multiple targets will be especially complicated to disambiguate. For example, "put big sword heavy wooden chest" would have to consider many potential places for the implicit "in" keyword (like "put big IN sword heavy wooden chest") etc.</li>
     </ul>
 </div>
 </body>
