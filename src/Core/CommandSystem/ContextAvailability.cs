@@ -11,7 +11,7 @@ namespace WheelMUD.Core
 
     /// <summary>The contextual availability, as it applies to a context command, etc.</summary>
     [Flags]
-    public enum ContextAvailability
+    public enum ContextAvailability: uint
     {
         /// <summary>Available to nobody.</summary>
         ToNone = 0,
@@ -25,7 +25,7 @@ namespace WheelMUD.Core
         /// <summary>Available to our siblings.</summary>
         ToSiblings = 4,
 
-        /// <summary>Available to oruself.</summary>
+        /// <summary>Available to ourself.</summary>
         ToSelf = 8,
     }
 }

@@ -11,7 +11,7 @@ namespace WheelMUD.Core
 {
     /// <summary>Categories that actions can be filed under.</summary>
     [Flags]
-    public enum CommandCategory
+    public enum CommandCategory : uint
     {
         /// <summary>No categories.</summary>
         None = 0,
@@ -20,33 +20,33 @@ namespace WheelMUD.Core
         Activities = 1,
 
         /// <summary>Action is classified as an administration action ("goto").</summary>
-        Admin = 2,
+        Admin = 1 << 1,
 
         /// <summary>Action is classified as a combat action ("attack").</summary>
-        Combat = 4,
+        Combat = 1 << 2,
 
         /// <summary>Action is classified as a commercial action ("buy").</summary>
-        Commercial = 8,
+        Commercial = 1 << 3,
 
         /// <summary>Action is classified as a communication action ("yell").</summary>
-        Communicate = 16,
+        Communicate = 1 << 4,
 
         /// <summary>Action is classified as a configuration action ("alias").</summary>
-        Configure = 32,
+        Configure = 1 << 5,
 
         /// <summary>Action is classified as an item interaction action ("drink").</summary>
-        Item = 64,
+        Item = 1 << 6,
 
         /// <summary>Action is classified as an informational action ("inventory").</summary>
-        Inform = 128,
+        Inform = 1 << 7,
 
         /// <summary>Action is classified as a player action ("friend add").</summary>
-        Player = 256,
+        Player = 1 << 8,
 
         /// <summary>Action is classified as a temporary action ("ThunderClap").</summary>
-        Temporary = 1024,
+        Temporary = 1 << 9,
 
         /// <summary>Action is classified as a travel action ("move").</summary>
-        Travel = 2048
+        Travel = 1 << 10
     }
 }

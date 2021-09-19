@@ -96,7 +96,7 @@ namespace WheelMUD.Core
         /// <remarks>Intended for commands which 'lockdown' or 'shutdown' the entire MUD, delete characters, etc.</remarks>
         fullAdmin = 0x2000,
 
-        /// <summary>Commands flagged with this role are available to everyone and everything.</summary>
+        /// <summary>Commands flagged with this role are available to everyone and everything (including all future or game-specific roles).</summary>
         all = 0xFFFFFFFF
     }
 

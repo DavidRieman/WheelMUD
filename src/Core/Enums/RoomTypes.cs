@@ -24,58 +24,58 @@ namespace WheelMUD.Core
         City = 1,
 
         /// <summary>Forest room type. Most forests are Deciduous.</summary>
-        Forest = 2,
+        Forest = 1 << 1,
 
         /// <summary>Plains room type.</summary>
-        Plains = 4,
+        Plains = 1 << 2,
 
         /// <summary>Jungle room type.</summary>
-        Jungle = 8,
+        Jungle = 1 << 3,
 
         /// <summary>River room type.</summary>
-        River = 16,
+        River = 1 << 4,
 
         /// <summary>Ocean room type.</summary>
-        Ocean = 32,
+        Ocean = 1 << 5,
 
         /// <summary>Cave room type.</summary>
-        Cave = 64,
+        Cave = 1 << 6,
 
         /// <summary>Snowy room type.</summary>
-        Snowy = 128,
+        Snowy = 1 << 7,
 
         /// <summary>Hills room type.</summary>
-        Hills = 256,
+        Hills = 1 << 8,
 
         /// <summary>Mountains room type.</summary>
-        Mountains = 512,
+        Mountains = 1 << 9,
 
         /// <summary>Indoors room type.</summary>
-        Indoors = 1024,
+        Indoors = 1 << 10,
 
         /// <summary>Dry room type.</summary>
-        Dry = 2048,
+        Dry = 1 << 11,
 
         /// <summary>Humid room type.</summary>
-        Humid = 4096,
+        Humid = 1 << 12,
 
         /// <summary>Air/Sky room type.</summary>
-        Air = 8192,
+        Air = 1 << 13,
 
         /// <summary>Outer space room type.</summary>
-        OuterSpace = 16384,
+        OuterSpace = 1 << 14,
 
         /// <summary>Underwater room type.</summary>
-        Underwater = 32768,
+        Underwater = 1 << 15,
 
         /// <summary>The surface room type used to denote the surface of something.</summary>
-        Surface = 65536,
+        Surface = 1 << 16,
 
         /// <summary>The room could go on forever to the player, like a big room or the open sea.</summary>
-        Endless = 131072,
+        Endless = 1 << 17,
 
         /// <summary>Not as big as Endless, but big.</summary>
-        Large = 262144,
+        Large = 1 << 18,
 
         /// <summary>A room built from metal: Indoors | Dry</summary>
         MetalRoom = Indoors | Dry,
