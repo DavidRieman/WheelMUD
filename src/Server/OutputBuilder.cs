@@ -16,64 +16,53 @@ namespace WheelMUD.Server
     /// </summary>
     public class OutputBuilder
     {
-        /// <summary>
-        /// Working mutable string.
-        /// </summary>
+        /// <summary>The mutable output string we are building.</summary>
         private char[] buffer;
 
         private int bufferPos;
         private int charsCapacity;
+        private static readonly char[] CharNumbers = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
-        /// <summary>
-        /// Temporary string used for the replace method.
-        /// </summary>
+        /// <summary>Temporary string used for the replace method.</summary>
         private List<char> replacement;
 
-        public OutputBuilder(int initialCapacity = 32)
+        /// <summary>Quickly get the buffer length required for an int.</summary>
+        /// <param name="n">The source int.</param>
+        /// <returns>The required buffer length to fit this int as a string.</returns>
+        private static int GetIntLength(int n)
+        {
+            if (n < 10) return 1;
+            if (n < 100) return 2;
+            if (n < 1000) return 3;
+            if (n < 10000) return 4;
+            if (n < 100000) return 5;
+            if (n < 1000000) return 6;
+            if (n < 10000000) return 7;
+            if (n < 100000000) return 8;
+            if (n < 1000000000) return 9;
+            return 10;
+        }
+
+        public OutputBuilder(int initialCapacity = 16)
         {
             buffer = new char[charsCapacity = initialCapacity];
         }
 
-        /// <summary>
-        /// Returns a error message
-        /// </summary>
-        /// <param name="error"></param>
-        /// <returns></returns>
-        public void ErrorMessage(string error)
-        {
-            AppendSeparator('=', "red", true, error.Length);
-            AppendLine($"<%red%>{error}<%n%>");
-            AppendSeparator('=', "red", true, error.Length);
-        }
-        
-        /// <summary>
-        /// Returns a warning message
-        /// </summary>
-        /// <param name="error"></param>
-        /// <returns></returns>
-        public void WarningMessage(string error)
-        {
-            AppendSeparator('=', "yellow", true, error.Length);
-            AppendLine($"<%yellow%>{error}<%n%>");
-            AppendSeparator('=', "yellow", true, error.Length);
-        }
-
-        /// <summary>
-        /// Reset the char array.
-        /// </summary>
-        public void Clear()
+        /// <summary>Treat the buffer as empty.</summary>
+        /// <remarks>Moves the buffer cursor but does not reduce the buffer memory. (Buffer memory will not be reclaimed until the OutputBuilder itself is GC'd.)</remarks>
+        /// <returns>This OutputBuilder, for fluent syntax options.</returns>
+        public OutputBuilder Clear()
         {
             bufferPos = 0;
+            return this;
         }
 
-        /// <summary>
-        /// Append a ANSI separator.
-        /// </summary>
-        /// <param name="design">repeating char of separator</param>
-        /// <param name="color">Color of the separator</param>
-        /// <param name="bold"></param>
-        /// <param name="length">how long the separator is</param>
-        /// <returns></returns>
+        /// <summary>Append an ANSI separator.</summary>
+        /// <param name="design">Repeating char of separator.</param>
+        /// <param name="color">Color of the separator.</param>
+        /// <param name="bold">If true, uses bold color mode.</param>
+        /// <param name="length">How long the separator is.</param>
+        /// <returns>This OutputBuilder, for fluent syntax options.</returns>
         public OutputBuilder AppendSeparator(char design = '-', string color = "white", bool bold = false,
             int length = 60)
         {
@@ -83,136 +72,91 @@ namespace WheelMUD.Server
             return this;
         }
 
-        /// <summary>
-        /// Append a string without memory allocation with ansi new line added.
-        /// </summary>
+        /// <summary>Append a string with ANSI New Line added, without memory allocation (if possible).</summary>
         public OutputBuilder AppendLine(string value = null)
         {
             value += "<%nl%>";
             ReallocateIfn(value.Length);
             var length = value.Length;
             for (var i = 0; i < length; i++)
+            {
                 buffer[bufferPos + i] = value[i];
+            }
             bufferPos += length;
-            
+
             return this;
         }
 
-        /// <summary>
-        /// Append a string without memory allocation.
-        /// </summary>
+        /// <summary>Append a string to the output (without memory allocation, if possible).</summary>
         public OutputBuilder Append(string value)
         {
             ReallocateIfn(value.Length);
             var length = value.Length;
             for (var i = 0; i < length; i++)
+            {
                 buffer[bufferPos + i] = value[i];
+            }
             bufferPos += length;
 
             return this;
         }
-        
-        ///<summary>Append an int without memory allocation</summary>
-        public OutputBuilder Append( int value )
-        {
-            // Allocate enough memory to handle any int number
-            ReallocateIfn( 16 );
 
-            // Handle the negative case
-            if( value < 0 )
+        /// <summary>Append bool to the output (without memory allocation, if possible).</summary>
+        public OutputBuilder Append(bool value)
+        {
+            return Append(value ? "true" : "false");
+        }
+
+        /// <summary>Append an int to the output (without memory allocation, if possible).</summary>
+        /// <remarks>TO DO: An Append(long value) could follow the same pattern, but with a more robuse "GetLongLength".</remarks>
+        public OutputBuilder Append(int value)
+        {
+            var isNegative = false;
+
+            if (value < 0)
             {
                 value = -value;
-                buffer[ bufferPos++ ] = '-';
+                isNegative = true;
             }
 
-            // Copy the digits in reverse order
-            var chars = 0;
+            // Get the length of what is now the absolute value.
+            var length = GetIntLength(value);
+
+            // Allocate enough memory to handle this int, plus a negative dash, when needed.
+            ReallocateIfn(length + (isNegative ? 1 : 0));
+
+            // Append the negative.
+            if (isNegative)
+            {
+                buffer[bufferPos++] = '-';
+            }
+
+            bufferPos += length;
+            var nbChars = bufferPos - 1;
+
             do
             {
-                buffer[ bufferPos++ ] = (char)('0' + value%10);
+                buffer[nbChars--] = CharNumbers[value % 10];
                 value /= 10;
-                chars++;
-            } while( value != 0 );
+            } while (value != 0);
 
-            // Reverse the result
-            for( var i=chars/2-1; i>=0; i-- )
-            {
-                var c = buffer[ bufferPos-i-1 ];
-                buffer[ bufferPos-i-1 ] = buffer[ bufferPos-chars+i ];
-                buffer[ bufferPos-chars+i ] = c;
-            }
             return this;
         }
 
-        //TODO: Fix.
-        ///<summary>Append a float without memory allocation.</summary>
-        // public OutputBuilder Append( float valueF )
-        // {
-        //     double value = valueF;
-        //     ReallocateIfn( 32 ); // Check we have enough buffer allocated to handle any float number
-        //
-        //     // Handle the 0 case
-        //     if( value == 0 )
-        //     {
-        //         buffer[ bufferPos++ ] = '0';
-        //         return this;
-        //     }
-        //
-        //     // Handle the negative case
-        //     if( value < 0 )
-        //     {
-        //         value = -value;
-        //         buffer[ bufferPos++ ] = '-';
-        //     }
-        //
-        //     // Get the 7 meaningful digits as a long
-        //     var decimals = 0;
-        //     while( value < 1000000 )
-        //     {
-        //         value *= 10;
-        //         decimals++;
-        //     }
-        //     var valueLong = (long)Math.Round( value );
-        //
-        //     // Parse the number in reverse order
-        //     var chars = 0;
-        //     var isLeadingZero = true;
-        //     while( valueLong != 0 || decimals >= 0 )
-        //     {
-        //         // We stop removing leading 0 when non-0 or decimal digit
-        //         if( valueLong%10 != 0 || decimals <= 0 )
-        //             isLeadingZero = false;
-        //
-        //         // Write the last digit (unless a leading zero)
-        //         if( !isLeadingZero )
-        //             buffer[ bufferPos + chars++ ] = (char)('0' + valueLong%10);
-        //
-        //         // Add the decimal point
-        //         if( --decimals == 0 && !isLeadingZero )
-        //             buffer[ bufferPos + chars++ ] = '.';
-        //
-        //         valueLong /= 10;
-        //     }
-        //     bufferPos += chars;
-        //     
-        //     // Reverse the result
-        //     for( var i=chars/2-1; i>=0; i-- )
-        //     {
-        //         var c = buffer[ bufferPos-i-1 ];
-        //         buffer[ bufferPos-i-1 ] = buffer[ bufferPos-chars+i ];
-        //         buffer[ bufferPos-chars+i ] = c;
-        //     }
-        //
-        //     return this;
-        // }
+        /// <summary>For other types not specifically covered, simply convert the type to string and append it.</summary>
+        /// <remarks>Primarily this is meant to cover "float", "long", unsigned variants, and so on. These will not benefit from the speed boosts of custom implementations.</remarks>
+        public OutputBuilder Append<T>(T value)
+        {
+            return Append(value.ToString());
+        }
 
-        /// <summary>
-        /// Replace all occurrences of a string by another one.
-        /// </summary>
+        /// <summary>Replace all occurrences of a string with another one.</summary>
         public OutputBuilder Replace(string oldStr, string newStr)
         {
             if (bufferPos == 0 || oldStr == null)
+            {
                 return this;
+            }
 
             replacement ??= new List<char>();
 
@@ -225,7 +169,9 @@ namespace WheelMUD.Server
                 {
                     var k = 1;
                     while (k < oldStr.Length && buffer[i + k] == oldStr[k])
+                    {
                         k++;
+                    }
                     isToReplace = k >= oldStr.Length;
                 }
 
@@ -234,7 +180,9 @@ namespace WheelMUD.Server
                     i += oldStr.Length - 1;
                     if (newStr == null) continue;
                     foreach (var t in newStr)
+                    {
                         replacement.Add(t);
+                    }
                 }
                 else
                 {
@@ -251,6 +199,11 @@ namespace WheelMUD.Server
             return this;
         }
 
+        public string Parse(TerminalOptions terminalOptions)
+        {
+            return OutputParser.Parse(buffer, bufferPos, terminalOptions);
+        }
+
         private void ReallocateIfn(int charsToAdd)
         {
             if (bufferPos + charsToAdd <= charsCapacity) return;
@@ -258,11 +211,6 @@ namespace WheelMUD.Server
             var newChars = new char[charsCapacity];
             buffer.CopyTo(newChars, 0);
             buffer = newChars;
-        }
-
-        public string Parse(TerminalOptions terminalOptions)
-        {
-            return OutputParser.Parse(buffer, bufferPos, terminalOptions);
         }
     }
 }

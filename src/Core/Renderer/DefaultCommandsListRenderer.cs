@@ -20,6 +20,7 @@ namespace WheelMUD.Core
             output.AppendLine($"<%yellow%>{categoryName} commands<%n%>:");
             foreach (var command in commands)
             {
+                // NEED AN ALTERNATE NON-MXP VERSION, AND NEED SECURE LINE API TO BE THE ONLY WAY TO SEND SECURE LINES - Name to make very clear it cannot contain user-generated content? "AppendTrustedSecureLine" with extra comments?
                 output.AppendLine($"{AnsiSequences.MxpSecureLine}<send \"help {command.Name}\">{command.Name.PadRight(15)}</send> {command.Description}");
             }
             return output;

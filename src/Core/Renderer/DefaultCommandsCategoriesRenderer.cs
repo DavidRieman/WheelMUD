@@ -27,6 +27,7 @@ namespace WheelMUD.Core
                 var matchingcommands = commands.Where(command => command.Category.HasFlag(category));
                 if (matchingcommands.Any())
                 {
+                    // THIS DOESN'T WORK ANYMORE - NEED TO USE SECURE LINE API AND HAVE SEPARATE OUTPUT FOR NON-MXP CLIENTS!
                     output.AppendLine($"<%mxpsecureline%><send \"commands {category}\">{category}</send> ({matchingcommands.Count()})");
                 }
             }

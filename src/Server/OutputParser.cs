@@ -11,13 +11,12 @@ namespace WheelMUD.Server
 {
     public static class OutputParser
     {
-        //TODO: Optimize more
-        public static string Parse(char[] buffer,int bufferPos, TerminalOptions terminalOptions)
+        // TODO: Optimize more
+        public static string Parse(char[] buffer, int bufferPos, TerminalOptions terminalOptions)
         {
             var result = "";
             var token = "";
             var charFromNewline = 0;
-
             var isToken = false;
 
             for (var i = 0; i < bufferPos; i++)
@@ -41,12 +40,12 @@ namespace WheelMUD.Server
                         {
                             result += AnsiHandler.ConvertCode(token);
                         }
-                        
+
                         token = "";
                         continue;
                     }
                 }
-                
+
                 if (!isToken && buffer[i] == '<')
                 {
                     if (buffer[i + 1] == '%')
@@ -56,7 +55,7 @@ namespace WheelMUD.Server
                             isToken = true;
                             continue;
                         }
-                        
+
                         result = result.Remove(result.Length - 1);
                     }
                 }
@@ -67,9 +66,9 @@ namespace WheelMUD.Server
                     charFromNewline++;
 
                     if (charFromNewline <= terminalOptions.Width || terminalOptions.UseWordWrap == false) continue;
-                    
+
                     var lastSpaceIndex = result.LastIndexOf(' ');
-                        
+
                     if (lastSpaceIndex > 0)
                     {
                         result = result.Remove(lastSpaceIndex, 1);
