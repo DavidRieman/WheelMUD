@@ -16,7 +16,7 @@ Our road map may change over time. Most likely a few features that are less comm
 | 0.4.1   | In Progress | [Improve persistence](https://github.com/DavidRieman/WheelMUD/projects/1). [Equipment](https://github.com/DavidRieman/WheelMUD/projects/2), [race, attributes, alignment](https://github.com/DavidRieman/WheelMUD/projects/3) need to be rebuilt. |
 | 0.5     | Planning    | [Basic WR&M combat](https://github.com/DavidRieman/WheelMUD/projects/4), [mob AI](https://github.com/DavidRieman/WheelMUD/projects/5), [skills, spells](https://github.com/DavidRieman/WheelMUD/projects/6), [finish Behaviors refactoring and related tests](https://github.com/DavidRieman/WheelMUD/projects/7). |
 | 0.5.1   |             | Playability polish. (Have a "working game" reference implementation with some sort of character advancement, and related polish). |
-| 0.6     |             | Party, guilds, chat channels, settings, economy, weather. |
+| 0.6     |             | Party, guilds, chat channels, settings, economy, weather, socials/emotes (including freeform). |
 | 0.6.1   |             | Documentation polish. (Try to help early adopting game admins to get up and running on our important dev model/concepts and administration tactics).
 | 0.7     |             | Quests, paging, message boards (including advanced multi-line text editing), creating/editing help files, ticketing, announce/motd. |
 | 0.8     |             | InterMUD communication, player housing / in-game building (OLC) (though OLC likely needs to move up in priority), professions. |
