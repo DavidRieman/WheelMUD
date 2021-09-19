@@ -53,7 +53,7 @@ namespace WheelMUD.Actions
             // First check the place where the sender is located (like a room) for the target,
             // and if not found, search the sender's children (like inventory) for the target.
             var thing = parent.FindChild(searchString) ?? actionInput.Controller.Thing.FindChild(searchString);
-            
+
             actionInput.Controller.Write(thing != null
                 ? Renderer.Instance.RenderPerceivedThing(actionInput.Controller.Thing, thing)
                 : new OutputBuilder().AppendLine($"You cannot find {searchString}."));

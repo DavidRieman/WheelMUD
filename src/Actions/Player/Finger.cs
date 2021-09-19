@@ -44,7 +44,7 @@ namespace WheelMUD.Actions
             string addressIP = null;
 
             var playerBehavior = target.Behaviors.FindFirst<PlayerBehavior>();
-            
+
             output.AppendLine($"<%yellow%><%b%>Name: {target.Name} Title: {target.Title}<%n%>");
             output.AppendLine($"Description: {target.Description}");
             output.AppendLine($"Full Name: {target.FullName}");
@@ -58,7 +58,7 @@ namespace WheelMUD.Actions
             output.AppendLine("Spouse: TBA");
             output.AppendLine("Creation Date: TBA");
             output.AppendLine("Age: TBA");
-            
+
             if (playerBehavior != null)
             {
                 // TODO: Mine this data in a less invasive/dangerous way; maybe the PlayerBehavior
@@ -70,19 +70,18 @@ namespace WheelMUD.Actions
                 ////    isOnline = true;
                 ////    addressIP = connection.CurrentIPAddress;
                 ////}
-                
+
                 var statusString = isOnline ? "<%green%>Online<%n%>" : "<%red%>Offline<%n%>";
-                
+
                 output.AppendLine($"Status: {statusString}"); // need way to report both offline and online
                 output.AppendLine($"Location: {target.Parent.Name}");
                 output.AppendLine($"Last Login: {playerBehavior.PlayerData.LastLogin}");
-                
-                if(isOnline)
+
+                if (isOnline)
                     output.AppendLine($"Current IP Address: {addressIP}");
-                
+
                 output.AppendLine("Plan: TBA");
                 output.AppendLine("MXP: TBA");
-                
             }
 
             actionInput.Controller.Write(output);
@@ -125,7 +124,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: If there is less than 1 parameter, show help.
-            return actionInput.Params.Length != 1 ? 
+            return actionInput.Params.Length != 1 ?
                 "Syntax:\n<finger [entity]>\n\nRemarking line 31 in this file will help crash test the mud :)\n\nSee also who" : null;
         }
     }

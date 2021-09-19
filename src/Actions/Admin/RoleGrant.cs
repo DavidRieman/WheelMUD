@@ -45,7 +45,7 @@ namespace WheelMUD.Actions
             ob.Clear();
             ob.AppendLine($"You have been granted the {role.ToString()} role.");
             userControlledBehavior.Controller.Write(ob);
-            
+
             player.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 

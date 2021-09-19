@@ -46,7 +46,7 @@ namespace WheelMUD.Actions
             // TODO: Test, may be broken now... especially for only putting SOME of a stack...
             thing.Parent.Remove(thing);
             newParent.Add(thing);
-            
+
             actionInput.Controller.Write(new OutputBuilder().AppendLine($"You put {thing.FullName} in {newParent.Name}."));
         }
 

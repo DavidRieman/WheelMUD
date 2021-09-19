@@ -145,7 +145,7 @@ namespace WheelMUD.Actions
             var followedBehavior = senderBehaviors.FindFirst<FollowedBehavior>();
 
             var output = new OutputBuilder();
-            
+
             output.Append("You are following: ");
 
             output.AppendLine(followingBehavior == null ? "(nobody)" : followingBehavior.Target.Name);
@@ -164,7 +164,7 @@ namespace WheelMUD.Actions
                     output.AppendLine(followers);
                 }
             }
-            
+
             actionInput.Controller.Write(output);
         }
     }

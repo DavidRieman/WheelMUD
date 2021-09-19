@@ -33,7 +33,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             if (actionInput.Controller.Thing == null) return;
-            
+
             if (string.IsNullOrEmpty(actionInput.Tail))
             {
                 actionInput.Controller.Write(new OutputBuilder().

@@ -111,7 +111,7 @@ namespace WheelMUD.Actions
         {
             var playerBehavior = target.Behaviors.FindFirst<PlayerBehavior>();
 
-            if (playerBehavior is {IsAFK: true})
+            if (playerBehavior is { IsAFK: true })
             {
                 var afkMessage = !string.IsNullOrEmpty(playerBehavior.AFKReason) ? string.Concat("AFK: ", playerBehavior.AFKReason) : "AFK";
 

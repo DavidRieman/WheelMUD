@@ -38,7 +38,7 @@ namespace ServerHarness
             ab.AppendLine("----------------------------------");
             ab.AppendLine("Available administrative commands:");
             ab.AppendLine("----------------------------------");
-            
+
             foreach (var command in ServerHarnessCommands.Instance.AllCommands)
             {
                 ab.AppendLine($"{command.Names.First(),16} - {command.Description}");

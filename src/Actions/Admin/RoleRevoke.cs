@@ -33,19 +33,19 @@ namespace WheelMUD.Actions
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
-        {   
+        {
             var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
             userControlledBehavior.SecurityRoles &= ~role;
 
             var ob = new OutputBuilder();
             ob.AppendLine($"{player.Name} has been revoked the {role.ToString()} role.");
             ob.AppendLine($"{player.Name} is now: {userControlledBehavior.SecurityRoles}.");
-            
+
             actionInput.Controller.Write(ob);
-            
+
             ob.Clear();
             ob.AppendLine($"You have been revoked the {role.ToString()} role.");
-            
+
             userControlledBehavior.Controller.Write(ob);
             player.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }

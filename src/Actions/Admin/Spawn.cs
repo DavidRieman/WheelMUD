@@ -31,8 +31,8 @@ namespace WheelMUD.Actions
         {
             var mobName = actionInput.Tail.Trim();
 
-            var thing = new Thing {Id = "0", Name = mobName};
-            
+            var thing = new Thing { Id = "0", Name = mobName };
+
             var targetRoom = actionInput.Controller.Thing.Parent;
             targetRoom.Add(thing);
             thing.Stats["HP"] = new GameStat(actionInput.Controller, "Hit Points", "HP", null, 10, 0, 10, true);

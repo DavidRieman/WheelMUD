@@ -41,8 +41,8 @@ namespace WheelMUD.Actions
         {
             actionInput.Controller.Thing.SingularPrefix = newPretitle;
 
-            actionInput.Controller.Write(new OutputBuilder().AppendLine(string.IsNullOrEmpty(newPretitle) ? 
-                    $"Your old pretitle was \"{oldPretitle}\" and is now removed." : 
+            actionInput.Controller.Write(new OutputBuilder().AppendLine(string.IsNullOrEmpty(newPretitle) ?
+                    $"Your old pretitle was \"{oldPretitle}\" and is now removed." :
                     $"Your old pretitle was \"{oldPretitle}\" and is now \"{newPretitle}\"."));
 
             actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SavePlayer();
@@ -58,7 +58,7 @@ namespace WheelMUD.Actions
             {
                 return commonFailure;
             }
-            
+
             // Rule: The new pretitle must be empty or meet the length requirements.
             oldPretitle = actionInput.Controller.Thing.SingularPrefix;
 

@@ -148,7 +148,7 @@ namespace WheelMUD.Actions
 
                 // Rule: Is the item open?
                 var openableBehavior = destinationContainer.Behaviors.FindFirst<OpensClosesBehavior>();
-                if (openableBehavior is {IsOpen: false})
+                if (openableBehavior is { IsOpen: false })
                 {
                     return $"You cannot fill the {destinationContainerName} as it is closed.";
                 }

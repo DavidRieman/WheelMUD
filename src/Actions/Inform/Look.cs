@@ -67,7 +67,7 @@ namespace WheelMUD.Actions
         private bool TryLookAtThing(string thingToLookAt, Thing sender, out OutputBuilder found)
         {
             found = new OutputBuilder();
-            
+
             // Look for the target in the current room.
             var thing = sender.Parent.FindChild(thingToLookAt);
             if (thing != null && sensesBehavior.CanPerceiveThing(thing))

@@ -29,11 +29,11 @@ namespace WheelMUD.Actions
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
-        {            
+        {
             var entity = GetPlayerOrMobile(actionInput.Controller.LastActionInput.Tail);
 
             actionInput.Controller.Write(new OutputBuilder().AppendLine(entity != null ?
-                    $"You see {entity.Name} at {entity.Parent.Name}, id {entity.Parent.Id}" : 
+                    $"You see {entity.Name} at {entity.Parent.Name}, id {entity.Parent.Id}" :
                     $"You cant find {actionInput.Controller.LastActionInput.Tail}."));
         }
 

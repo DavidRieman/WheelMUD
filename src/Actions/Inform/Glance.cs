@@ -52,7 +52,7 @@ namespace WheelMUD.Actions
 
             // Rule: the sender must be capable of sensing/perceiving things.
             sensesBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<SensesBehavior>();
-            
+
             return sensesBehavior == null ? "You are incapable of perceiving anything." : null;
         }
 

@@ -36,11 +36,11 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         /// <remarks>Verify that the Guards pass first.</remarks>
         public override void Execute(ActionInput actionInput)
-        {            
+        {
             if (actionInput.Params.Length == 1 && actionInput.Params[0].ToLower() == "list" || !actionInput.Params.Any())
             {
                 var output = new OutputBuilder();
-                
+
                 if (playerBehavior.Friends.Count == 0)
                 {
                     output.AppendLine("You currently have no friends listed.");
@@ -57,7 +57,7 @@ namespace WheelMUD.Actions
                 }
 
                 actionInput.Controller.Write(output);
-                
+
                 return;
             }
 
@@ -104,7 +104,7 @@ namespace WheelMUD.Actions
         private void AddFriend(IController sender, Thing targetFriend)
         {
             var output = new OutputBuilder();
-            
+
             if (targetFriend == null)
             {
                 output.AppendLine("Doesn't appear to be online at the moment.");
@@ -121,7 +121,7 @@ namespace WheelMUD.Actions
 
             if (playerBehavior.Friends.Contains(targetFriend.Name))
             {
-                
+
                 output.AppendLine($"{player.Name} is already on your friends list.");
                 sender.Write(output);
                 return;
@@ -136,11 +136,11 @@ namespace WheelMUD.Actions
         private void RemoveFriend(IController sender, string targetedFriendName)
         {
             var playerName = (from string f in playerBehavior.Friends
-                                 where f.Equals(targetedFriendName, StringComparison.CurrentCultureIgnoreCase)
-                                 select f).FirstOrDefault();
+                              where f.Equals(targetedFriendName, StringComparison.CurrentCultureIgnoreCase)
+                              select f).FirstOrDefault();
 
             var output = new OutputBuilder();
-            
+
             if (string.IsNullOrEmpty(playerName))
             {
                 output.AppendLine($"{targetedFriendName} is not on your friends list.");

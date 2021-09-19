@@ -80,7 +80,7 @@ namespace WheelMUD.Actions
             {
                 int.TryParse(actionInput.Params[0], out numberToDrop);
 
-                targetName = numberToDrop == 0 ? actionInput.Tail.ToLower() : 
+                targetName = numberToDrop == 0 ? actionInput.Tail.ToLower() :
                     actionInput.Tail.Remove(0, actionInput.Params[0].Length).Trim().ToLower();
             }
 

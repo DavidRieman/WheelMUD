@@ -35,7 +35,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             var playerBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<PlayerBehavior>();
-            
+
             if (playerBehavior != null)
             {
                 if (playerBehavior.IsAFK)
@@ -50,7 +50,7 @@ namespace WheelMUD.Actions
                     var afkReason = actionInput.Tail;
 
                     actionInput.Controller.Write(new OutputBuilder().AppendLine(!string.IsNullOrEmpty(afkReason) ?
-                        $"You have set your status to AFK: {afkReason}." : 
+                        $"You have set your status to AFK: {afkReason}." :
                         "You have set your status to AFK."));
 
                     playerBehavior.IsAFK = true;
