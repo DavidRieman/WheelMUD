@@ -30,7 +30,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             if (!(actionInput.Controller is Session session)) return;
-            
+
             // TODO: Fix: sender.Write($"The current game time is: {bridge.World.TimeSystem.Now}");
             actionInput.Controller.Write(new OutputBuilder().
                 AppendLine($"The real world server time is: {DateTime.Now.ToString(CultureInfo.InvariantCulture)}"));

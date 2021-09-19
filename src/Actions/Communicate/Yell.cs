@@ -43,7 +43,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             if (!(actionInput.Controller is Session session)) return;
-            
+
             var parent = actionInput.Controller.Thing.Parent;
 
             // This is to keep track of the previous rooms we've yelled at, to prevent echoes.
@@ -95,10 +95,11 @@ namespace WheelMUD.Actions
             {
                 var exits = place.FindAllChildrenBehaviors<ExitBehavior>();
                 var destinations = from exit in exits
-                    let opensClosesBehavior = exit.Parent.Behaviors.FindFirst<OpensClosesBehavior>()
-                    where opensClosesBehavior == null || opensClosesBehavior.IsOpen
-                    select exit.GetDestination(place);
-                foreach (var destination in destinations) {
+                                   let opensClosesBehavior = exit.Parent.Behaviors.FindFirst<OpensClosesBehavior>()
+                                   where opensClosesBehavior == null || opensClosesBehavior.IsOpen
+                                   select exit.GetDestination(place);
+                foreach (var destination in destinations)
+                {
                     TraverseRoom(destination, actionInput, sender, (timeToLive == -1) ? timeToLive : (timeToLive - 1), visitedPlaces);
                 }
 

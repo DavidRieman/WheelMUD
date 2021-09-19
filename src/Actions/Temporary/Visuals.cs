@@ -115,7 +115,7 @@ namespace WheelMUD.Actions.Temporary
             {
                 return commonFailure;
             }
-            
+
             if (!(actionInput.Controller is Session session)) return null;
 
             PreprocessInput(actionInput);

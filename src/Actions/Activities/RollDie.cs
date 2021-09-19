@@ -27,7 +27,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             if (!(actionInput.Controller is Session session)) return;
-            
+
             var die = DiceService.Instance.GetDie(6);
             actionInput.Controller.Write(new OutputBuilder().AppendLine($"You roll a {die.Roll()}."));
         }
