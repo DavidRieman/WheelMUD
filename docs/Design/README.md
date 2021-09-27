@@ -29,3 +29,7 @@ TODO: The following features have received other design attention (being at leas
 * Converse Mode
 * Board, Note, Scribe
 * Sensory Perception
+
+## Technical Design
+If you're looking for more technical design details about the systems which we build WheelMUD from (such as _Things_, _Behaviors_, and so on:
+You may wish to review at least the [Key Code Concepts](../Development/KeyCodeConcepts.md) from our [Development](../Development) documentation area.

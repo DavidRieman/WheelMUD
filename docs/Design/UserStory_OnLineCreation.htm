@@ -4,23 +4,24 @@
 
 <p><b><span style='font-size:16.0pt'>On-Line Creation (OLC) Story</span></b></p>
 
-<p>Creating things:</p>
-<div style="background:black; max-width:900px; padding:4px; font-size:12pt; font-family:monospace; white-space: pre-wrap">
-[An administrator who has permissions to create unzoned objects on the fly wants to make and spawn an interactive flashlight.]
 
-> list object flashlight
-No <span style='color:#aa55aa'>Thing</span> derived from the "<span style='color:#FFFF99'>object</span>" template was found with 'flashlight'.
+<p><b>Creating things</b>...<br />
+Imagine this scenario: An administrator wants to make and spawn an interactive flashlight. (This admin has the necessary permissions to create unzoned things on the fly.)</p>
+
+<div style="background:black; max-width:900px; padding:4px; font-size:12pt; font-family:monospace; white-space: pre-wrap">
+> list item flashlight
+No <span style='color:#aa55aa'>Thing</span> derived from the "<span style='color:#FFFF99'>item</span>" template was found with 'flashlight'.
 
 > list thing flashlight
 No <span style='color:#aa55aa'>Thing</span> was found with 'flashlight'.
 
-> new object
-<span style='color:#aa55aa'>Thing</span> <span style='color:silver'>object/123</span> created with properties derived from template "<span style='color:#FFFF99'>object</span>".
-You are editing <span style='color:#aa55aa'>Thing</span> ID: <span style='color:silver'>object/123</span> (<span style='color:#ffff00'>unnamed</span>).
+> new item
+<span style='color:#aa55aa'>Thing</span> <span style='color:silver'>item/123</span> created with properties derived from template "<span style='color:#FFFF99'>item</span>".
+You are editing <span style='color:#aa55aa'>Thing</span> ID: <span style='color:silver'>item/123</span> (<span style='color:#ffff00'>unnamed</span>).
 
 > properties   or   props   or   prop
-<span style='color:#aa55aa'>Thing</span>. Derived from "<span style='color:#FFFF99'>object</span>" template.
-Object ID:   <span style='color:silver'>object/123</span>
+<span style='color:#aa55aa'>Thing</span>. Derived from "<span style='color:#FFFF99'>item</span>" template.
+Thing ID:    <span style='color:silver'>item/123</span>
 Name:        (none)
 Description: (none)
 Keywords:    (none)
@@ -41,17 +42,17 @@ A flashlight is here, just begging to be turned on and off.
 
 > list behaviors Switch
 Found 4 <span style='color:#aa55aa'>Behavior</span> classes with: 'Switch'
-* <span style='color:#aa55aa'>OnOffSwitchBehavior</span>        object "turn on" and "turn off" commands toggle effects/behaviors.
+* <span style='color:#aa55aa'>OnOffSwitchBehavior</span>        provides "turn on" and "turn off" commands to toggle effects/behaviors.
 * <span style='color:#aa55aa'>MobSwitchesSidesBehavior</span>   mobile can turn on its allies if specified conditions are met.
-* <span style='color:#aa55aa'>FooBehavior</span>                object blah blah switches foo.
-* <span style='color:#aa55aa'>BarSwitchBehavior</span>          object gains bar behavior.
+* <span style='color:#aa55aa'>FooBehavior</span>                blah blah switches foo.
+* <span style='color:#aa55aa'>BarSwitchBehavior</span>          the thing gains bar behavior.
 
 > add behaviors OnOffSwitchBehavior
 <span style='color:#aa55aa'>OnOffSwitchBehavior</span> created with ID <span style='color:silver'>onOffSwitch/20</span> and default properties.
 You are editing <span style='color:#aa55aa'>OnOffSwitchBehavior</span> ID <span style='color:silver'>onOffSwitch/20</span>.
 
 > prop
-<span style='color:#aa55aa'>OnOffSwitchBehavior</span>. Attached to <span style='color:silver'>object/123</span> (a flashlight).
+<span style='color:#aa55aa'>OnOffSwitchBehavior</span>. Attached to <span style='color:silver'>item/123</span> (a flashlight).
 Behavior ID:       <span style='color:silver'>onOffSwitch/20</span>
 SwitchNoisiness:   10
 OnCreatesEffect:   (none)
@@ -67,7 +68,7 @@ Found 2 <span style='color:#aa55aa'>Effect</span> classes with keyword 'Light':
 You are editing <span style='color:#aa55aa'>LightingEffect</span> ID <span style='color:silver'>lighting/45</span>.
 
 > prop
-<span style='color:#aa55aa'>LightingEffect</span>. Attached to <span style='color:silver'>object/123</span> (a flashlight).
+<span style='color:#aa55aa'>LightingEffect</span>. Attached to <span style='color:silver'>item/123</span> (a flashlight).
 Effect ID:      45
 LightColor:     white
 LightMagnitude: 100
@@ -79,24 +80,24 @@ You are editing <span style='color:#aa55aa'>OnOffSwitchBehavior</span> ID <span 
 
 > done
 Done editing <span style='color:#aa55aa'>OnOffSwitchBehavior</span> ID <span style='color:silver'>onOffSwitch/20</span>.
-You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/123</span> (a flashlight).
+You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>item/123</span> (a flashlight).
 
 > done
-<span style='color:#ff0000'>Validation Failed</span> for <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/123</span> (a flashlight):
-<span style='color:#ff0000'>(!)</span> Object must have at least one keyword of length greater than 2.
-<span style='color:#ff0000'>(!)</span> Object name must contain at least one of its keywords.
-<span style='color:#ff0000'>(!)</span> Object description must contain at least one of its keywords.
+<span style='color:#ff0000'>Validation Failed</span> for <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>item/123</span> (a flashlight):
+<span style='color:#ff0000'>(!)</span> Thing must have at least one keyword of length greater than 2.
+<span style='color:#ff0000'>(!)</span> Thing name must contain at least one of its keywords.
+<span style='color:#ff0000'>(!)</span> Thing description must contain at least one of its keywords.
 You must either resolve these errors, or abandon your changes with `<span style='color:#AAFFAA'>done abandon</span>`.
-As an admin, you may save unfinished data as a template with `<span style='color:#AAFFAA'>save-template [template-name]</span>`.
+As an admin, you may save this unfinished data as a template with `<span style='color:#AAFFAA'>save-template [new-template-name]</span>`.
 
-You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/123</span> (a flashlight).
+You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>item/123</span> (a flashlight).
 
 > set keywords flashlight
 'Keywords' changed to: flashlight
 
 > props
-<span style='color:#aa55aa'>Thing</span>. Derived from "<span style='color:#FFFF99'>object</span>" template.
-Object ID:   <span style='color:silver'>object/123</span>
+<span style='color:#aa55aa'>Thing</span>. Derived from "<span style='color:#FFFF99'>item</span>" template.
+Thing ID:    <span style='color:silver'>item/123</span>
 Name:        a <span style='color:#AAFFAA'>flashlight</span>
 Description: A <span style='color:#AAFFAA'>flashlight</span> is here, just begging to be turned on and off.
 Keywords:    flashlight
@@ -106,9 +107,9 @@ Weight:      0
 Behaviors:   [<span style='color:silver'>obtainable/127</span>, <span style='color:silver'>onOffSwitch/20</span>]
 
 > done
-Done editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/123</span> (a <span style='color:#CCFFCC'>flashlight</span>).  Returning to game.
+Done editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>item/123</span> (a <span style='color:#CCFFCC'>flashlight</span>).  Returning to game.
 
-> spawn object/123
+> spawn item/123
 You create a <span style='color:#CCFFCC'>flashlight</span> out of thin air.
 
 > turn on flashlight
@@ -120,28 +121,29 @@ The room is illuminated with a bright white light coming from a <span style='col
 You hear a switch click.
 The room is now illuminated with a bright white light coming from a <span style='color:#CCFFCC'>flashlight</span> held by <span style='color:#AA66AA'>Karak</span>.
 </div>
-    
-<p>Enhancing a Zone:</p>
-<div style="background:black; max-width:900px; padding:4px; font-size:12pt; font-family:monospace; white-space: pre-wrap">
-[later, a builder wants to make a variant flashlight that automatically spawns on a mob in her zone...]
- 
-> list objects flashlight
-Found 1 "<span style='color:#FFFF99'>object</span>" with keyword 'flashlight':
-* ID <span style='color:silver'>object/123</span>     a <span style='color:#CCFFCC'>flashlight</span>
 
-> new object/123
+
+<br /><p><b>Enhancing a Zone</b>...<br />
+Imagine this scenario: A builder wants to make a variant of the above flashlight, that automatically spawns in the inventory of a mob in her zone.</p>
+
+<div style="background:black; max-width:900px; padding:4px; font-size:12pt; font-family:monospace; white-space: pre-wrap"> 
+> list items flashlight
+Found 1 "<span style='color:#FFFF99'>item</span>" with keyword 'flashlight':
+* ID <span style='color:silver'>item/123</span>     a <span style='color:#CCFFCC'>flashlight</span>
+
+> new item/123
 You don't have permission to create anything in <span style='color:#aa55aa'>Zone</span>: <span style='color:silver'>(unzoned)</span>.
 
 > edit zone NewNewMidgaard
 <span style='color:#aa55aa'>Zone</span> context is now: <span style='color:silver'>zone/8</span> (<span style='color:#FFFF99'>NewNewMidgaard</span>).
 You have full builder permissions in this zone.
 
-> new object/123
-<span style='color:#aa55aa'>Thing</span> <span style='color:silver'>object/1130</span> created with properties derived from <span style='color:silver'>object/123</span> (a <span style='color:#CCFFCC'>flashlight</span>).
+> new item/123
+<span style='color:#aa55aa'>Thing</span> <span style='color:silver'>item/1130</span> created with properties derived from <span style='color:silver'>item/123</span> (a <span style='color:#CCFFCC'>flashlight</span>).
 
 > prop deep
-<span style='color:#aa55aa'>Thing</span>. Derived from <span style='color:silver'>object/123</span> (<span style='color:#CCFFCC'>flashlight</span>).
-Object ID:   <span style='color:silver'>object/1130</span>
+<span style='color:#aa55aa'>Thing</span>. Derived from <span style='color:silver'>item/123</span> (<span style='color:#CCFFCC'>flashlight</span>).
+Thing ID:    <span style='color:silver'>item/1130</span>
 Name:        a <span style='color:#CCFFCC'>flashlight</span>
 Description: A <span style='color:#CCFFCC'>flashlight</span> is here, just begging to be turned on and off.
 Keywords:    flashlight
@@ -194,9 +196,9 @@ Duration:       infinite
 
 > done all
 Done editing <span style='color:#aa55aa'>LightingEffect</span> ID <span style='color:silver'>lighting/88</span>.
-<span style='color:#ffff00'>Validation Warning</span> for: Object ID <span style='color:silver'>object/1130</span> (a <span style='color:#CCFFCC'>flashlight</span>):
-<span style='color:#ffff00'>(!)</span> Object name should be unique; conflicts with Object ID <span style='color:silver'>object/123</span> (a <span style='color:#CCFFCC'>flashlight</span>)
-<span style='color:#ffff00'>(!)</span> Object description should be unique; conflicts with Object ID <span style='color:silver'>object/123</span> (a <span style='color:#CCFFCC'>flashlight</span>)
+<span style='color:#ffff00'>Validation Warning</span> for: <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>item/1130</span> (a <span style='color:#CCFFCC'>flashlight</span>):
+<span style='color:#ffff00'>(!)</span> Thing name should be unique; conflicts with <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>item/123</span> (a <span style='color:#CCFFCC'>flashlight</span>)
+<span style='color:#ffff00'>(!)</span> Thing description should be unique; conflicts with <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>item/123</span> (a <span style='color:#CCFFCC'>flashlight</span>)
 
 <span style='color:#BBBB00'>(!)</span> Congratulations! It's time to learn about your first builder validation message!
 * Don't be ashamed. These help you finish valid, working game entities, with user-friendly results.
@@ -206,7 +208,7 @@ Done editing <span style='color:#aa55aa'>LightingEffect</span> ID <span style='c
 * One can review all outstanding validation warnings for the active zone with `<span style='color:#AAFFAA'>zone review</span>`.
 * Type `<span style='color:#AAFFAA'>help zone</span>` to find more topics about zone-wide validation tools and submission processes.
 
-You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/1130</span> (a <span style='color:#CCFFCC'>flashlight</span>).
+You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>item/1130</span> (a <span style='color:#CCFFCC'>flashlight</span>).
 
 > set name a metal flashlight
 'Name' set to: a metal <span style='color:#CCFFCC'>flashlight</span>
@@ -219,7 +221,7 @@ You are editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:s
 A strange <span style='color:#CCFFCC'>metal flashlight</span> is here, with a prominent switch.
 
 > done
-Done editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>object/1130</span> (a <span style='color:#CCFFCC'>metal flashlight</span>).
+Done editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silver'>item/1130</span> (a <span style='color:#CCFFCC'>metal flashlight</span>).
 <span style='color:#ffff00'>(!)</span> The remaining <span style='color:#aa55aa'>Thing</span> budget for <span style='color:#aa55aa'>Zone</span> <span style='color:silver'>zone/8</span> (<span style='color:#FFFF99'>NewNewMidgaard</span>) is getting low at 25 left of 250.
     
 <span style='color:#BBBB00'>(!)</span> Congratulations! You sure are a productive builder!
@@ -278,15 +280,15 @@ AllowedSlots: all
 <span style='color:#aa55aa'>NormalSpawner</span> created with ID <span style='color:silver'>normalSpawner/107</span> and default properties.
 You are editing <span style='color:#aa55aa'>NormalSpawner</span> ID <span style='color:silver'>normalSpawner/107</span>.
 
-> set SpawnsObjectID object/1130
-‘SpawnsObjectIDs’ set to: <span style='color:silver'>object/1130</span> (a <span style='color:#CCFFCC'>metal flashlight</span>).
+> set SpawnsID item/1130
+Set SpawnsID to: <span style='color:silver'>item/1130</span> (a <span style='color:#CCFFCC'>metal flashlight</span>).
 
 > prop
 <span style='color:#aa55aa'>NormalSpawner</span>.
-Spawner ID:      <span style='color:silver'>normalSpawner/107</span>
-SpawnsObjectIDs: [<span style='color:silver'>object/1130</span> (a <span style='color:#CCFFCC'>metal flashlight</span>)]
-SpawnChance:     100
-AutoEquip:       true
+Spawner ID:  <span style='color:silver'>normalSpawner/107</span>
+SpawnsID:    [<span style='color:silver'>item/1130</span> (a <span style='color:#CCFFCC'>metal flashlight</span>)]
+SpawnChance: 100
+AutoEquip:   true
 
 > done
 Done editing <span style='color:#aa55aa'>NormalSpawner</span> ID <span style='color:silver'>107</span>.
@@ -333,10 +335,11 @@ Done editing <span style='color:#aa55aa'>Thing</span> ID <span style='color:silv
 
 > </div>
 
-<p>User Testing Mode:</p>
-<div style="background:black; max-width:900px; padding:4px; font-size:12pt; font-family:monospace; white-space: pre-wrap">
-[The builder switches to using her tester mode or testing account and...]
 
+<br /><p><b>User Testing Mode</b>...<br />
+Imagine this scenario: The builder above has switched to her "tester mode" or a separate "testing account" and...</p>
+
+<div style="background:black; max-width:900px; padding:4px; font-size:12pt; font-family:monospace; white-space: pre-wrap">
 > goto goblin
 
 <span style='color:#FF9900'>Dirty Back Room</span>
@@ -351,20 +354,20 @@ A <span style='color:#FFCC99'>hunchback goblin</span> attacks you!
 A <span style='color:#FFCC99'>hunchback goblin</span>'s <span style='color:#CCFFCC'>rusty hatchet</span> misses you by inches.
 </div>
 
-<div style="color:white; max-width:1000px; font-size:13pt">
-    <p>Additional notes:</p>
+<br /><div style="color:white; max-width:1000px; font-size:13pt">
+    <p><b>Additional notes</b>:</p>
     <ul>
-        <li>Keyword highlighting in the example helped the creator automatically notice a bug;  when setting the name to 'a metal flashlight' they noticed 'metal' wasn't highlighted and added the keyword to make the object more user-friendly.</li>
+        <li>Keyword highlighting in the example helped the creator automatically notice a bug;  when setting the name to 'a metal flashlight' they noticed 'metal' wasn't highlighted and added the keyword to make the item more user-friendly.</li>
         <li>As we saw from editing the goblin, we likely want a way to show and edit game-system-specific details (like races, stats, and so on) with some shortcuts, even though those are not properties of the "Thing" class that is actually being edited. May need more thought and technical design for this. (Perhaps the editable properties on behaviors can propagate to editing the Thing, when the attribute has a unique name amongst its immediage Behaviors.)</li>
         <li>As we saw from "set lightcolor", it should be easy for any properties on Thing, Behaviors, Effects, and so on, to define what the help text should be through some sort of metadata, ideally defined in code close to where the property itself is defined. (Need to consider the technical aspects here further to design this well and inherently drive adoption. Perhaps Reflection and attributes to help guide valid editor value ranges, etc.)</li>
         <li>Pluggable validation rules could help enforce game balance issues, to be housed in game-specific DLLs. E.G. a level 2 mobile must have HP within an appropriate range for that challenge rating, etc.</li>
         <li>The OnOffSwitchBehavior does not exist today in WheelMUD and the properties on that example may suggest a poor design approach. It would take some additional thought to design it appropriately. This was just a contrived example to demonstrate the dynamic "building block" nature intended for OLC.</li>
-        <li>List commands should be inherently flexible for plural, even for user-defined templates names. E.G. "list thing flashlight" should be equivalent to "list things flashlight", and "list object flashlight" should be equivalent to "list objects flashlight" even though "object" is just a data-defined template of "a Thing that has an ObtainableBehavior".  Similarly "add keywords ..." and "add keyword ..." should be equivalent.</li>
-        <li>Some very common data templates like "object" and "room" should be predefined by the initial world DB (RavenDB data), but additional templates (or "prefabs") could be stored by admins as appropriate for a given game system (like a "starship" template for a Thing with default Behaviors that make it behave like a starship) in a science-fiction MUD that features tons of them.</li>
+        <li>List commands should be inherently flexible for plural, even for user-defined templates names. E.G. "list thing flashlight" should be equivalent to "list things flashlight", and "list item flashlight" should be equivalent to "list items flashlight" even though "item" is just a data-defined template of "a Thing that has an ObtainableBehavior".  Similarly "add keywords ..." and "add keyword ..." should be equivalent.</li>
+        <li>Some very common data templates like "item" and "room" should be predefined by the initial world DB (RavenDB data), but additional templates (or "prefabs") could be stored by admins as appropriate for a given game system (like a "starship" template for a Thing with default Behaviors that make it behave like a starship) in a science-fiction MUD that features tons of them.</li>
         <li>Derivation data is persisted with each defined Thing or Template.</li>
         <li>When editing a pre-existing Thing or Template, we can tell the editor how much other stuff derives from it (and that updates to each may need to be performed manually after completion). The editor should be told a command to see what all derives from this.</li>
         <li>After updating a pre-existing Thing or Template, we should likewise remind the editor of everything that derives from it, to follow up with updating them as well. There may be some bulk prop finding and bulk prop editing commands we can design as well, when this sort of thing becomes a priority problem.</li>
-        <li>While not displayed here, similar commands could operate on object Instances instead of object Templates. Thus an administrator with sufficient privileges could alter the stats of a single object instance permanently, or create one-time game-event-objects/rewards with a unique description or whatnot on the fly.</li>
+        <li>While not displayed here, similar commands could operate on Thing Instances instead of Thing Templates. Thus an administrator with sufficient privileges could alter the stats of a single Thing instance permanently, or create one-time game-event-things/rewards with a unique description or whatnot on the fly.</li>
     </ul>
 </div>
 </body>
