@@ -13,7 +13,7 @@ namespace WheelMUD.Core
     [RendererExports.PerceivedRoom(0)]
     public class DefaultPerceivedRoomRenderer : RendererDefinitions.PerceivedRoom
     {
-        public override OutputBuilder Render(Thing viewer, Thing room)
+        public override OutputBuilder Render(TerminalOptions terminalOptions, Thing viewer, Thing room)
         {
             var senses = viewer.FindBehavior<SensesBehavior>();
             var output = new OutputBuilder();

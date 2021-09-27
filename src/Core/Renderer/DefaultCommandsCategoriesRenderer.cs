@@ -15,7 +15,7 @@ namespace WheelMUD.Core
     [RendererExports.CommandsCategories(0)]
     public class DefaultCommandsCategoriesRenderer : RendererDefinitions.CommandsCategories
     {
-        public override OutputBuilder Render(IEnumerable<Command> commands)
+        public override OutputBuilder Render(TerminalOptions terminalOptions, IEnumerable<Command> commands)
         {
             // Build a list of categories for the commands available to this player.
             var output = new OutputBuilder();

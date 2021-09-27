@@ -26,6 +26,8 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
+            if (!(actionInput.Controller is Session session)) return;
+
             var requestedCategory = actionInput.Tail.ToLower();
 
             // Get a command array of all commands available to this controller
@@ -33,16 +35,16 @@ namespace WheelMUD.Actions
 
             if (requestedCategory == "all")
             {
-                actionInput.Controller.Write(Renderer.Instance.RenderCommandsList(commands, "All"));
+                actionInput.Controller.Write(Renderer.Instance.RenderCommandsList(session.TerminalOptions, commands, "All"));
             }
             else if (Enum.TryParse(requestedCategory, true, out CommandCategory category))
             {
                 var commandsInCategory = from c in commands where c.Category.HasFlag(category) select c;
-                actionInput.Controller.Write(Renderer.Instance.RenderCommandsList(commandsInCategory, category.ToString()));
+                actionInput.Controller.Write(Renderer.Instance.RenderCommandsList(session.TerminalOptions, commandsInCategory, category.ToString()));
             }
             else
             {
-                actionInput.Controller.Write(Renderer.Instance.RenderCommandsCategories(commands));
+                actionInput.Controller.Write(Renderer.Instance.RenderCommandsCategories(session.TerminalOptions, commands));
             }
         }
 

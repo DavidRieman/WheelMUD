@@ -117,7 +117,7 @@ namespace WheelMUD.Core
             var session = new Session(connection);
             
             // Load our splash screen.
-            session.Write(Renderer.Instance.RenderSplashScreen(), true);
+            session.Write(Renderer.Instance.RenderSplashScreen(session.TerminalOptions), true);
 
             // Handle our session authenticated event.
             session.SessionAuthenticated += OnSessionAuthenticated;

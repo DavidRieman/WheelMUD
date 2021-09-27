@@ -35,7 +35,7 @@ namespace WheelMUD.Actions
             // If no arguments were given, render the help topics list.
             if (string.IsNullOrWhiteSpace(commandTail))
             {
-                actionInput.Controller.Write(Renderer.Instance.RenderHelpTopics());
+                actionInput.Controller.Write(Renderer.Instance.RenderHelpTopics(session.TerminalOptions));
                 return;
             }
 
@@ -57,12 +57,11 @@ namespace WheelMUD.Actions
             // Show result if a match was found
             if (action != null)
             {
-                actionInput.Controller.Write(Renderer.Instance.RenderHelpCommand(action));
+                actionInput.Controller.Write(Renderer.Instance.RenderHelpCommand(session.TerminalOptions, action));
                 return;
             }
 
-            actionInput.Controller.Write(new OutputBuilder().
-                AppendLine("No such help topic or command was found."));
+            actionInput.Controller.Write(new OutputBuilder().AppendLine("No such help topic or command was found."));
         }
 
         /// <summary>Checks against the guards for the command.</summary>

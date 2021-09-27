@@ -33,6 +33,8 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
+            if (!(actionInput.Controller is Session session)) return;
+
             var parent = actionInput.Controller.Thing.Parent;
             var searchString = actionInput.Tail.Trim().ToLower();
 
@@ -46,7 +48,7 @@ namespace WheelMUD.Actions
             // Unique case. Try to perceive the room (and its contents) instead; same as "look".
             if (searchString == "here")
             {
-                actionInput.Controller.Write(Renderer.Instance.RenderPerceivedRoom(actionInput.Controller.Thing, parent));
+                actionInput.Controller.Write(Renderer.Instance.RenderPerceivedRoom(session.TerminalOptions, actionInput.Controller.Thing, parent));
                 return;
             }
 
@@ -55,7 +57,7 @@ namespace WheelMUD.Actions
             var thing = parent.FindChild(searchString) ?? actionInput.Controller.Thing.FindChild(searchString);
 
             actionInput.Controller.Write(thing != null
-                ? Renderer.Instance.RenderPerceivedThing(actionInput.Controller.Thing, thing)
+                ? Renderer.Instance.RenderPerceivedThing(session.TerminalOptions, actionInput.Controller.Thing, thing)
                 : new OutputBuilder().AppendLine($"You cannot find {searchString}."));
         }
 

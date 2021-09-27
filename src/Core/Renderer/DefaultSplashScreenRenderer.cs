@@ -14,7 +14,7 @@ namespace WheelMUD.Core
     [RendererExports.SplashScreen(0)]
     public class DefaultSplashScreenRenderer : RendererDefinitions.SplashScreen
     {
-        public override OutputBuilder Render()
+        public override OutputBuilder Render(TerminalOptions terminalOptions)
         {
             return new OutputBuilder().AppendLine(Get());
         }

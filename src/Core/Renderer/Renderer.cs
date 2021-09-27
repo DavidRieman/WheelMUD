@@ -108,19 +108,19 @@ namespace WheelMUD.Core
         [ImportMany]
         public Lazy<RendererDefinitions.Who, RendererExports.Who>[] WhoRenderers { get; private set; }
 
-        public OutputBuilder RenderCommandsCategories(IEnumerable<Command> commands)
+        public OutputBuilder RenderCommandsCategories(TerminalOptions terminalOptions, IEnumerable<Command> commands)
         {
-            return currentCommandsCategoriesRenderer.Render(commands);
+            return currentCommandsCategoriesRenderer.Render(terminalOptions, commands);
         }
 
-        public OutputBuilder RenderCommandsList(IEnumerable<Command> commands, string categoryName)
+        public OutputBuilder RenderCommandsList(TerminalOptions terminalOptions, IEnumerable<Command> commands, string categoryName)
         {
-            return currentCommandsListRenderer.Render(commands, categoryName);
+            return currentCommandsListRenderer.Render(terminalOptions, commands, categoryName);
         }
 
-        public OutputBuilder RenderHelpCommand(Command command)
+        public OutputBuilder RenderHelpCommand(TerminalOptions terminalOptions, Command command)
         {
-            return currentHelpCommandRenderer.Render(command);
+            return currentHelpCommandRenderer.Render(terminalOptions, command);
         }
 
         public OutputBuilder RenderHelpTopic(TerminalOptions terminalOptions, HelpTopic helpTopic)
@@ -128,44 +128,44 @@ namespace WheelMUD.Core
             return currentHelpTopicRenderer.Render(terminalOptions, helpTopic);
         }
 
-        public OutputBuilder RenderHelpTopics()
+        public OutputBuilder RenderHelpTopics(TerminalOptions terminalOptions)
         {
-            return currentHelpTopicsRenderer.Render();
+            return currentHelpTopicsRenderer.Render(terminalOptions);
         }
 
-        public OutputBuilder RenderInventory(Thing player)
+        public OutputBuilder RenderInventory(TerminalOptions terminalOptions, Thing player)
         {
-            return currentInventoryRenderer.Render(player);
+            return currentInventoryRenderer.Render(terminalOptions, player);
         }
 
-        public OutputBuilder RenderPerceivedRoom(Thing viewer, Thing viewedRoom)
+        public OutputBuilder RenderPerceivedRoom(TerminalOptions terminalOptions, Thing viewer, Thing viewedRoom)
         {
-            return currentPerceivedRoomRenderer.Render(viewer, viewedRoom);
+            return currentPerceivedRoomRenderer.Render(terminalOptions, viewer, viewedRoom);
         }
 
-        public OutputBuilder RenderPerceivedThing(Thing viewer, Thing viewedThing)
+        public OutputBuilder RenderPerceivedThing(TerminalOptions terminalOptions, Thing viewer, Thing viewedThing)
         {
-            return currentPerceivedThingRenderer.Render(viewer, viewedThing);
+            return currentPerceivedThingRenderer.Render(terminalOptions, viewer, viewedThing);
         }
 
-        public OutputBuilder RenderPrompt(Thing player)
+        public OutputBuilder RenderPrompt(TerminalOptions terminalOptions, Thing player)
         {
-            return currentPromptRenderer.Render(player);
+            return currentPromptRenderer.Render(terminalOptions, player);
         }
 
-        public OutputBuilder RenderScore(Thing player)
+        public OutputBuilder RenderScore(TerminalOptions terminalOptions, Thing player)
         {
-            return currentScoreRenderer.Render(player);
+            return currentScoreRenderer.Render(terminalOptions, player);
         }
 
-        public OutputBuilder RenderSplashScreen()
+        public OutputBuilder RenderSplashScreen(TerminalOptions terminalOptions)
         {
-            return currentSplashScreenRenderer.Render();
+            return currentSplashScreenRenderer.Render(terminalOptions);
         }
 
-        public OutputBuilder RenderWho(Thing player)
+        public OutputBuilder RenderWho(TerminalOptions terminalOptions, Thing player)
         {
-            return currentWhoRenderer.Render(player);
+            return currentWhoRenderer.Render(terminalOptions, player);
         }
 
         /// <summary>Recompose the subcomponents of this Renderer.</summary>

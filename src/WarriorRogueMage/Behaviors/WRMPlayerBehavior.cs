@@ -23,7 +23,7 @@ namespace WarriorRogueMage.Behaviors
 
         /// <summary>Builds the prompt string for this player.</summary>
         /// <returns>The formatted prompt for this player.</returns>
-        public override OutputBuilder BuildPrompt()
+        public override OutputBuilder BuildPrompt(TerminalOptions terminalOptions)
         {
             return new OutputBuilder(5).Append("WRM> ");
             /* TODO: Allow for player-customized prompts...

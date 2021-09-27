@@ -12,7 +12,7 @@ namespace WheelMUD.Core
     [RendererExports.HelpCommand(0)]
     public class DefaultHelpCommandRenderer : RendererDefinitions.HelpCommand
     {
-        public override OutputBuilder Render(Command command)
+        public override OutputBuilder Render(TerminalOptions terminalOptions, Command command)
         {
             var output = new OutputBuilder();
             output.AppendLine($"<%yellow%>{command.Name.ToUpper()}<%n%>:");

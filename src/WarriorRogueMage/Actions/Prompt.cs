@@ -31,6 +31,8 @@ namespace WarriorRogueMage.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
+            if (!(actionInput.Controller is Session session)) return;
+
             if (!string.IsNullOrEmpty(actionInput.Tail))
             {
                 // Save tail as player's new prompt
@@ -69,7 +71,7 @@ namespace WarriorRogueMage.Actions
             }
 
             output.AppendLine($"Current prompt is '{playerBehavior.Prompt}'");
-            output.AppendLine($"Parsed prompt is '{playerBehavior.BuildPrompt()}'");
+            output.AppendLine($"Parsed prompt is '{playerBehavior.BuildPrompt(session.TerminalOptions)}'");
             actionInput.Controller.Write(output);
         }
 

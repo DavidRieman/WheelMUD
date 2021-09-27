@@ -12,7 +12,7 @@ namespace WheelMUD.Core
     [RendererExports.Prompt(0)]
     public class DefaultPromptRenderer : RendererDefinitions.Prompt
     {
-        public override OutputBuilder Render(Thing player)
+        public override OutputBuilder Render(TerminalOptions terminalOptions, Thing player)
         {
             // WheelMUD Core does not have any knowledge of game-specific stats and so on (if even applicable), so
             // by default, the prompt always prints quite simply. Games should generally export their own prompt

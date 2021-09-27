@@ -32,16 +32,18 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
+            if (!(actionInput.Controller is Session session)) return;
+
             if (!string.IsNullOrEmpty(actionInput.Tail))
             {
-                if (!TryLookAtThing(actionInput.Tail, actionInput.Controller.Thing, out var found))
+                if (!TryLookAtThing(session.TerminalOptions, actionInput.Tail, actionInput.Controller.Thing, out var found))
                     found.AppendLine($"You cannot see {actionInput.Tail}.");
 
                 actionInput.Controller.Write(found);
                 return;
             }
 
-            actionInput.Controller.Write(LookAtRoom(actionInput.Controller.Thing));
+            actionInput.Controller.Write(LookAtRoom(session.TerminalOptions, actionInput.Controller.Thing));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -60,11 +62,12 @@ namespace WheelMUD.Actions
         }
 
         /// <summary>Tries to look at a thing.</summary>
+        /// <param name="terminalOptions">The terminal options to render the description with.</param>
         /// <param name="thingToLookAt">The thing to look at.</param>
         /// <param name="sender">The sender.</param>
         /// <param name="found"></param>
         /// <returns>Returns the rendered view.</returns>
-        private bool TryLookAtThing(string thingToLookAt, Thing sender, out OutputBuilder found)
+        private bool TryLookAtThing(TerminalOptions terminalOptions, string thingToLookAt, Thing sender, out OutputBuilder found)
         {
             found = new OutputBuilder();
 
@@ -72,7 +75,7 @@ namespace WheelMUD.Actions
             var thing = sender.Parent.FindChild(thingToLookAt);
             if (thing != null && sensesBehavior.CanPerceiveThing(thing))
             {
-                found = Renderer.Instance.RenderPerceivedThing(sender, thing);
+                found = Renderer.Instance.RenderPerceivedThing(terminalOptions, sender, thing);
                 return true;
             }
 
@@ -92,7 +95,7 @@ namespace WheelMUD.Actions
             thing = sender.FindChild(thingToLookAt);
             if (thing != null && sensesBehavior.CanPerceiveThing(thing))
             {
-                found = Renderer.Instance.RenderPerceivedThing(sender, thing);
+                found = Renderer.Instance.RenderPerceivedThing(terminalOptions, sender, thing);
                 return true;
             }
 
@@ -103,9 +106,9 @@ namespace WheelMUD.Actions
         /// <summary>Looks at room. TODO: Move to SensesBehavior?</summary>
         /// <param name="sender">The sender.</param>
         /// <returns>Returns the text of the rendered room template.</returns>
-        private OutputBuilder LookAtRoom(Thing sender)
+        private OutputBuilder LookAtRoom(TerminalOptions terminalOptions, Thing sender)
         {
-            return Renderer.Instance.RenderPerceivedRoom(sender, sender.Parent);
+            return Renderer.Instance.RenderPerceivedRoom(terminalOptions, sender, sender.Parent);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace WheelMUD.Core
     [RendererExports.Inventory(0)]
     public class DefaultInventoryRenderer : RendererDefinitions.Inventory
     {
-        public override OutputBuilder Render(Thing player)
+        public override OutputBuilder Render(TerminalOptions terminalOptions, Thing player)
         {
             var senses = player.FindBehavior<SensesBehavior>();
             var output = new OutputBuilder();

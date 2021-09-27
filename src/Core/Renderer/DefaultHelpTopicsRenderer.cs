@@ -13,7 +13,7 @@ namespace WheelMUD.Core
     [RendererExports.HelpTopics(0)]
     public class DefaultHelpTopicsRenderer : RendererDefinitions.HelpTopics
     {
-        public override OutputBuilder Render()
+        public override OutputBuilder Render(TerminalOptions terminalOptions)
         {
             var topics = HelpManager.Instance.GetHelpTopics().Where(topic => topic.Aliases.Count > 0);
 

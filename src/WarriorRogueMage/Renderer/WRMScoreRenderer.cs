@@ -16,7 +16,7 @@ namespace WheelMUD.Core
     [RendererExports.Score(100)]
     public class DefaultScoreRenderer : RendererDefinitions.Score
     {
-        public override OutputBuilder Render(Thing player)
+        public override OutputBuilder Render(TerminalOptions terminalOptions, Thing player)
         {
             var stats = player.Stats;
             var statEffects = player.Behaviors.OfType<StatEffect>();

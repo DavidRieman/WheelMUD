@@ -14,7 +14,7 @@ namespace WheelMUD.Core
     [RendererExports.CommandsList(0)]
     public class DefaultCommandsListRenderer : RendererDefinitions.CommandsList
     {
-        public override OutputBuilder Render(IEnumerable<Command> commands, string categoryName)
+        public override OutputBuilder Render(TerminalOptions terminalOptions, IEnumerable<Command> commands, string categoryName)
         {
             var output = new OutputBuilder();
             output.AppendLine($"<%yellow%>{categoryName} commands<%n%>:");

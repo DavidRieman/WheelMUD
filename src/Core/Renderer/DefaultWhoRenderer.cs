@@ -18,7 +18,7 @@ namespace WheelMUD.Core
     [RendererExports.Who(0)]
     public class DefaultWhoRenderer : RendererDefinitions.Who
     {
-        public override OutputBuilder Render(Thing activePlayer)
+        public override OutputBuilder Render(TerminalOptions terminalOptions, Thing activePlayer)
         {
             string mudNameLine = "                                "; // TODO: Dynamic centering instead, if we want centering!
             string plural = string.Empty;
@@ -44,10 +44,18 @@ namespace WheelMUD.Core
             output.AppendLine($"The following player{plural} {plural1} currently online:");
             foreach (PlayerBehavior player in PlayerManager.Instance.Players)
             {
-                // TODO: "tell {0}" is not a good menu command; possibly friend add/remove, invite to group, hailing, and so on.
                 var playerName = player.Parent.Name;
                 var playerState = GetPlayerState(player);
-                output.AppendLine($"<%mxpsecureline%><send \"finger {playerName}|tell {playerName}\" \"|finger|tell\">{playerName}</send> - {player.Parent.FullName} {playerState}");
+                if (terminalOptions.UseMXP)
+                {
+                    // TODO: "tell {0}" is not a good menu command; possibly friend add/remove, invite to group, hailing, and so on.
+                    // TODO: #107: Fix handling of MXP Secure Lines...  (This wasn't being built in a safe way, and does not render correctly now.)
+                    output.AppendLine($"<%mxpsecureline%><send \"finger {playerName}|tell {playerName}\" \"|finger|tell\">{playerName}</send> - {player.Parent.FullName} {playerState}");
+                }
+                else
+                {
+                    output.AppendLine($"{playerName} - {player.Parent.FullName} {playerState}");
+                }
             }
 
             output.AppendLine();

@@ -17,7 +17,7 @@ namespace WheelMUD.Core
     [RendererExports.Score(0)]
     public class DefaultScoreRenderer : RendererDefinitions.Score
     {
-        public override OutputBuilder Render(Thing player)
+        public override OutputBuilder Render(TerminalOptions terminalOptions, Thing player)
         {
             // Pretty basic placeholder. Most game systems will probably want to define their own stats systems
             // and races and attributes and so on, and provide a more traditional "score" breakdown of the

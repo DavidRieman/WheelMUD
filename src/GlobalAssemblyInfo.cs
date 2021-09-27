@@ -15,7 +15,7 @@ using System.Reflection;
 // associated with an assembly.
 [assembly: AssemblyProduct("WheelMUD Multi-User Dungeon/Dimension Server")]
 [assembly: AssemblyCompany("WheelMUD Development Team")]
-[assembly: AssemblyCopyright("Copyright © WheelMUD Development Team 1998-2020")]
+[assembly: AssemblyCopyright("Copyright © WheelMUD Development Team 1998-2021")]
 
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]

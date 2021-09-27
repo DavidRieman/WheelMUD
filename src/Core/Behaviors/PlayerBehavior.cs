@@ -216,9 +216,9 @@ namespace WheelMUD.Core
 
         /// <summary>Builds the player's prompt.</summary>
         /// <returns>The player's current prompt.</returns>
-        public virtual OutputBuilder BuildPrompt()
+        public virtual OutputBuilder BuildPrompt(TerminalOptions terminalOptions)
         {
-            return Renderer.Instance.RenderPrompt(this.Parent);
+            return Renderer.Instance.RenderPrompt(terminalOptions, this.Parent);
         }
 
         /// <summary>Try to log this player out of the game.</summary>

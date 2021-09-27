@@ -59,7 +59,7 @@ namespace WheelMUD.ConnectionStates
             PlayerBehavior playerBehavior = this.playerBehavior.Target;
             if (playerBehavior != null)
             {
-                return playerBehavior.BuildPrompt();
+                return playerBehavior.BuildPrompt(Session.TerminalOptions);
             }
 
             Debug.Assert(false, "A non-Player is in PlayingState, receiving a Prompt?");

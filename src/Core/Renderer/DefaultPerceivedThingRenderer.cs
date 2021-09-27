@@ -12,7 +12,7 @@ namespace WheelMUD.Core
     [RendererExports.PerceivedThing(0)]
     public class DefaultPerceivedThingRenderer : RendererDefinitions.PerceivedThing
     {
-        public override OutputBuilder Render(Thing viewer, Thing viewedThing)
+        public override OutputBuilder Render(TerminalOptions terminalOptions, Thing viewer, Thing viewedThing)
         {
             var senses = viewer.FindBehavior<SensesBehavior>();
             return new OutputBuilder().AppendLine(senses.CanPerceiveThing(viewedThing) ? 
