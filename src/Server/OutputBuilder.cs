@@ -115,6 +115,13 @@ namespace WheelMUD.Server
 
             if (value < 0)
             {
+                // Special rare edge case, since absolute min value cannot just swap sign due to different magnitudes:
+                // Handle through slower but definitely-correct string append instead.
+                if (value == int.MinValue)
+                {
+                    return Append(int.MinValue.ToString());
+                }
+
                 value = -value;
                 isNegative = true;
             }
