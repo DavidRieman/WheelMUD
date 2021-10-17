@@ -12,6 +12,7 @@ namespace WheelMUD.Core
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     /// <summary>High level manager that provides tracking and global collection of online (and linkdead but still-loaded) players.</summary>
     public class PlayerManager : ManagerSystem
@@ -151,21 +152,30 @@ namespace WheelMUD.Core
             PlayerBehavior previousPlayer = FindLoggedInPlayer(session.User.UserName);
             if (previousPlayer != null)
             {
-                var msg = $"Duplicate player match, kicking session id {previousPlayer.SessionId} and keeping {session.ID}";
+                var msg = $"Duplicate player match, replacing session {previousPlayer.SessionId} with new session {session.ID}";
                 SystemHost.UpdateSystemHost(this, msg);
 
-                var existingUserControlledBehavior = previousPlayer.Parent.Behaviors.FindFirst<UserControlledBehavior>();
-                if (existingUserControlledBehavior != null)
-                {
-                    existingUserControlledBehavior.Controller.Write(new OutputBuilder().AppendLine("Another connection has logged in as you; closing this connection."));
-                }
+                var previousUser = previousPlayer.Parent.FindBehavior<UserControlledBehavior>();
+                Debug.Assert(previousUser != null, "Existing Player found must always also be a UserControlled Thing.");
+                previousUser.Disconnect("Another connection has logged in as you; closing this connection.");
 
-                previousPlayer.LogOut();
-                RemovePlayer(previousPlayer.Parent);
+                previousUser.Controller = session;
+                previousPlayer.SessionId = session.ID;
+                session.Thing = previousPlayer.Parent;
+            }
+            else
+            {
+                // Track this new player in the loaded players list.
+                AddPlayer(session.Thing);
             }
 
-            // Track this player in the loaded players list.
-            AddPlayer(session.Thing);
+            // A freshly (re)connected player is assumed not to be AFK anymore.
+            PlayerBehavior playerBehavior = session.Thing.FindBehavior<PlayerBehavior>();
+            if (playerBehavior != null)
+            {
+                playerBehavior.IsAFK = false;
+                playerBehavior.AFKReason = null;
+            }
 
             // If this session doesn't have a player thing attached yet, load it up.  Note that
             // for situations like character creation, we might already have our Thing, so we
@@ -186,17 +196,15 @@ namespace WheelMUD.Core
         /// <param name="session">The disconnected session.</param>
         public void OnSessionDisconnected(Session session)
         {
-            // For now we're just going to immediately log out a player who disconnects.
-            // TODO: Session disconnect should not necessarily remove the player from the world immediately, as
-            //       this could be used to cheat out of imminent death, etc.  Instead the player object should
-            //       linger around a while, uncontrolled, before removal.  Mark the player as "linkdead" though.
+            // For now we'll just set the player to an automatic "AFK" state.
+            // TODO: Track known link-death state separately. (Note that not every socket will notice link-death imminently.)
             if (session.Thing != null)
             {
                 var playerBehavior = session.Thing.FindBehavior<PlayerBehavior>();
                 if (playerBehavior != null && playerBehavior.SessionId != null)
                 {
-                    playerBehavior.LogOut();
-                    playerBehavior.SessionId = null;
+                    playerBehavior.IsAFK = true;
+                    playerBehavior.AFKReason = "Disconnect detected.";
                 }
             }
         }

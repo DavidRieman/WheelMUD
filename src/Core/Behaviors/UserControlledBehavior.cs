@@ -12,6 +12,7 @@ namespace WheelMUD.Core
     using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.Linq;
+    using WheelMUD.Server;
 
     /// <summary>A security role.</summary>
     public class Role
@@ -69,6 +70,21 @@ namespace WheelMUD.Core
         public IEnumerable<string> GetRoleNames()
         {
             return from role in GetIndividualSecurityRoles() select role.ToString();
+        }
+
+        /// <summary>Drop any existing connection for this user.</summary>
+        /// <param name="disconnectMessage">If non-empty, send this message to the user before disconnecting.</param>
+        public void Disconnect(string disconnectMessage = "")
+        {
+            if (this.Controller is Session session)
+            {
+                if (!string.IsNullOrEmpty(disconnectMessage))
+                {
+                    session.Write(disconnectMessage, false);
+                }
+                session.Connection.Disconnect();
+            }
+            this.Controller = null;
         }
 
         /// <summary>Gets the individual security roles associated with this user.</summary>
