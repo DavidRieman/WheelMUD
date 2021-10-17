@@ -132,7 +132,7 @@ namespace WheelMUD.Core
             {
                 if (!data.EndsWith(AnsiSequences.NewLine))
                     data += AnsiSequences.NewLine;
-                data += State?.BuildPrompt().Parse(Connection.TerminalOptions);
+                data += State?.BuildPrompt()?.Parse(Connection.TerminalOptions);
             }
 
             // If a particular state doesn't support the paging commands (like "m" or "more") then we should force sending all

@@ -17,7 +17,9 @@ namespace WheelMUD.ConnectionStates
     /// <summary>The 'login' session state.</summary>
     public class LoginState : SessionState
     {
+        private static readonly OutputBuilder promptPasswordOutput = new OutputBuilder().Append("Please enter your password: > <%hidden%>");
         private readonly string userName;
+        private bool isLoggingIn = false;
 
         /// <summary>Initializes a new instance of the LoginState class.</summary>
         /// <param name="session">The session entering this state.</param>
@@ -36,6 +38,7 @@ namespace WheelMUD.ConnectionStates
                 var authenticatedUser = Authenticate(command);
                 if (authenticatedUser != null)
                 {
+                    isLoggingIn = true;
                     Session.User = authenticatedUser;
                     if (!AppConfigInfo.Instance.UserAccountIsPlayerCharacter)
                     {
@@ -64,6 +67,7 @@ namespace WheelMUD.ConnectionStates
                             Session.WritePrompt();
                         }
                     }
+                    isLoggingIn = false;
                 }
                 else
                 {
@@ -77,7 +81,8 @@ namespace WheelMUD.ConnectionStates
 
         public override OutputBuilder BuildPrompt()
         {
-            return new OutputBuilder().Append("Please enter your password: > ");
+            // If we are currently processing a possible successful login, we want to avoid prompting for password again.
+            return isLoggingIn ? null : promptPasswordOutput;
         }
 
         /// <summary>Authenticate the user name and password supplied.</summary>
