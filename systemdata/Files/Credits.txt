@@ -16,9 +16,7 @@
 * David Rieman (Karak)
 
 <%cyan%>==== ACTIVE DEVELOPERS ====<%n%>:
-* Jeremy Holland
-* Rebekka Williamsdóttir (octave-syndicate)
-* Daniel (Ith'drak)
+* [Your Name Here?]
 
 ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ; We sincerely give our thanks to all members of the WheelMUD Development Team
@@ -29,26 +27,29 @@
 * Hector Sosa, Jr (Fastalanasa)
 
 <%cyan%>==== RETIRED DEVELOPERS ====<%n%>:
-* Duane King (honestduane / Feverdream)
-* Joseph Roberts (Pure)
-* Jason F. (JFed)
-* James McNamus (James)
-* David Ray (IRay)
-* Daren Fox (Foxedup)
-* Chad Jessup (Shabubu)
+* Aaron Rich (aaronjrich)
 * Brian Nelson (bengecko)
 * Bill Lewis, Jr (Tek)
-* Jesse Miller (Taliesen)
+* Chad Jessup (Shabubu)
 * Dan Rose (Nostradamus)
-* Tim Bateson (Saquivor)
-* Ted Johansson (Dremni)
+* Daniel (Ith'drak)
+* Daren Fox (Foxedup)
+* David Ray (IRay)
+* Duane King (honestduane / Feverdream)
+* James McNamus (James)
+* Jason F. (JFed)
+* Jeremy Holland
+* Jesse Miller (Taliesen)
+* Joseph Roberts (Pure)
 * Justin LeCheminant (jlechem)
-* Aaron Rich (aaronjrich)
+* Rebekka Williamsdóttir (octave-syndicate)
+* Ted Johansson (Dremni)
+* Tim Bateson (Saquivor)
 
 <%cyan%>==== RETIRED BUILDERS (STOCK AREAS) ====<%n%>:
 * Daren Fox (Foxedup)
 
 <%cyan%>==== RETIRED CONTRIBUTORS ====<%n%>:
-* Troy Fisher (Ashon)
 * Alincor
 * JT Bowlin (SlowReflex)
+* Troy Fisher (Ashon)
