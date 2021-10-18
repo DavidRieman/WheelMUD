@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 using WheelMUD.Universe;
 
 namespace WheelMUD.Actions
@@ -46,11 +45,9 @@ namespace WheelMUD.Actions
 
             // TODO: Should not be needed after OLC and instant-spawn commands which should work
             // for any type of Thing; not just portals.  Spawning (either way) should use the Request
-            // and Event pattern.
+            // and Event pattern (including for the resulting "it happened" sensory message).
             actionInput.Actor.Parent.Add(portalItem);
-            var userControlledBehavior = actionInput.Actor.Behaviors.FindFirst<UserControlledBehavior>();
-            userControlledBehavior.Controller.Write(new OutputBuilder().
-                AppendLine("A magical portal opens up in front of you."));
+            actionInput.Session?.WriteLine("A magical portal opens up in front of you.");
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>

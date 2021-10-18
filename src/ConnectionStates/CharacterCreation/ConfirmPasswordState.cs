@@ -14,6 +14,10 @@ namespace WheelMUD.ConnectionStates
     /// <summary>Character creation state used to confirm a password for the new character.</summary>
     public class ConfirmPasswordState : CharacterCreationSubState
     {
+        // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
+        // is repeating received keystrokes back to their output.
+        private static readonly OutputBuilder prompt = new OutputBuilder().Append("Please retype your password: > <%hidden%>");
+
         /// <summary>Initializes a new instance of the <see cref="ConfirmPasswordState"/> class.</summary>
         /// <param name="session">The session.</param>
         public ConfirmPasswordState(Session session)
@@ -33,16 +37,14 @@ namespace WheelMUD.ConnectionStates
             }
             else
             {
-                Session.Write(new OutputBuilder().AppendLine("I am afraid the passwords entered do not match."), false);
+                Session.WriteLine("I am afraid the passwords entered do not match.", false);
                 StateMachine.HandleNextStep(this, StepStatus.Failure);
             }
         }
 
         public override OutputBuilder BuildPrompt()
         {
-            // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
-            // is repeating received keystrokes back to their output.
-            return new OutputBuilder().Append("Please retype your password: > <%hidden%>");
+            return prompt;
         }
     }
 }

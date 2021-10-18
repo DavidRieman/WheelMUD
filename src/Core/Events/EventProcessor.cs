@@ -62,7 +62,7 @@ namespace WheelMUD.Core
                 string output = ProcessMessage(e.SensoryMessage);
                 if (output != string.Empty)
                 {
-                    userControlledBehavior.Controller.Write(new OutputBuilder().AppendLine(output));
+                    (userControlledBehavior.Controller as Session)?.WriteLine(output);
                 }
             }
         }

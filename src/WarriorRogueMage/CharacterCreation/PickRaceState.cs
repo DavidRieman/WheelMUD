@@ -19,6 +19,7 @@ namespace WarriorRogueMage.CharacterCreation
     /// <summary>The character creation step where the player will pick their race.</summary>
     public class PickRaceState : CharacterCreationSubState
     {
+        private static readonly OutputBuilder prompt = new OutputBuilder().Append("Select your character's race: > ");
         private int longestRaceName;
         private readonly List<GameRace> gameRaces;
 
@@ -68,7 +69,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override OutputBuilder BuildPrompt()
         {
-            return new OutputBuilder().Append("Select your character's race: > ");
+            return prompt;
         }
 
         private GameRace GetRace(string raceName)

@@ -28,7 +28,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             var session = actionInput.Session;
-            if (session == null) return; // Info command: Only makes sense to send for player sessions.
+            if (session == null) return; // This action only makes sense for player sessions.
 
             var commandTail = actionInput.Tail;
 

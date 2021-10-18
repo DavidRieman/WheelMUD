@@ -144,9 +144,7 @@ namespace WheelMUD.Actions
             var followingBehavior = senderBehaviors.FindFirst<FollowingBehavior>();
             var followedBehavior = senderBehaviors.FindFirst<FollowedBehavior>();
 
-            var output = new OutputBuilder();
-
-            output.Append("You are following: ");
+            var output = new OutputBuilder().Append("You are following: ");
 
             output.AppendLine(followingBehavior == null ? "(nobody)" : followingBehavior.Target.Name);
 

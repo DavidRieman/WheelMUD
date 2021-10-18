@@ -48,9 +48,9 @@ namespace WheelMUD.Actions
 
             var clonedThing = thing.Clone();
             parent.Add(clonedThing);
-            var userControlledBehavior = actionInput.Actor.Behaviors.FindFirst<UserControlledBehavior>();
-            userControlledBehavior.Controller.Write(new OutputBuilder().
-                AppendLine($"You clone {thing.Id}. New item is {clonedThing.Id}."));
+
+            // TODO: Ideally should send a SensoryEvent instead for the creator and any witnesses in the room to see.
+            actionInput.Session?.WriteLine($"You clone {thing.Id}. New item is {clonedThing.Id}.");
         }
 
         /// <summary>Checks against the guards for the command.</summary>

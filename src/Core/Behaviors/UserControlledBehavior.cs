@@ -59,7 +59,8 @@ namespace WheelMUD.Core
         /// <summary>Gets the combined set of security roles associated with this user.</summary>
         public SecurityRole SecurityRoles { get; set; }
 
-        /// <summary>Gets or sets the controller of the Thing.</summary>
+        /// <summary>Gets or sets the user Session of the Thing.</summary>
+        /// <remarks>TODO: Ideally this should be just Session Session instead?</remarks>
         [JsonIgnore]
         public IController Controller { get; set; }
 

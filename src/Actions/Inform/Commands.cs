@@ -27,7 +27,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             var session = actionInput.Session;
-            if (session == null) return; //Command is not useful to mobiles, etc.
+            if (session == null) return; // This action only makes sense for player sessions.
 
             var requestedCategory = actionInput.Tail.ToLower();
 

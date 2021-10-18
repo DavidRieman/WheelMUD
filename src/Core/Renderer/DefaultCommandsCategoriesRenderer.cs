@@ -18,8 +18,7 @@ namespace WheelMUD.Core
         public override OutputBuilder Render(TerminalOptions terminalOptions, IEnumerable<Command> commands)
         {
             // Build a list of categories for the commands available to this player.
-            var output = new OutputBuilder();
-            output.AppendLine("Please specify a command category:");
+            var output = new OutputBuilder().AppendLine("Please specify a command category:");
 
             foreach (CommandCategory category in Enum.GetValues(typeof(CommandCategory)))
             {

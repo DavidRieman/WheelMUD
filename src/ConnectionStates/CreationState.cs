@@ -59,7 +59,7 @@ namespace WheelMUD.ConnectionStates
             var user = session.User;
             var character = session.Thing;
 
-            session.Write(new OutputBuilder().AppendLine($"Saving character {character.Name}."), false);
+            session.WriteLine($"Saving character {character.Name}.", false);
             using (var docSession = Helpers.OpenDocumentSession())
             {
                 // Save the character first so we can use the auto-assigned unique identity.
@@ -71,7 +71,7 @@ namespace WheelMUD.ConnectionStates
                 docSession.Store(user);
                 docSession.SaveChanges();
             }
-            session.Write(new OutputBuilder().AppendLine($"Done saving {character.Name}."), false);
+            session.WriteLine($"Done saving {character.Name}.", false);
 
             var playerBehavior = character.Behaviors.FindFirst<PlayerBehavior>();
             if (playerBehavior.LogIn(session))
@@ -83,7 +83,7 @@ namespace WheelMUD.ConnectionStates
             }
             else
             {
-                session.Write(new OutputBuilder().AppendLine("Character was created but could not be logged in right now. Disconnecting."));
+                session.WriteLine("Character was created but could not be logged in right now. Disconnecting.");
                 session.SetState(null);
                 session.Connection.Disconnect();
             }

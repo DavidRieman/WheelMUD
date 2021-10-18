@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using WheelMUD.Core;
 using WheelMUD.Effects;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -38,17 +37,15 @@ namespace WheelMUD.Actions
 
             // Die has to be > 5 to get out
             // If this were non-temporary, it should be using events instead of Write.
-            var userControlledBehavior = actionInput.Actor.Behaviors.FindFirst<UserControlledBehavior>();
+            // TODO: Instead of direct session writes, we would ideally post a SensoryEvent for the actor and witness outputs.
             if (die.Roll() > 5)
             {
                 actionInput.Actor.Behaviors.Remove(immobileEffect);
-                userControlledBehavior.Controller.Write(new OutputBuilder().
-                    AppendLine("You manager to struggle free"));
+                actionInput.Session?.WriteLine("You manage to struggle free from the web.");
             }
             else
             {
-                userControlledBehavior.Controller.Write(new OutputBuilder().
-                    AppendLine("You fail to struggle from the web"));
+                actionInput.Session?.WriteLine("You fail to struggle from the web.");
             }
 
             actionInput.Actor.Behaviors.Add(new UnbalanceEffect()

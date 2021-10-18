@@ -170,7 +170,7 @@ namespace WheelMUD.Core
             var targetPlayerStartingPosition = player.Parent != null ? player.Parent : FindDefaultRoom();
             if (targetPlayerStartingPosition == null)
             {
-                session.Write(new OutputBuilder().AppendLine("Could not place character in the game world. Please contact an administrator."));
+                session.WriteLine("Could not place character in the game world. Please contact an administrator.");
                 return false;
             }
 
@@ -296,7 +296,7 @@ namespace WheelMUD.Core
             if (IsFriend(e.ActiveThing.Name) && e is PlayerLogInEvent)
             {
                 var userControlledBehavior = Parent.Behaviors.FindFirst<UserControlledBehavior>();
-                userControlledBehavior.Controller.Write(new OutputBuilder().AppendLine($"Your friend {e.ActiveThing.Name} has logged in."));
+                (userControlledBehavior.Controller as Session)?.WriteLine($"Your friend {e.ActiveThing.Name} has logged in.");
             }
         }
 
@@ -306,7 +306,7 @@ namespace WheelMUD.Core
             if (IsFriend(e.ActiveThing.Name) && e is PlayerLogOutEvent)
             {
                 var userControlledBehavior = Parent.Behaviors.FindFirst<UserControlledBehavior>();
-                userControlledBehavior.Controller.Write(new OutputBuilder().AppendLine($"Your friend {e.ActiveThing.Name} has logged out."));
+                (userControlledBehavior.Controller as Session)?.WriteLine($"Your friend {e.ActiveThing.Name} has logged out.");
             }
         }
 

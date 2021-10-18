@@ -14,15 +14,15 @@ namespace WheelMUD.ConnectionStates
     /// <summary>Character creation state used to request a password for the new character.</summary>
     public class GetPasswordState : CharacterCreationSubState
     {
-        private readonly OutputBuilder InitialStateMessage;
+        // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
+        // is repeating received keystrokes back to their output.
+        private static readonly OutputBuilder prompt = new OutputBuilder().Append("Enter a password: > <%hidden%>");
 
-        /// <summary>Initializes a new instance of the <see cref="GetPasswordState"/> class.</summary>
-        /// <param name="session">The session.</param>
-        public GetPasswordState(Session session)
-            : base(session)
+        private static readonly OutputBuilder InitialStateMessage;
+
+        static GetPasswordState()
         {
-            var output = new OutputBuilder();
-            output.AppendLine();
+            var output = new OutputBuilder().AppendLine();
             output.AppendLine(AppConfigInfo.Instance.UserAccountIsPlayerCharacter ?
                 "Please carefully select a password for this character." :
                 "Please carefully select a password for this user account.");
@@ -30,6 +30,12 @@ namespace WheelMUD.ConnectionStates
             output.AppendLine("Your password can be changed while logged in.");
             InitialStateMessage = output;
         }
+
+        /// <summary>Initializes a new instance of the <see cref="GetPasswordState"/> class.</summary>
+        /// <param name="session">The session.</param>
+        public GetPasswordState(Session session)
+            : base(session)
+        { }
 
         public override void Begin()
         {
@@ -50,9 +56,7 @@ namespace WheelMUD.ConnectionStates
 
         public override OutputBuilder BuildPrompt()
         {
-            // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
-            // is repeating received keystrokes back to their output.
-            return new OutputBuilder().Append("Enter a password: > <%hidden%>");
+            return prompt;
         }
     }
 }

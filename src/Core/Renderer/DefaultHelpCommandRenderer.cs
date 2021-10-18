@@ -14,8 +14,7 @@ namespace WheelMUD.Core
     {
         public override OutputBuilder Render(TerminalOptions terminalOptions, Command command)
         {
-            var output = new OutputBuilder();
-            output.AppendLine($"<%yellow%>{command.Name.ToUpper()}<%n%>:");
+            var output = new OutputBuilder().AppendLine($"<%yellow%>{command.Name.ToUpper()}<%n%>:");
             if (!string.IsNullOrWhiteSpace(command.Description))
             {
                 output.AppendLine(command.Description);

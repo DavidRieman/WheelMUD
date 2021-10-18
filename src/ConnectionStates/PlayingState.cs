@@ -15,6 +15,7 @@ namespace WheelMUD.ConnectionStates
     /// <summary>The 'playing' session state.</summary>
     public class PlayingState : SessionState
     {
+        private static readonly OutputBuilder basicPrompt = new OutputBuilder().Append("> ");
         private SimpleWeakReference<PlayerBehavior> playerBehavior;
 
         /// <summary>Initializes a new instance of the PlayingState class.</summary>
@@ -35,7 +36,7 @@ namespace WheelMUD.ConnectionStates
             // TODO: https://github.com/DavidRieman/WheelMUD/issues/56 - Finish implementing AutomaticLoginCommand, and try:
             //  bool includePrompt = !string.IsNullOrWhiteSpace(AppConfigInfo.Instance.AutomaticLoginCommand);
             bool includePrompt = true;
-            Session.Write(new OutputBuilder().AppendLine($"Welcome, {Session.Thing.FullName}."), includePrompt);
+            Session.WriteLine($"Welcome, {Session.Thing.FullName}.", includePrompt);
         }
 
         /// <summary>Process the specified input.</summary>
@@ -63,8 +64,7 @@ namespace WheelMUD.ConnectionStates
             }
 
             Debug.Assert(false, "A non-Player is in PlayingState, receiving a Prompt?");
-            
-            return new OutputBuilder().Append("> ");
+            return basicPrompt;
         }
 
         public override bool SupportsPaging { get; } = true;

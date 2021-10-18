@@ -16,8 +16,7 @@ namespace WheelMUD.Core
     {
         public override OutputBuilder Render(TerminalOptions terminalOptions, IEnumerable<Command> commands, string categoryName)
         {
-            var output = new OutputBuilder();
-            output.AppendLine($"<%yellow%>{categoryName} commands<%n%>:");
+            var output = new OutputBuilder().AppendLine($"<%yellow%>{categoryName} commands<%n%>:");
             foreach (var command in commands)
             {
                 // NEED AN ALTERNATE NON-MXP VERSION, AND NEED SECURE LINE API TO BE THE ONLY WAY TO SEND SECURE LINES - Name to make very clear it cannot contain user-generated content? "AppendTrustedSecureLine" with extra comments?

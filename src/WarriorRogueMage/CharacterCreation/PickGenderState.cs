@@ -17,6 +17,7 @@ namespace WarriorRogueMage.CharacterCreation
     /// <remarks>TODO: https://github.com/DavidRieman/WheelMUD/issues/68 - Change order, and refine to selecting character pronoun set instead of gender.</remarks>
     public class PickGenderState : CharacterCreationSubState
     {
+        private static readonly OutputBuilder prompt = new OutputBuilder().Append("Select the character's gender: > ");
         private GameGender selectedGender;
 
         /// <summary>Initializes a new instance of the <see cref="PickGenderState"/> class.</summary>
@@ -47,7 +48,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override OutputBuilder BuildPrompt()
         {
-            return new OutputBuilder().Append("Select the character's gender: > ");
+            return prompt;
         }
 
         private bool HandleCommand(string command)

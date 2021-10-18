@@ -16,6 +16,7 @@ namespace WarriorRogueMage.CharacterCreation
     /// <summary>The character creation step where the player will pick their talents.</summary>
     public class PickTalentsState : CharacterCreationSubState
     {
+        private static readonly OutputBuilder prompt = new OutputBuilder().Append("Select the character's starting talent: > ");
         private int longestTalentName;
         private readonly List<Talent> talents;
 
@@ -74,7 +75,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         public override OutputBuilder BuildPrompt()
         {
-            return new OutputBuilder().Append("Select the character's starting talent: > ");
+            return prompt;
         }
 
         private Talent GetTalent(string talentName)

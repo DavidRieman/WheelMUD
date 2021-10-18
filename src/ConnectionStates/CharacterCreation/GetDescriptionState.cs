@@ -14,6 +14,8 @@ namespace WheelMUD.ConnectionStates
     /// <summary>Character creation state used to request a description for the new character.</summary>
     public class GetDescriptionState : CharacterCreationSubState
     {
+        private static readonly OutputBuilder prompt = new OutputBuilder().Append("Enter a description for your character: > ");
+
         /// <summary>Initializes a new instance of the <see cref="GetDescriptionState"/> class.</summary>
         /// <param name="session">The session.</param>
         public GetDescriptionState(Session session)
@@ -31,7 +33,7 @@ namespace WheelMUD.ConnectionStates
 
         public override OutputBuilder BuildPrompt()
         {
-            return new OutputBuilder().Append("Enter a description for your character: > ");
+            return prompt;
         }
     }
 }

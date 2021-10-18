@@ -34,6 +34,7 @@ namespace WarriorRogueMage.CharacterCreation
     /// <summary>The character creation step where the player will set their stats.</summary>
     public class SetAttributesState : CharacterCreationSubState
     {
+        private static readonly OutputBuilder prompt = new OutputBuilder().Append("Select the character's starting attributes: > ");
         private static readonly int MaxPoints = 10;
         private int warriorPoints;
         private int roguePoints;
@@ -100,7 +101,7 @@ namespace WarriorRogueMage.CharacterCreation
         /// <returns>A prompt indicating how the player should proceed.</returns>
         public override OutputBuilder BuildPrompt()
         {
-            return new OutputBuilder().Append("Select the character's starting attributes: > ");
+            return prompt;
         }
 
         private void ProcessAttributeCommand(SetAttributeCommand command, string s, ref int targetPoints)

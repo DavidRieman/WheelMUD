@@ -8,7 +8,6 @@
 using System;
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 using WheelMUD.Universe;
 
 namespace WheelMUD.Actions
@@ -50,9 +49,8 @@ namespace WheelMUD.Actions
 
             actionInput.Actor.Parent.Children.Add(potionItem);
 
-            var userControlledBehavior = actionInput.Actor.Behaviors.FindFirst<UserControlledBehavior>();
-            userControlledBehavior.Controller.Write(new OutputBuilder().
-                AppendLine("You create a colourful potion"));
+            // TODO: Use a SensoryEvent to inform the creator (and any other witness) about what just happened instead of direct writes.
+            actionInput.Session?.WriteLine("You create a colourful potion");
         }
 
         /// <summary>Checks against the guards for the command.</summary>
