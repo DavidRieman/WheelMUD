@@ -7,12 +7,14 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
     /// <summary>Temporary script to test the dice system.</summary>
-    /// <remarks>TODO: Adjust to be a handy command for role-playing and so on; Generate a room sensory event?</remarks>
+    /// <remarks>
+    /// TODO: Adjust to be a handy command for role-playing and so on; Generate a room sensory event?
+    /// TODO: Allow custom-sided die, app-configurable default sides (like 20 would be a better default for some games)?
+    /// </remarks>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("roll", CommandCategory.Activities)]
     [ActionDescription("Roll a die or dice.")]
@@ -29,7 +31,7 @@ namespace WheelMUD.Actions
             if (!(actionInput.Controller is Session session)) return;
 
             var die = DiceService.Instance.GetDie(6);
-            actionInput.Controller.Write(new OutputBuilder().AppendLine($"You roll a {die.Roll()}."));
+            session.Write($"You roll a {die.Roll()}.");
         }
 
         /// <summary>Checks against the guards for the command.</summary>
