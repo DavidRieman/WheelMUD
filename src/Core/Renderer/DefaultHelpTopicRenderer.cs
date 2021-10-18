@@ -18,27 +18,31 @@ namespace WheelMUD.Core
         public override OutputBuilder Render(TerminalOptions terminalOptions, HelpTopic helpTopic)
         {
             var output = new OutputBuilder();
-            
+
             // TODO: What was this !element doing? Does it still work? Test with zMUD or something and re-read MXP specs?
             if (terminalOptions.UseMXP)
-                output.AppendLine($"{AnsiSequences.MxpSecureLine}<!element see '<send href=\"help &cref;\">' att='cref' open>");
-            
-            output.AppendSeparator(color:"yellow", design:'=');
-            output.AppendLine($"HELP TOPIC: {helpTopic.Aliases.First()}");
-            output.AppendSeparator(color:"yellow");
-
-            if (terminalOptions.UseMXP)
             {
-                var lines = helpTopic.Contents.Split(new string[] { AnsiSequences.NewLine }, StringSplitOptions.None);
-                foreach (var line in lines)
+                output.AppendLine($"{AnsiSequences.MxpSecureLine}<!element see '<send href=\"help &cref;\">' att='cref' open>");
+            }
+
+            output.AppendSeparator(color: "yellow", design: '=');
+            output.AppendLine($"HELP TOPIC: {helpTopic.Aliases.First()}");
+            output.AppendSeparator(color: "yellow");
+
+            var lines = helpTopic.Contents.Split(new string[] { AnsiSequences.NewLine }, StringSplitOptions.None);
+            foreach (string line in lines)
+            {
+                if (terminalOptions.UseMXP)
                 {
                     output.AppendLine($"{AnsiSequences.MxpOpenLine}{line}<%n%>");
                 }
+                else
+                {
+                    output.AppendLine($"{line}");
+                }
             }
-            else
-                output.AppendLine($"{helpTopic.Contents}");
-            
-            output.AppendSeparator(color:"yellow", design:'=');
+
+            output.AppendSeparator(color: "yellow", design: '=');
             return output;
         }
     }

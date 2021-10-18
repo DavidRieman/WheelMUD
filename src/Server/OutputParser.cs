@@ -5,6 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
 using WheelMUD.Utilities;
 
 namespace WheelMUD.Server
@@ -21,6 +22,9 @@ namespace WheelMUD.Server
 
             for (var i = 0; i < bufferPos; i++)
             {
+                // OutputBuffer / OutputParser should be the only place writing ANSI NewLine character sequences, to help guarantee correct Telnet protocol handling.
+                // (Telnet protocol says new lines sent should be CR LF regardless of what OS the server is running on and what OS the client is running on.)
+                Debug.Assert(buffer[i] != '\r' && buffer[i] != '\n', "Output should not include explicit newline characters. Use <%nl%> or OutputBuffer WriteLine functions instead.");
                 if (isToken && buffer[i] == '>')
                 {
                     if (buffer[i - 1] == '%')
