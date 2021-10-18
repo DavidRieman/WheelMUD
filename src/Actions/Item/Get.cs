@@ -140,7 +140,7 @@ namespace WheelMUD.Actions
                 }
 
                 // Rule: Is the 'from' thing specified as a container actually a container?
-                var containerBehavior = foundContainer.Behaviors.FindFirst<ContainerBehavior>();
+                var containerBehavior = foundContainer.FindBehavior<ContainerBehavior>();
                 if (containerBehavior == null)
                 {
                     return $"{foundContainer.Name} is not able to hold {itemName}.";
@@ -171,7 +171,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: The targeted thing must be movable.
-            movableBehavior = thingToGet.Behaviors.FindFirst<MovableBehavior>();
+            movableBehavior = thingToGet.FindBehavior<MovableBehavior>();
             if (movableBehavior == null)
             {
                 return $"{thingToGet.Name} does not appear to be movable.";

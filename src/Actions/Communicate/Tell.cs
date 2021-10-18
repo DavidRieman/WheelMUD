@@ -109,7 +109,7 @@ namespace WheelMUD.Actions
         /// <returns>The final string the sender of the tell will see.</returns>
         private string BuildOriginatorMessage(string fixedSentence)
         {
-            var playerBehavior = target.Behaviors.FindFirst<PlayerBehavior>();
+            var playerBehavior = target.FindBehavior<PlayerBehavior>();
 
             if (playerBehavior is { IsAFK: true })
             {

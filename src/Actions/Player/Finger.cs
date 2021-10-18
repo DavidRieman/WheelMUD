@@ -46,7 +46,7 @@ namespace WheelMUD.Actions
             var isOnline = false;
             string addressIP = null;
 
-            var playerBehavior = target.Behaviors.FindFirst<PlayerBehavior>();
+            var playerBehavior = target.FindBehavior<PlayerBehavior>();
 
             output.AppendLine($"<%yellow%><%b%>Name: {target.Name} Title: {target.Title}<%n%>");
             output.AppendLine($"Description: {target.Description}");

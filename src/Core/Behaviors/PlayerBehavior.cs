@@ -5,20 +5,20 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
+using WheelMUD.Data.Entities;
+using WheelMUD.Data.Repositories;
 using WheelMUD.Server;
+using WheelMUD.Utilities;
+
 
 namespace WheelMUD.Core
 {
-    using Newtonsoft.Json;
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Globalization;
-    using System.Linq;
-    using WheelMUD.Data.Entities;
-    using WheelMUD.Data.Repositories;
-    using WheelMUD.Utilities;
-
     /// <summary>The behavior for players.</summary>
     public class PlayerBehavior : Behavior
     {
@@ -264,8 +264,8 @@ namespace WheelMUD.Core
         /// <summary>Called when a parent has just been assigned to this behavior. (Refer to Parent)</summary>
         protected override void OnAddBehavior()
         {
-            var sensesBehavior = Parent.Behaviors.FindFirst<SensesBehavior>();
-            var userControlledBehavior = Parent.Behaviors.FindFirst<UserControlledBehavior>();
+            var sensesBehavior = Parent.FindBehavior<SensesBehavior>();
+            var userControlledBehavior = Parent.FindBehavior<UserControlledBehavior>();
             EventProcessor = new PlayerEventProcessor(this, sensesBehavior, userControlledBehavior);
             EventProcessor.AttachEvents();
         }
@@ -295,8 +295,8 @@ namespace WheelMUD.Core
             // If this is a friend, ensure we get a 'your friend logged in' message regardless of location.
             if (IsFriend(e.ActiveThing.Name) && e is PlayerLogInEvent)
             {
-                var userControlledBehavior = Parent.Behaviors.FindFirst<UserControlledBehavior>();
-                (userControlledBehavior.Controller as Session)?.WriteLine($"Your friend {e.ActiveThing.Name} has logged in.");
+                var userControlledBehavior = Parent.FindBehavior<UserControlledBehavior>();
+                userControlledBehavior?.Session?.WriteLine($"Your friend {e.ActiveThing.Name} has logged in.");
             }
         }
 
@@ -305,8 +305,8 @@ namespace WheelMUD.Core
             // If this is a friend, ensure we get a 'your friend logged out' message regardless of location.
             if (IsFriend(e.ActiveThing.Name) && e is PlayerLogOutEvent)
             {
-                var userControlledBehavior = Parent.Behaviors.FindFirst<UserControlledBehavior>();
-                (userControlledBehavior.Controller as Session)?.WriteLine($"Your friend {e.ActiveThing.Name} has logged out.");
+                var userControlledBehavior = Parent.FindBehavior<UserControlledBehavior>();
+                userControlledBehavior?.Session?.WriteLine($"Your friend {e.ActiveThing.Name} has logged out.");
             }
         }
 

@@ -40,7 +40,7 @@ namespace WheelMUD.Universe
             LiquidBehavior liquidBehavior = null;
             foreach (Thing thing in source.Parent.Children)
             {
-                liquidBehavior = thing.Behaviors.FindFirst<LiquidBehavior>();
+                liquidBehavior = thing.FindBehavior<LiquidBehavior>();
                 if (liquidBehavior != null)
                 {
                     break;

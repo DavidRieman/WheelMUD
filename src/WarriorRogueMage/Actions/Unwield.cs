@@ -81,11 +81,11 @@ namespace WarriorRogueMage.Actions
             // First look for a matching item in inventory and make sure it can
             // be wielded. If nothing was found in inventory, look for a matching
             // wieldable item in the surrounding environment.
-            itemToUnwield = wielder.FindChild(item => item.Name.ToLower() == itemName && item.HasBehavior<WieldableBehavior>() && item.Behaviors.FindFirst<WieldableBehavior>().Wielder == wielder);
+            itemToUnwield = wielder.FindChild(item => item.Name.ToLower() == itemName && item.FindBehavior<WieldableBehavior>()?.Wielder == wielder);
 
             if (itemToUnwield == null)
             {
-                itemToUnwield = wielder.Parent.FindChild(item => item.Name.ToLower() == itemName && item.HasBehavior<WieldableBehavior>() && item.Behaviors.FindFirst<WieldableBehavior>().Wielder == wielder);
+                itemToUnwield = wielder.Parent.FindChild(item => item.Name.ToLower() == itemName && item.FindBehavior<WieldableBehavior>()?.Wielder == wielder);
             }
 
             if (itemToUnwield == null)
@@ -93,7 +93,7 @@ namespace WarriorRogueMage.Actions
                 return "You are not wielding the " + itemName + ".";
             }
 
-            itemToUnwieldBehavior = itemToUnwield.Behaviors.FindFirst<WieldableBehavior>();
+            itemToUnwieldBehavior = itemToUnwield.FindBehavior<WieldableBehavior>();
 
             return null;
         }

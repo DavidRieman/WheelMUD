@@ -24,7 +24,7 @@ namespace WheelMUD.ConnectionStates
             : base(session)
         {
             Debug.Assert(session.Thing != null);
-            var behavior = session.Thing.Behaviors.FindFirst<PlayerBehavior>();
+            var behavior = session.Thing.FindBehavior<PlayerBehavior>();
             playerBehavior = new SimpleWeakReference<PlayerBehavior>(behavior);
         }
 

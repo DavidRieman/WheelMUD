@@ -102,7 +102,7 @@ namespace WheelMUD.Core
                 var leaveMessage = CreateLeaveMessage(self);
                 var arriveMessage = CreateArriveMessage(self);
 
-                var movableBehavior = self.Behaviors.FindFirst<MovableBehavior>();
+                var movableBehavior = self.FindBehavior<MovableBehavior>();
                 movableBehavior.Move(arriveEvent.GoingTo, arriveEvent.GoingVia, leaveMessage, arriveMessage);
             }
         }

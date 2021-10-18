@@ -46,7 +46,7 @@ namespace WheelMUD.Actions
             }
 
             // This initiator is already guaranteed by VerifyCommonGuards to be a player, hence no null check.
-            playerBehavior = actionInput.Actor.Behaviors.FindFirst<PlayerBehavior>();
+            playerBehavior = actionInput.Actor.FindBehavior<PlayerBehavior>();
             return null;
         }
     }

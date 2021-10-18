@@ -78,7 +78,7 @@ namespace WarriorRogueMage.Actions
                 return commonFailure;
             }
 
-            playerBehavior = actionInput.Actor.Behaviors.FindFirst<PlayerBehavior>();
+            playerBehavior = actionInput.Actor.FindBehavior<PlayerBehavior>();
 
             return null;
         }

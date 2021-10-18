@@ -51,7 +51,7 @@ namespace WheelMUD.Core
         public void Enter(Thing actor)
         {
             // Prepare the Close game event for sending as a request, and if not cancelled, again as an event.
-            var movableBehavior = actor.Behaviors.FindFirst<MovableBehavior>();
+            var movableBehavior = actor.FindBehavior<MovableBehavior>();
             if (movableBehavior == null)
             {
                 // An actor tried to 'enter' even though it is not mobile; abort. This should probably message the actor.

@@ -210,7 +210,7 @@ namespace WheelMUD.Core
                     return commonFailure;
                 }
 
-                if (actionInput.Actor.Behaviors.FindFirst<MovableBehavior>() == null)
+                if (actionInput.Actor.FindBehavior<MovableBehavior>() == null)
                 {
                     return "You do not have the ability to move it.";
                 }

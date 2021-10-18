@@ -36,7 +36,7 @@ namespace WheelMUD.Actions
             var session = actionInput.Session;
             if (session == null) return; // This action only makes sense for player sessions.
 
-            var playerBehavior = actionInput.Actor.Behaviors.FindFirst<PlayerBehavior>();
+            var playerBehavior = actionInput.Actor.FindBehavior<PlayerBehavior>();
 
             if (playerBehavior != null)
             {

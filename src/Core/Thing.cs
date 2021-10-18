@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using WheelMUD.Interfaces;
+using System.Runtime.CompilerServices;
 
 namespace WheelMUD.Core
 {
@@ -315,7 +316,7 @@ namespace WheelMUD.Core
                 // TODO: Implement saving of core thing -> saving of housed Behaviors too.
                 if (Parent.HasBehavior<PlayerBehavior>())
                 {
-                    Parent.Behaviors.FindFirst<PlayerBehavior>().SaveWholePlayer();
+                    Parent.FindBehavior<PlayerBehavior>().SaveWholePlayer();
                 }
                 else
                 {
@@ -515,7 +516,7 @@ namespace WheelMUD.Core
 
                 foreach (Thing thing in Children)
                 {
-                    T behavior = thing.Behaviors.FindFirst<T>();
+                    T behavior = thing.FindBehavior<T>();
 
                     if (behavior != null)
                     {
@@ -530,20 +531,19 @@ namespace WheelMUD.Core
         /// <summary>Finds the behavior in the behavior manager.</summary>
         /// <typeparam name="T">Any <see cref="Behavior"/> type.</typeparam>
         /// <returns>A behavior if one is found, otherwise null.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T FindBehavior<T>() where T : Behavior
         {
-            T behavior = Behaviors.FindFirst<T>();
-
-            return behavior;
+            return Behaviors.FindFirst<T>();
         }
 
         /// <summary>Asks the behavior manager whether this thing has the behavior specified in the type parameter.</summary>
         /// <typeparam name="T">Any <see cref="Behavior"/> type.</typeparam>
         /// <returns>True if the behavior was found, otherwise false.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool HasBehavior<T>() where T : Behavior
         {
-            T behavior = Behaviors.FindFirst<T>();
-            return behavior != null;
+            return Behaviors.FindFirst<T>() != null;
         }
 
         /// <summary>Finds the stat.</summary>
@@ -626,7 +626,7 @@ namespace WheelMUD.Core
                     // If the thing already has a parent, ensure we have permission to continue.
                     // Presence of MultipleParentsBehavior means we can always add more parents, but
                     // if it's not present, we have to see if removal would be accepted first.
-                    var multipleParentsBehavior = thing.Behaviors.FindFirst<MultipleParentsBehavior>();
+                    var multipleParentsBehavior = thing.FindBehavior<MultipleParentsBehavior>();
                     RemoveChildEvent removalRequest = null;
 
                     var oldParent = thing.Parent;
@@ -673,7 +673,7 @@ namespace WheelMUD.Core
                 {
                     if (Children.Contains(thing))
                     {
-                        var multipleParentsBehavior = thing.Behaviors.FindFirst<MultipleParentsBehavior>();
+                        var multipleParentsBehavior = thing.FindBehavior<MultipleParentsBehavior>();
                         var removalRequest = RequestRemoval(thing);
                         return PerformRemoval(thing, removalRequest, multipleParentsBehavior);
                     }

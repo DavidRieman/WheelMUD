@@ -231,7 +231,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void SetPlayerBehaviorAttributes()
         {
-            var playerBehavior = Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
+            var playerBehavior = Session.Thing.FindBehavior<PlayerBehavior>();
             var attributes = playerBehavior.Parent.Attributes;
             var character = Session.Thing;
 

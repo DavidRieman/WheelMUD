@@ -107,7 +107,7 @@ namespace WheelMUD.Universe
             if (newLockedState && thisThing != null)
             {
                 // If we are attempting to lock an opened thing, cancel the lock attempt.
-                var opensClosesBehavior = thisThing.Behaviors.FindFirst<OpensClosesBehavior>();
+                var opensClosesBehavior = thisThing.FindBehavior<OpensClosesBehavior>();
                 if (opensClosesBehavior != null && opensClosesBehavior.IsOpen)
                 {
                     // TODO: Message to the actor that they can't lock an open thing.
@@ -209,7 +209,7 @@ namespace WheelMUD.Universe
                     return commonFailure;
                 }
 
-                if (actionInput.Actor.Behaviors.FindFirst<MovableBehavior>() == null)
+                if (actionInput.Actor.FindBehavior<MovableBehavior>() == null)
                 {
                     return "You do not have the ability to move it.";
                 }

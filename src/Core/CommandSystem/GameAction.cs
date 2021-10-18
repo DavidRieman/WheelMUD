@@ -93,7 +93,7 @@ namespace WheelMUD.Core
             }
 
             // Rule: Is the initiator a player?
-            if (guards.Contains(CommonGuards.InitiatorMustBeAPlayer) && (actor.Behaviors.FindFirst<PlayerBehavior>() == null || actionInput.Session == null))
+            if (guards.Contains(CommonGuards.InitiatorMustBeAPlayer) && (actor.FindBehavior<PlayerBehavior>() == null || actionInput.Session == null))
             {
                 return "This command can only be executed by a player with an active session.";
             }

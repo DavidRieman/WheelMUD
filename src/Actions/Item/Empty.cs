@@ -50,11 +50,9 @@ namespace WheelMUD.Actions
 
             // Dump each child out of the targeted container.
             var movedThingNames = (from thing in sourceContainer.Children
-                                   let movableBehavior =
-thing.Behaviors.FindFirst<MovableBehavior>()
+                                   let movableBehavior = thing.FindBehavior<MovableBehavior>()
                                    where movableBehavior != null
-                                   where movableBehavior.
-Move(destinationParent, actionInput.Actor, null, null)
+                                   where movableBehavior.Move(destinationParent, actionInput.Actor, null, null)
                                    select thing.Name).ToList();
 
             var commaSeparatedList = movedThingNames.BuildPrettyList();
@@ -108,7 +106,7 @@ Move(destinationParent, actionInput.Actor, null, null)
             }
 
             // Rule: The targeted thing must be a container of some sort.
-            var containerBehavior = thing.Behaviors.FindFirst<ContainerBehavior>();
+            var containerBehavior = thing.FindBehavior<ContainerBehavior>();
             if (containerBehavior == null)
             {
                 return $"The {thing.Name} is not a container.";
@@ -139,7 +137,7 @@ Move(destinationParent, actionInput.Actor, null, null)
                     return $"You do not hold {destinationParentName}.";
                 }
 
-                containerBehavior = thing.Behaviors.FindFirst<ContainerBehavior>();
+                containerBehavior = thing.FindBehavior<ContainerBehavior>();
                 if (containerBehavior == null)
                 {
                     return $"{destinationParentName} is not a container.";

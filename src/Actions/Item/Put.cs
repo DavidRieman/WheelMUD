@@ -122,7 +122,7 @@ namespace WheelMUD.Actions
 
             // Rule: Is the found thing capable of containing other things?
             newParent = foundItem;
-            var containerBehavior = foundItem.Behaviors.FindFirst<ContainerBehavior>();
+            var containerBehavior = foundItem.FindBehavior<ContainerBehavior>();
             if (newParent == null || containerBehavior == null)
             {
                 return $"{containerName} is not able to hold {itemName}.";

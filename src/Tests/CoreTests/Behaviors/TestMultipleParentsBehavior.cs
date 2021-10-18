@@ -73,7 +73,7 @@ namespace WheelMUD.Tests.Behaviors
         {
             // Verify we can add and retrieve the MultipleParentsBehavior of a Thing.
             child.Behaviors.Add(multipleParentsBehavior);
-            Assert.IsTrue(child.Behaviors.FindFirst<MultipleParentsBehavior>() == multipleParentsBehavior);
+            Assert.IsTrue(child.FindBehavior<MultipleParentsBehavior>() == multipleParentsBehavior);
 
             // Verify it can now be a child of multiple parents, and one of those can be found as the primary Parent.
             parent1.Add(child);

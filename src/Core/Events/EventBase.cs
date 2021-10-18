@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Server;
-
 namespace WheelMUD.Core
 {
     /// <summary>The base class for passing game event arguments.</summary>
@@ -70,8 +68,8 @@ namespace WheelMUD.Core
             if (!string.IsNullOrEmpty(cancelMessage) && !sentCancelMessage)
             {
                 // Write up to one cancellation message directly to the user/initiator if appropriate.
-                var userControlledBehavior = ActiveThing.Behaviors.FindFirst<UserControlledBehavior>();
-                (userControlledBehavior?.Controller as Session)?.WriteLine(cancelMessage);
+                var userControlledBehavior = ActiveThing.FindBehavior<UserControlledBehavior>();
+                userControlledBehavior?.Session?.WriteLine(cancelMessage);
 
                 sentCancelMessage = true;
             }

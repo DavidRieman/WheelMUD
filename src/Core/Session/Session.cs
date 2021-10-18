@@ -52,7 +52,7 @@ namespace WheelMUD.Core
         public Thing Thing { get; set; }
 
         /// <summary>Gets the living behavior of the player attached to this session.</summary>
-        public LivingBehavior LivingBehavior => Thing?.Behaviors.FindFirst<LivingBehavior>();
+        public LivingBehavior LivingBehavior => Thing?.FindBehavior<LivingBehavior>();
 
         /// <summary>Gets the connection for this session.</summary>
         public IConnection Connection { get; private set; }

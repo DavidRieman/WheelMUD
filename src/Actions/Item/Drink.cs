@@ -59,7 +59,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the item drinkable?
-            drinkableBehavior = thingToDrink.Behaviors.FindFirst<DrinkableBehavior>();
+            drinkableBehavior = thingToDrink.FindBehavior<DrinkableBehavior>();
             return drinkableBehavior == null ? $"{itemIdentifier} is not drinkable" : null;
         }
     }

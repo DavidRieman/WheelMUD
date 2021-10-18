@@ -137,7 +137,7 @@ namespace WarriorRogueMage.CharacterCreation
             }
 
             // Assign the skills to the PlayerBehavior's parent, which should be a Thing object.
-            var playerBehavior = Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
+            var playerBehavior = Session.Thing.FindBehavior<PlayerBehavior>();
             foreach (var gameSkill in selectedSkills)
             {
                 playerBehavior.Parent.Skills.Add(gameSkill.Name, gameSkill);

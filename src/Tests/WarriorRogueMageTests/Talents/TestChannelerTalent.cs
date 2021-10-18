@@ -56,9 +56,9 @@ namespace WheelMUD.Tests.Talents
         {
             var channeler = new ChannelerTalent();
 
-            playerThing.Behaviors.FindFirst<TalentsBehavior>().AddTalent(channeler);
+            playerThing.FindBehavior<TalentsBehavior>().AddTalent(channeler);
 
-            var behavior = playerThing.Behaviors.FindFirst<TalentsBehavior>();
+            var behavior = playerThing.FindBehavior<TalentsBehavior>();
 
             Assert.IsTrue(behavior.ManagedTalents.Contains(channeler));
             Assert.IsNotNull(behavior.FindFirst<ChannelerTalent>().PlayerThing);

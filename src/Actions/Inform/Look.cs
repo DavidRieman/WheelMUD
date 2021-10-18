@@ -60,7 +60,7 @@ namespace WheelMUD.Actions
                 return commonFailure;
             }
 
-            sensesBehavior = actionInput.Actor.Behaviors.FindFirst<SensesBehavior>();
+            sensesBehavior = actionInput.Actor.FindBehavior<SensesBehavior>();
             return sensesBehavior == null ? "You do not have any senses to perceive with." : null;
         }
 

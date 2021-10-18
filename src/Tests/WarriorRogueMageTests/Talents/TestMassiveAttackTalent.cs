@@ -55,8 +55,8 @@ namespace WheelMUD.Tests.Talents
         public void TestMassiveAttackTalentAddedMechanism()
         {
             var massiveAttack = new MassiveAttackTalent();
-            playerThing.Behaviors.FindFirst<TalentsBehavior>().AddTalent(massiveAttack);
-            var behavior = playerThing.Behaviors.FindFirst<TalentsBehavior>();
+            playerThing.FindBehavior<TalentsBehavior>().AddTalent(massiveAttack);
+            var behavior = playerThing.FindBehavior<TalentsBehavior>();
 
             Assert.IsTrue(behavior.ManagedTalents.Contains(massiveAttack));
             Assert.IsNotNull(behavior.FindFirst<MassiveAttackTalent>().PlayerThing);

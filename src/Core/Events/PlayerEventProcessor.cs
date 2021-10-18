@@ -5,12 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Server;
+using System;
 
 namespace WheelMUD.Core
 {
-    using System;
-
     /// <summary>An event processor for a Player.</summary>
     public class PlayerEventProcessor : IDisposable
     {
@@ -62,7 +60,7 @@ namespace WheelMUD.Core
                 string output = ProcessMessage(e.SensoryMessage);
                 if (output != string.Empty)
                 {
-                    (userControlledBehavior.Controller as Session)?.WriteLine(output);
+                    userControlledBehavior.Session?.WriteLine(output);
                 }
             }
         }

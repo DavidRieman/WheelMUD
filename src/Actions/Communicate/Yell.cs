@@ -92,7 +92,7 @@ namespace WheelMUD.Actions
             {
                 var exits = place.FindAllChildrenBehaviors<ExitBehavior>();
                 var destinations = from exit in exits
-                                   let opensClosesBehavior = exit.Parent.Behaviors.FindFirst<OpensClosesBehavior>()
+                                   let opensClosesBehavior = exit.Parent.FindBehavior<OpensClosesBehavior>()
                                    where opensClosesBehavior == null || opensClosesBehavior.IsOpen
                                    select exit.GetDestination(place);
                 foreach (var destination in destinations)

@@ -50,7 +50,7 @@ namespace WheelMUD.Actions
             // Our consumable.
             ConsumableType ct = ConsumableType.Unknown;
 
-            var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
+            var userControlledBehavior = sender.Thing.FindBehavior<UserControlledBehavior>();
             try
             {
                 // Our consumable.

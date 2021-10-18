@@ -78,7 +78,7 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void ProcessDone()
         {
-            var playerBehavior = Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
+            var playerBehavior = Session.Thing.FindBehavior<PlayerBehavior>();
             playerBehavior.Gender = selectedGender;
             
             Session.Write(new OutputBuilder().AppendLine($"The chosen gender is <%green%>{selectedGender.Name}<%n%>."), false);

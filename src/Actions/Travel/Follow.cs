@@ -69,7 +69,7 @@ namespace WheelMUD.Actions
             else if (followingBehavior.Target != null)
             {
                 var oldTarget = followingBehavior.Target;
-                var oldTargetFollowedBehavior = oldTarget.Behaviors.FindFirst<FollowedBehavior>();
+                var oldTargetFollowedBehavior = oldTarget.FindBehavior<FollowedBehavior>();
                 if (oldTargetFollowedBehavior != null)
                 {
                     oldTargetFollowedBehavior.Followers.Remove(self);

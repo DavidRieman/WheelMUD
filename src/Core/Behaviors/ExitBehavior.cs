@@ -103,7 +103,7 @@ namespace WheelMUD.Core
         public bool MoveThrough(Thing thingToMove)
         {
             // If the thing isn't currently mobile, bail.
-            var movableBehavior = thingToMove.Behaviors.FindFirst<MovableBehavior>();
+            var movableBehavior = thingToMove.FindBehavior<MovableBehavior>();
             if (movableBehavior == null)
             {
                 // TODO: Add messaging to thingToMove?
@@ -326,7 +326,7 @@ namespace WheelMUD.Core
                     return commonFailure;
                 }
 
-                if (actionInput.Actor.Behaviors.FindFirst<MovableBehavior>() == null)
+                if (actionInput.Actor.FindBehavior<MovableBehavior>() == null)
                 {
                     return "You do not have the ability to move.";
                 }

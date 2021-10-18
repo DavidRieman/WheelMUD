@@ -164,9 +164,10 @@ namespace WheelMUD.Actions.Temporary
             // Location of the sender of the command.
             var location = actionInput.Actor.Parent;
 
-            if (location.HasBehavior<RoomBehavior>())
+            var foundRoomBehavior = location.FindBehavior<RoomBehavior>();
+            if (foundRoomBehavior != null)
             {
-                room = location.Behaviors.FindFirst<RoomBehavior>();
+                room = foundRoomBehavior;
                 roomName = room.Parent.Name;
                 roomId = room.Parent.Id;
             }

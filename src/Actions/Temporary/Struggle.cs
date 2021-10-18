@@ -66,7 +66,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: The initiator must be currently immobilized.
-            immobileEffect = actionInput.Actor.Behaviors.FindFirst<ImmobileEffect>();
+            immobileEffect = actionInput.Actor.FindBehavior<ImmobileEffect>();
             if (immobileEffect == null)
             {
                 return "You are not immobile, so what is the point of struggling?";

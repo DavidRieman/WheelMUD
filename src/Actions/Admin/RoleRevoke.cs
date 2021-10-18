@@ -36,7 +36,7 @@ namespace WheelMUD.Actions
             var session = actionInput.Session;
             if (session == null) return; // This action only makes sense for player sessions.
 
-            var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
+            var userControlledBehavior = player.FindBehavior<UserControlledBehavior>();
             userControlledBehavior.SecurityRoles &= ~role;
 
             var ob = new OutputBuilder();
@@ -47,7 +47,7 @@ namespace WheelMUD.Actions
             ob.Clear();
             ob.AppendLine($"You have been revoked the {role.ToString()} role.");
 
-            userControlledBehavior.Controller.Write(ob);
+            userControlledBehavior.Session.Write(ob);
             player.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 

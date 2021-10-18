@@ -88,7 +88,7 @@ namespace WarriorRogueMage.Actions
 
             if (itemInInventory != null)
             {
-                itemToWieldBehavior = itemInInventory.Behaviors.FindFirst<WieldableBehavior>();
+                itemToWieldBehavior = itemInInventory.FindBehavior<WieldableBehavior>();
 
                 // Item was found in inventory, but it cannot be wielded.
                 if (itemToWieldBehavior == null)
@@ -108,7 +108,7 @@ namespace WarriorRogueMage.Actions
                     return "Unable to find: " + itemName;
                 }
 
-                itemToWieldBehavior = itemInRoom.Behaviors.FindFirst<WieldableBehavior>();
+                itemToWieldBehavior = itemInRoom.FindBehavior<WieldableBehavior>();
 
                 // Item was found in the room, but it cannot be wielded.
                 if (itemToWieldBehavior == null)

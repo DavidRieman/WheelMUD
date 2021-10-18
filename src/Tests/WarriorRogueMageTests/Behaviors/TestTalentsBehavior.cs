@@ -33,7 +33,7 @@ namespace WheelMUD.Tests.Behaviors
         {
             var testBehavior = new TalentsBehavior(null);
             playerThing.Behaviors.Add(testBehavior);
-            Assert.IsNotNull(playerThing.Behaviors.FindFirst<TalentsBehavior>());
+            Assert.IsNotNull(playerThing.FindBehavior<TalentsBehavior>());
             playerThing.Behaviors.Remove(testBehavior);
         }
 
@@ -44,7 +44,7 @@ namespace WheelMUD.Tests.Behaviors
             var testBehavior = new TalentsBehavior(null);
             testBehavior.AddTalent(testTalent);
             playerThing.Behaviors.Add(testBehavior);
-            var behavior = playerThing.Behaviors.FindFirst<TalentsBehavior>();
+            var behavior = playerThing.FindBehavior<TalentsBehavior>();
 
             Assert.IsTrue(behavior.ManagedTalents.Contains(testTalent));
             Assert.IsNotNull(testTalent.PlayerThing);
@@ -82,7 +82,7 @@ namespace WheelMUD.Tests.Behaviors
             var testTalent = new ChampionTalent();
             playerThing.Behaviors.Add(testBehavior);
 
-            var behavior = playerThing.Behaviors.FindFirst<TalentsBehavior>();
+            var behavior = playerThing.FindBehavior<TalentsBehavior>();
             behavior.AddTalent(testTalent);
             Assert.IsTrue(behavior.ManagedTalents.Contains(testTalent));
             Assert.IsNotNull(testTalent.PlayerThing);
@@ -97,7 +97,7 @@ namespace WheelMUD.Tests.Behaviors
             var testTalent = new CraftsmanTalent();
             var testBehavior = new TalentsBehavior(null);
             playerThing.Behaviors.Add(testBehavior);
-            var behavior = playerThing.Behaviors.FindFirst<TalentsBehavior>();
+            var behavior = playerThing.FindBehavior<TalentsBehavior>();
             testBehavior.AddTalent(testTalent);
             Assert.IsTrue(behavior.ManagedTalents.Contains(testTalent));
             Assert.IsNotNull(testTalent.PlayerThing);
@@ -133,7 +133,7 @@ namespace WheelMUD.Tests.Behaviors
             playerThing.Stats.Add(attackStat.Name, attackStat);
             var testTalent = new ChampionTalent();
             playerThing.Behaviors.Add(testBehavior);
-            var behavior = playerThing.Behaviors.FindFirst<TalentsBehavior>();
+            var behavior = playerThing.FindBehavior<TalentsBehavior>();
             testBehavior.AddTalent(testTalent);
             Assert.IsTrue(behavior.ManagedTalents.Contains(testTalent));
             Assert.IsNotNull(testTalent.PlayerThing);

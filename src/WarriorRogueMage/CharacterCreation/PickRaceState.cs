@@ -55,7 +55,7 @@ namespace WarriorRogueMage.CharacterCreation
                     var race = GetRace(currentCommand);
                     if (race != null)
                     {
-                        var playerBehavior = Session.Thing.Behaviors.FindFirst<PlayerBehavior>();
+                        var playerBehavior = Session.Thing.FindBehavior<PlayerBehavior>();
                         playerBehavior.Race = race;
                         StateMachine.HandleNextStep(this, StepStatus.Success);
                     }

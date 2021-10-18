@@ -117,7 +117,7 @@ namespace WheelMUD.Actions
                 return $"{target.Name} is dead.";
             }
 
-            var unbalanceEffect = actionInput.Actor.Behaviors.FindFirst<UnbalanceEffect>();
+            var unbalanceEffect = actionInput.Actor.FindBehavior<UnbalanceEffect>();
             if (unbalanceEffect != null)
             {
                 return $"You are too unbalanced to punch right now. Wait {unbalanceEffect.RemainingDuration.Seconds} seconds.";

@@ -30,7 +30,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            (TargetPlayerBehavior.Parent.FindBehavior<UserControlledBehavior>().Controller as Session)?.WriteLine("You are being booted from the server.");
+            TargetPlayerBehavior.Parent.FindBehavior<UserControlledBehavior>()?.Session?.WriteLine("You are being booted from the server.");
             TargetPlayerBehavior.LogOut(true);
 
             // Inform the admin too.
@@ -50,7 +50,7 @@ namespace WheelMUD.Actions
 
             var playerName = actionInput.Tail;
             var targetPlayer = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
-            TargetPlayerBehavior = targetPlayer?.Behaviors.FindFirst<PlayerBehavior>();
+            TargetPlayerBehavior = targetPlayer?.FindBehavior<PlayerBehavior>();
 
             if (TargetPlayerBehavior == null)
             {

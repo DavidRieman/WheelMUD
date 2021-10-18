@@ -5,15 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WheelMUD.Core
 {
-    using Newtonsoft.Json;
-    using System.Collections.Generic;
-    using System.Linq;
-    using WheelMUD.Server;
-
     /// <summary>A security role.</summary>
     public class Role
     {
@@ -60,9 +57,8 @@ namespace WheelMUD.Core
         public SecurityRole SecurityRoles { get; set; }
 
         /// <summary>Gets or sets the user Session of the Thing.</summary>
-        /// <remarks>TODO: Ideally this should be just Session Session instead?</remarks>
         [JsonIgnore]
-        public IController Controller { get; set; }
+        public Session Session { get; set; }
 
         /// <summary>Gets or sets the number of rows this user's client can handle displaying as a single "page".</summary>
         public int PagingRowLimit { get; set; }
@@ -77,15 +73,15 @@ namespace WheelMUD.Core
         /// <param name="disconnectMessage">If non-empty, send this message to the user before disconnecting.</param>
         public void Disconnect(string disconnectMessage = "")
         {
-            if (this.Controller is Session session)
+            if (Session != null)
             {
                 if (!string.IsNullOrEmpty(disconnectMessage))
                 {
-                    session.WriteLine(disconnectMessage, false);
+                    Session.WriteLine(disconnectMessage, false);
                 }
-                session.Connection.Disconnect();
+                Session.Connection.Disconnect();
             }
-            this.Controller = null;
+            Session = null;
         }
 
         /// <summary>Gets the individual security roles associated with this user.</summary>
@@ -103,7 +99,7 @@ namespace WheelMUD.Core
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            Controller = null;
+            Session = null;
         }
     }
 }

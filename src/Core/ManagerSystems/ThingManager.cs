@@ -113,7 +113,7 @@ namespace WheelMUD.Core
         /// <param name="arrivingMessage">The arriving message.</param>
         public void MoveThing(Thing thing, Thing destinationThing, Thing goingVia, SensoryMessage leavingMessage, SensoryMessage arrivingMessage)
         {
-            MovableBehavior movableBehavior = thing.Behaviors.FindFirst<MovableBehavior>();
+            MovableBehavior movableBehavior = thing.FindBehavior<MovableBehavior>();
             if (movableBehavior != null)
             {
                 movableBehavior.Move(destinationThing, goingVia, leavingMessage, arrivingMessage);

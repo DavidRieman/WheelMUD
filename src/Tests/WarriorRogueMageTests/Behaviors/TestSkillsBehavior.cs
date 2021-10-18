@@ -31,7 +31,7 @@ namespace WheelMUD.Tests.Behaviors
         {
             var skillsBehavior = new SkillsBehavior(null);
             playerThing.Behaviors.Add(skillsBehavior);
-            Assert.IsNotNull(playerThing.Behaviors.FindFirst<SkillsBehavior>());
+            Assert.IsNotNull(playerThing.FindBehavior<SkillsBehavior>());
             playerThing.Behaviors.Remove(skillsBehavior);
         }
 
@@ -43,7 +43,7 @@ namespace WheelMUD.Tests.Behaviors
             skillsBehavior.Add(testSkill);
             playerThing.Behaviors.Add(skillsBehavior);
 
-            var behavior = playerThing.Behaviors.FindFirst<SkillsBehavior>();
+            var behavior = playerThing.FindBehavior<SkillsBehavior>();
             Assert.IsTrue(behavior.ManagedSkills.Contains(testSkill));
             Assert.IsNotNull(testSkill.PlayerThing);
 
@@ -59,8 +59,8 @@ namespace WheelMUD.Tests.Behaviors
             playerThing.Behaviors.Add(skillsBehavior);
             skillsBehavior.Add(testSkill);
 
-            var behavior = playerThing.Behaviors.FindFirst<SkillsBehavior>();
-            Assert.IsTrue(playerThing.Behaviors.FindFirst<SkillsBehavior>().ManagedSkills.Contains(testSkill));
+            var behavior = playerThing.FindBehavior<SkillsBehavior>();
+            Assert.IsTrue(playerThing.FindBehavior<SkillsBehavior>().ManagedSkills.Contains(testSkill));
             Assert.IsNotNull(testSkill.PlayerThing);
 
             behavior.Remove(testSkill);

@@ -73,7 +73,7 @@ namespace WheelMUD.ConnectionStates
             }
             session.WriteLine($"Done saving {character.Name}.", false);
 
-            var playerBehavior = character.Behaviors.FindFirst<PlayerBehavior>();
+            var playerBehavior = character.FindBehavior<PlayerBehavior>();
             if (playerBehavior.LogIn(session))
             {
                 // Automatically authenticate (the user just created username and password) and

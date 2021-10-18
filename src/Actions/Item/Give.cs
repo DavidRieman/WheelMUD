@@ -145,7 +145,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: The thing being given must be movable.
-            movableBehavior = thing.Behaviors.FindFirst<MovableBehavior>();
+            movableBehavior = thing.FindBehavior<MovableBehavior>();
 
             return null;
         }

@@ -55,8 +55,8 @@ namespace WheelMUD.Tests.Talents
         public void TestPreciseShotTalentAddedMechanism()
         {
             var preciseShot = new PreciseShotTalent();
-            playerThing.Behaviors.FindFirst<TalentsBehavior>().AddTalent(preciseShot);
-            var behavior = playerThing.Behaviors.FindFirst<TalentsBehavior>();
+            playerThing.FindBehavior<TalentsBehavior>().AddTalent(preciseShot);
+            var behavior = playerThing.FindBehavior<TalentsBehavior>();
             Assert.IsTrue(behavior.ManagedTalents.Contains(preciseShot));
             Assert.IsNotNull(behavior.FindFirst<PreciseShotTalent>().PlayerThing);
             behavior.RemoveTalent(preciseShot);

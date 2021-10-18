@@ -156,15 +156,8 @@ namespace WheelMUD.Core
         private void PlayerManager_GlobalPlayerLogOutEvent(Thing root, GameEvent e)
         {
             // If the player was user-controlled during log out, disconnect that user.
-            var userControlledBehavior = e.ActiveThing.Behaviors.FindFirst<UserControlledBehavior>();
-            if (userControlledBehavior != null && userControlledBehavior.Controller != null)
-            {
-                var session = userControlledBehavior.Controller as Session;
-                if (session != null && session.Connection != null)
-                {
-                    session.Connection.Disconnect();
-                }
-            }
+            var userControlledBehavior = e.ActiveThing.FindBehavior<UserControlledBehavior>();
+            userControlledBehavior?.Session?.Connection?.Disconnect();
         }
 
         /// <summary>MEF exporter for ServerManager.</summary>

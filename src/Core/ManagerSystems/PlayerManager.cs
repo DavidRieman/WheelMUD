@@ -65,7 +65,7 @@ namespace WheelMUD.Core
             //       is set and there is no character in the DB yet. See: https://github.com/DavidRieman/WheelMUD/issues/39
             var userControlledBehavior = new UserControlledBehavior()
             {
-                Controller = session,
+                Session = session,
                 SecurityRoles = SecurityRole.player | SecurityRole.helper | SecurityRole.minorBuilder | SecurityRole.fullBuilder | SecurityRole.minorAdmin | SecurityRole.fullAdmin
             };
             var playerBehavior = new PlayerBehavior() { SessionId = session.ID };
@@ -159,7 +159,7 @@ namespace WheelMUD.Core
                 Debug.Assert(previousUser != null, "Existing Player found must always also be a UserControlled Thing.");
                 previousUser.Disconnect("Another connection has logged in as you; closing this connection.");
 
-                previousUser.Controller = session;
+                previousUser.Session = session;
                 previousPlayer.SessionId = session.ID;
                 session.Thing = previousPlayer.Parent;
             }
@@ -245,7 +245,7 @@ namespace WheelMUD.Core
         /// <param name="player">The player to remove.</param>
         private void RemovePlayer(Thing player)
         {
-            var playerBehavior = player.Behaviors.FindFirst<PlayerBehavior>();
+            var playerBehavior = player.FindBehavior<PlayerBehavior>();
             if (playerBehavior != null)
             {
                 lock (playersList)

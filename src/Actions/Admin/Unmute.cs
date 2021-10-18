@@ -33,7 +33,7 @@ namespace WheelMUD.Actions
         {
             // Remove all instances of MutedEffect (in case there are more than one).
             MutedEffect effect;
-            while ((effect = playerToUnmute.Behaviors.FindFirst<MutedEffect>()) != null)
+            while ((effect = playerToUnmute.FindBehavior<MutedEffect>()) != null)
             {
                 // Cancel the event so it will be ignored by TimeSystem when the time expires.
                 effect.UnmuteEvent.Cancel("Mute cancelled.");

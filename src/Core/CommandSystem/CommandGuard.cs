@@ -29,7 +29,7 @@ namespace WheelMUD.Core
                 return "You must exist before issuing commands!";
             }
 
-            var user = entity.Behaviors.FindFirst<UserControlledBehavior>();
+            var user = entity.FindBehavior<UserControlledBehavior>();
             if (user != null)
             {
                 // If any of the command security roles and the user security roles overlap (such as the command is
@@ -44,7 +44,7 @@ namespace WheelMUD.Core
                 return string.Format("You do not have permission to use '{0}' right now.", command.Name);
             }
 
-            MobileBehavior mobile = entity.Behaviors.FindFirst<MobileBehavior>();
+            MobileBehavior mobile = entity.FindBehavior<MobileBehavior>();
             if (mobile != null)
             {
                 if ((command.SecurityRole & SecurityRole.mobile) != SecurityRole.none)
@@ -55,7 +55,7 @@ namespace WheelMUD.Core
                 return string.Format("A mobile can not use '{0}' right now!", command.Name);
             }
 
-            RoomBehavior room = entity.Behaviors.FindFirst<RoomBehavior>();
+            RoomBehavior room = entity.FindBehavior<RoomBehavior>();
             if (room != null)
             {
                 if ((command.SecurityRole & SecurityRole.room) == SecurityRole.none)

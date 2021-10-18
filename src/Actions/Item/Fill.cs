@@ -55,8 +55,8 @@ namespace WheelMUD.Actions
         {
             if (sourceContainer != null && destinationContainer != null)
             {
-                var sourceHoldsLiquidBehavior = sourceContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
-                var destinationHoldsLiquidBehavior = destinationContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
+                var sourceHoldsLiquidBehavior = sourceContainer.FindBehavior<HoldsLiquidBehavior>();
+                var destinationHoldsLiquidBehavior = destinationContainer.FindBehavior<HoldsLiquidBehavior>();
                 if (sourceHoldsLiquidBehavior == null)
                 {
                     actionInput.Session?.WriteLine($"The {sourceContainer.Name} does not hold liquid.");
@@ -131,20 +131,20 @@ namespace WheelMUD.Actions
                 }
 
                 // Rule: Is the item specified as a container actually a container?
-                this.containerBehavior = destinationContainer.Behaviors.FindFirst<ContainerBehavior>();
+                this.containerBehavior = destinationContainer.FindBehavior<ContainerBehavior>();
                 if (this.containerBehavior == null)
                 {
                     return $"{destinationContainerName} is not able to hold things.";
                 }
 
-                var holdsLiquidBehavior = destinationContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
+                var holdsLiquidBehavior = destinationContainer.FindBehavior<HoldsLiquidBehavior>();
                 if (holdsLiquidBehavior == null)
                 {
                     return $"It does not appear that the {destinationContainerName} will hold liquid.";
                 }
 
                 // Rule: Is the item open?
-                var openableBehavior = destinationContainer.Behaviors.FindFirst<OpensClosesBehavior>();
+                var openableBehavior = destinationContainer.FindBehavior<OpensClosesBehavior>();
                 if (openableBehavior is { IsOpen: false })
                 {
                     return $"You cannot fill the {destinationContainerName} as it is closed.";
@@ -165,7 +165,7 @@ namespace WheelMUD.Actions
                 }
 
                 // Rule: Is the item specified as a container actually a container?
-                var containerBehavior = sourceContainer.Behaviors.FindFirst<ContainerBehavior>();
+                var containerBehavior = sourceContainer.FindBehavior<ContainerBehavior>();
                 if (containerBehavior == null)
                 {
                     return
@@ -175,7 +175,7 @@ namespace WheelMUD.Actions
                 // TODO: HoldsLiquidBehavior?
 
                 // Rule: Is the item open?
-                var opensClosesBehavior = sourceContainer.Behaviors.FindFirst<OpensClosesBehavior>();
+                var opensClosesBehavior = sourceContainer.FindBehavior<OpensClosesBehavior>();
                 if (!opensClosesBehavior.IsOpen)
                 {
                     return $"You cannot fill from the {sourceContainerName} as it is closed.";

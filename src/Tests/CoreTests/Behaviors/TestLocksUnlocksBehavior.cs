@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using NUnit.Framework;
+using WheelMUD.Core;
+using WheelMUD.Universe;
+
 namespace WheelMUD.Tests.Behaviors
 {
-    using NUnit.Framework;
-    using WheelMUD.Core;
-    using WheelMUD.Universe;
-
     /// <summary>Tests for the TestLocksUnlocksBehavior class.</summary>
     [TestFixture]
     public class TestLocksUnlocksBehavior

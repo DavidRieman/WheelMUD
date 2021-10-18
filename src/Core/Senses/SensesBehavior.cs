@@ -40,7 +40,7 @@ namespace WheelMUD.Core
 
                 // If the thing we are in now is exitable, then add the exit command.
                 var location = Parent.Parent;
-                var enterableExitableBehavior = Parent.Behaviors.FindFirst<EnterableExitableBehavior>();
+                var enterableExitableBehavior = Parent.FindBehavior<EnterableExitableBehavior>();
                 if (enterableExitableBehavior != null)
                 {
                     exits.Add(enterableExitableBehavior.ExitCommand);
@@ -51,7 +51,7 @@ namespace WheelMUD.Core
                 {
                     foreach (Thing thing in location.Children)
                     {
-                        var exitBehavior = thing.Behaviors.FindFirst<ExitBehavior>();
+                        var exitBehavior = thing.FindBehavior<ExitBehavior>();
                         if (exitBehavior != null)
                         {
                             if (thing.IsDetectableBySense(Senses))
@@ -61,7 +61,7 @@ namespace WheelMUD.Core
                         }
                         else
                         {
-                            enterableExitableBehavior = thing.Behaviors.FindFirst<EnterableExitableBehavior>();
+                            enterableExitableBehavior = thing.FindBehavior<EnterableExitableBehavior>();
                             if (enterableExitableBehavior != null)
                             {
                                 if (thing.IsDetectableBySense(Senses))

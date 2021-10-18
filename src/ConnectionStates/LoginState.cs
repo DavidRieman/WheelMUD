@@ -54,7 +54,7 @@ namespace WheelMUD.ConnectionStates
                         var playerBehavior = Session.Thing.FindBehavior<PlayerBehavior>();
                         if (playerBehavior != null)
                         {
-                            Session.Thing.Behaviors.FindFirst<UserControlledBehavior>().Controller = Session;
+                            Session.Thing.FindBehavior<UserControlledBehavior>().Session = Session;
                             playerBehavior.LogIn(Session);
                             Session.AuthenticateSession();
                             Session.SetState(new PlayingState(Session));

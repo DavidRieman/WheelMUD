@@ -93,7 +93,7 @@ namespace WheelMUD.Actions
 
             // The common guards already guarantees the sender is a player, hence no null checks here.
             player = actionInput.Actor;
-            playerBehavior = player.Behaviors.FindFirst<PlayerBehavior>();
+            playerBehavior = player.FindBehavior<PlayerBehavior>();
 
             return null;
         }

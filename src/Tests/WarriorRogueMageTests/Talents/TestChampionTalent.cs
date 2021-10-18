@@ -58,9 +58,9 @@ namespace WheelMUD.Tests.Talents
         {
             var champion = new ChampionTalent();
 
-            playerThing.Behaviors.FindFirst<TalentsBehavior>().AddTalent(champion);
+            playerThing.FindBehavior<TalentsBehavior>().AddTalent(champion);
 
-            var behavior = playerThing.Behaviors.FindFirst<TalentsBehavior>();
+            var behavior = playerThing.FindBehavior<TalentsBehavior>();
 
             Assert.IsTrue(behavior.ManagedTalents.Contains(champion));
             Assert.IsNotNull(behavior.FindFirst<ChampionTalent>().PlayerThing);

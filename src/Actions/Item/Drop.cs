@@ -100,7 +100,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: The target thing must be movable.
-            movableBehavior = thingToDrop.Behaviors.FindFirst<MovableBehavior>();
+            movableBehavior = thingToDrop.FindBehavior<MovableBehavior>();
             return movableBehavior == null ? $"{thingToDrop.Name} does not appear to be movable." : null;
         }
     }
