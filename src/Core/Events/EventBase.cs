@@ -71,7 +71,7 @@ namespace WheelMUD.Core
             {
                 // Write up to one cancellation message directly to the user/initiator if appropriate.
                 var userControlledBehavior = ActiveThing.Behaviors.FindFirst<UserControlledBehavior>();
-                (userControlledBehavior.Controller as Session)?.WriteLine(cancelMessage);
+                (userControlledBehavior?.Controller as Session)?.WriteLine(cancelMessage);
 
                 sentCancelMessage = true;
             }
