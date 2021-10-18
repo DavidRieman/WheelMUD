@@ -16,7 +16,7 @@ namespace WheelMUD.Actions
     /// <summary>Allows changing the current value of an attribute, but not min, max, etc.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("buff", CommandCategory.Admin)]
-    [ActionDescription("Usage: buff (target) (stat) (value/min/max) (amount) [minutes]\r\nExample: buff fred HP max 10 5 [increase fred's max HP by 10 for 5 minutes]")]
+    [ActionDescription("Usage: buff (target) (stat) (value/min/max) (amount) [minutes]")] // TODO: Add to full help: Example: buff fred HP max 10 5 [increase fred's max HP by 10 for 5 minutes]
     [ActionSecurity(SecurityRole.fullAdmin)]
     public class Buff : GameAction
     {
