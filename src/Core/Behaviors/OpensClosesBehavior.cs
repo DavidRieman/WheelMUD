@@ -191,11 +191,11 @@ namespace WheelMUD.Core
                 // If the user invoked the context command, try to open or close their target.
                 if (OpenString.Equals(actionInput.Noun, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    opensClosesBehavior.Open(actionInput.Controller.Thing);
+                    opensClosesBehavior.Open(actionInput.Actor);
                 }
                 else if (CloseString.Equals(actionInput.Noun, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    opensClosesBehavior.Close(actionInput.Controller.Thing);
+                    opensClosesBehavior.Close(actionInput.Actor);
                 }
             }
 
@@ -210,7 +210,7 @@ namespace WheelMUD.Core
                     return commonFailure;
                 }
 
-                if (actionInput.Controller.Thing.Behaviors.FindFirst<MovableBehavior>() == null)
+                if (actionInput.Actor.Behaviors.FindFirst<MovableBehavior>() == null)
                 {
                     return "You do not have the ability to move it.";
                 }

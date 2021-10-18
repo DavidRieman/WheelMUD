@@ -6,11 +6,10 @@
 //-----------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using WheelMUD.Core;
 using WheelMUD.Effects;
-using System.Linq;
 
 namespace WheelMUD.Actions
 {
@@ -49,12 +48,12 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             // Strings to be displayed when the effect is applied/removed.
-            var buffString = new ContextualString(actionInput.Controller.Thing, target)
+            var buffString = new ContextualString(actionInput.Actor, target)
             {
                 ToOriginator = $"The '{stat.Name}' stat of {target.Name} has changed by {modAmount}.",
                 ToReceiver = $"Your '{stat.Name}' stat has changed by {modAmount}."
             };
-            var unbuffString = new ContextualString(actionInput.Controller.Thing, target)
+            var unbuffString = new ContextualString(actionInput.Actor, target)
             {
                 ToReceiver = $"Your '{stat.Abbreviation}' stat goes back to normal."
             };
@@ -69,7 +68,7 @@ namespace WheelMUD.Actions
             {
                 if (effect.Stat.Abbreviation == stat.Abbreviation)
                 {
-                    actionInput.Controller.Thing.Behaviors.Remove(effect);
+                    actionInput.Actor.Behaviors.Remove(effect);
                 }
             }
 
@@ -78,13 +77,13 @@ namespace WheelMUD.Actions
             switch (modType)
             {
                 case "value":
-                    statEffect = new StatEffect(actionInput.Controller.Thing, stat, modAmount, 0, 0, duration, sensoryMessage, expirationMessage);
+                    statEffect = new StatEffect(actionInput.Actor, stat, modAmount, 0, 0, duration, sensoryMessage, expirationMessage);
                     break;
                 case "min":
-                    statEffect = new StatEffect(actionInput.Controller.Thing, stat, 0, modAmount, 0, duration, sensoryMessage, expirationMessage);
+                    statEffect = new StatEffect(actionInput.Actor, stat, 0, modAmount, 0, duration, sensoryMessage, expirationMessage);
                     break;
                 case "max":
-                    statEffect = new StatEffect(actionInput.Controller.Thing, stat, 0, 0, modAmount, duration, sensoryMessage, expirationMessage);
+                    statEffect = new StatEffect(actionInput.Actor, stat, 0, 0, modAmount, duration, sensoryMessage, expirationMessage);
                     break;
             }
 

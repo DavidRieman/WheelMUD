@@ -8,7 +8,6 @@
 using System;
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -34,13 +33,16 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            var playerBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<PlayerBehavior>();
+            var session = actionInput.Session;
+            if (session == null) return; // This action only makes sense for player sessions.
+
+            var playerBehavior = actionInput.Actor.Behaviors.FindFirst<PlayerBehavior>();
 
             if (playerBehavior != null)
             {
                 if (playerBehavior.IsAFK)
                 {
-                    actionInput.Controller.Write(new OutputBuilder().AppendLine("Your are no longer AFK."));
+                    session.WriteLine("You are no longer AFK.");
                     playerBehavior.IsAFK = false;
                     playerBehavior.WhenWentAFK = null;
                     playerBehavior.AFKReason = string.Empty;
@@ -48,16 +50,13 @@ namespace WheelMUD.Actions
                 else
                 {
                     var afkReason = actionInput.Tail;
-
-                    actionInput.Controller.Write(new OutputBuilder().AppendLine(!string.IsNullOrEmpty(afkReason) ?
-                        $"You have set your status to AFK: {afkReason}." :
-                        "You have set your status to AFK."));
-
                     playerBehavior.IsAFK = true;
 
-                    // Store in Universal time in order to convert to others local time
+                    // Store in Universal time in order to convert to others local time.
                     playerBehavior.WhenWentAFK = DateTime.Now.ToUniversalTime();
                     playerBehavior.AFKReason = afkReason;
+
+                    session.WriteLine(!string.IsNullOrEmpty(afkReason) ? $"You have set your status to AFK: {afkReason}." : "You have set your status to AFK.");
                 }
             }
         }

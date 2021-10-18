@@ -51,7 +51,7 @@ namespace WheelMUD.Core
 
             if (command == null)
             {
-                actionInput.Controller.Write(new OutputBuilder().AppendLine(unknownCommandResponse));
+                actionInput.Session?.WriteLine(unknownCommandResponse);
             }
 
             return command;
@@ -88,7 +88,7 @@ namespace WheelMUD.Core
             }
 
             // Find the first valid command of this name and of applicable context, if any.
-            Thing sender = actionInput.Controller.Thing;
+            Thing sender = actionInput.Actor;
             var contextCommand = CommandManager.Instance.GetContextCommands(sender, commandAlias).FirstOrDefault();
             if (contextCommand == null)
             {

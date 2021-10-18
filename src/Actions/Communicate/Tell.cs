@@ -36,24 +36,24 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             var fixedSentence = $"'<%yellow%> {sentence}<%n%>'";
-            var contextMessage = new ContextualString(actionInput.Controller.Thing, target)
+            var contextMessage = new ContextualString(actionInput.Actor, target)
             {
                 ToOriginator = BuildOriginatorMessage(fixedSentence),
-                ToReceiver = $"{actionInput.Controller.Thing.Name} tells you: {fixedSentence}",
+                ToReceiver = $"{actionInput.Actor.Name} tells you: {fixedSentence}",
                 ToOthers = null,
             };
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 
-            var tellEvent = new VerbalCommunicationEvent(actionInput.Controller.Thing, sm, VerbalCommunicationType.Tell);
+            var tellEvent = new VerbalCommunicationEvent(actionInput.Actor, sm, VerbalCommunicationType.Tell);
 
             // Make sure both the user is allowed to do the tell and the target is allowed to receive it.
             target.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
-            actionInput.Controller.Thing.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
+            actionInput.Actor.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
             if (!tellEvent.IsCancelled)
             {
                 // Printing the sensory message is all that's left to do, which the event itself will take care of.
                 target.Eventing.OnCommunicationEvent(tellEvent, EventScope.SelfDown);
-                actionInput.Controller.Thing.Eventing.OnCommunicationEvent(tellEvent, EventScope.SelfDown);
+                actionInput.Actor.Eventing.OnCommunicationEvent(tellEvent, EventScope.SelfDown);
             }
         }
 
@@ -85,7 +85,7 @@ namespace WheelMUD.Actions
             //// TODO what if player offline ?
 
             // Rule: Prevent talking to yourself.
-            if (actionInput.Controller.Thing.Name.ToLower() == target.Name.ToLower())
+            if (actionInput.Actor.Name.ToLower() == target.Name.ToLower())
             {
                 return "Talking to yourself is the first sign of madness!";
             }

@@ -34,7 +34,7 @@ namespace WheelMUD.Core
             /// <remarks>Not Implemented. Need new implementation not based on stats.</remarks>
             InitiatorMustBeMobile,
 
-            /// <summary>The initiator of the action must be a player.</summary>
+            /// <summary>The initiator of the action must be a player (and have a known player Session).</summary>
             InitiatorMustBeAPlayer,
 
             /// <summary>There must be at least one additional argument.</summary>
@@ -77,25 +77,25 @@ namespace WheelMUD.Core
         /// TODO: Perhaps make this return a bool with the out being the string? Then you can check a guard with if statement instead of null check
         protected string VerifyCommonGuards(ActionInput actionInput, List<CommonGuards> guards)
         {
-            // Rule: Is the sender and sender entity specified?  (This shouldn't be allowed to happen ever?)
-            IController sender = actionInput.Controller;
-            if (sender == null || sender.Thing == null)
+            var actor = actionInput.Actor;
+            if (actor == null)
             {
-                return "A non-entity can not send this command.";
+                return "An action can only be performed by an actor.";
             }
 
             // Rule: Is the initiator in a room?
-            // (TODO: Note that this guard was found on some commands, but I know of no situation where the user
-            // should be able to use ANY command while "not in a room" which generally shouldn't occur?)
-            if (sender.Thing.Parent == null)
+            // (This used to be a guard on some commands, but there does not seem to be any situation where the actor
+            // should be able to use ANY command while "not in a room", and the outermost World Thing shouldn't ever
+            // issue a command either, even if an admin tries to force it to.)
+            if (actor.Parent == null)
             {
                 return "You can't do that while you are not in the world.";
             }
 
             // Rule: Is the initiator a player?
-            if (guards.Contains(CommonGuards.InitiatorMustBeAPlayer) && sender.Thing.Behaviors.FindFirst<PlayerBehavior>() == null)
+            if (guards.Contains(CommonGuards.InitiatorMustBeAPlayer) && (actor.Behaviors.FindFirst<PlayerBehavior>() == null || actionInput.Session == null))
             {
-                return "This command can only be executed by a player.";
+                return "This command can only be executed by a player with an active session.";
             }
 
             // Rule: Is at least two arguments supplied?
@@ -111,7 +111,8 @@ namespace WheelMUD.Core
             }
 
             // Rule: Is the initiator alive?
-            if (guards.Contains(CommonGuards.InitiatorMustBeAlive) && sender.LivingBehavior.Consciousness == Consciousness.Dead)
+            var livingBehavior = actor.FindBehavior<LivingBehavior>();
+            if (guards.Contains(CommonGuards.InitiatorMustBeAlive) && (livingBehavior == null || livingBehavior.Consciousness == Consciousness.Dead))
             {
                 return "You are dead and can not do that.";
             }
@@ -122,7 +123,7 @@ namespace WheelMUD.Core
             // For example, a command that lets you request a CR from an NPC or whatnot should not be 
             // available while you are simply unconscious.  Most commands though will tend to care about 
             // both states in the same way, but the option to differentiate should still be available.)
-            if (guards.Contains(CommonGuards.InitiatorMustBeConscious) && sender.LivingBehavior.Consciousness == Consciousness.Unconscious)
+            if (guards.Contains(CommonGuards.InitiatorMustBeConscious) && (livingBehavior == null || livingBehavior.Consciousness == Consciousness.Unconscious))
             {
                 return "You are unconscious and can not do that.";
             }

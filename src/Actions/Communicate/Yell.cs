@@ -8,7 +8,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using WheelMUD.Core;
-using WheelMUD.Interfaces;
 
 namespace WheelMUD.Actions
 {
@@ -42,15 +41,13 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-
-            var parent = actionInput.Controller.Thing.Parent;
+            var parent = actionInput.Actor.Parent;
 
             // This is to keep track of the previous rooms we've yelled at, to prevent echoes.
             var previousRooms = new List<Thing>();
 
-            CreateYellEvent(actionInput.Controller.Thing);
-            TraverseRoom(parent, actionInput, actionInput.Controller, RoomFallOff, previousRooms);
+            CreateYellEvent(actionInput.Actor);
+            TraverseRoom(parent, actionInput, actionInput.Actor, RoomFallOff, previousRooms);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -79,7 +76,7 @@ namespace WheelMUD.Actions
         /// <param name="sender">The entity that yelled.</param>
         /// <param name="timeToLive">How many rooms to traverse, -1 has no stop.</param>
         /// <param name="visitedPlaces">List of previous rooms that have been yelled at. (No one likes to be screamed at twice.)</param>
-        private void TraverseRoom(Thing place, ActionInput actionInput, IController sender, int timeToLive, List<Thing> visitedPlaces)
+        private void TraverseRoom(Thing place, ActionInput actionInput, Thing yeller, int timeToLive, List<Thing> visitedPlaces)
         {
             if (timeToLive == 0 || visitedPlaces.Contains(place))
             {
@@ -100,7 +97,7 @@ namespace WheelMUD.Actions
                                    select exit.GetDestination(place);
                 foreach (var destination in destinations)
                 {
-                    TraverseRoom(destination, actionInput, sender, (timeToLive == -1) ? timeToLive : (timeToLive - 1), visitedPlaces);
+                    TraverseRoom(destination, actionInput, yeller, (timeToLive == -1) ? timeToLive : (timeToLive - 1), visitedPlaces);
                 }
 
                 // TODO: Consider traversing into portal destinations and the like?
@@ -113,21 +110,21 @@ namespace WheelMUD.Actions
                 // doesn't necessarily mean all other branches of the yell should be suppressed too.  IE if
                 // something to the west of our position prevents noise from going through there, the noise 
                 // that was also going northwards shouldn't suddenly stop.
-                CreateYellEvent(sender.Thing);
+                CreateYellEvent(yeller);
             }
         }
 
-        private void CreateYellEvent(Thing entity)
+        private void CreateYellEvent(Thing yeller)
         {
-            var contextMessage = new ContextualString(entity, null)
+            var contextMessage = new ContextualString(yeller, null)
             {
                 ToOriginator = $"You yell: {yellSentence}",
-                ToReceiver = $"You hear {entity.Name} yell: {yellSentence}",
-                ToOthers = $"You hear {entity.Name} yell: {yellSentence}",
+                ToReceiver = $"You hear {yeller.Name} yell: {yellSentence}",
+                ToOthers = $"You hear {yeller.Name} yell: {yellSentence}",
             };
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 
-            yellEvent = new VerbalCommunicationEvent(entity, sm, VerbalCommunicationType.Yell);
+            yellEvent = new VerbalCommunicationEvent(yeller, sm, VerbalCommunicationType.Yell);
         }
     }
 }

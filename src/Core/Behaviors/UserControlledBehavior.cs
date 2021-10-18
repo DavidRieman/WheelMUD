@@ -80,7 +80,7 @@ namespace WheelMUD.Core
             {
                 if (!string.IsNullOrEmpty(disconnectMessage))
                 {
-                    session.Write(disconnectMessage, false);
+                    session.WriteLine(disconnectMessage, false);
                 }
                 session.Connection.Disconnect();
             }

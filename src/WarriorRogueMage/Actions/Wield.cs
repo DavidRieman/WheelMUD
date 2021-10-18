@@ -8,7 +8,6 @@
 using System.Collections.Generic;
 using WarriorRogueMage.Behaviors;
 using WheelMUD.Core;
-using WheelMUD.Interfaces;
 
 namespace WarriorRogueMage.Actions
 {
@@ -37,9 +36,8 @@ namespace WarriorRogueMage.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-
-            itemToWieldBehavior.Wielder = sender.Thing;
+            Thing wielder = actionInput.Actor;
+            itemToWieldBehavior.Wielder = wielder;
 
             // Create an event handler that intercepts the ChangeOwnerEvent and
             // prevents dropping/trading the item around while it is wielded.
@@ -49,21 +47,21 @@ namespace WarriorRogueMage.Actions
             itemToWieldBehavior.MovementInterceptor = interceptor;
             itemToWield.Eventing.MovementRequest += interceptor;
 
-            var contextMessage = new ContextualString(sender.Thing, itemToWield.Parent)
+            var contextMessage = new ContextualString(wielder, itemToWield.Parent)
             {
                 ToOriginator = $"You wield {itemToWield.Name}.",
-                ToOthers = $"{sender.Thing.Name} wields {itemToWield.Name}.",
+                ToOthers = $"{wielder.Name} wields {itemToWield.Name}.",
             };
 
             var sensoryMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
-            var wieldEvent = new WieldUnwieldEvent(itemToWield, true, sender.Thing, sensoryMessage);
+            var wieldEvent = new WieldUnwieldEvent(itemToWield, true, wielder, sensoryMessage);
 
-            sender.Thing.Eventing.OnCombatRequest(wieldEvent, EventScope.ParentsDown);
+            wielder.Eventing.OnCombatRequest(wieldEvent, EventScope.ParentsDown);
 
             if (!wieldEvent.IsCancelled)
             {
-                sender.Thing.Eventing.OnCombatEvent(wieldEvent, EventScope.ParentsDown);
+                wielder.Eventing.OnCombatEvent(wieldEvent, EventScope.ParentsDown);
             }
         }
 
@@ -78,8 +76,7 @@ namespace WarriorRogueMage.Actions
                 return commonFailure;
             }
 
-            IController sender = actionInput.Controller;
-            Thing wielder = sender.Thing;
+            Thing wielder = actionInput.Actor;
             Thing room = wielder.Parent;
 
             string itemName = actionInput.Tail.Trim().ToLower();
@@ -146,12 +143,11 @@ namespace WarriorRogueMage.Actions
         /// <param name="e">The event.</param>
         private void Eventing_MovementRequest(Thing root, CancellableGameEvent e)
         {
-            var evt = e as ChangeOwnerEvent;
-            if (evt != null)
+            if (e is ChangeOwnerEvent changeOwnerEvent)
             {
-                if (evt.Thing.Id == itemToWield.Id)
+                if (changeOwnerEvent.Thing.Id == itemToWield.Id)
                 {
-                    evt.Cancel(string.Format("The {0} is still wielded!", itemToWield.Name));
+                    changeOwnerEvent.Cancel(string.Format("The {0} is still wielded!", itemToWield.Name));
                 }
             }
         }

@@ -37,7 +37,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            var self = actionInput.Controller.Thing;
+            var self = actionInput.Actor;
 
             if (actionInput.Params.Length == 0)
             {
@@ -114,13 +114,13 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the target the initiator?
-            if (string.Equals(actionInput.Controller.Thing.Name, target.Name, StringComparison.CurrentCultureIgnoreCase))
+            if (string.Equals(actionInput.Actor.Name, target.Name, StringComparison.CurrentCultureIgnoreCase))
             {
                 return "You can't follow yourself.";
             }
 
             // Rule: Is the target in the same room?
-            if (actionInput.Controller.Thing.Parent.Id != target.Parent.Id)
+            if (actionInput.Actor.Parent.Id != target.Parent.Id)
             {
                 return $"{targetName} does not appear to be in the vicinity.";
             }
@@ -140,7 +140,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The action input.</param>
         private void ShowStatus(ActionInput actionInput)
         {
-            var senderBehaviors = actionInput.Controller.Thing.Behaviors;
+            var senderBehaviors = actionInput.Actor.Behaviors;
             var followingBehavior = senderBehaviors.FindFirst<FollowingBehavior>();
             var followedBehavior = senderBehaviors.FindFirst<FollowedBehavior>();
 
@@ -165,7 +165,7 @@ namespace WheelMUD.Actions
                 }
             }
 
-            actionInput.Controller.Write(output);
+            actionInput.Session?.Write(output);
         }
     }
 }

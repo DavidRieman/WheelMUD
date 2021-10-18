@@ -222,8 +222,9 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Try to log this player out of the game.</summary>
+        /// <param name="force">When true, logging out ignores normal restrictions and forces the logout. For administrative use only.</param>
         /// <returns>Indicates whether the logout was successful or not.</returns>
-        public bool LogOut()
+        public bool LogOut(bool force = false)
         {
             var player = Parent;
 
@@ -241,7 +242,7 @@ namespace WheelMUD.Core
             PlayerManager.Instance.OnPlayerLogOutRequest(player, e);
 
             // If nothing canceled this event request, carry on with the logout.
-            if (!e.IsCancelled)
+            if (!e.IsCancelled || force)
             {
                 DateTime universalTime = DateTime.Now.ToUniversalTime();
                 PlayerData.LastLogout = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";

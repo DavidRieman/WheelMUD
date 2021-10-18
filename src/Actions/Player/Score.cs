@@ -33,9 +33,10 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
+            var session = actionInput.Session;
+            if (session == null) return; // This action only makes sense for player sessions.
 
-            actionInput.Controller.Write(Renderer.Instance.RenderScore(session.TerminalOptions, actionInput.Controller.Thing));
+            session.Write(Renderer.Instance.RenderScore(session.TerminalOptions, actionInput.Actor));
         }
 
         /// <summary>Checks against the guards for the command.</summary>

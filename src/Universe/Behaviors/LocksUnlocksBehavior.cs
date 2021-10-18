@@ -190,11 +190,11 @@ namespace WheelMUD.Universe
                 // If the user invoked the context command, try to lock or unlock their target.
                 if (LockString.Equals(actionInput.Noun, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    locksUnlocksBehavior.Lock(actionInput.Controller.Thing);
+                    locksUnlocksBehavior.Lock(actionInput.Actor);
                 }
                 else if (UnlockString.Equals(actionInput.Noun, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    locksUnlocksBehavior.Unlock(actionInput.Controller.Thing);
+                    locksUnlocksBehavior.Unlock(actionInput.Actor);
                 }
             }
 
@@ -209,7 +209,7 @@ namespace WheelMUD.Universe
                     return commonFailure;
                 }
 
-                if (actionInput.Controller.Thing.Behaviors.FindFirst<MovableBehavior>() == null)
+                if (actionInput.Actor.Behaviors.FindFirst<MovableBehavior>() == null)
                 {
                     return "You do not have the ability to move it.";
                 }

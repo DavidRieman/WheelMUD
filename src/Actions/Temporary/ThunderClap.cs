@@ -35,16 +35,16 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            var contextMessage = new ContextualString(actionInput.Controller.Thing, target)
+            var contextMessage = new ContextualString(actionInput.Actor, target)
             {
                 ToOriginator = $"You cast ThunderClap at {target.Name}!",
-                ToReceiver = $"{actionInput.Controller.Thing.Name} casts ThunderClap at you. You only hear a ringing in your ears now.",
-                ToOthers = $"You hear {actionInput.Controller.Thing.Name} cast ThunderClap at {target.Name}! It was very loud.",
+                ToReceiver = $"{actionInput.Actor.Name} casts ThunderClap at you. You only hear a ringing in your ears now.",
+                ToOthers = $"You hear {actionInput.Actor.Name} cast ThunderClap at {target.Name}! It was very loud.",
             };
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 
-            var attackEvent = new AttackEvent(target, sm, actionInput.Controller.Thing);
-            actionInput.Controller.Thing.Eventing.OnCombatRequest(attackEvent, EventScope.ParentsDown);
+            var attackEvent = new AttackEvent(target, sm, actionInput.Actor);
+            actionInput.Actor.Eventing.OnCombatRequest(attackEvent, EventScope.ParentsDown);
             if (!attackEvent.IsCancelled)
             {
                 var deafenEffect = new AlterSenseEffect()
@@ -55,7 +55,7 @@ namespace WheelMUD.Actions
                 };
 
                 target.Behaviors.Add(deafenEffect);
-                actionInput.Controller.Thing.Eventing.OnCombatEvent(attackEvent, EventScope.ParentsDown);
+                actionInput.Actor.Eventing.OnCombatEvent(attackEvent, EventScope.ParentsDown);
             }
         }
 
@@ -80,7 +80,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the target in the same room?
-            if (actionInput.Controller.Thing.Parent.Id != target.Parent.Id)
+            if (actionInput.Actor.Parent.Id != target.Parent.Id)
             {
                 return $"You cannot see {targetName}.";
             }

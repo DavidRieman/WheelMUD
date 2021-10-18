@@ -44,7 +44,7 @@ namespace WheelMUD.ConnectionStates
         {
             if (!string.IsNullOrWhiteSpace(command))
             {
-                var actionInput = new ActionInput(command, Session);
+                var actionInput = new ActionInput(command, Session, Session.Thing);
                 Session.ExecuteAction(actionInput);
             }
             else

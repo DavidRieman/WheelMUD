@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 using WheelMUD.Universe;
 
 namespace WheelMUD.Actions
@@ -43,11 +42,12 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             // TODO: Move item from one owner to another transactionally, if applicable.
+            // TODO: Single sensory message too?  $"You put {thing.FullName} in {newParent.Name}."
             // TODO: Test, may be broken now... especially for only putting SOME of a stack...
-            thing.Parent.Remove(thing);
-            newParent.Add(thing);
-
-            actionInput.Controller.Write(new OutputBuilder().AppendLine($"You put {thing.FullName} in {newParent.Name}."));
+            if (thing.Parent.Remove(thing))
+            {
+                newParent.Add(thing);
+            }
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -114,7 +114,7 @@ namespace WheelMUD.Actions
 
             // Rule: Do we have an item matching the one specified in our inventory or otherwise 
             // local (such as in our current location)?
-            var foundItem = actionInput.Controller.Thing.FindLocalThing(containerName.ToLower());
+            var foundItem = actionInput.Actor.FindLocalThing(containerName.ToLower());
             if (foundItem == null)
             {
                 return $"You cannot see {containerName}.";
@@ -138,7 +138,7 @@ namespace WheelMUD.Actions
             // TODO: Rule: If this item has a CapacityBehavior (or maybe just ContainerBehavior), does it have room left?
 
             // Rule: Do we have a matching item in our inventory?
-            thing = actionInput.Controller.Thing.Children.Find(i => i.Name == itemName.ToLower());
+            thing = actionInput.Actor.Children.Find(i => i.Name == itemName.ToLower());
             if (thing == null)
             {
                 return $"You do not hold {itemName}.";

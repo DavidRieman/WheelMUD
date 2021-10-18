@@ -32,9 +32,10 @@ namespace WheelMUD.Universe
         /// <param name="drinker">The thing trying to take a drink.</param>
         public void Drink(Thing drinker)
         {
-            // TODO: Implement - destroy parent thing (reduce count) by an appropriate amount (1 for now?)
-            // TODO: Also, check for parent item has a drink reaction (IE behavior for implementing potion-
-            //       like effects upon the drinking of it), and implement said reactions.
+            // TODO: Implement request+event pattern, with a SensoryMessage to inform all witnesses.
+            // TODO: Implement destroying parent thing (reduce count) by an appropriate amount (1 for now?).
+            // TODO: Implement a sample behavior which responds to being drunk (so as to implement a potion that imbues the
+            //       configured Effect on the actor when drunk).
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>

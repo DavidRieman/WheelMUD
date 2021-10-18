@@ -28,10 +28,10 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
+            if (actionInput.Session == null) return;
 
             var die = DiceService.Instance.GetDie(6);
-            session.Write($"You roll a {die.Roll()}.");
+            actionInput.Session.WriteLine($"You roll a {die.Roll()}.");
         }
 
         /// <summary>Checks against the guards for the command.</summary>

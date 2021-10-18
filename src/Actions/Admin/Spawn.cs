@@ -29,13 +29,16 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
+            var session = actionInput.Session;
+            if (session == null) return; // This action only makes sense for player sessions.
+
             var mobName = actionInput.Tail.Trim();
 
             var thing = new Thing { Id = "0", Name = mobName };
 
-            var targetRoom = actionInput.Controller.Thing.Parent;
+            var targetRoom = actionInput.Actor.Parent;
             targetRoom.Add(thing);
-            thing.Stats["HP"] = new GameStat(actionInput.Controller, "Hit Points", "HP", null, 10, 0, 10, true);
+            thing.Stats["HP"] = new GameStat(session, "Hit Points", "HP", null, 10, 0, 10, true);
 
             thing.Behaviors.Add(new MobileBehavior());
             thing.Behaviors.Add(new LivingBehavior() { Consciousness = Consciousness.Awake });
@@ -44,7 +47,7 @@ namespace WheelMUD.Actions
 
             MobileManager.Instance.RegisterMobile(thing);
 
-            actionInput.Controller.Thing.Parent.Add(thing);
+            actionInput.Actor.Parent.Add(thing);
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>

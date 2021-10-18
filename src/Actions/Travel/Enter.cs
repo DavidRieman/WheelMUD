@@ -39,7 +39,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            enterableBehavior.Enter(actionInput.Controller.Thing);
+            enterableBehavior.Enter(actionInput.Actor);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -59,7 +59,7 @@ namespace WheelMUD.Actions
             // TODO: This sort of find pattern may become common; maybe we need to simplify 
             //       to having a Thing method which does this?  IE "List<Thing> FindChildren<T>(string id)"?
             Predicate<Thing> findPredicate = (Thing t) => t.Behaviors.FindFirst<EnterableExitableBehavior>() != null;
-            var enterableThings = actionInput.Controller.Thing.Parent.FindAllChildren(findPredicate);
+            var enterableThings = actionInput.Actor.Parent.FindAllChildren(findPredicate);
 
             if (enterableThings.Count > 1)
             {

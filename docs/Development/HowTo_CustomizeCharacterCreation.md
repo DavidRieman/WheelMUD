@@ -156,7 +156,7 @@ ProcessInput is where you will do the bulk of the work for the custom state. Let
 ```
 public PickGenderState(Session session) : base(session)
 {
-    Session.Write("You will now pick your character's gender.");
+    Session.WriteLine("You will now pick your character's gender.");
     Session.SetPrompt("Selecting the character's gender ==>");
  
     RefreshScreen();

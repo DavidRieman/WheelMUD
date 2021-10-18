@@ -153,7 +153,7 @@ namespace WheelMUD.Core
         /// <summary>Gets a list of commands that the controller has permissions to execute.</summary>
         /// <param name="controller">The controller to query for permissions.</param>
         /// <returns>A list of commands that the controller has permissions to execute.</returns>
-        public List<Command> GetCommandsForController(IController controller)
+        public List<Command> GetCommandsFor(Thing actor)
         {
             lock (this)
             {

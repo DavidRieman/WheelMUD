@@ -26,7 +26,7 @@ namespace WheelMUD.ConnectionStates
         {
             if (command != string.Empty)
             {
-                var actionInput = new ActionInput(command, Session);
+                var actionInput = new ActionInput(command, Session, null); // TODO: Fix Actor!
                 Session.ExecuteAction(actionInput);
             }
             else

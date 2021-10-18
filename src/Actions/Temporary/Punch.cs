@@ -47,7 +47,7 @@ namespace WheelMUD.Actions
                 Duration = new TimeSpan(0, 0, 0, 0, 5000),
             };
 
-            actionInput.Controller.Thing.Behaviors.Add(unbalanceEffect);
+            actionInput.Actor.Behaviors.Add(unbalanceEffect);
 
             // Set up the dice for attack and defense rolls.
             // Currently does not consider equipment, skills or stats.
@@ -65,16 +65,16 @@ namespace WheelMUD.Actions
             damage = Math.Min(damage, targetHealth);
 
             // Choose sensory messaging based on whether or not the hit landed.
-            var message = CreateResultMessage(actionInput.Controller.Thing, target, attackRoll, defenseRoll, damage);
+            var message = CreateResultMessage(actionInput.Actor, target, attackRoll, defenseRoll, damage);
 
-            var attackEvent = new AttackEvent(target, message, actionInput.Controller.Thing);
+            var attackEvent = new AttackEvent(target, message, actionInput.Actor);
 
             // Broadcast combat requests/events to the room they're happening in.
-            actionInput.Controller.Thing.Eventing.OnCombatRequest(attackEvent, EventScope.ParentsDown);
+            actionInput.Actor.Eventing.OnCombatRequest(attackEvent, EventScope.ParentsDown);
             if (!attackEvent.IsCancelled)
             {
-                target.Stats["HP"].Decrease(damage, actionInput.Controller.Thing);
-                actionInput.Controller.Thing.Eventing.OnCombatEvent(attackEvent, EventScope.ParentsDown);
+                target.Stats["HP"].Decrease(damage, actionInput.Actor);
+                actionInput.Actor.Eventing.OnCombatEvent(attackEvent, EventScope.ParentsDown);
             }
         }
 
@@ -100,13 +100,13 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the target the initiator?
-            if (string.Equals(actionInput.Controller.Thing.Name, target.Name, StringComparison.CurrentCultureIgnoreCase))
+            if (string.Equals(actionInput.Actor.Name, target.Name, StringComparison.CurrentCultureIgnoreCase))
             {
                 return "You can't punch yourself.";
             }
 
             // Rule: Is the target in the same room?
-            if (actionInput.Controller.Thing.Parent.Id != target.Parent.Id)
+            if (actionInput.Actor.Parent.Id != target.Parent.Id)
             {
                 return $"You cannot see {targetName}.";
             }
@@ -117,7 +117,7 @@ namespace WheelMUD.Actions
                 return $"{target.Name} is dead.";
             }
 
-            var unbalanceEffect = actionInput.Controller.Thing.Behaviors.FindFirst<UnbalanceEffect>();
+            var unbalanceEffect = actionInput.Actor.Behaviors.FindFirst<UnbalanceEffect>();
             if (unbalanceEffect != null)
             {
                 return $"You are too unbalanced to punch right now. Wait {unbalanceEffect.RemainingDuration.Seconds} seconds.";

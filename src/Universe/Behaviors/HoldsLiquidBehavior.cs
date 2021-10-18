@@ -31,7 +31,7 @@ namespace WheelMUD.Universe
             ID = instanceID;
         }
 
-        public void FillFrom(IController sender, HoldsLiquidBehavior source)
+        public void FillFrom(Session session, HoldsLiquidBehavior source)
         {
             // TODO: If this behavior's thing has no room left, abort.
             // sender.Write(string.Format("The {0} is full and no more can be added to it.", destinationContainerName));
@@ -49,7 +49,7 @@ namespace WheelMUD.Universe
 
             if (liquidBehavior == null)
             {
-                sender.Write(new OutputBuilder().AppendLine("The source does not contain any liquids right now."));
+                session.WriteLine($"The {source.Parent.Name} does not contain any liquids right now.");
                 return;
             }
 
@@ -61,7 +61,7 @@ namespace WheelMUD.Universe
             // Move that liquid stack over into this liquid-holder.
             if (Parent.Add(liquidBehavior.Parent))
             {
-                sender.Write(new OutputBuilder().AppendLine($"You filled {Parent.Name} with {liquidBehavior.Parent.Name} from {source.Parent.Name}."));
+                session.WriteLine($"You filled {Parent.Name} with {liquidBehavior.Parent.Name} from {source.Parent.Name}.");
 
                 // TODO: If the source is now empty, sender.Write that the source is empty.
             }

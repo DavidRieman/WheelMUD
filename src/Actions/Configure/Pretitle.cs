@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -39,13 +38,16 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            actionInput.Controller.Thing.SingularPrefix = newPretitle;
+            var session = actionInput.Session;
+            if (session == null) return; // This action only makes sense for player sessions.
 
-            actionInput.Controller.Write(new OutputBuilder().AppendLine(string.IsNullOrEmpty(newPretitle) ?
+            actionInput.Actor.SingularPrefix = newPretitle;
+
+            session.WriteLine(string.IsNullOrEmpty(newPretitle) ?
                     $"Your old pretitle was \"{oldPretitle}\" and is now removed." :
-                    $"Your old pretitle was \"{oldPretitle}\" and is now \"{newPretitle}\"."));
+                    $"Your old pretitle was \"{oldPretitle}\" and is now \"{newPretitle}\".");
 
-            actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SavePlayer();
+            actionInput.Actor.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -60,7 +62,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: The new pretitle must be empty or meet the length requirements.
-            oldPretitle = actionInput.Controller.Thing.SingularPrefix;
+            oldPretitle = actionInput.Actor.SingularPrefix;
 
             if (!string.IsNullOrEmpty(actionInput.Tail))
             {

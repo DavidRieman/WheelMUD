@@ -32,18 +32,21 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
+            var session = actionInput.Session;
+            if (session == null) return; // Info command: Only makes sense to send for player sessions.
 
             if (!string.IsNullOrEmpty(actionInput.Tail))
             {
-                if (!TryLookAtThing(session.TerminalOptions, actionInput.Tail, actionInput.Controller.Thing, out var found))
+                if (!TryLookAtThing(session.TerminalOptions, actionInput.Tail, actionInput.Actor, out var found))
+                {
                     found.AppendLine($"You cannot see {actionInput.Tail}.");
+                }
 
-                actionInput.Controller.Write(found);
+                session.Write(found);
                 return;
             }
 
-            actionInput.Controller.Write(LookAtRoom(session.TerminalOptions, actionInput.Controller.Thing));
+            session.Write(LookAtRoom(session.TerminalOptions, actionInput.Actor));
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -57,7 +60,7 @@ namespace WheelMUD.Actions
                 return commonFailure;
             }
 
-            sensesBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<SensesBehavior>();
+            sensesBehavior = actionInput.Actor.Behaviors.FindFirst<SensesBehavior>();
             return sensesBehavior == null ? "You do not have any senses to perceive with." : null;
         }
 

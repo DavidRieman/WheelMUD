@@ -78,7 +78,7 @@ namespace WheelMUD.Actions
 
             // Rule: Did they specify a tree to chop?
             // TODO: Better thing finders...
-            var parent = actionInput.Controller.Thing.Parent;
+            var parent = actionInput.Actor.Parent;
             var thing = parent.Children.Find(t => t.Name.Equals(actionInput.Params[0], StringComparison.CurrentCultureIgnoreCase));
             if (thing == null)
             {

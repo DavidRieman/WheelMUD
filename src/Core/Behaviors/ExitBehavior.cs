@@ -312,7 +312,7 @@ namespace WheelMUD.Core
             public override void Execute(ActionInput actionInput)
             {
                 // If the user invoked the context command, move them through this exit.
-                exitBehavior.MoveThrough(actionInput.Controller.Thing);
+                exitBehavior.MoveThrough(actionInput.Actor);
             }
 
             /// <summary>Checks against the guards for the command.</summary>
@@ -326,7 +326,7 @@ namespace WheelMUD.Core
                     return commonFailure;
                 }
 
-                if (actionInput.Controller.Thing.Behaviors.FindFirst<MovableBehavior>() == null)
+                if (actionInput.Actor.Behaviors.FindFirst<MovableBehavior>() == null)
                 {
                     return "You do not have the ability to move.";
                 }

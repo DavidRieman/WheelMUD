@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -25,22 +24,17 @@ namespace WheelMUD.Actions
         };
 
         /// <summary>The player behavior of the player to boot.</summary>
-        private PlayerBehavior playerBehavior;
-
-        /// <summary>Gets or sets the player to boot from the game.</summary>
-        private Thing PlayerToBoot { get; set; }
+        private PlayerBehavior TargetPlayerBehavior { get; set; }
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            // TODO: Inform the player by sending a non-sensory event
-            ////connection.Send("You have been booted from the server.");
-            playerBehavior.LogOut();
+            (TargetPlayerBehavior.Parent.FindBehavior<UserControlledBehavior>().Controller as Session)?.WriteLine("You are being booted from the server.");
+            TargetPlayerBehavior.LogOut(true);
 
-            // Inform the admin
-            actionInput.Controller.Write(new OutputBuilder().
-                AppendLine($"The player named \"{PlayerToBoot.Name}\" was booted from game."));
+            // Inform the admin too.
+            actionInput.Session?.WriteLine($"{TargetPlayerBehavior.Parent.Name} was forcibly disconnected (but is not automatically banned).");
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -55,15 +49,12 @@ namespace WheelMUD.Actions
             }
 
             var playerName = actionInput.Tail;
-            PlayerToBoot = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
-            if (PlayerToBoot != null)
-            {
-                playerBehavior = PlayerToBoot.Behaviors.FindFirst<PlayerBehavior>();
-            }
+            var targetPlayer = PlayerManager.Instance.FindLoadedPlayerByName(playerName, false);
+            TargetPlayerBehavior = targetPlayer?.Behaviors.FindFirst<PlayerBehavior>();
 
-            if (PlayerToBoot == null || playerBehavior == null)
+            if (TargetPlayerBehavior == null)
             {
-                return $"The player named \"{playerName}\" specified could not be found.";
+                return $"A player named \"{playerName}\" could not be found online.";
             }
 
             return null;

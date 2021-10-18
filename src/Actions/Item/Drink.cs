@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 using WheelMUD.Universe;
 
 namespace WheelMUD.Actions
@@ -29,18 +28,13 @@ namespace WheelMUD.Actions
             CommonGuards.RequiresAtLeastOneArgument
         };
 
-        /// <summary>The drinkable item we are to 'drink' from.</summary>
-        private Thing thingToDrink;
-
         private DrinkableBehavior drinkableBehavior;
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            actionInput.Controller.Write(new OutputBuilder().
-                AppendLine($"You take a drink from {thingToDrink.Name}."));
-            drinkableBehavior.Drink(actionInput.Controller.Thing);
+            drinkableBehavior.Drink(actionInput.Actor);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -48,7 +42,7 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            var sender = actionInput.Controller;
+            var actor = actionInput.Actor;
             var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
@@ -58,7 +52,7 @@ namespace WheelMUD.Actions
             // Rule: Do we have an item matching in our inventory?
             // TODO: Support drinking from, for instance, a fountain sitting in the room.
             var itemIdentifier = actionInput.Tail.Trim();
-            thingToDrink = sender.Thing.FindChild(itemIdentifier.ToLower());
+            var thingToDrink = actor.FindChild(itemIdentifier.ToLower());
             if (thingToDrink == null)
             {
                 return $"You do not hold {actionInput.Tail.Trim()}.";

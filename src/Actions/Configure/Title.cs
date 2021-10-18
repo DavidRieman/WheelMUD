@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -32,18 +31,16 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (actionInput.Controller.Thing == null) return;
+            if (actionInput.Actor == null) return;
 
             if (string.IsNullOrEmpty(actionInput.Tail))
             {
-                actionInput.Controller.Write(new OutputBuilder().
-                    AppendLine($"Your current title is '{actionInput.Controller.Thing.Title}'."));
+                actionInput.Session.WriteLine($"Your current title is '{actionInput.Actor.Title}'.");
             }
             else
             {
-                actionInput.Controller.Thing.Title = actionInput.Tail;
-                actionInput.Controller.Write(new OutputBuilder().
-                    AppendLine($"Your title is now '{actionInput.Controller.Thing.Title}'"));
+                actionInput.Actor.Title = actionInput.Tail;
+                actionInput.Session.WriteLine($"Your title is now '{actionInput.Actor.Title}'");
             }
         }
 

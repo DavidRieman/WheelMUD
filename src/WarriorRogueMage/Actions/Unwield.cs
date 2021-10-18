@@ -38,7 +38,7 @@ namespace WarriorRogueMage.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
+            var actor = actionInput.Actor;
 
             itemToUnwieldBehavior.Wielder = null;
 
@@ -46,20 +46,20 @@ namespace WarriorRogueMage.Actions
             var interceptor = itemToUnwieldBehavior.MovementInterceptor;
             itemToUnwield.Eventing.MovementRequest -= interceptor;
 
-            var contextMessage = new ContextualString(sender.Thing, itemToUnwield.Parent)
+            var contextMessage = new ContextualString(actor, itemToUnwield.Parent)
             {
                 ToOriginator = $"You unwield {itemToUnwield.Name}.",
-                ToOthers = $"{sender.Thing.Name} unwields {itemToUnwield.Name}.",
+                ToOthers = $"{actor.Name} unwields {itemToUnwield.Name}.",
             };
             var sensoryMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
-            var unwieldEvent = new WieldUnwieldEvent(itemToUnwield, true, sender.Thing, sensoryMessage);
+            var unwieldEvent = new WieldUnwieldEvent(itemToUnwield, true, actor, sensoryMessage);
 
-            sender.Thing.Eventing.OnCombatRequest(unwieldEvent, EventScope.ParentsDown);
+            actor.Eventing.OnCombatRequest(unwieldEvent, EventScope.ParentsDown);
 
             if (!unwieldEvent.IsCancelled)
             {
-                sender.Thing.Eventing.OnCombatEvent(unwieldEvent, EventScope.ParentsDown);
+                actor.Eventing.OnCombatEvent(unwieldEvent, EventScope.ParentsDown);
             }
         }
 
@@ -68,8 +68,7 @@ namespace WarriorRogueMage.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            Thing wielder = sender.Thing;
+            Thing wielder = actionInput.Actor;
 
             string commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
@@ -82,11 +81,11 @@ namespace WarriorRogueMage.Actions
             // First look for a matching item in inventory and make sure it can
             // be wielded. If nothing was found in inventory, look for a matching
             // wieldable item in the surrounding environment.
-            itemToUnwield = wielder.FindChild(item => item.Name.ToLower() == itemName && item.HasBehavior<WieldableBehavior>() && item.Behaviors.FindFirst<WieldableBehavior>().Wielder == sender.Thing);
+            itemToUnwield = wielder.FindChild(item => item.Name.ToLower() == itemName && item.HasBehavior<WieldableBehavior>() && item.Behaviors.FindFirst<WieldableBehavior>().Wielder == wielder);
 
             if (itemToUnwield == null)
             {
-                itemToUnwield = wielder.Parent.FindChild(item => item.Name.ToLower() == itemName && item.HasBehavior<WieldableBehavior>() && item.Behaviors.FindFirst<WieldableBehavior>().Wielder == sender.Thing);
+                itemToUnwield = wielder.Parent.FindChild(item => item.Name.ToLower() == itemName && item.HasBehavior<WieldableBehavior>() && item.Behaviors.FindFirst<WieldableBehavior>().Wielder == wielder);
             }
 
             if (itemToUnwield == null)

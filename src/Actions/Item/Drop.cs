@@ -44,15 +44,15 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            var contextMessage = new ContextualString(actionInput.Controller.Thing, thingToDrop.Parent)
+            var contextMessage = new ContextualString(actionInput.Actor, thingToDrop.Parent)
             {
                 ToOriginator = $"You drop up {thingToDrop.Name}.",
-                ToReceiver = $"{actionInput.Controller.Thing.Name} drops {thingToDrop.Name} in you.",
-                ToOthers = $"{actionInput.Controller.Thing.Name} drops {thingToDrop.Name}."
+                ToReceiver = $"{actionInput.Actor.Name} drops {thingToDrop.Name} in you.",
+                ToOthers = $"{actionInput.Actor.Name} drops {thingToDrop.Name}."
             };
             var dropMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
-            var actor = actionInput.Controller.Thing;
+            var actor = actionInput.Actor;
             if (movableBehavior.Move(dropLocation, actor, null, dropMessage))
             {
                 // TODO: Transactionally save actors if applicable.
@@ -90,10 +90,10 @@ namespace WheelMUD.Actions
                 return "What did you want to drop?";
             }
 
-            dropLocation = actionInput.Controller.Thing.Parent;
+            dropLocation = actionInput.Actor.Parent;
 
             // Rule: Is the target an item in the entity's inventory?
-            thingToDrop = actionInput.Controller.Thing.Children.Find(t => t.Name.Equals(targetName, StringComparison.CurrentCultureIgnoreCase));
+            thingToDrop = actionInput.Actor.Children.Find(t => t.Name.Equals(targetName, StringComparison.CurrentCultureIgnoreCase));
             if (thingToDrop == null)
             {
                 return $"You do not hold {targetName}.";

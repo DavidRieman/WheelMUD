@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Interfaces;
 
 namespace WheelMUD.Actions
 {
@@ -34,20 +33,20 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            var contextMessage = new ContextualString(sender.Thing, sender.Thing.Parent)
+            var actor = actionInput.Actor;
+            var contextMessage = new ContextualString(actor, actor.Parent)
             {
                 ToOriginator = $"You say: {sayText}",
-                ToReceiver = $"{sender.Thing.Name} says: {sayText}",
-                ToOthers = $"{sender.Thing.Name} says: {sayText}",
+                ToReceiver = $"{actor.Name} says: {sayText}",
+                ToOthers = $"{actor.Name} says: {sayText}",
             };
             var sm = new SensoryMessage(SensoryType.Hearing, 100, contextMessage);
 
-            var sayEvent = new VerbalCommunicationEvent(sender.Thing, sm, VerbalCommunicationType.Say);
-            sender.Thing.Eventing.OnCommunicationRequest(sayEvent, EventScope.ParentsDown);
+            var sayEvent = new VerbalCommunicationEvent(actor, sm, VerbalCommunicationType.Say);
+            actor.Eventing.OnCommunicationRequest(sayEvent, EventScope.ParentsDown);
             if (!sayEvent.IsCancelled)
             {
-                sender.Thing.Eventing.OnCommunicationEvent(sayEvent, EventScope.ParentsDown);
+                actor.Eventing.OnCommunicationEvent(sayEvent, EventScope.ParentsDown);
             }
         }
 

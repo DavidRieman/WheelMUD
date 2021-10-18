@@ -27,23 +27,26 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
+            var session = actionInput.Session;
+            if (session == null) return; // This action only makes sense for player sessions.
+
             var output = new OutputBuilder();
 
-            foreach (var kvp in actionInput.Controller.Thing.Stats)
+            foreach (var kvp in actionInput.Actor.Stats)
             {
                 output.Append(kvp.Value.Name.PadRight(20));
                 output.Append(kvp.Value.Value);
                 output.AppendLine();
             }
 
-            foreach (var kvp in actionInput.Controller.Thing.Attributes)
+            foreach (var kvp in actionInput.Actor.Attributes)
             {
                 output.Append(kvp.Value.Name.PadRight(20));
                 output.Append(kvp.Value.Value);
                 output.AppendLine();
             }
 
-            actionInput.Controller.Write(output);
+            session.Write(output);
         }
 
         /// <summary>Checks against the guards for the command.</summary>

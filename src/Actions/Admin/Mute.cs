@@ -42,15 +42,13 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
-
             // Strings to be displayed when the effect is applied/removed.
-            var muteString = new ContextualString(actionInput.Controller.Thing, playerToMute)
+            var muteString = new ContextualString(actionInput.Actor, playerToMute)
             {
                 ToOriginator = $"You mute {playerToMute.Name} for duration {muteDuration}.",
-                ToReceiver = "You are now mute. Please reflect on recent choices."
+                ToReceiver = "You are now mute. Please reflect on your recent choices."
             };
-            var unmuteString = new ContextualString(actionInput.Controller.Thing, playerToMute)
+            var unmuteString = new ContextualString(actionInput.Actor, playerToMute)
             {
                 ToOriginator = $"{playerToMute.Name} is no longer mute.",
                 ToReceiver = "You are no longer mute."
@@ -61,7 +59,7 @@ namespace WheelMUD.Actions
             var unmuteMessage = new SensoryMessage(SensoryType.Sight, 100, unmuteString);
 
             // Create the effect.
-            var muteEffect = new MutedEffect(actionInput.Controller.Thing, muteDuration, muteMessage, unmuteMessage);
+            var muteEffect = new MutedEffect(actionInput.Actor, muteDuration, muteMessage, unmuteMessage);
 
             // Apply the effect.
             playerToMute.Behaviors.Add(muteEffect);

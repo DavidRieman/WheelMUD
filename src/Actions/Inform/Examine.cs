@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -33,32 +32,37 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
+            var session = actionInput.Session;
+            if (session == null) return; // Info command: Only makes sense to send for player sessions.
 
-            var parent = actionInput.Controller.Thing.Parent;
+            var parent = actionInput.Actor.Parent;
             var searchString = actionInput.Tail.Trim().ToLower();
 
             if (string.IsNullOrEmpty(searchString))
             {
-                actionInput.Controller.Write(new OutputBuilder().
-                    AppendLine("You must specify something to search for."));
+                session.WriteLine("You must specify something to search for.");
                 return;
             }
 
             // Unique case. Try to perceive the room (and its contents) instead; same as "look".
             if (searchString == "here")
             {
-                actionInput.Controller.Write(Renderer.Instance.RenderPerceivedRoom(session.TerminalOptions, actionInput.Controller.Thing, parent));
+                session.Write(Renderer.Instance.RenderPerceivedRoom(session.TerminalOptions, actionInput.Actor, parent));
                 return;
             }
 
             // First check the place where the sender is located (like a room) for the target,
             // and if not found, search the sender's children (like inventory) for the target.
-            var thing = parent.FindChild(searchString) ?? actionInput.Controller.Thing.FindChild(searchString);
+            var thing = parent.FindChild(searchString) ?? actionInput.Actor.FindChild(searchString);
 
-            actionInput.Controller.Write(thing != null
-                ? Renderer.Instance.RenderPerceivedThing(session.TerminalOptions, actionInput.Controller.Thing, thing)
-                : new OutputBuilder().AppendLine($"You cannot find {searchString}."));
+            if (thing != null)
+            {
+                session.Write(Renderer.Instance.RenderPerceivedThing(session.TerminalOptions, actionInput.Actor, thing));
+            }
+            else
+            {
+                session.WriteLine($"You cannot find {searchString}.");
+            }
         }
 
         /// <summary>Checks against the guards for the command.</summary>

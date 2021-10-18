@@ -30,7 +30,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            var myBehaviors = actionInput.Controller.Thing.Behaviors;
+            var myBehaviors = actionInput.Actor.Behaviors;
 
             var followingBehavior = myBehaviors.FindFirst<FollowingBehavior>();
             if (followingBehavior != null)
@@ -44,7 +44,7 @@ namespace WheelMUD.Actions
                     {
                         lock (followedBehavior.Followers)
                         {
-                            followedBehavior.Followers.Remove(actionInput.Controller.Thing);
+                            followedBehavior.Followers.Remove(actionInput.Actor);
                             if (followedBehavior.Followers.Count == 0)
                             {
                                 targetBehaviors.Remove(followedBehavior);
@@ -57,17 +57,17 @@ namespace WheelMUD.Actions
             }
             else
             {
-                var message = new ContextualString(actionInput.Controller.Thing, null)
+                var message = new ContextualString(actionInput.Actor, null)
                 {
                     ToOriginator = "You aren't following anybody."
                 };
 
                 var senseMessage = new SensoryMessage(SensoryType.All, 100, message);
 
-                var followEvent = new FollowEvent(actionInput.Controller.Thing, senseMessage, actionInput.Controller.Thing, null);
+                var followEvent = new FollowEvent(actionInput.Actor, senseMessage, actionInput.Actor, null);
 
                 // Broadcast the event
-                actionInput.Controller.Thing.Eventing.OnMiscellaneousEvent(followEvent, EventScope.ParentsDown);
+                actionInput.Actor.Eventing.OnMiscellaneousEvent(followEvent, EventScope.ParentsDown);
             }
         }
 

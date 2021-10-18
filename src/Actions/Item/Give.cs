@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -57,19 +56,18 @@ namespace WheelMUD.Actions
                 thing.RemoveFromParents();
             }
 
-            var contextMessage = new ContextualString(actionInput.Controller.Thing, target)
+            var contextMessage = new ContextualString(actionInput.Actor, target)
             {
                 ToOriginator = $"You gave {thing.Name} to {target}.",
-                ToReceiver = $"{actionInput.Controller.Thing.Name} gave you {thing.Name}.",
-                ToOthers = $"{actionInput.Controller.Thing.Name} gave {thing.Name} to {target.Name}.",
+                ToReceiver = $"{actionInput.Actor.Name} gave you {thing.Name}.",
+                ToOthers = $"{actionInput.Actor.Name} gave {thing.Name} to {target.Name}.",
             };
             var message = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
             // Try to move the thing from the sender to the target; this handles eventing and whatnot for us.
-            if (!movableBehavior.Move(target, actionInput.Controller.Thing, null, message))
+            if (!movableBehavior.Move(target, actionInput.Actor, null, message))
             {
-                actionInput.Controller.Write(new OutputBuilder().
-                    AppendLine($"Failed to give {thing.Name} to {target.Name}."));
+                actionInput.Session?.WriteLine($"Failed to give {thing.Name} to {target.Name}.");
             }
         }
 
@@ -110,7 +108,7 @@ namespace WheelMUD.Actions
             var itemName = actionInput.Params[itemParam];
 
             // Do we have an item matching the name in our inventory?
-            thing = actionInput.Controller.Thing.FindChild(itemName.ToLower());
+            thing = actionInput.Actor.FindChild(itemName.ToLower());
             if (thing == null)
             {
                 return "You do not hold " + itemName + ".";
@@ -141,7 +139,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the target in the same room?
-            if (actionInput.Controller.Thing.Parent.Id != target.Parent.Id)
+            if (actionInput.Actor.Parent.Id != target.Parent.Id)
             {
                 return "You cannot see " + targetName + ".";
             }

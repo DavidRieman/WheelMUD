@@ -32,17 +32,17 @@ namespace WarriorRogueMage.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            IController sender = actionInput.Controller;
-            var contextMessage = new ContextualString(sender.Thing, null)
+            var actor = actionInput.Actor;
+            var contextMessage = new ContextualString(actor, null)
             {
                 ToOriginator = "You have entered the combat state.",
-                ToReceiver = $"You see {sender.Thing.Name} shift into a combat stance.",
-                ToOthers = $"You see {sender.Thing.Name} shift into a combat stance.",
+                ToReceiver = $"You see {actor.Name} shift into a combat stance.",
+                ToOthers = $"You see {actor.Name} shift into a combat stance.",
             };
 
             var sm = new SensoryMessage(SensoryType.Debug, 100, contextMessage);
-            var senseEvent = new SensoryEvent(sender.Thing, sm);
-            sender.Thing.Eventing.OnMiscellaneousEvent(senseEvent, EventScope.ParentsDown);
+            var senseEvent = new SensoryEvent(actor, sm);
+            actor.Eventing.OnMiscellaneousEvent(senseEvent, EventScope.ParentsDown);
         }
 
         /// <summary>Guards the command against incorrect usage.</summary>

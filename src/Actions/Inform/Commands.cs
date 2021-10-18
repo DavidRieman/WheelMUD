@@ -26,25 +26,26 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
+            var session = actionInput.Session;
+            if (session == null) return; //Command is not useful to mobiles, etc.
 
             var requestedCategory = actionInput.Tail.ToLower();
 
-            // Get a command array of all commands available to this controller
-            var commands = CommandManager.Instance.GetCommandsForController(actionInput.Controller);
+            // Get a command array of all commands available to the actor.
+            var commands = CommandManager.Instance.GetCommandsFor(actionInput.Actor);
 
             if (requestedCategory == "all")
             {
-                actionInput.Controller.Write(Renderer.Instance.RenderCommandsList(session.TerminalOptions, commands, "All"));
+                session.Write(Renderer.Instance.RenderCommandsList(session.TerminalOptions, commands, "All"));
             }
             else if (Enum.TryParse(requestedCategory, true, out CommandCategory category))
             {
                 var commandsInCategory = from c in commands where c.Category.HasFlag(category) select c;
-                actionInput.Controller.Write(Renderer.Instance.RenderCommandsList(session.TerminalOptions, commandsInCategory, category.ToString()));
+                session.Write(Renderer.Instance.RenderCommandsList(session.TerminalOptions, commandsInCategory, category.ToString()));
             }
             else
             {
-                actionInput.Controller.Write(Renderer.Instance.RenderCommandsCategories(session.TerminalOptions, commands));
+                session.Write(Renderer.Instance.RenderCommandsCategories(session.TerminalOptions, commands));
             }
         }
 

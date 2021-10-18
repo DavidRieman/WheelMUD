@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -33,12 +32,15 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
+            var session = actionInput.Session;
+            if (session == null) return; // This action only makes sense for player sessions.
+
             // If input is a simple number, assume we mean a room
             var targetPlace = int.TryParse(actionInput.Tail, out var roomNum) ? ThingManager.Instance.FindThing("room/" + roomNum) : ThingManager.Instance.FindThingByName(actionInput.Tail, false, true);
 
             if (targetPlace == null)
             {
-                actionInput.Controller.Write(new OutputBuilder().AppendLine("Room or Entity not found."));
+                session.WriteLine("Room or Entity not found.");
                 return;
             }
 
@@ -51,19 +53,19 @@ namespace WheelMUD.Actions
                 }
                 else
                 {
-                    actionInput.Controller.Write(new OutputBuilder().AppendLine("Target is not a room and is not in a room!"));
+                    session.WriteLine("Target is not a room and is not in a room!");
                     return;
                 }
             }
 
-            var adminName = actionInput.Controller.Thing.Name;
-            var leaveContextMessage = new ContextualString(actionInput.Controller.Thing, actionInput.Controller.Thing.Parent)
+            var adminName = actionInput.Actor.Name;
+            var leaveContextMessage = new ContextualString(actionInput.Actor, actionInput.Actor.Parent)
             {
                 ToOriginator = null,
                 ToReceiver = $"{adminName} disappears into nothingness.",
                 ToOthers = $"{adminName} disappears into nothingness.",
             };
-            var arriveContextMessage = new ContextualString(actionInput.Controller.Thing, targetPlace)
+            var arriveContextMessage = new ContextualString(actionInput.Actor, targetPlace)
             {
                 ToOriginator = $"You teleported to {targetPlace.Name}.",
                 ToReceiver = $"{adminName} appears from nothingness.",
@@ -78,11 +80,11 @@ namespace WheelMUD.Actions
             // TODO: This should not 'enqueue' a command since, should the player have a bunch of 
             //     other commands entered, the 'look' feedback will not immediately accompany the 'goto' 
             //     command results like it should.
-            var movableBehavior = actionInput.Controller.Thing.FindBehavior<MovableBehavior>();
+            var movableBehavior = actionInput.Actor.FindBehavior<MovableBehavior>();
 
-            if (movableBehavior != null && movableBehavior.Move(targetPlace, actionInput.Controller.Thing, leaveMessage, arriveMessage))
+            if (movableBehavior != null && movableBehavior.Move(targetPlace, actionInput.Actor, leaveMessage, arriveMessage))
             {
-                CommandManager.Instance.EnqueueAction(new ActionInput("look", actionInput.Controller));
+                CommandManager.Instance.EnqueueAction(new ActionInput("look", actionInput.Session, actionInput.Actor));
             }
         }
 

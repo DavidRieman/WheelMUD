@@ -48,9 +48,9 @@ namespace WheelMUD.Actions
                 KeyWords = new List<string> { "potion", "colourful" }
             };
 
-            actionInput.Controller.Thing.Parent.Children.Add(potionItem);
+            actionInput.Actor.Parent.Children.Add(potionItem);
 
-            var userControlledBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<UserControlledBehavior>();
+            var userControlledBehavior = actionInput.Actor.Behaviors.FindFirst<UserControlledBehavior>();
             userControlledBehavior.Controller.Write(new OutputBuilder().
                 AppendLine("You create a colourful potion"));
         }

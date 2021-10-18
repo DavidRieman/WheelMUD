@@ -26,7 +26,7 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             // TODO: Inform player of save
-            actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SavePlayer();
+            actionInput.Actor.FindBehavior<PlayerBehavior>()?.SavePlayer();
         }
 
         /// <summary>Checks against the guards for the command.</summary>

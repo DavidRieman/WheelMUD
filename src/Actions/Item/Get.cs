@@ -45,7 +45,7 @@ namespace WheelMUD.Actions
             // Remove the item from its current container.
             // We have to do this before we attempt to add it because of the event subscriptions.
             // TODO: Test, this may be broken now...
-            var actor = actionInput.Controller.Thing;
+            var actor = actionInput.Actor;
             if (numberToGet <= 0)
             {
                 numberToGet = 1;
@@ -96,7 +96,7 @@ namespace WheelMUD.Actions
 
             // Rule: is the player using the command to get something from a container
             //       or to get something from the room?
-            Thing targetParent = actionInput.Controller.Thing.Parent;
+            Thing targetParent = actionInput.Actor.Parent;
             if (actionInput.Tail.ToLower().Contains("from"))
             {
                 // Find the from keyword in the params.
@@ -128,7 +128,7 @@ namespace WheelMUD.Actions
 
                 // Rule: Do we have an item matching the one specified in our inventory?
                 // If not then does the room have a container with the name.
-                Thing foundContainer = actionInput.Controller.Thing.FindChild(targetFromName.ToLower());
+                Thing foundContainer = actionInput.Actor.FindChild(targetFromName.ToLower());
                 if (foundContainer == null)
                 {
                     foundContainer = targetParent.FindChild(targetFromName.ToLower());

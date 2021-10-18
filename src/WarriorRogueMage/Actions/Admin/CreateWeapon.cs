@@ -8,8 +8,6 @@
 using System.Collections.Generic;
 using WarriorRogueMage.Behaviors;
 using WheelMUD.Core;
-using WheelMUD.Interfaces;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions.Temporary
 {
@@ -30,7 +28,8 @@ namespace WheelMUD.Actions.Temporary
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            var sender = actionInput.Controller;
+            var session = actionInput.Session;
+            var actor = actionInput.Actor;
 
             // Remove "weapon" from input tail and use the rest as the name.
             var weaponName = actionInput.Tail[6..].Trim().ToLower();
@@ -39,18 +38,14 @@ namespace WheelMUD.Actions.Temporary
             {
                 Name = weaponName, SingularPrefix = "a", Id = "0"
             };
-            //weaponItem.ID = Guid.NewGuid().ToString();
 
-            var wasAdded = sender.Thing.Parent.Add(weaponItem);
-
-            var userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
-            if (wasAdded)
+            if (actor.Add(weaponItem))
             {
-                userControlledBehavior.Controller.Write(new OutputBuilder().AppendLine($"You create a weapon called {weaponItem.Name}."));
+                session.WriteLine($"You create a weapon called {weaponItem.Name} in your inventory.");
             }
             else
             {
-                userControlledBehavior.Controller.Write(new OutputBuilder().AppendLine($"Could not add {weaponItem.Name} to the room!"));
+                session.WriteLine($"Could not add {weaponItem.Name} to your inventory!");
             }
         }
 

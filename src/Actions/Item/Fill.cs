@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 using WheelMUD.Universe;
 
 namespace WheelMUD.Actions
@@ -60,20 +59,18 @@ namespace WheelMUD.Actions
                 var destinationHoldsLiquidBehavior = destinationContainer.Behaviors.FindFirst<HoldsLiquidBehavior>();
                 if (sourceHoldsLiquidBehavior == null)
                 {
-                    actionInput.Controller.Write(new OutputBuilder().
-                        AppendLine("The source does not hold any liquid."));
+                    actionInput.Session?.WriteLine($"The {sourceContainer.Name} does not hold liquid.");
                     return;
                 }
 
                 if (destinationHoldsLiquidBehavior == null)
                 {
-                    actionInput.Controller.Write(new OutputBuilder().
-                        AppendLine("The destination cannot hold any liquid."));
+                    actionInput.Session?.WriteLine($"The {destinationContainer.Name} cannot hold any liquid.");
                     return;
                 }
 
                 // TODO: Get and display more details from FillFrom about failure cases?
-                destinationHoldsLiquidBehavior.FillFrom(actionInput.Controller, sourceHoldsLiquidBehavior);
+                destinationHoldsLiquidBehavior.FillFrom(actionInput.Session, sourceHoldsLiquidBehavior);
             }
         }
 
@@ -89,7 +86,7 @@ namespace WheelMUD.Actions
             }
 
             var itemParam = 0;
-            parent = actionInput.Controller.Thing.Parent;
+            parent = actionInput.Actor.Parent;
 
             if (actionInput.Tail.ToLower().Contains("from"))
             {
@@ -123,7 +120,7 @@ namespace WheelMUD.Actions
                 // Rule: Do we have an item matching the one specified in our inventory?
                 // If not then does the room have a container with the name.
                 // TODO: Fix: This Find pattern is probably broken...
-                destinationContainer = actionInput.Controller.Thing.Children.Find(t => t.Name == destinationContainerName.ToLower());
+                destinationContainer = actionInput.Actor.Children.Find(t => t.Name == destinationContainerName.ToLower());
                 if (destinationContainer == null)
                 {
                     destinationContainer = parent.Children.Find(t => t.Name == destinationContainerName.ToLower());
@@ -156,7 +153,7 @@ namespace WheelMUD.Actions
                 // Rule: Do we have an item matching the one specified in our inventory?
                 // If not then does the room have a container with the name.
                 // TODO: Investigate; This search method is probably broken.
-                sourceContainer = actionInput.Controller.Thing.Children.Find(t => t.Name == sourceContainerName.ToLower());
+                sourceContainer = actionInput.Actor.Children.Find(t => t.Name == sourceContainerName.ToLower());
                 if (sourceContainer == null)
                 {
                     sourceContainer = parent.Children.Find(t => t.Name == sourceContainerName.ToLower());

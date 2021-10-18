@@ -31,20 +31,12 @@ namespace WarriorRogueMage.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
+            var session = actionInput.Session;
+            if (session == null) return; // This action only makes sense for player sessions.
 
             if (!string.IsNullOrEmpty(actionInput.Tail))
             {
-                // Save tail as player's new prompt
-                try
-                {
-                    playerBehavior.Prompt = actionInput.Tail;
-                }
-                catch (Exception)
-                {
-                    actionInput.Controller.Write(new OutputBuilder().AppendLine("Error, prompt not saved."));
-                }
-
+                playerBehavior.Prompt = actionInput.Tail;
                 return;
             }
 
@@ -72,7 +64,7 @@ namespace WarriorRogueMage.Actions
 
             output.AppendLine($"Current prompt is '{playerBehavior.Prompt}'");
             output.AppendLine($"Parsed prompt is '{playerBehavior.BuildPrompt(session.TerminalOptions)}'");
-            actionInput.Controller.Write(output);
+            session.Write(output);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -86,7 +78,7 @@ namespace WarriorRogueMage.Actions
                 return commonFailure;
             }
 
-            playerBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<PlayerBehavior>();
+            playerBehavior = actionInput.Actor.Behaviors.FindFirst<PlayerBehavior>();
 
             return null;
         }

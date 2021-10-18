@@ -7,8 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Interfaces;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -26,14 +24,8 @@ namespace WheelMUD.Actions
             CommonGuards.InitiatorMustBeAPlayer
         };
 
-        /// <summary>Sender of the command.</summary>
-        private IController sender;
-
         /// <summary>Sender of the command, in the form of a Session object.</summary>
         private Session session;
-
-        /// <summary>Behavior associated with connected users.</summary>
-        private UserControlledBehavior userControlledBehavior;
 
         /// <summary>The new buffer length, if one was provided by the sender.</summary>
         /// <remarks>Defaults to 0, and can be 0 if parsing failed; be sure to check whether <see cref="parseSucceeded"/>.</remarks>
@@ -46,10 +38,13 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
+            var userControlledBehavior = actionInput.Actor.FindBehavior<UserControlledBehavior>();
+            if (userControlledBehavior == null) return;
+
             // No arguments were provided. Just show the current buffer setting and exit.
             if (string.IsNullOrEmpty(actionInput.Tail))
             {
-                ShowCurrentBuffer();
+                ShowCurrentBuffer(userControlledBehavior);
                 return;
             }
 
@@ -61,7 +56,7 @@ namespace WheelMUD.Actions
 
             userControlledBehavior.PagingRowLimit = parsedBufferLength;
 
-            ShowCurrentBuffer();
+            ShowCurrentBuffer(userControlledBehavior);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -90,20 +85,8 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         private void PreprocessInput(ActionInput actionInput)
         {
-            // Make sure there is a sender.
-            sender = actionInput.Controller;
-            session = sender as Session;
-            if (sender?.Thing == null)
-            {
-                return;
-            }
-
-            // Make sure the sender is an actual connected user.
-            userControlledBehavior = sender.Thing.Behaviors.FindFirst<UserControlledBehavior>();
-            if (userControlledBehavior == null)
-            {
-                return;
-            }
+            session = actionInput.Session;
+            if (session == null) return;
 
             // Parse and store the desired buffer length, if one was provided.
             var lengthText = actionInput.Tail.ToLower().Trim();
@@ -144,11 +127,16 @@ namespace WheelMUD.Actions
         }
 
         /// <summary>Displays the current buffer length to the user, handling the special case of "auto" instead of -1.</summary>
-        private void ShowCurrentBuffer()
+        private void ShowCurrentBuffer(UserControlledBehavior userControlledBehavior)
         {
-            sender.Write(new OutputBuilder().AppendLine(userControlledBehavior.PagingRowLimit == -1 ?
-                    $"Your screen buffer size is 'auto' (currently {session.TerminalOptions.Height} lines)." :
-                    $"Your screen buffer is {userControlledBehavior.PagingRowLimit} lines."));
+            if (userControlledBehavior.PagingRowLimit == -1)
+            {
+                session.WriteLine($"Your screen buffer size is 'auto' (currently {session.TerminalOptions.Height} lines).");
+            }
+            else
+            {
+                session.WriteLine($"Your screen buffer is set to {userControlledBehavior.PagingRowLimit} lines.");
+            }
         }
     }
 }

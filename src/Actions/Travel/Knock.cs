@@ -38,13 +38,13 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             // Build our knock messages for this room and the next.  Only send message to the door-type thing once.
-            var thisRoomMessage = new ContextualString(actionInput.Controller.Thing, target)
+            var thisRoomMessage = new ContextualString(actionInput.Actor, target)
             {
                 ToOriginator = $"You knock on {target.Name}.",
-                ToOthers = $"{actionInput.Controller.Thing.Name} knocks on {target.Name}.",
-                ToReceiver = $"{actionInput.Controller.Thing.Name} knocks on you.",
+                ToOthers = $"{actionInput.Actor.Name} knocks on {target.Name}.",
+                ToReceiver = $"{actionInput.Actor.Name} knocks on you.",
             };
-            var nextRoomMessage = new ContextualString(actionInput.Controller.Thing, target)
+            var nextRoomMessage = new ContextualString(actionInput.Actor, target)
             {
                 ToOriginator = null,
                 ToOthers = $"Someone knocks on {target.Name}.",
@@ -60,11 +60,11 @@ namespace WheelMUD.Actions
             var nextRoomKnockEvent = new KnockEvent(target, nextRoomSM);
 
             // Broadcast the requests/events; the events handle sending the sensory messages.
-            actionInput.Controller.Thing.Eventing.OnCommunicationRequest(thisRoomKnockEvent, EventScope.ParentsDown);
+            actionInput.Actor.Eventing.OnCommunicationRequest(thisRoomKnockEvent, EventScope.ParentsDown);
             if (!thisRoomKnockEvent.IsCancelled)
             {
                 // The knocking here happens regardless of whether it's cancelled on the inside.
-                actionInput.Controller.Thing.Eventing.OnCommunicationEvent(thisRoomKnockEvent, EventScope.ParentsDown);
+                actionInput.Actor.Eventing.OnCommunicationEvent(thisRoomKnockEvent, EventScope.ParentsDown);
 
                 // Next try to send a knock event into the adjacent place too.
                 nextRoom.Eventing.OnCommunicationRequest(nextRoomKnockEvent, EventScope.SelfDown);

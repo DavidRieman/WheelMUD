@@ -25,7 +25,7 @@ namespace WheelMUD.Actions.Temporary
     public class Visuals : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>();
+        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>() { CommonGuards.InitiatorMustBeAPlayer };
 
         /// <summary>Number of arguments supplied to the action.</summary>
         private int argCount;
@@ -52,8 +52,11 @@ namespace WheelMUD.Actions.Temporary
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
+            var session = actionInput.Session;
+            if (session == null) return; // This action only makes sense for player sessions.
+
             // Contextual message text to be supplied based on the action below
-            var response = new ContextualString(actionInput.Controller.Thing, room.Parent);
+            var response = new ContextualString(actionInput.Actor, room.Parent);
 
             if (command == "add")
             {
@@ -94,15 +97,15 @@ namespace WheelMUD.Actions.Temporary
                     output.AppendLine($"No visuals found for {roomName} [{roomId}].");
                 }
 
-                actionInput.Controller.Write(output);
+                session.Write(output);
 
                 // No need to raise event.
                 return;
             }
 
             var message = new SensoryMessage(SensoryType.Sight, 100, response);
-            var evt = new GameEvent(actionInput.Controller.Thing, message);
-            actionInput.Controller.Thing.Eventing.OnMiscellaneousEvent(evt, EventScope.SelfDown);
+            var evt = new GameEvent(actionInput.Actor, message);
+            actionInput.Actor.Eventing.OnMiscellaneousEvent(evt, EventScope.SelfDown);
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>
@@ -115,8 +118,6 @@ namespace WheelMUD.Actions.Temporary
             {
                 return commonFailure;
             }
-
-            if (!(actionInput.Controller is Session session)) return null;
 
             PreprocessInput(actionInput);
 
@@ -161,7 +162,7 @@ namespace WheelMUD.Actions.Temporary
             argCount = actionInput.Params.Length;
 
             // Location of the sender of the command.
-            var location = actionInput.Controller.Thing.Parent;
+            var location = actionInput.Actor.Parent;
 
             if (location.HasBehavior<RoomBehavior>())
             {

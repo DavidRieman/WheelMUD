@@ -26,7 +26,8 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
+            var session = actionInput.Session;
+            if (session == null) return; // This action only makes sense for player sessions.
 
             if (session.Connection.OutputBuffer.HasMoreData)
             {
@@ -34,8 +35,7 @@ namespace WheelMUD.Actions
             }
             else
             {
-                actionInput.Controller.Write(new OutputBuilder().
-                    AppendLine("There is no more data."));
+                session.WriteLine("There is no more data.");
             }
         }
 

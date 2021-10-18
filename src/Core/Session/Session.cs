@@ -105,7 +105,7 @@ namespace WheelMUD.Core
             Connection.Send(prompt);
         }
 
-        public void Write(string singleLineOutput, bool sendPrompt = true)
+        public void WriteLine(string singleLineOutput, bool sendPrompt = true)
         {
             var buffer = singleLineOutput.ToCharArray();
             FinalWrite(OutputParser.Parse(buffer, buffer.Length, Connection.TerminalOptions), sendPrompt);

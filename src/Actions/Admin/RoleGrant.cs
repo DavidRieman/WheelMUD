@@ -8,7 +8,6 @@
 using System;
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Interfaces;
 using WheelMUD.Server;
 
 namespace WheelMUD.Actions
@@ -34,13 +33,16 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
+            var session = actionInput.Session;
+            if (session == null) return; // This action only makes sense for player sessions.
+
             var userControlledBehavior = player.Behaviors.FindFirst<UserControlledBehavior>();
             userControlledBehavior.SecurityRoles |= role;
 
             var ob = new OutputBuilder();
             ob.AppendLine($"{player.Name} has been granted the {role.ToString()} role.");
             ob.AppendLine($"{player.Name} is now: {userControlledBehavior.SecurityRoles}.");
-            actionInput.Controller.Write(ob);
+            session.Write(ob);
 
             ob.Clear();
             ob.AppendLine($"You have been granted the {role.ToString()} role.");
@@ -60,7 +62,7 @@ namespace WheelMUD.Actions
                 return commonFailure;
             }
 
-            var normalizedParams = NormalizeParameters(actionInput.Controller);
+            var normalizedParams = NormalizeParameters(actionInput);
             var roleName = normalizedParams[0];
             var playerName = normalizedParams[1];
 
@@ -85,9 +87,9 @@ namespace WheelMUD.Actions
         /// <summary>Cleans up the parameters, so that it is easier to work with.</summary>
         /// <param name="sender">The IController that has the MUD command parameters that will be cleaned up.</param>
         /// <returns>Returns a string array that has been pasteurized.</returns>
-        private static string[] NormalizeParameters(IController sender)
+        private static string[] NormalizeParameters(ActionInput actionInput)
         {
-            var normalizedInput = sender.LastActionInput.Tail.Replace("grant", string.Empty).Trim();
+            var normalizedInput = actionInput.Tail.Replace("grant", string.Empty).Trim();
             var normalizedParams = normalizedInput.Split(' ');
             return normalizedParams;
         }

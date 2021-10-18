@@ -35,6 +35,9 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
+            var session = actionInput.Session;
+            if (session == null) return; // This action only makes sense for player sessions.
+
             var parameters = actionInput.Params;
 
             // Ensure two 'credits' commands at the same time do not race for shared cache, etc.
@@ -56,7 +59,7 @@ namespace WheelMUD.Actions
                     cachedContents = output;
                 }
 
-                actionInput.Controller.Write(cachedContents);
+                session.Write(cachedContents);
             }
         }
 

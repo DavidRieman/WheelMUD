@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using WheelMUD.Core;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -29,11 +28,11 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
+            var session = actionInput.Session;
+            if (session == null) return; // This action only makes sense for player sessions.
 
             // TODO: Fix: sender.Write($"The current game time is: {bridge.World.TimeSystem.Now}");
-            actionInput.Controller.Write(new OutputBuilder().
-                AppendLine($"The real world server time is: {DateTime.Now.ToString(CultureInfo.InvariantCulture)}"));
+            session.WriteLine($"The real world server time is: {DateTime.Now.ToString(CultureInfo.InvariantCulture)}");
         }
 
         /// <summary>Checks against the guards for the command.</summary>

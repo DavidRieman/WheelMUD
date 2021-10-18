@@ -38,6 +38,9 @@ namespace WheelMUD.Actions
         /// </remarks>
         public override void Execute(ActionInput actionInput)
         {
+            var session = actionInput.Session;
+            if (session == null) return; // This action only makes sense for player sessions.
+
             var output = new OutputBuilder();
 
             var isOnline = false;
@@ -84,7 +87,7 @@ namespace WheelMUD.Actions
                 output.AppendLine("MXP: TBA");
             }
 
-            actionInput.Controller.Write(output);
+            session.Write(output);
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>

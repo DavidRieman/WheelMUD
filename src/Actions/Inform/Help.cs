@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WheelMUD.Core;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -28,14 +27,15 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (!(actionInput.Controller is Session session)) return;
+            var session = actionInput.Session;
+            if (session == null) return; // Info command: Only makes sense to send for player sessions.
 
             var commandTail = actionInput.Tail;
 
             // If no arguments were given, render the help topics list.
             if (string.IsNullOrWhiteSpace(commandTail))
             {
-                actionInput.Controller.Write(Renderer.Instance.RenderHelpTopics(session.TerminalOptions));
+                session.Write(Renderer.Instance.RenderHelpTopics(session.TerminalOptions));
                 return;
             }
 
@@ -43,7 +43,7 @@ namespace WheelMUD.Actions
             var helpTopic = HelpManager.Instance.FindHelpTopic(commandTail);
             if (helpTopic != null)
             {
-                actionInput.Controller.Write(Renderer.Instance.RenderHelpTopic(session.TerminalOptions, helpTopic));
+                session.Write(Renderer.Instance.RenderHelpTopic(session.TerminalOptions, helpTopic));
                 return;
             }
 
@@ -57,11 +57,11 @@ namespace WheelMUD.Actions
             // Show result if a match was found
             if (action != null)
             {
-                actionInput.Controller.Write(Renderer.Instance.RenderHelpCommand(session.TerminalOptions, action));
+                session.Write(Renderer.Instance.RenderHelpCommand(session.TerminalOptions, action));
                 return;
             }
 
-            actionInput.Controller.Write(new OutputBuilder().AppendLine("No such help topic or command was found."));
+            session.WriteLine($"No such help topic or command was found for: {commandTail}.");
         }
 
         /// <summary>Checks against the guards for the command.</summary>

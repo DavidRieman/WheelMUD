@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -30,11 +29,12 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            var entity = GetPlayerOrMobile(actionInput.Controller.LastActionInput.Tail);
+            var session = actionInput.Session;
+            if (session == null) return; // Info command: Only makes sense to send for player sessions.
 
-            actionInput.Controller.Write(new OutputBuilder().AppendLine(entity != null ?
-                    $"You see {entity.Name} at {entity.Parent.Name}, id {entity.Parent.Id}" :
-                    $"You cant find {actionInput.Controller.LastActionInput.Tail}."));
+            var entity = GetPlayerOrMobile(session.LastActionInput.Tail);
+
+            session.WriteLine(entity != null ? $"{entity.Name} is at {entity.Parent.Name} (ID {entity.Parent.Id})" : $"You cant find {session.LastActionInput.Tail}.");
         }
 
         /// <summary>Checks against the guards for the command.</summary>

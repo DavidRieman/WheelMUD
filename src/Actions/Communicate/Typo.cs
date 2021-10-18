@@ -8,12 +8,12 @@
 using System;
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 using WheelMUD.Universe.Information;
 
 namespace WheelMUD.Actions
 {
     /// <summary>A command to report a simple typographical error.</summary>
+    /// <remarks>TODO: Should be able to see what the report will contain, target a Thing by keywords, and so on, as well as pointing out what the typo word is.</remarks>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("typo", CommandCategory.Communicate)]
     [ActionDescription("Report a bug in the descriptions in or near a room.")]
@@ -33,6 +33,9 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
+            var session = actionInput.Session;
+            if (session == null) return; // This action only makes sense for player sessions.
+
             var typoEntry = new TypoEntry
             {
                 Note = actionInput.Tail,
@@ -44,8 +47,7 @@ namespace WheelMUD.Actions
 
             typoEntry.Save();
 
-            actionInput.Controller.Write(new OutputBuilder().
-                AppendLine("Thank you. Your typo report has been submitted."));
+            session.WriteLine("Thank you. Your typo report has been submitted.");
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -59,7 +61,7 @@ namespace WheelMUD.Actions
                 return commonFailure;
             }
 
-            player = actionInput.Controller.Thing;
+            player = actionInput.Actor;
 
             return null;
         }

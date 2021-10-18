@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -35,8 +34,7 @@ namespace WheelMUD.Actions
 
             // This is how you send text back to the player
             var height = die.Roll();
-            actionInput.Controller.Write(new OutputBuilder().
-                AppendLine($"You've jumped {height} feet!"));
+            actionInput.Session?.WriteLine($"You've jumped {height} feet!");
         }
 
         /// <summary>Checks against the guards for the command.</summary>

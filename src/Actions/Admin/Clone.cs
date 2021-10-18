@@ -33,23 +33,22 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             var itemID = actionInput.Params[0];
-            var parent = actionInput.Controller.Thing.Parent;
+            var parent = actionInput.Actor.Parent;
             var thing = parent.FindChild(t => t.Id == itemID);
             if (thing == null)
             {
-                parent = actionInput.Controller.Thing;
+                parent = actionInput.Actor;
                 thing = parent.FindChild(t => t.Id == itemID);
                 if (thing == null)
                 {
-                    actionInput.Controller.Write(new OutputBuilder().
-                        AppendLine($"Cannot find {itemID}."));
+                    actionInput.Session.WriteLine($"Cannot find {itemID}.");
                     return;
                 }
             }
 
             var clonedThing = thing.Clone();
             parent.Add(clonedThing);
-            var userControlledBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<UserControlledBehavior>();
+            var userControlledBehavior = actionInput.Actor.Behaviors.FindFirst<UserControlledBehavior>();
             userControlledBehavior.Controller.Write(new OutputBuilder().
                 AppendLine($"You clone {thing.Id}. New item is {clonedThing.Id}."));
         }

@@ -65,13 +65,13 @@ namespace WheelMUD.Actions
             }
 
             // Rule: Is the target the initiator?
-            if (string.Equals(actionInput.Controller.Thing.Name, target.Name, StringComparison.CurrentCultureIgnoreCase))
+            if (string.Equals(actionInput.Actor.Name, target.Name, StringComparison.CurrentCultureIgnoreCase))
             {
                 return "You can't punch yourself.";
             }
 
             // Rule: Is the target in the same room?
-            if (actionInput.Controller.Thing.Parent.Id != target.Parent.Id)
+            if (actionInput.Actor.Parent.Id != target.Parent.Id)
             {
                 return $"You cannot see {targetName}.";
             }

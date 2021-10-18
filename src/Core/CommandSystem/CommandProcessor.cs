@@ -5,19 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Utilities;
-using WheelMUD.Utilities.Interfaces;
 using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
-using WheelMUD.Interfaces;
-using WheelMUD.Server;
+using WheelMUD.Utilities;
+using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
 {
-    
-
     /// <summary>A command processor, which houses a thread to process commands.</summary>
     public class CommandProcessor : ISubSystem
     {
@@ -93,6 +89,7 @@ namespace WheelMUD.Core
         /// <param name="actionInput">The action input to try to execute.</param>
         private void TryExecuteAction(ActionInput actionInput)
         {
+            Debug.Assert(actionInput != null, "actionInput must be defined.");
             try
             {
                 ScriptingCommand command = CommandCreator.Instance.Create(actionInput);
@@ -116,9 +113,9 @@ namespace WheelMUD.Core
                 }
                 else
                 {
-                    // Otherwise display what went wrong to the user of the action.
-                    IController controller = actionInput.Controller;
-                    controller.Write(new OutputBuilder().AppendLine(guardsErrorMessage));
+                    // Otherwise display what went wrong to the issuing session of this action input.
+                    // (If there is no such session, such as an AI issuing a malformed action, for now this is just ignored. TODO: Send this issue to server log?)
+                    actionInput.Session?.WriteLine(guardsErrorMessage);
                 }
             }
             catch (Exception ex)
@@ -135,15 +132,18 @@ namespace WheelMUD.Core
                 // the details, and kill that command.  (Other commands and the game itself should be 
                 // able to continue through such situations.)
                 // Start gathering info, but carefully to avoid causing potential further exceptions here.
-                IController controller = actionInput.Controller;
 #if DEBUG
-                Thing thing = controller != null ? controller.Thing : null;
-                string thingName = thing != null ? thing.Name : "[null]";
-                string thingID = thing != null ? thing.Id.ToString() : "[null]";
-                string fullCommand = actionInput != null ? actionInput.FullText : "[null]";
+                // TODO: Improve action error output to always provide full details to server log and admin players.
+                //       https://github.com/DavidRieman/WheelMUD/issues/136
+                string thingName = actionInput.Actor?.Name ?? "[null]";
+                string thingID = actionInput.Actor?.Id.ToString() ?? "[null]";
+                string fullCommand = actionInput.FullText ?? "[null]";
                 string format = "Exception encountered for command: {1}{0}From thing: {2} (ID: {3}){0}{4}";
                 string message = string.Format(format, Environment.NewLine, fullCommand, thingName, thingID, ex.ToDeepString());
+#else
+                string message = "An error occurred while processing your command.";
 #endif
+                actionInput.Session?.WriteLine(message);
 
                 // If the debugger is attached, we probably want to break now in order to better debug 
                 // the issue closer to where it occurred; if your debugger broke here you may want to 
@@ -152,16 +152,6 @@ namespace WheelMUD.Core
                 {
                     string stackTrace = ex.StackTrace;
                     Debugger.Break();
-                }
-
-                // TODO: FIX: this.host..UpdateSubSystemHost(this, message);
-                if (controller != null)
-                {
-#if DEBUG
-                    controller.Write(new OutputBuilder().AppendLine(message));
-#else
-                    controller.Write(new OutputBuilder().AppendLine("An error occured processing your command."));
-#endif
                 }
             }
         }

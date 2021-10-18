@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using WheelMUD.Core;
-using WheelMUD.Server;
 
 namespace WheelMUD.Actions
 {
@@ -29,25 +28,22 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            if (actionInput.Controller.Thing != null)
+            if (actionInput.Actor != null)
             {
                 if (!string.IsNullOrEmpty(NewDescription))
                 {
-                    actionInput.Controller.Thing.Description = NewDescription;
-                    actionInput.Controller.Thing.FindBehavior<PlayerBehavior>()?.SavePlayer();
-                    actionInput.Controller.Write(new OutputBuilder().
-                        AppendLine("Description successfully changed."));
+                    actionInput.Actor.Description = NewDescription;
+                    actionInput.Actor.FindBehavior<PlayerBehavior>()?.SavePlayer();
+                    actionInput.Session.WriteLine("Description successfully changed.");
                 }
                 else
                 {
-                    actionInput.Controller.Write(new OutputBuilder().
-                        AppendLine($"Your current description is \"{actionInput.Controller.Thing.Description}\"."));
+                    actionInput.Session.WriteLine($"Your current description is \"{actionInput.Actor.Description}\".");
                 }
             }
             else
             {
-                actionInput.Controller.Write(new OutputBuilder().
-                    AppendLine("Unexpected error occurred changing description, please contact admin."));
+                actionInput.Session.WriteLine("Unexpected error occurred changing description, please contact admin.");
             }
         }
 

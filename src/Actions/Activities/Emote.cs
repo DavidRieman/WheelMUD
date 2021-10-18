@@ -32,20 +32,20 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            var emoteString = $"<*{actionInput.Controller.Thing.Name} {actionInput.Tail}>";
+            var emoteString = $"<*{actionInput.Actor.Name} {actionInput.Tail}>";
 
-            var contextualString = new ContextualString(actionInput.Controller.Thing, actionInput.Controller.Thing.Parent)
+            var contextualString = new ContextualString(actionInput.Actor, actionInput.Actor.Parent)
             {
                 ToOriginator = emoteString,
                 ToOthers = emoteString
             };
 
             var msg = new SensoryMessage(SensoryType.Sight, 100, contextualString);
-            var emoteEvent = new VerbalCommunicationEvent(actionInput.Controller.Thing, msg, VerbalCommunicationType.Emote);
-            actionInput.Controller.Thing.Eventing.OnCommunicationRequest(emoteEvent, EventScope.ParentsDown);
+            var emoteEvent = new VerbalCommunicationEvent(actionInput.Actor, msg, VerbalCommunicationType.Emote);
+            actionInput.Actor.Eventing.OnCommunicationRequest(emoteEvent, EventScope.ParentsDown);
             if (!emoteEvent.IsCancelled)
             {
-                actionInput.Controller.Thing.Eventing.OnCommunicationEvent(emoteEvent, EventScope.ParentsDown);
+                actionInput.Actor.Eventing.OnCommunicationEvent(emoteEvent, EventScope.ParentsDown);
             }
         }
 

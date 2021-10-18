@@ -23,7 +23,7 @@ namespace WheelMUD.Core
                 return string.Format("Nobody can use '{0}' right now!", command.Name);
             }
 
-            Thing entity = command.ActionInput.Controller.Thing;
+            Thing entity = command.ActionInput.Actor;
             if (entity == null)
             {
                 return "You must exist before issuing commands!";

@@ -38,10 +38,10 @@ namespace WheelMUD.Actions
 
             // Die has to be > 5 to get out
             // If this were non-temporary, it should be using events instead of Write.
-            var userControlledBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<UserControlledBehavior>();
+            var userControlledBehavior = actionInput.Actor.Behaviors.FindFirst<UserControlledBehavior>();
             if (die.Roll() > 5)
             {
-                actionInput.Controller.Thing.Behaviors.Remove(immobileEffect);
+                actionInput.Actor.Behaviors.Remove(immobileEffect);
                 userControlledBehavior.Controller.Write(new OutputBuilder().
                     AppendLine("You manager to struggle free"));
             }
@@ -51,7 +51,7 @@ namespace WheelMUD.Actions
                     AppendLine("You fail to struggle from the web"));
             }
 
-            actionInput.Controller.Thing.Behaviors.Add(new UnbalanceEffect()
+            actionInput.Actor.Behaviors.Add(new UnbalanceEffect()
             {
                 Duration = new TimeSpan(0, 0, 0, 0, 500),
             });
@@ -69,7 +69,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: The initiator must be currently immobilized.
-            immobileEffect = actionInput.Controller.Thing.Behaviors.FindFirst<ImmobileEffect>();
+            immobileEffect = actionInput.Actor.Behaviors.FindFirst<ImmobileEffect>();
             if (immobileEffect == null)
             {
                 return "You are not immobile, so what is the point of struggling?";

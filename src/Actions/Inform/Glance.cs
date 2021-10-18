@@ -33,10 +33,10 @@ namespace WheelMUD.Actions
         public override void Execute(ActionInput actionInput)
         {
             // Simply send a sensory event to the glancer; If they can see it, they'll get the output.
-            var sender = actionInput.Controller;
-            var message = new SensoryMessage(SensoryType.Sight, 100, BuildGlance(sender.Thing));
-            var sensoryEvent = new SensoryEvent(sender.Thing, message);
-            sender.Thing.Eventing.OnMiscellaneousEvent(sensoryEvent, EventScope.SelfOnly);
+            var actor = actionInput.Actor;
+            var message = new SensoryMessage(SensoryType.Sight, 100, BuildGlance(actor));
+            var sensoryEvent = new SensoryEvent(actor, message);
+            actor.Eventing.OnMiscellaneousEvent(sensoryEvent, EventScope.SelfOnly);
         }
 
         /// <summary>Checks against the guards for the command.</summary>
@@ -51,7 +51,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: the sender must be capable of sensing/perceiving things.
-            sensesBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<SensesBehavior>();
+            sensesBehavior = actionInput.Actor.Behaviors.FindFirst<SensesBehavior>();
 
             return sensesBehavior == null ? "You are incapable of perceiving anything." : null;
         }

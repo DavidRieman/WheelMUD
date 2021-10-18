@@ -47,8 +47,8 @@ namespace WheelMUD.Actions
             // TODO: Should not be needed after OLC and instant-spawn commands which should work
             // for any type of Thing; not just portals.  Spawning (either way) should use the Request
             // and Event pattern.
-            actionInput.Controller.Thing.Parent.Add(portalItem);
-            var userControlledBehavior = actionInput.Controller.Thing.Behaviors.FindFirst<UserControlledBehavior>();
+            actionInput.Actor.Parent.Add(portalItem);
+            var userControlledBehavior = actionInput.Actor.Behaviors.FindFirst<UserControlledBehavior>();
             userControlledBehavior.Controller.Write(new OutputBuilder().
                 AppendLine("A magical portal opens up in front of you."));
         }
