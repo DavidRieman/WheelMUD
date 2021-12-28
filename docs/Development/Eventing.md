@@ -43,8 +43,8 @@ The developer should be able to build this behavior into a small library that ca
 
 Thematically, it doesn't make sense for this approach to allow the players to walk away in the middle of the game, to go off and do combat while still receiving output from the game room that they already left, or walking back in an hour later and instantly being part of the game again, etc. There can be any number of reasons the player suddenly tries to leave (such as being teleported out or having "follow" mode on while their leader comes in and out of the room...) So either MyMiniGameBehavior will want to make you forfeit when you do leave, or block requests to leave with a message like "You have to `forfeit` to leave the game."
 
-The former can be accomplished by subscribing to `OnMovementEvents`. On receipt, if the `Thing` is leaving and is a player in the game, force them to forfeit.
-The latter can be accomplished by subscribing to `OnMovementRequests`. On receipt, if the `Thing` is requesting to leave but is a player in the game, Cancel the request with the message about the forfeit context command.
+The former can be accomplished by subscribing to `OnMovementEvents`. On receipt, if the leaving `Thing` is a player in the game, force them to forfeit.
+The latter can be accomplished by subscribing to `OnMovementRequests`. On receipt, if the `Thing` requesting to leave is a player in the game, Cancel the request with the message about the `forfeit` context command.
 
 ## Example: Jail
 An administrative "jail" command would likely want to teleport a player straight to a special jail room, regardless of whether they were considered immobile from some other system.
@@ -65,5 +65,14 @@ Printing something like "you see ..." doesn't make sense if the character is cur
 To facilitate these easily, we have SensoryEvents which take a SensoryMessage, for propagating those the same way as other events.
 Any eligible witnesses to the propagated event will see the version of the output that makes sense for their particular context.
 
-## Event Scope and Propagation
-TO DO: Describe EventScope.cs usage scenarios...
+## Event Scope
+Eventing methods all take an object that describes the event (and usually contains a `SensoryMessage`), and a value describing the `EventScope`.
+The `EventScope` dictates who gets a chance to handle or witness it. For example, a player who issues a "smiles" emote generates a `SensoryMessage` for their Request+Event. The Request will be sent with `EventScope.ParentsDown` relative to the player `Thing` itself, meaning the eligible witnesses may be the room itself and all the players within. After the _Request_ resolves with no cancellations, the same object and scope value will be sent as an _Event_. Receiving that event is when each witness uses the sensory system to pick which message will be printed to them (if any at all) such as "Bob smiles" (or perhaps nothing if the witness is, say, blinded right now).
+
+### Event Scope Propagation
+An interesting aspect of the current event scope propagation scheme is that usually the whole child tree of the broadcast point gets to witness events. For example, if a player is holding an intelligent weapon or a scrying object or has a "tiny" character on their shoulder or in their backback, or a player in a "car" sub-Thing of the "room"... All of these sub-Things will get a chance to witness any events (like "Bob smiles").
+
+This makes sense in most cases, but is not optimal in others. For example, the tiny character in another's closed backpack gets to "see" outside the backpack. For now this feels like the right level of correctness versus complexity, as such cases won't be "real" scenarios in a typical MUD and may generally be forgiven by a player of such a complex game anyway. For ideas and discussions where we might want to go on this, check @@@ DISCUSSION THREAD LINK @@@.
+
+### Global Events
+There are also global events attached to specific systems. For example, when a player has logged in, a `GlobalPlayerLogInEvent` is sent through the `PlayerManager` to any listeners. To build a "friends" system that notifies a player whenever one of their friends has logged in, one could subscribe to `GlobalPlayerLogInEvent`: The reacting code could check to see if the logged-in player is one of their friends, and if so, notify them that their friend has just logged in. It would silently ignore all other logins.
