@@ -14,10 +14,10 @@ We generally refer to these simply as "Requests" and "Events", or to refer to bo
 A Request is sent to listeners to find out if any game systems will block (cancel) the action.
 Then (if a related Request was not cancelled), an Event is sent to signal to listeners that something has happened.
 
-For example, when a player issues an "east" command to take their character to the next room to the east, a MovementRequest will be sent out.
-Then, if no game systems Cancel the request, their movement is committed and a MovementEvent is sent out.
+For example, when a player issues an "east" command to take their character to the next room to the east, a `MovementRequest` will be sent out.
+Then, if no game systems Cancel the request, their movement is committed and a `MovementEvent` is sent out.
 
-Systems which want that chance to Cancel a request can subscribe to OnMovementRequest, while systems which want to know that such a movement has actually occurred can subscribe to OnMovementEvent.
+Systems which want that chance to Cancel a request can subscribe to `OnMovementRequest`, while systems which want to know that such a movement has actually occurred can subscribe to `OnMovementEvent`.
 
 ## Encapsulation
 This system of Requests and Events helps support encapsulation by separating all the special cases and scenarios.
@@ -26,7 +26,7 @@ Maybe there's a door in the way that is closed.
 Maybe the character is in combat. Or dead, or unconscious. Or currently immobilized by a spell.
 Maybe the character is in a mini-game and have to exit that mode first.
 Instead of all these, and an infinitely expanding number of _other_ future cases, having to be modifications of the Core movement code: The event system allows movement code to remain focused on movement.
-Similarly, the systems which cancel impact movement get to declaratively describe this effect close to where it matters. For example, an ImmobilizationEffect on a player can listen to requests of the player it is attached to, and cancel them as appropriate.
+Similarly, the systems which cancel impact movement get to declaratively describe this effect close to where it matters. For example, an ImmobilizationEffect on a player can listen to requests of the player it is attached to, and cancel them as appropriate until the effect has expired.
 
 ## Extensibility
 In the examples shown above, it is clear to see that _some_ of these systems may be eligible to be game-system-agnostic, Core systems.
@@ -36,13 +36,15 @@ It would be a shame if a typical game developer had to frequently modify Core co
 It would also be a shame if a developer of a cool piece of interactivity had to build it as a spaghetti mess of modifications to dozens of existing Core code files: This would be very difficult to package up and share with others successfully, which would dampen community sharing and the pace of technological advancement.
 
 ## Example: Mini-Game
-Let's suppose a developer built MyMiniGameBehavior, which a world builder can attach to a game board Thing to be placed in a room in the game, which exposes a set of "context commands" to characters in the room, including one to join other players to get in on the next round. The behavior sends output to the players frequently each round.
-The developer should be able to build this behavior into a small library that can be compiled and "dropped in" to an existing MUD (picked up through MEF extensibility) and immediately available to their world builders to put on an in-game table Thing.
+Let's suppose a developer is building MyMiniGameBehavior, for world builders to attach to `Thing` representing the game board.
+This `Thing` would be placed in a room, and will expose a set of "context commands" to characters in the room, including one to join other players on the next round. The behavior sends output to the players frequently each round.
+
+The developer should be able to build this behavior into a small library that can be compiled and "dropped in" to an existing MUD (picked up through MEF extensibility) and immediately available to their world builders to put on an in-game table `Thing`.
 
 Thematically, it doesn't make sense for this approach to allow the players to walk away in the middle of the game, to go off and do combat while still receiving output from the game room that they already left, or walking back in an hour later and instantly being part of the game again, etc. There can be any number of reasons the player suddenly tries to leave (such as being teleported out or having "follow" mode on while their leader comes in and out of the room...) So either MyMiniGameBehavior will want to make you forfeit when you do leave, or block requests to leave with a message like "You have to `forfeit` to leave the game."
 
-The former can be accomplished by subscribing to OnMovementEvents. On receipt, if the Thing is leaving and is a player in the game, force them to forfeit.
-The latter can be accomplished by subscribing to OnMovementRequests. On receipt, if the Thing is requesting to leave but is a player in the game, Cancel the request with the message about the forfeit context command.
+The former can be accomplished by subscribing to `OnMovementEvents`. On receipt, if the `Thing` is leaving and is a player in the game, force them to forfeit.
+The latter can be accomplished by subscribing to `OnMovementRequests`. On receipt, if the `Thing` is requesting to leave but is a player in the game, Cancel the request with the message about the forfeit context command.
 
 ## Example: Jail
 An administrative "jail" command would likely want to teleport a player straight to a special jail room, regardless of whether they were considered immobile from some other system.
