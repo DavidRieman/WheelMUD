@@ -7,6 +7,7 @@
 //   TEMP CONTENT FROM REMOVED FILES - FOR TEMPORARY SLN SEARCHABILITY ONLY WHILE
 //   TRANSITIONING CODE TO NEW BEHAVIORS, EVENTS, MEF, ETC.
 //   DO NOT REMOVE UNTIL EACH PART IS DEFINITELY REPLACED/PROVEN WITH BEHAVIORS ETC.
+//   (Or remove when replacement work is planned and tracked properly in GitHub.)
 // </summary>
 //-----------------------------------------------------------------------------
 
@@ -645,101 +646,6 @@ namespace WheelMUD.Universe.Things
         {
             get { return base.Description.Replace("%numSipsLeft%", SipsLeft.ToString()); }
             set { base.Description = value; }
-        }
-    }
-}*/
-
-// Removed Furniture.cs:
-/*
-namespace WheelMUD.Universe.Things
-{
-    /// <summary>TODO: DESCRIBE</summary>
-    public class Furniture : Thing //AbstractContainer
-    {
-        /// <summary>Gets or sets the description of the item</summary>
-        public new string Description
-        {
-            get
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine(base.Description);
-
-                if (LiquidSourceBehavior != null)
-                {
-                    string sound = LiquidSourceBehavior.FlowingSound;
-                    string liquid = LiquidSourceBehavior.LiquidName;
-
-                    if (LiquidSourceBehavior.IsFlowing)
-                    {
-                        if (HoldsLiquid)
-                        {
-                            sb.AppendLine(string.Format("{0} {1} in of the {2}.", liquid, sound, Name));
-                        }
-                        else
-                        {
-                            sb.AppendLine(string.Format("{0} {1} out of the {2}.", liquid, sound, Name));
-                        }
-                    }
-                    else
-                    {
-                        if (HoldsLiquid)
-                        {
-                            sb.AppendLine(string.Format("Stagnant liquid sits in of the {0}.", Name));
-                        }
-                        else
-                        {
-                            sb.AppendLine(string.Format("No liquid flows out of the {0}.", Name));
-                        }
-                    }
-                }
-
-                if (IsClosable)
-                {
-                    if (OpenState == OpenState.Open)
-                    {
-                        if (Count > 0)
-                        {
-                            sb.AppendLine("Inside, you see:");
-                            foreach (Item item in this)
-                            {
-                                sb.Append(item.Id.ToString().PadRight(20));
-                                sb.AppendLine(item.FullName);
-                            }
-                        }
-                        else
-                        {
-                            sb.Append(string.Format("The interior of {0} ({1}) is empty", Name, Id));
-                        }
-                    }
-                    else
-                    {
-                        sb.AppendLine(string.Format("The {0} appears to hold things, but is closed", Name));
-                    }
-                }
-                else
-                {
-                    if (Count > 0)
-                    {
-                        sb.AppendLine(string.Format("On the {0} you see:", Name));
-                        foreach (Item item in this)
-                        {
-                            sb.Append(item.Id.ToString().PadRight(20));
-                            sb.AppendLine(item.FullName);
-                        }
-                    }
-                    else
-                    {
-                        sb.Append(string.Format("There is nothing on the {0}.", Name));
-                    }
-                }
-
-                return sb.ToString().Trim();
-            }
-
-            set
-            {
-                base.Description = value;
-            }
         }
     }
 }*/

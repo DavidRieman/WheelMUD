@@ -107,13 +107,11 @@ namespace WheelMUD.Core
                 if (parent != null)
                 {
                     // If this is a standard movement request, find out if we need to cancel it.
-                    var movementEvent = e as MovementEvent;
-                    if (movementEvent != null && movementEvent.GoingVia == Parent)
+                    if (e is MovementEvent movementEvent && movementEvent.GoingVia == parent)
                     {
                         // TODO: If the actor also cannot perceive our parent properly, perhaps broadcast
                         //     a sensory event like "Dude blindly ran into a door."
-                        string message = string.Format("You cannot move through {0} since it is closed!", Parent.Name);
-                        movementEvent.Cancel(message);
+                        movementEvent.Cancel($"You cannot move through {parent.Name} since it is closed!");
                     }
                 }
             }

@@ -110,6 +110,10 @@ namespace WheelMUD.Core
 
         /// <summary>Have the entity perceive a list of items with its senses.</summary>
         /// <returns>A list of perceived items.</returns>
+        /// <remarks>
+        /// TODO: Remove? Not sure if this is going to be necessary, as a RoomRenderer and such for a given game
+        ///       is free to make its own decisions about how to group/categorize Things that are in the room, etc.
+        /// </remarks>
         public IList<Thing> PerceiveItems()
         {
             var self = Parent;
