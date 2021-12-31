@@ -5,15 +5,15 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.Behaviors
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A <see cref="Thing"/> having WieldableBehavior can be wielded by a player or NPC.</summary>
     /// <remarks>
     /// Typically wielding would be for weapons, but it could also be applied to non-weapons
-    /// for roleplay or quests; thus WieldableBehavior is independent from WeaponBehavior.
+    /// for role-play or quests; thus WieldableBehavior is independent from WeaponBehavior.
     /// </remarks>
     public class WieldableBehavior : Behavior
     {

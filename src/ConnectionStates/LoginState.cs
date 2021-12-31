@@ -12,7 +12,6 @@ using WheelMUD.Data;
 using WheelMUD.Data.Repositories;
 using WheelMUD.Server;
 
-
 namespace WheelMUD.ConnectionStates
 {
     /// <summary>The 'login' session state.</summary>
@@ -50,20 +49,17 @@ namespace WheelMUD.ConnectionStates
                 Session.User = authenticatedUser;
                 if (!AppConfigInfo.Instance.UserAccountIsPlayerCharacter)
                 {
+                    // TODO: https://github.com/DavidRieman/WheelMUD/issues/32
                     throw new NotImplementedException("Need to build a ChooseCharacterState!");
                 }
                 else
                 {
                     var characterId = Session.User.PlayerCharacterIds[0];
-                    Session.Thing = DocumentRepository<Thing>.Load(characterId);
 
-                    // TODO: When loading, the player has their inventory, but the inventory (Session.Thing.Children) is
-                    //       not repairing their Parent properties. Need to address. Perhaps inventory will be separate
-                    //       documents thought?  TBD.  (As is, interacting with your reloaded inventory can crash.)
+                    var existingPlayer = PlayerManager.Instance.Players.Where(p => p.Parent?.Id == characterId).FirstOrDefault();
+                    Session.Thing = existingPlayer?.Parent ?? DocumentRepository<Thing>.Load(characterId);
 
-                    // TODO: https://github.com/DavidRieman/WheelMUD/pull/66 - Clean up previous session properly (this won't always work).
-                    //Session.Thing.Parent?.Children.RemoveAll(t => t.Id == this.Session.Thing.Id);
-                    Session.Thing.Behaviors.SetParent(Session.Thing);
+                    Session.Thing.Behaviors.RepairParent(Session.Thing);
                     var playerBehavior = Session.Thing.FindBehavior<PlayerBehavior>();
                     if (playerBehavior != null)
                     {
@@ -79,6 +75,8 @@ namespace WheelMUD.ConnectionStates
                         Session.SetState(new ConnectedState(Session));
                         Session.WritePrompt();
                     }
+
+                    Session.Thing.RepairParentTree();
                 }
                 isLoggingIn = false;
             }

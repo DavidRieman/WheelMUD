@@ -270,7 +270,7 @@ namespace WheelMUD.Core
         private List<Thing> children { get; set; }
 
         /// <summary>Gets the children of this Thing as a read-only collection.</summary>
-        /// <remarks>@@@ TO ADD A CHILD... USE PUBLIC INTERFACE... @@@</remarks>
+        /// <remarks>To add a child properly, use the Add method.</remarks>
         public ReadOnlyCollection<Thing> Children
         {
             get { return children.AsReadOnly(); }
@@ -365,6 +365,25 @@ namespace WheelMUD.Core
             var newThing = new Thing();
             newThing.CloneProperties(this);
             return newThing;
+        }
+
+        /// <summary>Sets the Parent of all of this Thing's children and behaviors to be this Thing. Use sparingly!</summary>
+        /// <remarks>
+        /// In order for persistence to work without infinite reference loops, the Parent of a Thing is not stored.
+        /// As such, this method should be called after restoring a Thing from persistence (and is the ONLY time this
+        /// should need to be called).
+        /// </remarks>
+        public void RepairParentTree()
+        {
+            lock (lockObject)
+            {
+                Behaviors.RepairParent(this);
+                foreach (var child in children)
+                {
+                    child.Parent = this;
+                    child.RepairParentTree(); // Recurse through their children and so on to repair them as well.
+                }
+            }
         }
 
         /// <summary>Save the item to the path. Useful for debugging, as well as later for DB persistence.</summary>
@@ -607,14 +626,14 @@ namespace WheelMUD.Core
                     if (oldParent != null && multipleParentsBehavior == null)
                     {
                         removalRequest = oldParent.RequestRemoval(thing);
-                        if (removalRequest.IsCancelled)
+                        if (removalRequest.IsCanceled)
                         {
                             return false;
                         }
                     }
 
                     var addRequest = RequestAdd(thing);
-                    if (addRequest.IsCancelled)
+                    if (addRequest.IsCanceled)
                     {
                         return false;
                     }
@@ -778,7 +797,7 @@ namespace WheelMUD.Core
         /// <returns>True if the thing has been successfully removed, else false.</returns>
         private bool PerformRemoval(Thing thingToRemove, RemoveChildEvent removalEvent, MultipleParentsBehavior multipleParentsBehavior)
         {
-            if (removalEvent.IsCancelled)
+            if (removalEvent.IsCanceled)
             {
                 return false;
             }
@@ -808,7 +827,7 @@ namespace WheelMUD.Core
 
         private bool PerformAdd(Thing thingToAdd, AddChildEvent addEvent, MultipleParentsBehavior multipleParentsBehavior)
         {
-            if (addEvent.IsCancelled)
+            if (addEvent.IsCanceled)
             {
                 return false;
             }

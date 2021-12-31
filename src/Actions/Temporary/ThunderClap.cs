@@ -45,7 +45,7 @@ namespace WheelMUD.Actions
 
             var attackEvent = new AttackEvent(target, sm, actionInput.Actor);
             actionInput.Actor.Eventing.OnCombatRequest(attackEvent, EventScope.ParentsDown);
-            if (!attackEvent.IsCancelled)
+            if (!attackEvent.IsCanceled)
             {
                 var deafenEffect = new AlterSenseEffect()
                 {

@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+
 namespace WheelMUD.Effects
 {
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>An effect causing the thing to be unconscious.</summary>
     public class FaintEffect : Effect
     {

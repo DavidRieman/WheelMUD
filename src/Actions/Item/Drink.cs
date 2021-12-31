@@ -55,7 +55,7 @@ namespace WheelMUD.Actions
             var thingToDrink = actor.FindChild(itemIdentifier.ToLower());
             if (thingToDrink == null)
             {
-                return $"You do not hold {actionInput.Tail.Trim()}.";
+                return $"You do not hold '{actionInput.Tail}'.";
             }
 
             // Rule: Is the item drinkable?

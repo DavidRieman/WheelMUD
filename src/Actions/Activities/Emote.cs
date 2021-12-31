@@ -43,7 +43,7 @@ namespace WheelMUD.Actions
             var msg = new SensoryMessage(SensoryType.Sight, 100, contextualString);
             var emoteEvent = new VerbalCommunicationEvent(actionInput.Actor, msg, VerbalCommunicationType.Emote);
             actionInput.Actor.Eventing.OnCommunicationRequest(emoteEvent, EventScope.ParentsDown);
-            if (!emoteEvent.IsCancelled)
+            if (!emoteEvent.IsCanceled)
             {
                 actionInput.Actor.Eventing.OnCommunicationEvent(emoteEvent, EventScope.ParentsDown);
             }

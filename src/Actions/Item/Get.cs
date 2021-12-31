@@ -128,7 +128,7 @@ namespace WheelMUD.Actions
                 }
 
                 // TODO: Removed OpensClosesBehavior check here... Test to ensure that 'get' is blocked by the
-                //       OpensClosesBehavior receiving and cancelling the relevant events and message is good...
+                //       OpensClosesBehavior receiving and canceling the relevant events and message is good...
 
                 takeFrom = foundContainer;
             }

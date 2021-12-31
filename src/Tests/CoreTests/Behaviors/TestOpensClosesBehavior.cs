@@ -77,7 +77,7 @@ namespace WheelMUD.Tests.Behaviors
             opensClosesBehavior.Close(actingThing);
             Assert.IsTrue(!opensClosesBehavior.IsOpen);
 
-            // Verify that no event occurred (but any potentially-cancelled requests are irrelevant).
+            // Verify that no event occurred (but any potentially-canceled requests are irrelevant).
             Assert.IsTrue(lastWitnessEvent == null);
             Assert.IsTrue(lastActorEvent == null);
 
@@ -102,7 +102,7 @@ namespace WheelMUD.Tests.Behaviors
             opensClosesBehavior.Open(actingThing);
             Assert.IsTrue(opensClosesBehavior.IsOpen);
 
-            // Verify that no event occurred (but any potentially-cancelled requests are irrelevant).
+            // Verify that no event occurred (but any potentially-canceled requests are irrelevant).
             Assert.IsTrue(lastWitnessEvent == null);
             Assert.IsTrue(lastActorEvent == null);
 

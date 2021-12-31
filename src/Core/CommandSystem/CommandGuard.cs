@@ -41,7 +41,7 @@ namespace WheelMUD.Core
 
                 // Otherwise, this player does not have permission; we do not want to 
                 // check the mobile/item/room security role on players, so we're done.
-                return string.Format("You do not have permission to use '{0}' right now.", command.Name);
+                return $"You do not have permission to use '{command.Name}' right now.";
             }
 
             MobileBehavior mobile = entity.FindBehavior<MobileBehavior>();

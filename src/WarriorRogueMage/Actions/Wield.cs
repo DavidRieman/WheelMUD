@@ -59,7 +59,7 @@ namespace WarriorRogueMage.Actions
 
             wielder.Eventing.OnCombatRequest(wieldEvent, EventScope.ParentsDown);
 
-            if (!wieldEvent.IsCancelled)
+            if (!wieldEvent.IsCanceled)
             {
                 wielder.Eventing.OnCombatEvent(wieldEvent, EventScope.ParentsDown);
             }

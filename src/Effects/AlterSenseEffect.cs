@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Effects
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An effect which alters a thing's ability to sense (positively or negatively).</summary>
     /// <remarks>
     /// TODO: Add a concept of 'current' values of sense capabilities etc to SenseManager or whatnot (not 

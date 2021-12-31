@@ -94,7 +94,7 @@ namespace WheelMUD.Core
                 {
                     var callback = callbackQueue.Dequeue().Callback;
 
-                    if (!timeEvent.IsCancelled)
+                    if (!timeEvent.IsCanceled)
                     {
                         if (callback != null)
                         {

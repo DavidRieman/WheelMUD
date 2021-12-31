@@ -43,7 +43,7 @@ namespace WheelMUD.Core
         public SensoryMessage SensoryMessage { get; private set; }
     }
 
-    /// <summary>Represents a game event that can be cancelled prior to actually raising the event.</summary>
+    /// <summary>Represents a game event that can be canceled prior to actually raising the event.</summary>
     public class CancellableGameEvent : GameEvent
     {
         private bool sentCancelMessage;
@@ -56,15 +56,15 @@ namespace WheelMUD.Core
         {
         }
 
-        /// <summary>Gets a value indicating whether this event has been cancelled.</summary>
-        /// <value><c>true</c> if this instance is cancelled; otherwise, <c>false</c>.</value>
-        public bool IsCancelled { get; private set; }
+        /// <summary>Gets a value indicating whether this event has been canceled.</summary>
+        /// <value><c>true</c> if this instance is canceled; otherwise, <c>false</c>.</value>
+        public bool IsCanceled { get; private set; }
 
         /// <summary>Cancels the event, with the cancellation described by the specified cancel message.</summary>
         /// <param name="cancelMessage">The cancel message.</param>
         public void Cancel(string cancelMessage)
         {
-            IsCancelled = true;
+            IsCanceled = true;
             if (!string.IsNullOrEmpty(cancelMessage) && !sentCancelMessage)
             {
                 // Write up to one cancellation message directly to the user/initiator if appropriate.

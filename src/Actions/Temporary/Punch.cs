@@ -71,7 +71,7 @@ namespace WheelMUD.Actions
 
             // Broadcast combat requests/events to the room they're happening in.
             actionInput.Actor.Eventing.OnCombatRequest(attackEvent, EventScope.ParentsDown);
-            if (!attackEvent.IsCancelled)
+            if (!attackEvent.IsCanceled)
             {
                 target.Stats["HP"].Decrease(damage, actionInput.Actor);
                 actionInput.Actor.Eventing.OnCombatEvent(attackEvent, EventScope.ParentsDown);

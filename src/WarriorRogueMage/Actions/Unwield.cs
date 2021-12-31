@@ -57,7 +57,7 @@ namespace WarriorRogueMage.Actions
 
             actor.Eventing.OnCombatRequest(unwieldEvent, EventScope.ParentsDown);
 
-            if (!unwieldEvent.IsCancelled)
+            if (!unwieldEvent.IsCanceled)
             {
                 actor.Eventing.OnCombatEvent(unwieldEvent, EventScope.ParentsDown);
             }

@@ -78,7 +78,7 @@ namespace WheelMUD.Tests.Behaviors
             locksUnlocksBehavior.Lock(actingThing);
             Assert.IsTrue(locksUnlocksBehavior.IsLocked);
 
-            // Verify that no event occurred (but any potentially-cancelled requests are irrelevant).
+            // Verify that no event occurred (but any potentially-canceled requests are irrelevant).
             Assert.IsTrue(lastWitnessEvent == null);
             Assert.IsTrue(lastActorEvent == null);
 
@@ -103,7 +103,7 @@ namespace WheelMUD.Tests.Behaviors
             locksUnlocksBehavior.Unlock(actingThing);
             Assert.IsTrue(!locksUnlocksBehavior.IsLocked);
 
-            // Verify that no event occurred (but any potentially-cancelled requests are irrelevant).
+            // Verify that no event occurred (but any potentially-canceled requests are irrelevant).
             Assert.IsTrue(lastWitnessEvent == null);
             Assert.IsTrue(lastActorEvent == null);
 
@@ -137,8 +137,8 @@ namespace WheelMUD.Tests.Behaviors
             Assert.IsTrue(locksUnlocksBehavior.IsLocked);
 
             // Verify that attempts to open the locked thing do not work.
-            // (Note that adding player-convenience features like automatic unlock attempts on behalf of the 
-            // player when trying to open something, depending on their settings or whatnot, may require such 
+            // (Note that adding player-convenience features like automatic unlock attempts on behalf of the
+            // player when trying to open something, depending on their settings or whatnot, may require such
             // tests to become much more robust here.)
             opensClosesBehavior.Open(actingThing);
             Assert.IsTrue(locksUnlocksBehavior.IsLocked);
@@ -150,7 +150,7 @@ namespace WheelMUD.Tests.Behaviors
             Assert.IsTrue(!locksUnlocksBehavior.IsLocked);
             Assert.IsTrue(opensClosesBehavior.IsOpen);
 
-            // Verify that trying to lock an open thing is either cancelled (leaving it open and unlocked) 
+            // Verify that trying to lock an open thing is either canceled (leaving it open and unlocked)
             // or is automatically closed for the actor since the intent could be implied.
             locksUnlocksBehavior.Lock(actingThing);
             bool isClosedAndLocked = !opensClosesBehavior.IsOpen && locksUnlocksBehavior.IsLocked;

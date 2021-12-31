@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace WheelMUD.Effects
 {
-    using System.Collections.Generic;
-
     /// <summary>An Unbalance effect.</summary>
     public class UnbalanceEffect : Effect
     {

@@ -44,7 +44,7 @@ namespace WheelMUD.Actions
 
             var sayEvent = new VerbalCommunicationEvent(actor, sm, VerbalCommunicationType.Say);
             actor.Eventing.OnCommunicationRequest(sayEvent, EventScope.ParentsDown);
-            if (!sayEvent.IsCancelled)
+            if (!sayEvent.IsCanceled)
             {
                 actor.Eventing.OnCommunicationEvent(sayEvent, EventScope.ParentsDown);
             }

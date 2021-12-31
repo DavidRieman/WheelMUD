@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Core
 {
-    using System;
-
     /// <summary>The variable processor.</summary>
     public static class VariableProcessor
     {

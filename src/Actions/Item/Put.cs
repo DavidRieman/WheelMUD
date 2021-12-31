@@ -142,7 +142,7 @@ namespace WheelMUD.Actions
             thing = actionInput.Actor.Children.Where(i => i.Name == itemName.ToLower()).FirstOrDefault();
             if (thing == null)
             {
-                return $"You do not hold {itemName}.";
+                return $"You do not hold '{itemName}'.";
             }
 
             return null;

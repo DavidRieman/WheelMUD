@@ -64,7 +64,7 @@ namespace WheelMUD.Core
         /// Things like deserialization won't necessarily restore all parent relationships correctly, for a freshly
         /// loaded Thing, so this method provides a means to repair the parent relationship, once, right afterwards.
         /// </remarks>
-        public void SetParent(Thing parent)
+        public void RepairParent(Thing parent)
         {
             Parent = parent;
             lock (ManagedBehaviors)

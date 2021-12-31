@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-
     /// <summary>Houses eventing functionality for a Thing instance.</summary>
     public class ThingEventing
     {
@@ -25,32 +25,32 @@ namespace WheelMUD.Core
             this.owner = owner;
         }
 
-        /// <summary>A non-cancelled game combat event.</summary>
+        /// <summary>A non-canceled game combat event.</summary>
         public event GameEventHandler CombatEvent;
 
         /// <summary>A cancellable game combat request.</summary>
         public event CancellableGameEventHandler CombatRequest;
 
-        /// <summary>A non-cancelled movement event.</summary>
+        /// <summary>A non-canceled movement event.</summary>
         public event GameEventHandler MovementEvent;
 
         /// <summary>A cancellable movement request.</summary>
         public event CancellableGameEventHandler MovementRequest;
 
-        /// <summary>A non-cancelled communication event.</summary>
+        /// <summary>A non-canceled communication event.</summary>
         public event GameEventHandler CommunicationEvent;
 
         /// <summary>A cancellable communication request.</summary>
         public event CancellableGameEventHandler CommunicationRequest;
 
-        /// <summary>A non-cancelled event which does not fit in the other eventing categories.</summary>
+        /// <summary>A non-canceled event which does not fit in the other eventing categories.</summary>
         public event GameEventHandler MiscellaneousEvent;
 
         /// <summary>A cancellable request which does not fit in the other request categories.</summary>
         public event CancellableGameEventHandler MiscellaneousRequest;
 
         /// <summary>Raises the <see cref="CombatRequest"/> event.</summary>
-        /// <param name="e">The <see cref="WheelMUD.Core.Events.CancellableGameEvent"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="Core.Events.CancellableGameEvent"/> instance containing the event data.</param>
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnCombatRequest(CancellableGameEvent e, EventScope eventScope)
         {
@@ -58,7 +58,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Raises the <see cref="MovementRequest"/> event.</summary>
-        /// <param name="e">The <see cref="WheelMUD.Core.Events.CancellableGameEvent"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="Core.Events.CancellableGameEvent"/> instance containing the event data.</param>
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnMovementRequest(CancellableGameEvent e, EventScope eventScope)
         {
@@ -66,7 +66,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Raises the <see cref="CommunicationRequest"/> event.</summary>
-        /// <param name="e">The <see cref="WheelMUD.Core.Events.CancellableGameEvent"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="Core.Events.CancellableGameEvent"/> instance containing the event data.</param>
         /// <param name="eventScope">The base target(s) to broadcast to, including their children.</param>
         public void OnCommunicationRequest(CancellableGameEvent e, EventScope eventScope)
         {
@@ -121,7 +121,7 @@ namespace WheelMUD.Core
                 case EventScope.ParentsDown:
                     // Send the request to each parent, until cancellation is noticed or we've finished.
                     Queue<Thing> requestQueue = new Queue<Thing>(owner.Parents);
-                    while (requestQueue.Count > 0 && !e.IsCancelled)
+                    while (requestQueue.Count > 0 && !e.IsCanceled)
                     {
                         Thing currentParent = requestQueue.Dequeue();
                         currentParent.Eventing.OnRequest(handlerSelector, e, true);
@@ -166,7 +166,7 @@ namespace WheelMUD.Core
 
         /// <summary>Shared code for request handling.</summary>
         /// <param name="handlerSelector">A function which returns the appropriate Handler for a given Thing.</param>
-        /// <param name="e">The game event args to pass through.</param>
+        /// <param name="e">The game event arguments to pass through.</param>
         /// <param name="cascadeEventToChildren">If true, the event should be cascaded to child things as well.</param>
         private void OnRequest(Func<ThingEventing, CancellableGameEventHandler> handlerSelector, CancellableGameEvent e, bool cascadeEventToChildren)
         {
@@ -184,8 +184,8 @@ namespace WheelMUD.Core
                 {
                     handler(currentRequestTarget, e);
 
-                    // If the event has been cancelled by the handler, we no longer need to look for further permission.
-                    if (e.IsCancelled)
+                    // If the event has been canceled by the handler, we no longer need to look for further permission.
+                    if (e.IsCanceled)
                     {
                         break;
                     }

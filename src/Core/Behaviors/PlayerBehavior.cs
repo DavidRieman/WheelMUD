@@ -188,7 +188,7 @@ namespace WheelMUD.Core
             PlayerManager.Instance.OnPlayerLogInRequest(player, e);
 
             // If nothing canceled this event request, carry on with the login.
-            if (!e.IsCancelled)
+            if (!e.IsCanceled)
             {
                 targetPlayerStartingPosition.Add(player);
 
@@ -242,7 +242,7 @@ namespace WheelMUD.Core
             PlayerManager.Instance.OnPlayerLogOutRequest(player, e);
 
             // If nothing canceled this event request, carry on with the logout.
-            if (!e.IsCancelled || force)
+            if (!e.IsCanceled || force)
             {
                 DateTime universalTime = DateTime.Now.ToUniversalTime();
                 PlayerData.LastLogout = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";

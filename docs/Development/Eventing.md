@@ -12,7 +12,7 @@ Most game actions will be facilitated through one or more Events, and a subclass
 We generally refer to these simply as "Requests" and "Events", or to refer to both inclusively we'll refer to "Eventing" instead.
 
 A Request is sent to listeners to find out if any game systems will block (cancel) the action.
-Then (if a related Request was not cancelled), an Event is sent to signal to listeners that something has happened.
+Then (if a related Request was not canceled), an Event is sent to signal to listeners that something has happened.
 
 For example, when a player issues an "east" command to take their character to the next room to the east, a `MovementRequest` will be sent out.
 Then, if no game systems Cancel the request, their movement is committed and a `MovementEvent` is sent out.
@@ -48,7 +48,7 @@ The latter can be accomplished by subscribing to `OnMovementRequests`. On receip
 
 ## Example: Jail
 An administrative "jail" command would likely want to teleport a player straight to a special jail room, regardless of whether they were considered immobile from some other system.
-So, occasionally, it may make sense for an action to be uncancellable: The system (like the jail command) could simply go straight to the Event instead of first raising a Request.
+So, occasionally, it may make sense for an action to be uncancelable: The system (like the jail command) could simply go straight to the Event instead of first raising a Request.
 Note though that this is itself a dangerous thing to do as it can break the assumptions that other systems have made about their state.
 For example, if the character was in combat, the combat system might not be designed to handle that sudden disappearance of a combatant gracefully, since it may be itself designed to Cancel any player movement requests. Or if the player was in a mini-game, perhaps they'll still be in it after being jailed, messing up the state of the mini-game for other players.
 

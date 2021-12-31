@@ -88,7 +88,7 @@ namespace WheelMUD.Actions
 
             // Broadcast the yell request at the specified place.
             place.Eventing.OnCommunicationRequest(yellEvent, EventScope.SelfDown);
-            if (!yellEvent.IsCancelled)
+            if (!yellEvent.IsCanceled)
             {
                 var exits = place.FindAllChildrenBehaviors<ExitBehavior>();
                 var destinations = from exit in exits
@@ -106,9 +106,9 @@ namespace WheelMUD.Actions
             }
             else
             {
-                // Create a new non-cancelled yell event; just because something suppressed part of the yell 
+                // Create a new non-canceled yell event; just because something suppressed part of the yell
                 // doesn't necessarily mean all other branches of the yell should be suppressed too.  IE if
-                // something to the west of our position prevents noise from going through there, the noise 
+                // something to the west of our position prevents noise from going through there, the noise
                 // that was also going northwards shouldn't suddenly stop.
                 CreateYellEvent(yeller);
             }

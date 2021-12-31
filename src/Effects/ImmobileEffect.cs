@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+
 namespace WheelMUD.Effects
 {
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>An immobilization effect.</summary>
     public class ImmobileEffect : Effect
     {

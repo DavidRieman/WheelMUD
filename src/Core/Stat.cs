@@ -167,7 +167,7 @@ namespace WheelMUD.Core
 
                         hostThing.Eventing.OnCombatRequest(e, EventScope.ParentsDown);
 
-                        if (!e.IsCancelled)
+                        if (!e.IsCanceled)
                         {
                             if (value >= maxValue)
                             {

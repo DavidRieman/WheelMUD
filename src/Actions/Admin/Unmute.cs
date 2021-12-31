@@ -36,7 +36,7 @@ namespace WheelMUD.Actions
             while ((effect = playerToUnmute.FindBehavior<MutedEffect>()) != null)
             {
                 // Cancel the event so it will be ignored by TimeSystem when the time expires.
-                effect.UnmuteEvent.Cancel("Mute cancelled.");
+                effect.UnmuteEvent.Cancel("Mute canceled.");
                 effect.Unmute();
             }
         }

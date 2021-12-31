@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
 using WheelMUD.Interfaces;
 
 namespace WheelMUD.Effects
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A class that represents the muted effect.</summary>
     public class MutedEffect : Effect
     {
@@ -77,7 +76,7 @@ namespace WheelMUD.Effects
             // Create event and broadcast it to let the affected parties know the effect was applied.
             var muteEvent = new EffectEvent(ActiveThing, Parent, SensoryMessage);
             ActiveThing.Eventing.OnCommunicationRequest(muteEvent, EventScope.ParentsDown);
-            if (!muteEvent.IsCancelled)
+            if (!muteEvent.IsCanceled)
             {
                 ActiveThing.Eventing.OnCommunicationEvent(muteEvent, EventScope.ParentsDown);
             }
@@ -99,14 +98,14 @@ namespace WheelMUD.Effects
 
             // Broadcast the event that was created earlier in OnAddBehavior.
             ActiveThing.Eventing.OnCommunicationRequest(UnmuteEvent, EventScope.ParentsDown);
-            if (!UnmuteEvent.IsCancelled)
+            if (!UnmuteEvent.IsCanceled)
             {
                 ActiveThing.Eventing.OnCommunicationEvent(UnmuteEvent, EventScope.ParentsDown);
             }
 
             // In case the effect was removed manually (i.e. not by TimeSystem), we should cancel the event so
             // TimeSystem will know to ignore it when the EndTime is reached.
-            if (UnmuteEvent != null && !UnmuteEvent.IsCancelled)
+            if (UnmuteEvent != null && !UnmuteEvent.IsCanceled)
             {
                 UnmuteEvent.Cancel(string.Empty);
             }

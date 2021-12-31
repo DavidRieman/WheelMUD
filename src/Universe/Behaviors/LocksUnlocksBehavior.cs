@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using WheelMUD.Core;
+
 namespace WheelMUD.Universe
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using WheelMUD.Core;
-
     /// <summary>LocksUnlocksBehavior provides the ability to lock and unlock a Thing.</summary>
     public class LocksUnlocksBehavior : Behavior
     {
@@ -87,7 +87,7 @@ namespace WheelMUD.Universe
         /// <summary>Lock or unlock this behavior's parent, via the specified actor.</summary>
         /// <param name="actor">The actor doing the locking or unlocking.</param>
         /// <param name="verb">Whether this is an "lock" or "unlock" action.</param>
-        /// <param name="newLockedState">The new IsLocked state to be set, if the request is not cancelled.</param>
+        /// <param name="newLockedState">The new IsLocked state to be set, if the request is not canceled.</param>
         private void LockOrUnlock(Thing actor, string verb, bool newLockedState)
         {
             // If we're already in the desired locked/unlocked state, we're already done with state changes.
@@ -115,7 +115,7 @@ namespace WheelMUD.Universe
                 }
             }
 
-            // Prepare the Lock/Unlock game event for sending as a request, and if not cancelled, again as an event.
+            // Prepare the Lock/Unlock game event for sending as a request, and if not canceled, again as an event.
             var contextMessage = new ContextualString(actor, thisThing)
             {
                 ToOriginator = $"You {verb} {thisThing.Name}.",
@@ -125,10 +125,10 @@ namespace WheelMUD.Universe
             var message = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
             var e = new LockUnlockEvent(thisThing, false, actor, message);
 
-            // Broadcast the Lock or Unlock Request and carry on if nothing cancelled it.
+            // Broadcast the Lock or Unlock Request and carry on if nothing canceled it.
             // Broadcast from the parents of the lockable/unlockable thing (IE a room or inventory where the lockable resides).
             thisThing.Eventing.OnMiscellaneousRequest(e, EventScope.ParentsDown);
-            if (!e.IsCancelled)
+            if (!e.IsCanceled)
             {
                 // Lock or Unlock the thing.
                 IsLocked = newLockedState;
@@ -143,7 +143,7 @@ namespace WheelMUD.Universe
         /// <param name="e">The cancellable event/request arguments.</param>
         private void RequestHandler(Thing root, CancellableGameEvent e)
         {
-            // Only cancel requestes to open our parent if it is currently locked.
+            // Only cancel requests to open our parent if it is currently locked.
             if (IsLocked)
             {
                 var parent = Parent;

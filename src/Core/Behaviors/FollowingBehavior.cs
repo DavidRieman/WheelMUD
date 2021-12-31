@@ -120,7 +120,7 @@ namespace WheelMUD.Core
 
                 self.Eventing.OnMovementRequest(followEvent, EventScope.ParentsDown);
 
-                if (!followEvent.IsCancelled)
+                if (!followEvent.IsCanceled)
                 {
                     target = new SimpleWeakReference<Thing>(newTarget);
                     newTarget.Eventing.MovementEvent += ProcessMovementEvent;
@@ -162,7 +162,7 @@ namespace WheelMUD.Core
 
                     Parent.Eventing.OnMovementRequest(followEvent, EventScope.ParentsDown);
 
-                    if (!followEvent.IsCancelled)
+                    if (!followEvent.IsCanceled)
                     {
                         // Finally make the change
                         target.Target = null;

@@ -102,7 +102,7 @@ namespace WheelMUD.Actions
             var thing = actor.Children.Where(t => t.Name.Equals(sourceContainerName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
             if (thing == null)
             {
-                return $"You do not hold {sourceContainerName}.";
+                return $"You do not hold '{sourceContainerName}'.";
             }
 
             // Rule: The targeted thing must be a container of some sort.
@@ -134,7 +134,7 @@ namespace WheelMUD.Actions
                 var destinationThing = actor.Children.Where(t => t.Name == destinationParentName.ToLower()).FirstOrDefault();
                 if (destinationThing == null)
                 {
-                    return $"You do not hold {destinationParentName}.";
+                    return $"You do not hold '{destinationParentName}'.";
                 }
 
                 containerBehavior = thing.FindBehavior<ContainerBehavior>();

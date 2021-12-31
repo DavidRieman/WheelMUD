@@ -14,7 +14,7 @@
 // any crafting-like actions IMO.  Thus an appropriate model might be to have a 
 // 'busy doing this action' model, where entering combat always cancels such an 
 // action (as it should not be used for combat actions), and if the user issues 
-// any new command, it is also cancelled.
+// any new command, it is also canceled.
 
 using System;
 using System.Collections.Generic;

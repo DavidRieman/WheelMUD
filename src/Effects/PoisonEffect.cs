@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+
 namespace WheelMUD.Effects
 {
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>PoisonEffect: Poisons a person.</summary>
     public class PoisonEffect : Effect
     {

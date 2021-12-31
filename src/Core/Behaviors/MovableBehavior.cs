@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-
     /// <summary>Behavior applied to objects that can move or be moved.</summary>
     public class MovableBehavior : Behavior
     {
@@ -27,16 +27,13 @@ namespace WheelMUD.Core
             ID = instanceId;
         }
 
-        // TODO: OpensClosesBehavior needs to listen for movement events and set e.Cancel if the transition object
-        //       is closed at the time.
-
         /// <summary>Move the entity to the specified destination.</summary>
         /// <param name="destination">
         /// TODO: The destination to move the entity to; if the destination has an ExitBehavior then this Thing is
         ///       automatically moved to the other destination of the exit (IE an adjacent room, portal destination,
         ///       or inside/outside of a vehicle, et cetera).
         /// </param>
-        /// <param name="goingVia">The thing we are travelling via (IE an Exit, an Enterable thing, etc.)</param>
+        /// <param name="goingVia">The thing we are traveling via (IE an Exit, an Enterable thing, etc.)</param>
         /// <param name="leavingMessage">A sensory message describing this sort of 'leaving' movement.</param>
         /// <param name="arrivingMessage">A sensory message describing this sort of 'arriving' movement.</param>
         /// <returns>True if the entity was successfully moved, else false.</returns>
@@ -45,17 +42,17 @@ namespace WheelMUD.Core
             Thing actor = Parent;
             Thing goingFrom = actor.Parent;
 
-            // Prepare events to request and send (if not cancelled).
+            // Prepare events to request and send (if not canceled).
             var leaveEvent = new LeaveEvent(actor, goingFrom, destination, goingVia, leavingMessage);
             var arriveEvent = new ArriveEvent(actor, goingFrom, destination, goingVia, arrivingMessage);
 
             // Broadcast the Leave Request first to see if the player is allowed to leave.
             actor.Eventing.OnMovementRequest(leaveEvent, EventScope.ParentsDown);
-            if (!leaveEvent.IsCancelled)
+            if (!leaveEvent.IsCanceled)
             {
                 // Next see if the player is allowed to Arrive at the new location.
                 destination.Eventing.OnMovementRequest(arriveEvent, EventScope.SelfDown);
-                if (!arriveEvent.IsCancelled)
+                if (!arriveEvent.IsCanceled)
                 {
                     actor.Eventing.OnMovementEvent(leaveEvent, EventScope.ParentsDown);
                     actor.RemoveFromParents();
@@ -69,26 +66,6 @@ namespace WheelMUD.Core
 
             return false;
         }
-
-        /*
-        /// <summary>Move the entity in the specified direction.</summary>
-        /// <param name="direction">The direction to move the entity in.</param>
-        /// <returns>True if the entity sucessfully moved, else false.</returns>
-        public virtual bool MoveInDirection(string direction)
-        {
-            // TODO: Probably should be context-sensitive commands that are rigged
-            //       up by the ExitBehavior, so this shouldn't be needed?
-            // TODO: Send a movement Request, then if not Cancelled, a movement Event.
-            //direction = direction.ToLower();
-            //Thing currentRoom = Parent;
-            //if (currentRoom.Children.ContainsKey(direction))
-            //{
-            //    Exit exit = currentRoom.Exits[direction];
-            //    return exit.Use(this);
-            //}
-            return false;
-        }
-        */
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()

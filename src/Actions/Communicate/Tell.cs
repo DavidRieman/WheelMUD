@@ -49,7 +49,7 @@ namespace WheelMUD.Actions
             // Make sure both the user is allowed to do the tell and the target is allowed to receive it.
             target.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
             actionInput.Actor.Eventing.OnCommunicationRequest(tellEvent, EventScope.SelfDown);
-            if (!tellEvent.IsCancelled)
+            if (!tellEvent.IsCanceled)
             {
                 // Printing the sensory message is all that's left to do, which the event itself will take care of.
                 target.Eventing.OnCommunicationEvent(tellEvent, EventScope.SelfDown);

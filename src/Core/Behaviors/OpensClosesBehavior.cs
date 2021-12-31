@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-
     /// <summary>OpensClosesBehavior adds the ability to open and close a thing.</summary>
     public class OpensClosesBehavior : Behavior
     {
@@ -97,7 +97,7 @@ namespace WheelMUD.Core
 
         /// <summary>Handle any movement requests.</summary>
         /// <param name="root">The root Thing where this event broadcast started.</param>
-        /// <param name="e">The cancellable event/request arguments.</param>
+        /// <param name="e">The cancelable event/request arguments.</param>
         private void MovementRequestHandler(Thing root, CancellableGameEvent e)
         {
             // Only cancel movement requests through our parent if it is currently closed.
@@ -120,7 +120,7 @@ namespace WheelMUD.Core
         /// <summary>Open or close this behavior's parent, via the specified actor.</summary>
         /// <param name="actor">The actor doing the opening or closing.</param>
         /// <param name="verb">Whether this is an "open" or "close" action.</param>
-        /// <param name="newOpenedState">The new IsOpen state to be set, if the request is not cancelled.</param>
+        /// <param name="newOpenedState">The new IsOpen state to be set, if the request is not canceled.</param>
         private void OpenOrClose(Thing actor, string verb, bool newOpenedState)
         {
             // If we're already in the desired opened/closed state, we're already done with state changes.
@@ -136,7 +136,7 @@ namespace WheelMUD.Core
                 return; // Abort if the behavior is unattached (e.g. being destroyed).
             }
 
-            // Prepare the Close/Open game event for sending as a request, and if not cancelled, again as an event.
+            // Prepare the Close/Open game event for sending as a request, and if not canceled, again as an event.
             var contextMessage = new ContextualString(actor, thisThing)
             {
                 ToOriginator = $"You {verb} {thisThing.Name}.",
@@ -146,10 +146,10 @@ namespace WheelMUD.Core
             var message = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
             var e = new OpenCloseEvent(thisThing, newOpenedState, actor, message);
 
-            // Broadcast the Open or Close Request and carry on if nothing cancelled it.
+            // Broadcast the Open or Close Request and carry on if nothing canceled it.
             // Broadcast from the parents of the openable/closable thing (IE the rooms an openable exit is attached to).
             thisThing.Eventing.OnMiscellaneousRequest(e, EventScope.ParentsDown);
-            if (!e.IsCancelled)
+            if (!e.IsCanceled)
             {
                 // Open or Close the thing.
                 IsOpen = newOpenedState;

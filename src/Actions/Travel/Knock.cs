@@ -61,14 +61,14 @@ namespace WheelMUD.Actions
 
             // Broadcast the requests/events; the events handle sending the sensory messages.
             actionInput.Actor.Eventing.OnCommunicationRequest(thisRoomKnockEvent, EventScope.ParentsDown);
-            if (!thisRoomKnockEvent.IsCancelled)
+            if (!thisRoomKnockEvent.IsCanceled)
             {
-                // The knocking here happens regardless of whether it's cancelled on the inside.
+                // The knocking here happens regardless of whether it's canceled on the inside.
                 actionInput.Actor.Eventing.OnCommunicationEvent(thisRoomKnockEvent, EventScope.ParentsDown);
 
                 // Next try to send a knock event into the adjacent place too.
                 nextRoom.Eventing.OnCommunicationRequest(nextRoomKnockEvent, EventScope.SelfDown);
-                if (!nextRoomKnockEvent.IsCancelled)
+                if (!nextRoomKnockEvent.IsCanceled)
                 {
                     nextRoom.Eventing.OnCommunicationEvent(nextRoomKnockEvent, EventScope.SelfDown);
                 }

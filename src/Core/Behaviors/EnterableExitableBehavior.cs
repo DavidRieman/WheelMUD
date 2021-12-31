@@ -50,7 +50,7 @@ namespace WheelMUD.Core
         /// <param name="actor">The actor.</param>
         public void Enter(Thing actor)
         {
-            // Prepare the Close game event for sending as a request, and if not cancelled, again as an event.
+            // Prepare the Close game event for sending as a request, and if not canceled, again as an event.
             var movableBehavior = actor.FindBehavior<MovableBehavior>();
             if (movableBehavior == null)
             {

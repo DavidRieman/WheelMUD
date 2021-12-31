@@ -62,9 +62,9 @@ You give <span style='color:#aa55aa'>Ashon</span> 1500 <span style='color:#BBBB0
     <p>Additional notes:</p>
     <ul>
         <li>The idea of a trade is to be transactional and secure; if both parties agreed then both sets of items must swap hands/ownership.</li>
-        <li>Trades could be set up to require proximity, automatically cancelling if either party leaves. (The code could listen for relevant movement events during the active trade state.)</li>
-        <li>When finalizing the trade, all items should generate the parent change "request" events first to see if all of them have permission to change owners, to cancel the whole trade if any items cannot be transferred for any reason. (For example, cursed items cancelling the parent change request, or an "ownership" behavior similarly protecting an item.)</li>
-        <li>Stackable items will similarly need to protect themselves from going negative. For example, if a player promises 1000 gold but then spends or drops most of it, then the request for splitting the stack should be similarly rejected, resulting in an automatically cancelled trade.</li>
+        <li>Trades could be set up to require proximity, automatically canceling if either party leaves. (The code could listen for relevant movement events during the active trade state.)</li>
+        <li>When finalizing the trade, all items should generate the parent change "request" events first to see if all of them have permission to change owners, to cancel the whole trade if any items cannot be transferred for any reason. (For example, cursed items canceling the parent change request, or an "ownership" behavior similarly protecting an item.)</li>
+        <li>Stackable items will similarly need to protect themselves from going negative. For example, if a player promises 1000 gold but then spends or drops most of it, then the request for splitting the stack should be similarly rejected, resulting in an automatically canceled trade.</li>
         <li>A syntax shortcut could be used such as "trade Ashon flame" to both request a trade while also populating that sword in your offering list.</li>
         <li>Most player item trades may be just one item for some game currency.  So, as an alternative to the detailed trade state change language and requring commands to list the current full state, it may be sufficient to just automatically list the full trade state after each change.</li>
     </ul>

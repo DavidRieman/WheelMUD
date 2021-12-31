@@ -111,7 +111,7 @@ namespace WheelMUD.Actions
             thing = actionInput.Actor.FindChild(itemName.ToLower());
             if (thing == null)
             {
-                return "You do not hold " + itemName + ".";
+                return $"You do not hold '{itemName}'.";
             }
 
             // The final argument should be the target name.

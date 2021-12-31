@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-
     /// <summary>A help topic that has been defined in the database.</summary>
     public class HelpTopic
     {

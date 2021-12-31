@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Effects
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An effect to alter a stat on a thing.</summary>
     public class StatEffect : Effect
     {
@@ -96,7 +96,7 @@ namespace WheelMUD.Effects
             // Create and broadcast the event notifying players that the effect was applied.
             var addEvent = new EffectEvent(ActiveThing, Parent, SensoryMessage);
             ActiveThing.Eventing.OnCommunicationRequest(addEvent, EventScope.ParentsDown);
-            if (!addEvent.IsCancelled)
+            if (!addEvent.IsCanceled)
             {
                 ActiveThing.Eventing.OnCommunicationEvent(addEvent, EventScope.ParentsDown);
             }
@@ -117,7 +117,7 @@ namespace WheelMUD.Effects
         {
             // Broadcast the removal event that we previously created in OnAddBehavior.
             ActiveThing.Eventing.OnCommunicationRequest(RemoveStatEvent, EventScope.ParentsDown);
-            if (!RemoveStatEvent.IsCancelled)
+            if (!RemoveStatEvent.IsCanceled)
             {
                 ActiveThing.Eventing.OnCommunicationEvent(RemoveStatEvent, EventScope.ParentsDown);
             }
@@ -125,7 +125,7 @@ namespace WheelMUD.Effects
             // Normally the TimeSystem will remove this event when it expires.
             // If it is removed by some other means, we should cancel the RemoveStatEvent so
             // TimeSystem will know to ignore it when the EndTime is reached.
-            if (RemoveStatEvent != null && !RemoveStatEvent.IsCancelled)
+            if (RemoveStatEvent != null && !RemoveStatEvent.IsCanceled)
             {
                 RemoveStatEvent.Cancel(string.Empty);
             }

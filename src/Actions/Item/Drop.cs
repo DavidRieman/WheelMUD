@@ -54,7 +54,7 @@ namespace WheelMUD.Actions
             var dropMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
             var actor = actionInput.Actor;
-            if (movableBehavior.Move(dropLocation, actor, null, dropMessage))
+            if (movableBehavior.Move(dropLocation, thingToDrop, null, dropMessage))
             {
                 // TODO: Transactionally save actors if applicable.
                 //actor.Save();
@@ -100,7 +100,7 @@ namespace WheelMUD.Actions
             thingToDrop = actionInput.Actor.FindChild(targetName);
             if (thingToDrop == null)
             {
-                return $"You do not hold {targetName}.";
+                return $"You do not hold '{targetName}'.";
             }
 
             // Rule: The target thing must be movable.

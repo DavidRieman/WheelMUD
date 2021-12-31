@@ -16,15 +16,15 @@ namespace WheelMUD.Core
 
     /// <summary>A handler for CancellableGameEvents.</summary>
     /// <param name="root">The root Thing where this event broadcast started.</param>
-    /// <param name="e">The cancellable event/request arguments.</param>
+    /// <param name="e">The cancelable event/request arguments.</param>
     public delegate void CancellableGameEventHandler(Thing root, CancellableGameEvent e);
 
     /// <summary>An 'action received' event handler.</summary>
     /// <param name="sender">The sender of the action.</param>
-    /// <param name="actionInput">The the action input received.</param>
+    /// <param name="actionInput">The action input received.</param>
     public delegate void ActionReceivedEventHandler(IController sender, ActionInput actionInput);
 
-    /// <summary>The 'rpc session authenticated' event handler delegate.</summary>
+    /// <summary>The 'RPC session authenticated' event handler delegate.</summary>
     /// <param name="session">The RPC session that was authenticated.</param>
     public delegate void RpcSessionAuthenticatedEventHandler(Session session);
 }
