@@ -5,9 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using WheelMUD.Core;
 
 namespace WheelMUD.Actions
@@ -17,7 +15,7 @@ namespace WheelMUD.Actions
     [ActionPrimaryAlias("drop", CommandCategory.Item)]
     [ActionDescription("Drop an object from your inventory.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]
-    internal class Drop : GameAction
+    public class Drop : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
@@ -53,7 +51,6 @@ namespace WheelMUD.Actions
             };
             var dropMessage = new SensoryMessage(SensoryType.Sight, 100, contextMessage);
 
-            var actor = actionInput.Actor;
             if (movableBehavior.Move(dropLocation, thingToDrop, null, dropMessage))
             {
                 // TODO: Transactionally save actors if applicable.

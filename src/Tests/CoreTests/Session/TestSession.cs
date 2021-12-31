@@ -6,15 +6,11 @@
 //-----------------------------------------------------------------------------
 
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using System.Text;
+using TestHelpers;
 using WheelMUD.Core;
-using WheelMUD.Interfaces;
 using WheelMUD.Server;
-using WheelMUD.Server.Interfaces;
 using WheelMUD.Utilities;
 
 namespace WheelMUD.Tests
@@ -35,7 +31,7 @@ namespace WheelMUD.Tests
         [Test]
         public void TestInitialConnectionStateIsNotDefaultState()
         {
-            var connection = new FakeConnection();
+            var connection = new MockConnection();
             var session = new Session(connection);
             Assert.AreEqual(session.State.GetType(), typeof(FakeSessionState));
         }
@@ -44,33 +40,33 @@ namespace WheelMUD.Tests
         [Test]
         public void TestInitialConnectionPromptsAfterEachWrite()
         {
-            var connection = new FakeConnection() { AtNewLine = true };
+            var connection = new MockConnection() { AtNewLine = true };
             var session = new Session(connection);
 
             // Ensure we Begin the session state with some introductory output, followed by the registered prompt.
-            Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
-            Assert.AreEqual(connection.FakeMessagesSent[0], $"Begin FakeSessionState!{AnsiSequences.NewLine}FakePrompt > ");
+            Assert.AreEqual(connection.MessagesSent.Count, 1);
+            Assert.AreEqual(connection.MessagesSent[0], $"Begin FakeSessionState!{AnsiSequences.NewLine}FakePrompt > ");
 
             // Ensure writing another string from the prompt cursor position, writes the new text to a new line and can add in the prompt too.
             connection.ResetMessages();
             connection.AtNewLine = false;
             session.Write(new OutputBuilder().AppendLine("test 1"), true);
-            Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
-            Assert.AreEqual(connection.FakeMessagesSent[0], $"{AnsiSequences.NewLine}test 1{AnsiSequences.NewLine}FakePrompt > ");
+            Assert.AreEqual(connection.MessagesSent.Count, 1);
+            Assert.AreEqual(connection.MessagesSent[0], $"{AnsiSequences.NewLine}test 1{AnsiSequences.NewLine}FakePrompt > ");
 
             // Ensure writing another string from the prompt cursor position, writes the new text to a new line and can omit adding the prompt too.
             connection.ResetMessages();
             connection.AtNewLine = false;
             session.Write(new OutputBuilder().AppendLine("test 2"), false);
-            Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
-            Assert.AreEqual(connection.FakeMessagesSent[0], $"{AnsiSequences.NewLine}test 2{AnsiSequences.NewLine}");
+            Assert.AreEqual(connection.MessagesSent.Count, 1);
+            Assert.AreEqual(connection.MessagesSent[0], $"{AnsiSequences.NewLine}test 2{AnsiSequences.NewLine}");
 
             // Ensure writing a string from a new line position already, does not append an extra opening line.
             connection.ResetMessages();
             connection.AtNewLine = true;
             session.Write(new OutputBuilder().Append("test 3"), false);
-            Assert.AreEqual(connection.FakeMessagesSent.Count, 1);
-            Assert.AreEqual(connection.FakeMessagesSent[0], $"test 3");
+            Assert.AreEqual(connection.MessagesSent.Count, 1);
+            Assert.AreEqual(connection.MessagesSent[0], $"test 3");
         }
 
         /// <summary>A fake ConnectionState for testing purposes.</summary>
@@ -104,78 +100,6 @@ namespace WheelMUD.Tests
             public override void ProcessInput(string command)
             {
                 LastProcessedInput = command;
-            }
-        }
-
-        /// <summary>A fake Connection for testing purposes.</summary>
-        /// <remarks>TODO: Consider which mocking framework we should use to create such things in a better way.</remarks>
-        public class FakeConnection : IConnection
-        {
-            public FakeConnection() { }
-
-            public List<string> FakeMessagesSent { get; set; } = new List<string>();
-
-            public string ID => throw new NotImplementedException();
-
-            public bool AtNewLine { get; set; }
-
-            public string LastRawInput
-            {
-                get => throw new NotImplementedException();
-                set => throw new NotImplementedException();
-            }
-
-            public System.Net.IPAddress CurrentIPAddress => throw new NotImplementedException();
-
-            public OutputBuffer OutputBuffer
-            {
-                get => throw new NotImplementedException();
-                set => throw new NotImplementedException();
-            }
-
-            public TerminalOptions TerminalOptions => new TerminalOptions();
-
-            public ITelnetCodeHandler TelnetCodeHandler => throw new NotImplementedException();
-
-            public byte[] Data => throw new NotImplementedException();
-
-            public StringBuilder Buffer => throw new NotImplementedException();
-
-            public int PagingRowLimit
-            {
-                get => throw new NotImplementedException();
-                set => throw new NotImplementedException();
-            }
-
-            public string LastInputTerminator
-            {
-                get => throw new NotImplementedException();
-                set => throw new NotImplementedException();
-            }
-
-            public void ResetMessages()
-            {
-                FakeMessagesSent.Clear();
-            }
-
-            public void Disconnect()
-            {
-                throw new NotImplementedException();
-            }
-
-            public void Send(byte[] data)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void Send(string data, bool sendAllData = false)
-            {
-                FakeMessagesSent.Add(data);
-            }
-
-            public void ProcessBuffer(BufferDirection bufferDirection)
-            {
-                throw new NotImplementedException();
             }
         }
     }

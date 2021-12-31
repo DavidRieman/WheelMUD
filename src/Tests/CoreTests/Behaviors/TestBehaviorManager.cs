@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using NUnit.Framework;
+using System;
+using WheelMUD.Core;
+
 namespace WheelMUD.Tests.Behaviors
 {
-    using NUnit.Framework;
-    using System;
-    using WheelMUD.Core;
-
     /// <summary>Tests for the BehaviorManager class.</summary>
     [TestFixture]
     public class TestBehaviorManager
@@ -41,29 +41,29 @@ namespace WheelMUD.Tests.Behaviors
 
             // Prepare stress threads to determine if BehaviorManager is safe from simultaneous add/remove/iterate attempts.
             DateTime endTime = DateTime.Now.AddMilliseconds(100);
-            Action addAction = () => behaviorManager.Add(new SimpleTestBehavior());
-            Action removeAction = () =>
+            void addAction() => behaviorManager.Add(new SimpleTestBehavior());
+            void removeAction()
             {
                 var toRemove = behaviorManager.FindFirst<SimpleTestBehavior>();
                 if (toRemove != null)
                 {
                     behaviorManager.Remove(toRemove);
                 }
-            };
-            Action iterateAction = () =>
+            }
+            void iterateAction()
             {
                 foreach (var behavior in behaviorManager.AllBehaviors)
                 {
                     // Do nothing; just iterate.
                 }
-            };
-            Action typedAction = () =>
+            }
+            void typedAction()
             {
                 foreach (var behavior in behaviorManager.OfType<SimpleTestBehavior>())
                 {
                     // Do nothing; just iterate.
                 }
-            };
+            }
             var addThread = new BackgroundStressTestThread(endTime, addAction);
             var removeThread = new BackgroundStressTestThread(endTime, removeAction);
             var iterateThread = new BackgroundStressTestThread(endTime, iterateAction);

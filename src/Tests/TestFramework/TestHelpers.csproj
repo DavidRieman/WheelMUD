@@ -5,4 +5,7 @@
     <OutputType>Library</OutputType>
     <StartupObject />
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Server\WheelMUD.Server.csproj" />
+  </ItemGroup>
 </Project>
