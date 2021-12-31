@@ -84,8 +84,6 @@ namespace WheelMUD.Actions
 
             // Check to see if the first word is a number.
             int.TryParse(actionInput.Params[0], out numberToGet);
-
-//            var itemTargetingIndex = numberToGet > 0 ? 1 : 0;
             var itemName = string.Empty;
 
             // If the actor is trying to "get ___ from ___" it will have "from" in string but with spaces; If the

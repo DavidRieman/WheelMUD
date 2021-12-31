@@ -5,15 +5,16 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Linq;
+using WheelMUD.Core;
+using WheelMUD.Data;
+using WheelMUD.Data.Repositories;
 using WheelMUD.Server;
+
 
 namespace WheelMUD.ConnectionStates
 {
-    using System;
-    using WheelMUD.Core;
-    using WheelMUD.Data;
-    using WheelMUD.Data.Repositories;
-
     /// <summary>The 'login' session state.</summary>
     public class LoginState : SessionState
     {
@@ -55,8 +56,13 @@ namespace WheelMUD.ConnectionStates
                 {
                     var characterId = Session.User.PlayerCharacterIds[0];
                     Session.Thing = DocumentRepository<Thing>.Load(characterId);
+
+                    // TODO: When loading, the player has their inventory, but the inventory (Session.Thing.Children) is
+                    //       not repairing their Parent properties. Need to address. Perhaps inventory will be separate
+                    //       documents thought?  TBD.  (As is, interacting with your reloaded inventory can crash.)
+
                     // TODO: https://github.com/DavidRieman/WheelMUD/pull/66 - Clean up previous session properly (this won't always work).
-                    Session.Thing.Parent?.Children.RemoveAll(t => t.Id == this.Session.Thing.Id);
+                    //Session.Thing.Parent?.Children.RemoveAll(t => t.Id == this.Session.Thing.Id);
                     Session.Thing.Behaviors.SetParent(Session.Thing);
                     var playerBehavior = Session.Thing.FindBehavior<PlayerBehavior>();
                     if (playerBehavior != null)

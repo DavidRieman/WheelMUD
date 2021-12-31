@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WheelMUD.Core
 {
@@ -91,7 +92,7 @@ namespace WheelMUD.Core
                 var outEntities = new List<Thing>();
 
                 // TODO: Change Parent.Parent to a predicate that will find RoomBehaviors. This is a an ugly hack that needs to go away.
-                var entities = Parent.Parent.FindAllChildren(t => t.HasBehavior<PlayerBehavior>() || t.HasBehavior<MobileBehavior>());
+                var entities = Parent.Parent.Children.Where(t => t.HasBehavior<PlayerBehavior>() || t.HasBehavior<MobileBehavior>());
 
                 foreach (Thing thing in entities)
                 {

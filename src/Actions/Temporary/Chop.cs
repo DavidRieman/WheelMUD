@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WheelMUD.Core;
 
 namespace WheelMUD.Actions
@@ -79,7 +80,7 @@ namespace WheelMUD.Actions
             // Rule: Did they specify a tree to chop?
             // TODO: Better thing finders...
             var parent = actionInput.Actor.Parent;
-            var thing = parent.Children.Find(t => t.Name.Equals(actionInput.Params[0], StringComparison.CurrentCultureIgnoreCase));
+            var thing = parent.Children.Where(t => t.Name.Equals(actionInput.Params[0], StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
             if (thing == null)
             {
                 return $"{actionInput.Params[0]} is not here.";

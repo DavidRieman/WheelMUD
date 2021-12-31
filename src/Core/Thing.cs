@@ -8,6 +8,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -54,7 +55,7 @@ namespace WheelMUD.Core
         {
             Eventing = new ThingEventing(this);
             KeyWords = new List<string>();
-            Children = new List<Thing>();
+            children = new List<Thing>();
             Behaviors = new BehaviorManager(this);
 
             Parent = null;
@@ -192,6 +193,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets or sets a dictionary of the primary stats that apply to this thing.</summary>
+        /// <remarks>TODO: Consider removal; should be probably layer on via Behaviors; most Things don't need this...</remarks>
         public Dictionary<string, GameStat> Stats
         {
             get
@@ -212,6 +214,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets or sets a dictionary of the attributes that apply to this thing.</summary>
+        /// <remarks>TODO: Consider removal; should be probably layer on via Behaviors; most Things don't need this...</remarks>
         public Dictionary<string, GameAttribute> Attributes
         {
             get
@@ -232,6 +235,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets or sets a dictionary of the game skills that apply to this thing.</summary>
+        /// <remarks>TODO: Consider removal; should be probably layer on via Behaviors; most Things don't need this...</remarks>
         public Dictionary<string, GameSkill> Skills
         {
             get
@@ -263,8 +267,14 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>Gets or sets the children of this Thing.</summary>
-        public List<Thing> Children { get; set; }
+        private List<Thing> children { get; set; }
+
+        /// <summary>Gets the children of this Thing as a read-only collection.</summary>
+        /// <remarks>@@@ TO ADD A CHILD... USE PUBLIC INTERFACE... @@@</remarks>
+        public ReadOnlyCollection<Thing> Children
+        {
+            get { return children.AsReadOnly(); }
+        }
 
         /// <summary>Gets or sets the ID of the template this Thing is based on.</summary>
         /// <remarks>TODO: 'set' should be private once the Builders are finished being extracted!</remarks>
@@ -430,11 +440,11 @@ namespace WheelMUD.Core
         /// <summary>Finds a child using the predicate passed.</summary>
         /// <param name="predicate">The predicate to match.</param>
         /// <returns>The Item found.</returns>
-        public Thing FindChild(Predicate<Thing> predicate)
+        public Thing FindChild(Func<Thing, bool> predicate)
         {
             lock (lockObject)
             {
-                return Children.Find(predicate);
+                return Children.Where(predicate).FirstOrDefault();
             }
         }
 
@@ -453,10 +463,10 @@ namespace WheelMUD.Core
                 // Try to find the item in this collection by seeing if any item ID matches 
                 // the string exactly, else if that find call returns null, find any item ID 
                 // that starts with the specified string, else if that is null...
-                return Children.Find(i => searchString.Equals(i.Id, StringComparison.OrdinalIgnoreCase)) ??
-                       Children.Find(i => i.Name.Equals(searchString, StringComparison.OrdinalIgnoreCase)) ??
-                       Children.Find(i => i.Name.ToLower().StartsWith(searchString, StringComparison.OrdinalIgnoreCase)) ??
-                       Children.Find(i => i.KeyWords.Contains(searchString, StringComparer.OrdinalIgnoreCase));
+                return Children.Where(i => searchString.Equals(i.Id, StringComparison.OrdinalIgnoreCase)).FirstOrDefault() ??
+                       Children.Where(i => i.Name.Equals(searchString, StringComparison.OrdinalIgnoreCase)).FirstOrDefault() ??
+                       Children.Where(i => i.Name.ToLower().StartsWith(searchString, StringComparison.OrdinalIgnoreCase)).FirstOrDefault() ??
+                       Children.Where(i => i.KeyWords.Contains(searchString, StringComparer.OrdinalIgnoreCase)).FirstOrDefault();
             }
         }
 
@@ -483,43 +493,14 @@ namespace WheelMUD.Core
             return foundThing;
         }
 
-        /// <summary>Finds all child Things that match the predicate.</summary>
-        /// <param name="predicate">The predicate to match.</param>
-        /// <returns>List of Items.</returns>
-        public List<Thing> FindAllChildren(Predicate<Thing> predicate)
-        {
-            // TODO: Why are these locking?  If this is to avoid iteration of Children while it may 
-            //       also be modified by another thread, it fails to do so, as the user can access/change
-            //       the public Children list directly.  We may need a private children member 
-            //       and only allow specific access to children via our public methods which would return
-            //       new lists with the appropriate members (instead of sharing the actual list).
-            lock (lockObject)
-            {
-                return Children.FindAll(predicate);
-            }
-        }
-
         /// <summary>Finds all behaviors of the given type amongst our children.</summary>
         /// <typeparam name="T">Behavior type.</typeparam>
-        /// <returns>List of behaviors.</returns>
-        public List<T> FindAllChildrenBehaviors<T>() where T : Behavior
+        /// <returns>Enumeration of the behaviors.</returns>
+        public IEnumerable<T> FindAllChildrenBehaviors<T>() where T : Behavior
         {
-            lock (lockObject)
-            {
-                var found = new List<T>();
-
-                foreach (Thing thing in Children)
-                {
-                    T behavior = thing.FindBehavior<T>();
-
-                    if (behavior != null)
-                    {
-                        found.Add(behavior);
-                    }
-                }
-
-                return found;
-            }
+            return from child in Children
+                   let behavior = child.FindBehavior<T>()
+                   select behavior;
         }
 
         /// <summary>Finds the behavior in the behavior manager.</summary>
@@ -600,10 +581,9 @@ namespace WheelMUD.Core
             return skill;
         }
 
-        // TODO: All things (world, room, item, mob, etc), should all potentially have sub-things
-        //       but it should be up to the code which moves things about to do so intelligently
-        //       (IE should not allow adding an Area inside a Room, etc.)  These can be prevented
-        //       either explicitly here, or preferably via event request cancellation.
+        /// <summary>Attempts to move the target thing to be a child of this thing.</summary>
+        /// <param name="thing">The thing we intend to become our child.</param>
+        /// <returns>True if fully successful, else false.</returns>
         public bool Add(Thing thing)
         {
             // No two threads may add/remove any combination of the parent/sub-thing at the same time,
@@ -807,9 +787,9 @@ namespace WheelMUD.Core
             Eventing.OnMovementEvent(removalEvent, EventScope.SelfDown);
 
             // If the thing to remove was in our Children collection, remove it.
-            if (Children.Contains(thingToRemove))
+            if (children.Contains(thingToRemove))
             {
-                Children.Remove(thingToRemove);
+                children.Remove(thingToRemove);
             }
 
             // If we don't have a MultipleParentsBehavior, directly remove the one-allowed 
@@ -845,9 +825,9 @@ namespace WheelMUD.Core
             }
 
             // The item cannot be stacked so add the item to the specified parent.
-            if (!Children.Contains(thingToAdd))
+            if (!children.Contains(thingToAdd))
             {
-                Children.Add(thingToAdd);
+                children.Add(thingToAdd);
             }
 
             // If we don't have a MultipleParentsBehavior, directly set the one-allowed 

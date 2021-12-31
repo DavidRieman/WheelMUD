@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using WheelMUD.Core;
 using WheelMUD.Universe;
 
@@ -120,10 +121,10 @@ namespace WheelMUD.Actions
                 // Rule: Do we have an item matching the one specified in our inventory?
                 // If not then does the room have a container with the name.
                 // TODO: Fix: This Find pattern is probably broken...
-                destinationContainer = actionInput.Actor.Children.Find(t => t.Name == destinationContainerName.ToLower());
+                destinationContainer = actionInput.Actor.Children.Where(t => t.Name == destinationContainerName.ToLower()).FirstOrDefault();
                 if (destinationContainer == null)
                 {
-                    destinationContainer = parent.Children.Find(t => t.Name == destinationContainerName.ToLower());
+                    destinationContainer = parent.Children.Where(t => t.Name == destinationContainerName.ToLower()).FirstOrDefault();
                     if (destinationContainer == null)
                     {
                         return $"You cannot see {destinationContainerName}.";
@@ -153,11 +154,10 @@ namespace WheelMUD.Actions
                 // Rule: Do we have an item matching the one specified in our inventory?
                 // If not then does the room have a container with the name.
                 // TODO: Investigate; This search method is probably broken.
-                sourceContainer = actionInput.Actor.Children.Find(t => t.Name == sourceContainerName.ToLower());
+                sourceContainer = actionInput.Actor.Children.Where(t => t.Name == sourceContainerName.ToLower()).FirstOrDefault();
                 if (sourceContainer == null)
                 {
-                    sourceContainer = parent.Children.Find(t => t.Name == sourceContainerName.ToLower());
-
+                    sourceContainer = parent.Children.Where(t => t.Name == sourceContainerName.ToLower()).FirstOrDefault();
                     if (sourceContainer == null)
                     {
                         return "You cannot see " + sourceContainerName;

@@ -99,7 +99,7 @@ namespace WheelMUD.Actions
             }
 
             // Rule: The target must be an item in the actor's inventory.
-            var thing = actor.Children.Find(t => t.Name.Equals(sourceContainerName, StringComparison.CurrentCultureIgnoreCase));
+            var thing = actor.Children.Where(t => t.Name.Equals(sourceContainerName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
             if (thing == null)
             {
                 return $"You do not hold {sourceContainerName}.";
@@ -131,7 +131,7 @@ namespace WheelMUD.Actions
             else
             {
                 // TODO: Allow targeting of containers in same place, like chests and whatnot?
-                var destinationThing = actor.Children.Find(t => t.Name == destinationParentName.ToLower());
+                var destinationThing = actor.Children.Where(t => t.Name == destinationParentName.ToLower()).FirstOrDefault();
                 if (destinationThing == null)
                 {
                     return $"You do not hold {destinationParentName}.";

@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using WheelMUD.Core;
 using WheelMUD.Universe;
 
@@ -138,7 +139,7 @@ namespace WheelMUD.Actions
             // TODO: Rule: If this item has a CapacityBehavior (or maybe just ContainerBehavior), does it have room left?
 
             // Rule: Do we have a matching item in our inventory?
-            thing = actionInput.Actor.Children.Find(i => i.Name == itemName.ToLower());
+            thing = actionInput.Actor.Children.Where(i => i.Name == itemName.ToLower()).FirstOrDefault();
             if (thing == null)
             {
                 return $"You do not hold {itemName}.";

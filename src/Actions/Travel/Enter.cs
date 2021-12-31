@@ -58,8 +58,7 @@ namespace WheelMUD.Actions
             //       meets the identifiers then use a disambiguation targeting system to try to narrow to one thing.
             // TODO: This sort of find pattern may become common; maybe we need to simplify 
             //       to having a Thing method which does this?  IE "List<Thing> FindChildren<T>(string id)"?
-            Predicate<Thing> findPredicate = (Thing t) => t.FindBehavior<EnterableExitableBehavior>() != null;
-            var enterableThings = actionInput.Actor.Parent.FindAllChildren(findPredicate);
+            var enterableThings = actionInput.Actor.Parent.Children.Where(t => t.FindBehavior<EnterableExitableBehavior>() != null).ToList();
 
             if (enterableThings.Count > 1)
             {

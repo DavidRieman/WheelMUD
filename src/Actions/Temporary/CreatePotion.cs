@@ -47,7 +47,7 @@ namespace WheelMUD.Actions
                 KeyWords = new List<string> { "potion", "colorful" }
             };
 
-            actionInput.Actor.Children.Add(potionItem);
+            actionInput.Actor.Add(potionItem);
 
             // TODO: Use a SensoryEvent to inform the creator (and any other witness) about what just happened instead of direct writes.
             actionInput.Session?.WriteLine("You create a colorful potion");

@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WheelMUD.Core;
 
 namespace WheelMUD.Actions
@@ -46,7 +47,7 @@ namespace WheelMUD.Actions
         {
             var contextMessage = new ContextualString(actionInput.Actor, thingToDrop.Parent)
             {
-                ToOriginator = $"You drop up {thingToDrop.Name}.",
+                ToOriginator = $"You drop {thingToDrop.Name}.",
                 ToReceiver = $"{actionInput.Actor.Name} drops {thingToDrop.Name} in you.",
                 ToOthers = $"{actionInput.Actor.Name} drops {thingToDrop.Name}."
             };
@@ -96,7 +97,7 @@ namespace WheelMUD.Actions
             dropLocation = actionInput.Actor.Parent;
 
             // Rule: Is the target an item in the entity's inventory?
-            thingToDrop = actionInput.Actor.Children.Find(t => t.Name.Equals(targetName, StringComparison.CurrentCultureIgnoreCase));
+            thingToDrop = actionInput.Actor.FindChild(targetName);
             if (thingToDrop == null)
             {
                 return $"You do not hold {targetName}.";
