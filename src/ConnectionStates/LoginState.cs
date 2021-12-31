@@ -36,46 +36,45 @@ namespace WheelMUD.ConnectionStates
             if (command != string.Empty)
             {
                 var authenticatedUser = Authenticate(command);
-                if (authenticatedUser != null)
-                {
-                    isLoggingIn = true;
-                    Session.User = authenticatedUser;
-                    if (!AppConfigInfo.Instance.UserAccountIsPlayerCharacter)
-                    {
-                        throw new NotImplementedException("Need to build a ChooseCharacterState!");
-                    }
-                    else
-                    {
-                        var characterId = Session.User.PlayerCharacterIds[0];
-                        Session.Thing = DocumentRepository<Thing>.Load(characterId);
-                        // TODO: https://github.com/DavidRieman/WheelMUD/pull/66 - Clean up previous session properly (this won't always work).
-                        Session.Thing.Parent?.Children.RemoveAll(t => t.Id == this.Session.Thing.Id);
-                        Session.Thing.Behaviors.SetParent(Session.Thing);
-                        var playerBehavior = Session.Thing.FindBehavior<PlayerBehavior>();
-                        if (playerBehavior != null)
-                        {
-                            Session.Thing.FindBehavior<UserControlledBehavior>().Session = Session;
-                            playerBehavior.LogIn(Session);
-                            Session.AuthenticateSession();
-                            Session.SetState(new PlayingState(Session));
-                        }
-                        else
-                        {
-                            Session.WriteLine("This character player state is broken. You may need to contact an admin for a possible recovery attempt.");
-                            Session.InformSubscribedSystem(Session.ID + " failed to load due to missing player behavior.");
-                            Session.SetState(new ConnectedState(Session));
-                            Session.WritePrompt();
-                        }
-                    }
-                    isLoggingIn = false;
-                }
-                else
+                if (authenticatedUser == null)
                 {
                     Session.WriteLine("Incorrect user name or password.", false);
                     Session.InformSubscribedSystem(Session.ID + " failed to log in");
                     Session.SetState(new ConnectedState(Session));
                     Session.WritePrompt();
+                    return;
                 }
+
+                isLoggingIn = true;
+                Session.User = authenticatedUser;
+                if (!AppConfigInfo.Instance.UserAccountIsPlayerCharacter)
+                {
+                    throw new NotImplementedException("Need to build a ChooseCharacterState!");
+                }
+                else
+                {
+                    var characterId = Session.User.PlayerCharacterIds[0];
+                    Session.Thing = DocumentRepository<Thing>.Load(characterId);
+                    // TODO: https://github.com/DavidRieman/WheelMUD/pull/66 - Clean up previous session properly (this won't always work).
+                    Session.Thing.Parent?.Children.RemoveAll(t => t.Id == this.Session.Thing.Id);
+                    Session.Thing.Behaviors.SetParent(Session.Thing);
+                    var playerBehavior = Session.Thing.FindBehavior<PlayerBehavior>();
+                    if (playerBehavior != null)
+                    {
+                        Session.Thing.FindBehavior<UserControlledBehavior>().Session = Session;
+                        playerBehavior.LogIn(Session);
+                        Session.AuthenticateSession();
+                        Session.SetState(new PlayingState(Session));
+                    }
+                    else
+                    {
+                        Session.WriteLine("This character player state is broken. You may need to contact an admin for a possible recovery attempt.");
+                        Session.InformSubscribedSystem(Session.ID + " failed to load due to missing player behavior.");
+                        Session.SetState(new ConnectedState(Session));
+                        Session.WritePrompt();
+                    }
+                }
+                isLoggingIn = false;
             }
         }
 

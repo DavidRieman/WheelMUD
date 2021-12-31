@@ -5,7 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using WheelMUD.Core;
 using WheelMUD.Universe;
 
@@ -81,96 +83,72 @@ namespace WheelMUD.Actions
             }
 
             // Check to see if the first word is a number.
-            // TODO: Is TryParse meant to be used this way? Character analysis may be better. I worry that
-            //       this might be throwing a caught exception upon each fail, which is a typical case here.
             int.TryParse(actionInput.Params[0], out numberToGet);
 
-            var itemParam = 0;
+//            var itemTargetingIndex = numberToGet > 0 ? 1 : 0;
             var itemName = string.Empty;
 
-            // Rule: If we have to get a number of something, shunt up the positions of our other params.
-            if (numberToGet > 0)
+            // If the actor is trying to "get ___ from ___" it will have "from" in string but with spaces; If the
+            // command is just like "get from" though, we may as well let them try to get an object called "from".
+            // Unless we figure out where else to take from, assume we are taking from the actor parent (room) by default.
+            Thing takeFrom = actionInput.Actor.Parent;
+            if (actionInput.Tail.Contains(" from "))
             {
-                itemParam = 1;
-            }
+                // Find the "from" keyword in the parameters.
+                var fromIndex = Array.FindIndex(actionInput.Params, s => "from".Equals(s, StringComparison.OrdinalIgnoreCase));
 
-            // Rule: is the player using the command to get something from a container
-            //       or to get something from the room?
-            Thing targetParent = actionInput.Actor.Parent;
-            if (actionInput.Tail.ToLower().Contains("from"))
-            {
-                // Find the from keyword in the params.
-                var itemMarker = 0;
-                for (var i = 0; i < actionInput.Params.Length; i++)
-                {
-                    if (actionInput.Params[i].ToLower() == "from")
-                    {
-                        itemMarker = i;
-                    }
-                }
-
-                // Item name is everything from number (if present) to the from marker.
-                for (var j = itemParam; j < itemMarker; j++)
+                // Item name is everything from number (if present) to the "from" position.
+                for (var j = numberToGet > 0 ? 1 : 0; j < fromIndex; j++)
                 {
                     itemName += actionInput.Params[j] + ' ';
                 }
 
                 itemName = itemName.Trim();
 
-                // Container name is everything from the marker to the end.
+                // Container targeting words are everything after the "from" word.
                 var targetFromName = string.Empty;
-                for (var i = itemMarker + 1; i < actionInput.Params.Length; i++)
+                for (var i = fromIndex + 1; i < actionInput.Params.Length; i++)
                 {
                     targetFromName += actionInput.Params[i] + ' ';
                 }
 
                 targetFromName = targetFromName.Trim();
 
-                // Rule: Do we have an item matching the one specified in our inventory?
-                // If not then does the room have a container with the name.
-                Thing foundContainer = actionInput.Actor.FindChild(targetFromName.ToLower());
+                // Search for an item matching the one specified in our own inventory, else in the same room.
+                Thing foundContainer = actionInput.Actor.FindChild(targetFromName) ?? takeFrom.FindChild(targetFromName);
                 if (foundContainer == null)
                 {
-                    foundContainer = targetParent.FindChild(targetFromName.ToLower());
-
-                    if (foundContainer == null)
-                    {
-                        return $"You cannot see {targetFromName}.";
-                    }
+                    return $"You cannot see {targetFromName}.";
                 }
 
-                // Rule: Is the 'from' thing specified as a container actually a container?
+                // The found 'from' thing needs to actually be a container to try to take from it; Do not let them just
+                // try to steal from other players or whatnot!
                 var containerBehavior = foundContainer.FindBehavior<ContainerBehavior>();
                 if (containerBehavior == null)
                 {
-                    return $"{foundContainer.Name} is not able to hold {itemName}.";
+                    return $"{foundContainer.Name} is not a container you can get things from.";
                 }
 
                 // TODO: Removed OpensClosesBehavior check here... Test to ensure that 'get' is blocked by the
                 //       OpensClosesBehavior receiving and cancelling the relevant events and message is good...
 
-                targetParent = foundContainer;
+                takeFrom = foundContainer;
             }
             else
             {
-                // From the room.
-                // Item name is everything from number (if present) to the from marker.
-                for (var j = itemParam; j < actionInput.Params.Length; j++)
-                {
-                    itemName += actionInput.Params[j] + ' ';
-                }
-
-                itemName = itemName.Trim();
+                // Getting from the room, with basic "get red stick" or "get 5 red sticks" syntax.
+                itemName = numberToGet <= 0 ? actionInput.Tail : actionInput.Tail.Substring(actionInput.Tail.IndexOf(' ') + 1);
             }
 
-            // Rule: Do we have an item matching in the container?
-            thingToGet = targetParent.FindChild(itemName.ToLower());
+            // Ensure we can find the targeted thing, from the targeted location.
+            thingToGet = takeFrom.FindChild(itemName.ToLower());
             if (thingToGet == null)
             {
-                return $"{targetParent.Name} does not contain {itemName}.";
+                return $"{takeFrom.Name} does not contain {itemName}.";
             }
 
-            // Rule: The targeted thing must be movable.
+            // The targeted thing must be movable for us to try to move it. (Other effects may cancel our attempts to
+            // move it though.)
             movableBehavior = thingToGet.FindBehavior<MovableBehavior>();
             if (movableBehavior == null)
             {

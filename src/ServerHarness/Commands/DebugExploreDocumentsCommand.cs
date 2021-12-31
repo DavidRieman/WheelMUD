@@ -14,7 +14,7 @@ namespace ServerHarness
     [ExportServerHarnessCommand(0)]
     public class DebugExploreDocumentsCommand : IServerHarnessCommand
     {
-        public string Description => "Opens the configured document database tool for manual data exploration and minupulation.";
+        public string Description => "Opens the configured document database tool for manual data exploration and manipulation.";
 
         public IEnumerable<string> Names => new string[] { "DEBUGEXPLORE", "DEBUG-EXPLORE", "DOCS", "DOCUMENTS" };
 

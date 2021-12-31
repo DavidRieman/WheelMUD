@@ -5,20 +5,18 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Utilities.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 using WheelMUD.Interfaces;
-using System.Runtime.CompilerServices;
+using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
 {
-    
-
     /// <summary>A base class that pretty much any interactive thing within the game world is based on.</summary>
     /// <remarks>
     /// NOTE: This class is sealed since the changing of a Thing's behaviors should occur by the
@@ -450,19 +448,15 @@ namespace WheelMUD.Core
                 return null;
             }
 
-            string s = searchString.ToLower();
-
             lock (lockObject)
             {
                 // Try to find the item in this collection by seeing if any item ID matches 
                 // the string exactly, else if that find call returns null, find any item ID 
                 // that starts with the specified string, else if that is null...
-                Thing foundThing = Children.Find(i => i.Id != null && i.Id.Equals(s)) ??
-                                   Children.Find(i => i.Name.ToLower().Equals(s)) ??
-                                   Children.Find(i => i.Name.ToLower().StartsWith(s)) ??
-                                   Children.Find(i => i.KeyWords.Contains(s));
-
-                return foundThing;
+                return Children.Find(i => searchString.Equals(i.Id, StringComparison.OrdinalIgnoreCase)) ??
+                       Children.Find(i => i.Name.Equals(searchString, StringComparison.OrdinalIgnoreCase)) ??
+                       Children.Find(i => i.Name.ToLower().StartsWith(searchString, StringComparison.OrdinalIgnoreCase)) ??
+                       Children.Find(i => i.KeyWords.Contains(searchString, StringComparer.OrdinalIgnoreCase));
             }
         }
 

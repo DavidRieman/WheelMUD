@@ -66,22 +66,25 @@ namespace WheelMUD.Actions
         /// <returns>A string with the error message for the user upon guard failure, else null.</returns>
         public override string Guards(ActionInput actionInput)
         {
-
             var commonFailure = VerifyCommonGuards(actionInput, ActionGuards);
             if (commonFailure != null)
             {
                 return commonFailure;
             }
 
-            var targetName = actionInput.Tail.Trim().ToLower();
+            // Check to see if the first word is a number, which will be treated as the quantity to drop, if so.
+            int.TryParse(actionInput.Params[0], out numberToDrop);
 
-            // Rule: if 2 params
-            if (actionInput.Params.Length == 2)
+            var targetName = actionInput.Tail;
+
+            // If there are multiple parameters and the first one is a positive number, treat it as a quantity.
+            if (actionInput.Params.Length > 1)
             {
                 int.TryParse(actionInput.Params[0], out numberToDrop);
-
-                targetName = numberToDrop == 0 ? actionInput.Tail.ToLower() :
-                    actionInput.Tail.Remove(0, actionInput.Params[0].Length).Trim().ToLower();
+                if (numberToDrop >= 1)
+                {
+                    targetName = actionInput.Tail.Remove(0, actionInput.Params[0].Length);
+                }
             }
 
             // Rule: Did the initiator look to drop something?

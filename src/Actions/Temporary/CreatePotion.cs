@@ -40,17 +40,17 @@ namespace WheelMUD.Actions
                 MaxSips = 50,
                 SipsLeft = 50,
                 Duration = new TimeSpan(0, 0, 15),
-            })
+            }, new MovableBehavior())
             {
-                Name = "A colourful potion",
-                Description = "This colourful potion is bubbling slowly.",
-                KeyWords = new List<string> { "potion", "colourful" }
+                Name = "A colorful potion",
+                Description = "This colorful potion is bubbling slowly.",
+                KeyWords = new List<string> { "potion", "colorful" }
             };
 
-            actionInput.Actor.Parent.Children.Add(potionItem);
+            actionInput.Actor.Children.Add(potionItem);
 
             // TODO: Use a SensoryEvent to inform the creator (and any other witness) about what just happened instead of direct writes.
-            actionInput.Session?.WriteLine("You create a colourful potion");
+            actionInput.Session?.WriteLine("You create a colorful potion");
         }
 
         /// <summary>Checks against the guards for the command.</summary>
