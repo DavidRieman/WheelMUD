@@ -23,7 +23,7 @@ namespace WarriorRogueMage.CharacterCreation
         public static void SendErrorMessage(Session session, string message)
         {
             var wrappedMessage = new OutputBuilder();
-            
+
             wrappedMessage.AppendSeparator('=', "red", true, message.Length);
             wrappedMessage.AppendLine(message);
             wrappedMessage.AppendSeparator('=', "red", true, message.Length);

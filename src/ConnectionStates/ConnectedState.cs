@@ -16,7 +16,7 @@ namespace WheelMUD.ConnectionStates
     public class ConnectedState : SessionState
     {
         // TODO: Adjust message selection when guest characters / guest accounts are an available App.config option.
-        private static readonly string ConnectedPrompt = AppConfigInfo.Instance.UserAccountIsPlayerCharacter ? 
+        private static readonly string ConnectedPrompt = AppConfigInfo.Instance.UserAccountIsPlayerCharacter ?
             "Enter your character name or type NEW to create a new one: > " :
             "Enter your account name or type NEW to create a new account: > ";
 

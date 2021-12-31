@@ -37,7 +37,9 @@ namespace WheelMUD.Actions.Temporary
 
             var weaponItem = new Thing(new WieldableBehavior(), new MovableBehavior())
             {
-                Name = weaponName, SingularPrefix = "a", Id = "0"
+                Name = weaponName,
+                SingularPrefix = "a",
+                Id = "0"
             };
 
             if (actor.Add(weaponItem))

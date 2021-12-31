@@ -47,7 +47,7 @@ namespace WheelMUD.Actions
                     session.WriteLine("You currently have no friends listed.");
                     return;
                 }
-                
+
                 var output = new OutputBuilder().AppendLine("Your Friends:");
                 foreach (var friendName in playerBehavior.Friends)
                 {

@@ -11,7 +11,7 @@ namespace WheelMUD.Core
 
     /// <summary>The contextual availability, as it applies to a context command, etc.</summary>
     [Flags]
-    public enum ContextAvailability: uint
+    public enum ContextAvailability : uint
     {
         /// <summary>Available to nobody.</summary>
         ToNone = 0,

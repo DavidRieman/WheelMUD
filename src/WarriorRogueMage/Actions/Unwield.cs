@@ -5,14 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
+using System.Collections.Generic;
+using WarriorRogueMage.Behaviors;
+using WheelMUD.Core;
 
 namespace WarriorRogueMage.Actions
 {
-    using System.Collections.Generic;
-    using WarriorRogueMage.Behaviors;
-    using WheelMUD.Core;
-
     /// <summary>An action to unwield a weapon.</summary>
     [ExportGameAction(100)]
     [ActionPrimaryAlias("unwield", CommandCategory.Item)]

@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Server;
-using WheelMUD.Utilities;
 using System;
 using System.Linq;
+using WheelMUD.Server;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Core
 {

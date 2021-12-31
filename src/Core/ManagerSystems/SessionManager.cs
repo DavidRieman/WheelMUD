@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Server.Interfaces;
-using WheelMUD.Utilities.Interfaces;
 using System;
 using System.Collections.Generic;
 using WheelMUD.Interfaces;
+using WheelMUD.Server.Interfaces;
+using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
 {
@@ -115,7 +115,7 @@ namespace WheelMUD.Core
 
             // Create a new session for this connection.
             var session = new Session(connection);
-            
+
             // Load our splash screen.
             session.Write(Renderer.Instance.RenderSplashScreen(session.TerminalOptions), true);
 

@@ -6,7 +6,6 @@
 //-----------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Text;
 using WheelMUD.ConnectionStates;
 using WheelMUD.Core;
 using WheelMUD.Server;

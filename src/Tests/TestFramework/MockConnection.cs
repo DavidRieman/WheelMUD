@@ -15,7 +15,7 @@ using WheelMUD.Server.Interfaces;
 
 namespace TestHelpers
 {
-    public class MockConnection: IConnection
+    public class MockConnection : IConnection
     {
         public MockConnection() { }
 

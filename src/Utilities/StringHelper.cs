@@ -18,7 +18,7 @@ namespace WheelMUD.Utilities
         /// <remarks>Output example: "apples, oranges and bananas".</remarks>
         /// <param name="items"></param>
         /// <returns></returns>
-        public static string BuildPrettyList(this IEnumerable<string>  items)
+        public static string BuildPrettyList(this IEnumerable<string> items)
         {
             return string.Join(", ", items.Take(items.Count() - 1)) +
                    (items.Count() > 1 ? " and " : "") + items.LastOrDefault();

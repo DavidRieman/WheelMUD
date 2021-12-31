@@ -80,7 +80,7 @@ namespace WheelMUD.Ftp.FtpCommands
 
                 var info = ConnectionObject.FileSystemObject.GetFileInfo(file);
                 if (info == null) continue;
-                
+
                 sb.Append($"{info.GetAttributeString()} 1 owner group ");
 
                 if (info.IsDirectory())

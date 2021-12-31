@@ -5,7 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core

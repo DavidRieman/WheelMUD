@@ -5,9 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using NUnit.Framework;
+using System;
 using WheelMUD.Server;
 using WheelMUD.Utilities;
 

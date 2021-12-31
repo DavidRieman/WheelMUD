@@ -5,9 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Interfaces;
-using WheelMUD.Server;
-
 namespace WheelMUD.Universe
 {
     using System.Collections.Generic;

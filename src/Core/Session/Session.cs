@@ -96,12 +96,12 @@ namespace WheelMUD.Core
         public void WritePrompt()
         {
             var prompt = State.BuildPrompt().Parse(Connection.TerminalOptions);
-            
+
             if (!AtPrompt)
             {
                 prompt = AnsiSequences.NewLine + prompt;
             }
-            
+
             Connection.Send(prompt);
         }
 
