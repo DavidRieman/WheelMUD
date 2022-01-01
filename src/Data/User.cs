@@ -46,7 +46,7 @@ namespace WheelMUD.Data
 
         public void SetPassword(string newPassword)
         {
-            var salt = new Byte[24];
+            var salt = new byte[24];
             CryptoProvider.GetBytes(salt);
             Salt = Encoding.UTF8.GetString(salt);
             HashedPassword = Hash(Salt, newPassword);

@@ -40,8 +40,10 @@ namespace WheelMUD.Ftp
 
             connectionCommands = new FtpConnectionObject(fileSystemClassFactory, Id, socket);
 
-            mainThread = new Thread(ThreadRun);
-            mainThread.Name = "ThreadRun:" + Id;
+            mainThread = new Thread(ThreadRun)
+            {
+                Name = "ThreadRun:" + Id
+            };
             mainThread.Start();
         }
 

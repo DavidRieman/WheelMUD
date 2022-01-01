@@ -72,8 +72,10 @@ namespace WheelMUD.Tests.Behaviors
         [TestMethod]
         public void TestUnattachedFollowingBehaviorCanNotTrackTargets()
         {
-            var followingBehavior = new FollowingBehavior();
-            followingBehavior.Target = victim1;
+            var followingBehavior = new FollowingBehavior
+            {
+                Target = victim1
+            };
             Assert.AreEqual(null, followingBehavior.Target);
         }
 
