@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WarriorRogueMage;
 using WarriorRogueMage.Attributes;
 using WarriorRogueMage.Behaviors;
@@ -15,13 +15,13 @@ using WheelMUD.Core;
 namespace WheelMUD.Tests.Talents
 {
     // <summary>Tests the Champion talent.</summary>
-    [TestFixture]
+    [TestClass]
     public class TestChampionTalent
     {
         /// <summary>Common actors in the test.</summary>
         private Thing playerThing;
 
-        [SetUp]
+        [TestInitialize]
         public void Init()
         {
             var testBehavior = new TalentsBehavior(null);
@@ -53,7 +53,7 @@ namespace WheelMUD.Tests.Talents
         }
 
         /// <summary>Tests the champion talent added mechanism.</summary>
-        [Test]
+        [TestMethod]
         public void TestChampionTalentAddedMechanism()
         {
             var champion = new ChampionTalent();

@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WarriorRogueMage.Behaviors;
 using WarriorRogueMage.Skills;
 using WheelMUD.Core;
@@ -13,20 +13,20 @@ using WheelMUD.Core;
 namespace WheelMUD.Tests.Behaviors
 {
     /// <summary>Tests the WRM SkillsBehavior.</summary>
-    [TestFixture]
+    [TestClass]
     public class TestSkillsBehavior
     {
         /// <summary>Common actors in the test.</summary>
         private Thing playerThing;
 
-        [SetUp]
+        [TestInitialize]
         public void Init()
         {
             playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
         }
 
         /// <summary>Test to make sure WRM behaviors are attaching properly.</summary>
-        [Test]
+        [TestMethod]
         public void AttachSkillsBehaviorToPlayerTest()
         {
             var skillsBehavior = new SkillsBehavior(null);
@@ -35,7 +35,7 @@ namespace WheelMUD.Tests.Behaviors
             playerThing.Behaviors.Remove(skillsBehavior);
         }
 
-        [Test]
+        [TestMethod]
         public void AddSkillBeforeBehaviorParentSetTest()
         {
             var skillsBehavior = new SkillsBehavior(null);
@@ -51,7 +51,7 @@ namespace WheelMUD.Tests.Behaviors
             playerThing.Behaviors.Remove(skillsBehavior);
         }
 
-        [Test]
+        [TestMethod]
         public void AddBehaviorBeforeSkillParentSetTest()
         {
             var skillsBehavior = new SkillsBehavior(null);

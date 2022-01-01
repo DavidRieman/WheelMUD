@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using TestHelpers;
@@ -16,11 +16,11 @@ using WheelMUD.Utilities;
 namespace WheelMUD.Tests
 {
     /// <summary>Tests the Session class.</summary>
-    [TestFixture]
+    [TestClass]
     public class TestSession
     {
         /// <summary>Common preparation for all Session tests.</summary>
-        [SetUp]
+        [TestInitialize]
         public void Init()
         {
             DefaultComposer.Container = new CompositionContainer();
@@ -28,7 +28,7 @@ namespace WheelMUD.Tests
         }
 
         /// <summary>Test that the initial SessionState, upon establishing a fake connection, is FakeSessionState.</summary>
-        [Test]
+        [TestMethod]
         public void TestInitialConnectionStateIsNotDefaultState()
         {
             var connection = new MockConnection();
@@ -37,7 +37,7 @@ namespace WheelMUD.Tests
         }
 
         /// <summary>Tests that the initial connection receives appropriate login prompts.</summary>
-        [Test]
+        [TestMethod]
         public void TestInitialConnectionPromptsAfterEachWrite()
         {
             var connection = new MockConnection() { AtNewLine = true };

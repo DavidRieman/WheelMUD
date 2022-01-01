@@ -5,26 +5,26 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WheelMUD.Core;
+
 namespace WheelMUD.Tests.Behaviors
 {
-    using NUnit.Framework;
-    using WheelMUD.Core;
-
     /// <summary>Tests for the ExitBehavior class.</summary>
-    [TestFixture]
+    [TestClass]
     public class TestPlayerBehavior
     {
         /// <summary>The behavior being tested.</summary>
         private PlayerBehavior playerBehavior;
 
         /// <summary>Common preparation for the PlayerBehavior tests.</summary>
-        [SetUp]
+        [TestInitialize]
         public void Init()
         {
             playerBehavior = new PlayerBehavior();
         }
 
-        [Test]
+        [TestMethod]
         public void TestAddAndRemoveFriends()
         {
             Assert.AreEqual(playerBehavior.Friends.Count, 0);

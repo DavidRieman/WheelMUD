@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using WheelMUD.Interfaces;
 using WheelMUD.Server.Interfaces;
 using WheelMUD.Utilities.Interfaces;
 

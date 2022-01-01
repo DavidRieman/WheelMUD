@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WarriorRogueMage;
 using WarriorRogueMage.Attributes;
 using WarriorRogueMage.Behaviors;
@@ -15,20 +15,20 @@ using WheelMUD.Core;
 namespace WheelMUD.Tests.Behaviors
 {
     /// <summary>Tests the TalentsBehavior class.</summary>
-    [TestFixture]
+    [TestClass]
     public class TestTalentsBehavior
     {
         /// <summary>Common actors in the test.</summary>
         private Thing playerThing;
 
-        [SetUp]
+        [TestInitialize]
         public void Init()
         {
             playerThing = new Thing() { Name = "PlayerThing", Id = TestThingID.Generate("testthing") };
         }
 
         /// <summary>Test to make sure WRM behaviors are attaching properly.</summary>
-        [Test]
+        [TestMethod]
         public void AttachTalentsBehaviorToPlayerTest()
         {
             var testBehavior = new TalentsBehavior(null);
@@ -37,7 +37,7 @@ namespace WheelMUD.Tests.Behaviors
             playerThing.Behaviors.Remove(testBehavior);
         }
 
-        [Test]
+        [TestMethod]
         public void AddTalentBeforeBehaviorParentSetTest()
         {
             var testTalent = new CraftsmanTalent();
@@ -53,7 +53,7 @@ namespace WheelMUD.Tests.Behaviors
             playerThing.Behaviors.Remove(testBehavior);
         }
 
-        [Test]
+        [TestMethod]
         public void AddTalentWithRulesBeforeBehaviorParentSetTest()
         {
             var testBehavior = new TalentsBehavior(null);
@@ -91,7 +91,7 @@ namespace WheelMUD.Tests.Behaviors
             playerThing.Behaviors.Remove(testBehavior);
         }
 
-        [Test]
+        [TestMethod]
         public void AddBehaviorBeforeTalentParentSetTest()
         {
             var testTalent = new CraftsmanTalent();
@@ -106,7 +106,7 @@ namespace WheelMUD.Tests.Behaviors
             playerThing.Behaviors.Remove(testBehavior);
         }
 
-        [Test]
+        [TestMethod]
         public void AddBehaviorBeforeTalentWithRulesParentSetTest()
         {
             var testBehavior = new TalentsBehavior(null);

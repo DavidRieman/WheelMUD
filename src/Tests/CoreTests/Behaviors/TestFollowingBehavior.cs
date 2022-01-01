@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WheelMUD.Core;
+
 namespace WheelMUD.Tests.Behaviors
 {
-    using NUnit.Framework;
-    using WheelMUD.Core;
-
     /// <summary>Test cases for FollowingBehavior.</summary>
-    [TestFixture]
+    [TestClass]
     public class TestFollowingBehavior
     {
         /// <summary>Common actors in the test.</summary>
@@ -24,7 +24,7 @@ namespace WheelMUD.Tests.Behaviors
         private GameEvent lastWitnessEvent, lastStalkerEvent, lastVictimEvent;
 
         /// <summary>Common preparation for all FollowingBehavior tests.</summary>
-        [SetUp]
+        [TestInitialize]
         public void Init()
         {
             // Create the basic actor instances and behavior for test.
@@ -69,7 +69,7 @@ namespace WheelMUD.Tests.Behaviors
         }
 
         /// <summary>Test FollowingBehavior without an attached parent.</summary>
-        [Test]
+        [TestMethod]
         public void TestUnattachedFollowingBehaviorCanNotTrackTargets()
         {
             var followingBehavior = new FollowingBehavior();
@@ -78,7 +78,7 @@ namespace WheelMUD.Tests.Behaviors
         }
 
         /// <summary>Verify that the default target is null.</summary>
-        [Test]
+        [TestMethod]
         public void TestFollowingBehaviorStartsOutNull()
         {
             ClearTrackedEvents();
@@ -88,7 +88,7 @@ namespace WheelMUD.Tests.Behaviors
         }
 
         /// <summary>Verify that Target changes to the specified victim.</summary>
-        [Test]
+        [TestMethod]
         public void TestSettingTarget()
         {
             ClearTrackedEvents();
@@ -103,7 +103,7 @@ namespace WheelMUD.Tests.Behaviors
         /// Verify that removing a target (setting to null) works and doesn't throw exceptions.
         /// Verify that the stalker and victim saw the follow, but it wasn't seen by the witness
         /// </summary>
-        [Test]
+        [TestMethod]
         public void TestRemovingTarget()
         {
             ClearTrackedEvents();
@@ -129,7 +129,7 @@ namespace WheelMUD.Tests.Behaviors
         }
 
         /// <summary>Verify sensory messages seen by stalker/victim and unseen by witness.</summary>
-        [Test]
+        [TestMethod]
         public void TestFollowingMessages()
         {
             ClearTrackedEvents();
@@ -158,7 +158,7 @@ namespace WheelMUD.Tests.Behaviors
 
         /// <summary>Tests the garbage collected target.</summary>
         /// <remarks>TODO: Figure out whether it's the test or the code that's broken.</remarks>
-        [Test]
+        [TestMethod]
         public void TestGarbageCollectedTarget()
         {
             ////ClearTrackedEvents();

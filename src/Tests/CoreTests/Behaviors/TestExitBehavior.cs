@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WheelMUD.Core;
+
 namespace WheelMUD.Tests.Behaviors
 {
-    using NUnit.Framework;
-    using WheelMUD.Core;
-
     /// <summary>Tests for the ExitBehavior class.</summary>
-    [TestFixture]
+    [TestClass]
     public class TestExitBehavior
     {
         /// <summary>The actors in the test.</summary>
@@ -21,7 +21,7 @@ namespace WheelMUD.Tests.Behaviors
         private ExitBehavior exitBehavior;
 
         /// <summary>Common preparation for all ExitBehavior tests.</summary>
-        [SetUp]
+        [TestInitialize]
         public void Init()
         {
             // Create 2 rooms and a basic ExitBehavior in prep for testing.
@@ -32,7 +32,7 @@ namespace WheelMUD.Tests.Behaviors
         }
 
         /// <summary>Test behaviors of a one-way exit.</summary>
-        [Test]
+        [TestMethod]
         public void TestOneWayExitBehavior()
         {
             // Put the exit in room A only, and register an exit command to travel one way.
@@ -64,7 +64,7 @@ namespace WheelMUD.Tests.Behaviors
         }
 
         /// <summary>Test behaviors of a two-way exit.</summary>
-        [Test]
+        [TestMethod]
         public void TestTwoWayExitBehavior()
         {
             // Allow the exit to reside in two places, and place it in both room A and room B.
@@ -88,7 +88,7 @@ namespace WheelMUD.Tests.Behaviors
             exitBehavior.MoveThrough(actor);
             Assert.AreSame(actor.Parent, roomA);
 
-            // Make the actoc movable, and ensure they end up in the next room when moving through.
+            // Make the actor movable, and ensure they end up in the next room when moving through.
             actor.Behaviors.Add(new MovableBehavior());
             exitBehavior.MoveThrough(actor);
             Assert.AreSame(actor.Parent, roomB);

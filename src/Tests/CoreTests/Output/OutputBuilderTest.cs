@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using WheelMUD.Server;
 using WheelMUD.Utilities;
@@ -13,7 +13,7 @@ using WheelMUD.Utilities;
 namespace WheelMUD.Tests.Output
 {
     /// <summary>Tests for the OutputBuilder/Parser class.</summary>
-    [TestFixture]
+    [TestClass]
     public class OutputBuilderTest
     {
         private TerminalOptions terminalOptions;
@@ -22,14 +22,13 @@ namespace WheelMUD.Tests.Output
         private readonly string ansiMessage = "<%red%>Lorem<%n%> ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea \\<%leave%>commodo\\<%leave%> consequat. Duis aute irure dolor in reprehenderit in <%blue%>voluptate<%n%> velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est <%yellow%>laborum.<%yellow%>";
         private readonly string shortMessage = "The big brown dog.";
 
-        /// <summary>Preparation for output parsing params</summary>
-        [SetUp]
+        [TestInitialize]
         public void Init()
         {
             terminalOptions = new TerminalOptions();
         }
 
-        [Test]
+        [TestMethod]
         public void TestWordwrap()
         {
             terminalOptions.Width = 80;
@@ -41,11 +40,11 @@ namespace WheelMUD.Tests.Output
 
             foreach (var split in splitStrings)
             {
-                Assert.Less(split.Length, terminalOptions.Width);
+                Assert.IsTrue(split.Length < terminalOptions.Width);
             }
         }
 
-        [Test]
+        [TestMethod]
         public void TestAnsiTokenRemoval()
         {
             terminalOptions.UseANSI = false;
@@ -57,7 +56,7 @@ namespace WheelMUD.Tests.Output
             Assert.AreEqual(baseMessage, parsedMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void TestReplace()
         {
             var replaceWord = "big";
@@ -71,7 +70,7 @@ namespace WheelMUD.Tests.Output
             Assert.AreEqual(correctedMessage, parsedMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void TestReplaceWithNullNewStr()
         {
             var replaceWord = "big brown";
@@ -83,7 +82,7 @@ namespace WheelMUD.Tests.Output
             Assert.AreEqual(correctedMessage, parsedMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void TestReplaceWithNullOldStr()
         {
             var output = new OutputBuilder().Append(shortMessage);
@@ -92,73 +91,73 @@ namespace WheelMUD.Tests.Output
             Assert.AreEqual(shortMessage, parsedMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void TestAppendInt0()
         {
             Assert.AreEqual("0", new OutputBuilder().Append(0).Parse(terminalOptions));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAppendInt1()
         {
             Assert.AreEqual("1", new OutputBuilder().Append(1).Parse(terminalOptions));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAppendIntPositive()
         {
             Assert.AreEqual("100", new OutputBuilder().Append(100).Parse(terminalOptions));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAppendIntBig()
         {
             Assert.AreEqual("111222", new OutputBuilder().Append(111222).Parse(terminalOptions));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAppendIntNearMax()
         {
             Assert.AreEqual("2147483646", new OutputBuilder().Append(int.MaxValue - 1).Parse(terminalOptions));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAppendIntMax()
         {
             Assert.AreEqual("2147483647", new OutputBuilder().Append(int.MaxValue).Parse(terminalOptions));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAppendIntNegative1()
         {
             Assert.AreEqual("-1", new OutputBuilder().Append(-1).Parse(terminalOptions));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAppendIntNegative()
         {
             Assert.AreEqual("-100", new OutputBuilder().Append(-100).Parse(terminalOptions));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAppendIntNegativeSmall()
         {
             Assert.AreEqual("-111222", new OutputBuilder().Append(-111222).Parse(terminalOptions));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAppendIntNearMin()
         {
             Assert.AreEqual("-2147483647", new OutputBuilder().Append(int.MinValue + 1).Parse(terminalOptions));
         }
 
-        [Test]
+        [TestMethod]
         public void TestAppendIntMin()
         {
             Assert.AreEqual("-2147483648", new OutputBuilder().Append(int.MinValue).Parse(terminalOptions));
         }
 
-        [Test]
+        [TestMethod]
         public void TestMultipleParseProducesSameResults()
         {
             var output = new OutputBuilder().Append(shortMessage);
@@ -169,7 +168,7 @@ namespace WheelMUD.Tests.Output
             Assert.AreEqual(result1, result2);
         }
 
-        [Test]
+        [TestMethod]
         public void TestClear()
         {
             var output = new OutputBuilder().Append(shortMessage);
@@ -178,7 +177,7 @@ namespace WheelMUD.Tests.Output
             Assert.AreEqual(output.Parse(terminalOptions), "");
         }
 
-        [Test]
+        [TestMethod]
         public void TestAppendLine()
         {
             var output = new OutputBuilder().AppendLine(shortMessage);

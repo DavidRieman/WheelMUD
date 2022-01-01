@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WheelMUD.Core;
 using WheelMUD.Universe;
 
 namespace WheelMUD.Tests.Behaviors
 {
     /// <summary>Tests for the TestLocksUnlocksBehavior class.</summary>
-    [TestFixture]
+    [TestClass]
     public class TestLocksUnlocksBehavior
     {
         /// <summary>Common actors in the test.</summary>
@@ -28,7 +28,7 @@ namespace WheelMUD.Tests.Behaviors
         private GameEvent lastWitnessEvent, lastActorEvent;
 
         /// <summary>Common preparation for all LocksUnlocksBehavior tests.</summary>
-        [SetUp]
+        [TestInitialize]
         public void Init()
         {
             // Create the basic actor instances and behavior for test.
@@ -51,7 +51,7 @@ namespace WheelMUD.Tests.Behaviors
         }
 
         /// <summary>Test LocksUnlocksBehavior without an attached parent.</summary>
-        [Test]
+        [TestMethod]
         public void TestUnattachedLocksUnlocksBehavior()
         {
             // Verify that an unattached behavior does not change state between Lock/Unlock attempts, and
@@ -65,7 +65,7 @@ namespace WheelMUD.Tests.Behaviors
         }
 
         /// <summary>Test normal LocksUnlocksBehavior operation.</summary>
-        [Test]
+        [TestMethod]
         public void TestLockingAndUnlocking()
         {
             lockableThing.Behaviors.Add(locksUnlocksBehavior);
@@ -125,7 +125,7 @@ namespace WheelMUD.Tests.Behaviors
         }
 
         /// <summary>Test special LocksUnlocksBehavior operations for openable things.</summary>
-        [Test]
+        [TestMethod]
         public void TestOpeningAndClosingOfLockedAndUnlockedThings()
         {
             // Make our lockable thing also openable.

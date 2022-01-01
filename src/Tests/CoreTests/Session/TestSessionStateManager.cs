@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using WheelMUD.Core;
@@ -13,11 +13,11 @@ using WheelMUD.Core;
 namespace WheelMUD.Tests
 {
     /// <summary>Tests the Session class.</summary>
-    [TestFixture]
+    [TestClass]
     public class TestSessionStateManager
     {
         /// <summary>Common preparation for all Session tests.</summary>
-        [SetUp]
+        [TestInitialize]
         public void Init()
         {
             DefaultComposer.Container = new CompositionContainer();
@@ -25,7 +25,7 @@ namespace WheelMUD.Tests
         }
 
         /// <summary>Test that automatic composition during singleton instantiation establishes at least one SessionState object.</summary>
-        [Test]
+        [TestMethod]
         public void TestCompositionFindsSessionStates()
         {
             var sessionStates = SessionStateManager.Instance.SessionStates;
