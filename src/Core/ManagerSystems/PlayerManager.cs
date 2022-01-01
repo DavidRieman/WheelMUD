@@ -139,16 +139,11 @@ namespace WheelMUD.Core
             return playerBehavior?.Parent;
         }
 
-        /*
-        {
-
-    // TODO: Perhaps reset player command queue to have exactly one "look" command?
-}*/
-
         /// <summary>Attach the specified player ID to the specified, already-authenticated session.</summary>
         /// <param name="characterId">The ID of the player character to attach.</param>
         /// <param name="session">The session to attach the player character to.</param>
         /// <returns>True if successfully attached (or reattached), else false.</returns>
+        /// <remarks>TODO: Perhaps also reset player command queue to have exactly one "look" command?</remarks>
         public bool AttachPlayerToSession(string characterId, Session session)
         {
             PlayerBehavior existingPlayer;

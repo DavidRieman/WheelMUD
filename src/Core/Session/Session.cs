@@ -36,9 +36,6 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>The 'session authenticated' event handler.</summary>
-        public event SessionAuthenticatedEventHandler SessionAuthenticated;
-
         /// <summary>Gets the ID of the session.</summary>
         public string ID => Connection.ID;
 
