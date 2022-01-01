@@ -64,17 +64,6 @@ dlldata.c
 *.svclog
 *.scc
 
-# Chutzpah Test files
-_Chutzpah*
-
-# Visual C++ cache files
-ipch/
-*.aps
-*.ncb
-*.opensdf
-*.sdf
-*.cachefile
-
 # Visual Studio profiler
 *.psess
 *.vsp
@@ -104,10 +93,6 @@ _TeamCity*
 _NCrunch_*
 .*crunch*.local.xml
 
-# MightyMoose
-*.mm.*
-AutoTest.Net/
-
 # Web workbench (sass)
 .sass-cache/
 
@@ -123,9 +108,6 @@ DocProject/Help/*.hhk
 DocProject/Help/*.hhp
 DocProject/Help/Html2
 DocProject/Help/html
-
-# Click-Once directory
-publish/
 
 # Publish Web Output
 *.[Pp]ublish.xml
@@ -157,9 +139,6 @@ ClientBin/
 *.pfx
 *.publishsettings
 node_modules/
-
-# RIA/Silverlight projects
-Generated_Code/
 
 # Backup & report files from converting an old project file
 # to a newer Visual Studio version. Backup files are not needed,
