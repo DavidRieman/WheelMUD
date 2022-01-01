@@ -52,18 +52,6 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>Called upon session authentication.</summary>
-        /// <param name="session">The authenticated session.</param>
-        public void OnSessionAuthenticated(Session session)
-        {
-            session.ActionReceived += Controller_ActionReceived;
-
-            SystemHost.UpdateSystemHost(this, session.ID + " - Session Authenticated");
-
-            // Tell the player manager about the new authenticated session.
-            PlayerManager.Instance.OnSessionAuthenticated(session);
-        }
-
         /// <summary>Called upon input being received.</summary>
         /// <param name="connection">The connection upon which we received input.</param>
         /// <param name="input">The input that was received.</param>
@@ -119,9 +107,6 @@ namespace WheelMUD.Core
             // Load our splash screen.
             session.Write(Renderer.Instance.RenderSplashScreen(session.TerminalOptions), true);
 
-            // Handle our session authenticated event.
-            session.SessionAuthenticated += OnSessionAuthenticated;
-
             session.SubscribeToSystem(this);
 
             // Add the new session to our collection.
@@ -149,25 +134,10 @@ namespace WheelMUD.Core
                     ////if (PlayerUnloaded != null)
                     ////    PlayerUnloaded(session.Player);
                     Session session = Sessions[sessionID];
-                    session.SessionAuthenticated -= OnSessionAuthenticated;
                     session.UnsubscribeToSystem();
-
                     Sessions.Remove(sessionID);
                 }
             }
-        }
-
-        /// <summary>Called upon receiving an action.</summary>
-        /// <param name="sender">The sender of the action.</param>
-        /// <param name="actionInput">The action input received.</param>
-        private void Controller_ActionReceived(IController sender, ActionInput actionInput)
-        {
-            // TODO: This session/player should have it's own queue which migrates to the global queue whenever the global
-            //       queue does not have a pending action from this player.  IE the player should not be able to have two
-            //       simultaneous actions in progress even though there may be multiple CommandProcessors consuming input.
-            //       Also, a player who rapid-fired a ton of action input already should not get to starve other players
-            //       from getting their own simpler action queues (like combat survival actions) processed.
-            CommandManager.Instance.EnqueueAction(actionInput);
         }
 
         /// <summary>Registers the <see cref="SessionManager"/> system for export.</summary>

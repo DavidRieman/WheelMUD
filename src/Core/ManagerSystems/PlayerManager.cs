@@ -7,8 +7,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using WheelMUD.Server;
+using System.Linq;
+using WheelMUD.Data.Repositories;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
@@ -83,6 +83,7 @@ namespace WheelMUD.Core
         /// <param name="e">The <see cref="WheelMUD.Core.Events.GameEvent"/> instance containing the event data.</param>
         public void OnPlayerLogIn(Thing player, GameEvent e)
         {
+            AddPlayer(player);
             GlobalPlayerLogInEvent?.Invoke(player.Parent, e);
         }
 
@@ -138,57 +139,62 @@ namespace WheelMUD.Core
             return playerBehavior?.Parent;
         }
 
-        /// <summary>Called upon authentication of a session.</summary>
-        /// <param name="session">The authenticated session.</param>
-        public void OnSessionAuthenticated(Session session)
+        /*
         {
-            // If there was already a connected player for this new, authentic user session, kick the old
-            // one (as it may have been a prior disconnect or whatnot or even a different player character
-            // controlled by the same user account).
-            // TODO: We can probably handle this more gracefully (without the extra logouts and messaging
-            //       the room about it and so on) by having the login process notice the target player is
-            //       already in the world sooner, and more directly taking fresh control of THAT Thing.
-            PlayerBehavior previousPlayer = FindLoggedInPlayer(session.User.UserName);
-            if (previousPlayer != null)
+
+    // TODO: Perhaps reset player command queue to have exactly one "look" command?
+}*/
+
+        /// <summary>Attach the specified player ID to the specified, already-authenticated session.</summary>
+        /// <param name="characterId">The ID of the player character to attach.</param>
+        /// <param name="session">The session to attach the player character to.</param>
+        /// <returns>True if successfully attached (or reattached), else false.</returns>
+        public bool AttachPlayerToSession(string characterId, Session session)
+        {
+            PlayerBehavior existingPlayer;
+            lock (lockObject)
             {
-                var msg = $"Duplicate player match, replacing session {previousPlayer.SessionId} with new session {session.ID}";
-                SystemHost.UpdateSystemHost(this, msg);
-
-                var previousUser = previousPlayer.Parent.FindBehavior<UserControlledBehavior>();
-                Debug.Assert(previousUser != null, "Existing Player found must always also be a UserControlled Thing.");
-                previousUser.Disconnect("Another connection has logged in as you; closing this connection.");
-
-                previousUser.Session = session;
-                previousPlayer.SessionId = session.ID;
-                session.Thing = previousPlayer.Parent;
+                existingPlayer = playersList.Where(p => p.Parent?.Id == characterId).FirstOrDefault();
             }
-            else
-            {
-                // Track this new player in the loaded players list.
-                AddPlayer(session.Thing);
-            }
+            var userControlled = existingPlayer?.Parent?.FindBehavior<UserControlledBehavior>();
 
-            // A freshly (re)connected player is assumed not to be AFK anymore.
-            PlayerBehavior playerBehavior = session.Thing.FindBehavior<PlayerBehavior>();
-            if (playerBehavior != null)
+            // If the target player isn't already in the world, load the player and make them user-controlled.
+            if (existingPlayer == null)
             {
-                playerBehavior.IsAFK = false;
-                playerBehavior.AFKReason = null;
-            }
-
-            // If this session doesn't have a player thing attached yet, load it up.  Note that
-            // for situations like character creation, we might already have our Thing, so we
-            // don't want to load a duplicate version of the just-created player Thing.
-            if (session.Thing == null)
-            {
-                var output = new OutputBuilder();
-                output.AppendLine("User was authenticated but the player character could not be loaded.");
-                output.AppendLine("Please contact an administrator. Disconnecting.");
-                session.Write(output);
-                session.Connection.Disconnect();
+                session.Thing = DocumentRepository<Thing>.Load(characterId);
+                session.Thing.RepairParentTree();
+                existingPlayer = session.Thing?.FindBehavior<PlayerBehavior>();
+                userControlled = session.Thing?.FindBehavior<UserControlledBehavior>();
+                if (existingPlayer == null || userControlled == null)
+                {
+                    session.WriteLine("This character player state is broken. You may need to contact an administrator for a possible recovery attempt.");
+                    session.InformSubscribedSystem(session.ID + " failed to load due to missing Thing or core Behavior.");
+                    session.Connection.Disconnect();
+                    return false;
+                }
+                return existingPlayer.LogIn(session);
             }
 
-            // TODO: Perhaps reset player command queue to have exactly one "look" command?
+            // If this player is already associated with this session somehow, we're already done.
+            if (userControlled?.Session == session)
+            {
+                return true;
+            }
+
+            // If this player is already in this world but associated with a different session, kick the
+            // existing session and assign this session to the player. (Freshest login wins, as it may be
+            // a "reconnect" where the old session is just pending link-death.)
+            if (userControlled?.Session != null)
+            {
+                SystemHost.UpdateSystemHost(this, $"New session {session.ID} replacing old session for {characterId}.");
+                userControlled.Disconnect("Another connection has logged in as you; closing this connection.");
+                userControlled.Session = session;
+                session.Thing = userControlled.Parent;
+                existingPlayer.ClearAFK();
+                return true;
+            }
+
+            throw new Exception("Could not attach player to session; Unexpected scenario?");
         }
 
         /// <summary>Called upon session disconnect.</summary>
@@ -200,7 +206,7 @@ namespace WheelMUD.Core
             if (session.Thing != null)
             {
                 var playerBehavior = session.Thing.FindBehavior<PlayerBehavior>();
-                if (playerBehavior != null && playerBehavior.SessionId != null)
+                if (playerBehavior != null)
                 {
                     playerBehavior.IsAFK = true;
                     playerBehavior.AFKReason = "Disconnect detected.";
@@ -252,15 +258,6 @@ namespace WheelMUD.Core
                     playersList.Remove(playerBehavior);
                 }
             }
-        }
-
-        /// <summary>Find a logged-in player by user name.</summary>
-        /// <param name="userName">The user name to search for.</param>
-        /// <returns>The PlayerBehavior of the user, if found, else null.</returns>
-        private PlayerBehavior FindLoggedInPlayer(string userName)
-        {
-            // TODO: #62: Find via user name instead of player names which match this user name.
-            return FindPlayer(p => p.Parent.Name.Equals(userName, StringComparison.CurrentCultureIgnoreCase));
         }
 
         /// <summary>Exports an instance of the PlayerManager singleton through MEF.</summary>

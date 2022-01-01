@@ -36,9 +36,6 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>The 'action received' event handler.</summary>
-        public event ActionReceivedEventHandler ActionReceived;
-
         /// <summary>The 'session authenticated' event handler.</summary>
         public event SessionAuthenticatedEventHandler SessionAuthenticated;
 
@@ -50,9 +47,6 @@ namespace WheelMUD.Core
 
         /// <summary>Gets or sets the player Thing attached to this session.</summary>
         public Thing Thing { get; set; }
-
-        /// <summary>Gets the living behavior of the player attached to this session.</summary>
-        public LivingBehavior LivingBehavior => Thing?.FindBehavior<LivingBehavior>();
 
         /// <summary>Gets the connection for this session.</summary>
         public IConnection Connection { get; private set; }
@@ -77,12 +71,6 @@ namespace WheelMUD.Core
         {
             State = newState;
             newState?.Begin();
-        }
-
-        /// <summary>Provides authentication services for this session.</summary>
-        public void AuthenticateSession()
-        {
-            SessionAuthenticated?.Invoke(this);
         }
 
         /// <summary>Passes the input up the chain for processing.</summary>
@@ -138,14 +126,6 @@ namespace WheelMUD.Core
             // If a particular state doesn't support the paging commands (like "m" or "more") then we should force sending all
             // data instead of potentially printing paging output that isn't supported in the current state.
             Connection.Send(data, !State.SupportsPaging);
-        }
-
-        /// <summary>Place an action on the command queue for execution.</summary>
-        /// <param name="actionInput">The action input to attempt to execute.</param>
-        public void ExecuteAction(ActionInput actionInput)
-        {
-            LastActionInput = actionInput;
-            ActionReceived?.Invoke((IController)this, actionInput);
         }
 
         /// <summary>Subscribe to receive system updates from this system.</summary>

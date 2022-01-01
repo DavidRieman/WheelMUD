@@ -46,7 +46,13 @@ namespace WheelMUD.ConnectionStates
             if (!string.IsNullOrWhiteSpace(command))
             {
                 var actionInput = new ActionInput(command, Session, Session.Thing);
-                Session.ExecuteAction(actionInput);
+
+                // TODO: This session/player should have it's own queue which migrates to the global queue whenever the global
+                //       queue does not have a pending action from this player.  IE the player should not be able to have two
+                //       simultaneous actions in progress even though there may be multiple CommandProcessors consuming input.
+                //       Also, a player who rapid-fired a ton of action input already should not get to starve other players
+                //       from getting their own simpler action queues (like combat survival actions) processed.
+                CommandManager.Instance.EnqueueAction(actionInput);
             }
             else
             {

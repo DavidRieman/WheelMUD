@@ -16,7 +16,6 @@ using WheelMUD.Data.Repositories;
 using WheelMUD.Server;
 using WheelMUD.Utilities;
 
-
 namespace WheelMUD.Core
 {
     /// <summary>The behavior for players.</summary>
@@ -78,15 +77,18 @@ namespace WheelMUD.Core
         public string Prompt { get; set; }
 
         /// <summary>Gets or sets a value indicating whether this player is AFK.</summary>
+        [JsonIgnore]
         public bool IsAFK { get; set; }
 
         /// <summary>Gets or sets the reason/why the person is AFK.</summary>
+        [JsonIgnore]
         public string AFKReason { get; set; }
 
         /// <summary>Gets or sets the date/time when the player when AFK.</summary>
         public DateTime? WhenWentAFK { get; set; }
 
         /// <summary>Gets or sets the player specific data.</summary>
+        /// <remarks>TODO: Migrate some of this data to be included in DB or otherwise saved? We're not persisting last logout time etc.</remarks>
         [JsonIgnore]
         public PlayerRecord PlayerData { get; set; }
 
@@ -190,6 +192,8 @@ namespace WheelMUD.Core
             // If nothing canceled this event request, carry on with the login.
             if (!e.IsCanceled)
             {
+                ClearAFK();
+
                 targetPlayerStartingPosition.Add(player);
 
                 DateTime universalTime = DateTime.Now.ToUniversalTime();
@@ -198,6 +202,7 @@ namespace WheelMUD.Core
 
                 session.Thing = player;
                 session.User.LastLogInTime = DateTime.Now; // Should this occur when user was authenticated instead?
+                player.FindBehavior<UserControlledBehavior>().Session = session;
 
                 // Broadcast that the player successfully logged in, to their login location.
                 player.Eventing.OnMiscellaneousEvent(e, EventScope.ParentsDown);
@@ -212,6 +217,13 @@ namespace WheelMUD.Core
             }
 
             return false;
+        }
+
+        /// <summary>Clear all AFK status (for a player who is detected to be no longer AFK).</summary>
+        public void ClearAFK()
+        {
+            IsAFK = false;
+            AFKReason = null;
         }
 
         /// <summary>Builds the player's prompt.</summary>
@@ -244,6 +256,7 @@ namespace WheelMUD.Core
             // If nothing canceled this event request, carry on with the logout.
             if (!e.IsCanceled || force)
             {
+                player.FindBehavior<UserControlledBehavior>()?.Disconnect();
                 DateTime universalTime = DateTime.Now.ToUniversalTime();
                 PlayerData.LastLogout = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";
 

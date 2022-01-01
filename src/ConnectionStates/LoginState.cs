@@ -54,29 +54,9 @@ namespace WheelMUD.ConnectionStates
                 }
                 else
                 {
-                    var characterId = Session.User.PlayerCharacterIds[0];
-
-                    var existingPlayer = PlayerManager.Instance.Players.Where(p => p.Parent?.Id == characterId).FirstOrDefault();
-                    Session.Thing = existingPlayer?.Parent ?? DocumentRepository<Thing>.Load(characterId);
-
-                    Session.Thing.Behaviors.RepairParent(Session.Thing);
-                    var playerBehavior = Session.Thing.FindBehavior<PlayerBehavior>();
-                    if (playerBehavior != null)
-                    {
-                        Session.Thing.FindBehavior<UserControlledBehavior>().Session = Session;
-                        playerBehavior.LogIn(Session);
-                        Session.AuthenticateSession();
-                        Session.SetState(new PlayingState(Session));
-                    }
-                    else
-                    {
-                        Session.WriteLine("This character player state is broken. You may need to contact an admin for a possible recovery attempt.");
-                        Session.InformSubscribedSystem(Session.ID + " failed to load due to missing player behavior.");
-                        Session.SetState(new ConnectedState(Session));
-                        Session.WritePrompt();
-                    }
-
-                    Session.Thing.RepairParentTree();
+                    string characterId = Session.User.PlayerCharacterIds[0];
+                    PlayerManager.Instance.AttachPlayerToSession(characterId, Session);
+                    Session.SetState(new PlayingState(Session));
                 }
                 isLoggingIn = false;
             }

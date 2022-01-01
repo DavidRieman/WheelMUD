@@ -269,6 +269,7 @@ namespace WheelMUD.Core
 
         /// <summary>Gets the children of this Thing as a read-only collection.</summary>
         /// <remarks>To add a child properly, use the Add method.</remarks>
+        [JsonIgnore]
         public ReadOnlyCollection<Thing> Children
         {
             get { return children.AsReadOnly(); }
@@ -304,32 +305,11 @@ namespace WheelMUD.Core
         {
             // TODO: Unregister from all things we subscribed to (just the current parent, individual behaviors may differ).
             // TODO: Dispose all our Children and Behaviors too (things should not be disposed lightly).
+            if (Parent != null)
+            {
+                Parent.Remove(this);
+            }
         }
-
-        /* /// <summary>Saves this Thing.</summary>
-        public void Save()
-        {
-            // If this thing is a player, use the player saving code instead of the generic
-            // saving code, since players currently have their own DB/persistence concerns.
-            var playerBehavior = Behaviors.FindFirst<PlayerBehavior>();
-            if (playerBehavior != null)
-            {
-                playerBehavior.SaveWholePlayer();
-            }
-            else
-            {
-                // TODO: If a thing is asked to save, see if it is a child/subchild of a player, and if so, save the player instead?
-                // TODO: Implement saving of core thing -> saving of housed Behaviors too.
-                if (Parent.HasBehavior<PlayerBehavior>())
-                {
-                    Parent.FindBehavior<PlayerBehavior>().SaveWholePlayer();
-                }
-                else
-                {
-                    ////throw new NotImplementedException();
-                }
-            }
-        }*/
 
         /// <summary>Allows a caller to determine whether this thing can be detected by something's senses.</summary>
         /// <param name="senses">The sense manager.</param>
@@ -358,6 +338,7 @@ namespace WheelMUD.Core
 
         /// <summary>Clone a new instance of this Thing and its properties, but with a new ID.</summary>
         /// <returns>A new, largely identical instance of the thing.</returns>
+        /// <remarks>TODO: Consider replacing with a constructor like "new Thing(existingThing)".</remarks>
         public Thing Clone()
         {
             var newThing = new Thing();
@@ -384,16 +365,16 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>Clone the properties of the specified existing thing.</summary>
-        /// <param name="existingThing">The existing thing.</param>
+        /// <summary>Clone the properties of the specified existing Thing to this Thing.</summary>
+        /// <param name="existingThing">The existing thing to clone from.</param>
         public void CloneProperties(Thing existingThing)
         {
             lock (lockObject)
             {
                 lock (existingThing.lockObject)
                 {
-                    // All Items should be cloneable, and most derived classes should find it sufficient 
-                    // to allow this base Item.Clone to take care of all the cloning.
+                    // All Things should be able to clone, and most derived classes should find it sufficient
+                    // to allow this base CloneProperties to take care of all the cloning.
                     // TODO: Test this.  Especially if any properties have indexers.
                     // TODO: Make sure this deep-copies things like behaviors.
                     var properties = GetType().GetProperties();

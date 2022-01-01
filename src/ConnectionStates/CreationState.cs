@@ -77,7 +77,6 @@ namespace WheelMUD.ConnectionStates
             {
                 // Automatically authenticate (the user just created username and password) and
                 // get in-game when character creation is completed.)
-                session.AuthenticateSession();
                 session.SetState(new PlayingState(session));
             }
             else
