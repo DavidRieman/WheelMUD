@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using WheelMUD.Core;
+using WheelMUD.Data;
 using WheelMUD.Server;
 
 namespace WheelMUD.ConnectionStates
 {
-    using System;
-    using WheelMUD.Core;
-    using WheelMUD.Data;
-
     /// <summary>Character creation state used to confirm creation and entry into the game.</summary>
     public class ConfirmCreationEntryState : CharacterCreationSubState
     {

@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+using WheelMUD.Data;
 using WheelMUD.Server;
 
 namespace WheelMUD.ConnectionStates
 {
-    using WheelMUD.Core;
-    using WheelMUD.Data;
-
     /// <summary>The 'character creation' session state.</summary>
     public class CreationState : SessionState
     {

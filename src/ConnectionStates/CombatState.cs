@@ -5,12 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
 using WheelMUD.Server;
 
 namespace WheelMUD.ConnectionStates
 {
-    using WheelMUD.Core;
-
     /// <summary>The player state for handling combat.</summary>
     public class CombatState : SessionState
     {

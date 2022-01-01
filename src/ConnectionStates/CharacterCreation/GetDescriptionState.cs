@@ -5,12 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
 using WheelMUD.Server;
 
 namespace WheelMUD.ConnectionStates
 {
-    using WheelMUD.Core;
-
     /// <summary>Character creation state used to request a description for the new character.</summary>
     public class GetDescriptionState : CharacterCreationSubState
     {

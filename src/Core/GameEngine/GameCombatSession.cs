@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections;
+
 namespace WheelMUD.Core
 {
-    using System.Collections;
-
     /// <summary>Implements the mechanism to deal with combat rounds/turns.</summary>
     public class GameCombatSession
     {

@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Reflection;
+
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Reflection;
-
     /// <summary>Base object representing a command that can be executed by the command executor.</summary>
     public class Command
     {

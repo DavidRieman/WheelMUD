@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-
     /// <summary>A behavior defining traits specific to living beings (IE players and mobiles).</summary>
     public class LivingBehavior : Behavior
     {

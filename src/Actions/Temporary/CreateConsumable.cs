@@ -11,12 +11,6 @@
              used to create doors, keys, containers, exits, mobs, weapons, armor, portals, spawners, and so on.
 namespace WheelMUD.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
-
     /// <summary>A command that allows an admin to create a consumable.</summary>
     [ExportGameAction(0)]
     [ActionPrimaryAlias("create consumable", CommandCategory.Admin)]

@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-
     /// <summary>Behavior that allows NPC to wander randomly, thus becoming a mobile.</summary>
     public class WanderingBehavior : Behavior
     {

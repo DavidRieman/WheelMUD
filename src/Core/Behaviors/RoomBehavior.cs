@@ -5,15 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using WheelMUD.Data.Entities;
+using WheelMUD.Data.Repositories;
+
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using WheelMUD.Data.Entities;
-    using WheelMUD.Data.Repositories;
-
     /// <summary>Represents a room in the MUD.</summary>
     public class RoomBehavior : Behavior
     {

@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-
     /// <summary>TODO: Might be better renamed to AIBrainBehavior or something...?</summary>
     public class MobileBehavior : Behavior
     {

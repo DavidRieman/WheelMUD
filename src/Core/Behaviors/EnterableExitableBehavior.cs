@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-
     /// <summary>EnterableExitableBehavior provides the ability for the parent Thing to be entered.</summary>
     /// <remarks>
     /// Entering/exiting simply reuses the MovableBehavior to move an actor. 

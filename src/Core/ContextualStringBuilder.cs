@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-
     //// <ns></ns> - encloses elements to be parsed only if the string is NOT being passed to the sender
     //// <s></s>   - encloses elements to be parsed only if the string IS being passed to the sender
     //// <nr></nr> - encloses elements to be parsed only if the string is NOT being passed to the receiver

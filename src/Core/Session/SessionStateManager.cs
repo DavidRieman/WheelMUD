@@ -5,15 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.ComponentModel.Composition;
+using System.Linq;
+using System.Reflection;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
 {
-    using System;
-    using System.ComponentModel.Composition;
-    using System.Linq;
-    using System.Reflection;
-
     /// <summary>Manages session states.</summary>
     public class SessionStateManager : IRecomposable
     {

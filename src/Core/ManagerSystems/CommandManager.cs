@@ -5,16 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Diagnostics;
+using System.Linq;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.Diagnostics;
-    using System.Linq;
-
     /// <summary>High level manager that provides tracking and global collection of all commands.</summary>
     public class CommandManager : ManagerSystem, IRecomposable
     {

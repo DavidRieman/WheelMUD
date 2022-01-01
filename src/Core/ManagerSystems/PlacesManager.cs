@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using WheelMUD.Utilities;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
 {
-    using System;
-    using WheelMUD.Utilities;
-
     /// <summary>High level manager that provides tracking and global collection of all places.</summary>
     public class PlacesManager : ManagerSystem
     {

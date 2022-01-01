@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-
     /// <summary>
     /// An attribute used to mark 
     /// </summary>

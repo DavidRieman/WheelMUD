@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
 using WheelMUD.Server;
 using WheelMUD.Server.Interfaces;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
 {
-    using System;
-
     /// <summary>The ServerManager controls the flow of data through the various server layers.</summary>
     public class ServerManager : ManagerSystem
     {

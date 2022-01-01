@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using WheelMUD.Server;
 
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-
     public class Renderer
     {
         /// <summary>The singleton instance of the Renderer class.</summary>

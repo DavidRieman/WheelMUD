@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Data.Entities;
+using WheelMUD.Data.Repositories;
+
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-    using WheelMUD.Data.Entities;
-    using WheelMUD.Data.Repositories;
-
     /// <summary>Behavior which defines a game area.</summary>
     /// <remarks>
     /// ATM an Area doesn't do anything special.

@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using WheelMUD.Core;
+
 namespace WheelMUD.Effects
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using WheelMUD.Core;
-
     /// <summary>Abstract base class for all time-based effects.</summary>
     /// <remarks>Effects are behaviors that have time-based expiration properties.</remarks>
     public abstract class Effect : Behavior

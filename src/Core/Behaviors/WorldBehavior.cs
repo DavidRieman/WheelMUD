@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Diagnostics;
+using WheelMUD.Data.Entities;
+using WheelMUD.Data.Repositories;
+
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using WheelMUD.Data.Entities;
-    using WheelMUD.Data.Repositories;
-
     /// <summary>Represents a world in the MUD.</summary>
     public class WorldBehavior : Behavior
     {

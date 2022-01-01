@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Linq;
+
 namespace WheelMUD.Core
 {
-    using System.Linq;
-
     /// <summary>A delegate used for calling CommandScripts Execute methods.</summary>
     /// <param name="actionInput">The full input specified for executing the command.</param>
     public delegate void CommandScriptExecuteDelegate(ActionInput actionInput);

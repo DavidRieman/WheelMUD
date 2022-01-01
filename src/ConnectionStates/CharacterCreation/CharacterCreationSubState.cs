@@ -5,12 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
 using WheelMUD.Server;
 
 namespace WheelMUD.ConnectionStates
 {
-    using WheelMUD.Core;
-
     /// <summary>Provides a sub state for the parent state.</summary>
     public abstract class CharacterCreationSubState
     {

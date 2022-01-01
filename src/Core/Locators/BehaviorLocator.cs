@@ -5,15 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core.Locators
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Reflection;
-
     /// <summary>A locator class that deals with behaviors.</summary>
     public class BehaviorLocator : IServiceLocator
     {

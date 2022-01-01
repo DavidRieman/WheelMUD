@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections;
+
 namespace WheelMUD.Core
 {
-    using System.Collections;
-
     /// <summary>A sense-based message.</summary>
     public class SensoryMessage
     {

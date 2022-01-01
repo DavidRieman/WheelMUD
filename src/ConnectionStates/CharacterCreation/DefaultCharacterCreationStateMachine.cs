@@ -4,11 +4,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using WheelMUD.Core;
+
 namespace WheelMUD.ConnectionStates
 {
-    using System;
-    using WheelMUD.Core;
-
     /// <summary>Default state machine for creating a new character.</summary>
     [ExportCharacterCreationStateMachine(0)]
     public class DefaultCharacterCreationStateMachine : CharacterCreationStateMachine

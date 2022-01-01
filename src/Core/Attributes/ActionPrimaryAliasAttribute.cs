@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Core
 {
-    using System;
-
     /// <summary>The attribute that attaches the primary alias to an action.</summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ActionPrimaryAliasAttribute : Attribute

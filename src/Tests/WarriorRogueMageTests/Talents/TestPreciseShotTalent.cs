@@ -5,15 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using NUnit.Framework;
+using WarriorRogueMage;
+using WarriorRogueMage.Attributes;
+using WarriorRogueMage.Behaviors;
+using WarriorRogueMage.Stats;
+using WheelMUD.Core;
+
 namespace WheelMUD.Tests.Talents
 {
-    using NUnit.Framework;
-    using WarriorRogueMage;
-    using WarriorRogueMage.Attributes;
-    using WarriorRogueMage.Behaviors;
-    using WarriorRogueMage.Stats;
-    using WheelMUD.Core;
-
     /// <summary>Tests the TalentPreciseShot class.</summary>
     [TestFixture]
     public class TestPreciseShotTalent

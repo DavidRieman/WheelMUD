@@ -5,18 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+/*
 namespace WheelMUD.Actions
 {
     // TODO: Finish replacing with proper OLC item creation (with templates applying a CurrencyBehavior).
-    /*
-    using System.Collections.Generic;
-    using WheelMUD.Core.Attributes;
-    using WheelMUD.Interfaces;
-    using WheelMUD.Data.Entities;
-    using WheelMUD.Universe.Things;
-    using WheelMUD.Universe;
-    using WheelMUD.Universe.Behaviors;
-
     /// <summary>A command that allows an admin to create currency.</summary>
     [ActionPrimaryAlias("create currency", CommandCategory.Admin)]
     [ActionAlias("create money", CommandCategory.Admin)]
@@ -63,5 +55,5 @@ namespace WheelMUD.Actions
 
             return null;
         }
-    }*/
-}
+    }
+}*/

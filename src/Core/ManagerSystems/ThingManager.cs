@@ -5,16 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-
     /// <summary>High level manager that provides tracking and global collection of all Thing instances.</summary>
     /// <remarks>
     /// TODO: Provide search ability of registered Things through LINQ rather than, 

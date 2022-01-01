@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WheelMUD.ConnectionStates
 {
-    using WheelMUD.Core;
-
     /// <summary>The central coordinator for Character Creation is a state machine.</summary>
     public abstract class CharacterCreationStateMachine
     {

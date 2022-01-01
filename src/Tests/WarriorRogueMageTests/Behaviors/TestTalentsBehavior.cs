@@ -5,15 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using NUnit.Framework;
+using WarriorRogueMage;
+using WarriorRogueMage.Attributes;
+using WarriorRogueMage.Behaviors;
+using WarriorRogueMage.Stats;
+using WheelMUD.Core;
+
 namespace WheelMUD.Tests.Behaviors
 {
-    using NUnit.Framework;
-    using WarriorRogueMage;
-    using WarriorRogueMage.Attributes;
-    using WarriorRogueMage.Behaviors;
-    using WarriorRogueMage.Stats;
-    using WheelMUD.Core;
-
     /// <summary>Tests the TalentsBehavior class.</summary>
     [TestFixture]
     public class TestTalentsBehavior

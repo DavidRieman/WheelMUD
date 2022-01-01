@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Core
 {
-    using System;
-
     /// <summary>The attribute which marks a player prompting system.</summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class PlayerPromptableAttribute : Attribute

@@ -5,12 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
 {
-    using System;
-
     /// <summary>
     /// A class for exporting/importing system singleton through MEF, without necessarily
     /// instantiating each one.  (In particular, this prevents creating multiple instances

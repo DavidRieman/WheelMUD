@@ -5,12 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using WheelMUD.Server;
 
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-
     /// <summary>
     /// Provides definitions for the set of easily-overridden view renderers.
     /// There will be a default renderer for each of these housed here in WheelMUD.Core.

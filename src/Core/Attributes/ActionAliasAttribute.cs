@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Core
 {
-    using System;
-
     /// <summary>An action alias attribute.</summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class ActionAliasAttribute : Attribute

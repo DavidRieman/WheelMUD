@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Core
 {
-    using System;
-
     /// <summary>Action description attribute.</summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ActionDescriptionAttribute : Attribute

@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Core
 {
-    using System;
-
     /// <summary>DiceService provides a dice system (random number generator) to the world.</summary>
     public class DiceService
     {

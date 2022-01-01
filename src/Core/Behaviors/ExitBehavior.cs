@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using WheelMUD.Utilities;
-
     /// <summary>
     /// An ExitBehavior allows a Thing to be used as an exit to another location.  ExitBehavior can be 
     /// used in a couple of ways to recreate typical MUD exits (in addition to other advanced usages):

@@ -5,15 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using WheelMUD.Utilities;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.ConnectionStates
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using WheelMUD.Utilities;
-
     /// <summary>Class that exports attributes for the <see cref="CharacterCreationStateMachine"/> class.</summary>
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]

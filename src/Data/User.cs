@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
+
 namespace WheelMUD.Data
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Security.Cryptography;
-    using System.Text;
-
     /// <summary>The base User class used for authentication.</summary>
     /// <remarks>
     /// Should not house any player-character-specific data.

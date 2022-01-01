@@ -5,15 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using WheelMUD.Interfaces;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Core
 {
-    using Newtonsoft.Json;
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Utilities;
-
     /// <summary>Base implementation of the Behavior class.</summary>
     public abstract class Behavior : IPersistsWithPlayer
     {

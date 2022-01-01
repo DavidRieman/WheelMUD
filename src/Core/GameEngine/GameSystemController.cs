@@ -5,17 +5,16 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
+using System.Reflection;
 using WheelMUD.Interfaces;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.Linq;
-    using System.Reflection;
-
     /// <summary>Controls the games systems.</summary>
     public class GameSystemController : ISystem, IRecomposable
     {

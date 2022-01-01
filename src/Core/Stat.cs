@@ -5,12 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using Newtonsoft.Json;
 using WheelMUD.Interfaces;
 
 namespace WheelMUD.Core
 {
-    using Newtonsoft.Json;
-
     /// <summary>A base class used to help define various elements of game attributes/stats/skills/etc.</summary>
     public abstract class BaseStat
     {

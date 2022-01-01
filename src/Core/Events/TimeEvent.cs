@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Core
 {
-    using System;
-
     /// <summary>Represents an event that is broadcast when a time period has elapsed.</summary>
     public class TimeEvent : CancellableGameEvent
     {

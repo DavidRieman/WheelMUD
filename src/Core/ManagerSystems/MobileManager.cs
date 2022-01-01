@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
 {
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>The mobiles manager class.</summary>
     /// <remarks>
     /// TODO: Provide search ability of registered 'mobiles' through LINQ rather than, 

@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+
 namespace WheelMUD.Core
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
     /// <summary>Allows the attached Thing to have multiple parents; that is, to 'be in multiple places' at once.</summary>
     /// <remarks>Particularly useful for things like 'two-way exits' which are accessible/interactable in both locations.</remarks>
     public class MultipleParentsBehavior : Behavior

@@ -9,10 +9,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Xml.Serialization;
 using WheelMUD.Interfaces;
 using WheelMUD.Utilities.Interfaces;
 
@@ -386,51 +384,6 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>Save the item to the path. Useful for debugging, as well as later for DB persistence.</summary>
-        /// <param name="w">The stream that support writing that you should serialize to.</param>
-        /// <returns>true on success, false otherwise.</returns>
-        public bool SaveAsXml(Stream w)
-        {
-            // TODO: Ensure this saves the housed behaviors too.
-            if (w == null || !w.CanWrite)
-            {
-                return false;
-            }
-
-            try
-            {
-                var s = new XmlSerializer(typeof(Thing));
-                s.Serialize(w, Clone());
-                s = null;
-            }
-            catch
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>De-serialize the next object in the stream and re-create the current one in its image.</summary>
-        /// <remarks>Uses the internal CloneProperties() for ease of maintenance by developers.</remarks>
-        /// <param name="r">The stream to read from.</param>
-        /// <returns>True on success, false on error.</returns>
-        public bool LoadFromXML(Stream r)
-        {
-            try
-            {
-                var s = new XmlSerializer(typeof(Thing));
-                var i = (Thing)s.Deserialize(r);
-                CloneProperties(i);
-            }
-            catch
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         /// <summary>Clone the properties of the specified existing thing.</summary>
         /// <param name="existingThing">The existing thing.</param>
         public void CloneProperties(Thing existingThing)
@@ -538,66 +491,6 @@ namespace WheelMUD.Core
         public bool HasBehavior<T>() where T : Behavior
         {
             return Behaviors.FindFirst<T>() != null;
-        }
-
-        /// <summary>Finds the stat.</summary>
-        /// <typeparam name="T">The GameState type to search for.</typeparam>
-        /// <returns>The matching GameState, if found, else null.</returns>
-        public GameStat FindStat<T>() where T : GameStat
-        {
-            var statList = new List<GameStat>(Stats.Values);
-            T stat = statList.OfType<T>().FirstOrDefault();
-            return stat;
-        }
-
-        /// <summary>Finds the game stat.</summary>
-        /// <param name="name">The name.</param>
-        /// <returns>The matching GameState, if found, else null.</returns>
-        public GameStat FindGameStat(string name)
-        {
-            GameStat stat;
-            Stats.TryGetValue(name, out stat);
-            return stat;
-        }
-
-        /// <summary>Finds the behavior in the behavior manager.</summary>
-        /// <param name="name">The name of the attribute to search for.</param>
-        /// <returns>A behavior if one is found, otherwise null.</returns>
-        public GameAttribute FindGameAttribute(string name)
-        {
-            GameAttribute attribute;
-            Attributes.TryGetValue(name, out attribute);
-            return attribute;
-        }
-
-        /// <summary>Finds the game attribute.</summary>
-        /// <typeparam name="T">The GameAttribute type to search for.</typeparam>
-        /// <returns>The matching attribute, if found, else null.</returns>
-        public T FindGameAttribute<T>() where T : GameAttribute
-        {
-            var attribList = new List<GameAttribute>(Attributes.Values);
-            T attribute = attribList.OfType<T>().FirstOrDefault();
-            return attribute;
-        }
-
-        /// <summary>Finds a specific game skill.</summary>
-        /// <typeparam name="T">The type of the GameSkill.</typeparam>
-        /// <returns>The GameSkill, if found, or null.</returns>
-        public GameSkill FindGameSkill<T>() where T : GameSkill
-        {
-            var skillList = new List<GameSkill>(Skills.Values);
-            T skill = skillList.OfType<T>().FirstOrDefault();
-            return skill;
-        }
-
-        /// <summary>Finds a specific game skill.</summary>
-        /// <param name="skillName">Name of the skill.</param>
-        /// <returns>The GameSkill, if found, or null.</returns>
-        public GameSkill FindGameSkill(string skillName)
-        {
-            GameSkill skill;
-            Skills.TryGetValue(skillName, out skill);
-            return skill;
         }
 
         /// <summary>Attempts to move the target thing to be a child of this thing.</summary>

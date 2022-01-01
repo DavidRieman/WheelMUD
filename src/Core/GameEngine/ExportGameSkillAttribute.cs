@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.ComponentModel.Composition;
+
 namespace WheelMUD.Core
 {
-    using System;
-    using System.ComponentModel.Composition;
-
     /// <summary>An [ExportGameSkill] attribute to mark GameSkills for export through MEF.</summary>
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]

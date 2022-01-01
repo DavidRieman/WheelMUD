@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using NUnit.Framework;
+using WarriorRogueMage.Behaviors;
+using WarriorRogueMage.Skills;
+using WheelMUD.Core;
+
 namespace WheelMUD.Tests.Behaviors
 {
-    using NUnit.Framework;
-    using WarriorRogueMage.Behaviors;
-    using WarriorRogueMage.Skills;
-    using WheelMUD.Core;
-
     /// <summary>Tests the WRM SkillsBehavior.</summary>
     [TestFixture]
     public class TestSkillsBehavior
