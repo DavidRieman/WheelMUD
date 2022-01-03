@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="HelpManager.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -115,7 +115,7 @@ namespace WheelMUD.Core
 
         /// <summary>Registers the <see cref="HelpManager"/> system for export.</summary>
         /// <remarks>Assists with non-rebooting updates of the <see cref="HelpManager"/> system through MEF.</remarks>
-        [ExportSystem(0)]
+        [CoreExports.System(0)]
         public class HelpManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>

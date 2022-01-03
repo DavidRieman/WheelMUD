@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="All.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -12,7 +12,7 @@ using WheelMUD.Server;
 namespace WheelMUD.Actions
 {
     /// <summary>A command that performs pagination.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("all", CommandCategory.Inform)]
     [ActionAlias("a", CommandCategory.Inform)]
     [ActionDescription("Display all additional output.")]

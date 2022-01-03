@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="ThingManager.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -10,6 +10,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using WheelMUD.Data.Repositories;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
@@ -27,9 +30,12 @@ namespace WheelMUD.Core
         /// <summary>The dictionary of all managed Things.</summary>
         private readonly ConcurrentDictionary<string, Thing> things = new ConcurrentDictionary<string, Thing>(StringComparer.OrdinalIgnoreCase);
 
+        private readonly Queue<(Thing, string)> pendingChildLoads = new Queue<(Thing, string)>();
+
         /// <summary>Prevents a default instance of the <see cref="ThingManager"/> class from being created.</summary>
         private ThingManager()
         {
+            StartPendingLoadWorker();
         }
 
         /// <summary>Gets the singleton <see cref="ThingManager"/> instance.</summary>
@@ -70,6 +76,52 @@ namespace WheelMUD.Core
             Thing thing;
             things.TryGetValue(thingID, out thing);
             return thing;
+        }
+
+        private void StartPendingLoadWorker()
+        {
+            Task.Run(async () =>
+            {
+                while (!cancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    int nextDelay = 10;
+                    lock (pendingChildLoads)
+                    {
+                        if (pendingChildLoads.Any())
+                        {
+                            (Thing parent, string childID) = pendingChildLoads.Dequeue();
+                            var loadedChild = DocumentRepository<Thing>.Load(childID);
+                            if (loadedChild != null)
+                            {
+                                parent.Add(loadedChild);
+                                loadedChild.RepairParentTree();
+                            }
+
+                            nextDelay = 0; // If we had work to do, don't wait long to check for the next batch too.
+                        }
+                    }
+                    await Task.Delay(TimeSpan.FromMilliseconds(nextDelay));
+                }
+            }, cancellationTokenSource.Token);
+        }
+
+        public void QueueLoadChild(Thing parent, string childID)
+        {
+            lock (pendingChildLoads)
+            {
+                pendingChildLoads.Enqueue((parent, childID));
+            }
+        }
+
+        public bool LoadsPending
+        {
+            get
+            {
+                lock (pendingChildLoads)
+                {
+                    return pendingChildLoads.Any();
+                }
+            }
         }
 
         /// <summary>Finds a thing using a name or part name.</summary>
@@ -143,6 +195,8 @@ namespace WheelMUD.Core
             return thingsToRemove.Count(thing => DestroyThing(thing));
         }
 
+        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
         /// <summary>Starts this system's individual components.</summary>
         public override void Start()
         {
@@ -151,6 +205,7 @@ namespace WheelMUD.Core
         /// <summary>Stops this system's individual components.</summary>
         public override void Stop()
         {
+            cancellationTokenSource.Cancel();
             things.Clear();
         }
 
@@ -166,7 +221,6 @@ namespace WheelMUD.Core
         {
             Debug.Assert(oldId != newId, "UpdateThingRegistration should not be called when not changing the Thing ID.");
             Debug.Assert(!string.IsNullOrEmpty(newId), "After initialization, a Thing's Id should never become null or empty!");
-            ////Debug.Assert(!things.ContainsKey(newId), "A Thing has been assigned an Id which is not unique!");
 
             if (!string.IsNullOrEmpty(oldId))
             {
@@ -181,7 +235,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Exporter for MEF.</summary>
-        [ExportSystem(0)]
+        [CoreExports.System(0)]
         public class ThingManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>

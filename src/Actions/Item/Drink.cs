@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Drink.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -12,7 +12,7 @@ using WheelMUD.Universe;
 namespace WheelMUD.Actions
 {
     /// <summary>A command script to allow the drinking of "drinkable" items.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("drink", CommandCategory.Item)]
     [ActionAlias("sip", CommandCategory.Item)]
     [ActionAlias("quaff", CommandCategory.Item)]

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Enter.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -16,7 +16,7 @@ namespace WheelMUD.Actions
     /// TODO: An "enter" action should only be present through a ContextCommand added by an EnterableBehavior,
     ///           like how OpensClosesBehavior handles it; move action to be EnterableBehavior.cs private class?
     /// </remarks>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("enter", CommandCategory.Travel)]
     [ActionDescription("Enter a thing.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

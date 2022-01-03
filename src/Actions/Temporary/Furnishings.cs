@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------
-// <copyright file="Visuals.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+// <copyright file="Furnishings.cs" company="WheelMUD Development Team">
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -13,16 +13,15 @@ using WheelMUD.Server;
 namespace WheelMUD.Actions.Temporary
 {
     /// <summary>
-    /// Command to add, remove, or display the "visuals" associated with a 
-    /// room. Visuals are like pseudo-items that can be looked at, e.g. to
-    /// provide clues or just to enhance the room.
+    /// Command to add, remove, or display the "furnishings" associated with a room.
+    /// Furnishings are like pseudo-items that can be looked at, e.g. to provide clues or just to enhance the room.
     /// </summary>
-    [ExportGameAction(0)]
-    [ActionPrimaryAlias("visuals", CommandCategory.Temporary)]
-    [ActionDescription("Add or remove a visual item/description to the current room.")]
-    [ActionExample("Examples:\r\n  visuals add tree The tree is tall.\r\n  visuals remove tree\r\n  visuals show")]
+    [CoreExports.GameAction(0)]
+    [ActionPrimaryAlias("furnishings", CommandCategory.Temporary)]
+    [ActionDescription("Add or remove a furnishing item/description to the current room.")]
+    [ActionExample("Examples:\r\n  furnishings add tree The tree is tall.\r\n  furnishings remove tree\r\n  furnishings show")]
     [ActionSecurity(SecurityRole.minorBuilder)]
-    public class Visuals : GameAction
+    public class Furnishings : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>() { CommonGuards.InitiatorMustBeAPlayer };
@@ -39,14 +38,14 @@ namespace WheelMUD.Actions.Temporary
         /// <summary>Id of the room where the sender is located. Cached for convenience.</summary>
         private string roomId;
 
-        /// <summary>The visuals command, i.e. "add", "remove", or "show".</summary>
+        /// <summary>The furnishings command, i.e. "add", "remove", or "show".</summary>
         private string command;
 
-        /// <summary>Name of the visual being modified.</summary>
-        private string visualName;
+        /// <summary>Name of the furnishing being modified.</summary>
+        private string furnishingName;
 
-        /// <summary>Description of the visual, if one is being added.</summary>
-        private string visualDescription;
+        /// <summary>Description of the furnishing, if one is being added.</summary>
+        private string furnishingDescription;
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
@@ -60,41 +59,41 @@ namespace WheelMUD.Actions.Temporary
 
             if (command == "add")
             {
-                // Add or update the description
-                room.Visuals[visualName] = visualDescription;
-                response.ToOriginator = $"Visual '{visualName}' added/updated on room {roomName} [{roomId}].";
-
-                //// TODO: Save change
-                //room.Save();
+                // Add or update the description.
+                room.Furnishings.Add(new Furnishing()
+                {
+                    Description = furnishingDescription,
+                    Keywords = new string[] { furnishingName }
+                });
+                response.ToOriginator = $"Furnishing '{furnishingName}' added/updated on room {roomName} [{roomId}].";
+                room.Parent.Save();
             }
             else if (command == "remove")
             {
-                if (room.Visuals.ContainsKey(visualName))
+                var furnishing = room.FindFurnishing(furnishingName);
+                if (furnishing != null)
                 {
-                    room.Visuals.Remove(visualName);
-
-                    response.ToOriginator = $"Visual '{visualName}' removed from room {roomName} [{roomId}]";
+                    room.Furnishings.Remove(furnishing);
+                    response.ToOriginator = $"Furnishing '{furnishingName}' removed from room {roomName} [{roomId}]";
                 }
-
-                //// TODO: Save change
-                //room.Save();
+                room.Parent.Save();
             }
             else if (command == "show")
             {
                 var output = new OutputBuilder();
 
-                if (room.Visuals.Count > 0)
+                if (room.Furnishings.Count > 0)
                 {
-                    output.AppendLine($"Visuals for {roomName} [{roomId}]:");
+                    output.AppendLine($"Furnishings for {roomName} [{roomId}]:");
 
-                    foreach (var name in room.Visuals.Keys)
+                    foreach (var furnishing in room.Furnishings)
                     {
-                        output.AppendLine($"  {name}: {room.Visuals[name]}");
+                        output.AppendLine($"  {furnishing.Keywords}: {furnishing.Description}");
                     }
                 }
                 else
                 {
-                    output.AppendLine($"No visuals found for {roomName} [{roomId}].");
+                    output.AppendLine($"No furnishings found for {roomName} [{roomId}].");
                 }
 
                 session.Write(output);
@@ -119,25 +118,29 @@ namespace WheelMUD.Actions.Temporary
                 return commonFailure;
             }
 
+            // TODO: Although common guards ensure the player must have at least minor builder permissions to use this
+            //       command, we should further enforce permissions (such as being a builder who has write access to
+            //       this particular area, especially for player-facing "published" rather than in-progress areas).
+
             PreprocessInput(actionInput);
 
             // Ensure the sender of this command is currently located in a valid room.
             if (room == null)
             {
-                return "You must be located in a valid room to change its visuals.";
+                return "You must be located in a valid room to change its furnishings.";
             }
 
             var usageText = new StringBuilder();
             usageText.AppendLine("Usage:");
-            usageText.AppendLine("visuals add <name> <description>");
-            usageText.AppendLine("visuals remove <name>");
-            usageText.AppendLine("visuals show");
+            usageText.AppendLine("furnishings add <name> <description>");
+            usageText.AppendLine("furnishings remove <name>");
+            usageText.AppendLine("furnishings show");
 
             switch (command)
             {
                 case "add":
                     // Ensure "add" syntax includes both a name and description.
-                    return string.IsNullOrEmpty(visualName) || string.IsNullOrEmpty(visualDescription)
+                    return string.IsNullOrEmpty(furnishingName) || string.IsNullOrEmpty(furnishingDescription)
                                ? usageText.ToString()
                                : null;
 
@@ -150,7 +153,7 @@ namespace WheelMUD.Actions.Temporary
                     return argCount > 1 ? usageText.ToString() : null;
 
                 default:
-                    // Handle case for "visuals aalkdsfj lkajf" etc.
+                    // Handle case for "furnishings aalkdsfj lkajf" etc.
                     return usageText.ToString();
             }
         }
@@ -172,7 +175,7 @@ namespace WheelMUD.Actions.Temporary
                 roomId = room.Parent.Id;
             }
 
-            // "visuals" with no arguments will default to "visuals show".
+            // "furnishings" with no arguments will default to "furnishings show".
             if (argCount == 0)
             {
                 command = "show";
@@ -199,18 +202,18 @@ namespace WheelMUD.Actions.Temporary
                 }
             }
 
-            // Name of the visual being added or removed.
+            // Name of the furnishing being added or removed.
             if (argCount > 1)
             {
-                visualName = actionInput.Params[1].ToLower();
+                furnishingName = actionInput.Params[1].ToLower();
             }
 
             // The remainder of the command text is assumed to be the description.
             if (argCount > 2)
             {
                 var tail = actionInput.Tail[command.Length..].TrimStart();
-                tail = tail[visualName.Length..].TrimStart();
-                visualDescription = tail;
+                tail = tail[furnishingName.Length..].TrimStart();
+                furnishingDescription = tail;
             }
         }
     }

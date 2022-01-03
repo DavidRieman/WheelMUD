@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Typo.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -14,7 +14,7 @@ namespace WheelMUD.Actions
 {
     /// <summary>A command to report a simple typographical error.</summary>
     /// <remarks>TODO: Should be able to see what the report will contain, target a Thing by keywords, and so on, as well as pointing out what the typo word is.</remarks>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("typo", CommandCategory.Communicate)]
     [ActionDescription("Report a bug in the descriptions in or near a room.")]
     [ActionSecurity(SecurityRole.player)]

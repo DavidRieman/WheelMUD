@@ -11,7 +11,7 @@ using WheelMUD.Core;
 namespace WheelMUD.Actions
 {
     /// <summary>Action for the actor to jump.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("jump", CommandCategory.Temporary)]
     [ActionDescription("Temporary test command. Jump.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

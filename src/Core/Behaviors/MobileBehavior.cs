@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="MobileBehavior.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -52,39 +52,5 @@ namespace WheelMUD.Core
         }
 
         // TODO: After moving, do ProcessSurroundings();
-
-        /* TODO: Ensure mobile entities are loaded just like any other entity...
-        /// <summary>Loads the mobile.</summary>
-        public void Load()
-        {
-            // TODO: Stuff should be loaded from the Data Layer instead of using temp values.
-            Stats.Add("health", new StatHP(Controller, 100, 100));
-            Stats.Add("power", new Stat(Controller, "Power", 100, 0, 100, true));
-            Stats.Add("strength", new Stat(Controller, "Srength", 40, 0, 100, true));
-            Stats.Add("balance", new Stat(Controller, "Balance", 1, 0, 1, false));
-            Stats.Add("mobility", new Stat(Controller, "Mobility", 2, -10, 2, false));
-            Stats.Add("agility", new Stat(Controller, "Agility", 2, -10, 2, true));
-            Stats.Add("perception", new Stat(Controller, "Perception", 2, -10, 2, false));
-
-            Commands.Add("punch", new Command("punch", SecurityRole.mobile));
-
-            LoadInventory();
-        }
-
-        /// <summary>Saves the mobile.</summary>
-        public override void Save()
-        {
-            var repository = new MobRepository();
-
-            if (Id == 0)
-            {
-                repository.Add(DataRecord);
-                Id = DataRecord.ID;
-            }
-            else
-            {
-                repository.Update(DataRecord);
-            }
-        }*/
     }
 }

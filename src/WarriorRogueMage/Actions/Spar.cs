@@ -12,7 +12,7 @@ namespace WarriorRogueMage.Actions
 {
     /// <summary>Initiates non-lethal combat.</summary>
     /// <remarks>TODO: Implement or retire? Doesn't seem to do anything right now...</remarks>
-    [ExportGameAction(100)]
+    [CoreExports.GameAction(100)]
     [ActionPrimaryAlias("spar", CommandCategory.Combat)]
     [ActionDescription("Initiates a bout of non-lethal combat.")]
     [ActionSecurity(SecurityRole.player)]

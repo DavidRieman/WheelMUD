@@ -13,7 +13,7 @@ using WheelMUD.Core;
 namespace WheelMUD.Actions
 {
     /// <summary>A command to list all commands. Can list by category.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("commands", CommandCategory.Inform)]
     [ActionDescription("List the available commands.")]
     [ActionSecurity(SecurityRole.all)]

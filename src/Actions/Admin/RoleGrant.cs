@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="RoleGrant.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -13,7 +13,7 @@ using WheelMUD.Server;
 namespace WheelMUD.Actions
 {
     /// <summary>An administrative action which gives a role to a player.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("role grant", CommandCategory.Admin)]
     [ActionAlias("rolegrant", CommandCategory.Admin)]
     [ActionDescription("Adds a role to a player.")]

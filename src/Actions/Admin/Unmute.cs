@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Unmute.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -12,7 +12,7 @@ using WheelMUD.Effects;
 namespace WheelMUD.Actions
 {
     /// <summary>Removes the mute effect from someone prior to its normal expiration.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("unmute", CommandCategory.Admin)]
     [ActionDescription("Removes the mute effect from someone prior to its normal expiration.")]
     [ActionSecurity(SecurityRole.fullAdmin | SecurityRole.minorAdmin)]

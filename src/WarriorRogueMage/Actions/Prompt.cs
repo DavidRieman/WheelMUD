@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Prompt.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -12,7 +12,7 @@ using WheelMUD.Server;
 namespace WarriorRogueMage.Actions
 {
     /// <summary>An action to get or set your command prompt display.</summary>
-    [ExportGameAction(100)]
+    [CoreExports.GameAction(100)]
     [ActionPrimaryAlias("prompt", CommandCategory.Configure)]
     [ActionDescription("Sets your prompt display.  Enter an empty value for further options.")]
     [ActionSecurity(SecurityRole.player)]

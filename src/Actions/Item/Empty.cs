@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Empty.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -16,7 +16,7 @@ using WheelMUD.Utilities;
 namespace WheelMUD.Actions
 {
     /// <summary>An action to empty a container.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("empty", CommandCategory.Item)]
     [ActionAlias("pour out", CommandCategory.Item)]
     [ActionDescription("Empties a container. Usage empty container target")]

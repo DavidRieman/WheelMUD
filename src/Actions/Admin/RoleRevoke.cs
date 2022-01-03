@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="RoleRevoke.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -13,7 +13,7 @@ using WheelMUD.Server;
 namespace WheelMUD.Actions
 {
     /// <summary>An action to grant a role to a player.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("role revoke", CommandCategory.Admin)]
     [ActionAlias("rolerevoke", CommandCategory.Admin)]
     [ActionDescription("Removes a role from a player.")]

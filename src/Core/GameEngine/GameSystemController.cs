@@ -143,7 +143,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Exports an instance of the GameSystemController to MEF.</summary>
-        [ExportSystem(0)]
+        [CoreExports.System(0)]
         public class GameSystemManagerExporter : SystemExporter, IExportWithPriority
         {
             /// <summary>Gets the singleton system instance.</summary>

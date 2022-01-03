@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="ExportSessionStateAttribute.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -11,9 +11,7 @@ using System.ComponentModel.Composition;
 
 namespace WheelMUD.Core
 {
-    /// <summary>
-    /// An attribute used to mark 
-    /// </summary>
+    /// <summary>An attribute used to mark a SessionState</summary>
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ExportSessionStateAttribute : ExportAttribute

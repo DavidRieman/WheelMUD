@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Thing.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -9,8 +9,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using WheelMUD.Data.Repositories;
 using WheelMUD.Interfaces;
 using WheelMUD.Utilities.Interfaces;
 
@@ -29,16 +31,16 @@ namespace WheelMUD.Core
         private readonly object lockObject = new object();
 
         /// <summary>The additional context commands available to this thing.</summary>
-        private Dictionary<string, ContextCommand> contextCommands;
+        private Dictionary<string, ContextCommand> contextCommands = new Dictionary<string, ContextCommand>();
 
         /// <summary>The stats of this thing.</summary>
-        private Dictionary<string, GameStat> stats;
+        private Dictionary<string, GameStat> stats = new Dictionary<string, GameStat>();
 
         /// <summary>The game attributes of this thing.</summary>
-        private Dictionary<string, GameAttribute> attributes;
+        private Dictionary<string, GameAttribute> attributes = new Dictionary<string, GameAttribute>();
 
         /// <summary>The game skills of this thing.</summary>
-        private Dictionary<string, GameSkill> skills;
+        private Dictionary<string, GameSkill> skills = new Dictionary<string, GameSkill>();
 
         /// <summary>The unique ID of this thing.</summary>
         private string id;
@@ -53,18 +55,7 @@ namespace WheelMUD.Core
         {
             Eventing = new ThingEventing(this);
             KeyWords = new List<string>();
-            children = new List<Thing>();
             Behaviors = new BehaviorManager(this);
-
-            Parent = null;
-            Name = string.Empty;
-            Title = string.Empty;
-            Description = string.Empty;
-
-            stats = new Dictionary<string, GameStat>();
-            attributes = new Dictionary<string, GameAttribute>();
-            skills = new Dictionary<string, GameSkill>();
-            contextCommands = new Dictionary<string, ContextCommand>();
 
             if (behaviors != null)
             {
@@ -87,7 +78,7 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the unique ID of this thing.</summary>
         public string Id
         {
-            // The ID should be a unique ID as per the DB, post-persisted.
+            // The ID should be a unique ID as per the DB, while getting persisted.
             // TODO: Thing may also get a TemplateID added as we work out the templating story...
             get
             {
@@ -112,29 +103,53 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets or sets the words that can be used to interact with this object.</summary>
-        public List<string> KeyWords { get; set; }
+        public List<string> KeyWords { get; set; } = new List<string>();
 
         /// <summary>Gets or sets the name of this thing.</summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>Gets the full name of this thing.</summary>
+        [JsonIgnore]
         public string FullName
         {
             get { return Name; }
         }
 
         /// <summary>Gets or sets the title of this thing.</summary>
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         /// <summary>Gets or sets the description of this thing.</summary>
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
-        /// <summary>Gets or sets the parent of this thing, IE a container.</summary>
-        /// <remarks>To set a Thing's parent, instead use newParentThing.Add(this) to rig up all relationships correctly.</remarks>
-        [JsonIgnore]
-        public Thing Parent { get; private set; }
+        /// <summary>Gets or sets the persistence IDs of all children of this Thing which allow persistence.</summary>
+        /// <remarks>
+        /// Primarily used for persistence to store and restore children without storing the whole sub-documents as
+        /// part of this document too.
+        /// </remarks>
+        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "For persistence; see remarks.")]
+        private string[] ChildrenIds
+        {
+            get
+            {
+                return GetPersistableChildren().Select(c => c.Id).ToArray();
+            }
+            set
+            {
+                foreach (string childId in value)
+                {
+                    var child = ThingManager.Instance.FindThing(childId);
+                    if (child != null)
+                    {
+                        Add(child);
+                    }
+                    else
+                    {
+                        ThingManager.Instance.QueueLoadChild(this, childId);
+                    }
+                }
+            }
+        }
 
-#pragma warning disable IDE0051 // Remove unused private members
         /// <summary>Gets or sets the parent of this thing via ID.</summary>
         /// <remarks>
         /// Primarily used for persistence to store and restore location without storing the whole parent.
@@ -146,8 +161,8 @@ namespace WheelMUD.Core
         /// Note this does NOT currently restore multiple parents, which shouldn't be applicable to the
         /// base set of stored documents like players and worlds or areas.
         /// </remarks>
+        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "For persistence; see remarks.")]
         private string ParentId
-#pragma warning restore IDE0051 // Remove unused private members
         {
             get
             {
@@ -165,6 +180,11 @@ namespace WheelMUD.Core
                 }
             }
         }
+
+        /// <summary>Gets or sets the parent of this thing, IE a container.</summary>
+        /// <remarks>To set a Thing's parent, instead use newParentThing.Add(this) to rig up all relationships correctly.</remarks>
+        [JsonIgnore]
+        public Thing Parent { get; private set; }
 
         /// <summary>Gets a list of all parents of this thing, or an empty list if there are none.</summary>
         [JsonIgnore]
@@ -265,15 +285,36 @@ namespace WheelMUD.Core
             }
         }
 
-        private List<Thing> children { get; set; }
+        private List<Thing> children = new List<Thing>();
 
         /// <summary>Gets the children of this Thing as a read-only collection.</summary>
-        /// <remarks>To add a child properly, use the Add method.</remarks>
+        /// <remarks>To add/remove a child properly, use the Add method.</remarks>
         [JsonIgnore]
         public ReadOnlyCollection<Thing> Children
         {
             get { return children.AsReadOnly(); }
         }
+
+        /// <summary>If true, this Thing persists as a document and loads as a document after later reboots, etc.</summary>
+        /// <remarks>
+        /// Set false if you want the Thing and everything within it to be thrown away every reboot. (Things like players
+        /// can still use other means to save explicitly. If a player loads but the game cannot find the place to put them
+        /// by id (because it was not persisted), then the player will placed in the default room instead.
+        /// Generally you should leave Persists true, but some example scenarios where you might want it false:
+        /// * You want to import a openly-developed area as a DLL that gets exported via CreatorDefinitions.Area, say, to
+        ///   keep yourself open to "upgrading" the area through taking a NuGet update. Since the Area will be regenerated
+        ///   every time you boot the server, it will be automatically up-to-date.
+        /// * You want a dynamically generated area like a maze to be always built at runtime (periodically or every
+        ///   reboot) and thus don't have need of persisting the area.
+        /// * You want a fully dynamically-generated world generation algorithm to produce a new world each reboot.
+        /// You will need special considerations for providing ways for players to cross boundaries between persisting and
+        /// non-persisting places, since a persisting place won't be able to persist an exit connected to an auto-generated
+        /// place by ID, if that ID is not absolutely static. (So having maze area entryway and final exits generate with a
+        /// static Thing ID will help a lot.)
+        /// </remarks>
+        /// <summary>If true, this world persists as a document and loads as a document after later reboots, etc.</summary>
+        /// <remarks>Set false if you want to regenerate the entire game world programmatically, every reboot.</remarks>
+        public bool Persists { get; set; } = true;
 
         /// <summary>Gets or sets the ID of the template this Thing is based on.</summary>
         /// <remarks>TODO: 'set' should be private once the Builders are finished being extracted!</remarks>
@@ -308,6 +349,19 @@ namespace WheelMUD.Core
             if (Parent != null)
             {
                 Parent.Remove(this);
+            }
+        }
+
+        private IEnumerable<Thing> GetPersistableChildren()
+        {
+            return Children.Where(c => c.Persists && c.FindBehavior<PlayerBehavior>() == null);
+        }
+
+        public void Save()
+        {
+            if (Persists)
+            {
+                DocumentRepository<Thing>.SaveTree(this, t => t.GetPersistableChildren());
             }
         }
 

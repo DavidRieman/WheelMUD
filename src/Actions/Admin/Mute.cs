@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Mute.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -19,7 +19,7 @@ namespace WheelMUD.Actions
     ///       reason tracking, and a way to list all mute characters with their mute reasons, las IP address, and
     ///       so on for detecting trends like players creating new characters to get back at it, etc?
     /// </remarks>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("mute", CommandCategory.Admin)]
     [ActionAlias("silence", CommandCategory.Admin)]
     [ActionDescription("Prevent a player from communicating.")]

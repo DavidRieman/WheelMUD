@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Tell.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -11,7 +11,7 @@ using WheelMUD.Core;
 namespace WheelMUD.Actions
 {
     /// <summary>A command to send a message directly to one entity.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("tell", CommandCategory.Communicate)]
     [ActionAlias("t", CommandCategory.Communicate)]
     [ActionDescription("Tell something to a character or monster.")]

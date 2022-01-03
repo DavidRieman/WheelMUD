@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Punch.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -18,7 +18,7 @@ using WheelMUD.Effects;
 namespace WheelMUD.Actions
 {
     /// <summary>A temporary command to attempt some combat.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("punch", CommandCategory.Temporary)]
     [ActionDescription("Temporary test command. Punch a target.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

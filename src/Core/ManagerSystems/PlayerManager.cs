@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="PlayerManager.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -256,7 +256,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Exports an instance of the PlayerManager singleton through MEF.</summary>
-        [ExportSystem(0)]
+        [CoreExports.System(0)]
         public class PlayerManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton instance of the <see cref="PlayerManager"/> class.</summary>

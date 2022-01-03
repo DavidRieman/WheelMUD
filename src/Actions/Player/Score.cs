@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Score.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -12,7 +12,7 @@ namespace WheelMUD.Actions
 {
     /// <summary>A command to list the player's character sheet.</summary>
     /// <remarks>TODO: Implement beyond 'Attributes.cs' functionality.</remarks>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("score", CommandCategory.Player)]
     [ActionAlias("character sheet", CommandCategory.Player)]
     [ActionAlias("charactersheet", CommandCategory.Player)]

@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="TimeSystem.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -108,7 +108,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>A class for exporting/importing system singleton through MEF.</summary>
-        [ExportSystem(0)]
+        [CoreExports.System(0)]
         public class TimeSystemExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>

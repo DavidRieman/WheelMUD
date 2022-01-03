@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Put.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -13,7 +13,7 @@ using WheelMUD.Universe;
 namespace WheelMUD.Actions
 {
     /// <summary>A command for moving items from an inventory to a container.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("put", CommandCategory.Item)]
     [ActionDescription("Put an object into a container.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

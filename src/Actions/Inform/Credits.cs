@@ -14,7 +14,7 @@ using WheelMUD.Utilities;
 namespace WheelMUD.Actions
 {
     /// <summary>Action description here.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("credits", CommandCategory.Inform)]
     [ActionAlias("immlist", CommandCategory.Inform)]
     [ActionAlias("wizlist", CommandCategory.Inform)]
