@@ -36,7 +36,7 @@ namespace WarriorRogueMage.Creators
                 Description = "You are just east of the main city square...",
             };
             area.Add(roomMainRoadE);
-            
+
             var roomMainRoadW = new Thing(new RoomBehavior())
             {
                 Name = "Main Street W",

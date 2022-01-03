@@ -5,6 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace WheelMUD.Core
     public class ExitBehavior : Behavior
     {
         // TODO: Add attribute and persistence code to save certain marked private properties like this;
-        //       IE we don't want to expose the whole dictionary publically since we have things to do
+        //       IE we don't want to expose the whole dictionary publicly since we have things to do
         //       while rigging up new destinations.
         private List<DestinationInfo> destinations;
 
@@ -32,8 +33,7 @@ namespace WheelMUD.Core
         private readonly ExitBehaviorCommands commands;
 
         /// <summary>Initializes a new instance of the ExitBehavior class.</summary>
-        public ExitBehavior()
-            : base(null)
+        public ExitBehavior() : base(null)
         {
             commands = new ExitBehaviorCommands(this);
         }
@@ -53,6 +53,8 @@ namespace WheelMUD.Core
         /// <param name="destinationID">The destination ID.</param>
         public void AddDestination(string movementCommand, string destinationID)
         {
+            movementCommand = NormalizeDirection(movementCommand);
+
             var existingDestination = (from d in destinations where d.TargetID == destinationID select d).FirstOrDefault();
             if (existingDestination == null)
             {
@@ -252,6 +254,47 @@ namespace WheelMUD.Core
                     location.Commands.Add(secondExitAlias, contextCommand);
                 }
             }
+        }
+
+        public static readonly Dictionary<string, string> PrimaryToSecondaryCommandMap = new Dictionary<string, string>()
+        {
+            { "north", "n" },
+            { "northeast", "ne" },
+            { "east", "e" },
+            { "southeast", "se" },
+            { "south", "s" },
+            { "southwest", "sw" },
+            { "west", "w" },
+            { "northwest", "nw" },
+            { "up", "u" },
+            { "down", "d" },
+            { "enter", "en" },
+            { "exit", "ex" }
+        };
+
+        public static readonly Dictionary<string, string> MirrorDirectionMap = new Dictionary<string, string>()
+        {
+            { "north", "south" },
+            { "northeast", "southwest" },
+            { "east", "west" },
+            { "southeast", "northwest" },
+            { "south", "north" },
+            { "southwest", "northeast" },
+            { "west", "east" },
+            { "northwest", "southeast" },
+            { "up", "down" },
+            { "down", "up" },
+            { "enter", "exit" },
+            { "exit", "enter" }
+        };
+
+        /// <summary>If the creator gives us shorthand such as "ne", normalize it to "northeast". Else keep it as-is.</summary>
+        public static string NormalizeDirection(string direction)
+        {
+            var foundPrimary = (from kvp in PrimaryToSecondaryCommandMap
+                                where kvp.Value.Equals(direction, StringComparison.OrdinalIgnoreCase)
+                                select kvp.Key).FirstOrDefault();
+            return foundPrimary ?? direction;
         }
 
         /// <summary>Get up to one common secondary exit alias for a full exit command.</summary>

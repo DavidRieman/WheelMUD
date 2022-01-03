@@ -22,8 +22,8 @@ namespace WheelMUD.Core
         /// <summary>Action is classified as an administration action ("goto").</summary>
         Admin = 1 << 1,
 
-        /// <summary>Action is classified as a combat action ("attack").</summary>
-        Combat = 1 << 2,
+        /// <summary>Action is classified as a builder action ("tunnel" or other OLC commands).</summary>
+        Builder = 1 << 2,
 
         /// <summary>Action is classified as a commercial action ("buy").</summary>
         Commercial = 1 << 3,
@@ -47,6 +47,9 @@ namespace WheelMUD.Core
         Temporary = 1 << 9,
 
         /// <summary>Action is classified as a travel action ("move").</summary>
-        Travel = 1 << 10
+        Travel = 1 << 10,
+
+        /// <summary>Action is classified as a combat action ("attack").</summary>
+        Combat = 1 << 11
     }
 }
