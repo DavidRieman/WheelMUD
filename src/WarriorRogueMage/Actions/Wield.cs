@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Wield.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -12,7 +12,7 @@ using WheelMUD.Core;
 namespace WarriorRogueMage.Actions
 {
     /// <summary>An action to wield a weapon in your primary hand.</summary>
-    [ExportGameAction(100)]
+    [CoreExports.GameAction(100)]
     [ActionPrimaryAlias("wield", CommandCategory.Item)]
     [ActionDescription("Wield a weapon in your primary hand.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

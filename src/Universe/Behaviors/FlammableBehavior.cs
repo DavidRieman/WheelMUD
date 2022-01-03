@@ -1,15 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="FlammableBehavior.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Universe
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>FlammableBehavior adds the ability to an object to burn.</summary>
     public class FlammableBehavior : Behavior
     {

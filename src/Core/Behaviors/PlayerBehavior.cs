@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="PlayerBehavior.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -10,11 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
 using WheelMUD.Data.Entities;
 using WheelMUD.Data.Repositories;
 using WheelMUD.Server;
-using WheelMUD.Utilities;
 
 namespace WheelMUD.Core
 {
@@ -112,13 +110,7 @@ namespace WheelMUD.Core
         /// <summary>Save the whole player Thing (not just this PlayerBehavior).</summary>
         public void SavePlayer()
         {
-            var player = Parent;
-            if (player == null)
-            {
-                throw new ArgumentNullException("Cannot save a detached PlayerBehavior with no Parent Thing.");
-            }
-
-            DocumentRepository<Thing>.Save(player);
+            Parent.Save();
         }
 
         /// <summary>Releases unmanaged and, optionally, managed resources.</summary>
@@ -169,7 +161,7 @@ namespace WheelMUD.Core
             // If the player isn't located anywhere yet, try to drop them in the default room.
             // (Expect that even new characters may gain a starting position via custom character generation
             // flows which let the user to select a starting spawn area.)
-            var targetPlayerStartingPosition = player.Parent != null ? player.Parent : FindDefaultRoom();
+            var targetPlayerStartingPosition = player.Parent ?? PlacesManager.Instance.DefaultStartingLocation;
             if (targetPlayerStartingPosition == null)
             {
                 session.WriteLine("Could not place character in the game world. Please contact an administrator.");
@@ -321,14 +313,6 @@ namespace WheelMUD.Core
                 var userControlledBehavior = Parent.FindBehavior<UserControlledBehavior>();
                 userControlledBehavior?.Session?.WriteLine($"Your friend {e.ActiveThing.Name} has logged out.");
             }
-        }
-
-        private static Thing FindDefaultRoom()
-        {
-            // TODO: Cache a weak reference to the Thing and acquire/reacquire when needed?
-            return (from t in ThingManager.Instance.Things
-                    where t.Id == "room/" + GameConfiguration.DefaultRoomID
-                    select t).FirstOrDefault();
         }
 
         private bool IsFriend(string friendName)

@@ -1,14 +1,14 @@
 //-----------------------------------------------------------------------------
 // <copyright file="AppendCommandHandler.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using WheelMUD.Ftp.General;
-
     public class AppendCommandHandler : FtpCommandHandler
     {
         private const int BufferSize = 65536;

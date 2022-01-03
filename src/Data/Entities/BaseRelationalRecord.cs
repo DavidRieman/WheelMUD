@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using ServiceStack.DataAnnotations;
+
 namespace WheelMUD.Data.Entities
 {
-    using ServiceStack.DataAnnotations;
-
     /// <summary>A base class for entity records.</summary>
     public class BaseRelationalRecord
     {

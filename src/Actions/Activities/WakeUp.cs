@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="WakeUp.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -11,7 +11,7 @@ using WheelMUD.Core;
 namespace WheelMUD.Actions
 {
     /// <summary>An action to awaken and stand up.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("wake up", CommandCategory.Activities)]
     [ActionAlias("wake", CommandCategory.Activities)]
     [ActionAlias("awaken", CommandCategory.Activities)]

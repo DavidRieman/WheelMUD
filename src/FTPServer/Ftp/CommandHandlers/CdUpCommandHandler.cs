@@ -1,14 +1,14 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="CdUpCommandHandler.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.IO;
+
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using System.IO;
-
     public class CdUpCommandHandler : FtpCommandHandler
     {
         public CdUpCommandHandler(FtpConnectionObject connectionObject)

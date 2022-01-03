@@ -1,16 +1,16 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="ActivationBehavior.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Universe
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>An activation item behavior adds the ability to trigger effects upon item activation.</summary>
     public class ActivationBehavior : Behavior
     {

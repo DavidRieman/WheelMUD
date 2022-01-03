@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Web.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -12,7 +12,7 @@ using WheelMUD.Core;
 namespace WheelMUD.Actions
 {
     /// <summary>Temporary command to demonstrate a web effect.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("web", CommandCategory.Temporary)]
     [ActionDescription("Temporary test command. Webs a target.")]
     [ActionSecurity(SecurityRole.player)]

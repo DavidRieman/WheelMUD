@@ -43,7 +43,7 @@ namespace WheelMUD.Core
     /// sample game system parts (such as the default WarriorRogueMage sample implementation) use priority 100.
     /// You should pick a value like 200 for any parts you want to replace. For example, if you decided to fully
     /// replace how the "tell" action worked in your specific game, you could create a new class in your own
-    /// game's library called "Tell" that inherits from GameAction with [ExportGameAction(200)]. Your version
+    /// game's library called "Tell" that inherits from GameAction with [CoreExports.GameAction(200)]. Your version
     /// would always get loaded instead of the core version.
     /// 
     /// In case of ties to "Priority", DefaultComposer will inspect the FileInfo where the classes came from, to
@@ -57,7 +57,7 @@ namespace WheelMUD.Core
     /// you will not want to pair this with non-reboot updates as any existing DLL found with a higher Priority
     /// will win load preference and bring back that older version. Depending on the part/system, you may find
     /// it better to disable pre-existing versions by exporting your own gutted version with a higher Priority.
-    /// For example, exporting a new "Tell" class with [ExportGameAction(200)] but with no action aliases would
+    /// For example, exporting a new "Tell" class with [CoreExports.GameAction(200)] but with no action aliases would
     /// make it so nobody in the game could use the "tell" command any more. These may be useful strategies for
     /// emergency disabling of problematic parts, until the problem can be properly solved and reintroduced.
     /// </remarks>

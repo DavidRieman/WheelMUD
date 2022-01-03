@@ -1,15 +1,15 @@
 //-----------------------------------------------------------------------------
 // <copyright file="ArrayHelpers.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Diagnostics;
+
 namespace WheelMUD.Ftp.General
 {
-    using System;
-    using System.Diagnostics;
-
     public sealed class ArrayHelpers
     {
         private ArrayHelpers()

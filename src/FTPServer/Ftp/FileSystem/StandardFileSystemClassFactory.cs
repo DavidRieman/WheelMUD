@@ -1,14 +1,14 @@
 //-----------------------------------------------------------------------------
 // <copyright file="StandardFileSystemClassFactory.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Ftp.FileSystem
 {
-    using WheelMUD.Utilities;
-
     public class StandardFileSystemClassFactory : IFileSystemClassFactory
     {
         public IFileSystem Create(string user, string password)

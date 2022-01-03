@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Data;
+using System.Linq;
+
 namespace WheelMUD.Data
 {
-    using System;
-    using System.Data;
-    using System.Linq;
-
     /// <summary>Helper methods for the WheelMUD.Data namespace.</summary>
     public class Helpers
     {

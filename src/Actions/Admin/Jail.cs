@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Jail.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -11,7 +11,7 @@ using WheelMUD.Core;
 namespace WheelMUD.Actions
 {
     /// <summary>An action to send a player to jail.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("jail", CommandCategory.Admin)]
     [ActionDescription("Send a player to jail.")]
     [ActionSecurity(SecurityRole.fullAdmin | SecurityRole.minorAdmin)]

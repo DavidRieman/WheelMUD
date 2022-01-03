@@ -13,7 +13,7 @@ using WheelMUD.Effects;
 namespace WheelMUD.Actions
 {
     /// <summary>Test command to deafen a target.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("ThunderClap", CommandCategory.Temporary)]
     [ActionDescription("Temporary test command. Deafens a target.")]
     [ActionSecurity(SecurityRole.player)]

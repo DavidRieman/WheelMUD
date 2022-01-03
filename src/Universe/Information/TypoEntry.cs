@@ -1,19 +1,18 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="TypoEntry.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Globalization;
+using WheelMUD.Data.Entities;
+using WheelMUD.Data.Repositories;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Universe.Information
 {
-    using System;
-    using System.Globalization;
-    using WheelMUD.Data.Entities;
-    using WheelMUD.Data.Repositories;
-
     /// <summary>The Typo class is used to store information from players relating to problems with spelling in the world.</summary>
     public class TypoEntry : IPersistable
     {

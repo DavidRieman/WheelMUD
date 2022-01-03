@@ -122,11 +122,11 @@ Leave the rest of the class alone for now. Let's go to the custom step now. Let'
 
 A blank custom state/step looks like this: 
 ```
+using WheelMUD.ConnectionStates;
+using WheelMUD.Core;
+ 
 namespace OneHitWonder.CharacterCreation
 {
-    using WheelMUD.ConnectionStates;
-    using WheelMUD.Core;
- 
     /// <summary>
     /// The character creation step where the player will pick their gender.
     /// </summary>

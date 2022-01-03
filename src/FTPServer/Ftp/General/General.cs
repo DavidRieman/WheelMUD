@@ -1,15 +1,15 @@
 //-----------------------------------------------------------------------------
 // <copyright file="General.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
+using System.Text;
+
 namespace WheelMUD.Ftp.General
 {
-    using System.Diagnostics;
-    using System.Text;
-
     /// <summary>Helper functions relating to files and file names/paths.</summary>
     public class FileNameHelpers
     {

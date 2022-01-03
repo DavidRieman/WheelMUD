@@ -1,19 +1,18 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="ServerHarnessCommands.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
+using WheelMUD.Core;
 using WheelMUD.Utilities.Interfaces;
 
 namespace ServerHarness
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.Linq;
-    using WheelMUD.Core;
-
     public class ServerHarnessCommands : IRecomposable
     {
         /// <summary>Gets the singleton instance of the ServerHarnessCommands class.</summary>

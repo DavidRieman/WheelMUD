@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="RollDie.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -15,7 +15,7 @@ namespace WheelMUD.Actions
     /// TODO: Adjust to be a handy command for role-playing and so on; Generate a room sensory event?
     /// TODO: Allow custom-sided die, app-configurable default sides (like 20 would be a better default for some games)?
     /// </remarks>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("roll", CommandCategory.Activities)]
     [ActionDescription("Roll a die or dice.")]
     [ActionSecurity(SecurityRole.player)]

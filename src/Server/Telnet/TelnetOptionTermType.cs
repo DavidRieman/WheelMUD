@@ -1,14 +1,14 @@
 //-----------------------------------------------------------------------------
 // <copyright file="TelnetOptionTermType.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Text;
+
 namespace WheelMUD.Server.Telnet
 {
-    using System.Text;
-
     /// <summary>Class that handles the Terminal Type telnet option code.</summary>
     internal class TelnetOptionTermType : TelnetOption
     {

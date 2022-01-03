@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Locate.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -11,7 +11,7 @@ using WheelMUD.Core;
 namespace WheelMUD.Actions
 {
     /// <summary>A command that allows an admin to locate an entity.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("locate", CommandCategory.Admin)]
     [ActionAlias("whereis", CommandCategory.Admin)]
     [ActionAlias("where is", CommandCategory.Admin)]

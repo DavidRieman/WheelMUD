@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Look.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -12,7 +12,7 @@ using WheelMUD.Server;
 namespace WheelMUD.Actions
 {
     /// <summary>A command that allows a player to look at things and their environment.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("look", CommandCategory.Inform)]
     [ActionAlias("l", CommandCategory.Inform)]
     [ActionDescription("Look at the room, item, person, or monster.")]
@@ -82,14 +82,15 @@ namespace WheelMUD.Actions
                 return true;
             }
 
-            // If no target was found, see if it matches any of the room's visuals.
+            // If no target was found, see if it matches any of the room's furnishings.
             var room = sender.Parent.FindBehavior<RoomBehavior>();
             if (room != null)
             {
-                var visual = room.FindVisual(thingToLookAt);
-                if (!string.IsNullOrEmpty(visual))
+                var furnishing = room.FindFurnishing(thingToLookAt);
+                if (furnishing != null)
                 {
-                    found = new OutputBuilder(visual.Length).AppendLine(visual);
+                    // TODO: Use the Renderer system so a MUD can apply thematic display control around these.
+                    found = new OutputBuilder(furnishing.Description.Length).AppendLine(furnishing.Description);
                     return true;
                 }
             }

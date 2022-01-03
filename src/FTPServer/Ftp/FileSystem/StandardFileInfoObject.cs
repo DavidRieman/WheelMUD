@@ -1,17 +1,17 @@
 //-----------------------------------------------------------------------------
 // <copyright file="StandardFileInfoObject.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.IO;
+using System.Text;
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp.FileSystem
 {
-    using System;
-    using System.IO;
-    using System.Text;
-    using WheelMUD.Ftp.General;
-
     public class StandardFileInfoObject : LoadedClass, IFileInfo
     {
         private FileInfo fileInfo = null;

@@ -1,16 +1,16 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="DynamicServerHarnessCommand.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using WheelMUD.Main;
+
 namespace ServerHarness
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Main;
-
     public class DynamicServerHarnessCommand : IServerHarnessCommand
     {
         private readonly Action command;

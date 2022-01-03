@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Fill.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -13,7 +13,7 @@ using WheelMUD.Universe;
 namespace WheelMUD.Actions
 {
     /// <summary>An action to fill a liquid container from a large source of liquid.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("fill", CommandCategory.Item)]
     [ActionDescription("Fill a liquid container from a large source of liquid.")]
     [ActionSecurity(SecurityRole.player)]

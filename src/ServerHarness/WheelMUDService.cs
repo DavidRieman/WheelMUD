@@ -1,16 +1,16 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="WheelMUDService.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using Topshelf;
+using WheelMUD.Main;
+
 namespace ServerHarness
 {
-    using System;
-    using Topshelf;
-    using WheelMUD.Main;
-
     /// <summary>The WheelMUD Server Windows Service.</summary>
     public class WheelMudService : ServiceControl
     {

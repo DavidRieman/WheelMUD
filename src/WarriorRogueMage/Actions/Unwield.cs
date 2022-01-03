@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Unwield.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -12,7 +12,7 @@ using WheelMUD.Core;
 namespace WarriorRogueMage.Actions
 {
     /// <summary>An action to unwield a weapon.</summary>
-    [ExportGameAction(100)]
+    [CoreExports.GameAction(100)]
     [ActionPrimaryAlias("unwield", CommandCategory.Item)]
     [ActionDescription("Unwield a weapon.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

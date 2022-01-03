@@ -1,16 +1,16 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="MountBehavior.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.Behaviors
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A behavior to house mount-related functionality (such as for horses, mules, motorcycles, and so on).</summary>
     public class MountBehavior : Behavior
     {

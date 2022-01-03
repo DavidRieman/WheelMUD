@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="AFK.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -13,7 +13,7 @@ namespace WheelMUD.Actions
 {
     /// <summary>Sets your status as AFK to other players.  Optional reason can be specified (eg. AFK Back in 5).</summary>
     /// <remarks>Added a length limiter on the AFK reason to ensure it doesn't gum out anything displaying the message.</remarks>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("afk", CommandCategory.Configure)]
     [ActionAlias("inactive", CommandCategory.Configure)]
     [ActionDescription("Sets your status as afk to other players.  Optional reason can be specified (eg. AFK Back in 5).")]

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Behavior.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -17,8 +17,7 @@ namespace WheelMUD.Core
     public abstract class Behavior : IPersistsWithPlayer
     {
         /// <summary>The synchronization locking object.</summary>
-        [JsonIgnore]
-        private readonly object lockObject = new object();
+        protected readonly object lockObject = new object();
 
         /// <summary>Initializes a new instance of the Behavior class.</summary>
         /// <param name="instanceProperties">Dictionary of properties to spawn this behavior instance with, if any.</param>

@@ -1,14 +1,14 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Terminal.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server.Telnet;
+
 namespace WheelMUD.Server
 {
-    using WheelMUD.Server.Telnet;
-
     /// <summary>The terminal options used for a connection.</summary>
     public class TerminalOptions
     {

@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Finger.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -14,7 +14,7 @@ using WheelMUD.Utilities;
 namespace WheelMUD.Actions
 {
     /// <summary>A command that gathers various information about an entity.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("finger", CommandCategory.Player)]
     [ActionAlias("whois", CommandCategory.Player)]
     [ActionAlias("who is", CommandCategory.Player)]

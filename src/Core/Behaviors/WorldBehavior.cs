@@ -1,14 +1,12 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="WorldBehavior.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
 using System.Collections.Generic;
 using System.Diagnostics;
-using WheelMUD.Data.Entities;
-using WheelMUD.Data.Repositories;
 
 namespace WheelMUD.Core
 {
@@ -22,42 +20,14 @@ namespace WheelMUD.Core
         ////private readonly Dictionary<long, RoomBehavior> roomsCache;
 
         /// <summary>Initializes a new instance of the WorldBehavior class.</summary>
-        public WorldBehavior()
-            : base(null)
-        {
-        }
+        public WorldBehavior() : base(null) { }
 
         /// <summary>Initializes a new instance of the WorldBehavior class.</summary>
         /// <param name="instanceID">The instance ID.</param>
         /// <param name="instanceProperties">The dictionary of propertyNames-propertyValues for this behavior instance.</param>
-        public WorldBehavior(long instanceID, Dictionary<string, object> instanceProperties)
-            : base(instanceProperties)
+        public WorldBehavior(long instanceID, Dictionary<string, object> instanceProperties) : base(instanceProperties)
         {
             ID = instanceID;
-        }
-
-        /// <summary>Loads areas into the world.</summary>
-        public void Load()
-        {
-            var areaRepository = new RelationalRepository<AreaRecord>();
-            ICollection<AreaRecord> areas = areaRepository.GetAll();
-
-            foreach (var areaRecord in areas)
-            {
-                var areaBehavior = new AreaBehavior()
-                {
-                    ID = areaRecord.ID,
-                };
-                var area = new Thing(areaBehavior)
-                {
-                    Name = areaRecord.Name,
-                    Id = "area/" + areaRecord.ID,
-                };
-
-                // Load this area and it's children.
-                areaBehavior.Load();
-                Parent.Add(area);
-            }
         }
 
         /// <summary>Searches for a given room and returns it if found.</summary>

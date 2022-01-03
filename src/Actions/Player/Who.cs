@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Who.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -11,7 +11,7 @@ using WheelMUD.Core;
 namespace WheelMUD.Actions
 {
     /// <summary>A command to list the characters who are currently in-game.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("who", CommandCategory.Player)]
     [ActionDescription("See or query who is online.")]
     [ActionSecurity(SecurityRole.player)]

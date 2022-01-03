@@ -1,16 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="MultiUpdater.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using WheelMUD.Utilities.Interfaces;
 
 namespace ServerHarness
 {
-    using System.Collections.Generic;
-
     /// <summary>Logs notifications to a multiple notifications updaters.</summary>
     public class MultiUpdater : ISuperSystemSubscriber
     {

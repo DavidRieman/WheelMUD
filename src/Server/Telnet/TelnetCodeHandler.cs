@@ -1,18 +1,17 @@
 //-----------------------------------------------------------------------------
 // <copyright file="TelnetCodeHandler.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+using WheelMUD.Interfaces;
 using WheelMUD.Server.Interfaces;
 
 namespace WheelMUD.Server.Telnet
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using WheelMUD.Interfaces;
-
     /// <summary>The possible response codes.</summary>
     internal enum TelnetResponseCode
     {

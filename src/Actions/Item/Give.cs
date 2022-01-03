@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Give.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -18,7 +18,7 @@ namespace WheelMUD.Actions
     ///  "give 10 coins to Karak"
     ///  "give 10 coins Karak"
     /// </remarks>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("give", CommandCategory.Item | CommandCategory.Player)]
     [ActionDescription("Give an item to a character or monster.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

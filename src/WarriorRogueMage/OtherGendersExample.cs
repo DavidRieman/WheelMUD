@@ -1,14 +1,14 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="OtherGendersExample.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WarriorRogueMage
 {
-    using WheelMUD.Core;
-
     /// <summary>Neuter Gender.</summary>
     /// <remarks>
     /// Technically we probably don't want these specific choices for players but so far this is here as an example

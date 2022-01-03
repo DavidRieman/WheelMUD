@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using Raven.Client.Documents.Session;
+using System.Linq;
+
 namespace WheelMUD.Data
 {
-    using Raven.Client.Documents.Session;
-    using System.Linq;
-
     /// <summary>
     /// RavenDocumentSessionBridge implements the IBasicDocumentSession abstraction for RavenDB,
     /// allowing for technology-agnostic persistence. Since IBasicDocumentSession was modeled off

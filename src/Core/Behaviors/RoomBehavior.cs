@@ -1,29 +1,27 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="RoomBehavior.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using WheelMUD.Data.Entities;
-using WheelMUD.Data.Repositories;
 
 namespace WheelMUD.Core
 {
+    // TODO: Move to own file?
+    public class Furnishing
+    {
+        public Furnishing() { }
+        public string[] Keywords { get; set; }
+        public string Description { get; set; }
+    }
+
     /// <summary>Represents a room in the MUD.</summary>
     public class RoomBehavior : Behavior
     {
-        /// <summary>Info on exits which still need to be rigged to a secondary room/Thing, once said Thing is loaded.</summary>
-        private static List<PendingExitRigging> pendingExitRiggings = new List<PendingExitRigging>();
-
-        /// <summary>Collection of room visuals.</summary>
-        /// <remarks>Keys are the visual item names, and values are the descriptions shown to players when they look at the visuals.</remarks>
-        private Dictionary<string, string> visuals = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
         /// <summary>Initializes a new instance of the RoomBehavior class.</summary>
         public RoomBehavior()
             : base(null)
@@ -40,18 +38,15 @@ namespace WheelMUD.Core
         }
 
         /// <summary>
-        /// Gets the collection of visuals for this room.
-        /// A "visual" is a pseudo-item within a room, which the player can look at.
-        /// The keys of this dictionary contain the names of visual items, and the
-        /// values are the corresponding descriptions shown to players.
+        /// Gets the collection of furnishings for this room.
+        /// A "furnishing" is a specific aspect of this thing which the player can look at for more info, but cannot deeply interact with.
         /// </summary>
-        public Dictionary<string, string> Visuals
-        {
-            get
-            {
-                return visuals;
-            }
-        }
+        /// <summary>Collection of furnishings (basic extra room furnishings to examine).</summary>
+        /// <remarks>
+        /// TODO: Consider moving to Thing so you can look at aspects of your inventory items and Things in the current room.
+        ///       The same OLC rules (forcing keywords to highlight) should apply to those Things descriptions as well.
+        /// </remarks>
+        public List<Furnishing> Furnishings { get; private set; } = new List<Furnishing>();
 
         /// <summary>
         /// Searches for a visual within the room. The partial match allows the player
@@ -59,103 +54,20 @@ namespace WheelMUD.Core
         /// </summary>
         /// <param name="partialTerm">The name of the visual item to find.</param>
         /// <returns>A string to describe the visual item, or null if the item was not found.</returns>
-        public string FindVisual(string partialTerm)
+        /// <remarks>TODO: Should tie in to standard targeting. TODO: Thread-safe adds/removes too.</remarks>
+        public Furnishing FindFurnishing(string partialTerm)
         {
-            var matches = visuals.Where(pair => pair.Key.StartsWith(partialTerm)).Select(pair => pair.Value);
-            return matches.FirstOrDefault();
-        }
-
-        /// <summary>Loads the exits for this room behavior.</summary>
-        public void Load()
-        {
-            var roomRepository = new RelationalRepository<RoomRecord>();
-
-            // Standard exits are simple DB records, so we need to load them specifically for this room;
-            // non-standard exits should be loaded just like any other generic Thing.
-            // TODO: These should come as part of the world areas with the document repository, so that
-            //       exit Things could get customized with brand new Behaviors without difficulty, etc.
-            string roomNumber = Parent.Id.Replace("room/", string.Empty);
-            long persistedRoomID = long.Parse(roomNumber);
-            ICollection<ExitRecord> exits = roomRepository.LoadExitsForRoom(persistedRoomID);
-
-            foreach (var exitRecord in exits)
+            lock (Furnishings)
             {
-                // Create a Thing to represent this exit, which can live in multiple places (IE rooms)
-                // as a child of each parent - thus sharing substate (like for doors) will be automatic.
-                var exitBehavior = new ExitBehavior()
-                {
-                    ID = exitRecord.ID,
-                };
-                var exit = new Thing(exitBehavior, new MultipleParentsBehavior())
-                {
-                    Name = "[StandardExit]",
-                    Id = "exit/" + exitRecord.ID,
-                };
-
-                // Add the exit destinations.
-                string exitRoomA = "room/" + exitRecord.ExitRoomAID.ToString(CultureInfo.InvariantCulture);
-                string exitRoomB = "room/" + exitRecord.ExitRoomBID.ToString(CultureInfo.InvariantCulture);
-                exitBehavior.AddDestination(exitRecord.DirectionA, exitRoomB);
-                exitBehavior.AddDestination(exitRecord.DirectionB, exitRoomA);
-
-                // Add this Exit Thing as a child of the Room Thing.
-                Parent.Add(exit);
-
-                // Look for the other room; if it exists, add this exit to that room too, else
-                // set up an event reaction to add the exit to the room when it gets loaded.
-                var otherRoom = ThingManager.Instance.FindThing(exitRoomB);
-                if (otherRoom != null)
-                {
-                    otherRoom.Add(exit);
-                }
-                else
-                {
-                    lock (pendingExitRiggings)
-                    {
-                        pendingExitRiggings.Add(new PendingExitRigging()
-                        {
-                            RoomID = exitRoomB,
-                            ExitThing = exit,
-                        });
-                    }
-                }
-            }
-
-            // If this room is the secondary parent for a pending exit rigging, rig it up.
-            lock (pendingExitRiggings)
-            {
-                var matchedExitRiggings = FindMatchedPendingExitRiggings(Parent.Id);
-                foreach (var matchedExitRigging in matchedExitRiggings)
-                {
-                    Parent.Add(matchedExitRigging.ExitThing);
-                    pendingExitRiggings.Remove(matchedExitRigging);
-                }
+                return (from f in Furnishings
+                        where f.Keywords.Contains(partialTerm, StringComparer.OrdinalIgnoreCase)
+                        select f).FirstOrDefault();
             }
         }
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-        }
-
-        /// <summary>Find pending exit riggings which are meant to be added to the specified unique Thing ID.</summary>
-        /// <param name="matchID">The unique thing ID looking for matches.</param>
-        /// <returns>All matching pending exit riggings intended for the specified unique ID.</returns>
-        private IEnumerable<PendingExitRigging> FindMatchedPendingExitRiggings(string matchID)
-        {
-            return (from r in pendingExitRiggings
-                    where r.RoomID == matchID
-                    select r).ToList();
-        }
-
-        /// <summary>Information about an Exit which still needs to be rigged to an additional room/Thing.</summary>
-        private class PendingExitRigging
-        {
-            /// <summary>Gets or sets the Thing which needs to be rigged up to another room (or other Thing).</summary>
-            public Thing ExitThing { get; set; }
-
-            /// <summary>Gets or sets the room (or other Thing) this exit needs to be rigged up to.</summary>
-            public string RoomID { get; set; }
         }
     }
 }

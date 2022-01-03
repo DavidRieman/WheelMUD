@@ -1,15 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="LiquidSourceBehavior.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Universe
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>LiquidSourceBehavior adds the ability to act like a liquid source (River, fountain, faucet, etc).</summary>
     public class LiquidSourceBehavior : Behavior
     {

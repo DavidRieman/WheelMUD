@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Buff.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -14,7 +14,7 @@ using WheelMUD.Effects;
 namespace WheelMUD.Actions
 {
     /// <summary>Allows changing the current value of an attribute, but not min, max, etc.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("buff", CommandCategory.Admin)]
     [ActionDescription("Usage: buff (target) (stat) (value/min/max) (amount) [minutes]")] // TODO: Add to full help: Example: buff fred HP max 10 5 [increase fred's max HP by 10 for 5 minutes]
     [ActionSecurity(SecurityRole.fullAdmin)]

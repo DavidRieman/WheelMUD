@@ -23,37 +23,8 @@ public interface IConsumableProvider : IItem
     int NumberOfResources { get; }
 
     /// <summary>Huh? Chop is only for wood...?</summary>
-    /// <returns>A Consumable yeilded by the action.</returns>
+    /// <returns>A Consumable yielded by the action.</returns>
     IConsumable Chop();
-}*/
-
-// Removed IWorld.cs:
-/*
-namespace WheelMUD.Interfaces
-{
-    /// <summary>An interface defining a World.</summary>
-    public interface IWorld
-    {
-        /// <summary>The event reaction event handler.</summary>
-        event EventReactionEventHandler OnReactionEvent;
-
-        /// <summary>Gets a reference to the MUDS ItemManager which contains a global list of all items.</summary>
-        ItemManager ItemManager { get; }
-
-        /// <summary>Gets a reference to the Time System.</summary>
-        TimeSystem TimeSystem { get; }
-
-        /// <summary>Gets the ares contained within the world.</summary>
-        Dictionary<long, Thing> Areas { get; }
-
-        /// <summary>Load the whole world.</summary>
-        void Load();
-
-        /// <summary>Searches areas for a given room and returns it if found.</summary>
-        /// <param name="roomId">The room ID to search for.</param>
-        /// <returns>The Room with that ID.</returns>
-        Thing FindRoom(long roomId);
-    }
 }*/
 
 // Removed ITimeSystem.cs:
@@ -1322,8 +1293,6 @@ namespace WheelMUD.Universe.MobileBuilders
             mob.Name = mds.Name;
             mob.Description = mds.Description;
             mob.Id = mds.ID;
-
- //           mob.Load();
             brain.Start();
         }
 

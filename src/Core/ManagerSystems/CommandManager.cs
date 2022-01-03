@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="CommandManager.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -40,7 +40,7 @@ namespace WheelMUD.Core
 
         /// <summary>Gets or sets, through MEF composition, the available GameAction classes.</summary>
         [ImportMany]
-        private List<Lazy<GameAction, ExportGameActionAttribute>> GameActions { get; set; }
+        private Lazy<GameAction, CoreExports.GameAction>[] GameActions { get; set; }
 
         /// <summary>Recompose the <see cref="CommandManager"/> system.</summary>
         public void Recompose()
@@ -249,7 +249,7 @@ namespace WheelMUD.Core
 
         /// <summary>Registers the <see cref="CommandManager"/> system for export.</summary>
         /// <remarks>Assists with non-rebooting updates of the <see cref="CommandManager"/> system through MEF.</remarks>
-        [ExportSystem(0)]
+        [CoreExports.System(0)]
         public class CommandManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>

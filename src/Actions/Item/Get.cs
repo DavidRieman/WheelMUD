@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Get.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -13,7 +13,7 @@ using WheelMUD.Universe;
 namespace WheelMUD.Actions
 {
     /// <summary>Action to pick something up from the room, or move something from an inventory container to their inventory.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("get", CommandCategory.Item)]
     [ActionAlias("take", CommandCategory.Item)]
     [ActionDescription("Get an object from a room or from a container.")]

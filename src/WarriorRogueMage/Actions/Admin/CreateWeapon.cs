@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="CreateWeapon.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -12,7 +12,7 @@ using WheelMUD.Core;
 namespace WheelMUD.Actions.Temporary
 {
     /// <summary>A command that allows an admin to create a simple weapon for testing.</summary>
-    [ExportGameAction(100)]
+    [CoreExports.GameAction(100)]
     [ActionPrimaryAlias("create weapon", CommandCategory.Admin)]
     [ActionAlias("createweapon", CommandCategory.Admin)]
     [ActionDescription("Temporary command to create a simple weapon for testing.")]

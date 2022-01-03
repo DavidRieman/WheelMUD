@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WarriorRogueMage
 {
-    using WheelMUD.Core;
-
     /// <summary>A "Warrior, Rogue, and Mage" statistic.</summary>
     public abstract class WRMStat : GameStat
     {

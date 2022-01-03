@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using ServiceStack.OrmLite;
+using System.Collections.Generic;
+using System.Data;
+
 namespace WheelMUD.Data.Repositories
 {
-    using ServiceStack.OrmLite;
-    using System.Collections.Generic;
-    using System.Data;
-
     /// <summary>Generic relational repository implementation for type T.</summary>
     public class RelationalRepository<T> where T : new()
     {

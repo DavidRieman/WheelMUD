@@ -1,19 +1,19 @@
 //-----------------------------------------------------------------------------
 // <copyright file="FtpConnectionObject.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections;
+using System.Net.Sockets;
+using System.Text;
+using WheelMUD.Ftp.FileSystem;
+using WheelMUD.Ftp.FtpCommands;
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp
 {
-    using System.Collections;
-    using System.Net.Sockets;
-    using System.Text;
-    using WheelMUD.Ftp.FileSystem;
-    using WheelMUD.Ftp.FtpCommands;
-    using WheelMUD.Ftp.General;
-
     /// <summary>Processes incoming messages and passes the data on to the relevant handler class.</summary>
     public class FtpConnectionObject : FtpConnectionData
     {

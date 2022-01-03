@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Emote.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -11,7 +11,7 @@ using WheelMUD.Core;
 namespace WheelMUD.Actions
 {
     /// <summary>A command that allows a player to emote.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("emote", CommandCategory.Activities)]
     [ActionAlias("em", CommandCategory.Activities)]
     [ActionDescription("Emote in freeform.")]

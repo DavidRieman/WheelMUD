@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Title.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -17,7 +17,7 @@ namespace WheelMUD.Actions
     ///   earning specific pre-set titles depending on in-game progress (e.g. dragon-slayer), for the command to
     ///   be available to the player but only selecting from an earned list of titles. SEE Pretitle.cs as well.
     /// </remarks>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("title", CommandCategory.Player)]
     [ActionAlias("set title", CommandCategory.Player)]
     [ActionDescription("Set or view your title.")]

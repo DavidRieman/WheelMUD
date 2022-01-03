@@ -1,15 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="UnhandledExceptionHandler.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Diagnostics;
+
 namespace WheelMUD.Utilities
 {
-    using System;
-    using System.Diagnostics;
-
     /// <summary>A fairly generic unhandled exception handler.</summary>
     public class UnhandledExceptionHandler
     {

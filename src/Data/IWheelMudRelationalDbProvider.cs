@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Data;
+
 namespace WheelMUD.Data
 {
-    using System.Data;
-
     /// <summary>Interface for supporting different database back ends under ORMLite.</summary>
     public interface IWheelMudRelationalDbProvider
     {

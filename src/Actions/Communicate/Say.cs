@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Say.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -11,7 +11,7 @@ using WheelMUD.Core;
 namespace WheelMUD.Actions
 {
     /// <summary>Communicate with others in the same location.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("say", CommandCategory.Communicate)]
     [ActionAlias("'", CommandCategory.Communicate)]
     [ActionAlias("\"", CommandCategory.Communicate)]

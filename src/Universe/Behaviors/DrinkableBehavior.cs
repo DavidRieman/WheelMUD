@@ -1,15 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="DrinkableBehavior.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Universe
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>This behavior allows the attached thing to be drinkable.</summary>
     public class DrinkableBehavior : Behavior
     {

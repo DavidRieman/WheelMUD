@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using WheelMUD.Utilities;
+
 namespace WarriorRogueMage
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using WheelMUD.Utilities;
-
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class ExportTalentAttribute : ExportAttribute

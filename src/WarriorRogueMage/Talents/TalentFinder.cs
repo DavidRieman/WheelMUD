@@ -5,15 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
+using WheelMUD.Core;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WarriorRogueMage
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.Linq;
-    using WheelMUD.Core;
-
     public class TalentFinder : IRecomposable
     {
         /// <summary>Prevents a default instance of the TalentFinder class from being created.</summary>

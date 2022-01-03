@@ -1,14 +1,14 @@
 //-----------------------------------------------------------------------------
 // <copyright file="StandardFileSystemObject.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.IO;
+
 namespace WheelMUD.Ftp.FileSystem
 {
-    using System.IO;
-
     public class StandardFileSystemObject : IFileSystem
     {
         private string startDirectory = string.Empty;

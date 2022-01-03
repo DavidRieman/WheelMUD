@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="GoTo.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -11,7 +11,7 @@ using WheelMUD.Core;
 namespace WheelMUD.Actions
 {
     /// <summary>A command that allows a player move to the room Id or entity specified.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("goto", CommandCategory.Admin)]
     [ActionAlias("go to", CommandCategory.Admin)]
     [ActionDescription("Go to the specified entity or room number.")]

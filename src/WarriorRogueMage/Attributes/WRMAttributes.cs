@@ -1,14 +1,14 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="WRMAttributes.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.Attributes
 {
-    using WheelMUD.Core;
-
     /// <summary>Warrior Attribute.</summary>
     [ExportGameAttribute(100)]
     public class WarriorAttribute : WRMAttribute

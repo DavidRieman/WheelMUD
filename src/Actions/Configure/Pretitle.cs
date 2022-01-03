@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Pretitle.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -17,7 +17,7 @@ namespace WheelMUD.Actions
     ///   earning specific pre-set pretitles depending on in-game progress (e.g. getting knighted), for the 
     ///   command to available to the player but only selecting one from an earned list. SEE Title.cs as well.
     /// </remarks>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("pretitle", CommandCategory.Player)]
     [ActionAlias("set pretitle", CommandCategory.Player)]
     [ActionDescription("Set or view your pretitle.")]

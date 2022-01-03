@@ -1,17 +1,16 @@
 //-----------------------------------------------------------------------------
 // <copyright file="TelnetServer.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using WheelMUD.Server.Interfaces;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Server
 {
-    using System.Collections.Generic;
-
     /// <summary>A telnet server.</summary>
     /// <remarks>This class decorates the base server, providing telnet facilities to the application.</remarks>
     public class TelnetServer : ISubSystem

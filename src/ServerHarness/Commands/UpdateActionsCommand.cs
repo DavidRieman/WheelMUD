@@ -1,16 +1,16 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="UpdateActionsCommand.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Main;
+
 namespace ServerHarness
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Main;
-
     /// <summary>Command to recompose (reload and update) the CommandManager Actions.</summary>
     [ExportServerHarnessCommand(0)]
     public class UpdateActionsCommand : IServerHarnessCommand

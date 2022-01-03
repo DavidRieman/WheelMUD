@@ -1,14 +1,14 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="SimpleTestBehavior.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WheelMUD.Tests.Behaviors
 {
-    using WheelMUD.Core;
-
     /// <summary>Simple implementation of Behavior, for testing purposes.</summary>
     public class SimpleTestBehavior : Behavior
     {

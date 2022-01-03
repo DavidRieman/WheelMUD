@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WarriorRogueMage
 {
-    using WheelMUD.Core;
-
     /// <summary>Class that represents the Human race.</summary>
     [ExportGameRace]
     public class HumanRace : WRMRace

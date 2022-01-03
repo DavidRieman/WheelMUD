@@ -1,16 +1,15 @@
 //-----------------------------------------------------------------------------
 // <copyright file="ConsoleUpdater.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
 using WheelMUD.Utilities.Interfaces;
 
 namespace ServerHarness
 {
-    using System;
-
     /// <summary>Console Updater.</summary>
     public class ConsoleUpdater : ISuperSystemSubscriber
     {

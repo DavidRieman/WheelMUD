@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Clone.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -11,7 +11,7 @@ using WheelMUD.Core;
 namespace WheelMUD.Actions
 {
     /// <summary>A command that allows an admin to clone an item.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("clone", CommandCategory.Admin)]
     [ActionDescription("Clones an object.")]
     [ActionSecurity(SecurityRole.fullAdmin)]

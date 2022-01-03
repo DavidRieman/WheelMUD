@@ -1,15 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="HoldsLiquidBehavior.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Universe
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>OpensClosesBehavior adds the ability to open and close a thing.</summary>
     public class HoldsLiquidBehavior : Behavior
     {

@@ -1,18 +1,17 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="TextLogUpdater.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.IO;
+using System.Text;
 using WheelMUD.Utilities.Interfaces;
 
 namespace ServerHarness
 {
-    using System;
-    using System.IO;
-    using System.Text;
-
     /// <summary>Text Log Updater. Logs notifications to a plain text file.</summary>
     public class TextLogUpdater : ISuperSystemSubscriber
     {

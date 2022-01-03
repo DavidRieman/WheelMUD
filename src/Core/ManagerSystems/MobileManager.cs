@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="MobileManager.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -133,7 +133,7 @@ namespace WheelMUD.Core
 
         /// <summary>Registers the <see cref="MobileManager"/> system for export.</summary>
         /// <remarks>Assists with non-rebooting updates of the <see cref="MobileManager"/> system through MEF.</remarks>
-        [ExportSystem(0)]
+        [CoreExports.System(0)]
         public class MobileManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>

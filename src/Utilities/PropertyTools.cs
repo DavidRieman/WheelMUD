@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+
 namespace WheelMUD.Utilities
 {
-    using System;
-    using System.Collections.Generic;
-
     public static class PropertyTools
     {
         public static void SetProperties(object o, IDictionary<string, object> propertyDictionary)

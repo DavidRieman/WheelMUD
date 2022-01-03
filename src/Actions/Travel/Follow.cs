@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Follow.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -15,7 +15,7 @@ using WheelMUD.Utilities;
 namespace WheelMUD.Actions
 {
     /// <summary>An action to start following another player or mobile around.</summary>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("follow", CommandCategory.Travel)]
     [ActionDescription("Begin following a friend or foe whenever they move.")]
     [ActionSecurity(SecurityRole.player | SecurityRole.mobile)]

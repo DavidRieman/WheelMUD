@@ -1,15 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="ExceptionExtensions.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Text;
+
 namespace WheelMUD.Utilities
 {
-    using System;
-    using System.Text;
-
     /// <summary>Extensions to the Exception class.</summary>
     public static class ExceptionExtensions
     {

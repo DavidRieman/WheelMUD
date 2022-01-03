@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Friends.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -16,7 +16,7 @@ namespace WheelMUD.Actions
 {
     /// <summary>A command to manipulate a players friends list.</summary>
     /// <remarks>TODO: Persistence!</remarks>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("friends", CommandCategory.Player)]
     [ActionAlias("friend", CommandCategory.Player)]
     [ActionDescription("Add or remove friends from your friends list.")]

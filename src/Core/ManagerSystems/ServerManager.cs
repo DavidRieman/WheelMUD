@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="ServerManager.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -160,7 +160,7 @@ namespace WheelMUD.Core
         }
 
         /// <summary>MEF exporter for ServerManager.</summary>
-        [ExportSystem(0)]
+        [CoreExports.System(0)]
         public class ServerManagerExporter : SystemExporter
         {
             /// <summary>Gets the singleton system instance.</summary>

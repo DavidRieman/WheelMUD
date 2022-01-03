@@ -1,14 +1,14 @@
 //-----------------------------------------------------------------------------
 // <copyright file="PasswordCommandHandler.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Data.Repositories;
+
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using WheelMUD.Data.Repositories;
-
     public class PasswordCommandHandler : FtpCommandHandler
     {
         public PasswordCommandHandler(FtpConnectionObject connectionObject)

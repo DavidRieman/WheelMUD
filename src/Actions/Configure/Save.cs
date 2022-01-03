@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------------
 // <copyright file="Save.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -12,7 +12,7 @@ namespace WheelMUD.Actions
 {
     /// <summary>An action to save your game.</summary>
     /// <remarks>TODO: Add auto-save system, allowing this to be an optional command.</remarks>
-    [ExportGameAction(0)]
+    [CoreExports.GameAction(0)]
     [ActionPrimaryAlias("save", CommandCategory.Configure)]
     [ActionDescription("Save your game.")]
     [ActionSecurity(SecurityRole.player)]

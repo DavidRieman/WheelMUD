@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // <copyright file="Application.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is 
+//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
 //   subject to the Microsoft Public License.  All other rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------------
@@ -38,7 +38,7 @@ namespace WheelMUD.Main
         /// <summary>Gets or sets the available systems.</summary>
         /// <value>The available systems.</value>
         [ImportMany]
-        private Lazy<SystemExporter, ExportSystemAttribute>[] AvailableSystems { get; set; }
+        private Lazy<SystemExporter, CoreExports.System>[] AvailableSystems { get; set; }
 
         /// <summary>Dispose of any resources consumed by Application.</summary>
         public void Dispose()
@@ -296,6 +296,9 @@ namespace WheelMUD.Main
             // If you get a dependency load error here right after trying to update a dependency version (e.g. through NuGet),
             // check to ensure all libraries which reference that dependency have been updated to the same version.
             DefaultComposer.Container.ComposeParts(this);
+
+            // TODO: Determine if we can simply "return DefaultComposer.GetInstances(AvailableSystems);"   Do we really
+            //       need custom priority on assembly version numbers since file time stamps should cover same control?
 
             // Find the Type of each distinct available system.  ToList forces LINQ to process immediately.
             var systems = new List<SystemExporter>();
