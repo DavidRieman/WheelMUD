@@ -73,6 +73,12 @@ namespace WheelMUD.Core
         /// <returns>The <c>Thing</c> referenced by the given ID if found; otherwise <c>null</c></returns>
         public Thing FindThing(string thingID)
         {
+            Debug.Assert(thingID != null);
+            if (thingID == null)
+            {
+                return null;
+            }
+
             Thing thing;
             things.TryGetValue(thingID, out thing);
             return thing;

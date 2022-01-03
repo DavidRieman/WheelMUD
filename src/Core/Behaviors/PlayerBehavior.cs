@@ -110,13 +110,7 @@ namespace WheelMUD.Core
         /// <summary>Save the whole player Thing (not just this PlayerBehavior).</summary>
         public void SavePlayer()
         {
-            var player = Parent;
-            if (player == null)
-            {
-                throw new ArgumentNullException("Cannot save a detached PlayerBehavior with no Parent Thing.");
-            }
-
-            DocumentRepository<Thing>.Save(player);
+            Parent.Save();
         }
 
         /// <summary>Releases unmanaged and, optionally, managed resources.</summary>
