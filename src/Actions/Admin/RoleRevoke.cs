@@ -40,15 +40,15 @@ namespace WheelMUD.Actions
             userControlledBehavior.SecurityRoles &= ~role;
 
             var ob = new OutputBuilder();
-            ob.AppendLine($"{player.Name} has been revoked the {role.ToString()} role.");
+            ob.AppendLine($"{player.Name} has been revoked the {role} role.");
             ob.AppendLine($"{player.Name} is now: {userControlledBehavior.SecurityRoles}.");
             session.Write(ob);
 
             ob.Clear();
-            ob.AppendLine($"You have been revoked the {role.ToString()} role.");
-
+            ob.AppendLine($"You have been revoked the {role} role.");
             userControlledBehavior.Session.Write(ob);
-            player.FindBehavior<PlayerBehavior>()?.SavePlayer();
+
+            player.Save();
         }
 
         /// <summary>Checks against the guards for the command.</summary>

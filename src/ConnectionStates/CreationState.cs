@@ -57,12 +57,12 @@ namespace WheelMUD.ConnectionStates
         {
             var user = session.User;
             var character = session.Thing;
+            character.Id ??= $"char/{character.Name}";
 
-            session.WriteLine($"Saving character {character.Name}.", false);
             using (var docSession = Helpers.OpenDocumentSession())
             {
                 // Save the character first so we can use the auto-assigned unique identity.
-                // We could have used playerBehavior.SavePlayer but this uses the same session for storing User too.
+                // We could have used character.Save() but this uses the same session for storing User too.
                 docSession.Store(character);
 
                 // Ensure the User tracks this character ID as one of their characters
@@ -70,13 +70,12 @@ namespace WheelMUD.ConnectionStates
                 docSession.Store(user);
                 docSession.SaveChanges();
             }
-            session.WriteLine($"Done saving {character.Name}.", false);
+            session.WriteLine($"Saved {character.Name}.", false);
 
             var playerBehavior = character.FindBehavior<PlayerBehavior>();
             if (playerBehavior.LogIn(session))
             {
-                // Automatically authenticate (the user just created username and password) and
-                // get in-game when character creation is completed.)
+                // Already authenticated (the user just created user name and password); get in the game now.
                 session.SetState(new PlayingState(session));
             }
             else

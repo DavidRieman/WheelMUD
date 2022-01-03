@@ -107,12 +107,6 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the player's gender.</summary>
         public GameGender Gender { get; set; }
 
-        /// <summary>Save the whole player Thing (not just this PlayerBehavior).</summary>
-        public void SavePlayer()
-        {
-            Parent.Save();
-        }
-
         /// <summary>Releases unmanaged and, optionally, managed resources.</summary>
         public void Dispose()
         {
@@ -252,7 +246,7 @@ namespace WheelMUD.Core
                 DateTime universalTime = DateTime.Now.ToUniversalTime();
                 PlayerData.LastLogout = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";
 
-                player.FindBehavior<PlayerBehavior>()?.SavePlayer();
+                player.Save();
                 Dispose();
                 player.Dispose();
 

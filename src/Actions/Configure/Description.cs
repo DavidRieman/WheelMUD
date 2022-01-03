@@ -33,7 +33,7 @@ namespace WheelMUD.Actions
                 if (!string.IsNullOrEmpty(NewDescription))
                 {
                     actionInput.Actor.Description = NewDescription;
-                    actionInput.Actor.FindBehavior<PlayerBehavior>()?.SavePlayer();
+                    actionInput.Actor.Save();
                     actionInput.Session.WriteLine("Description successfully changed.");
                 }
                 else

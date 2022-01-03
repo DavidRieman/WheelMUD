@@ -48,7 +48,7 @@ namespace WheelMUD.Actions
             ob.AppendLine($"You have been granted the {role.ToString()} role.");
             userControlledBehavior.Session.Write(ob);
 
-            player.FindBehavior<PlayerBehavior>()?.SavePlayer();
+            player.Save();
         }
 
         /// <summary>Checks against the guards for the command.</summary>

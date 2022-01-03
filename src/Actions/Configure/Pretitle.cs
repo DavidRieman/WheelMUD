@@ -47,7 +47,7 @@ namespace WheelMUD.Actions
                     $"Your old pretitle was \"{oldPretitle}\" and is now removed." :
                     $"Your old pretitle was \"{oldPretitle}\" and is now \"{newPretitle}\".");
 
-            actionInput.Actor.FindBehavior<PlayerBehavior>()?.SavePlayer();
+            actionInput.Actor.Save();
         }
 
         /// <summary>Checks against the guards for the command.</summary>
