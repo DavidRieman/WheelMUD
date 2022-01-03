@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
+using System.Text;
+
 namespace WheelMUD.Ftp.General
 {
-    using System.Diagnostics;
-    using System.Text;
-
     /// <summary>Helper functions relating to files and file names/paths.</summary>
     public class FileNameHelpers
     {

@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.Behaviors
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>A behavior to house mount-related functionality (such as for horses, mules, motorcycles, and so on).</summary>
     public class MountBehavior : Behavior
     {

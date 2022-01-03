@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.IO;
+using System.Text;
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp.FileSystem
 {
-    using System;
-    using System.IO;
-    using System.Text;
-    using WheelMUD.Ftp.General;
-
     public class StandardFileInfoObject : LoadedClass, IFileInfo
     {
         private FileInfo fileInfo = null;

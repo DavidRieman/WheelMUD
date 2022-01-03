@@ -5,18 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Server
 {
-    using System;
-
     /// <summary>Exception for the attempted socket port being in use.</summary>
     public class PortInUseException : Exception
     {
         /// <summary>Initializes a new instance of the PortInUseException class.</summary>
         /// <param name="message">The exception message.</param>
-        public PortInUseException(string message)
-            : base(message)
-        {
-        }
+        public PortInUseException(string message) : base(message) { }
     }
 }

@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Utilities
 {
-    using System;
-
     /// <summary>Strongly typed weak reference.</summary>
     /// <typeparam name="T">The object type.</typeparam>
     public class SimpleWeakReference<T> : WeakReference

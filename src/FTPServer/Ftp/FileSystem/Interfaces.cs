@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Ftp.FileSystem
 {
-    using System;
-
     public interface IFile
     {
         int Read(byte[] data, int dataSize);

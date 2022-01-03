@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.Attributes
 {
-    using WheelMUD.Core;
-
     /// <summary>Warrior Attribute.</summary>
     [ExportGameAttribute(100)]
     public class WarriorAttribute : WRMAttribute

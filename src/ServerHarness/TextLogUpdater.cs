@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.IO;
+using System.Text;
 using WheelMUD.Utilities.Interfaces;
 
 namespace ServerHarness
 {
-    using System;
-    using System.IO;
-    using System.Text;
-
     /// <summary>Text Log Updater. Logs notifications to a plain text file.</summary>
     public class TextLogUpdater : ISuperSystemSubscriber
     {

@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using Raven.Embedded;
+using System.ComponentModel.Composition;
+using System.Threading.Tasks;
+
 namespace WheelMUD.Data.RavenDb
 {
-    using Raven.Embedded;
-    using System.ComponentModel.Composition;
-    using System.Threading.Tasks;
-
     /// <summary>Raven DB provider for WheelMUD.</summary>
     /// <remarks>To use RavenDB as your document database provider, configure DocumentDataProviderName in your App.config to be RavenDB.</remarks>
     [Export(typeof(IWheelMudDocumentStorageProvider))]

@@ -5,13 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.ComponentModel.Composition;
 using WheelMUD.Utilities.Interfaces;
 
 namespace ServerHarness
 {
-    using System;
-    using System.ComponentModel.Composition;
-
     /// <summary>An [ExportServerHarnessCommand] attribute to mark server harness commands for export through MEF.</summary>
     /// <remarks>Allows for custom additions and overrides without having to change the base server harness code itself.</remarks>
     [MetadataAttribute]

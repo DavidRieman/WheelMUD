@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
+using System.IO;
+
 namespace WheelMUD.Server
 {
-    using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
-    using System.IO;
-
     /// <summary>The MUD Client Compression Protocol (MCCP) handler.</summary>
     /// <remarks>Compresses our data into a byte array using zlib compression.</remarks>
     internal static class MCCPHandler

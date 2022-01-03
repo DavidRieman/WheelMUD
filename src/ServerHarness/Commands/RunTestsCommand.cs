@@ -5,15 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Threading;
+using WheelMUD.Main;
+
 namespace ServerHarness
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Text.RegularExpressions;
-    using System.Threading;
-    using WheelMUD.Main;
-
     /// <summary>Command to run all integration tests.</summary>
     [ExportServerHarnessCommand(0)]
     public class RunTestsCommand : IServerHarnessCommand

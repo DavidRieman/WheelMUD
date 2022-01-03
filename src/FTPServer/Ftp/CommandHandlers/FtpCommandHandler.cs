@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
+using System.IO;
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using System.Diagnostics;
-    using System.IO;
-    using WheelMUD.Ftp.General;
-
     /// <summary>Base class for all ftp command handlers.</summary>
     public class FtpCommandHandler
     {

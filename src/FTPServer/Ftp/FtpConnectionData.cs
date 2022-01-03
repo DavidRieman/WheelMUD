@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Net.Sockets;
+using WheelMUD.Ftp.FileSystem;
+
 namespace WheelMUD.Ftp
 {
-    using System.Net.Sockets;
-    using WheelMUD.Ftp.FileSystem;
-
     /// <summary>Contains all the data relating to a particular FTP connection.</summary>
     public class FtpConnectionData
     {

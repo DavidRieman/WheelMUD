@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Diagnostics;
+
 namespace WheelMUD.Utilities
 {
-    using System;
-    using System.Diagnostics;
-
     /// <summary>A fairly generic unhandled exception handler.</summary>
     public class UnhandledExceptionHandler
     {

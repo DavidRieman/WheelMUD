@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.IO;
+
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using System.IO;
-
     public class CdUpCommandHandler : FtpCommandHandler
     {
         public CdUpCommandHandler(FtpConnectionObject connectionObject)

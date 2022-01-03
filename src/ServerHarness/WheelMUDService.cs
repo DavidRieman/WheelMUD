@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using Topshelf;
+using WheelMUD.Main;
+
 namespace ServerHarness
 {
-    using System;
-    using Topshelf;
-    using WheelMUD.Main;
-
     /// <summary>The WheelMUD Server Windows Service.</summary>
     public class WheelMudService : ServiceControl
     {

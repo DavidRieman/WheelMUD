@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using ServiceStack.DataAnnotations;
+
 namespace WheelMUD.Data.Entities
 {
-    using ServiceStack.DataAnnotations;
-
     /// <summary>Represents a single Player row in the Player table.</summary>
     [Alias("Players")]
     public class PlayerRecord : BaseRelationalRecord

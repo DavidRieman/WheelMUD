@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using WheelMUD.Main;
+
 namespace ServerHarness
 {
-    using System;
-    using System.Collections.Generic;
-    using WheelMUD.Main;
-
     public class DynamicServerHarnessCommand : IServerHarnessCommand
     {
         private readonly Action command;

@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Linq;
+
 namespace WheelMUD.Data.Repositories
 {
-    using System;
-    using System.Linq;
-
     public static class PlayerRepositoryExtensions
     {
         public static User Authenticate(string userName, string password)

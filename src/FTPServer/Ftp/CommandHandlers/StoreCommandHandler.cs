@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using WheelMUD.Ftp.General;
-
     public class StoreCommandHandler : FtpCommandHandler
     {
         private const int BufferSize = 65536;

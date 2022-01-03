@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.IO;
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using System.IO;
-    using WheelMUD.Ftp.General;
-
     public class CwdCommandHandler : FtpCommandHandler
     {
         public CwdCommandHandler(FtpConnectionObject connectionObject)

@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Server.Telnet
 {
-    using System;
-
     /// <summary>Class that handles the subnegotiation of an MSP (MUD Sound Protocol) telnet option code.</summary>
     /// <remarks>TODO: Implement; admins who choose to use this feature should have the telnet options part ready for them.</remarks>
     internal class TelnetOptionMSP : TelnetOption

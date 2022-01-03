@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using ServiceStack.OrmLite;
+using ServiceStack.OrmLite.Sqlite;
+using System.ComponentModel.Composition;
+using System.Data;
+using System.IO;
+
 namespace WheelMUD.Data.Sqlite
 {
-    using ServiceStack.OrmLite;
-    using ServiceStack.OrmLite.Sqlite;
-    using System.ComponentModel.Composition;
-    using System.Data;
-    using System.IO;
-
     /// <summary>ORMLite Sqlite provider for WheelMUD.</summary>
     [Export(typeof(IWheelMudRelationalDbProvider))]
     public class WheelMudSqliteProvider : IWheelMudRelationalDbProvider

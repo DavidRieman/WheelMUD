@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WarriorRogueMage
 {
-    using WheelMUD.Core;
-
     /// <summary>The attribute that represents the Warrior, Rogue, and Mage player roles.</summary>
     public abstract class WRMAttribute : GameAttribute
     {

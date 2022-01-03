@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Data;
+using WheelMUD.Main;
+
 namespace ServerHarness
 {
-    using System.Collections.Generic;
-    using WheelMUD.Data;
-    using WheelMUD.Main;
-
     [ExportServerHarnessCommand(0)]
     public class DebugExploreDocumentsCommand : IServerHarnessCommand
     {

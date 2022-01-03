@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Diagnostics;
+
 namespace WheelMUD.Ftp.General
 {
-    using System;
-    using System.Diagnostics;
-
     public sealed class ArrayHelpers
     {
         private ArrayHelpers()

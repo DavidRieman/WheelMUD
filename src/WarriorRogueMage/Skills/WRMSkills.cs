@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.Skills
 {
-    using WheelMUD.Core;
-
     /// <summary>Acrobatics Skill.</summary>
     [ExportGameSkill]
     public class SkillAcrobatics : WRMSkill

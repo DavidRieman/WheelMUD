@@ -4,12 +4,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using WheelMUD.ConnectionStates;
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.CharacterCreation
 {
-    using System;
-    using WheelMUD.ConnectionStates;
-    using WheelMUD.Core;
-
     /// <summary>Warrior, Rogue, Mage state machine for creating a new character.</summary>
     [ExportCharacterCreationStateMachine(100)]
     public class WRMCharacterCreationStateMachine : CharacterCreationStateMachine

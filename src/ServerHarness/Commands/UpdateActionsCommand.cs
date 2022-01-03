@@ -5,12 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+using WheelMUD.Main;
+
 namespace ServerHarness
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-    using WheelMUD.Main;
-
     /// <summary>Command to recompose (reload and update) the CommandManager Actions.</summary>
     [ExportServerHarnessCommand(0)]
     public class UpdateActionsCommand : IServerHarnessCommand

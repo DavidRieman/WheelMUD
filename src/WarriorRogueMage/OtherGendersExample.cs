@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WarriorRogueMage
 {
-    using WheelMUD.Core;
-
     /// <summary>Neuter Gender.</summary>
     /// <remarks>
     /// Technically we probably don't want these specific choices for players but so far this is here as an example

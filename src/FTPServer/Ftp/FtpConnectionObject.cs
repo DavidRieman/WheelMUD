@@ -5,15 +5,15 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections;
+using System.Net.Sockets;
+using System.Text;
+using WheelMUD.Ftp.FileSystem;
+using WheelMUD.Ftp.FtpCommands;
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp
 {
-    using System.Collections;
-    using System.Net.Sockets;
-    using System.Text;
-    using WheelMUD.Ftp.FileSystem;
-    using WheelMUD.Ftp.FtpCommands;
-    using WheelMUD.Ftp.General;
-
     /// <summary>Processes incoming messages and passes the data on to the relevant handler class.</summary>
     public class FtpConnectionObject : FtpConnectionData
     {

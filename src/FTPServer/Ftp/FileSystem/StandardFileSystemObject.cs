@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.IO;
+
 namespace WheelMUD.Ftp.FileSystem
 {
-    using System.IO;
-
     public class StandardFileSystemObject : IFileSystem
     {
         private string startDirectory = string.Empty;

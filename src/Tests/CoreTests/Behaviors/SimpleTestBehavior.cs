@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WheelMUD.Tests.Behaviors
 {
-    using WheelMUD.Core;
-
     /// <summary>Simple implementation of Behavior, for testing purposes.</summary>
     public class SimpleTestBehavior : Behavior
     {

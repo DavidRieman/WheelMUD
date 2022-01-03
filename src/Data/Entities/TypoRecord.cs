@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using ServiceStack.DataAnnotations;
+
 namespace WheelMUD.Data.Entities
 {
-    using ServiceStack.DataAnnotations;
-
     /// <summary>Represents a single Typo row in the Typo table.summary>
     [Alias("Typos")]
     public class TypoRecord : BaseRelationalRecord

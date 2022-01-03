@@ -5,14 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Net.Sockets;
+using System.Threading;
+using WheelMUD.Ftp.FileSystem;
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp
 {
-    using System;
-    using System.Net.Sockets;
-    using System.Threading;
-    using WheelMUD.Ftp.FileSystem;
-    using WheelMUD.Ftp.General;
-
     /// <summary>Contains the socket read functionality. Works on its own thread since all socket operation is blocking.</summary>
     public class FtpSocketHandler
     {

@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace WheelMUD.Tests
 {
-    using System;
-
     /// <summary>A background test thread, for stress testing purposes.</summary>
     public class BackgroundStressTestThread : BackgroundTestThread
     {

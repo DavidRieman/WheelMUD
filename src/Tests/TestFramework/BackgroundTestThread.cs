@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Threading;
+
 namespace WheelMUD.Tests
 {
-    using System;
-    using System.Threading;
-
     /// <summary>A background test thread, for testing purposes.</summary>
     public class BackgroundTestThread
     {

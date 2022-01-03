@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Core;
+
 namespace WarriorRogueMage.Skills
 {
-    using WheelMUD.Core;
-
     /// <summary>A WRM game skill.</summary>
     public class WRMSkill : GameSkill
     {

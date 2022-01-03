@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Data.Repositories;
+
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using WheelMUD.Data.Repositories;
-
     public class PasswordCommandHandler : FtpCommandHandler
     {
         public PasswordCommandHandler(FtpConnectionObject connectionObject)

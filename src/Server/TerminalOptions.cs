@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Server.Telnet;
+
 namespace WheelMUD.Server
 {
-    using WheelMUD.Server.Telnet;
-
     /// <summary>The terminal options used for a connection.</summary>
     public class TerminalOptions
     {

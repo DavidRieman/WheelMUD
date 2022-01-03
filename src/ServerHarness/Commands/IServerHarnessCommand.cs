@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Main;
+
 namespace ServerHarness
 {
-    using System.Collections.Generic;
-    using WheelMUD.Main;
-
     /// <summary>Interface for administrative server harness commands.</summary>
     public interface IServerHarnessCommand
     {

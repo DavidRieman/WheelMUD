@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using WheelMUD.Core;
+
 namespace WheelMUD.Universe
 {
-    using System.Collections.Generic;
-    using WheelMUD.Core;
-
     /// <summary>LiquidSourceBehavior adds the ability to act like a liquid source (River, fountain, faucet, etc).</summary>
     public class LiquidSourceBehavior : Behavior
     {

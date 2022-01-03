@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Ftp.General;
+
 namespace WheelMUD.Ftp.FtpCommands
 {
-    using WheelMUD.Ftp.General;
-
     /// <summary>Implements the RETR command.</summary>
     public class RetrCommandHandler : FtpCommandHandler
     {

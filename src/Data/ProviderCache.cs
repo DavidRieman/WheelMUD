@@ -5,13 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using System.Reflection;
+
 namespace WheelMUD.Data
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.ComponentModel.Composition.Hosting;
-    using System.Reflection;
-
     /// <summary>The ProviderCache manages discovery of the database providers (through MEF).</summary>
     public class ProviderCache
     {

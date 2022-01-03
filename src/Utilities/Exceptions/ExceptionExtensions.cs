@@ -5,11 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
+using System.Text;
+
 namespace WheelMUD.Utilities
 {
-    using System;
-    using System.Text;
-
     /// <summary>Extensions to the Exception class.</summary>
     public static class ExceptionExtensions
     {

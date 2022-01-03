@@ -5,10 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Utilities;
+
 namespace WheelMUD.Ftp.FileSystem
 {
-    using WheelMUD.Utilities;
-
     public class StandardFileSystemClassFactory : IFileSystemClassFactory
     {
         public IFileSystem Create(string user, string password)

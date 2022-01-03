@@ -5,15 +5,14 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
+using WheelMUD.Core;
 using WheelMUD.Utilities.Interfaces;
 
 namespace ServerHarness
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.Linq;
-    using WheelMUD.Core;
-
     public class ServerHarnessCommands : IRecomposable
     {
         /// <summary>Gets the singleton instance of the ServerHarnessCommands class.</summary>
