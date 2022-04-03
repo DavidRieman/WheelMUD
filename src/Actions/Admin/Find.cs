@@ -57,13 +57,13 @@ namespace WheelMUD.Actions
             }
             else
 			{
-                actionInput.Session?.WriteLine($" First argument must be 'id', 'keyword' or 'name'.");
+                actionInput.Session.WriteLine($" First argument must be 'id', 'keyword' or 'name'.");
                 return;
             }
 
             if (!thingFound)
             {
-                actionInput.Session?.WriteLine(
+                actionInput.Session.WriteLine(
                     $" No Things were found matching the given criteria: {string.Join(" ", actionInput.Params)}");
             }
         }
@@ -102,7 +102,7 @@ namespace WheelMUD.Actions
 
         private static void WriteOneThing(ActionInput input, Thing thing, bool isLast)
         {
-            input.Session?.WriteLine($" [{thing.Id}] - {thing.Name}", isLast);
+            input.Session.WriteLine($" [{thing.Id}] - {thing.Name}", isLast);
         }
 
         private static void WriteThingList(ActionInput input, IList<Thing> thingsList)
@@ -111,14 +111,14 @@ namespace WheelMUD.Actions
             {
                 if (thingsList.Count > 1)
                 {
-                    input.Session?.WriteLine($"A total of {thingsList.Count} Things were found:", false);
+                    input.Session.WriteLine($"A total of {thingsList.Count} Things were found:", false);
                 }
 
                 var totalToWrite = thingsList.Count;
 
                 if (totalToWrite > 100)
-                {
-                    input.Session?.WriteLine($"Too many Things found! Only the first 100 Things will be showed.");
+                }
+                    input.Session.WriteLine($"Too many Things found! Only the first 100 Things will be showed.");
                     totalToWrite = 100;
                 }
 

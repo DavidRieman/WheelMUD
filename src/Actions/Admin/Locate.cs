@@ -32,7 +32,7 @@ namespace WheelMUD.Actions
         {
             var entity = GetPlayerOrMobile(actionInput.Params[0]);
 
-            actionInput.Session?.WriteLine(
+            actionInput.Session.WriteLine(
                 entity != null ?
                     $"{entity.Name} is at {entity.Parent.Name} (ID {entity.Parent.Id})" :
                     $"You cant find {actionInput.Params[0]}.");
