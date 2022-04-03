@@ -22,36 +22,46 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.RequiresAtLeastOneArgument
+            CommonGuards.RequiresAtLeastOneArgument,
+            CommonGuards.InitiatorMustBeAPlayer
         };
 
         private static readonly ThingManager _thingManager = ThingManager.Instance;
 
         public override void Execute(ActionInput actionInput)
         {
-            var thingsList = new List<Thing>();
+            // To determine what type of find to use.
+            var findType = actionInput.Params[0];
+            // Find params from rest of Params array.
+            var findParams = actionInput.Params.Skip(1).ToArray();
+            // Set this to true if we find anyThing.
+            var thingFound = false;
 
-            foreach (var param in actionInput.Params)
+            if ("id".Contains(findType.ToLower()))
             {
-                if (!FindThingByID(param, ref thingsList))
+                if (TryFindThingByID(string.Join(" ", findParams), out var thing))
                 {
-                    FindThingsByName(param, ref thingsList);
+                    WriteOneThing(actionInput, thing, true);
+                    thingFound = true;
                 }
             }
-
-            if (thingsList.Count > 0)
+            else if ("keyword".Contains(findType.ToLower()))
             {
-                if (thingsList.Count > 1)
-                {
-                    actionInput.Session?.WriteLine($" A total of {thingsList.Count} Things were found:", false);
-                }
-
-                foreach (var thing in thingsList)
-                {
-                    actionInput.Session?.WriteLine($" [{thing.Id}] - {thing.Name}", thing == thingsList[thingsList.Count - 1]);
-                }
+                thingFound = TryFindThingsByKeyword(findParams, out var thingsList);
+                WriteThingList(actionInput, thingsList);
+            }
+            else if ("name".Contains(findType.ToLower()))
+            {
+                thingFound = TryFindThingsByName(findParams, out var thingsList);
+                WriteThingList(actionInput, thingsList);
             }
             else
+			{
+                actionInput.Session?.WriteLine($" First argument must be 'id', 'keyword' or 'name'.");
+                return;
+            }
+
+            if (!thingFound)
             {
                 actionInput.Session?.WriteLine(
                     $" No Things were found matching the given criteria: {string.Join(" ", actionInput.Params)}");
@@ -63,27 +73,60 @@ namespace WheelMUD.Actions
             return VerifyCommonGuards(actionInput, ActionGuards);
         }
 
-        private static bool FindThingByID(string ThingID, ref List<Thing> thingsList)
+        private static bool TryFindThingByID(string ThingID, out Thing thing)
         {
-            var thing = _thingManager.FindThing(ThingID);
+            thing = _thingManager.FindThing(ThingID);
 
-            if (thing != null)
-            {
-                thingsList.Add(thing);
-                return true;
-            }
-
-            return false;
+            return thing != null;
         }
 
-        private static void FindThingsByName(string ThingName, ref List<Thing> thingsList)
+        private static bool TryFindThingsByKeyword(string[] keywords, out IList<Thing> thingsList)
         {
-            var things = _thingManager.Find(
-                    thing => thing.Name.Contains(ThingName, StringComparison.InvariantCultureIgnoreCase));
-
-            if (things.Count > 0)
+            thingsList = _thingManager.Find((thing) =>
             {
-                thingsList.AddRange(things);
+                return thing.KeyWords.Intersect(keywords, StringComparer.InvariantCultureIgnoreCase).Any();
+            });
+
+            return thingsList.Count > 0;
+        }
+
+        private static bool TryFindThingsByName(string[] keywords, out IList<Thing> thingsList)
+        {
+            thingsList = _thingManager.Find(thing =>
+            {
+                return keywords.All(keyword => thing.Name.Contains(keyword, StringComparison.InvariantCultureIgnoreCase));
+            });
+
+            return thingsList.Count > 0;
+        }
+
+        private static void WriteOneThing(ActionInput input, Thing thing, bool isLast)
+        {
+            input.Session?.WriteLine($" [{thing.Id}] - {thing.Name}", isLast);
+        }
+
+        private static void WriteThingList(ActionInput input, IList<Thing> thingsList)
+        {
+            if (thingsList.Count > 0)
+            {
+                if (thingsList.Count > 1)
+                {
+                    input.Session?.WriteLine($"A total of {thingsList.Count} Things were found:", false);
+                }
+
+                var totalToWrite = thingsList.Count;
+
+                if (totalToWrite > 100)
+                {
+                    input.Session?.WriteLine($"Too many Things found! Only the first 100 Things will be showed.");
+                    totalToWrite = 100;
+                }
+
+                for (var thingIndex = 0; thingIndex < totalToWrite; thingIndex++)
+                {
+                    var listThing = thingsList[thingIndex];
+                    WriteOneThing(input, listThing, listThing == thingsList[thingsList.Count - 1]);
+                }
             }
         }
     }
