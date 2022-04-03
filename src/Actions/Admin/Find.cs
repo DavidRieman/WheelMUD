@@ -19,6 +19,8 @@ namespace WheelMUD.Actions
     [ActionSecurity(SecurityRole.minorBuilder)]
     public class Find : GameAction
     {
+        private const int MaxThings = 100;
+
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
@@ -30,38 +32,19 @@ namespace WheelMUD.Actions
 
         public override void Execute(ActionInput actionInput)
         {
-            // To determine what type of find to use.
-            var findType = actionInput.Params[0];
-            // Find params from rest of Params array.
-            var findParams = actionInput.Params.Skip(1).ToArray();
-            // Set this to true if we find anyThing.
-            var thingFound = false;
-
-            if ("id".Contains(findType.ToLower()))
+            if (TryFindThingByID(actionInput.Params[0], out var thing))
             {
-                if (TryFindThingByID(string.Join(" ", findParams), out var thing))
-                {
-                    WriteOneThing(actionInput, thing, true);
-                    thingFound = true;
-                }
+                WriteOneThing(actionInput, thing, true);
             }
-            else if ("keyword".Contains(findType.ToLower()))
+            else if (TryFindThingsByKeyword(actionInput.Params, out var thingsList))
             {
-                thingFound = TryFindThingsByKeyword(findParams, out var thingsList);
                 WriteThingList(actionInput, thingsList);
             }
-            else if ("name".Contains(findType.ToLower()))
+            else if (TryFindThingsByName(actionInput.Params, out thingsList))
             {
-                thingFound = TryFindThingsByName(findParams, out var thingsList);
                 WriteThingList(actionInput, thingsList);
             }
             else
-            {
-                actionInput.Session.WriteLine($" First argument must be 'id', 'keyword' or 'name'.");
-                return;
-            }
-
-            if (!thingFound)
             {
                 actionInput.Session.WriteLine(
                     $" No Things were found matching the given criteria: {string.Join(" ", actionInput.Params)}");
@@ -116,10 +99,10 @@ namespace WheelMUD.Actions
 
                 var totalToWrite = thingsList.Count;
 
-                if (totalToWrite > 100)
+                if (totalToWrite > MaxThings)
                 {
-                    input.Session.WriteLine($"Too many Things found! Only the first 100 Things will be showed.");
-                    totalToWrite = 100;
+                    input.Session.WriteLine($"Too many Things found! Showing only the first {MaxThings} Things.");
+                    totalToWrite = MaxThings;
                 }
 
                 for (var thingIndex = 0; thingIndex < totalToWrite; thingIndex++)
