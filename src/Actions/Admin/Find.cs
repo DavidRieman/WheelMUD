@@ -56,7 +56,7 @@ namespace WheelMUD.Actions
                 WriteThingList(actionInput, thingsList);
             }
             else
-			{
+            {
                 actionInput.Session.WriteLine($" First argument must be 'id', 'keyword' or 'name'.");
                 return;
             }
@@ -117,7 +117,7 @@ namespace WheelMUD.Actions
                 var totalToWrite = thingsList.Count;
 
                 if (totalToWrite > 100)
-                }
+                {
                     input.Session.WriteLine($"Too many Things found! Only the first 100 Things will be showed.");
                     totalToWrite = 100;
                 }
