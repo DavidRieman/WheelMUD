@@ -12,7 +12,7 @@ Others (such as Windows 8) should work; feel free to prepare a documentation upd
 
 ## Runtime Dependencies
 * [.NET Core 6.0+](https://dotnet.microsoft.com/en-us/download/dotnet/6.0). You generally want the "SDK (version number)" section. You do _not_ need the ASP.NET version!
-  - Exception: A machine which is only going to _run_ the server and not do development tasks, it only needs the smaller "Runtime" version.
+  - Exception: A machine which is only going to _run_ the server app and not perform other development tasks only needs the "Runtime" version.
 
 **Troubleshooting**: If you skip the .NET Core step or install the wrong one, RavenDB will crash with console output can feel misleading.
 Best to install this explicitly and carefully via the link above, to be certain you have a truly compatible version.
