@@ -34,7 +34,7 @@ namespace WheelMUD.Core
                 Description = "You are amidst a featureless void."
                 // TODO: Description should add advice for administrators as a mini-tutorial for getting started, e.g.
                 // * How to identify other areas that were loaded/created.
-                // * How to find a specific room via name (like a town square) and the room ID.
+                // * How to find a specific room via name (like a city square) and the room ID.
                 // * How to tunnel a one-way exit going from here to said room.
                 // * How to adjust the App.config to change the starting room.
             };

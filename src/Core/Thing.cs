@@ -274,6 +274,8 @@ namespace WheelMUD.Core
         }
 
         /// <summary>Gets the contextual commands for this thing.</summary>
+        /// <remarks>Does not persist directly: Reconstruction of our Behaviors is responsible for recreating all Context Commands.</remarks>
+        [JsonIgnore]
         public Dictionary<string, ContextCommand> Commands
         {
             get
