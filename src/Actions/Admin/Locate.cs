@@ -22,19 +22,20 @@ namespace WheelMUD.Actions
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
         private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
         {
-            CommonGuards.RequiresAtLeastOneArgument
+            CommonGuards.RequiresAtLeastOneArgument,
+            CommonGuards.InitiatorMustBeAPlayer
         };
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            var session = actionInput.Session;
-            if (session == null) return; // This action only makes sense for player sessions.
+            var entity = GetPlayerOrMobile(actionInput.Params[0]);
 
-            var entity = GetPlayerOrMobile(session.LastActionInput.Tail);
-
-            session.WriteLine(entity != null ? $"{entity.Name} is at {entity.Parent.Name} (ID {entity.Parent.Id})" : $"You cant find {session.LastActionInput.Tail}.");
+            actionInput.Session.WriteLine(
+                entity != null ?
+                    $"{entity.Name} is at {entity.Parent.Name} (ID {entity.Parent.Id})" :
+                    $"You cant find {actionInput.Params[0]}.");
         }
 
         /// <summary>Checks against the guards for the command.</summary>
