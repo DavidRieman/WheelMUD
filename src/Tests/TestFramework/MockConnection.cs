@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using WheelMUD.Core;
 using WheelMUD.Interfaces;
@@ -31,7 +32,7 @@ namespace TestHelpers
             set => throw new NotImplementedException();
         }
 
-        public System.Net.IPAddress CurrentIPAddress => throw new NotImplementedException();
+        public IPAddress CurrentIPAddress => throw new NotImplementedException();
 
         public OutputBuffer OutputBuffer
         {

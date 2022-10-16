@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using WheelMUD.Data.Repositories;
 using WheelMUD.Interfaces;
 using WheelMUD.Utilities.Interfaces;
@@ -31,7 +32,7 @@ namespace WheelMUD.Core
         private readonly object lockObject = new object();
 
         /// <summary>The additional context commands available to this thing.</summary>
-        private Dictionary<string, ContextCommand> contextCommands = new Dictionary<string, ContextCommand>();
+        private readonly Dictionary<string, ContextCommand> contextCommands = new Dictionary<string, ContextCommand>();
 
         /// <summary>The stats of this thing.</summary>
         private Dictionary<string, GameStat> stats = new Dictionary<string, GameStat>();
@@ -75,11 +76,28 @@ namespace WheelMUD.Core
 
         public ThingEventing Eventing { get; private set; }
 
+        /// <summary>Gets the unique persistence ID of this Thing, or null if we have not acquired one yet.</summary>
+        /// <remarks>See 'Id' for further details.</remarks>
+        public string PersistedId
+        {
+            get
+            {
+                lock (lockObject)
+                {
+                    return (string.IsNullOrEmpty(id) || id.EndsWith('/')) ? null : id;
+                }
+            }
+        }
+
         /// <summary>Gets or sets the unique ID of this thing.</summary>
+        /// <remarks>
+        /// A Document DB may expect this property to be cased exactly this way ("Id") for finding the DB identifier.
+        /// This property is NOT guaranteed to be unique; in fact it can be given a highly-reused value like "names/"
+        /// to indicate that, when persisted, we expect it to become a unique ID with that prefix.
+        /// For situations that require a unique ID (or null if not ready), you may need to read PersistenceId instead!
+        /// </remarks>
         public string Id
         {
-            // The ID should be a unique ID as per the DB, while getting persisted.
-            // TODO: Thing may also get a TemplateID added as we work out the templating story...
             get
             {
                 // Avoid races with retrieving ID while it is in the process of changing.
@@ -100,6 +118,14 @@ namespace WheelMUD.Core
                     }
                 }
             }
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
+        {
+            // If we have just finished loading this Thing, then it is time to let any listeners know.
+            // E.G. there may be a MultipleParentsBehavior whose other half loaded but have been waiting for us too.
+            ThingManager.Instance.AnnounceLoadedThing(this);
         }
 
         /// <summary>Gets or sets the words that can be used to interact with this object.</summary>
@@ -273,8 +299,8 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>Gets the contextual commands for this thing.</summary>
-        /// <remarks>Does not persist directly: Reconstruction of our Behaviors is responsible for recreating all Context Commands.</remarks>
+        /// <summary>Gets the contextual commands for this Thing.</summary>
+        /// <remarks>Reconstruction of our Behaviors should be responsible for recreating their own Context Commands, to avoid temporary commands possibly leaking forever.</remarks>
         [JsonIgnore]
         public Dictionary<string, ContextCommand> Commands
         {
@@ -399,6 +425,7 @@ namespace WheelMUD.Core
         {
             var newThing = new Thing();
             newThing.CloneProperties(this);
+            newThing.TemplateId = Id;
             return newThing;
         }
 

@@ -6,6 +6,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\WheelMUD.Core.csproj" />
     <ProjectReference Include="..\..\Server\WheelMUD.Server.csproj" />
   </ItemGroup>
 </Project>

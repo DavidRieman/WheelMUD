@@ -35,25 +35,43 @@ namespace WheelMUD.Actions
 
         private string tunnelDir;
 
+        /// <summary>
+        /// Provides a reusable means for code to tunnel exists.
+        /// Useful for this command itself, but also for base area creation code, randomized instanced area mazes, etc.
+        /// </summary>
+        /// <param name="actionInput"></param>
+        public static void TwoWay(Thing fromThing, string tunnelDirection, Thing toThing)
+        {
+            // Exits persistence depends on room IDs to be effective. (Exits that don't have an ID after deserializing
+            // will just get deleted.) So it is best to minimize attachment of exits against unsaved rooms. As such, we
+            // will automatically try to save any room with no ID that we are going to attach to, BEFORE we start to
+            // attach the exit to it (to avoid save loop complexity). Targets still will not always have an Id. For
+            // example, ephemeral rooms (Persistence=false) might be used for instancing or random mazes and such: In
+            // such cases, indeed, we don't want to persist the exits that just get created at new-instancing-time or
+            // at maze-randomization-time as those pieces of code should be reattaching the exits when they are ready.
+            if (fromThing.Id == null) { fromThing.Save(); }
+            if (toThing.Id == null) { toThing.Save(); }
+
+            var exitBehavior = new ExitBehavior();
+            var mirrorDirection = ExitBehavior.MirrorDirectionMap[tunnelDirection];
+            exitBehavior.AddDestination(tunnelDirection, toThing);
+            exitBehavior.AddDestination(mirrorDirection, fromThing);
+
+            // Attach the new two-way exit to both locations. Persist with a specific "exits/" prefix.
+            var exit = new Thing(new MultipleParentsBehavior(), exitBehavior) { Id = "exits/" };
+            fromThing.Add(exit);
+            toThing.Add(exit);
+
+            fromThing.Save();
+            toThing.Save();
+        }
+
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            var exitBehavior = new ExitBehavior();
-            var from = actionInput.Actor.Parent;
-
-            var mirrorDir = ExitBehavior.MirrorDirectionMap[tunnelDir];
-            exitBehavior.AddDestination(tunnelDir, target.Id);
-            exitBehavior.AddDestination(mirrorDir, from.Id);
-
-            // Attach the new two-way exit to both locations.
-            var exit = new Thing(new MultipleParentsBehavior(), exitBehavior);
-            from.Add(exit);
-            target.Add(exit);
+            TwoWay(actionInput.Actor.Parent, tunnelDir, target);
             actionInput.Session.WriteLine($"Created exit {tunnelDir} to {target.Name} ({target.Id}) and back.");
-
-            from.Save();
-            target.Save();
         }
 
         /// <summary>Prepare for, and determine if the command's prerequisites have been met.</summary>

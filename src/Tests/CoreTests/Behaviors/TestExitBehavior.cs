@@ -37,7 +37,7 @@ namespace WheelMUD.Tests.Behaviors
         {
             // Put the exit in room A only, and register an exit command to travel one way.
             roomA.Add(exit);
-            exitBehavior.AddDestination("east", roomB.Id);
+            exitBehavior.AddDestination("east", roomB);
 
             // Ensure the exit is rigged up to the correct location now, but does not work the other way around.
             Assert.AreSame(exitBehavior.GetDestination(roomA), roomB);
@@ -77,8 +77,8 @@ namespace WheelMUD.Tests.Behaviors
             Assert.AreSame(exitBehavior.GetDestination(roomB), null);
 
             // Rig the exits and ensure both got rigged up to the correct destinations.
-            exitBehavior.AddDestination("north", roomB.Id);
-            exitBehavior.AddDestination("south", roomA.Id);
+            exitBehavior.AddDestination("north", roomB);
+            exitBehavior.AddDestination("south", roomA);
             Assert.AreSame(exitBehavior.GetDestination(roomA), roomB);
             Assert.AreSame(exitBehavior.GetDestination(roomB), roomA);
 

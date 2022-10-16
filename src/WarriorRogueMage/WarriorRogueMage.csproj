@@ -14,6 +14,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Actions\WheelMUD.Actions.csproj" />
     <ProjectReference Include="..\ConnectionStates\WheelMUD.ConnectionStates.csproj" />
     <ProjectReference Include="..\Core\WheelMUD.Core.csproj" />
     <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj" />

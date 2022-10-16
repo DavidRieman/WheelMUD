@@ -36,6 +36,7 @@ namespace WheelMUD.Actions
             if (session == null) return; // This action only makes sense for player sessions.
 
             // If input is a simple number, assume we mean a room
+            // TODO: IMPROVE TARGETING!
             var targetPlace = int.TryParse(actionInput.Tail, out var roomNum) ? ThingManager.Instance.FindThing("room/" + roomNum) : ThingManager.Instance.FindThingByName(actionInput.Tail, false, true);
 
             if (targetPlace == null)

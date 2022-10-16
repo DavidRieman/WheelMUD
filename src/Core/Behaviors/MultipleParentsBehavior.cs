@@ -13,10 +13,10 @@ using System.Linq;
 namespace WheelMUD.Core
 {
     /// <summary>Allows the attached Thing to have multiple parents; that is, to 'be in multiple places' at once.</summary>
-    /// <remarks>Particularly useful for things like 'two-way exits' which are accessible/interactable in both locations.</remarks>
+    /// <remarks>Particularly useful for things like two-way exits which are accessible/interactive in both locations.</remarks>
     public class MultipleParentsBehavior : Behavior
     {
-        private List<string> pendingParentIds = new List<string>();
+        private readonly List<string> pendingParentIds = new List<string>();
 
         /// <summary>Initializes a new instance of the MultipleParentsBehavior class.</summary>
         public MultipleParentsBehavior()
@@ -31,6 +31,19 @@ namespace WheelMUD.Core
             : base(instanceProperties)
         {
             ID = instanceID;
+        }
+
+        private void AttachPendingParents(Thing thing)
+        {
+            if (pendingParentIds.Contains(thing.Id))
+            {
+                SecondaryParents.Add(thing);
+                pendingParentIds.Remove(thing.Id);
+                if (!pendingParentIds.Any())
+                {
+                    ThingManager.Instance.ThingLoaded -= AttachPendingParents;
+                }
+            }
         }
 
         /// <summary>
@@ -65,6 +78,7 @@ namespace WheelMUD.Core
                         else
                         {
                             pendingParentIds.Add(id);
+                            ThingManager.Instance.ThingLoaded += AttachPendingParents;
                         }
                     }
                 }

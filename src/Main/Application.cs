@@ -273,7 +273,8 @@ namespace WheelMUD.Main
             Notify("Starting Application.");
 
             // Add environment variables needed by the program.
-            VariableProcessor.Set("app.path", AppDomain.CurrentDomain.BaseDirectory);
+// WHY? EXPLAIN IF NEEDED            VariableProcessor.Set("app.path", AppDomain.CurrentDomain.BaseDirectory);
+// OR DELETE VariableProcessor FOR NOW?
 
             // Find and prepare all the application's most recent systems from those discovered by MEF.
             var systemExporters = GetLatestSystems();

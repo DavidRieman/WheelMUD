@@ -7,30 +7,48 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
+using WheelMUD.Core.Behaviors;
 using WheelMUD.Utilities;
 
 namespace WheelMUD.Core
 {
     /// <summary>
-    /// An ExitBehavior allows a Thing to be used as an exit to another location.  ExitBehavior can be 
-    /// used in a couple of ways to recreate typical MUD exits (in addition to other advanced usages):
+    /// An ExitBehavior allows a Thing to be used as an exit to another location.
+    /// ExitBehavior can be used in a couple of ways to recreate these typical MUD exit behaviors:
     /// 1) To make a one-way exit: place ExitBehavior on a Thing which resides at the source location,
     ///    specifying the [direction, destinationID] pair.
     /// 2) To make a two-way exit: place ExitBehavior and a MultipleParentsBehavior on a Thing in order
     ///    to place the exit in both locations, and specify two [direction, destinationID] pairs which 
     ///    point to their respective target locations.
     /// </summary>
+    /// <remarks>
+    /// Note that ExitBehavior persistence is customized to reduce the scope and timing implications of chained world
+    /// loading. We will retain cached weak references to target exits, but the destination Thing Id fields will be
+    /// what we persist. (We don't want to accidentally force referenced rooms to persist and load with us even though
+    /// such a room might have Persistence=false to be ephemeral. Thus, if an ExitBehavior has a destination that can
+    /// not gain an Id then that destination will not be linked back up from deserializing the ExitBehavior.
+    /// TODO: Also note what happens at runtime when trying to use an exit that cannot find the target at runtime,
+    ///       perhaps this should give the user a message like "You cannot find your way to the destination..." which
+    ///       could happen if the ID was noted but said thing has since been deleted or failed to load with the world.
+    /// </remarks>
     public class ExitBehavior : Behavior
     {
-        // TODO: Add attribute and persistence code to save certain marked private properties like this;
-        //       IE we don't want to expose the whole dictionary publicly since we have things to do
-        //       while rigging up new destinations.
-        private List<DestinationInfo> destinations;
-
         /// <summary>The context command handler for this exit.</summary>
         private readonly ExitBehaviorCommands commands;
+
+        private List<ExitDestinationInfo> Destinations { get; set; } = new List<ExitDestinationInfo>();
+
+        [OnDeserialized]
+        internal void OnDeserialized(StreamingContext context)
+        {
+            var invalidDestinations = (from d in Destinations where d.TargetID == null select d).ToList();
+            foreach (var invalid in invalidDestinations)
+            {
+                Destinations.Remove(invalid);
+            }
+        }
 
         /// <summary>Initializes a new instance of the ExitBehavior class.</summary>
         public ExitBehavior() : base(null)
@@ -50,15 +68,35 @@ namespace WheelMUD.Core
 
         /// <summary>Adds the destination.</summary>
         /// <param name="movementCommand">The movement command.</param>
-        /// <param name="destinationID">The destination ID.</param>
-        public void AddDestination(string movementCommand, string destinationID)
+        /// <param name="destination">The destination Thing.</param>
+        public void AddDestination(string movementCommand, Thing destination)
         {
             movementCommand = NormalizeDirection(movementCommand);
 
-            var existingDestination = (from d in destinations where d.TargetID == destinationID select d).FirstOrDefault();
+            // For simplicity, a standard two-way exit will only support up to two destinations, which must be mirrors.
+            // E.G. if you want two rooms where you go "east" from A to B but then still "east" to get from B to A, you
+            // will want to use a different solution (such as one-way exits). If we try to support too many weird edge
+            // cases for a single ExitBehavior instance, the code would get really hard to reason about and maintain.
+            // (If you REALLY need this because, for example, you also need a shared door on the weird exit, perhaps
+            // you can create and add maintain a one-off version of ExitBehavior supporting the scenarios you need, in
+            // a game-specific code area.)
+            // So, first, figure out if we need to replace an existing destination (by removing the old one first).
+            // * We do this if this behavior already as the same direction added. E.G. AddDestination of "east" when we
+            //   already have an "east" for this behavior will replace the old link.
+            // * We do this if the target destination is already in the list as well. E.G. if we already had an "east"
+            //   going to "thing/a", but are adding a "south" to "thing/a", this behavior will replace the old link.
+            var existingDestination = (from d in Destinations
+                                       where d.ExitCommand == movementCommand || d.CachedTarget.Target == destination
+                                       select d).FirstOrDefault();
             if (existingDestination == null)
             {
-                destinations.Add(new DestinationInfo(movementCommand.ToLower(), destinationID));
+                Destinations.Remove(existingDestination);
+            }
+
+            // Then only add the new destination if it is not exceeding our supported range (1-2 targets).
+            if (Destinations.Count < 2)
+            {
+                Destinations.Add(new ExitDestinationInfo(movementCommand.ToLower(), destination));
             }
         }
 
@@ -68,7 +106,7 @@ namespace WheelMUD.Core
         public Thing GetDestination(Thing fromLocation)
         {
             // Find the first destination info that doesn't match this location.
-            var destinationInfo = (from d in destinations
+            var destinationInfo = (from d in Destinations
                                    where d.TargetID != fromLocation.Id
                                    select d).FirstOrDefault();
 
@@ -113,7 +151,7 @@ namespace WheelMUD.Core
             }
 
             // Find the target location to be reached from here.
-            DestinationInfo destinationInfo = GetDestinationFrom(thingToMove.Parent.Id);
+            var destinationInfo = GetDestinationFrom(thingToMove.Parent.Id);
             if (destinationInfo == null)
             {
                 // There was no destination reachable from the thing's starting location.
@@ -171,20 +209,13 @@ namespace WheelMUD.Core
             // context command for that place to reach the other.
             if (Parent.Parent != null)
             {
-                // TODO: Reuse the same functionality as the movement event handler for command rigging (if we can).
-                ParentMovementEventHandler(Parent, null);
+                var e = new AddChildEvent(Parent, Parent.Parent);
+                ParentMovementEventHandler(Parent, e);
             }
 
             // Rig up to the parent (exit) Thing's 'moved' events so we can fix the exit targets back up (or
             // rig them up the first time if it didn't yet have such a parent).
             Parent.Eventing.MovementEvent += ParentMovementEventHandler;
-
-            Thing initialPlace = Parent.Parent;
-            if (initialPlace != null)
-            {
-                // If the thing we already added the behavior to is already within something, add the initial exit command(s).
-                AddExitContextCommands(initialPlace);
-            }
 
             base.OnAddBehavior();
         }
@@ -192,7 +223,7 @@ namespace WheelMUD.Core
         /// <summary>Called when the current parent of this behavior is about to be removed. (Refer to Parent)</summary>
         protected override void OnRemoveBehavior()
         {
-            // When removing this behavior from a thing, we need to unrig any context commands we added to it.
+            // When removing this behavior from a thing, we need to also remove any context commands we added to it.
             string commandText = GetExitCommandFrom(Parent);
             if (!string.IsNullOrEmpty(commandText))
             {
@@ -205,7 +236,6 @@ namespace WheelMUD.Core
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            destinations = new List<DestinationInfo>();
         }
 
         /// <summary>Handle the events of our parent moving; need to adjust our exit context commands and such.</summary>
@@ -244,13 +274,15 @@ namespace WheelMUD.Core
             if (!string.IsNullOrEmpty(mainExitCommand))
             {
                 var contextCommand = new ContextCommand(commands, mainExitCommand, ContextAvailability.ToChildren, SecurityRole.all);
-                // TODO: OLC should take care to avoid duplicate exits in a room, but we might need more advanced protections to prevent needing
-                //       multiple context commands of the same alias from having to be attached to one Thing. (Try to keep fast command-finding.)
-                Debug.Assert(!location.Commands.ContainsKey(mainExitCommand), "The Thing this ExitBehavior attached to already had command: " + mainExitCommand);
-                location.Commands.Add(mainExitCommand, contextCommand);
-                if (!string.IsNullOrEmpty(secondExitAlias))
+                // The process for repairing the parents of loaded behaviors can result in attempting to double-attach
+                // in some contexts (but not others). If the location already has the same command, for now we will
+                // assume it was also for this behavior and we don't need to attach again.
+                if (!location.Commands.ContainsKey(mainExitCommand))
                 {
-                    Debug.Assert(!location.Commands.ContainsKey(secondExitAlias), "The Thing this ExitBehavior attached to already had command: " + secondExitAlias);
+                    location.Commands.Add(mainExitCommand, contextCommand);
+                }
+                if (!string.IsNullOrEmpty(secondExitAlias) && !location.Commands.ContainsKey(secondExitAlias))
+                {
                     location.Commands.Add(secondExitAlias, contextCommand);
                 }
             }
@@ -322,9 +354,9 @@ namespace WheelMUD.Core
         /// <summary>Get the DestinationInfo for the destination, as if going through this exit from the specified ID.</summary>
         /// <param name="originID">The origin ID to find a destination for.</param>
         /// <returns>A destination for the specified origin Thing ID.</returns>
-        private DestinationInfo GetDestinationFrom(string originID)
+        private ExitDestinationInfo GetDestinationFrom(string originID)
         {
-            return (from d in destinations where originID != d.TargetID select d).FirstOrDefault();
+            return (from d in Destinations where originID != d.TargetID select d).FirstOrDefault();
         }
 
         /// <summary>A command handler for this exit's context commands.</summary>
@@ -376,29 +408,6 @@ namespace WheelMUD.Core
 
                 return null;
             }
-        }
-
-        /// <summary>Information about an exit's destination.</summary>
-        private class DestinationInfo
-        {
-            /// <summary>Initializes a new instance of the DestinationInfo class.</summary>
-            /// <param name="command">The command which is used to reach the target destination.</param>
-            /// <param name="targetID">The ID of the target destination.</param>
-            public DestinationInfo(string command, string targetID)
-            {
-                ExitCommand = command;
-                TargetID = targetID;
-                CachedTarget = new SimpleWeakReference<Thing>(null);
-            }
-
-            /// <summary>Gets or sets the command which is used to reach the target destination.</summary>
-            public string ExitCommand { get; set; }
-
-            /// <summary>Gets or sets the ID of the target destination.</summary>
-            public string TargetID { get; set; }
-
-            /// <summary>Gets or sets the cached destination thing.</summary>
-            public SimpleWeakReference<Thing> CachedTarget { get; set; }
         }
     }
 }

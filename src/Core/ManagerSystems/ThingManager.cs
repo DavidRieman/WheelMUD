@@ -24,6 +24,9 @@ namespace WheelMUD.Core
     /// </remarks>
     public class ThingManager : ManagerSystem
     {
+        /// <summary>A delegate for announcing a simple event related to a thing (such as having finished loading).</summary>
+        public delegate void ThingEventHandler(Thing thing);
+
         /// <summary>The singleton instance of this class.</summary>
         private static readonly Lazy<ThingManager> SingletonInstance = new Lazy<ThingManager>(() => new ThingManager());
 
@@ -37,6 +40,9 @@ namespace WheelMUD.Core
         {
             StartPendingLoadWorker();
         }
+
+        /// <summary>A non-canceled movement event.</summary>
+        public event ThingEventHandler ThingLoaded;
 
         /// <summary>Gets the singleton <see cref="ThingManager"/> instance.</summary>
         public static ThingManager Instance => SingletonInstance.Value;
@@ -238,6 +244,11 @@ namespace WheelMUD.Core
             things.TryRemove(newId, out removedThingNewId);
 
             return things.TryAdd(newId, updatedThing);
+        }
+
+        public void AnnounceLoadedThing(Thing thing)
+        {
+            ThingLoaded?.Invoke(thing);
         }
 
         /// <summary>Exporter for MEF.</summary>

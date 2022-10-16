@@ -5,6 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Actions;
 using WheelMUD.Core;
 
 namespace WarriorRogueMage.Creators
@@ -12,9 +13,9 @@ namespace WarriorRogueMage.Creators
     [CreatorExports.Area(0)]
     public class StartingCityAreaCreator : CreatorDefinitions.Area
     {
-        public override string ID => "area/wrmStartingCity";
+        public override string ID => "areas/wrmStartingCity";
 
-        public override Thing Create()
+        public override Thing Create(/*Action<Thing> saveAreaProgress*/)
         {
             var area = new Thing(new AreaBehavior())
             {
@@ -44,13 +45,10 @@ namespace WarriorRogueMage.Creators
             };
             area.Add(roomMainRoadW);
 
-            var exitMainRoadE = new Thing(new ExitBehavior(), new MultipleParentsBehavior());
-            roomCitySquare.Add(exitMainRoadE);
-            roomMainRoadE.Add(exitMainRoadE);
-
-            var exitMainRoadW = new Thing(new ExitBehavior(), new MultipleParentsBehavior());
-            roomCitySquare.Add(exitMainRoadW);
-            roomMainRoadW.Add(exitMainRoadW);
+            // The area, including the rooms, needs to be persisted before exits are added, so that the exit handlers
+            // can simply work with only room IDs instead of 
+            Tunnel.TwoWay(roomCitySquare, "east", roomMainRoadE); 
+            Tunnel.TwoWay(roomCitySquare, "west", roomMainRoadW);
 
             // @@@ TEMP TEST FOR PERSISTENCE EFFECTS @@@
             //var exitTest = new Thing(new ExitBehavior(), new MultipleParentsBehavior());

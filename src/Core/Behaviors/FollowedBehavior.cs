@@ -41,12 +41,11 @@ namespace WheelMUD.Core
 
         /// <summary>Gets the list of followers.</summary>
         [JsonIgnore]
-        public virtual HashSet<Thing> Followers { get; private set; }
+        public virtual HashSet<Thing> Followers { get; private set; } = new HashSet<Thing>();
 
         /// <summary>Sets the default properties of this behavior instance.</summary>
         protected override void SetDefaultProperties()
         {
-            Followers = new HashSet<Thing>();
         }
     }
 }

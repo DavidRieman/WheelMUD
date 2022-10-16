@@ -17,14 +17,14 @@ namespace WheelMUD.Actions.Tests
         private MockConnection mockConnection;
         private Session session;
         private Thing actor;
-        private Drop drop;
+        private Tunnel drop;
 
         [TestInitialize]
         public void Init()
         {
             mockConnection = new MockConnection();
             session = new Session(mockConnection);
-            drop = new Drop();
+            drop = new Tunnel();
             actor = new Thing();
             actor.AddTo(new Thing());
         }

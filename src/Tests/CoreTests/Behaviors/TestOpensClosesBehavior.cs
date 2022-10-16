@@ -147,8 +147,8 @@ namespace WheelMUD.Tests.Behaviors
 
             // Rig up behaviors so the actor can move, and move from one A to B, and from B to A.
             actingThing.Behaviors.Add(new MovableBehavior());
-            exitBehaviorA.AddDestination("toB", roomB.Id);
-            exitBehaviorB.AddDestination("toA", roomA.Id);
+            exitBehaviorA.AddDestination("toB", roomB);
+            exitBehaviorB.AddDestination("toA", roomA);
 
             // Ensure that the actingThing cannot move through either exit while it is in default (closed) state.
             roomA.Add(actingThing);

@@ -19,24 +19,27 @@ namespace WheelMUD.Core
         {
             var world = new Thing(new WorldBehavior())
             {
-                Id = "world/root",
+                Id = "worlds/root",
                 Name = "The World"
             };
             var defaultArea = new Thing(new AreaBehavior())
             {
-                Id = "area/foundation",
+                Id = "areas/foundation",
                 Name = "Foundation"
             };
             var firstRoom = new Thing(new RoomBehavior())
             {
-                Id = "thing/void",
+                Id = "rooms/void",
                 Name = "The Void",
-                Description = "You are amidst a featureless void."
+                Description = "You are amidst a featureless void. Players whose saved rooms cannot be found will end " +
+                    "up loading here, assuming it is configured in App.config as the default room. For now, WheelMUD " +
+                    "administrators logging in for the first time should familiarize with these first commands: " +
+                    "'find city' will list rooms with that keyword, and then take the ID printed for City Square to " +
+                    "'tunnel d (id)' to try out your first OLC command."
                 // TODO: Description should add advice for administrators as a mini-tutorial for getting started, e.g.
                 // * How to identify other areas that were loaded/created.
-                // * How to find a specific room via name (like a city square) and the room ID.
-                // * How to tunnel a one-way exit going from here to said room.
-                // * How to adjust the App.config to change the starting room.
+                // * Improve the appearance of the output.
+                // * Helpful help commands.
             };
             defaultArea.Add(firstRoom);
             world.Add(defaultArea);

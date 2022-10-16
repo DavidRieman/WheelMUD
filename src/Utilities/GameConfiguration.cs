@@ -9,6 +9,7 @@ using System;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
+using WindowsShortcutFactory;
 
 namespace WheelMUD.Utilities
 {
@@ -50,6 +51,26 @@ namespace WheelMUD.Utilities
             string rootPath = Path.Combine(root, "WheelMUD");
             string gamePath = Path.Combine(rootPath, GameConfiguration.Name);
             DataStoragePath = gamePath;
+
+            EnsureGameDataShortcut(Path.GetDirectoryName(assembly.Location), gamePath);
+        }
+
+        private static void EnsureGameDataShortcut(string fromPath, string gameDataPath)
+        {
+            // Ensure we have a shortcut from our run directory to our data directory. This will help developers to
+            // find the data quickly.
+            string shortcutFilePath = Path.Combine(fromPath, "_WheelMUD_DataFolder.lnk");
+            if (!File.Exists(shortcutFilePath))
+            {
+                using (var shortcut = new WindowsShortcut
+                {
+                    Path = gameDataPath,
+                    Description = "Link to runtime WheelMUD data folder."
+                })
+                {
+                    shortcut.Save(shortcutFilePath);
+                }
+            }
         }
 
         /// <summary>Gets or sets the copyright for this MUD.</summary>
