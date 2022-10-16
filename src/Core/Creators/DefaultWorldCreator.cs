@@ -19,7 +19,12 @@ namespace WheelMUD.Core
         {
             var world = new Thing(new WorldBehavior())
             {
-                Id = "worlds/root",
+                // The only non-plural ID, as there should only ever be one.
+                // TODO: Refer to via a shared Core static rather than multiple "world/root" strings across the code...
+                // If you want thematic "worlds" that have areas, you might probably actually want to represent them as
+                // areas of areas (Thing with AreaBehavior that has Children Things with AreaBehavior) as WorldBehavior
+                // is meant to be the single point we start the game world loading process.
+                Id = "world/root",
                 Name = "The World"
             };
             var defaultArea = new Thing(new AreaBehavior())
