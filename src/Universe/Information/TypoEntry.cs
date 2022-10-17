@@ -70,7 +70,8 @@ namespace WheelMUD.Universe.Information
         /// <summary>Save the typo to the database.</summary>
         public void Save()
         {
-            var typoRepository = new RelationalRepository<TypoRecord>();
+            // TODO: https://github.com/DavidRieman/WheelMUD/issues/155: Change Typo to simpler Document DB storage.
+            /*var typoRepository = new RelationalRepository<TypoRecord>();
 
             var typoRecord = new TypoRecord
             {
@@ -101,7 +102,7 @@ namespace WheelMUD.Universe.Information
             else
             {
                 typoRepository.Update(typoRecord);
-            }
+            }*/
         }
     }
 }

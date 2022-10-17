@@ -26,7 +26,6 @@
          fail to load their own dependencies now that we're upgraded to .NET Core, even after a full solution
          rebuild (which ought to be getting all dependencies copied into the binDebug or binRelease folder). -->
     <ProjectReference Include="..\Data.RavenDb\WheelMUD.Data.RavenDb.csproj" />
-    <ProjectReference Include="..\Data.Sqlite\WheelMUD.Data.Sqlite.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />

@@ -20,9 +20,6 @@ namespace WheelMUD.Data
             PopulateProvierCache();
         }
 
-        [ImportMany(typeof(IWheelMudRelationalDbProvider))]
-        public List<IWheelMudRelationalDbProvider> RelationalDatabaseProviders { get; set; }
-
         [ImportMany(typeof(IWheelMudDocumentStorageProvider))]
         public List<IWheelMudDocumentStorageProvider> DocumentStorageProviders { get; set; }
 

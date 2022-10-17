@@ -19,7 +19,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ServiceStack.OrmLite.Core" Version="6.3.0" />
+    <PackageReference Include="ServiceStack.OrmLite.Core" Version="6.4.0" />
     <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
     <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj" />
