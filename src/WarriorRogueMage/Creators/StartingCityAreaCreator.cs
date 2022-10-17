@@ -26,6 +26,7 @@ namespace WarriorRogueMage.Creators
             // Add more WRM thematic flavor here...
             var roomCitySquare = new Thing(new RoomBehavior())
             {
+                Id = "rooms|",
                 Name = "City Square",
                 Description = "You stand amidst a bustling medieval city..."
             };
@@ -33,6 +34,7 @@ namespace WarriorRogueMage.Creators
 
             var roomMainRoadE = new Thing(new RoomBehavior())
             {
+                Id = "rooms|",
                 Name = "Main Street E",
                 Description = "You are just east of the main city square...",
             };
@@ -40,6 +42,7 @@ namespace WarriorRogueMage.Creators
 
             var roomMainRoadW = new Thing(new RoomBehavior())
             {
+                Id = "rooms|",
                 Name = "Main Street W",
                 Description = "You are just west of the main city square...",
             };
@@ -47,13 +50,8 @@ namespace WarriorRogueMage.Creators
 
             // The area, including the rooms, needs to be persisted before exits are added, so that the exit handlers
             // can simply work with only room IDs instead of 
-            Tunnel.TwoWay(roomCitySquare, "east", roomMainRoadE); 
+            Tunnel.TwoWay(roomCitySquare, "east", roomMainRoadE);
             Tunnel.TwoWay(roomCitySquare, "west", roomMainRoadW);
-
-            // @@@ TEMP TEST FOR PERSISTENCE EFFECTS @@@
-            //var exitTest = new Thing(new ExitBehavior(), new MultipleParentsBehavior());
-            //roomCitySquare.Add(exitTest);
-            //ThingManager.Instance.FindThing("area/foundation").Children.First().Add(exitTest);
 
             return area;
         }

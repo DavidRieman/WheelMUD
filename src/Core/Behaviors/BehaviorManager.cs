@@ -26,6 +26,7 @@ namespace WheelMUD.Core
 
         /// <summary>Gets the parent (container) of this instance.</summary>
         /// <value>The parent.</value>
+        [JsonIgnore]
         public Thing Parent { get; private set; }
 
         /// <summary>Gets a snapshot of all managed behaviors.</summary>

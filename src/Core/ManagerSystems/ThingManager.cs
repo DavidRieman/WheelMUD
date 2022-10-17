@@ -101,12 +101,14 @@ namespace WheelMUD.Core
                     {
                         if (pendingChildLoads.Any())
                         {
+                            // Every loaded Thing will queue loading each of its children. However, some of those
+                            // children may actually have multiple parents. If a Thing asked us to load a child, but
+                            // that child ID has already been loaded, we need to reuse the loaded instance instead.
                             (Thing parent, string childID) = pendingChildLoads.Dequeue();
-                            var loadedChild = DocumentRepository<Thing>.Load(childID);
-                            if (loadedChild != null)
+                            var childToAttach = FindThing(childID) ?? DocumentRepository<Thing>.Load(childID);
+                            if (childToAttach != null)
                             {
-                                parent.Add(loadedChild);
-                                loadedChild.RepairParentTree();
+                                parent.Add(childToAttach);
                             }
 
                             nextDelay = 0; // If we had work to do, don't wait long to check for the next batch too.

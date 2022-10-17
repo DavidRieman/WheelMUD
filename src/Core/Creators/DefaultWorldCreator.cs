@@ -40,7 +40,7 @@ namespace WheelMUD.Core
                     "up loading here, assuming it is configured in App.config as the default room. For now, WheelMUD " +
                     "administrators logging in for the first time should familiarize with these first commands: " +
                     "'find city' will list rooms with that keyword, and then take the ID printed for City Square to " +
-                    "'tunnel d (id)' to try out your first OLC command."
+                    "'tunnel d rooms/1' (for example) to try out your first OLC command."
                 // TODO: Description should add advice for administrators as a mini-tutorial for getting started, e.g.
                 // * How to identify other areas that were loaded/created.
                 // * Improve the appearance of the output.

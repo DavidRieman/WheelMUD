@@ -49,19 +49,21 @@ namespace WheelMUD.Actions
             // example, ephemeral rooms (Persistence=false) might be used for instancing or random mazes and such: In
             // such cases, indeed, we don't want to persist the exits that just get created at new-instancing-time or
             // at maze-randomization-time as those pieces of code should be reattaching the exits when they are ready.
-            if (fromThing.Id == null) { fromThing.Save(); }
-            if (toThing.Id == null) { toThing.Save(); }
+            if (fromThing.PersistedId == null) { fromThing.Save(); }
+            if (toThing.PersistedId == null) { toThing.Save(); }
 
             var exitBehavior = new ExitBehavior();
             var mirrorDirection = ExitBehavior.MirrorDirectionMap[tunnelDirection];
             exitBehavior.AddDestination(tunnelDirection, toThing);
             exitBehavior.AddDestination(mirrorDirection, fromThing);
 
-            // Attach the new two-way exit to both locations. Persist with a specific "exits/" prefix.
-            var exit = new Thing(new MultipleParentsBehavior(), exitBehavior) { Id = "exits/" };
+            // Prepare a new exit Thing with the default set of exit behaviors. Assign the ID pattern that will get an
+            // auto-assigned index from the DB, and save it immediately so the existing rooms can refer to it by ID.
+            var exit = new Thing(new MultipleParentsBehavior(), exitBehavior) { Id = "exits|" };
+            exit.Save();
+
             fromThing.Add(exit);
             toThing.Add(exit);
-
             fromThing.Save();
             toThing.Save();
         }

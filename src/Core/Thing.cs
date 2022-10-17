@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -84,7 +85,7 @@ namespace WheelMUD.Core
             {
                 lock (lockObject)
                 {
-                    return (string.IsNullOrEmpty(id) || id.EndsWith('/')) ? null : id;
+                    return (string.IsNullOrEmpty(id) || id.EndsWith('/') || id.EndsWith('|')) ? null : id;
                 }
             }
         }
@@ -123,6 +124,10 @@ namespace WheelMUD.Core
         [OnDeserialized]
         private void OnDeserialized(StreamingContext context)
         {
+            // A Thing will save and load with all its behaviors attached, but those behaviors won't necessarily have
+            // their Parent property saved in storage since we can reverse-engineer that.
+            RepairParentTree();
+
             // If we have just finished loading this Thing, then it is time to let any listeners know.
             // E.G. there may be a MultipleParentsBehavior whose other half loaded but have been waiting for us too.
             ThingManager.Instance.AnnounceLoadedThing(this);
@@ -172,37 +177,6 @@ namespace WheelMUD.Core
                     {
                         ThingManager.Instance.QueueLoadChild(this, childId);
                     }
-                }
-            }
-        }
-
-        /// <summary>Gets or sets the parent of this thing via ID.</summary>
-        /// <remarks>
-        /// Primarily used for persistence to store and restore location without storing the whole parent.
-        /// E.G. the player thing can store the parent room Id without storing the whole room, and we will
-        /// automatically restore the player to that room upon loading the player.
-        /// This should NOT be used for normal cases of moving things from one owner to another, so keeping
-        /// this private should mean it only gets exercised by document restoration processes instead of
-        /// potentially getting misused by other systems.
-        /// Note this does NOT currently restore multiple parents, which shouldn't be applicable to the
-        /// base set of stored documents like players and worlds or areas.
-        /// </remarks>
-        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "For persistence; see remarks.")]
-        private string ParentId
-        {
-            get
-            {
-                return Parent?.Id;
-            }
-            set
-            {
-                if (value == null)
-                {
-                    Parent = null;
-                }
-                else if (Parent?.Id != value)
-                {
-                    Parent = ThingManager.Instance.FindThing(value);
                 }
             }
         }
@@ -784,10 +758,10 @@ namespace WheelMUD.Core
 
         private bool PerformAdd(Thing thingToAdd, AddChildEvent addEvent, MultipleParentsBehavior multipleParentsBehavior)
         {
-            if (addEvent.IsCanceled)
-            {
-                return false;
-            }
+            // Our caller will pass us the multipleParentsBehavior of the thing to add since it already had to use it,
+            // so reusing it will be fastest, but in debug we can validate that this argument is being used correctly.
+            Debug.Assert(multipleParentsBehavior == thingToAdd.FindBehavior<MultipleParentsBehavior>());
+            Debug.Assert(!addEvent.IsCanceled, "Should not try to PerformAdd if the add event was canceled.");
 
             // If an existing thing is stackable with the added thing, combine the new
             // thing into the existing thing instead of simply adding it.
@@ -800,14 +774,13 @@ namespace WheelMUD.Core
                 }
             }
 
-            // The item cannot be stacked so add the item to the specified parent.
+            // The item cannot be combined to an existing stack, so add the item as a child of the specified parent.
             if (!children.Contains(thingToAdd))
             {
                 children.Add(thingToAdd);
             }
 
-            // If we don't have a MultipleParentsBehavior, directly set the one-allowed 
-            // parent ourselves, else use the behavior's logic for setting parents.
+            // Tell the child who the new parent is too. Via the MultipleParentsBehavior if applicable.
             if (multipleParentsBehavior == null)
             {
                 thingToAdd.Parent = this;

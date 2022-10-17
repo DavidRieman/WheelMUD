@@ -38,11 +38,14 @@ namespace WheelMUD.Data.Repositories
 
         private static void AddChildTreeToSession(IBasicDocumentSession session, T currentDocument, Func<T, IEnumerable<T>> childDocumentFinder)
         {
-            session.Store(currentDocument);
+            // Depth First: Our persistence pattern is for parents to track their children only, so the inner-most
+            // descendants have to be added first to ensure they have DB IDs first. Then cascading up, each layer will
+            // be able to build their ChildrenIds properties and such correctly against the now-known IDs.
             foreach (T childDocument in childDocumentFinder(currentDocument))
             {
                 AddChildTreeToSession(session, childDocument, childDocumentFinder);
             }
+            session.Store(currentDocument);
         }
     }
 }
