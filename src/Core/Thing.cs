@@ -27,7 +27,7 @@ namespace WheelMUD.Core
     /// a Thing that has a PlayerBehavior (and likely a UserControlledBehavior, and so on).
     /// </remarks>
     [JsonObject(IsReference = true)]
-    public sealed class Thing : IThing, IDisposable, IIdentifiable // IPersistable?
+    public sealed class Thing : IThing, IDisposable, IIdentifiable
     {
         /// <summary>The synchronization locking object.</summary>
         private readonly object lockObject = new object();

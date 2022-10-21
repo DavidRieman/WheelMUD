@@ -6,45 +6,27 @@
 //-----------------------------------------------------------------------------
 
 using System;
-using System.Globalization;
-using WheelMUD.Data.Entities;
 using WheelMUD.Data.Repositories;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Universe.Information
 {
     /// <summary>The Typo class is used to store information from players relating to problems with spelling in the world.</summary>
-    public class TypoEntry : IPersistable
+    public class TypoEntry : IIdentifiable
     {
         /// <summary>Initializes a new instance of the TypoEntry class.</summary>
         public TypoEntry()
         {
         }
 
-        /// <summary>Initializes a new instance of the TypoEntry class.</summary>
-        /// <param name="record"> The record that contains the information from the database.</param>
-        public TypoEntry(TypoRecord record)
+        /// <summary>Saves this TypoEntry to the Document DB.</summary>
+        public void Save()
         {
-            Id = record.ID;
-            Note = record.Note;
-            Resolved = record.Resolved;
-            ResolvedByPlayerId = record.ResolvedByPlayerID;
-            PlaceID = record.RoomID.ToString(CultureInfo.InvariantCulture);
-            SubmittedByPlayerID = record.SubmittedByPlayerID.ToString(CultureInfo.InvariantCulture);
-            SubmittedDateTime = DateTime.Parse(record.SubmittedDateTime);
-
-            if (record.ResolvedDateTime != null)
-            {
-                ResolvedDateTime = DateTime.Parse(record.ResolvedDateTime);
-            }
-            else
-            {
-                ResolvedDateTime = null;
-            }
+            DocumentRepository<TypoEntry>.Save(this);
         }
 
-        /// <summary>Gets or sets the identifier of the typo.</summary>
-        public long Id { get; set; }
+        /// <summary>Gets or sets the identifier of the typo. Becomes an auto-incremented ID from the Document DB.</summary>
+        public string Id { get; set; } = "typo|";
 
         /// <summary>Gets or sets the problem that was submitted by the player.</summary>
         public string Note { get; set; }
@@ -52,57 +34,19 @@ namespace WheelMUD.Universe.Information
         /// <summary>Gets or sets the player that submitted the problem.</summary>
         public string SubmittedByPlayerID { get; set; }
 
-        /// <summary>Gets or sets the room that the problem was found in.</summary>
+        /// <summary>Gets or sets the room ID where the player reported the problem from.</summary>
         public string PlaceID { get; set; }
 
         /// <summary>Gets or sets the date and time that the problem was reported.</summary>
         public DateTime SubmittedDateTime { get; set; }
 
         /// <summary>Gets or sets a value indicating whether the issue has been resolved.</summary>
-        public bool Resolved { get; set; }
+        public bool Resolved { get; set; } = false;
 
         /// <summary>Gets or sets the player that submitted the problem.</summary>
-        public long? ResolvedByPlayerId { get; set; }
+        public string ResolvedByPlayerId { get; set; }
 
         /// <summary>Gets or sets the date and time that the problem was resolved.</summary>
         public DateTime? ResolvedDateTime { get; set; }
-
-        /// <summary>Save the typo to the database.</summary>
-        public void Save()
-        {
-            // TODO: https://github.com/DavidRieman/WheelMUD/issues/155: Change Typo to simpler Document DB storage.
-            /*var typoRepository = new RelationalRepository<TypoRecord>();
-
-            var typoRecord = new TypoRecord
-            {
-                ID = Id,
-                Note = Note,
-                Resolved = Resolved,
-                ResolvedByPlayerID = (long)ResolvedByPlayerId,
-                RoomID = Convert.ToInt64(PlaceID),
-                SubmittedByPlayerID = Convert.ToInt64(SubmittedByPlayerID),
-            };
-
-            if (ResolvedDateTime != null)
-            {
-                typoRecord.ResolvedDateTime = ResolvedDateTime.ToString();
-            }
-            else
-            {
-                typoRecord.ResolvedDateTime = null;
-            }
-
-            typoRecord.SubmittedDateTime = SubmittedDateTime.ToString(CultureInfo.InvariantCulture);
-
-            if (typoRecord.ID == 0)
-            {
-                typoRepository.Add(typoRecord);
-                Id = typoRecord.ID;
-            }
-            else
-            {
-                typoRepository.Update(typoRecord);
-            }*/
-        }
     }
 }
