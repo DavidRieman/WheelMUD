@@ -73,6 +73,10 @@ namespace WheelMUD.Main
 #endif
 
             InitializeSystems();
+            if (GameConfiguration.GetAppConfigBool("AutoOpenDbConsole"))
+            {
+                Helpers.DebugExploreDocuments();
+            }
         }
 
         private static void EnsureFilesArePresent()
