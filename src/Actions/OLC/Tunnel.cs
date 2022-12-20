@@ -57,10 +57,17 @@ namespace WheelMUD.Actions
             exitBehavior.AddDestination(tunnelDirection, toThing);
             exitBehavior.AddDestination(mirrorDirection, fromThing);
 
-            // Prepare a new exit Thing with the default set of exit behaviors. Assign the ID pattern that will get an
-            // auto-assigned index from the DB, and save it immediately so the existing rooms can refer to it by ID.
-            var exit = new Thing(new MultipleParentsBehavior(), exitBehavior) { Id = "exits|" };
-            exit.Save();
+            // Prepare a new exit Thing with the default set of exit behaviors.
+            var exit = new Thing(new MultipleParentsBehavior(), exitBehavior);
+            if (fromThing.Persists && toThing.Persists)
+            {
+                // If the linked exists persist, so too will the exit between them. (If either one does not persist,
+                // then trying to persist the exit too could lead to unlinked exits accumulating across future server
+                // restarts.) Assign the ID pattern that will get an auto-assigned index from the DB, and save it
+                // immediately so the existing rooms can refer to it by ID.
+                exit.Id = "exits|";
+                exit.Save();
+            }
 
             fromThing.Add(exit);
             toThing.Add(exit);
