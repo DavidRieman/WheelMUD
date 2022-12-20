@@ -14,9 +14,6 @@ namespace WheelMUD.Data
     /// <summary>Helper methods for the WheelMUD.Data namespace.</summary>
     public class Helpers
     {
-        /// <summary>The session factory variable.</summary>
-        private static IDbConnection sessionFactory;
-
         private static IWheelMudDocumentStorageProvider configuredDocumentStorageProvider;
 
         static Helpers()
