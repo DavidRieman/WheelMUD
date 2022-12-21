@@ -16,7 +16,7 @@ namespace ServerHarness
     {
         public string Description => "Opens the configured document database tool for manual data exploration and manipulation.";
 
-        public IEnumerable<string> Names => new string[] { "DEBUGEXPLORE", "DEBUG-EXPLORE", "DB", "DOCS", "DOCUMENTS" };
+        public IEnumerable<string> Names => new string[] { "DB", "DOCS", "DOCUMENTS", "DEBUGEXPLORE", "DEBUG-EXPLORE",  };
 
         public void Execute(Application app, MultiUpdater display, string[] words)
         {

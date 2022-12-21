@@ -19,7 +19,7 @@ namespace ServerHarness
         public string Description => "Retrieve basic help for this ServerHarness, including a list of commands.";
 
         /// <summary>Gets the recognized names for this command.</summary>
-        public IEnumerable<string> Names => new[] { "?", "HELP", "help", "h" };
+        public IEnumerable<string> Names => new[] { "?", "HELP", "H" };
 
         /// <summary>Execute the Help command.</summary>
         /// <param name="app">The application to display help for.</param>
@@ -41,7 +41,7 @@ namespace ServerHarness
 
             foreach (var command in ServerHarnessCommands.Instance.AllCommands)
             {
-                ab.AppendLine($"{command.Names.First(),16} - {command.Description}");
+                ab.AppendLine($"{string.Join(",", command.Names.Take(2).ToArray()),10} - {command.Description}");
             }
 
             return ab.ToString();
