@@ -19,7 +19,6 @@ namespace WheelMUD.Data
         static Helpers()
         {
             var providerCache = new ProviderCache();
-            var configuredRelationalProviderName = AppConfigInfo.Instance.RelationalDataProviderName;
             var configuredDocumentStorageProviderName = AppConfigInfo.Instance.DocumentDataProviderName;
 
             configuredDocumentStorageProvider = (from provider in providerCache.DocumentStorageProviders

@@ -38,7 +38,7 @@ namespace WheelMUD.Actions.Tests
             // Ensure both rooms have only the appropriate context command rigged up.
             var commandKeys1 = (from c in room1.Commands orderby c.Key select c.Key).ToArray();
             var commandKeys2 = (from c in room2.Commands orderby c.Key select c.Key).ToArray();
-            Assert.IsTrue(commandKeys1.SequenceEqual(new string[] { "e", "east"}));
+            Assert.IsTrue(commandKeys1.SequenceEqual(new string[] { "e", "east" }));
             Assert.IsTrue(commandKeys2.SequenceEqual(new string[] { "w", "west" }));
         }
     }
