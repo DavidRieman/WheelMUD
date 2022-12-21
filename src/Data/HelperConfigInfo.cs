@@ -23,18 +23,9 @@ namespace WheelMUD.Data
         /// <summary>Gets the singleton instance of the <see cref="AppConfigInfo"/> class.</summary>
         public static AppConfigInfo Instance { get; } = new AppConfigInfo();
 
-        /// <summary>Gets or sets the name of the connection string.</summary>
-        /// <value>The name of the connection string.</value>
-        public string ConnectionStringName { get; private set; }
-
         /// <summary>Gets or sets the connection string.</summary>
         /// <value>The connection string.</value>
-        public string RelationalConnectionString { get; private set; }
         public string DocumentConnectionString { get; private set; }
-
-        /// <summary>Gets or sets the name of the relational database provider.</summary>
-        /// <value>The relational database provider name.</value>
-        public string RelationalDataProviderName { get; private set; }
 
         /// <summary>Gets or sets the name of the document storage provider.</summary>
         /// <value>The document storage provider name.</value>
@@ -63,17 +54,13 @@ namespace WheelMUD.Data
             UserAccountIsPlayerCharacter = GameConfiguration.GetAppConfigBool("UserAccountIsPlayerCharacter");
             PlayerCharacterNamesMustUseSingleCapital = GameConfiguration.GetAppConfigBool("PlayerCharacterNamesMustUseSingleCapital");
 
-            var relationalSettings = GetConnectionStringSettings("RelationalDataProviderName", "WheelMUDSQLite");
             var documentSettings = GetConnectionStringSettings("DocumentDataProviderName", "RavenDB");
-            RelationalDataProviderName = relationalSettings.Name;
-            RelationalConnectionString = relationalSettings.ConnectionString;
             DocumentDataProviderName = documentSettings.Name;
             DocumentConnectionString = documentSettings.ConnectionString;
 
             // Replace any tokens like {DataDir} in the connection strings with evaluated values.
             // This prevents new administrators from having to adjust App.config for user-specific paths.
             var dataDir = GameConfiguration.DataStoragePath + Path.DirectorySeparatorChar;
-            RelationalConnectionString = RelationalConnectionString.Replace("{DataDir}", dataDir);
             DocumentConnectionString = DocumentConnectionString.Replace("{DataDir}", dataDir);
         }
     }

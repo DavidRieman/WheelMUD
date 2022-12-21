@@ -14,7 +14,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using WheelMUD.Core;
-using WheelMUD.Data;
 using WheelMUD.Utilities;
 using WheelMUD.Utilities.Interfaces;
 
@@ -69,7 +68,6 @@ namespace WheelMUD.Main
         {
 #if DEBUG
             EnsureFilesArePresent();
-            EnsureDataIsPresent();
 #endif
 
             InitializeSystems();
@@ -218,54 +216,6 @@ namespace WheelMUD.Main
             }
         }
 
-        /// <summary>Ensures that the database and such are present; copies the default if not.</summary>
-        private static void EnsureDataIsPresent()
-        {
-            if ("sqlite".Equals(AppConfigInfo.Instance.RelationalDataProviderName, StringComparison.OrdinalIgnoreCase))
-            {
-                // Only for SQLite: Make sure that the database is in the right place.
-                const string DatabaseName = "WheelMud.net.db";
-                string appPath = Assembly.GetExecutingAssembly().Location;
-                var appFile = new FileInfo(appPath);
-
-                if (appFile.Directory == null || string.IsNullOrEmpty(appFile.Directory.FullName))
-                {
-                    throw new DirectoryNotFoundException("Could not find the application directory.");
-                }
-
-                string appDir = appFile.Directory.FullName;
-                string destPath = Path.Combine(GameConfiguration.DataStoragePath, DatabaseName);
-
-                if (!File.Exists(destPath))
-                {
-                    // If the database file doesn't exist, try to copy the original source.
-                    string sourcePath = null;
-                    int i = appDir.IndexOf(Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar, StringComparison.Ordinal);
-                    if (i > 0)
-                    {
-                        sourcePath = appDir.Substring(0, i) + Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar + "SQL" + Path.DirectorySeparatorChar + "SQLite";
-                        sourcePath = Path.Combine(sourcePath, DatabaseName);
-                    }
-                    else
-                    {
-                        // The binDebug folder now houses a sub-folder like "netcoreapp3.1" so we need to go up two
-                        // levels to search for the starting system data.
-                        sourcePath = Path.GetDirectoryName(Path.GetDirectoryName(appDir));
-                        sourcePath = Path.Combine(sourcePath + Path.DirectorySeparatorChar + "systemdata" + Path.DirectorySeparatorChar + "SQL" + Path.DirectorySeparatorChar + "SQLite", DatabaseName);
-                    }
-
-                    if (File.Exists(sourcePath))
-                    {
-                        File.Copy(sourcePath, destPath);
-                    }
-                    else
-                    {
-                        throw new FileNotFoundException("SQLite database was not present in application files directory nor at the expected src location.");
-                    }
-                }
-            }
-        }
-
         /// <summary>Initializes the systems of this application.</summary>
         private void InitializeSystems()
         {
@@ -273,8 +223,8 @@ namespace WheelMUD.Main
             Notify("Starting Application.");
 
             // Add environment variables needed by the program.
-// WHY? EXPLAIN IF NEEDED            VariableProcessor.Set("app.path", AppDomain.CurrentDomain.BaseDirectory);
-// OR DELETE VariableProcessor FOR NOW?
+            // WHY? EXPLAIN IF NEEDED            VariableProcessor.Set("app.path", AppDomain.CurrentDomain.BaseDirectory);
+            // OR DELETE VariableProcessor FOR NOW?
 
             // Find and prepare all the application's most recent systems from those discovered by MEF.
             var systemExporters = GetLatestSystems();
