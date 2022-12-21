@@ -3,7 +3,7 @@
 ## Tagging
 We are using a very similar tagging scheme as MudOS.
 ASP.NET programmers will feel right at home.
-The ANSI codes are stored in the ANSI table in the WheelMUD.net.db SQLite database.
+For supported options, the ANSI codes can be found in the CodeSequenceMap field in AnsiHandler.cs 
 Here's what they look like:
 
 ![ANSI_Codes](img/ANSICodesInWM.gif)
