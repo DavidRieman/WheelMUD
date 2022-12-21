@@ -20,7 +20,7 @@ namespace ServerHarness
     {
         public string Description => "Runs all present integration tests against this server.";
 
-        public IEnumerable<string> Names => new string[] { "RUN", "RUN-TESTS", "run", "Run", "r" };
+        public IEnumerable<string> Names => new string[] { "R", "RUN", "RUN-TESTS" };
 
         public void Execute(Application app, MultiUpdater display, string[] words)
         {

@@ -17,7 +17,7 @@ namespace ServerHarness
     {
         public string Description => "Recomposes the CommandManager system's actions. Game actions performed afterwards will use new code from dropped-in, updated DLLs.";
 
-        public IEnumerable<string> Names => new string[] { "UPDATE-ACTIONS", "UPDATE", "update", "u" };
+        public IEnumerable<string> Names => new string[] { "U", "UPDATE", "UPDATE-ACTIONS" };
 
         public void Execute(Application app, MultiUpdater display, string[] words)
         {
