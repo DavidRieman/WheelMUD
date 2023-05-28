@@ -21,8 +21,8 @@ namespace WheelMUD.Data
     /// </remarks>
     public class User
     {
-        private static SHA256Managed SHA256 = new SHA256Managed();
-        private static readonly RNGCryptoServiceProvider CryptoProvider = new RNGCryptoServiceProvider();
+        private static SHA256 SHA = SHA256.Create();
+        private static readonly RandomNumberGenerator CryptoNumberProvider = RandomNumberGenerator.Create();
 
         public string UserName { get; set; }
 
@@ -47,7 +47,7 @@ namespace WheelMUD.Data
         public void SetPassword(string newPassword)
         {
             var salt = new byte[24];
-            CryptoProvider.GetBytes(salt);
+            CryptoNumberProvider.GetBytes(salt);
             Salt = Encoding.UTF8.GetString(salt);
             HashedPassword = Hash(Salt, newPassword);
         }
@@ -61,7 +61,7 @@ namespace WheelMUD.Data
         public static string Hash(string salt, string password)
         {
             var combinedBytes = Encoding.UTF8.GetBytes(salt + password);
-            return Encoding.UTF8.GetString(SHA256.ComputeHash(combinedBytes));
+            return Encoding.UTF8.GetString(SHA.ComputeHash(combinedBytes));
         }
 
         public void AddPlayerCharacter(string playerCharacterId)

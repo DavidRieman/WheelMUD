@@ -34,7 +34,7 @@ namespace WheelMUD.Actions
         /// <param name="actionInput">The full input specified for executing the command.</param>
         public override void Execute(ActionInput actionInput)
         {
-            /* TODO: #65: This is on the User object now.
+            /* TODO: https://github.com/DavidRieman/WheelMUD/issues/43: Repair and improve password command.
             {
                 sender.Write("Password successfully changed.");
             }

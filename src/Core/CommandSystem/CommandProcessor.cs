@@ -46,10 +46,9 @@ namespace WheelMUD.Core
         {
             host.UpdateSubSystemHost(this, "Stopping...");
             shuttingDown = true;
-            workerThread.Join(5000);
-            if (workerThread.IsAlive)
+            if (!workerThread.Join(5000))
             {
-                workerThread.Abort();
+                host.UpdateSubSystemHost(this, "WARNING: CommandProcessor SubSystem did not shut down in a graceful, timely manner!");
             }
             workerThread = null;
         }
