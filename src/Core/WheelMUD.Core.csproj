@@ -19,7 +19,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <ProjectReference Include="..\Data\WheelMUD.Data.csproj" />
     <ProjectReference Include="..\Server\WheelMUD.Server.csproj" />
     <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj" />
