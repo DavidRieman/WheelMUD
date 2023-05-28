@@ -5,6 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+/* TODO: https://github.com/DavidRieman/WheelMUD/issues/177: Revise and enable?
 using System.Collections.Generic;
 using System.Management;
 using WheelMUD.Core;
@@ -80,4 +81,4 @@ namespace WheelMUD.Actions
             return VerifyCommonGuards(actionInput, ActionGuards);
         }
     }
-}
+}*/

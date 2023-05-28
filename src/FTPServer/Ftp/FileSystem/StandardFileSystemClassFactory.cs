@@ -13,10 +13,11 @@ namespace WheelMUD.Ftp.FileSystem
     {
         public IFileSystem Create(string user, string password)
         {
-            ////if (UserData.Instance.HasUser(user) && UserData.GetInstance().GetUserPassword(user) == password)
-            ////{
-            ////    return new StandardFileSystemObject(UserData.Instance.GetUserStartingDirectory(user));
-            ////}
+            // TODO: https://github.com/DavidRieman/WheelMUD/issues/176: Repair FTP plugin.
+            //if (UserData.Instance.HasUser(user) && UserData.GetInstance().GetUserPassword(user) == password)
+            //{
+            //    return new StandardFileSystemObject(UserData.Instance.GetUserStartingDirectory(user));
+            //}
 
             string serverFolder = GameConfiguration.GetAppConfigString("FTPServerRootFolder");
             return new StandardFileSystemObject(serverFolder);

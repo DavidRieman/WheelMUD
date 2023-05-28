@@ -5,6 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+/* TODO: https://github.com/DavidRieman/WheelMUD/issues/176: Repair FTP plugin.
 using System;
 using System.Collections;
 using System.IO;
@@ -173,4 +174,4 @@ namespace WheelMUD.Ftp
             public string StartingDirectory { get; set; } = "C:\\";
         }
     }
-}
+}*/
