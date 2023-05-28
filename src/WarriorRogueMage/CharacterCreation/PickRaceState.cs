@@ -41,18 +41,19 @@ namespace WarriorRogueMage.CharacterCreation
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {
-            var currentCommand = command.ToLower().Trim();
+            var commandParts = command.Split(' ');
+            string currentCommand = commandParts[0].ToLower();
 
             switch (currentCommand)
             {
                 case "view":
-                    ViewRaceDescription(currentCommand);
+                    ViewRaceDescription(command);
                     break;
                 case "list":
                     RefreshScreen();
                     break;
                 default:
-                    var race = GetRace(currentCommand);
+                    var race = GetRace(command);
                     if (race != null)
                     {
                         var playerBehavior = Session.Thing.FindBehavior<PlayerBehavior>();
