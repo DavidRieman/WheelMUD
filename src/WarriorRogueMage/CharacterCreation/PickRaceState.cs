@@ -41,13 +41,20 @@ namespace WarriorRogueMage.CharacterCreation
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {
-            var commandParts = command.Split(' ');
-            string currentCommand = commandParts[0].ToLower();
+            var commandParts = command.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string currentCommand = commandParts[0];
 
             switch (currentCommand)
             {
                 case "view":
-                    ViewRaceDescription(command);
+                    if (commandParts.Length > 1)
+                    {
+                        ViewRaceDescription(commandParts[1]);
+                    }
+                    else
+                    {
+                        WrmChargenCommon.SendErrorMessage(Session, "Try 'view [race]' to view details of a specific race.");
+                    }
                     break;
                 case "list":
                     RefreshScreen();
@@ -80,15 +87,11 @@ namespace WarriorRogueMage.CharacterCreation
 
         private void ViewRaceDescription(string race)
         {
-            var raceToView = race.Replace("view ", string.Empty);
-
             var cultureInfo = Thread.CurrentThread.CurrentCulture;
             var textInfo = cultureInfo.TextInfo;
 
-            var properCaseRace = textInfo.ToTitleCase(raceToView);
-
             var foundRace = (from r in gameRaces
-                             where r.Name == properCaseRace
+                             where r.Name.StartsWith(race, StringComparison.CurrentCultureIgnoreCase)
                              select r).FirstOrDefault();
 
             if (foundRace != null)

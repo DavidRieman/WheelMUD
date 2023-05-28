@@ -39,7 +39,7 @@ namespace WarriorRogueMage.CharacterCreation
         /// <param name="command">The command that the player just sent.</param>
         public override void ProcessInput(string command)
         {
-            var commandParts = command.Split(' ');
+            var commandParts = command.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
             string currentCommand = commandParts[0].ToLower();
             switch (currentCommand)
             {

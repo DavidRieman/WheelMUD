@@ -5,6 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using WheelMUD.ConnectionStates;
 using WheelMUD.Core;
@@ -39,7 +40,7 @@ namespace WarriorRogueMage.CharacterCreation
         /// <param name="command">The command text to be processed.</param>
         public override void ProcessInput(string command)
         {
-            var commandParts = command.Split(' ');
+            var commandParts = command.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             var currentCommand = commandParts[0];
             switch (currentCommand)
             {
