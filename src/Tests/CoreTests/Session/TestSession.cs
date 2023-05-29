@@ -6,8 +6,6 @@
 //-----------------------------------------------------------------------------
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
 using TestHelpers;
 using WheelMUD.Core;
 using WheelMUD.Server;
@@ -23,8 +21,7 @@ namespace WheelMUD.Tests
         [TestInitialize]
         public void Init()
         {
-            DefaultComposer.Container = new CompositionContainer();
-            DefaultComposer.Container.ComposeExportedValue<SessionState>(new MockSessionState());
+            MockCoreComposition.Basic();
         }
 
         /// <summary>Test that the initial SessionState, upon establishing a fake connection, is MockSessionState.</summary>
