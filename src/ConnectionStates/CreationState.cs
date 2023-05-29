@@ -5,8 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using System;
 using WheelMUD.Core;
-using WheelMUD.Data;
+using WheelMUD.Data.Repositories;
 using WheelMUD.Server;
 
 namespace WheelMUD.ConnectionStates
@@ -57,22 +58,19 @@ namespace WheelMUD.ConnectionStates
         {
             var user = session.User;
             var character = session.Thing;
-            character.Id ??= $"char/{character.Name}";
-
-            using (var docSession = Helpers.OpenDocumentSession())
-            {
-                // Save the character first so we can use the auto-assigned unique identity.
-                // We could have used character.Save() but this uses the same session for storing User too.
-                docSession.Store(character);
-
-                // Ensure the User tracks this character ID as one of their characters
-                user.AddPlayerCharacter(character.Id);
-                docSession.Store(user);
-                docSession.SaveChanges();
-            }
-            session.WriteLine($"Saved {character.Name}.", false);
+            character.Id ??= $"char/{character.Name.ToLower()}";
 
             var playerBehavior = character.FindBehavior<PlayerBehavior>();
+            playerBehavior.History.Created = playerBehavior.History.LastLogIn = DateTime.Now;
+
+            // Ensure the User tracks this character ID as one of their characters
+            user.AddPlayerCharacter(character.Id);
+
+            // Save the character first so we can use the auto-assigned unique identity.
+            // We could have used character.Save() but this uses the same session for storing User too.
+            DocumentRepository.SaveAll(character, user);
+            session.WriteLine($"Saved {character.Name}.", false);
+
             if (playerBehavior.LogIn(session))
             {
                 // Already authenticated (the user just created user name and password); get in the game now.

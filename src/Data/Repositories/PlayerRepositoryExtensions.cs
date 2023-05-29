@@ -5,18 +5,27 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using System;
 using System.Linq;
 
 namespace WheelMUD.Data.Repositories
 {
     public static class PlayerRepositoryExtensions
     {
+        /// <summary>Determines if the password is sufficent to authenticate the login.</summary>
+        /// <param name="loadedUser">A single loaded User instance to check against.</param>
+        /// <param name="password">The password to check.</param>
+        /// <returns>The User instance if authenticated, else null.</returns>
+        public static User Authenticate(User loadedUser, string password)
+        {
+            return loadedUser.PasswordMatches(password) ? loadedUser : null;
+        }
+
         public static User Authenticate(string userName, string password)
         {
+            var targetId = $"user/{userName.ToLower()}";
             using var session = Helpers.OpenDocumentSession();
             var salt = (from u in session.Query<User>()
-                        where u.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase)
+                        where u.Id.Equals(targetId)
                         select u.Salt).FirstOrDefault();
             if (salt == null)
             {
@@ -24,16 +33,17 @@ namespace WheelMUD.Data.Repositories
             }
             var hashedPassword = User.Hash(salt, password);
             return (from u in session.Query<User>()
-                    where u.UserName.Equals(userName) &&
+                    where u.Id.Equals(targetId) &&
                           u.HashedPassword.Equals(hashedPassword)
                     select u).FirstOrDefault();
         }
 
-        public static bool UserNameExists(string userName)
+        public static bool UserExists(string userName)
         {
             using var session = Helpers.OpenDocumentSession();
+            var targetId = $"user/{userName.ToLower()}";
             return (from u in session.Query<User>()
-                    where u.UserName.Equals(userName)
+                    where u.Id == targetId
                     select u).Any();
         }
     }

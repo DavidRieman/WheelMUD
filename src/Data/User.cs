@@ -5,11 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using WheelMUD.Data.Repositories;
+using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Data
 {
@@ -19,12 +20,14 @@ namespace WheelMUD.Data
     /// Might be reasonable to store user-specific settings like Telnet settings preferences and such, which
     /// the user would not wish to vary per character when disabling UserAccountIsPlayerCharacter.
     /// </remarks>
-    public class User
+    public class User : IIdentifiable
     {
-        private static SHA256 SHA = SHA256.Create();
+        private static readonly SHA256 SHA = SHA256.Create();
         private static readonly RandomNumberGenerator CryptoNumberProvider = RandomNumberGenerator.Create();
 
-        public string UserName { get; set; }
+        /// <summary>Gets or sets the unique database ID of this User.</summary>
+        /// <remarks>See Thing "Id" property for additional remarks about database Ids.</remarks>
+        public string Id { get; set; }
 
         /// <summary>Gets or sets the salt used to help encrypt the passwords.</summary>
         /// <remarks>Set to string instead of byte[] to support serialization.</remarks>
@@ -36,11 +39,8 @@ namespace WheelMUD.Data
 
         public List<string> PlayerCharacterIds { get; } = new List<string>();
 
-        public string LastUsedIPAddress { get; set; }
-
-        public DateTime LastLogInTime { get; set; }
-
-        public DateTime AccountCreationDate { get; set; }
+        /// <summary>Gets pertinent user account history (such as creation date, last log in date).</summary>
+        public UserAccountHistory AccountHistory { get; } = new UserAccountHistory();
 
         public UserTelnetSettings TelnetSettings { get; } = new UserTelnetSettings();
 
@@ -73,6 +73,11 @@ namespace WheelMUD.Data
                     PlayerCharacterIds.Add(playerCharacterId);
                 }
             }
+        }
+
+        public void Save()
+        {
+            DocumentRepository.Save(this);
         }
     }
 }

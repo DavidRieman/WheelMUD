@@ -22,7 +22,7 @@ namespace WheelMUD.Universe.Information
         /// <summary>Saves this TypoEntry to the Document DB.</summary>
         public void Save()
         {
-            DocumentRepository<TypoEntry>.Save(this);
+            DocumentRepository.Save(this);
         }
 
         /// <summary>Gets or sets the identifier of the typo. Becomes an auto-incremented ID from the Document DB.</summary>

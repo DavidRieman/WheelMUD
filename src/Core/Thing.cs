@@ -79,6 +79,7 @@ namespace WheelMUD.Core
 
         /// <summary>Gets the unique persistence ID of this Thing, or null if we have not acquired one yet.</summary>
         /// <remarks>See 'Id' for further details.</remarks>
+        [JsonIgnore]
         public string PersistedId
         {
             get
@@ -90,7 +91,7 @@ namespace WheelMUD.Core
             }
         }
 
-        /// <summary>Gets or sets the unique ID of this thing.</summary>
+        /// <summary>Gets or sets the unique ID of this Thing.</summary>
         /// <remarks>
         /// A Document DB may expect this property to be cased exactly this way ("Id") for finding the DB identifier.
         /// This property is NOT guaranteed to be unique; in fact it can be given a highly-reused value like "names/"

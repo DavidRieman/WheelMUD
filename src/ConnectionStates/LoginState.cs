@@ -6,6 +6,8 @@
 //-----------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using WheelMUD.Core;
 using WheelMUD.Data;
 using WheelMUD.Data.Repositories;
@@ -71,7 +73,13 @@ namespace WheelMUD.ConnectionStates
         /// <returns>True if authenticated, else false.</returns>
         private User Authenticate(string password)
         {
-            return PlayerRepositoryExtensions.Authenticate(userName, password);
+            // First search for the target user via SessionManager to see if it already has a session.
+            // (This one may be allowed to replace the existing session if it authenticates correctly.)
+            var session = SessionManager.Instance.FindSessionForUserId($"user/{userName}");
+            var onlineUser = session?.User;
+            return onlineUser != null ?
+                PlayerRepositoryExtensions.Authenticate(onlineUser, password) :
+                PlayerRepositoryExtensions.Authenticate(userName, password);
         }
     }
 }

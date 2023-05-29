@@ -33,10 +33,8 @@ namespace WheelMUD.ConnectionStates
         {
             if (command.ToLower() == "yes" || command.ToLower() == "y")
             {
-                Session.User = new User()
-                {
-                    AccountCreationDate = DateTime.Now,
-                };
+                Session.User = new User();
+                Session.User.AccountHistory.Created = DateTime.Now;
                 StateMachine.HandleNextStep(this, StepStatus.Success);
             }
             else

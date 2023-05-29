@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WheelMUD.Server.Interfaces;
 using WheelMUD.Utilities.Interfaces;
 
@@ -136,6 +137,21 @@ namespace WheelMUD.Core
                     session.UnsubscribeToSystem();
                     Sessions.Remove(sessionID);
                 }
+            }
+        }
+
+        public Session FindSessionForUserId(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                return null;
+            }
+
+            lock (Sessions)
+            {
+                return (from Session session in Sessions.Values
+                        where session.User?.Id == userId
+                        select session).FirstOrDefault();
             }
         }
 

@@ -9,12 +9,20 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
+using WheelMUD.Data;
 using WheelMUD.Data.Entities;
+using WheelMUD.Data.Repositories;
 using WheelMUD.Server;
 
 namespace WheelMUD.Core
 {
+    public class PlayerHistory
+    {
+        public DateTime Created { get; set; }
+        public DateTime LastLogIn { get; set; }
+        public DateTime LastLogOut { get; set; }
+    }
+
     /// <summary>The behavior for players.</summary>
     public class PlayerBehavior : Behavior
     {
@@ -27,7 +35,6 @@ namespace WheelMUD.Core
         public PlayerBehavior()
             : base(null)
         {
-            PlayerData = new PlayerRecord();
         }
 
         /// <summary>Initializes a new instance of the PlayerBehavior class.</summary>
@@ -106,6 +113,9 @@ namespace WheelMUD.Core
         /// <summary>Gets or sets the player's gender.</summary>
         public GameGender Gender { get; set; }
 
+        /// <summary>Gets the player character history (such as creation date and last log in date).</summary>
+        public PlayerHistory History { get; } = new PlayerHistory();
+
         /// <summary>Releases unmanaged and, optionally, managed resources.</summary>
         public void Dispose()
         {
@@ -180,13 +190,17 @@ namespace WheelMUD.Core
                 ClearAFK();
 
                 targetPlayerStartingPosition.Add(player);
+                var user = session.User;
 
-                DateTime universalTime = DateTime.Now.ToUniversalTime();
-                PlayerData.LastLogin = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";
-                PlayerData.LastIPAddress = session.Connection.CurrentIPAddress.ToString();
+                // Track both the player's last login and the user's last login (as these can be both useful for things like
+                // players seeing when another player was last on, independently of whether user has multiple characters, but
+                // administrative tasks may want to target inactive Users, or inactive Player objects, in different ways.)
+                History.LastLogIn = user.AccountHistory.LastLogIn = DateTime.Now;
+
+                // For now we'll only track last used IP address on the User though.
+                user.AccountHistory.LastIPAddress = session.Connection.CurrentIPAddress.ToString();
 
                 session.Thing = player;
-                session.User.LastLogInTime = DateTime.Now; // Should this occur when user was authenticated instead?
                 player.FindBehavior<UserControlledBehavior>().Session = session;
 
                 // Broadcast that the player successfully logged in, to their login location.
@@ -197,6 +211,11 @@ namespace WheelMUD.Core
                 //       Need to figure out if this can be straightened out in a clean way.
                 //       See: https://github.com/DavidRieman/WheelMUD/issues/86#issuecomment-787057858
                 PlayerManager.Instance.OnPlayerLogIn(player, e);
+
+                // Finally we need to persist the user and player to properly store the last log-in times and such.
+                // Save the character first so we can use the auto-assigned unique identity.
+                // We could have used character.Save() but this uses the same session for storing User too.
+                DocumentRepository.SaveAll(player, user);
 
                 return true;
             }
@@ -241,11 +260,22 @@ namespace WheelMUD.Core
             // If nothing canceled this event request, carry on with the logout.
             if (!e.IsCanceled || force)
             {
-                player.FindBehavior<UserControlledBehavior>()?.Disconnect();
-                DateTime universalTime = DateTime.Now.ToUniversalTime();
-                PlayerData.LastLogout = universalTime.ToString("s", DateTimeFormatInfo.InvariantInfo) + "Z";
+                // Ensure both PlayerBehavior and User LastLogOut get the same value in case we ever need to compare them.
+                var logOutTime = DateTime.Now;
+                History.LastLogOut = logOutTime;
 
-                player.Save();
+                var user = player.FindBehavior<UserControlledBehavior>();
+                if (user != null)
+                {
+                    user.Session.User.AccountHistory.LastLogOut = logOutTime;
+                    DocumentRepository.SaveAll(player, user.Session.User);
+                    user.Disconnect();
+                }
+                else
+                {
+                    player.Save();
+                }
+
                 Dispose();
                 player.Dispose();
 

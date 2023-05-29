@@ -46,13 +46,14 @@ namespace WheelMUD.ConnectionStates
             if (ValidateUserName(ref command))
             {
                 // The name is valid, but has it been taken already?
-                if (PlayerRepositoryExtensions.UserNameExists(command))
+                var targetId = $"user/{command.ToLower()}";
+                if (PlayerRepositoryExtensions.UserExists(targetId))
                 {
                     Session.WriteLine("I'm sorry, that name is already taken. Please choose another.");
                 }
                 else if (StateMachine != null)
                 {
-                    Session.User.UserName = command;
+                    Session.User.Id = targetId;
                     if (AppConfigInfo.Instance.UserAccountIsPlayerCharacter)
                     {
                         Session.Thing.Name = command;

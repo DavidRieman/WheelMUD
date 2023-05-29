@@ -11,6 +11,32 @@ using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Data.Repositories
 {
+    public static class DocumentRepository
+    {
+        public static void Save(IIdentifiable obj)
+        {
+            using var session = Helpers.OpenDocumentSession();
+            // RavenDB will automatically either insert a new document or update the
+            // existing document with this document ID, as appropriate.
+            session.Store(obj);
+            session.SaveChanges();
+        }
+
+        public static void SaveAll(params IIdentifiable[] objects)
+        {
+            // Similar to Save above, but optimized for multiple objects being stored in one batch.
+            using var session = Helpers.OpenDocumentSession();
+            foreach (var obj in objects)
+            {
+                if (obj != null)
+                {
+                    session.Store(obj);
+                }
+            }
+            session.SaveChanges();
+        }
+    }
+
     /// <summary>Generic document repository implementation for type T.</summary>
     public static class DocumentRepository<T> where T : IIdentifiable, new()
     {
@@ -18,15 +44,6 @@ namespace WheelMUD.Data.Repositories
         {
             using var session = Helpers.OpenDocumentSession();
             AddChildTreeToSession(session, mainDocument, childDocumentFinder);
-            session.SaveChanges();
-        }
-
-        public static void Save(T obj)
-        {
-            using var session = Helpers.OpenDocumentSession();
-            // RavenDB will automatically either insert a new document or update the
-            // existing document with this document ID, as appropriate.
-            session.Store(obj);
             session.SaveChanges();
         }
 

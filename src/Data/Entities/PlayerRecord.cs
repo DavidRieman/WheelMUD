@@ -5,16 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using ServiceStack.DataAnnotations;
+using System;
 
 namespace WheelMUD.Data.Entities
 {
     /// <summary>Represents a single Player row in the Player table.</summary>
-    [Alias("Players")]
-    public class PlayerRecord : BaseRelationalRecord
+    public class PlayerRecord
     {
-        public virtual string UserName { get; set; }
-        public virtual string Password { get; set; }
         public virtual string DisplayName { get; set; }
         public virtual string Suffix { get; set; }
         public virtual string Prefix { get; set; }
@@ -23,15 +20,7 @@ namespace WheelMUD.Data.Entities
         public virtual int Age { get; set; }
         public virtual string CreateDate { get; set; }
         public virtual long CurrentRoomID { get; set; }
-        public virtual bool WantAnsi { get; set; }
-        public virtual bool WantMXP { get; set; }
-        public virtual bool WantMCCP { get; set; }
-        public virtual string LastLogin { get; set; }
-        public virtual string LastLogout { get; set; }
-        public virtual string LastIPAddress { get; set; }
         public virtual string Email { get; set; }
-        public virtual string HomePage { get; set; }
-        public virtual string PlanText { get; set; }
         public virtual int BufferLength { get; set; }
     }
 }

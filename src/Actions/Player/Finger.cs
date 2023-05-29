@@ -78,7 +78,7 @@ namespace WheelMUD.Actions
 
                 output.AppendLine($"Status: {statusString}"); // need way to report both offline and online
                 output.AppendLine($"Location: {target.Parent.Name}");
-                output.AppendLine($"Last Login: {playerBehavior.PlayerData.LastLogin}");
+                output.AppendLine($"Last Login: {playerBehavior.History.LastLogIn}");
 
                 if (isOnline)
                     output.AppendLine($"Current IP Address: {addressIP}");
