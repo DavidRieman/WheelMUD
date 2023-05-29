@@ -6,6 +6,8 @@
 //-----------------------------------------------------------------------------
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.ComponentModel.Composition.Hosting;
+using System.ComponentModel.Composition;
 using TestHelpers;
 using WheelMUD.Core;
 
@@ -22,6 +24,9 @@ namespace WheelMUD.Actions.Tests
         [TestInitialize]
         public void Init()
         {
+            DefaultComposer.Container = new CompositionContainer();
+            DefaultComposer.Container.ComposeExportedValue<SessionState>(new MockSessionState());
+
             mockConnection = new MockConnection();
             session = new Session(mockConnection);
             drop = new Tunnel();

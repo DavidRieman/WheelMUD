@@ -24,16 +24,16 @@ namespace WheelMUD.Tests
         public void Init()
         {
             DefaultComposer.Container = new CompositionContainer();
-            DefaultComposer.Container.ComposeExportedValue<SessionState>(new FakeSessionState());
+            DefaultComposer.Container.ComposeExportedValue<SessionState>(new MockSessionState());
         }
 
-        /// <summary>Test that the initial SessionState, upon establishing a fake connection, is FakeSessionState.</summary>
+        /// <summary>Test that the initial SessionState, upon establishing a fake connection, is MockSessionState.</summary>
         [TestMethod]
         public void TestInitialConnectionStateIsNotDefaultState()
         {
             var connection = new MockConnection();
             var session = new Session(connection);
-            Assert.AreEqual(session.State.GetType(), typeof(FakeSessionState));
+            Assert.AreEqual(session.State.GetType(), typeof(MockSessionState));
         }
 
         /// <summary>Tests that the initial connection receives appropriate login prompts.</summary>
@@ -45,7 +45,7 @@ namespace WheelMUD.Tests
 
             // Ensure we Begin the session state with some introductory output, followed by the registered prompt.
             Assert.AreEqual(connection.MessagesSent.Count, 1);
-            Assert.AreEqual(connection.MessagesSent[0], $"Begin FakeSessionState!{AnsiSequences.NewLine}FakePrompt > ");
+            Assert.AreEqual(connection.MessagesSent[0], $"Begin MockSessionState!{AnsiSequences.NewLine}FakePrompt > ");
 
             // Ensure writing another string from the prompt cursor position, writes the new text to a new line and can add in the prompt too.
             connection.ResetMessages();
@@ -67,40 +67,6 @@ namespace WheelMUD.Tests
             session.Write(new OutputBuilder().Append("test 3"), false);
             Assert.AreEqual(connection.MessagesSent.Count, 1);
             Assert.AreEqual(connection.MessagesSent[0], $"test 3");
-        }
-
-        /// <summary>A fake ConnectionState for testing purposes.</summary>
-        /// <remarks>TODO: Consider which mocking framework we should use to create such things in a better way.</remarks>
-        public class FakeSessionState : SessionState
-        {
-            /// <summary>Initializes a new instance of the <see cref="FakeSessionState"/> class.</summary>
-            /// <param name="session">The session entering this state.</param>
-            public FakeSessionState(Session session) : base(session)
-            {
-            }
-
-            /// <summary>Initializes a new instance of the <see cref="FakeSessionState"/> class.</summary>
-            /// <remarks>This constructor is required to support MEF discovery as our default connection state.</remarks>
-            public FakeSessionState() : this(null)
-            {
-            }
-
-            public override void Begin()
-            {
-                Session.Write(new OutputBuilder().AppendLine("Begin FakeSessionState!"));
-            }
-
-            public static string LastProcessedInput { get; private set; }
-
-            public override OutputBuilder BuildPrompt()
-            {
-                return new OutputBuilder().Append("FakePrompt > ");
-            }
-
-            public override void ProcessInput(string command)
-            {
-                LastProcessedInput = command;
-            }
         }
     }
 }
