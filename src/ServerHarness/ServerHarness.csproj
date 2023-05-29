@@ -28,7 +28,7 @@
     <ProjectReference Include="..\Data.RavenDb\WheelMUD.Data.RavenDb.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
     <PackageReference Include="Topshelf" Version="4.3.0" />
     <ProjectReference Include="..\Actions\WheelMUD.Actions.csproj" />
     <ProjectReference Include="..\Core\WheelMUD.Core.csproj" />
