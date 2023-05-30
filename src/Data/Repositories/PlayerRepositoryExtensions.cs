@@ -22,6 +22,11 @@ namespace WheelMUD.Data.Repositories
 
         public static User Authenticate(string userName, string password)
         {
+            // Although we could simply load the target User and compare the hashed password then, this process was
+            // designed to keep as many hashed passwords out of general memory as we can, for as long as we can.
+            // (We defensively assume that a malicious actor such as a user/builder with the means to pull off some
+            // exploit could find a way to pull data from memory, to then brute force the passwords offline.)
+            // TODO: https://github.com/DavidRieman/WheelMUD/issues/179: Keep secrets of online users out of memory?
             var targetId = $"user/{userName.ToLower()}";
             using var session = Helpers.OpenDocumentSession();
             var salt = (from u in session.Query<User>()
@@ -31,6 +36,7 @@ namespace WheelMUD.Data.Repositories
             {
                 return null;
             }
+            // TODO: https://github.com/DavidRieman/WheelMUD/issues/180: Add pepper?
             var hashedPassword = User.Hash(salt, password);
             return (from u in session.Query<User>()
                     where u.Id.Equals(targetId) &&

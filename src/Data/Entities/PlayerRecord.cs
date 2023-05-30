@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using System;
-
 namespace WheelMUD.Data.Entities
 {
     /// <summary>Represents a single Player row in the Player table.</summary>
