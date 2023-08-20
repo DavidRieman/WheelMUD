@@ -22,7 +22,7 @@ namespace WheelMUD.Actions
         private const int MaxThings = 100;
 
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
+        private static readonly List<CommonGuards> ActionGuards = new()
         {
             CommonGuards.RequiresAtLeastOneArgument,
             CommonGuards.InitiatorMustBeAPlayer

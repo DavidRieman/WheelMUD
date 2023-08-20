@@ -19,7 +19,7 @@ namespace WarriorRogueMage.CharacterCreation
     {
         private static readonly OutputBuilder prompt = new OutputBuilder().Append("Select the character's skills: > ");
         private readonly List<GameSkill> gameSkills;
-        private readonly List<GameSkill> selectedSkills = new List<GameSkill>();
+        private readonly List<GameSkill> selectedSkills = new();
 
         /// <summary>Initializes a new instance of the <see cref="PickSkillsState"/> class.</summary>
         /// <param name="session">The session.</param>

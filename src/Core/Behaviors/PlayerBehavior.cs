@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using WheelMUD.Data;
 using WheelMUD.Data.Entities;
 using WheelMUD.Data.Repositories;
 using WheelMUD.Server;
@@ -26,10 +25,10 @@ namespace WheelMUD.Core
     /// <summary>The behavior for players.</summary>
     public class PlayerBehavior : Behavior
     {
-        private readonly object friendsLock = new object();
+        private readonly object friendsLock = new();
 
         /// <summary>Gets the friends of this player.</summary>
-        private List<string> friends = new List<string>();
+        private List<string> friends = new();
 
         /// <summary>Initializes a new instance of the <see cref="PlayerBehavior"/> class.</summary>
         public PlayerBehavior()

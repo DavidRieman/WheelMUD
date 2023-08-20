@@ -49,7 +49,7 @@ namespace WheelMUD.Server
             // The buffered output was already processed for ANSI and such. Using StringBuilder instead of AnsiBuilder here is
             // intended, to avoid double-processing. If we did not avoid double-processing, then things like help files trying
             // to explain how to use <%tokens%> for ANSI via escaped <% and %> sections would instead get replaced in processing.
-            StringBuilder output = new StringBuilder();
+            StringBuilder output = new();
             for (int i = 0; i < bufferLines.Length - 1; i++)
             {
                 output.AppendLine(bufferLines[i] + AnsiSequences.NewLine);

@@ -19,7 +19,7 @@ namespace WheelMUD.Core
     public class MobileManager : ManagerSystem
     {
         /// <summary>The list of managed mobiles.</summary>
-        private readonly List<Thing> mobiles = new List<Thing>();
+        private readonly List<Thing> mobiles = new();
 
         /// <summary>Prevents a default instance of the <see cref="MobileManager"/> class from being created.</summary>
         private MobileManager()

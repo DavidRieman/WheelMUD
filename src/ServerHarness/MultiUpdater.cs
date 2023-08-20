@@ -14,7 +14,7 @@ namespace ServerHarness
     public class MultiUpdater : ISuperSystemSubscriber
     {
         /// <summary>All notifiers utilized by this MultiUpdater.</summary>
-        private List<ISuperSystemSubscriber> notifiers = new List<ISuperSystemSubscriber>();
+        private List<ISuperSystemSubscriber> notifiers = new();
 
         /// <summary>Initializes a new instance of the MultiUpdater class.</summary>
         /// <param name="notifiers">All the notifiers that this MultiUpdater will utilize.</param>

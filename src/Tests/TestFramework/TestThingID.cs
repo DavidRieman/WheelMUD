@@ -11,7 +11,7 @@ namespace WheelMUD.Tests
     public static class TestThingID
     {
         /// <summary>Synchronization locking object.</summary>
-        private static readonly object lockObject = new object();
+        private static readonly object lockObject = new();
 
         /// <summary>The current ID to be assigned to new Things to guarantee unique test IDs.</summary>
         private static int currentID = 0;

@@ -19,7 +19,7 @@ namespace WheelMUD.Utilities
         public static string ToDeepString(this Exception ex)
         {
             // Start building an exception report with the full exception details.
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             // Display the top level exception message and the call stack, IE:
             // Unhandled NullReferenceException: exception text. At Stack Trace: ...

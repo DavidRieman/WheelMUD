@@ -23,13 +23,13 @@ namespace WheelMUD.Actions
     public class Credits : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>();
+        private static readonly List<CommonGuards> ActionGuards = new();
 
         /// <summary>Cache these contents to reduce file I/O.</summary>
         private static OutputBuilder cachedContents;
 
         /// <summary>The synchronization locking object.</summary>
-        private static readonly object cacheLockObject = new object();
+        private static readonly object cacheLockObject = new();
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>

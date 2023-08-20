@@ -288,7 +288,7 @@ namespace WheelMUD.Core
             }
         }
 
-        public static readonly Dictionary<string, string> PrimaryToSecondaryCommandMap = new Dictionary<string, string>()
+        public static readonly Dictionary<string, string> PrimaryToSecondaryCommandMap = new()
         {
             { "north", "n" },
             { "northeast", "ne" },
@@ -304,7 +304,7 @@ namespace WheelMUD.Core
             { "exit", "ex" }
         };
 
-        public static readonly Dictionary<string, string> MirrorDirectionMap = new Dictionary<string, string>()
+        public static readonly Dictionary<string, string> MirrorDirectionMap = new()
         {
             { "north", "south" },
             { "northeast", "southwest" },
@@ -363,7 +363,7 @@ namespace WheelMUD.Core
         private class ExitBehaviorCommands : GameAction
         {
             /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-            private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
+            private static readonly List<CommonGuards> ActionGuards = new()
             {
                 CommonGuards.InitiatorMustBeAlive,
                 CommonGuards.InitiatorMustBeConscious,

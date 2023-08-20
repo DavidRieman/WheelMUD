@@ -33,13 +33,13 @@ namespace WheelMUD.Server.Telnet
     public class TelnetCodeHandler : ITelnetCodeHandler
     {
         /// <summary>The buffer.</summary>
-        private readonly List<byte> buffer = new List<byte>();
+        private readonly List<byte> buffer = new();
 
         /// <summary>The connection telnet state.</summary>
         private ConnectionTelnetState connectionTelnetState;
 
         /// <summary>The synchronization locking object for this class.</summary>
-        private readonly object lockObject = new object();
+        private readonly object lockObject = new();
 
         /// <summary>The telnet options this handler supports.</summary>
         private readonly List<ITelnetOption> telnetOptions;

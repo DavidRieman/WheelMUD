@@ -17,7 +17,7 @@ namespace WheelMUD.Core
     public class PlayerManager : ManagerSystem
     {
         /// <summary>A list of managed, loaded players.</summary>
-        private readonly List<PlayerBehavior> playersList = new List<PlayerBehavior>();
+        private readonly List<PlayerBehavior> playersList = new();
 
         /// <summary>Prevents a default instance of the <see cref="PlayerManager"/> class from being created.</summary>
         private PlayerManager()

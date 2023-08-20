@@ -27,10 +27,10 @@ namespace WheelMUD.Core
     public class TimeSystem : ManagerSystem
     {
         /// <summary>The singleton instance of this class.</summary>
-        private static readonly Lazy<TimeSystem> SingletonInstance = new Lazy<TimeSystem>(() => new TimeSystem());
+        private static readonly Lazy<TimeSystem> SingletonInstance = new(() => new TimeSystem());
 
         /// <summary>The callback queue.</summary>
-        private readonly TimerQueue callbackQueue = new TimerQueue();
+        private readonly TimerQueue callbackQueue = new();
 
         /// <summary>The timer provides a "heartbeat".</summary>
         private Timer timer;
@@ -128,7 +128,7 @@ namespace WheelMUD.Core
         private class TimerQueue
         {
             /// <summary>Collection to store the timed events.</summary>
-            private List<TimeEvent> heap = new List<TimeEvent>();
+            private List<TimeEvent> heap = new();
 
             /// <summary>Enqueues the specified element and the associated expiration DateTime.</summary>
             /// <param name="timeEventArgs">The <see cref="WheelMUD.Core.TimeEvent"/> instance containing the event data.</param>

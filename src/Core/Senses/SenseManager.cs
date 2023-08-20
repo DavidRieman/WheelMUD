@@ -13,7 +13,7 @@ namespace WheelMUD.Core
     public class SenseManager
     {
         /// <summary>The synchronization locking object.</summary>
-        private readonly object lockObject = new object();
+        private readonly object lockObject = new();
 
         /// <summary>Gets or sets the internal dictionary of senses.</summary>
         /// <remarks>This is needed so that the senses can be saved to the document database.</remarks>

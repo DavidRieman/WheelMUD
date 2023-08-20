@@ -60,7 +60,7 @@ namespace WheelMUD.Server
         /// <returns>The altered data, after removing any non printable characters.</returns>
         private static byte[] HandleNonPrintables(IConnection sender, byte[] data)
         {
-            List<byte> buffer = new List<byte>();
+            List<byte> buffer = new();
             foreach (byte bit in data)
             {
                 if (bit == 10 || bit == 13 || (bit > 31 && bit < 127))

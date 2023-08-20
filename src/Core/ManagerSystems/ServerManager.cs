@@ -16,13 +16,13 @@ namespace WheelMUD.Core
     public class ServerManager : ManagerSystem
     {
         /// <summary>The base server.</summary>
-        private readonly BaseServer baseServer = new BaseServer();
+        private readonly BaseServer baseServer = new();
 
         /// <summary>The telnet server.</summary>
-        private readonly TelnetServer telnetServer = new TelnetServer();
+        private readonly TelnetServer telnetServer = new();
 
         /// <summary>The input parser.</summary>
-        private readonly InputParser inputParser = new InputParser();
+        private readonly InputParser inputParser = new();
 
         /// <summary>Prevents a default instance of the <see cref="ServerManager"/> class from being created.</summary>
         private ServerManager()

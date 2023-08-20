@@ -23,10 +23,10 @@ namespace WheelMUD.Server
     public class BaseServer : ISubSystem
     {
         /// <summary>The synchronization lock object.</summary>
-        private static readonly object LockObject = new object();
+        private static readonly object LockObject = new();
 
         /// <summary>The list of current connections to this server.</summary>
-        private readonly List<IConnection> connections = new List<IConnection>();
+        private readonly List<IConnection> connections = new();
 
         /// <summary>The primary socket for incoming connections.</summary>
         private Socket mainSocket;

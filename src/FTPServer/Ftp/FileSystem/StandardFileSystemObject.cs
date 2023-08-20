@@ -79,7 +79,7 @@ namespace WheelMUD.Ftp.FileSystem
 
             try
             {
-                FileInfo info = new FileInfo(fullPathOld);
+                FileInfo info = new(fullPathOld);
                 if (info == null)
                 {
                     return false;

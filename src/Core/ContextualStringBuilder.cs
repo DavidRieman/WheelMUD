@@ -46,7 +46,7 @@ namespace WheelMUD.Core
     public class ContextualStringBuilder
     {
         /// <summary>A list of contextually-constrained strings, used to build output.</summary>
-        private readonly List<ContextualString> texts = new List<ContextualString>();
+        private readonly List<ContextualString> texts = new();
 
         /// <summary>Initializes a new instance of the ContextualStringBuilder class.</summary>
         /// <param name="originator">The originator of the message.</param>

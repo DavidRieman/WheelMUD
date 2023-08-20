@@ -19,7 +19,7 @@ namespace WheelMUD.Utilities
     {
         // TODO: Consider separating ANSI from MXP handling.
         // NOTE: AnsiSequences.MxpSecureLine MUST NOT be honored from automatic conversion; e.g. cannot support "<%mxpsecureline%>" conversion.
-        private static readonly Dictionary<string, string> CodeSequenceMap = new Dictionary<string, string>()
+        private static readonly Dictionary<string, string> CodeSequenceMap = new()
         {
             { "n", AnsiSequences.TextNormal },
             { "reset", AnsiSequences.TextNormal }, // Avoid usage; favor the <%n%> form.

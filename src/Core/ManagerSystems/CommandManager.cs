@@ -18,13 +18,13 @@ namespace WheelMUD.Core
     public class CommandManager : ManagerSystem, IRecomposable
     {
         /// <summary>The master primary command list contains only the primary aliases of commands.</summary>
-        private Dictionary<string, Command> primaryCommandList = new Dictionary<string, Command>();
+        private Dictionary<string, Command> primaryCommandList = new();
 
         /// <summary>The queue of actions yet to be processed.</summary>
-        private readonly Queue<ActionInput> actionQueue = new Queue<ActionInput>();
+        private readonly Queue<ActionInput> actionQueue = new();
 
         /// <summary>The list of CommandProcessor workers.</summary>
-        private readonly List<CommandProcessor> commandProcessors = new List<CommandProcessor>();
+        private readonly List<CommandProcessor> commandProcessors = new();
 
         /// <summary>Prevents a default instance of the <see cref="CommandManager"/> class from being created.</summary>
         private CommandManager()
@@ -158,7 +158,7 @@ namespace WheelMUD.Core
                 // TODO: IFF this controller/entity has privileges to use the command, add it. (LINQ query, ToList?)
                 // TODO: We could cache any built map of privelege-set to commands-list (so long as we invalidate
                 //       it whenever we recompose commands from MEF.)
-                List<Command> commands = new List<Command>();
+                List<Command> commands = new();
                 foreach (Command command in primaryCommandList.Values)
                 {
                     commands.Add(command);

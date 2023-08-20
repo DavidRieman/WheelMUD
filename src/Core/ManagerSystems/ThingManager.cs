@@ -28,12 +28,12 @@ namespace WheelMUD.Core
         public delegate void ThingEventHandler(Thing thing);
 
         /// <summary>The singleton instance of this class.</summary>
-        private static readonly Lazy<ThingManager> SingletonInstance = new Lazy<ThingManager>(() => new ThingManager());
+        private static readonly Lazy<ThingManager> SingletonInstance = new(() => new ThingManager());
 
         /// <summary>The dictionary of all managed Things.</summary>
-        private readonly ConcurrentDictionary<string, Thing> things = new ConcurrentDictionary<string, Thing>(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, Thing> things = new(StringComparer.OrdinalIgnoreCase);
 
-        private readonly Queue<(Thing, string)> pendingChildLoads = new Queue<(Thing, string)>();
+        private readonly Queue<(Thing, string)> pendingChildLoads = new();
 
         /// <summary>Prevents a default instance of the <see cref="ThingManager"/> class from being created.</summary>
         private ThingManager()
@@ -209,7 +209,7 @@ namespace WheelMUD.Core
             return thingsToRemove.Count(thing => DestroyThing(thing));
         }
 
-        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        private readonly CancellationTokenSource cancellationTokenSource = new();
 
         /// <summary>Starts this system's individual components.</summary>
         public override void Start()

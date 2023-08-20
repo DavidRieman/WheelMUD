@@ -24,7 +24,7 @@ namespace WheelMUD.Actions.Temporary
     public class Furnishings : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>() { CommonGuards.InitiatorMustBeAPlayer };
+        private static readonly List<CommonGuards> ActionGuards = new() { CommonGuards.InitiatorMustBeAPlayer };
 
         /// <summary>Number of arguments supplied to the action.</summary>
         private int argCount;

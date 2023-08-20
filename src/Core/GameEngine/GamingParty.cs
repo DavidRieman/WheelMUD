@@ -13,7 +13,7 @@ namespace WheelMUD.Core
     public class GamingParty
     {
         /// <summary>The members of this party.</summary>
-        private readonly Dictionary<string, Thing> partyMembers = new Dictionary<string, Thing>();
+        private readonly Dictionary<string, Thing> partyMembers = new();
 
         /// <summary>Adds a member to this party.</summary>
         /// <param name="partyMember">The Entity that needs to be added.</param>

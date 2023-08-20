@@ -19,7 +19,7 @@ namespace WheelMUD.Actions
     public class Description : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>();
+        private static readonly List<CommonGuards> ActionGuards = new();
 
         /// <summary>Gets or sets the new description that will be used.</summary>
         private string NewDescription { get; set; }

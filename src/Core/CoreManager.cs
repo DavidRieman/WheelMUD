@@ -20,7 +20,7 @@ namespace WheelMUD.Core
     public class CoreManager : ISuperSystem
     {
         /// <summary>The list of super system subscribers.</summary>
-        private readonly List<ISuperSystemSubscriber> subscribers = new List<ISuperSystemSubscriber>();
+        private readonly List<ISuperSystemSubscriber> subscribers = new();
 
         /// <summary>Prevents a default instance of the CoreManager class from being created.</summary>
         private CoreManager()

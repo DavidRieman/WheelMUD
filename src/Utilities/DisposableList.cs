@@ -19,7 +19,7 @@ namespace WheelMUD.Utilities
         : List<T>, IDisposable where T : IDisposable
     {
         /// <summary>The synchronization locking object to prevent simultaneous disposal from multiple threads.</summary>
-        private readonly object lockObject = new object();
+        private readonly object lockObject = new();
 
         /// <summary>Finalizes an instance of the DisposableList class.</summary>
         ~DisposableList()

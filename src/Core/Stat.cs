@@ -15,7 +15,7 @@ namespace WheelMUD.Core
     {
         /// <summary>The synchronization locking object.</summary>
         [JsonIgnore]
-        private readonly object lockObject = new object();
+        private readonly object lockObject = new();
 
         /// <summary>The current value of this stat.</summary>
         private int currentValue;

@@ -15,10 +15,10 @@ namespace WheelMUD.Core
     public class OutputBuffer
     {
         /// <summary>Current location in the buffer.</summary>
-        private readonly object lockObject = new object();
+        private readonly object lockObject = new();
 
         /// <summary>List of output rows.</summary>
-        private readonly List<string> outputBuffer = new List<string>();
+        private readonly List<string> outputBuffer = new();
 
         /// <summary>Initializes a new instance of the <see cref="OutputBuffer"/> class.</summary>
         public OutputBuffer() { }

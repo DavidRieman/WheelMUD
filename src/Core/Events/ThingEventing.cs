@@ -120,7 +120,7 @@ namespace WheelMUD.Core
             {
                 case EventScope.ParentsDown:
                     // Send the request to each parent, until cancellation is noticed or we've finished.
-                    Queue<Thing> requestQueue = new Queue<Thing>(owner.Parents);
+                    Queue<Thing> requestQueue = new(owner.Parents);
                     while (requestQueue.Count > 0 && !e.IsCanceled)
                     {
                         Thing currentParent = requestQueue.Dequeue();
@@ -172,7 +172,7 @@ namespace WheelMUD.Core
         {
             // Build a request target queue which starts with our owner Thing and visits all it's Children.
             // (This is a queue instead of recursion to help avoid stack overflows and such with very large object trees.)
-            Queue<Thing> requestTargetQueue = new Queue<Thing>();
+            Queue<Thing> requestTargetQueue = new();
             requestTargetQueue.Enqueue(owner);
 
             while (requestTargetQueue.Count > 0)
@@ -206,7 +206,7 @@ namespace WheelMUD.Core
         {
             // Build an event target queue which starts with our owner Thing and visits all it's Children.
             // (This is a queue instead of recursion to help avoid stack overflows and such with very large object trees.)
-            Queue<Thing> eventTargetQueue = new Queue<Thing>();
+            Queue<Thing> eventTargetQueue = new();
             eventTargetQueue.Enqueue(owner);
 
             while (eventTargetQueue.Count > 0)

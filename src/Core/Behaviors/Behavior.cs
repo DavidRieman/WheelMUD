@@ -17,7 +17,7 @@ namespace WheelMUD.Core
     public abstract class Behavior : IPersistsWithPlayer
     {
         /// <summary>The synchronization locking object.</summary>
-        protected readonly object lockObject = new object();
+        protected readonly object lockObject = new();
 
         /// <summary>Initializes a new instance of the Behavior class.</summary>
         /// <param name="instanceProperties">Dictionary of properties to spawn this behavior instance with, if any.</param>

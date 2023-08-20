@@ -17,7 +17,7 @@ namespace WheelMUD.Core
     public class SessionStateManager : IRecomposable
     {
         /// <summary>The synchronization locking object.</summary>
-        private static readonly object LockObject = new object();
+        private static readonly object LockObject = new();
 
         /// <summary>The current default session state constructor (as found by MEF).</summary>
         private ConstructorInfo defaultSessionStateConstructor;

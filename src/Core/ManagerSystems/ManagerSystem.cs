@@ -17,7 +17,7 @@ namespace WheelMUD.Core
         public ISystemHost SystemHost { get; private set; }
 
         /// <summary>The synchronization locking object for the manager.</summary>
-        protected readonly object lockObject = new object();
+        protected readonly object lockObject = new();
 
         /// <summary>Subscribes this system to the specified system host, so that host can receive updates.</summary>
         /// <param name="systemHost">The system host to receive our updates.</param>

@@ -30,19 +30,19 @@ namespace WheelMUD.Core
     public sealed class Thing : IThing, IDisposable, IIdentifiable
     {
         /// <summary>The synchronization locking object.</summary>
-        private readonly object lockObject = new object();
+        private readonly object lockObject = new();
 
         /// <summary>The additional context commands available to this thing.</summary>
-        private readonly Dictionary<string, ContextCommand> contextCommands = new Dictionary<string, ContextCommand>();
+        private readonly Dictionary<string, ContextCommand> contextCommands = new();
 
         /// <summary>The stats of this thing.</summary>
-        private Dictionary<string, GameStat> stats = new Dictionary<string, GameStat>();
+        private Dictionary<string, GameStat> stats = new();
 
         /// <summary>The game attributes of this thing.</summary>
-        private Dictionary<string, GameAttribute> attributes = new Dictionary<string, GameAttribute>();
+        private Dictionary<string, GameAttribute> attributes = new();
 
         /// <summary>The game skills of this thing.</summary>
-        private Dictionary<string, GameSkill> skills = new Dictionary<string, GameSkill>();
+        private Dictionary<string, GameSkill> skills = new();
 
         /// <summary>The unique ID of this thing.</summary>
         private string id;
@@ -288,7 +288,7 @@ namespace WheelMUD.Core
             }
         }
 
-        private List<Thing> children = new List<Thing>();
+        private List<Thing> children = new();
 
         /// <summary>Gets the children of this Thing as a read-only collection.</summary>
         /// <remarks>To add/remove a child properly, use the Add method.</remarks>

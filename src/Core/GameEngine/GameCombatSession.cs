@@ -13,7 +13,7 @@ namespace WheelMUD.Core
     public class GameCombatSession
     {
         /// <summary>Keeps a list of all the members of this combat session.</summary>
-        private readonly Hashtable combatantHashtable = new Hashtable();
+        private readonly Hashtable combatantHashtable = new();
 
         /// <summary>Gets the entities that are part of this combat session.</summary>
         public Hashtable Combatants

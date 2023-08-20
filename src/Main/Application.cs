@@ -24,7 +24,7 @@ namespace WheelMUD.Main
     public class Application : ISuperSystem, ISuperSystemSubscriber
     {
         /// <summary>A list of subscribers of this super system.</summary>
-        private readonly List<ISuperSystemSubscriber> subscribers = new List<ISuperSystemSubscriber>();
+        private readonly List<ISuperSystemSubscriber> subscribers = new();
 
         /// <summary>Prevents a default instance of the <see cref="Application"/> class from being created.</summary>
         private Application()
@@ -116,7 +116,7 @@ namespace WheelMUD.Main
 
         private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
         {
-            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+            DirectoryInfo dir = new(sourceDirName);
             DirectoryInfo[] dirs = dir.GetDirectories();
 
             // If the source directory does not exist, throw an exception.

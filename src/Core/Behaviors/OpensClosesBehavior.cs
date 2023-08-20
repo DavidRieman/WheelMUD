@@ -163,7 +163,7 @@ namespace WheelMUD.Core
         private class OpensClosesBehaviorCommands : GameAction
         {
             /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-            private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>
+            private static readonly List<CommonGuards> ActionGuards = new()
             {
                 CommonGuards.InitiatorMustBeAlive,
                 CommonGuards.InitiatorMustBeConscious,

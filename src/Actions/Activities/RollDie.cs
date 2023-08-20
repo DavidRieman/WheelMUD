@@ -22,7 +22,7 @@ namespace WheelMUD.Actions
     public class RollDie : GameAction
     {
         /// <summary>List of reusable guards which must be passed before action requests may proceed to execution.</summary>
-        private static readonly List<CommonGuards> ActionGuards = new List<CommonGuards>();
+        private static readonly List<CommonGuards> ActionGuards = new();
 
         /// <summary>Executes the command.</summary>
         /// <param name="actionInput">The full input specified for executing the command.</param>

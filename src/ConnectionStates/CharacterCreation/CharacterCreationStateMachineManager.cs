@@ -27,7 +27,7 @@ namespace WheelMUD.ConnectionStates
     public class CharacterCreationStateMachineManager : IRecomposable
     {
         /// <summary>The synchronization locking object.</summary>
-        private static readonly object LockObject = new object();
+        private static readonly object LockObject = new();
 
         /// <summary>The default character creation state machine constructor, as identified during composition.</summary>
         private ConstructorInfo defaultCharacterCreationStateMachineConstructor;

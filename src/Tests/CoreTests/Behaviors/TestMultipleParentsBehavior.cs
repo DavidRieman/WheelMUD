@@ -97,7 +97,7 @@ namespace WheelMUD.Tests.Behaviors
             parent1.Add(child);
 
             // Verify we can be attached to more than 2 parents.
-            Thing parent3 = new Thing() { Name = "Thing3", Id = TestThingID.Generate("testthing") };
+            Thing parent3 = new() { Name = "Thing3", Id = TestThingID.Generate("testthing") };
             parent3.Add(child);
             Assert.IsTrue(parent1.Children.Contains(child));
             Assert.IsTrue(parent2.Children.Contains(child));

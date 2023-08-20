@@ -40,7 +40,7 @@ namespace TestHelpers
             set => throw new NotImplementedException();
         }
 
-        public TerminalOptions TerminalOptions => new TerminalOptions();
+        public TerminalOptions TerminalOptions => new();
 
         public ITelnetCodeHandler TelnetCodeHandler => throw new NotImplementedException();
 
