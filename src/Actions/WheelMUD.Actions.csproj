@@ -19,7 +19,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Management" Version="7.0.1" />
+    <PackageReference Include="System.Management" Version="7.0.2" />
     <ProjectReference Include="..\Core\WheelMUD.Core.csproj" />
     <ProjectReference Include="..\Data\WheelMUD.Data.csproj" />
     <ProjectReference Include="..\Effects\WheelMUD.Effects.csproj" />
