@@ -36,7 +36,6 @@ namespace WheelMUD.Data.Repositories
             {
                 return null;
             }
-            // TODO: https://github.com/DavidRieman/WheelMUD/issues/180: Add pepper?
             var hashedPassword = User.Hash(salt, password);
             return (from u in session.Query<User>()
                     where u.Id.Equals(targetId) &&
