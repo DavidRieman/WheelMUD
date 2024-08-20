@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using WheelMUD.Data.Entities;
 using WheelMUD.Data.Repositories;
 using WheelMUD.Server;
 
@@ -42,21 +41,7 @@ namespace WheelMUD.Core
         public PlayerBehavior(long instanceId, Dictionary<string, object> instanceProperties)
             : base(instanceProperties)
         {
-            PlayerData = new PlayerRecord();
             ID = instanceId;
-        }
-
-        /// <summary>Gets or sets the player's name.</summary>
-        /// <value>The name of the player.</value>
-        /// <remarks>
-        /// This is used to make it easier on external systems that need to set this. 
-        /// For example the character creation system is one of those systems.
-        /// </remarks>
-        [JsonIgnore]
-        public string Name
-        {
-            get { return PlayerData.DisplayName; }
-            set { PlayerData.DisplayName = value; }
         }
 
         /// <summary>Gets or sets the current room id.</summary>
@@ -89,15 +74,6 @@ namespace WheelMUD.Core
 
         /// <summary>Gets or sets the date/time when the player when AFK.</summary>
         public DateTime? WhenWentAFK { get; set; }
-
-        /// <summary>Gets or sets the player specific data.</summary>
-        /// <remarks>TODO: Migrate some of this data to be included in DB or otherwise saved? We're not persisting last logout time etc.</remarks>
-        [JsonIgnore]
-        public PlayerRecord PlayerData { get; set; }
-
-        /// <summary>Gets or sets the roles for this player.</summary>
-        [JsonIgnore]
-        public List<PlayerRoleRecord> RoleData { get; set; }
 
         /// <summary>Gets the friends of this player.</summary>
         [JsonIgnore]
