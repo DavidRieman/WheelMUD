@@ -26,8 +26,11 @@ namespace WheelMUD.Core
 
             string plural1 = "is";
 
+            // Get a read-only set of players, to have consistent output even if a thread changes the real list while we iterate.
+            var players = PlayerManager.Instance.Players;
+
             // TODO: Should query for players who can be known about by this player (e.g. omit wiz-inviz players, if any?)
-            if (PlayerManager.Instance.Players.Count > 1)
+            if (players.Count > 1)
             {
                 plural = "s";
                 plural1 = "are";
@@ -42,7 +45,7 @@ namespace WheelMUD.Core
             output.AppendSeparator();
             output.AppendLine();
             output.AppendLine($"The following player{plural} {plural1} currently online:");
-            foreach (PlayerBehavior player in PlayerManager.Instance.Players)
+            foreach (PlayerBehavior player in players)
             {
                 var playerName = player.Parent.Name;
                 var playerState = GetPlayerState(player);
@@ -50,7 +53,7 @@ namespace WheelMUD.Core
                 {
                     // TODO: "tell {0}" is not a good menu command; possibly friend add/remove, invite to group, hailing, and so on.
                     // TODO: #107: Fix handling of MXP Secure Lines...  (This wasn't being built in a safe way, and does not render correctly now.)
-                    output.AppendLine($"<%mxpsecureline%><send \"finger {playerName}|tell {playerName}\" \"|finger|tell\">{playerName}</send> - {player.Parent.FullName} {playerState}");
+                    output.AppendLine($"{AnsiSequences.MxpSecureLine}<send \"finger {playerName}|tell {playerName}\" \"|finger|tell\">{playerName}</send> - {player.Parent.FullName} {playerState}");
                 }
                 else
                 {
@@ -60,7 +63,7 @@ namespace WheelMUD.Core
 
             output.AppendLine();
             output.AppendSeparator();
-            output.AppendLine($"Counted {PlayerManager.Instance.Players.Count} player{plural} online.");
+            output.AppendLine($"Counted {players.Count} player{plural} online.");
             output.AppendLine();
             output.AppendSeparator();
             return output;

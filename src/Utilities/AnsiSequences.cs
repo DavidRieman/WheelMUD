@@ -57,6 +57,13 @@ namespace WheelMUD.Utilities
         public const string MxpOpenLine = Esc + "[0z";
 
         /// <summary>The extended ANSI-like sequence for 'MXP secure line'.</summary>
+        /// <remarks>
+        /// This should ONLY be used for output DEVOID of user-generated content. Or at the least, for
+        /// content that has been rigorously sanitized from all special characters. Otherwise, clever
+        /// users will be able to wreak havoc on others with specially crafted sequences.
+        /// For example, this may be safe to use with a line associated with a player name, provided
+        /// that the game programmatically enforces only alphabetic characters in created player names.
+        /// </remarks>
         public const string MxpSecureLine = Esc + "[1z";
 
         /// <summary>The ANSI sequence for resetting all text to normal attributes.</summary>

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WheelMUD.Server;
+using WheelMUD.Utilities;
 
 namespace WheelMUD.Core
 {
@@ -26,8 +27,14 @@ namespace WheelMUD.Core
                 var matchingcommands = commands.Where(command => command.Category.HasFlag(category));
                 if (matchingcommands.Any())
                 {
-                    // THIS DOESN'T WORK ANYMORE - NEED TO USE SECURE LINE API AND HAVE SEPARATE OUTPUT FOR NON-MXP CLIENTS!
-                    output.AppendLine($"<%mxpsecureline%><send \"commands {category}\">{category}</send> ({matchingcommands.Count()})");
+                    if (terminalOptions.UseMXP)
+                    {
+                        output.AppendLine($"{AnsiSequences.MxpSecureLine}<send \"commands {category}\">{category}</send> ({matchingcommands.Count()})");
+                    }
+                    else
+                    {
+                        output.AppendLine($"{category} ({matchingcommands.Count()}): see: 'commands {category}'");
+                    }
                 }
             }
 
