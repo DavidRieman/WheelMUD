@@ -45,10 +45,6 @@ namespace WheelMUD.Utilities
             { "u", AnsiSequences.TextUnderline },
             { "underline", AnsiSequences.TextUnderline },
             { "hidden", AnsiSequences.TextHidden },
-            { "up", AnsiSequences.MoveCursorUp1 },
-            { "down", AnsiSequences.MoveCursorDown1 },
-            { "left", AnsiSequences.MoveCursorLeft1 },
-            { "right", AnsiSequences.MoveCursorRight1 },
         };
 
         /// <summary>Gets the ANSI sequence to move the cursor up the specified number of lines.</summary>
