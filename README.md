@@ -6,7 +6,7 @@ C# MUD framework.
 WheelMUD is a framework for creating Multiple-User Dimensions (MUDs) using the .NET platform and the C# language. Being built on modern tools and techniques, WheelMUD will allow MUD administrators to build their world and customize the code far easier than the MUDs of yesteryear.
 
 ## Project Information
-There is lots of information about WheelMUD, and [Documentation](docs/README.md) for WheelMUD, available right here in the source tree.
+We have lots of information and documentation for WheelMUD.
 Get started at the [Documentation](docs/README.md) root, where you will find things ranging from the [Project Goals](docs/ProjectGoals.md) to [Development](docs/Development/README.md)-oriented information.
 
 WheelMUD has had a [long history](docs/ProjectHistory.md), having migrated hosting sites/strategies multiple times and continues to evolve.
