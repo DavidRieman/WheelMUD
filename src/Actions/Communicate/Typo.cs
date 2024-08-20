@@ -39,7 +39,7 @@ namespace WheelMUD.Actions
             var typoEntry = new TypoEntry
             {
                 Note = actionInput.Tail,
-                PlaceID = player.Parent.Id,
+                PlaceID = player.Parent?.Id,
                 SubmittedByPlayerID = player.Id,
                 SubmittedDateTime = DateTime.Now,
                 Resolved = false
