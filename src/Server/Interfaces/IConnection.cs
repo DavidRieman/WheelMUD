@@ -28,7 +28,7 @@ namespace WheelMUD.Server.Interfaces
         IPAddress CurrentIPAddress { get; }
 
         /// <summary>Gets or sets the output buffer stored for the connection.</summary>
-        OutputBuffer OutputBuffer { get; set; }
+        OutputBuffer OutputBuffer { get; }
 
         /// <summary>Gets the terminal for this connection.</summary>
         TerminalOptions TerminalOptions { get; }
@@ -36,7 +36,7 @@ namespace WheelMUD.Server.Interfaces
         /// <summary>Gets the telnet option code handler for this connection.</summary>
         ITelnetCodeHandler TelnetCodeHandler { get; }
 
-        /// <summary>Gets the byte data currently on the connection (IE hasnt been processed into an input string yet).</summary>
+        /// <summary>Gets the byte data currently on the connection (IE hasn't been processed into an input string yet).</summary>
         byte[] Data { get; }
 
         /// <summary>Gets the textual representation of the data still waiting to be returned as an input string.</summary>

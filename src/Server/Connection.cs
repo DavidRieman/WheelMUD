@@ -34,6 +34,12 @@ namespace WheelMUD.Server
         /// </summary>
         private static bool DebugConnectionsOutgoingData = false;
 
+        /// <summary>
+        /// If true, replicate ALL incoming input from all connections to the console as well.
+        /// Prints in a convenient debugging format to demonstrate special characters too (and assumes the console window can handle color output).
+        /// </summary>
+        private static bool DebugConnectionsIncomingData = false;
+
         /// <summary>The threshold, in characters, beyond which MCCP should be used.</summary>
         private const int MCCPThreshold = 100;
 
@@ -51,9 +57,6 @@ namespace WheelMUD.Server
         /// <param name="connectionHost">The system hosting this connection.</param>
         public Connection(Socket socket, ISubSystem connectionHost)
         {
-            Buffer = new StringBuilder();
-            OutputBuffer = new OutputBuffer();
-            Data = new byte[1];
             TerminalOptions = new TerminalOptions();
             this.socket = socket;
             var remoteEndPoint = (IPEndPoint)this.socket.RemoteEndPoint;
@@ -84,10 +87,18 @@ namespace WheelMUD.Server
         public IPAddress CurrentIPAddress { get; private set; }
 
         /// <summary>Gets the buffer of this connection.</summary>
-        public byte[] Data { get; private set; }
+        /// <remarks>
+        /// This buffer is intentionally tiny for now so we don't have to keep making new buffers or cleansing old ones.
+        /// Basically this means our data streams in similarly for char-at-a-time mode and line-at-a-time mode since the
+        /// line-at-a-time mode will also only add one byte at a time to the building received input buffer.
+        /// The architecture handles byte[] though, as we should be able to try handling more data at a time in the future.
+        /// TODO: Try optimizing for clients which send many bytes at a time (with fresh small buffers of various sizes)
+        ///       and perform performance analysis of the various configurations to find a good default configuration.
+        /// </remarks>
+        public byte[] Data { get; private set; } = new byte[1];
 
         /// <summary>Gets or sets the buffer of data not yet passed as an action.</summary>
-        public StringBuilder Buffer { get; set; }
+        public StringBuilder Buffer { get; set; } = new StringBuilder();
 
         /// <summary>Gets or sets the number of buffered rows which the connection's client can handle as one page.</summary>
         public int PagingRowLimit
@@ -113,7 +124,7 @@ namespace WheelMUD.Server
         public string LastInputTerminator { get; set; }
 
         /// <summary>Gets or sets the buffer still waiting to be sent to the connection.</summary>
-        public OutputBuffer OutputBuffer { get; set; }
+        public OutputBuffer OutputBuffer { get; private set; } = new OutputBuffer();
 
         /// <summary>Disconnects the connection.</summary>
         public void Disconnect()
@@ -129,7 +140,7 @@ namespace WheelMUD.Server
             {
                 if (DebugConnectionsOutgoingData)
                 {
-                    DebugConsoleLog(data);
+                    DebugConsoleLogOutgoing(data);
                 }
                 socket.BeginSend(data, 0, data.Length, 0, new AsyncCallback(OnSendComplete), null);
             }
@@ -256,6 +267,11 @@ namespace WheelMUD.Server
                     }
                     else
                     {
+                        if (DebugConnectionsIncomingData)
+                        {
+                            DebugConsoleLogIncoming(Data);
+                        }
+
                         // Raise the Data Received Event. Signals that some data has arrived.
                         DataReceived?.Invoke(this, this);
 
@@ -328,16 +344,15 @@ namespace WheelMUD.Server
             return b.ToString();
         }
 
-        private static void DebugConsoleLog(byte[] data)
+        private static void DebugConsoleLogOutgoing(byte[] data)
         {
             bool lastWasCR = false;
             var sb = new StringBuilder(data.Length);
             foreach (byte b in data)
             {
                 // The nice printable characters range from 32 (space) up to 126 (tilde).
-                // We don't want to try to print control characters, DEL character (127), etc.
                 bool printable = (b >= 32 && b <= 126);
-                sb.Append(printable ? (char)b : $"{AnsiSequences.ForegroundGreen}({AnsiSequences.ForegroundYellow}{HumanReadable(b)}{AnsiSequences.ForegroundGreen}){AnsiSequences.TextNormal}");
+                sb.Append(printable ? $"{AnsiSequences.ForegroundYellow}{(char)b}" : $"{AnsiSequences.ForegroundGreen}({AnsiSequences.ForegroundYellow}{HumanReadable(b)}{AnsiSequences.ForegroundGreen}){AnsiSequences.TextNormal}");
 
                 // If it was a LF or NULL and the last character was CR, then we just print like [CR][LF]
                 // and can follow that up now with a real console newline to match.
@@ -349,6 +364,24 @@ namespace WheelMUD.Server
                 // Finally, track whether THIS character was a CR, for the next pass to know.
                 lastWasCR = b == 13;
             }
+            sb.Append($"{AnsiSequences.TextNormal}");
+            Console.Write(sb.ToString());
+        }
+
+        private static void DebugConsoleLogIncoming(byte[] data)
+        {
+            var sb = new StringBuilder(data.Length);
+            foreach (byte b in data)
+            {
+                // The nice printable characters range from 32 (space) up to 126 (tilde).
+                bool printable = (b >= 32 && b <= 126);
+                sb.Append(printable ? $"{AnsiSequences.ForegroundRed}{(char)b}" : $"{AnsiSequences.ForegroundMagenta}({AnsiSequences.ForegroundRed}{HumanReadable(b)}{AnsiSequences.ForegroundMagenta})");
+                if (b == 0 || b == 10)
+                {
+                    sb.AppendLine();
+                }
+            }
+            sb.Append($"{AnsiSequences.TextNormal}");
             Console.Write(sb.ToString());
         }
     }
