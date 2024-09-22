@@ -28,6 +28,12 @@ namespace WheelMUD.Server
         // encoder "Encoding.GetEncoding(437)", so we went back to this 7-bit ASCII encoder.
         public static readonly Encoding CurrentEncoding = Encoding.ASCII;
 
+        /// <summary>
+        /// If true, replicate ALL output going to all connections to the console as well.
+        /// Prints in a convenient debugging format to demonstrate special characters too (and assumes the console window can handle color output).
+        /// </summary>
+        private static bool DebugConnectionsOutgoingData = false;
+
         /// <summary>The threshold, in characters, beyond which MCCP should be used.</summary>
         private const int MCCPThreshold = 100;
 
@@ -121,6 +127,10 @@ namespace WheelMUD.Server
         {
             try
             {
+                if (DebugConnectionsOutgoingData)
+                {
+                    DebugConsoleLog(data);
+                }
                 socket.BeginSend(data, 0, data.Length, 0, new AsyncCallback(OnSendComplete), null);
             }
             catch (SocketException)
@@ -295,6 +305,51 @@ namespace WheelMUD.Server
 
                 ClientDisconnected?.Invoke(this, new ConnectionArgs(this));
             }
+        }
+
+        private static string HumanReadable(byte b)
+        {
+            // Decide what string to represent each byte in the debug mode with.
+            // E.G. we might want to use "CR" and "LF" for those special characters to understand them quickly.
+            switch (b)
+            {
+                case 0: return "NUL";    // NULL character.
+                case 10: return "LF";    // Line Feed.
+                case 13: return "CR";    // Carriage Return.
+                case 240: return "SubE"; // Subnegotiation End.
+                case 250: return "SubB"; // Subnegotiation End.
+                case 251: return "WILL"; // Commonly after IAC, informs we will use a protocol mechanism.
+                case 252: return "WONT"; // Commonly after IAC, informs we won't use a protocol mechanism.
+                case 253: return "DO";   // Commonly after IAC, instruct other party to use a protocol mechanism.
+                case 254: return "DONT"; // Commonly after IAC, instruct other party not to use a protocol mechanism.
+                case 255: return "IAC";  // Sequence Initialize and Escape Character. Opens telnet commands, etc.
+                default: break;
+            }
+            return b.ToString();
+        }
+
+        private static void DebugConsoleLog(byte[] data)
+        {
+            bool lastWasCR = false;
+            var sb = new StringBuilder(data.Length);
+            foreach (byte b in data)
+            {
+                // The nice printable characters range from 32 (space) up to 126 (tilde).
+                // We don't want to try to print control characters, DEL character (127), etc.
+                bool printable = (b >= 32 && b <= 126);
+                sb.Append(printable ? (char)b : $"{AnsiSequences.ForegroundGreen}({AnsiSequences.ForegroundYellow}{HumanReadable(b)}{AnsiSequences.ForegroundGreen}){AnsiSequences.TextNormal}");
+
+                // If it was a LF or NULL and the last character was CR, then we just print like [CR][LF]
+                // and can follow that up now with a real console newline to match.
+                if ((b == 0 || b == 10) && lastWasCR)
+                {
+                    sb.AppendLine();
+                }
+
+                // Finally, track whether THIS character was a CR, for the next pass to know.
+                lastWasCR = b == 13;
+            }
+            Console.Write(sb.ToString());
         }
     }
 }
