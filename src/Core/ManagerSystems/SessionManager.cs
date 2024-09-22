@@ -157,14 +157,15 @@ namespace WheelMUD.Core
 
             foreach (var fileInfo in files)
             {
-                var sr = new StreamReader(fileInfo.FullName);
-                string splashContent = sr.ReadToEnd();
-                sr.Close();
+                using (var sr = new StreamReader(fileInfo.FullName))
+                {
+                    var splashContent = sr.ReadToEnd();
+                    var renderedScreen = viewEngine.RenderView(splashContent);
 
-                string renderedScreen = viewEngine.RenderView(splashContent);
+                    splashScreens.Add(renderedScreen);
+                }
 
-                splashScreens.Add(renderedScreen);
-                this.SystemHost.UpdateSystemHost(this, string.Format("{0} has been loaded.", fileInfo.Name));
+                this.SystemHost.UpdateSystemHost(this, $"{fileInfo.Name} has been loaded.");
             }
         }
 

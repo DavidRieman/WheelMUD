@@ -49,18 +49,20 @@ namespace WheelMUD.Actions
             {
                 if (cachedContents == null || (parameters.Length > 0 && parameters[0].ToLower() == "reload"))
                 {
-                    StreamReader reader = new StreamReader("Files\\Credits.txt");
-                    StringBuilder stringBuilder = new StringBuilder();
-                    string s;
-                    while ((s = reader.ReadLine()) != null)
+                    using (var reader = new StreamReader("Files\\Credits.txt"))
                     {
-                        if (!s.StartsWith(";"))
+                        var stringBuilder = new StringBuilder();
+                        string s;
+                        while ((s = reader.ReadLine()) != null)
                         {
-                            stringBuilder.AppendLine(s);
+                            if (!s.StartsWith(";"))
+                            {
+                                stringBuilder.AppendLine(s);
+                            }
                         }
-                    }
 
-                    cachedContents = stringBuilder.ToString();
+                        cachedContents = stringBuilder.ToString();
+                    }
                 }
 
                 sender.Write(cachedContents);

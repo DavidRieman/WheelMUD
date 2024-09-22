@@ -102,10 +102,11 @@ namespace WheelMUD.Actions
 
                 try
                 {
-                    var sr = new StreamReader(Path.Combine(path, "Help.ans"), Encoding.GetEncoding(437));
-                    string data = sr.ReadToEnd();
-                    sender.Write(data);
-                    sr.Close();
+                    using (var sr = new StreamReader(Path.Combine(path, "Help.ans"), Encoding.GetEncoding(437)))
+                    {
+                        string data = sr.ReadToEnd();
+                        sender.Write(data);
+                    }
                 }
                 catch (Exception)
                 {
