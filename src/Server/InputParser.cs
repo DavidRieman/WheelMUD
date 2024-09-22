@@ -22,7 +22,7 @@ namespace WheelMUD.Server
         /// <param name="sender">The sender of the input.</param>
         /// <param name="args">The connection arguments.</param>
         /// <param name="input">The input that was received.</param>
-        public delegate void InputReceivedEventHandler(object sender, ConnectionArgs args, string input);
+        public delegate void InputReceivedEventHandler(object sender, IConnection connection, string input);
 
         /// <summary>The 'input received' event handler.</summary>
         public event InputReceivedEventHandler InputReceived;
@@ -73,7 +73,7 @@ namespace WheelMUD.Server
                 // We should pass that up as a valid command.
                 if (input == newLineMarker)
                 {
-                    RaiseInputReceived(new ConnectionArgs(sender), string.Empty);
+                    RaiseInputReceived(sender, string.Empty);
                 }
 
                 // Does our input "end" with \r if so then we have a series of full commands.
@@ -95,7 +95,7 @@ namespace WheelMUD.Server
                         sender.LastRawInput = currentInput;
 
                         // Raise the input received event.
-                        RaiseInputReceived(new ConnectionArgs(sender), currentInput.Trim());
+                        RaiseInputReceived(sender, currentInput.Trim());
                     }
                 }
 
@@ -157,9 +157,9 @@ namespace WheelMUD.Server
         /// <summary>Raises our input receive event safely.</summary>
         /// <param name="connectionArgs">The connection arguments</param>
         /// <param name="action">The text that was received</param>
-        private void RaiseInputReceived(ConnectionArgs connectionArgs, string action)
+        private void RaiseInputReceived(IConnection connection, string action)
         {
-            InputReceived?.Invoke(this, connectionArgs, action);
+            InputReceived?.Invoke(this, connection, action);
         }
     }
 }

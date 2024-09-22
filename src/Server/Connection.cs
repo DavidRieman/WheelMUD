@@ -66,13 +66,13 @@ namespace WheelMUD.Server
         public bool AtNewLine { get; private set; } = true;
 
         /// <summary>The 'client disconnected' event handler.</summary>
-        public event EventHandler<ConnectionArgs> ClientDisconnected;
+        public event EventHandler<IConnection> ClientDisconnected;
 
         /// <summary>The 'data received' event handler.</summary>
-        public event EventHandler<ConnectionArgs> DataReceived;
+        public event EventHandler<IConnection> DataReceived;
 
         /// <summary>The 'data sent' event handler.</summary>
-        public event EventHandler<ConnectionArgs> DataSent;
+        public event EventHandler<IConnection> DataSent;
 
         /// <summary>Gets the Terminal Options of this connection.</summary>
         public TerminalOptions TerminalOptions { get; private set; }
@@ -225,7 +225,7 @@ namespace WheelMUD.Server
                 socket.EndSend(asyncResult);
 
                 // Raise our data sent event.
-                DataSent?.Invoke(this, new ConnectionArgs(this));
+                DataSent?.Invoke(this, this);
             }
             catch
             {
@@ -257,7 +257,7 @@ namespace WheelMUD.Server
                     else
                     {
                         // Raise the Data Received Event. Signals that some data has arrived.
-                        DataReceived?.Invoke(this, new ConnectionArgs(this));
+                        DataReceived?.Invoke(this, this);
 
                         // Continue the waiting for data on the Socket
                         ListenForData();
@@ -303,7 +303,7 @@ namespace WheelMUD.Server
                 socket.Shutdown(SocketShutdown.Both);
                 socket.Close();
 
-                ClientDisconnected?.Invoke(this, new ConnectionArgs(this));
+                ClientDisconnected?.Invoke(this, this);
             }
         }
 

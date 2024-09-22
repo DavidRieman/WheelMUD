@@ -36,6 +36,8 @@ namespace WheelMUD.Server
         /// <returns>an array of bytes with the version tag stripped</returns>
         internal static byte[] ParseIncomingData(IConnection sender, byte[] data)
         {
+            if (data.Length == 0) return data; // Already done.
+
             // Not a nice implementation of a state machine, but it does the job for this tiny piece of functionality.
 
             // Get our mxp telnet option.

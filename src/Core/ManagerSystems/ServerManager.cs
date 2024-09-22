@@ -93,7 +93,7 @@ namespace WheelMUD.Core
         /// <summary>This is called when the base server sent data.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
-        private static void BaseServer_OnDataSent(object sender, ConnectionArgs args)
+        private static void BaseServer_OnDataSent(object sender, IConnection connection)
         {
         }
 
@@ -115,38 +115,37 @@ namespace WheelMUD.Core
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
         /// <param name="input">The input received.</param>
-        private void CommandServer_OnInputReceived(object sender, ConnectionArgs args, string input)
+        private void CommandServer_OnInputReceived(object sender, IConnection connection, string input)
         {
             // We send the data received onto our session manager to deal with the input.
-            SessionManager.Instance.OnInputReceived(args.Connection, input);
+            SessionManager.Instance.OnInputReceived(connection, input);
         }
 
         /// <summary>This is called when a client connects to the base server.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
-        private void BaseServer_OnClientConnect(object sender, ConnectionArgs args)
+        private void BaseServer_OnClientConnect(object sender, IConnection connection)
         {
             // We send the connection to our session manager to deal with.
-            UpdateSubSystemHost((ISubSystem)sender, args.Connection.ID + " - Connected");
-            SessionManager.Instance.OnSessionConnected(args.Connection);
+            UpdateSubSystemHost((ISubSystem)sender, connection.ID + " - Connected");
+            SessionManager.Instance.OnSessionConnected(connection);
         }
 
         /// <summary>This is called when a client disconnects from the base server.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
-        private void BaseServer_OnClientDisconnected(object sender, ConnectionArgs args)
+        private void BaseServer_OnClientDisconnected(object sender, IConnection connection)
         {
-            SessionManager.Instance.OnSessionDisconnected(args.Connection);
-
-            UpdateSubSystemHost((ISubSystem)sender, args.Connection.ID + " - Disconnected");
+            SessionManager.Instance.OnSessionDisconnected(connection);
+            UpdateSubSystemHost((ISubSystem)sender, connection.ID + " - Disconnected");
         }
 
         /// <summary>This is called when the base server receives data.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
-        private void BaseServer_OnDataReceived(object sender, ConnectionArgs args)
+        private void BaseServer_OnDataReceived(object sender, IConnection connection)
         {
-            ProcessIncomingData(args.Connection, args.Connection.Data);
+            ProcessIncomingData(connection, connection.Data);
         }
 
         /// <summary>Processes the player log out events from the player manager; disconnects logged out characters.</summary>

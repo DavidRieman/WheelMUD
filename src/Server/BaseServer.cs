@@ -41,16 +41,16 @@ namespace WheelMUD.Server
         }
 
         /// <summary>A 'client connected' event raised by the server.</summary>
-        public event EventHandler<ConnectionArgs> ClientConnect;
+        public event EventHandler<IConnection> ClientConnect;
 
         /// <summary>A 'client disconnected' event raised by the server.</summary>
-        public event EventHandler<ConnectionArgs> ClientDisconnected;
+        public event EventHandler<IConnection> ClientDisconnected;
 
         /// <summary>A 'data received' event raised by the server.</summary>
-        public event EventHandler<ConnectionArgs> DataReceived;
+        public event EventHandler<IConnection> DataReceived;
 
         /// <summary>A 'data sent' event raised by the server.</summary>
-        public event EventHandler<ConnectionArgs> DataSent;
+        public event EventHandler<IConnection> DataSent;
 
         /// <summary>Gets or sets which port this server listens to for incoming connections.</summary>
         public int Port { get; set; }
@@ -126,7 +126,7 @@ namespace WheelMUD.Server
             lock (LockObject)
             {
                 connections.Remove(connection);
-                ClientDisconnected?.Invoke(this, new ConnectionArgs(connection));
+                ClientDisconnected?.Invoke(this, connection);
             }
         }
 
@@ -159,22 +159,22 @@ namespace WheelMUD.Server
                 // by calling EndAccept() - which returns the reference to
                 // a new Socket object
                 Socket socket = mainSocket.EndAccept(asyncResult);
-                var conn = new Connection(socket, this);
-                conn.DataSent += EventHandlerDataSent;
-                conn.DataReceived += EventHandlerDataReceived;
-                conn.ClientDisconnected += EventHandlerClientDisconnected;
+                var connection = new Connection(socket, this);
+                connection.DataSent += EventHandlerDataSent;
+                connection.DataReceived += EventHandlerDataReceived;
+                connection.ClientDisconnected += EventHandlerClientDisconnected;
 
                 // Let the worker Socket do the further processing for the 
                 // just connected client
-                conn.ListenForData();
+                connection.ListenForData();
 
                 lock (LockObject)
                 {
-                    connections.Add(conn);
+                    connections.Add(connection);
                 }
 
                 // Raise our client connect event.
-                ClientConnect?.Invoke(this, new ConnectionArgs(conn));
+                ClientConnect?.Invoke(this, connection);
 
                 // Since the main Socket is now free, it can go back and wait for
                 // other clients who are attempting to connect
@@ -190,30 +190,30 @@ namespace WheelMUD.Server
         /// <summary>The event handler for the 'client disconnected' event.</summary>
         /// <param name="sender">The connection that originated this event.</param>
         /// <param name="args">The connection arguments for this event.</param>
-        private void EventHandlerClientDisconnected(object sender, ConnectionArgs args)
+        private void EventHandlerClientDisconnected(object sender, IConnection connection)
         {
             lock (LockObject)
             {
-                connections.Remove(args.Connection);
+                connections.Remove(connection);
             }
 
-            ClientDisconnected?.Invoke(this, args);
+            ClientDisconnected?.Invoke(this, connection);
         }
 
         /// <summary>The event handler for the 'data received' event.</summary>
         /// <param name="sender">The connection that originated this event.</param>
         /// <param name="args">The connection arguments for this event.</param>
-        private void EventHandlerDataReceived(object sender, ConnectionArgs args)
+        private void EventHandlerDataReceived(object sender, IConnection connection)
         {
-            DataReceived?.Invoke(sender, args);
+            DataReceived?.Invoke(sender, connection);
         }
 
         /// <summary>The event handler for the 'data sent' event.</summary>
         /// <param name="sender">The connection that originated this event.</param>
         /// <param name="args">The connection arguments for this event.</param>
-        private void EventHandlerDataSent(object sender, ConnectionArgs args)
+        private void EventHandlerDataSent(object sender, IConnection connection)
         {
-            DataSent?.Invoke(sender, args);
+            DataSent?.Invoke(sender, connection);
         }
 
         /// <summary>Close all connected sockets.</summary>

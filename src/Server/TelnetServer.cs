@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using WheelMUD.Server.Interfaces;
 using WheelMUD.Utilities.Interfaces;
 
@@ -60,6 +61,8 @@ namespace WheelMUD.Server
         /// <returns>The altered data, after removing any non printable characters.</returns>
         private static byte[] HandleNonPrintables(IConnection sender, byte[] data)
         {
+            if (data.Length == 0) return data; // Already done.
+
             List<byte> buffer = new();
             foreach (byte bit in data)
             {
