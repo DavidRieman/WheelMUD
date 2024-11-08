@@ -32,6 +32,7 @@ namespace WheelMUD.Server
         /// <returns>The required buffer length to fit this int as a string.</returns>
         private static int GetIntLength(int n)
         {
+            if (n < 0) throw new NotImplementedException("GetIntLength does not support negative numbers yet.");
             if (n < 10) return 1;
             if (n < 100) return 2;
             if (n < 1000) return 3;
