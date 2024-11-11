@@ -9,15 +9,10 @@ namespace WheelMUD.Server.Telnet
 {
     /// <summary>Class that handles the sub-negotiation of the MUD eXtension Protocol (MXP) telnet option code.</summary>
     /// <remarks>See https://www.zuggsoft.com/zmud/mxp.htm</remarks>
-    internal class TelnetOptionMXP : TelnetOption
+    /// <param name="wantOption">Whether the option is wanted or not.</param>
+    /// <param name="connection">The connection.</param>
+    internal class TelnetOptionMXP(bool wantOption, Connection connection) : TelnetOption("mxp", 91, wantOption, connection)
     {
-        /// <summary>Initializes a new instance of the TelnetOptionMXP class.</summary>
-        /// <param name="wantOption">Whether the option is wanted or not.</param>
-        /// <param name="connection">The connection.</param>
-        public TelnetOptionMXP(bool wantOption, Connection connection)
-            : base("mxp", 91, wantOption, connection)
-        {
-        }
 
         /// <summary>Represents version response state in the MXP telnet option.</summary>
         internal enum ResponseState

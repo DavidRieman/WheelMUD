@@ -12,28 +12,12 @@ using WheelMUD.Server.Interfaces;
 
 namespace WheelMUD.Server.Telnet
 {
-    /// <summary>The possible response codes.</summary>
-    internal enum TelnetResponseCode
-    {
-        /// <summary>The "will" telnet response code.</summary>
-        WILL = 251,
-
-        /// <summary>The "won't" telnet response code.</summary>
-        WONT = 252,
-
-        /// <summary>The "do" telnet response code.</summary>
-        DO = 253,
-
-        /// <summary>The "don't" telnet response code.</summary>
-        DONT = 254
-    }
-
     /// <summary>The telnet code handler class.</summary>
     /// <remarks>Handles the delegation of processing telnet option codes</remarks>
     public class TelnetCodeHandler : ITelnetCodeHandler
     {
         /// <summary>The buffer.</summary>
-        private readonly List<byte> buffer = new();
+        private readonly List<byte> buffer = [];
 
         /// <summary>The connection telnet state.</summary>
         private ConnectionTelnetState connectionTelnetState;
@@ -50,20 +34,20 @@ namespace WheelMUD.Server.Telnet
         {
             connectionTelnetState = new ConnectionTelnetStateText(this);
             Connection = connection;
-            telnetOptions = new List<ITelnetOption>() {
+            telnetOptions = [
                 new TelnetOptionEcho(true, Connection),
                 new TelnetOptionNaws(true, Connection),
                 new TelnetOptionTermType(true, Connection),
                 new TelnetOptionMXP(true, Connection),
                 new TelnetOptionMCCP(true, Connection)
-            };
+            ];
         }
 
         /// <summary>Gets the connection this handler relates to.</summary>
         public Connection Connection { get; private set; }
 
         /// <summary>Gets the sub request buffer.</summary>
-        public List<byte> SubRequestBuffer { get; } = new List<byte>();
+        public List<byte> SubRequestBuffer { get; } = [];
 
         /// <summary>Find the TelnetOption class instance of the given type.</summary>
         /// <typeparam name="T">The ITelnetOption type to search for.</typeparam>
@@ -105,6 +89,7 @@ namespace WheelMUD.Server.Telnet
         /// <summary>Begin the negotiation of telnet options.</summary>
         public void BeginNegotiation()
         {
+            //FindOption<TelnetOptionEcho>()?.NegotiateWill();
             FindOption<TelnetOptionNaws>()?.Enable();
             FindOption<TelnetOptionTermType>()?.Enable();
             FindOption<TelnetOptionMXP>()?.Enable();

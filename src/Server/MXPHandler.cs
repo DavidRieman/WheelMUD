@@ -29,6 +29,7 @@ namespace WheelMUD.Server
 
         /// <summary>Begin a locked line. Disables all command tag processing for this line of output. Can be used to enforce rendering the output verbatim.</summary>
         internal static readonly string LockedLineCode = AnsiSequences.Esc + "[2z";
+        internal static readonly char[] keyValueSeparator = ['='];
 
         /// <summary>Parses incoming data for the MXP version tag if we are expecting it and returns an array of bytes.</summary>
         /// <param name="sender">The connection requesting the data be parsed</param>
@@ -138,7 +139,7 @@ namespace WheelMUD.Server
             {
                 if (word.StartsWith("version", StringComparison.OrdinalIgnoreCase))
                 {
-                    string[] keyValueParts = word.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] keyValueParts = word.Split(keyValueSeparator, StringSplitOptions.RemoveEmptyEntries);
                     sender.TerminalOptions.Version = keyValueParts[1].Trim('"');
                 }
                 else if (word.StartsWith("client", StringComparison.OrdinalIgnoreCase))

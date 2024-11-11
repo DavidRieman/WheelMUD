@@ -8,19 +8,13 @@
 namespace WheelMUD.Server.Telnet
 {
     /// <summary>TODO: What is this?</summary>
-    internal class ConnectionTelnetStateOptionCode : ConnectionTelnetState
+    /// <remarks>Initializes a new instance of the ConnectionTelnetStateOptionCode class.</remarks>
+    /// <param name="parent">The parent telnet code handler which this object is created by.</param>
+    /// <param name="optionCode">The option code being negotiated.</param>
+    internal class ConnectionTelnetStateOptionCode(TelnetCodeHandler parent, int optionCode) : ConnectionTelnetState(parent)
     {
         /// <summary>The option code.</summary>
-        private int optionCode;
-
-        /// <summary>Initializes a new instance of the ConnectionTelnetStateOptionCode class.</summary>
-        /// <param name="parent">The parent telnet code handler which this object is created by.</param>
-        /// <param name="optionCode">The option code being negotiated.</param>
-        public ConnectionTelnetStateOptionCode(TelnetCodeHandler parent, int optionCode)
-            : base(parent)
-        {
-            this.optionCode = optionCode;
-        }
+        private readonly int optionCode = optionCode;
 
         /// <summary>Process the specified input.</summary>
         /// <param name="data">The data to be processed.</param>
@@ -28,25 +22,23 @@ namespace WheelMUD.Server.Telnet
         {
             // If the data is not one of our implemented options then we reset back.
             TelnetOption option = (TelnetOption)Parent.FindOption(data);
-            if (option == null)
-            {
-                // We have received an option code that we do not recognise, so we create a temporary
-                // telnet option to deal with it.
-                option = new TelnetOption("temp", data, false, Parent.Connection);
-            }
+
+            // If we have received an option code that we do not recognise, create a temporary
+            // telnet option to deal with it (marking that we "do not want" whatever it is).
+            option ??= new TelnetOption("temp", data, false, Parent.Connection);
 
             switch (optionCode)
             {
-                case (int)TelnetResponseCode.DO:
+                case TelnetCommandByte.DO:
                     option.NegotiateDo();
                     break;
-                case (int)TelnetResponseCode.DONT:
+                case TelnetCommandByte.DONT:
                     option.NegotiateDont();
                     break;
-                case (int)TelnetResponseCode.WILL:
+                case TelnetCommandByte.WILL:
                     option.NegotiateWill();
                     break;
-                case (int)TelnetResponseCode.WONT:
+                case TelnetCommandByte.WONT:
                     option.NegotiateWont();
                     break;
             }

@@ -16,16 +16,10 @@ namespace WheelMUD.Server.Telnet
     /// considered fully redundant as MCCP2 can technically already be bi-directional if a client wants that.
     /// (The server does not support client-side compression yet, but it should be easy to add if found useful.)
     /// </remarks>
-    internal class TelnetOptionMCCP : TelnetOption
+    /// <param name="wantOption">Whether the option is wanted or not.</param>
+    /// <param name="connection">The connection.</param>
+    internal class TelnetOptionMCCP(bool wantOption, Connection connection) : TelnetOption("compress2", 86, wantOption, connection)
     {
-        /// <summary>Initializes a new instance of the TelnetOptionMCCP class.</summary>
-        /// <param name="wantOption">Whether the option is wanted or not.</param>
-        /// <param name="connection">The connection.</param>
-        public TelnetOptionMCCP(bool wantOption, Connection connection)
-            : base("compress2", 86, wantOption, connection)
-        {
-        }
-
         /// <summary>Process the sub negotiation.</summary>
         /// <param name="data">The data to process.</param>
         public override void ProcessSubNegotiation(byte[] data)

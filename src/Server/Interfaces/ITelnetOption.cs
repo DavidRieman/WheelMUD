@@ -14,7 +14,7 @@ namespace WheelMUD.Server.Interfaces
         string Name { get; }
 
         /// <summary>Gets the code number of the option.</summary>
-        int OptionCode { get; }
+        byte OptionCode { get; }
 
         /// <summary>Attempt to enable the option.</summary>
         void Enable();

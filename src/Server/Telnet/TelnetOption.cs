@@ -10,28 +10,12 @@ using WheelMUD.Server.Interfaces;
 namespace WheelMUD.Server.Telnet
 {
     /// <summary>A class that represents a telnet option and is able to negotiate itself with the client.</summary>
-    internal class TelnetOption : ITelnetOption
+    /// <param name="name">The name of this telnet option.</param>
+    /// <param name="optionCode">The code that represents this telnet option.</param>
+    /// <param name="wantOption">Whether this telnet option is wanted or not.</param>
+    /// <param name="connection">The connection upon which we are negotiating.</param>
+    internal class TelnetOption(string name, byte optionCode, bool wantOption, Connection connection) : ITelnetOption
     {
-        /// <summary>Initializes a new instance of the TelnetOption class.</summary>
-        /// <param name="name">The name of this telnet option.</param>
-        /// <param name="optionCode">The code that represents this telnet option.</param>
-        /// <param name="wantOption">Whether this telnet option is wanted or not.</param>
-        /// <param name="connection">The connection upon which we are negotiating.</param>
-        public TelnetOption(string name, int optionCode, bool wantOption, Connection connection)
-        {
-            Name = name;
-            OptionCode = optionCode;
-            WantOption = wantOption;
-            Connection = connection;
-
-            // Initialize the default values for all automatic properties of this class
-            // that need to be something other than zero or null.
-            UsState = TelnetOptionState.NO;
-            UsSubState = TelnetQueueState.EMPTY;
-            HimState = TelnetOptionState.NO;
-            HimSubState = TelnetQueueState.EMPTY;
-        }
-
         /// <summary>The available telnet option states.</summary>
         public enum TelnetOptionState
         {
@@ -59,28 +43,28 @@ namespace WheelMUD.Server.Telnet
         }
 
         /// <summary>Gets a value indicating whether the client wants the option.</summary>
-        public bool WantOption { get; private set; }
+        public bool WantOption { get; private set; } = wantOption;
 
         /// <summary>Gets our current telnet option state.</summary>
-        public TelnetOptionState UsState { get; private set; }
+        public TelnetOptionState UsState { get; private set; } = TelnetOptionState.NO;
 
         /// <summary>Gets our current telnet option sub state.</summary>
-        public TelnetQueueState UsSubState { get; private set; }
+        public TelnetQueueState UsSubState { get; private set; } = TelnetQueueState.EMPTY;
 
         /// <summary>Gets their current telnet option state.</summary>
-        public TelnetOptionState HimState { get; private set; }
+        public TelnetOptionState HimState { get; private set; } = TelnetOptionState.NO;
 
         /// <summary>Gets their current telnet option sub state.</summary>
-        public TelnetQueueState HimSubState { get; private set; }
+        public TelnetQueueState HimSubState { get; private set; } = TelnetQueueState.EMPTY;
 
         /// <summary>Gets the option code for this telnet option.</summary>
-        public int OptionCode { get; private set; }
+        public byte OptionCode { get; private set; } = optionCode;
 
         /// <summary>Gets the name of this telnet option.</summary>
-        public string Name { get; private set; }
+        public string Name { get; private set; } = name;
 
         /// <summary>Gets or sets the connection upon which we are negotiating.</summary>
-        protected Connection Connection { get; set; }
+        protected Connection Connection { get; set; } = connection;
 
         /// <summary>Called to process the sub negotiation via the specified data.</summary>
         /// <param name="data">The data to be processed.</param>
@@ -112,7 +96,7 @@ namespace WheelMUD.Server.Telnet
             {
                 case TelnetOptionState.NO:
                     HimState = TelnetOptionState.WANTYES;
-                    Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DO, (byte)OptionCode });
+                    Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.DO, OptionCode]);
                     break;
                 case TelnetOptionState.YES:
                     break;
@@ -159,7 +143,7 @@ namespace WheelMUD.Server.Telnet
                 case TelnetOptionState.NO:
                 case TelnetOptionState.YES:
                     HimState = TelnetOptionState.WANTNO;
-                    Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DONT, (byte)OptionCode });
+                    Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.DONT, OptionCode]);
                     break;
                 case TelnetOptionState.WANTNO:
                     if (HimSubState == TelnetQueueState.EMPTY)
@@ -204,12 +188,12 @@ namespace WheelMUD.Server.Telnet
                     {
                         // Send DO.
                         HimState = TelnetOptionState.YES;
-                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DO, (byte)OptionCode });
+                        Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.DO, OptionCode]);
                     }
                     else
                     {
                         // Send DONT.
-                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DONT, (byte)OptionCode });
+                        Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.DONT, OptionCode]);
                     }
 
                     break;
@@ -237,7 +221,7 @@ namespace WheelMUD.Server.Telnet
                         // Send DONT
                         HimState = TelnetOptionState.NO;
                         HimSubState = TelnetQueueState.EMPTY;
-                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DONT, (byte)OptionCode });
+                        Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.DONT, OptionCode]);
                     }
 
                     break;
@@ -270,7 +254,7 @@ namespace WheelMUD.Server.Telnet
                 case TelnetOptionState.YES:
                     // SEND DONT
                     HimState = TelnetOptionState.NO;
-                    Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DONT, (byte)OptionCode });
+                    Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.DONT, OptionCode]);
                     break;
                 case TelnetOptionState.WANTNO:
                     if (HimSubState == TelnetQueueState.EMPTY)
@@ -281,7 +265,7 @@ namespace WheelMUD.Server.Telnet
                     {
                         // SEND DO
                         HimState = TelnetOptionState.WANTYES;
-                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.DO, (byte)OptionCode });
+                        Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.DO, OptionCode]);
                     }
 
                     break;
@@ -325,12 +309,12 @@ namespace WheelMUD.Server.Telnet
                     {
                         // SEND DO
                         UsState = TelnetOptionState.YES;
-                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WILL, (byte)OptionCode });
+                        Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.WILL, OptionCode]);
                     }
                     else
                     {
                         // SEND DONT
-                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WONT, (byte)OptionCode });
+                        Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.WONT, OptionCode]);
                     }
 
                     break;
@@ -358,7 +342,7 @@ namespace WheelMUD.Server.Telnet
                         // SEND DONT
                         UsState = TelnetOptionState.WANTNO;
                         UsSubState = TelnetQueueState.EMPTY;
-                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WONT, (byte)OptionCode });
+                        Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.WONT, OptionCode]);
                     }
 
                     break;
@@ -390,7 +374,7 @@ namespace WheelMUD.Server.Telnet
                 case TelnetOptionState.YES:
                     // SEND WONT
                     UsState = TelnetOptionState.NO;
-                    Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WONT, (byte)OptionCode });
+                    Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.WONT, OptionCode]);
                     break;
                 case TelnetOptionState.WANTNO:
                     if (UsSubState == TelnetQueueState.EMPTY)
@@ -402,7 +386,7 @@ namespace WheelMUD.Server.Telnet
                         // SEND DO
                         UsState = TelnetOptionState.WANTYES;
                         UsSubState = TelnetQueueState.EMPTY;
-                        Connection.Send(new byte[] { 255, (byte)TelnetResponseCode.WILL, (byte)OptionCode });
+                        Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.WILL, OptionCode]);
                     }
 
                     break;

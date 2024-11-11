@@ -9,7 +9,9 @@ namespace WheelMUD.Server.Telnet
 {
     /// <summary>Class that handles the subnegotiation of Negotiate About Windows Size (NAWS) telnet option code.</summary>
     /// <remarks>see: http://www.faqs.org/rfcs/rfc1073.html</remarks>
-    internal class TelnetOptionNaws : TelnetOption
+    /// <param name="wantOption">Whether the option is wanted or not.</param>
+    /// <param name="connection">The connection.</param>
+    internal class TelnetOptionNaws(bool wantOption, Connection connection) : TelnetOption("naws", 31, wantOption, connection)
     {
         /// <summary>The assumed terminal height to format output against, should NAWS negotation be denied or malformed.</summary>
         public static readonly int DefaultTerminalHeight = 20;
@@ -23,36 +25,22 @@ namespace WheelMUD.Server.Telnet
         private const int MinimumHonoredTerminalHeight = 6;
         private const int MinimumHonoredTerminalWidth = 20;
 
-        /// <summary>Initializes a new instance of the TelnetOptionNaws class.</summary>
-        /// <param name="wantOption">Whether the option is wanted or not.</param>
-        /// <param name="connection">The connection.</param>
-        public TelnetOptionNaws(bool wantOption, Connection connection)
-            : base("naws", 31, wantOption, connection)
-        {
-        }
-
         /// <summary>Process the sub negotiation.</summary>
         /// <param name="data">The data to process.</param>
         public override void ProcessSubNegotiation(byte[] data)
         {
             if (data.Length > 3)
             {
-                int height = 256 * data[2] + data[3];
                 int width = 256 * data[0] + data[1];
-                Connection.TerminalOptions.Height = height <= 0 ? DefaultTerminalHeight : height;
-                Connection.TerminalOptions.Width = width <= 0 ? DefaultTerminalWidth : width;
+                int height = 256 * data[2] + data[3];
+                Connection.TerminalOptions.Width = width <= 0 ? DefaultTerminalWidth :
+                    width < MinimumHonoredTerminalWidth ? MinimumHonoredTerminalWidth : width;
+                Connection.TerminalOptions.Height = height <= 0 ? DefaultTerminalHeight :
+                    height < MinimumHonoredTerminalHeight ? MinimumHonoredTerminalHeight : height;
 
                 // Also start the connection's PagingRowHeight based on this automatic negotiation, though a user could potentially
                 // override their PagingRowLimit manually with a "buffer" command.
                 Connection.PagingRowLimit = Connection.TerminalOptions.Height;
-            }
-            if (Connection.TerminalOptions.Width < MinimumHonoredTerminalWidth)
-            {
-                Connection.TerminalOptions.Width = MinimumHonoredTerminalWidth;
-            }
-            if (Connection.TerminalOptions.Height < MinimumHonoredTerminalHeight)
-            {
-                Connection.TerminalOptions.Height = MinimumHonoredTerminalHeight;
             }
         }
     }

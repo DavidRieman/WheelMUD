@@ -6,8 +6,6 @@
 //-----------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using WheelMUD.Core;
 using WheelMUD.Data;
 using WheelMUD.Data.Repositories;
@@ -16,19 +14,13 @@ using WheelMUD.Server;
 namespace WheelMUD.ConnectionStates
 {
     /// <summary>The 'login' session state.</summary>
-    public class LoginState : SessionState
+    /// <remarks>Initializes a new instance of the LoginState class.</remarks>
+    /// <param name="session">The session entering this state.</param>
+    public class LoginState(Session session, string userName) : SessionState(session)
     {
         private static readonly OutputBuilder promptPasswordOutput = new OutputBuilder().Append("Please enter your password: > <%hidden%>");
-        private readonly string userName;
+        private readonly string userName = userName;
         private bool isLoggingIn = false;
-
-        /// <summary>Initializes a new instance of the LoginState class.</summary>
-        /// <param name="session">The session entering this state.</param>
-        public LoginState(Session session, string userName)
-            : base(session)
-        {
-            this.userName = userName;
-        }
 
         /// <summary>Process the specified input.</summary>
         /// <param name="command">The input to process.</param>

@@ -24,6 +24,10 @@ namespace WheelMUD.Server
     /// <remarks>This is the low level connection object that is assigned to a user when they connect.</remarks>
     public class Connection : IConnection
     {
+        /// <summary>The telnet command bytes to indicate the next load of data is compressed.</summary>
+        /// <remarks>The sub request is IAC SB COMPRESS2(86) IAC SE.</remarks>
+        private static readonly byte[] reponseDataIsCompressed = [TelnetCommandByte.IAC, TelnetCommandByte.SB, 86, TelnetCommandByte.IAC, TelnetCommandByte.SE];
+
         // After porting to .NET Core, it seems we are no longer able to use the 8-bit ASCII
         // encoder "Encoding.GetEncoding(437)", so we went back to this 7-bit ASCII encoder.
         public static readonly Encoding CurrentEncoding = Encoding.ASCII;
@@ -172,10 +176,7 @@ namespace WheelMUD.Server
             {
                 // Compress the data.
                 bytes = MCCPHandler.Compress(data);
-
-                // Send the sub request to say that the next load of data
-                // is compressed. The sub request is IAC SE COMPRESS2 IAC SB
-                Send(new byte[] { 255, 250, 86, 255, 240 });
+                Send(reponseDataIsCompressed);
             }
             else
             {
@@ -329,16 +330,16 @@ namespace WheelMUD.Server
             // E.G. we might want to use "CR" and "LF" for those special characters to understand them quickly.
             switch (b)
             {
-                case 0: return "NUL";    // NULL character.
+                case 0:  return "NUL";   // NULL character.
                 case 10: return "LF";    // Line Feed.
                 case 13: return "CR";    // Carriage Return.
-                case 240: return "SubE"; // Subnegotiation End.
-                case 250: return "SubB"; // Subnegotiation End.
-                case 251: return "WILL"; // Commonly after IAC, informs we will use a protocol mechanism.
-                case 252: return "WONT"; // Commonly after IAC, informs we won't use a protocol mechanism.
-                case 253: return "DO";   // Commonly after IAC, instruct other party to use a protocol mechanism.
-                case 254: return "DONT"; // Commonly after IAC, instruct other party not to use a protocol mechanism.
-                case 255: return "IAC";  // Sequence Initialize and Escape Character. Opens telnet commands, etc.
+                case TelnetCommandByte.SE:   return "SubE"; // Subnegotiation End.
+                case TelnetCommandByte.SB:   return "SubB"; // Subnegotiation End.
+                case TelnetCommandByte.WILL: return "WILL"; // Commonly after IAC, informs we will use a protocol mechanism.
+                case TelnetCommandByte.WONT: return "WONT"; // Commonly after IAC, informs we won't use a protocol mechanism.
+                case TelnetCommandByte.DO:   return "DO";   // Commonly after IAC, instruct other party to use a protocol mechanism.
+                case TelnetCommandByte.DONT: return "DONT"; // Commonly after IAC, instruct other party not to use a protocol mechanism.
+                case TelnetCommandByte.IAC:  return "IAC";  // Sequence Initialize and Escape Character. Opens telnet commands, etc.
                 default: break;
             }
             return b.ToString();
