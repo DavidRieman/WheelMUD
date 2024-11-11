@@ -22,7 +22,7 @@ namespace WheelMUD.Server
 
         private int bufferPos;
         private int charsCapacity;
-        private static readonly char[] CharNumbers = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        private static readonly char[] CharNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
         /// <summary>Temporary string used for the replace method.</summary>
         private List<char> replacement;
