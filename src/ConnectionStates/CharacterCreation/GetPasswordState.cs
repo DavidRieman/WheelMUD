@@ -12,7 +12,8 @@ using WheelMUD.Server;
 namespace WheelMUD.ConnectionStates
 {
     /// <summary>Character creation state used to request a password for the new character.</summary>
-    public class GetPasswordState : CharacterCreationSubState
+    /// <param name="session">The session.</param>
+    public class GetPasswordState(Session session) : CharacterCreationSubState(session)
     {
         // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
         // is repeating received keystrokes back to their output.
@@ -30,12 +31,6 @@ namespace WheelMUD.ConnectionStates
             output.AppendLine("Your password can be changed while logged in.");
             InitialStateMessage = output;
         }
-
-        /// <summary>Initializes a new instance of the <see cref="GetPasswordState"/> class.</summary>
-        /// <param name="session">The session.</param>
-        public GetPasswordState(Session session)
-            : base(session)
-        { }
 
         public override void Begin()
         {

@@ -11,18 +11,12 @@ using WheelMUD.Server;
 namespace WheelMUD.ConnectionStates
 {
     /// <summary>Character creation state used to confirm a password for the new character.</summary>
-    public class ConfirmPasswordState : CharacterCreationSubState
+    /// <param name="session">The session.</param>
+    public class ConfirmPasswordState(Session session) : CharacterCreationSubState(session)
     {
         // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
         // is repeating received keystrokes back to their output.
         private static readonly OutputBuilder prompt = new OutputBuilder().Append("Please retype your password: > <%hidden%>");
-
-        /// <summary>Initializes a new instance of the <see cref="ConfirmPasswordState"/> class.</summary>
-        /// <param name="session">The session.</param>
-        public ConfirmPasswordState(Session session)
-            : base(session)
-        {
-        }
 
         /// <summary>ProcessInput is used to receive the user input during this state.</summary>
         /// <param name="command">The command text to be processed.</param>
