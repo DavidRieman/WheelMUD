@@ -29,20 +29,9 @@ namespace WheelMUD.Server
 
         /// <summary>Checks the data passed to it to see if the connection now has a command ready.</summary>
         /// <param name="sender">The connection sending the data</param>
-        /// <param name="data">The data received</param>
-        public void OnDataReceived(IConnection sender, byte[] data)
+        public void OnDataReceived(IConnection sender)
         {
-            // We can be sure that the data is text because the telnet server has dealt with any nasties.
-            string input = Encoding.ASCII.GetString(data);
-
-            // Append the data to our text buffer.
-            sender.Buffer.Append(input);
-
-            // TODO: Optimize: We should only need to do the reconversion of the input buffer back to a string and look for input lines,
-            // if the new "input" includes a terminator (or if the connection is in per-character-handling and/or echoing modes).
-
-            // Get the whole of our buffer.
-            input = sender.Buffer.ToString();
+            string input = sender.Buffer.ToString();
 
             // TODO: We probably don't need to do this OR SetLastTerminator. We can probably just string split the input on ['\r', '\n'],
             //       ignore any blank line input. Unless there is just one, in which case we can process it to the user's input processing

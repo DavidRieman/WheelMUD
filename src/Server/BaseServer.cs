@@ -49,9 +49,6 @@ namespace WheelMUD.Server
         /// <summary>A 'data received' event raised by the server.</summary>
         public event EventHandler<IConnection> DataReceived;
 
-        /// <summary>A 'data sent' event raised by the server.</summary>
-        public event EventHandler<IConnection> DataSent;
-
         /// <summary>Gets or sets which port this server listens to for incoming connections.</summary>
         public int Port { get; set; }
 
@@ -117,7 +114,6 @@ namespace WheelMUD.Server
         {
             if (connection is Connection conn)
             {
-                conn.DataSent -= EventHandlerDataSent;
                 conn.DataReceived -= EventHandlerDataReceived;
                 conn.ClientDisconnected -= EventHandlerClientDisconnected;
             }
@@ -160,7 +156,6 @@ namespace WheelMUD.Server
                 // a new Socket object
                 Socket socket = mainSocket.EndAccept(asyncResult);
                 var connection = new Connection(socket, this);
-                connection.DataSent += EventHandlerDataSent;
                 connection.DataReceived += EventHandlerDataReceived;
                 connection.ClientDisconnected += EventHandlerClientDisconnected;
 
@@ -206,14 +201,6 @@ namespace WheelMUD.Server
         private void EventHandlerDataReceived(object sender, IConnection connection)
         {
             DataReceived?.Invoke(sender, connection);
-        }
-
-        /// <summary>The event handler for the 'data sent' event.</summary>
-        /// <param name="sender">The connection that originated this event.</param>
-        /// <param name="args">The connection arguments for this event.</param>
-        private void EventHandlerDataSent(object sender, IConnection connection)
-        {
-            DataSent?.Invoke(sender, connection);
         }
 
         /// <summary>Close all connected sockets.</summary>

@@ -30,7 +30,6 @@ namespace WheelMUD.Core
             // Set up our event handlers for the base server.
             baseServer.ClientConnect += BaseServer_OnClientConnect;
             baseServer.DataReceived += BaseServer_OnDataReceived;
-            baseServer.DataSent += BaseServer_OnDataSent;
             baseServer.ClientDisconnected += BaseServer_OnClientDisconnected;
 
             // Set up our event handlers for the command server.
@@ -90,24 +89,14 @@ namespace WheelMUD.Core
             return baseServer.GetConnection(connectionId);
         }
 
-        /// <summary>This is called when the base server sent data.</summary>
-        /// <param name="sender">The sender of this event.</param>
-        /// <param name="args">The event arguments.</param>
-        private static void BaseServer_OnDataSent(object sender, IConnection connection)
-        {
-        }
-
         /// <summary>Sends the incoming data up the server chain for processing.</summary>
         /// <param name="sender">The connection sending the data</param>
         /// <param name="data">The data being sent</param>
         private void ProcessIncomingData(IConnection sender, byte[] data)
         {
-            byte[] bytes = telnetServer.OnDataReceived(sender, data);
-
-            // All bytes might have been stripped out so check for that.
-            if (bytes.Length > 0)
+            if (TelnetServer.OnDataReceived(sender, data))
             {
-                inputParser.OnDataReceived(sender, bytes);
+                inputParser.OnDataReceived(sender);
             }
         }
 

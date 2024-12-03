@@ -18,7 +18,7 @@ namespace WheelMUD.ConnectionStates
     /// <param name="session">The session entering this state.</param>
     public class LoginState(Session session, string userName) : SessionState(session)
     {
-        private static readonly OutputBuilder promptPasswordOutput = new OutputBuilder().Append("Please enter your password: > <%hidden%>");
+        private static readonly OutputBuilder promptPasswordOutput = new OutputBuilder().Append("Please enter your password: > "); // IAC GA? Etc?
         private readonly string userName = userName;
         private bool isLoggingIn = false;
 

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WheelMUD.Interfaces;
 using WheelMUD.Server.Interfaces;
+using WheelMUD.Telnet;
 
 namespace WheelMUD.Server.Telnet
 {
@@ -89,7 +90,8 @@ namespace WheelMUD.Server.Telnet
         /// <summary>Begin the negotiation of telnet options.</summary>
         public void BeginNegotiation()
         {
-            //FindOption<TelnetOptionEcho>()?.NegotiateWill();
+            // TODO: Implement Echo (E.G. for raw Telnet app experience), and how to best trigger that since it doesn't ask for it?
+            FindOption<TelnetOptionEcho>()?.NegotiateWill();
             FindOption<TelnetOptionNaws>()?.Enable();
             FindOption<TelnetOptionTermType>()?.Enable();
             FindOption<TelnetOptionMXP>()?.Enable();

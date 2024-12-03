@@ -15,6 +15,7 @@ using WheelMUD.Core;
 using WheelMUD.Interfaces;
 using WheelMUD.Server.Interfaces;
 using WheelMUD.Server.Telnet;
+using WheelMUD.Telnet;
 using WheelMUD.Utilities;
 using WheelMUD.Utilities.Interfaces;
 
@@ -36,13 +37,13 @@ namespace WheelMUD.Server
         /// If true, replicate ALL output going to all connections to the console as well.
         /// Prints in a convenient debugging format to demonstrate special characters too (and assumes the console window can handle color output).
         /// </summary>
-        private static bool DebugConnectionsOutgoingData = false;
+        private static bool DebugConnectionsOutgoingData = true;
 
         /// <summary>
         /// If true, replicate ALL incoming input from all connections to the console as well.
         /// Prints in a convenient debugging format to demonstrate special characters too (and assumes the console window can handle color output).
         /// </summary>
-        private static bool DebugConnectionsIncomingData = false;
+        private static bool DebugConnectionsIncomingData = true;
 
         /// <summary>The threshold, in characters, beyond which MCCP should be used.</summary>
         private const int MCCPThreshold = 100;
@@ -77,9 +78,6 @@ namespace WheelMUD.Server
 
         /// <summary>The 'data received' event handler.</summary>
         public event EventHandler<IConnection> DataReceived;
-
-        /// <summary>The 'data sent' event handler.</summary>
-        public event EventHandler<IConnection> DataSent;
 
         /// <summary>Gets the Terminal Options of this connection.</summary>
         public TerminalOptions TerminalOptions { get; private set; }
@@ -158,7 +156,7 @@ namespace WheelMUD.Server
             }
         }
 
-        /// <summary>Sends string data to the connection</summary>
+        /// <summary>Sends string data to the connection.</summary>
         /// <param name="data">The string to send.</param>
         /// <param name="sendAllData">If true, send all data without letting the paging system pause the output.</param>
         public void Send(string data, bool sendAllData = false)
@@ -171,16 +169,12 @@ namespace WheelMUD.Server
             //       trade-off of not printing to the right-most characters of some terminal sizes. (This would probably look fine, generally.)
 
             // Check if the client wants to use compression (MCCP) and whether data is long enough to bother (as the overhead is quite high).
-            byte[] bytes;
+            byte[] bytes = CurrentEncoding.GetBytes(data);
             if (TerminalOptions.UseMCCP && data.Length > MCCPThreshold)
             {
                 // Compress the data.
-                bytes = MCCPHandler.Compress(data);
+                bytes = MCCPHandler.Compress(bytes);
                 Send(reponseDataIsCompressed);
-            }
-            else
-            {
-                bytes = CurrentEncoding.GetBytes(data);
             }
 
             // Send the data.
@@ -235,9 +229,6 @@ namespace WheelMUD.Server
             try
             {
                 socket.EndSend(asyncResult);
-
-                // Raise our data sent event.
-                DataSent?.Invoke(this, this);
             }
             catch
             {

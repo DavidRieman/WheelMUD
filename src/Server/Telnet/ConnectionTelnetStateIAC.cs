@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Telnet;
+
 namespace WheelMUD.Server.Telnet
 {
     /// <summary>Handles the negotiation of a telnet "Interpret As Command" (IAC) option.</summary>

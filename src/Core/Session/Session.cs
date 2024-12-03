@@ -10,6 +10,7 @@ using WheelMUD.Data;
 using WheelMUD.Interfaces;
 using WheelMUD.Server;
 using WheelMUD.Server.Interfaces;
+using WheelMUD.Telnet;
 using WheelMUD.Utilities;
 using WheelMUD.Utilities.Interfaces;
 
@@ -88,6 +89,7 @@ namespace WheelMUD.Core
             }
 
             Connection.Send(prompt);
+            Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.GA]);
         }
 
         public void WriteLine(string singleLineOutput, bool sendPrompt = true)
@@ -117,7 +119,8 @@ namespace WheelMUD.Core
             {
                 if (!data.EndsWith(AnsiSequences.NewLine))
                     data += AnsiSequences.NewLine;
-                data += State?.BuildPrompt()?.Parse(Connection.TerminalOptions);
+                char foo = (char)(TelnetCommandByte.IAC * 256 + TelnetCommandByte.GA);
+                data += State?.BuildPrompt()?.Parse(Connection.TerminalOptions) + foo;
             }
 
             // If a particular state doesn't support the paging commands (like "m" or "more") then we should force sending all

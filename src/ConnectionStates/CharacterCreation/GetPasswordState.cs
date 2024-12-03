@@ -15,9 +15,7 @@ namespace WheelMUD.ConnectionStates
     /// <param name="session">The session.</param>
     public class GetPasswordState(Session session) : CharacterCreationSubState(session)
     {
-        // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
-        // is repeating received keystrokes back to their output.
-        private static readonly OutputBuilder prompt = new OutputBuilder().Append("Enter a password: > <%hidden%>");
+        private static readonly OutputBuilder prompt = new OutputBuilder().Append("Enter a password: > ");
 
         private static readonly OutputBuilder InitialStateMessage;
 

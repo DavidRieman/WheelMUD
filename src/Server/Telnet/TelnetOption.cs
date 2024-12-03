@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 
 using WheelMUD.Server.Interfaces;
+using WheelMUD.Telnet;
 
 namespace WheelMUD.Server.Telnet
 {

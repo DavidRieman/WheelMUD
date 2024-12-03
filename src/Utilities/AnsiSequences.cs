@@ -75,12 +75,11 @@ namespace WheelMUD.Utilities
         /// <summary>The ANSI sequence for setting text to underlined.</summary>
         public const string TextUnderline = Esc + "[4m";
 
-        /// <summary>The ANSI sequence for setting text to hidden.</summary>
-        /// <remarks>
-        /// This may be useful to set when prompting for passwords or other sensitive info. Beware the support for this
-        /// might not be universal across all Telnet clients, but it shouldn't hurt to try to use it anyways.
-        /// </remarks>
-        public const string TextHidden = Esc + "[8m";
+        // The ANSI sequence for setting text to hidden. However, we are now intentionally avoiding support for "hidden"
+        // because we now have proper password input handling for character-at-a-time mode, and for other clients, hidden
+        // text generally doesn't apply to the client's echoed user input anyways. Instead, we should generally rely on
+        // other enhanced Telnet options which may signal we are at a protected input, etc.
+        // public const string TextHidden = Esc + "[8m";
 
         /// <summary>The ANSI sequence for setting foreground (character) color to black.</summary>
         public const string ForegroundBlack = Esc + "[30m";

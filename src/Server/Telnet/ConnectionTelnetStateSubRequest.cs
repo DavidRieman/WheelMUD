@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelMUD.Telnet;
+
 namespace WheelMUD.Server.Telnet
 {
     /// <summary>TODO: What is this?</summary>
