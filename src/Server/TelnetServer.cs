@@ -15,33 +15,6 @@ namespace WheelMUD.Server
     /// <remarks>This class decorates the base server, providing telnet facilities to the application.</remarks>
     public class TelnetServer : ISubSystem
     {
-        /// <summary>The subscribed sub system host.</summary>
-        private ISubSystemHost subSystemHost;
-
-        /// <summary>Start the telnet server.</summary>
-        public void Start()
-        {
-        }
-
-        /// <summary>Stop the telnet server.</summary>
-        public void Stop()
-        {
-        }
-
-        /// <summary>Subscribe to receive system updates from this system.</summary>
-        /// <param name="sender">The subscribing system; generally use 'this'.</param>
-        public void SubscribeToSystem(ISubSystemHost sender)
-        {
-            subSystemHost = sender;
-        }
-
-        /// <summary>Inform subscribed system(s) of the specified update.</summary>
-        /// <param name="msg">The message to be sent to subscribed system(s).</param>
-        public void InformSubscribedSystem(string msg)
-        {
-            subSystemHost.UpdateSubSystemHost(this, msg);
-        }
-
         /// <summary>Handles received data: Processes telnet escape codes and non-alpha characters.</summary>
         /// <param name="sender">The connection which sent the data.</param>
         /// <param name="data">The data that was sent.</param>

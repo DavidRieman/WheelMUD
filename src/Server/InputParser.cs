@@ -6,8 +6,7 @@
 //-----------------------------------------------------------------------------
 
 using System;
-using System.Text;
-using WheelMUD.Server.Interfaces;
+using WheelMUD.Telnet;
 
 namespace WheelMUD.Server
 {
@@ -22,14 +21,14 @@ namespace WheelMUD.Server
         /// <param name="sender">The sender of the input.</param>
         /// <param name="args">The connection arguments.</param>
         /// <param name="input">The input that was received.</param>
-        public delegate void InputReceivedEventHandler(object sender, IConnection connection, string input);
+        public delegate void InputReceivedEventHandler(object sender, TelnetConnection connection, string input);
 
         /// <summary>The 'input received' event handler.</summary>
         public event InputReceivedEventHandler InputReceived;
 
         /// <summary>Checks the data passed to it to see if the connection now has a command ready.</summary>
         /// <param name="sender">The connection sending the data</param>
-        public void OnDataReceived(IConnection sender)
+        public void OnDataReceived(TelnetConnection sender)
         {
             string input = sender.Buffer.ToString();
 
@@ -110,7 +109,7 @@ namespace WheelMUD.Server
         /// <param name="sender">The connection we received the input on</param>
         /// <param name="input">The input we are checking</param>
         /// <returns>Returns the input, stripped of dodgy terminators.</returns>
-        private static string StripDodgyTerminator(IConnection sender, string input)
+        private static string StripDodgyTerminator(TelnetConnection sender, string input)
         {
             if ((sender.LastInputTerminator == "\r") && input.StartsWith("\n"))
             {
@@ -127,7 +126,7 @@ namespace WheelMUD.Server
         /// <summary>Sets the last input terminator to the termination char(s) we have just received (if any).</summary>
         /// <param name="sender">The connection we received input on</param>
         /// <param name="input">The input we are checking</param>
-        private static void SetLastTerminator(IConnection sender, string input)
+        private static void SetLastTerminator(TelnetConnection sender, string input)
         {
             if (input.Contains("\r") & input.Contains("\n"))
             {
@@ -146,7 +145,7 @@ namespace WheelMUD.Server
         /// <summary>Raises our input receive event safely.</summary>
         /// <param name="connectionArgs">The connection arguments</param>
         /// <param name="action">The text that was received</param>
-        private void RaiseInputReceived(IConnection connection, string action)
+        private void RaiseInputReceived(TelnetConnection connection, string action)
         {
             InputReceived?.Invoke(this, connection, action);
         }

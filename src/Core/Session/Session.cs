@@ -9,7 +9,6 @@ using System;
 using WheelMUD.Data;
 using WheelMUD.Interfaces;
 using WheelMUD.Server;
-using WheelMUD.Server.Interfaces;
 using WheelMUD.Telnet;
 using WheelMUD.Utilities;
 using WheelMUD.Utilities.Interfaces;
@@ -28,11 +27,12 @@ namespace WheelMUD.Core
 
         /// <summary>Initializes a new instance of the Session class.</summary>
         /// <param name="connection">The connection this session is based on.</param>
-        public Session(IConnection connection)
+        public Session(TelnetConnection connection)
         {
             if (connection != null)
             {
                 Connection = connection;
+                TerminalOptions = new TerminalOptions();
                 SetState(SessionStateManager.Instance.CreateDefaultState(this));
             }
         }
@@ -41,13 +41,13 @@ namespace WheelMUD.Core
         public string ID => Connection.ID;
 
         /// <summary>Gets the terminal this session is using.</summary>
-        public TerminalOptions TerminalOptions => Connection.TerminalOptions;
+        public TerminalOptions TerminalOptions { get; private set; }
 
         /// <summary>Gets or sets the player Thing attached to this session.</summary>
         public Thing Thing { get; set; }
 
         /// <summary>Gets the connection for this session.</summary>
-        public IConnection Connection { get; private set; }
+        public TelnetConnection Connection { get; private set; }
 
         /// <summary>Gets a value indicating whether the output sent to the client is currently at a prompt or not.</summary>
         public bool AtPrompt =>
@@ -81,7 +81,7 @@ namespace WheelMUD.Core
         /// <summary>Sends the prompt to the connection.</summary>
         public void WritePrompt()
         {
-            var prompt = State.BuildPrompt().Parse(Connection.TerminalOptions);
+            var prompt = State.BuildPrompt().Parse(TerminalOptions);
 
             if (!AtPrompt)
             {
@@ -95,12 +95,12 @@ namespace WheelMUD.Core
         public void WriteLine(string singleLineOutput, bool sendPrompt = true)
         {
             var buffer = singleLineOutput.ToCharArray();
-            FinalWrite(OutputParser.Parse(buffer, buffer.Length, Connection.TerminalOptions), sendPrompt);
+            FinalWrite(OutputParser.Parse(buffer, buffer.Length, TerminalOptions), sendPrompt);
         }
 
         public void Write(OutputBuilder output, bool sendPrompt = true)
         {
-            FinalWrite(output.Parse(Connection.TerminalOptions), sendPrompt);
+            FinalWrite(output.Parse(TerminalOptions), sendPrompt);
         }
 
         /// <summary>Write data to the users screen.</summary>
@@ -120,7 +120,7 @@ namespace WheelMUD.Core
                 if (!data.EndsWith(AnsiSequences.NewLine))
                     data += AnsiSequences.NewLine;
                 char foo = (char)(TelnetCommandByte.IAC * 256 + TelnetCommandByte.GA);
-                data += State?.BuildPrompt()?.Parse(Connection.TerminalOptions) + foo;
+                data += State?.BuildPrompt()?.Parse(TerminalOptions) + foo;
             }
 
             // If a particular state doesn't support the paging commands (like "m" or "more") then we should force sending all

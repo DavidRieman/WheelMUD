@@ -10,7 +10,6 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
 using WheelMUD.Core;
 using WheelMUD.Interfaces;
 using WheelMUD.Server.Interfaces;
@@ -48,8 +47,8 @@ namespace WheelMUD.Server
         /// <summary>The threshold, in characters, beyond which MCCP should be used.</summary>
         private const int MCCPThreshold = 100;
 
-        /// <summary>The socket upon which this connection is based.</summary>
-        private readonly Socket socket;
+        /// <summary>The TelnetConnection upon which this server connection is based.</summary>
+        private readonly TelnetConnection telnetConnection;
 
         /// <summary>The hosting system of this connection.</summary>
         private readonly ISubSystem connectionHost;
@@ -60,12 +59,29 @@ namespace WheelMUD.Server
         /// <summary>Initializes a new instance of the <see cref="Connection"/> class.</summary>
         /// <param name="socket">The socket upon which this connection is to be based.</param>
         /// <param name="connectionHost">The system hosting this connection.</param>
-        public Connection(Socket socket, ISubSystem connectionHost)
+        public Connection(TelnetConnection telnetConnection, ISubSystem connectionHost)
         {
             TerminalOptions = new TerminalOptions();
-            this.socket = socket;
-            var remoteEndPoint = (IPEndPoint)this.socket.RemoteEndPoint;
-            CurrentIPAddress = remoteEndPoint.Address;
+            this.telnetConnection = telnetConnection;
+            telnetConnection.ConnectionProblem += (sender, exception) =>
+            {
+                // In order to isolate connection-specific issues, we're going to trap the exception, log
+                // the details, and kill that connection.  (Other connections and the game itself should
+                // be able to continue through such situations.)
+                string ip = CurrentIPAddress == null ? "[null]" : CurrentIPAddress.ToString();
+                string message = $"Exception encountered for connection:{Environment.NewLine}IP: {ip}, ID {ID}:{Environment.NewLine}{ex.ToDeepString()}";
+                connectionHost.InformSubscribedSystem(message);
+
+                // If the debugger is attached, we probably want to break now in order to better debug 
+                // the issue closer to where it occurred; if your debugger broke here you may want to 
+                // look at the stack trace to see where the exception originated.
+                if (Debugger.IsAttached)
+                {
+                    Debugger.Break();
+                }
+
+                OnConnectionDisconnect();
+            };
             ID = Guid.NewGuid().ToString();
             TelnetCodeHandler = new TelnetCodeHandler(this);
             this.connectionHost = connectionHost;
@@ -74,10 +90,10 @@ namespace WheelMUD.Server
         public bool AtNewLine { get; private set; } = true;
 
         /// <summary>The 'client disconnected' event handler.</summary>
-        public event EventHandler<IConnection> ClientDisconnected;
+        //public event EventHandler<TelnetConnection> ClientDisconnected;
 
         /// <summary>The 'data received' event handler.</summary>
-        public event EventHandler<IConnection> DataReceived;
+        //public event EventHandler<TelnetConnection> DataReceived;
 
         /// <summary>Gets the Terminal Options of this connection.</summary>
         public TerminalOptions TerminalOptions { get; private set; }
@@ -86,7 +102,7 @@ namespace WheelMUD.Server
         public string ID { get; private set; }
 
         /// <summary>Gets the IP Address for this connection.</summary>
-        public IPAddress CurrentIPAddress { get; private set; }
+        public IPAddress CurrentIPAddress { get { return telnetConnection?.CurrentIPAddress; } }
 
         /// <summary>Gets the buffer of this connection.</summary>
         /// <remarks>
@@ -131,7 +147,7 @@ namespace WheelMUD.Server
         /// <summary>Disconnects the connection.</summary>
         public void Disconnect()
         {
-            OnConnectionDisconnect();
+            telnetConnection.Disconnect();
         }
 
         /// <summary>Sends raw bytes to the connection.</summary>
@@ -144,7 +160,7 @@ namespace WheelMUD.Server
                 {
                     DebugConsoleLogOutgoing(data);
                 }
-                socket.BeginSend(data, 0, data.Length, 0, new AsyncCallback(OnSendComplete), null);
+                telnetConnection.Send(data);
             }
             catch (SocketException)
             {
@@ -200,118 +216,6 @@ namespace WheelMUD.Server
                     OutputBuffer.Length);
 
                 Send(data, true);
-            }
-        }
-
-        /// <summary>Asynchronously listens for any incoming data.</summary>
-        public void ListenForData()
-        {
-            try
-            {
-                // Start receiving any data written by the connected client asynchronously.
-                var callback = new AsyncCallback(OnDataReceived);
-                socket.BeginReceive(Data, 0, Data.Length, SocketFlags.None, callback, null);
-            }
-            catch (ObjectDisposedException)
-            {
-                OnConnectionDisconnect();
-            }
-            catch (SocketException)
-            {
-                OnConnectionDisconnect();
-            }
-        }
-
-        /// <summary>Asynchronous callback when a send completes successfully.</summary>
-        /// <param name="asyncResult">The asynchronous result.</param>
-        private void OnSendComplete(IAsyncResult asyncResult)
-        {
-            try
-            {
-                socket.EndSend(asyncResult);
-            }
-            catch
-            {
-                OnConnectionDisconnect();
-            }
-        }
-
-        /// <summary>The callback function invoked when the socket detects any client data was received.</summary>
-        /// <param name="asyncResult">The asynchronous result.</param>
-        private void OnDataReceived(IAsyncResult asyncResult)
-        {
-            try
-            {
-                int iRx;
-
-                if (socket.Connected)
-                {
-                    // Complete the BeginReceive() asynchronous call by EndReceive() method
-                    // which will return the number of characters written to the stream 
-                    // by the client
-                    iRx = socket.EndReceive(asyncResult);
-
-                    // If the number of bytes received is 0 then something fishy is going on, so
-                    // we close the socket.
-                    if (iRx == 0)
-                    {
-                        OnConnectionDisconnect();
-                    }
-                    else
-                    {
-                        if (DebugConnectionsIncomingData)
-                        {
-                            DebugConsoleLogIncoming(Data);
-                        }
-
-                        // Raise the Data Received Event. Signals that some data has arrived.
-                        DataReceived?.Invoke(this, this);
-
-                        // Continue the waiting for data on the Socket
-                        ListenForData();
-                    }
-                }
-            }
-            catch (ObjectDisposedException)
-            {
-                // If we're shutting down, quietly ignore these exceptions and try to close the connection.
-                OnConnectionDisconnect();
-            }
-            catch (ThreadAbortException)
-            {
-                // If we're shutting down, quietly ignore these exceptions and try to close the connection.
-                OnConnectionDisconnect();
-            }
-            catch (Exception ex)
-            {
-                // In order to isolate connection-specific issues, we're going to trap the exception, log
-                // the details, and kill that connection.  (Other connections and the game itself should
-                // be able to continue through such situations.)
-                string ip = CurrentIPAddress == null ? "[null]" : CurrentIPAddress.ToString();
-                string message = $"Exception encountered for connection:{Environment.NewLine}IP: {ip}, ID {ID}:{Environment.NewLine}{ex.ToDeepString()}";
-                connectionHost.InformSubscribedSystem(message);
-
-                // If the debugger is attached, we probably want to break now in order to better debug 
-                // the issue closer to where it occurred; if your debugger broke here you may want to 
-                // look at the stack trace to see where the exception originated.
-                if (Debugger.IsAttached)
-                {
-                    Debugger.Break();
-                }
-
-                OnConnectionDisconnect();
-            }
-        }
-
-        /// <summary>Disconnects the sockets and raises the disconnected event.</summary>
-        private void OnConnectionDisconnect()
-        {
-            if (socket.Connected)
-            {
-                socket.Shutdown(SocketShutdown.Both);
-                socket.Close();
-
-                ClientDisconnected?.Invoke(this, this);
             }
         }
 

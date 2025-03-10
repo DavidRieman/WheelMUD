@@ -8,9 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using WheelMUD.Server.Interfaces;
+using WheelMUD.Telnet;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Server
@@ -26,10 +24,7 @@ namespace WheelMUD.Server
         private static readonly object LockObject = new();
 
         /// <summary>The list of current connections to this server.</summary>
-        private readonly List<IConnection> connections = new();
-
-        /// <summary>The primary socket for incoming connections.</summary>
-        private Socket mainSocket;
+        private readonly List<TelnetConnection> connections = new();
 
         /// <summary>Sub system host.</summary>
         private ISubSystemHost subSystemHost;
@@ -38,49 +33,44 @@ namespace WheelMUD.Server
         public BaseServer()
         {
             Port = 4000; // TODO: Read from app.config TelnetPort instead?
+
+            // Prepare the telnet server, but do not start it until requested to.
+            telnetServer = new WheelMUD.Telnet.TelnetServer(Port);
+
+            // For now we allow all connections, but we could implement block-list support here like this:
+            // telnetServer.ClientBeginConnection += (IPAddress ip) => call a block-list manager to return true/false for us;
+            // We could also disregard new-connection spam from single IP addresses to prevent DoS attacks from a single source,
+            // or mechanics like that for at least keeping us from getting bogged down during DDoS attempts, and so on.
+
+            // @@@ Do we configure default option code handlers here, or just raise and let another system do that?
+            telnetServer.ClientConnected += (TelnetConnection telnetConnection) => ClientConnect?.Invoke(telnetConnection);
+            telnetServer.ClientDisconnected += (TelnetConnection telnetConnection) => ClientDisconnected?.Invoke(telnetConnection);
         }
 
         /// <summary>A 'client connected' event raised by the server.</summary>
-        public event EventHandler<IConnection> ClientConnect;
+        public event EventHandler<TelnetConnection> ClientConnect;
 
         /// <summary>A 'client disconnected' event raised by the server.</summary>
-        public event EventHandler<IConnection> ClientDisconnected;
+        public event EventHandler<TelnetConnection> ClientDisconnected;
 
         /// <summary>A 'data received' event raised by the server.</summary>
-        public event EventHandler<IConnection> DataReceived;
+        public event EventHandler<TelnetConnection> DataReceived;
 
         /// <summary>Gets or sets which port this server listens to for incoming connections.</summary>
         public int Port { get; set; }
 
+        private WheelMUD.Telnet.TelnetServer telnetServer;
+
         /// <summary>Starts up the server.</summary>
         public void Start()
         {
-            try
-            {
-                // Create the listening socket, prepare it, and start accepting incoming connections.
-                mainSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                var localIP = new IPEndPoint(IPAddress.Any, Port);
-                mainSocket.Bind(localIP);
-                mainSocket.Listen(4);
-                mainSocket.BeginAccept(OnClientConnect, null);
-            }
-            catch (SocketException se)
-            {
-                // Convert port-in-use into a more useful/distinct exception.
-                if (se.ErrorCode == 10048)
-                {
-                    throw new PortInUseException($"Port number {Port} is already in use. (Error {se.ErrorCode}: {se.Message}.)");
-                }
-
-                // Any other unrecognized exception at startup should just be rethrown as-is for debugging.
-                throw;
-            }
+            telnetServer.Start();
         }
 
         /// <summary>Stops the server.</summary>
         public void Stop()
         {
-            CloseSockets();
+            telnetServer.Stop();
         }
 
         /// <summary>Subscribe to receive system updates from this system.</summary>
@@ -100,7 +90,7 @@ namespace WheelMUD.Server
         /// <summary>Gets a connection specified by the connectionId.</summary>
         /// <param name="connectionId">The ID of the connection to get</param>
         /// <returns>The specified connection</returns>
-        public IConnection GetConnection(string connectionId)
+        public TelnetConnection GetConnection(string connectionId)
         {
             lock (LockObject)
             {
@@ -110,14 +100,8 @@ namespace WheelMUD.Server
 
         /// <summary>Closes the specified connection.</summary>
         /// <param name="connection">Connection that is to be closed.</param>
-        public void CloseConnection(IConnection connection)
+        public void CloseConnection(TelnetConnection connection)
         {
-            if (connection is Connection conn)
-            {
-                conn.DataReceived -= EventHandlerDataReceived;
-                conn.ClientDisconnected -= EventHandlerClientDisconnected;
-            }
-
             connection.Disconnect();
             lock (LockObject)
             {
@@ -145,47 +129,10 @@ namespace WheelMUD.Server
             connection.Send(data);
         }
 
-        /// <summary>This is the callback when a client connects</summary>
-        /// <param name="asyncResult">TODO: What is this?</param>
-        private void OnClientConnect(IAsyncResult asyncResult)
-        {
-            try
-            {
-                // Here we complete/end the BeginAccept() asynchronous call
-                // by calling EndAccept() - which returns the reference to
-                // a new Socket object
-                Socket socket = mainSocket.EndAccept(asyncResult);
-                var connection = new Connection(socket, this);
-                connection.DataReceived += EventHandlerDataReceived;
-                connection.ClientDisconnected += EventHandlerClientDisconnected;
-
-                // Let the worker Socket do the further processing for the 
-                // just connected client
-                connection.ListenForData();
-
-                lock (LockObject)
-                {
-                    connections.Add(connection);
-                }
-
-                // Raise our client connect event.
-                ClientConnect?.Invoke(this, connection);
-
-                // Since the main Socket is now free, it can go back and wait for
-                // other clients who are attempting to connect
-                mainSocket.BeginAccept(OnClientConnect, null);
-            }
-            catch (ObjectDisposedException)
-            {
-                // This exception was preventing the console from closing when the
-                // shutdown command was issued.
-            }
-        }
-
         /// <summary>The event handler for the 'client disconnected' event.</summary>
         /// <param name="sender">The connection that originated this event.</param>
         /// <param name="args">The connection arguments for this event.</param>
-        private void EventHandlerClientDisconnected(object sender, IConnection connection)
+        private void EventHandlerClientDisconnected(object sender, TelnetConnection connection)
         {
             lock (LockObject)
             {
@@ -198,24 +145,19 @@ namespace WheelMUD.Server
         /// <summary>The event handler for the 'data received' event.</summary>
         /// <param name="sender">The connection that originated this event.</param>
         /// <param name="args">The connection arguments for this event.</param>
-        private void EventHandlerDataReceived(object sender, IConnection connection)
+        private void EventHandlerDataReceived(object sender, TelnetConnection connection)
         {
             DataReceived?.Invoke(sender, connection);
         }
 
         /// <summary>Close all connected sockets.</summary>
-        private void CloseSockets()
+        private void CloseTelnetConnections()
         {
-            if (mainSocket != null)
+            var tempConnections = new List<TelnetConnection>(connections);
+            foreach (TelnetConnection telnetConnection in tempConnections)
             {
-                mainSocket.Close();
-            }
-
-            var tempConnections = new List<IConnection>(connections);
-            foreach (IConnection conn in tempConnections)
-            {
-                conn.Send("Server is shutting down; your connection is being closed.");
-                conn.Disconnect();
+                telnetConnection.Send("Server is shutting down; your connection is being closed.");
+                telnetConnection.Disconnect();
             }
         }
     }

@@ -1,7 +1,7 @@
 WheelMUD.Telnet
 ===============
 WheelMUD.Telnet is a highly reusable Telnet server implementation.
-It is meant to abstract away the fiddly parts of Telnet protocol and TCP socket handling by providing sensible events to work with.
+It is meant to abstract away the fiddly parts of the Telnet protocol and TCP socket handling by providing sensible events to work with.
 Although the primary consumer of the library is WheelMUD, it is meant to be shared and reused among other Telnet projects as well.
 It may be especially well-suited to other MUD implementations as well.
 Many Telnet options negotiators are supplied out of the box, but can also be easily extended with new and custom negotiators.

@@ -1,25 +1,33 @@
-﻿//-----------------------------------------------------------------------------
-// <copyright company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
-//   subject to the Microsoft Public License.  All other rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------------
+﻿// Copyright (c) WheelMUD Development Team.  See LICENSE.txt or https://github.com/DavidRieman/WheelMUD/#license
 
 using System.Net.Sockets;
 using System.Net;
+using System.Collections.ObjectModel;
 
 namespace WheelMUD.Telnet
 {
-    public class TelnetServer(int port, EventHandler<TelnetConnection> clientConnected, EventHandler<TelnetConnection> clientDisconnected)
+    public class TelnetServer(int port)
     {
+        public delegate bool ClientBeginConnectionEvent(IPAddress ip);
+
+        public delegate void ClientConnectEvent(TelnetConnection telnetConnection);
+
+        public delegate void ClientDisconnectEvent(TelnetConnection telnetConnection);
+
+        public event ClientBeginConnectionEvent? ClientBeginConnection;
+
+        public event ClientConnectEvent? ClientConnected;
+
+        //public event ClientDisconnectEvent? ClientDisconnected;
+
         /// <summary>The synchronization lock object.</summary>
         private static readonly object LockObject = new();
 
         /// <summary>An event raised when any new Telnet client has freshly connected to us.</summary>
-        private event EventHandler<TelnetConnection> ClientConnected = clientConnected;
+        //private event EventHandler<TelnetConnection> ClientConnected = clientConnected;
 
         /// <summary>An event raised when any managed Telnet connection has now become disconnected.</summary>
-        private event EventHandler<TelnetConnection> ClientDisconnected = clientDisconnected;
+        //private event EventHandler<TelnetConnection> ClientDisconnected = clientDisconnected;
 
         private int Port { get; } = port;
 
@@ -50,33 +58,37 @@ namespace WheelMUD.Telnet
             }
         }
 
-        /// <summary>Closes the specified connection.</summary>
-        /// <param name="connection">Connection that is to be closed.</param>
-        /*public void CloseConnection(TelnetConnection connection)
+        public void Stop()
         {
-            connection.Disconnect();
-            connection.DataReceived -= EventHandlerDataReceived;
-            connection.ClientDisconnected -= EventHandlerClientDisconnected;
-
-            connection.Disconnect();
             lock (LockObject)
             {
-                connections.Remove(connection);
-                ClientDisconnected?.Invoke(this, connection);
+                foreach (var telnetConnection in connections)
+                {
+                    telnetConnection.Disconnect();
+                }
+                connections.Clear();
             }
-        }*/
+        }
+
+        public ReadOnlyCollection<TelnetConnection> AllClients
+        {
+            get
+            {
+                lock (LockObject)
+                {
+                    return connections.AsReadOnly();
+                }
+            }
+        }
 
         /// <summary>The event handler for the 'client disconnected' event.</summary>
-        /// <param name="sender">The connection that originated this event.</param>
         /// <param name="args">The connection arguments for this event.</param>
-        private void EventHandlerClientDisconnected(object sender, TelnetConnection connection)
+        private void OnClientDisconnected(TelnetConnection connection)
         {
             lock (LockObject)
             {
                 connections.Remove(connection);
             }
-
-            ClientDisconnected?.Invoke(this, connection);
         }
 
         private void OnClientConnect(IAsyncResult asyncResult)
@@ -86,35 +98,60 @@ namespace WheelMUD.Telnet
                 // Here we complete/end the BeginAccept() asynchronous call by calling EndAccept(),
                 // which returns the reference to a new Socket object specifically for the new client.
                 Socket socket = mainSocket.EndAccept(asyncResult);
-                var connection = new TelnetConnection(socket);
-                EventHandler<TelnetConnection> onDisconnect = (sender, e) =>
-                {
-                    lock (LockObject)
-                    {
-                        connections.Remove(connection);
-                    }
-                };
-                connection.Disconnected += onDisconnect;
+                IPAddress? ip = (socket.RemoteEndPoint as IPEndPoint)?.Address;
 
-                // Let the worker Socket do the further processing for the freshly connected client.
-                connection.ListenForData();
-
-                lock (LockObject)
+                // If we somehow have a weird connection without an address for this client, we won't proceed with it.
+                if (ip == null)
                 {
-                    connections.Add(connection);
+                    socket.Close();
+                    return;
                 }
 
-                // Raise our client connect event.
-                ClientConnected?.Invoke(this, connection);
+                // Give a very early opportunity for even subscribers to decide if this connection may be undesirable, such
+                // as being a banned IP in a block-list. If so, close the connection before letting any real data through.
+                if (ClientBeginConnection != null)
+                {
+                    var handlers = ClientBeginConnection.GetInvocationList().Cast<ClientBeginConnectionEvent>();
+                    foreach (ClientBeginConnectionEvent handler in handlers)
+                    {
+                        if (!handler(ip))
+                        {
+                            socket.Close();
+                            return;
+                        }
+                    }
+                }
 
-                // Since the main Socket is now free, it can go back and wait for
-                // other clients who are attempting to connect
+                // If we passed all early checks, then we can proceed with preparing the connection for real communications,
+                // including ensuring even early disconnections on either end will be able to emit a disconnection event.
+                var telnetConnection = new TelnetConnection(socket, ip);
+                //telnetConnection.Disconnected += OnClientDisconnected; // onDisconnect;
+                lock (LockObject)
+                {
+                    connections.Add(telnetConnection);
+                }
+
+                // Before we start listening, we need to prepare the Telnet code handlers for this TelnetConnection.
+                // Since the collection of handlers and desired reactions to them depend on our user's preferences,
+                // we can raise an event with this TelnetConnection to give them a chance to set up the handlers.
+                ClientConnected?.Invoke(telnetConnection);
+
+                // Let the worker Socket do the further processing for the freshly connected client.
+                telnetConnection.ListenForData();
+            }
+            catch (ObjectDisposedException)
+            {
+                // Ignore: May sometimes happen when program is trying to shut down.
+            }
+
+            try
+            {
+                // Since the main Socket is now free, it can go back and wait for more incoming clients.
                 mainSocket.BeginAccept(OnClientConnect, null);
             }
             catch (ObjectDisposedException)
             {
-                // This exception was preventing the console from closing when the
-                // shutdown command was issued.
+                // Ignore: May sometimes happen when program is trying to shut down.
             }
         }
     }

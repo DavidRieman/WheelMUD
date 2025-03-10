@@ -7,7 +7,7 @@
 
 using System;
 using WheelMUD.Server;
-using WheelMUD.Server.Interfaces;
+using WheelMUD.Telnet;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
@@ -19,7 +19,12 @@ namespace WheelMUD.Core
         private readonly BaseServer baseServer = new();
 
         /// <summary>The telnet server.</summary>
-        private readonly TelnetServer telnetServer = new();
+        private readonly WheelMUD.Telnet.TelnetServer telnetServer;
+
+        public ServerManager(Telnet.TelnetServer telnetServer)
+        {
+            this.telnetServer = telnetServer;
+        }
 
         /// <summary>The input parser.</summary>
         private readonly InputParser inputParser = new();
@@ -76,7 +81,7 @@ namespace WheelMUD.Core
 
         /// <summary>Closes the specified connection.</summary>
         /// <param name="connection">The connection to be closed.</param>
-        public void CloseConnection(IConnection connection)
+        public void CloseConnection(TelnetConnection connection)
         {
             baseServer.CloseConnection(connection);
         }
@@ -84,7 +89,7 @@ namespace WheelMUD.Core
         /// <summary>Gets the specified connection.</summary>
         /// <param name="connectionId">The connection ID to get.</param>
         /// <returns> The get connection.</returns>
-        public IConnection GetConnection(string connectionId)
+        public TelnetConnection GetConnection(string connectionId)
         {
             return baseServer.GetConnection(connectionId);
         }
@@ -92,7 +97,7 @@ namespace WheelMUD.Core
         /// <summary>Sends the incoming data up the server chain for processing.</summary>
         /// <param name="sender">The connection sending the data</param>
         /// <param name="data">The data being sent</param>
-        private void ProcessIncomingData(IConnection sender, byte[] data)
+        private void ProcessIncomingData(TelnetConnection sender, byte[] data)
         {
             if (TelnetServer.OnDataReceived(sender, data))
             {
@@ -104,7 +109,7 @@ namespace WheelMUD.Core
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
         /// <param name="input">The input received.</param>
-        private void CommandServer_OnInputReceived(object sender, IConnection connection, string input)
+        private void CommandServer_OnInputReceived(object sender, TelnetConnection connection, string input)
         {
             // We send the data received onto our session manager to deal with the input.
             SessionManager.Instance.OnInputReceived(connection, input);
@@ -113,7 +118,7 @@ namespace WheelMUD.Core
         /// <summary>This is called when a client connects to the base server.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
-        private void BaseServer_OnClientConnect(object sender, IConnection connection)
+        private void BaseServer_OnClientConnect(object sender, TelnetConnection connection)
         {
             // We send the connection to our session manager to deal with.
             UpdateSubSystemHost((ISubSystem)sender, connection.ID + " - Connected");
@@ -123,7 +128,7 @@ namespace WheelMUD.Core
         /// <summary>This is called when a client disconnects from the base server.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
-        private void BaseServer_OnClientDisconnected(object sender, IConnection connection)
+        private void BaseServer_OnClientDisconnected(object sender, TelnetConnection connection)
         {
             SessionManager.Instance.OnSessionDisconnected(connection);
             UpdateSubSystemHost((ISubSystem)sender, connection.ID + " - Disconnected");
@@ -132,7 +137,7 @@ namespace WheelMUD.Core
         /// <summary>This is called when the base server receives data.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
-        private void BaseServer_OnDataReceived(object sender, IConnection connection)
+        private void BaseServer_OnDataReceived(object sender, TelnetConnection connection)
         {
             ProcessIncomingData(connection, connection.Data);
         }

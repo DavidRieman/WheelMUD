@@ -79,7 +79,11 @@ namespace WheelMUD.Utilities
         // because we now have proper password input handling for character-at-a-time mode, and for other clients, hidden
         // text generally doesn't apply to the client's echoed user input anyways. Instead, we should generally rely on
         // other enhanced Telnet options which may signal we are at a protected input, etc.
+        // TODO: That said, it may make sense to send In Addition to the other measures as well, and Reset when received?
         // public const string TextHidden = Esc + "[8m";
+
+        /// <summary>The ANSI sequence for setting text to not underline, without removing other active formatting state.</summary>
+        public const string TextNotUnderlined = Esc + "[24m";
 
         /// <summary>The ANSI sequence for setting foreground (character) color to black.</summary>
         public const string ForegroundBlack = Esc + "[30m";
