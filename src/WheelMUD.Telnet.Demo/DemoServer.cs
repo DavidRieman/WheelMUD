@@ -20,6 +20,16 @@ namespace WheelMUD.Telnet.Demo
             {
                 Console.WriteLine($"Client {telnetConnection.CurrentIPAddress} has connected.");
                 telnetConnection.Send(welcomeMessage);
+                telnetConnection.DataReceived += (int totalReceivedBytes, byte[] data) =>
+                {
+                    // Copy up to totalReceivedBytes, but only easily displayed ASCII characters range for this demo.
+                    StringBuilder sb = new();
+                    foreach (var b in data)
+                    {
+                        if (b >= 32 && b <= 126) sb.Append((char)b);
+                    }
+                    if (sb.Length > 0) Console.WriteLine($"Client {telnetConnection.CurrentIPAddress} sent: {sb}");
+                };
             };
 
             try
@@ -41,7 +51,7 @@ namespace WheelMUD.Telnet.Demo
             var timer = new Timer((state) =>
             {
                 var serverTimeMessage = Encoding.UTF8.GetBytes($"Server time is: {DateTime.Now}\r\n");
-                var clients = server.AllClients;
+                var clients = server.AllActiveClients;
                 foreach (var client in clients)
                 {
                     client.Send(serverTimeMessage);

@@ -9,9 +9,21 @@ namespace WheelMUD.Telnet
     {
         private readonly object lockObject = new();
 
+        /// <summary>
+        /// This buffer is intentionally tiny for now to ensure our users handle valid Telent edge cases like receiving
+        /// packet breaks in the middle of a Telnet command, character encoding, or other "inconvenient" moments. These
+        /// are valid Telnet situations, so make sure you test such things thoroughly before raising the data buffer size.
+        /// This also means our data streams in similarly whether in char-at-a-time mode or line-at-a-time mode since the
+        /// line-at-a-time mode will also only add one byte at a time to the building received input buffer.
+        /// </summary>
+        private readonly int DataBufferSize = 1;
+
         public delegate void DisconnectedEvent();
 
-        public delegate void DataReceivedEvent(int totalReceivedBytes);
+        /// <summary>This event is raised when we have received data from this client.</summary>
+        /// <param name="totalReceivedBytes">The total received bytes. Any additional bytes in the full buffer (if any) should be ignored.</param>
+        /// <param name="dataBuffer">The buffer which received the bytes. Only read up to totalReceivedBytes worth of bytes from this buffer.</param>
+        public delegate void DataReceivedEvent(int totalReceivedBytes, byte[] dataBuffer);
 
         public delegate void ErrorEvent(Exception exception);
 
@@ -32,22 +44,15 @@ namespace WheelMUD.Telnet
 
         public IPAddress CurrentIPAddress { get; private set; }
 
-        /// <summary>Gets the buffer of this connection.</summary>
-        /// <remarks>
-        /// This buffer is intentionally tiny for now so we don't have to keep making new buffers or cleansing old ones.
-        /// Basically this means our data streams in similarly for char-at-a-time mode and line-at-a-time mode since the
-        /// line-at-a-time mode will also only add one byte at a time to the building received input buffer.
-        /// The architecture handles byte[] though, as we should be able to try handling more data at a time in the future.
-        /// TODO: Try optimizing for clients which send many bytes at a time (with fresh small buffers of various sizes)
-        ///       and perform performance analysis of the various configurations to find a good default configuration.
-        /// </remarks>
-        public byte[] Data { get; private set; } = new byte[1];
+        private byte[] Data { get; set; }
 
         public string ID { get; } = Guid.NewGuid().ToString();
 
-        public TelnetConnection(Socket socket, IPAddress ip)
+        public TelnetConnection(Socket socket, IPAddress ip, int dataBufferSize = 1)
         {
             this.socket = socket;
+            DataBufferSize = dataBufferSize;
+            Data = NextDataBuffer();
             onDataReceived = new AsyncCallback(OnDataReceived);
             CurrentIPAddress = ip;
         }
@@ -74,8 +79,15 @@ namespace WheelMUD.Telnet
                     }
                     else
                     {
+                        // Keep a reference to the Data we just received, and use eventing to pass it to the user.
+                        // Setting Data to a new buffer means even if that event lags behind the next processing,
+                        // it won't matter as each one will be a new local `data` here held in memory only as long
+                        // as it is still needed.
+                        var data = Data;
+                        Data = NextDataBuffer();
+
                         // Raise the Data Received Event. Signals that some data has arrived.
-                        DataReceived?.Invoke(totalReceivedBytes);
+                        DataReceived?.Invoke(totalReceivedBytes, data);
 
                         // Continue the waiting for data on the Socket, but as a deferred task to avoid stack
                         // overflows from the client sending a ton of data in one pass. (This will also help
@@ -107,8 +119,11 @@ namespace WheelMUD.Telnet
         {
             try
             {
-                // Start receiving any data written by the connected client asynchronously.
-                socket.BeginReceive(Data, 0, Data.Length, SocketFlags.None, onDataReceived, null);
+                if (socket.Connected)
+                {
+                    // Start receiving any data written by the connected client asynchronously.
+                    socket.BeginReceive(Data, 0, Data.Length, SocketFlags.None, onDataReceived, null);
+                }
             }
             catch (ObjectDisposedException)
             {
@@ -136,7 +151,10 @@ namespace WheelMUD.Telnet
 
         public void Send(byte[] data)
         {
-            socket.BeginSend(data, 0, data.Length, 0, new AsyncCallback(OnSendComplete), null);
+            if (socket.Connected)
+            {
+                socket.BeginSend(data, 0, data.Length, 0, new AsyncCallback(OnSendComplete), null);
+            }
         }
 
         /// <summary>Disconnects the socket (if still connected) and raises the disconnected event.</summary>
@@ -155,6 +173,16 @@ namespace WheelMUD.Telnet
                     DataReceived = null;
                 }
             }
+        }
+
+        // TODO: Performance test and compare trade-offs for various options, such as combinations of:
+        // 1) Keeping a global collection of data buffers of the given size, to only "new" one if the collection of data buffers is
+        //    empty. Return each finished Data buffer to the collection for reuse after OnDataRecieved event handlers are done.
+        // 2) Try different default DataBufferSize other than 1.
+        // 3) Keeping as-is.
+        private byte[] NextDataBuffer()
+        {
+            return new byte[DataBufferSize];
         }
     }
 }

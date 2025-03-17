@@ -70,7 +70,7 @@ namespace WheelMUD.Telnet
             }
         }
 
-        public ReadOnlyCollection<TelnetConnection> AllClients
+        public ReadOnlyCollection<TelnetConnection> AllActiveClients
         {
             get
             {
@@ -125,7 +125,7 @@ namespace WheelMUD.Telnet
                 // If we passed all early checks, then we can proceed with preparing the connection for real communications,
                 // including ensuring even early disconnections on either end will be able to emit a disconnection event.
                 var telnetConnection = new TelnetConnection(socket, ip);
-                //telnetConnection.Disconnected += OnClientDisconnected; // onDisconnect;
+                telnetConnection.Disconnected += () => { OnClientDisconnected(telnetConnection); };
                 lock (LockObject)
                 {
                     connections.Add(telnetConnection);
