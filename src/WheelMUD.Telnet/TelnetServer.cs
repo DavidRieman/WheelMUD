@@ -18,16 +18,10 @@ namespace WheelMUD.Telnet
 
         public event ClientConnectEvent? ClientConnected;
 
-        //public event ClientDisconnectEvent? ClientDisconnected;
+        public event ClientDisconnectEvent? ClientDisconnected;
 
         /// <summary>The synchronization lock object.</summary>
         private static readonly object LockObject = new();
-
-        /// <summary>An event raised when any new Telnet client has freshly connected to us.</summary>
-        //private event EventHandler<TelnetConnection> ClientConnected = clientConnected;
-
-        /// <summary>An event raised when any managed Telnet connection has now become disconnected.</summary>
-        //private event EventHandler<TelnetConnection> ClientDisconnected = clientDisconnected;
 
         private int Port { get; } = port;
 
@@ -85,9 +79,17 @@ namespace WheelMUD.Telnet
         /// <param name="args">The connection arguments for this event.</param>
         private void OnClientDisconnected(TelnetConnection connection)
         {
-            lock (LockObject)
+            try
             {
-                connections.Remove(connection);
+                lock (LockObject)
+                {
+                    connections.Remove(connection);
+                }
+                ClientDisconnected?.Invoke(connection);
+            }
+            catch (ObjectDisposedException)
+            {
+                // Ignore: May sometimes happen when program is trying to shut down.
             }
         }
 

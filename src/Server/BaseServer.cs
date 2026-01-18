@@ -48,13 +48,13 @@ namespace WheelMUD.Server
         }
 
         /// <summary>A 'client connected' event raised by the server.</summary>
-        public event EventHandler<TelnetConnection> ClientConnect;
+        public event Action<TelnetConnection> ClientConnect;
 
         /// <summary>A 'client disconnected' event raised by the server.</summary>
-        public event EventHandler<TelnetConnection> ClientDisconnected;
+        public event Action<TelnetConnection> ClientDisconnected;
 
         /// <summary>A 'data received' event raised by the server.</summary>
-        public event EventHandler<TelnetConnection> DataReceived;
+        public event Action<TelnetConnection> DataReceived;
 
         /// <summary>Gets or sets which port this server listens to for incoming connections.</summary>
         public int Port { get; set; }

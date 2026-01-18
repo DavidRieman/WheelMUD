@@ -26,10 +26,21 @@ namespace WheelMUD.Telnet.Demo
                     StringBuilder sb = new();
                     foreach (var b in data)
                     {
-                        if (b >= 32 && b <= 126) sb.Append((char)b);
+                        if (b >= 32 && b <= 126)
+                        {
+                            sb.Append((char)b);
+                        }
+                        else
+                        {
+                            sb.Append(b.ToString());
+                        }
                     }
                     if (sb.Length > 0) Console.WriteLine($"Client {telnetConnection.CurrentIPAddress} sent: {sb}");
                 };
+            };
+            server.ClientDisconnected += (TelnetConnection telnetConnection) =>
+            {
+                Console.WriteLine($"Client {telnetConnection.CurrentIPAddress} has disconnected.");
             };
 
             try

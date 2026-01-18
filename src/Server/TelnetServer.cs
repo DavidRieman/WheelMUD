@@ -13,7 +13,7 @@ namespace WheelMUD.Server
 {
     /// <summary>A telnet server.</summary>
     /// <remarks>This class decorates the base server, providing telnet facilities to the application.</remarks>
-    public class TelnetServer : ISubSystem
+    public class TelnetServer
     {
         /// <summary>Handles received data: Processes telnet escape codes and non-alpha characters.</summary>
         /// <param name="sender">The connection which sent the data.</param>
