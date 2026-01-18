@@ -7,6 +7,8 @@ namespace WheelMUD.Telnet
 {
     public class TelnetConnection
     {
+        private static int GlobalConnectionID = 0;
+
         private readonly object lockObject = new();
 
         /// <summary>
@@ -46,7 +48,7 @@ namespace WheelMUD.Telnet
 
         private byte[] Data { get; set; }
 
-        public string ID { get; } = Guid.NewGuid().ToString();
+        public string ID { get; }
 
         public TelnetConnection(Socket socket, IPAddress ip, int dataBufferSize = 1)
         {
@@ -55,7 +57,11 @@ namespace WheelMUD.Telnet
             Data = NextDataBuffer();
             onDataReceived = new AsyncCallback(OnDataReceived);
             CurrentIPAddress = ip;
+            ID = Interlocked.Increment(ref GlobalConnectionID).ToString();
         }
+
+        /// <summary>Actively determine if the TelnetConnection socket is still connected.</summary>
+        public bool IsConnected { get { return socket.Connected; } }
 
         /// <summary>The callback function invoked when the socket detects any client data was received.</summary>
         /// <param name="asyncResult">The asynchronous result.</param>
@@ -168,10 +174,10 @@ namespace WheelMUD.Telnet
                 {
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
-                    Disconnected?.Invoke();
-                    Disconnected = null;
-                    DataReceived = null;
                 }
+                Disconnected?.Invoke();
+                Disconnected = null;
+                DataReceived = null;
             }
         }
 

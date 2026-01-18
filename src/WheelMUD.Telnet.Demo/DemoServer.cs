@@ -18,7 +18,7 @@ namespace WheelMUD.Telnet.Demo
             };
             server.ClientConnected += (TelnetConnection telnetConnection) =>
             {
-                Console.WriteLine($"Client {telnetConnection.CurrentIPAddress} has connected.");
+                Console.WriteLine($"Client {telnetConnection.CurrentIPAddress} (ID {telnetConnection.ID}) has connected.");
                 telnetConnection.Send(welcomeMessage);
                 telnetConnection.DataReceived += (int totalReceivedBytes, byte[] data) =>
                 {
@@ -40,7 +40,7 @@ namespace WheelMUD.Telnet.Demo
             };
             server.ClientDisconnected += (TelnetConnection telnetConnection) =>
             {
-                Console.WriteLine($"Client {telnetConnection.CurrentIPAddress} has disconnected.");
+                Console.WriteLine($"Client {telnetConnection.CurrentIPAddress} (ID {telnetConnection.ID}) has disconnected.");
             };
 
             try

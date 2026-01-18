@@ -56,7 +56,9 @@ namespace WheelMUD.Telnet
         {
             lock (LockObject)
             {
-                foreach (var telnetConnection in connections)
+                // Avoid modifying the collection while iterating it.
+                var targetConnections = connections.ToArray();
+                foreach (var telnetConnection in targetConnections)
                 {
                     telnetConnection.Disconnect();
                 }
@@ -64,12 +66,38 @@ namespace WheelMUD.Telnet
             }
         }
 
+        /// <summary>
+        /// Actively check all tracked TelnetConnections for disconnections, and clean them up if found.
+        /// </summary>
+        /// <remarks>
+        /// This can be useful to call periodically from some external heartbeat or timer system, at a cadence useful to your application.
+        /// A very long-lived application which never calls this method may be leaking memory over time.
+        /// </remarks>
+        public void CheckForDisconnectedClients()
+        {
+            lock (LockObject)
+            {
+                // Avoid modifying the collection while iterating it.
+                var targetConnections = connections.ToArray();
+                foreach (var telnetConnection in targetConnections)
+                {
+                    if (!telnetConnection.IsConnected)
+                    {
+                        telnetConnection.Disconnect();
+                    }
+                }
+            }
+        }
+
+        /// <summary>Returns a list of all active TelnetConnections.</summary>
+        /// <remarks>Calls CheckForDisconnectedClients first to eliminate stale connections.</remarks>
         public ReadOnlyCollection<TelnetConnection> AllActiveClients
         {
             get
             {
                 lock (LockObject)
                 {
+                    CheckForDisconnectedClients();
                     return connections.AsReadOnly();
                 }
             }
