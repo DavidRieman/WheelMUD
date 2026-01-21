@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using WheelMUD.Interfaces;
 using WheelMUD.Server.Interfaces;
-using WheelMUD.Telnet;
 
 namespace WheelMUD.Server.Telnet
 {

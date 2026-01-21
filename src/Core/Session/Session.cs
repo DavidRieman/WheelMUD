@@ -9,7 +9,7 @@ using System;
 using WheelMUD.Data;
 using WheelMUD.Interfaces;
 using WheelMUD.Server;
-using WheelMUD.Telnet;
+using WheelTelnet;
 using WheelMUD.Utilities;
 using WheelMUD.Utilities.Interfaces;
 
@@ -27,7 +27,7 @@ namespace WheelMUD.Core
 
         /// <summary>Initializes a new instance of the Session class.</summary>
         /// <param name="connection">The connection this session is based on.</param>
-        public Session(TelnetConnection connection)
+        public Session(Connection connection)
         {
             if (connection != null)
             {
@@ -47,7 +47,7 @@ namespace WheelMUD.Core
         public Thing Thing { get; set; }
 
         /// <summary>Gets the connection for this session.</summary>
-        public TelnetConnection Connection { get; private set; }
+        public Connection Connection { get; private set; }
 
         /// <summary>Gets a value indicating whether the output sent to the client is currently at a prompt or not.</summary>
         public bool AtPrompt =>
@@ -119,7 +119,7 @@ namespace WheelMUD.Core
             {
                 if (!data.EndsWith(AnsiSequences.NewLine))
                     data += AnsiSequences.NewLine;
-                char foo = (char)(TelnetCommandByte.IAC * 256 + TelnetCommandByte.GA);
+                char foo = (char)(TelnetCommandByte.IAC * 256 + TelnetCommandByte.GA); // @@@ TODO: Is this char just for convenience? Better name than foo? Const?
                 data += State?.BuildPrompt()?.Parse(TerminalOptions) + foo;
             }
 

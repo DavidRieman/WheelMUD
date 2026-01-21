@@ -6,7 +6,9 @@
 //-----------------------------------------------------------------------------
 
 using System;
-using WheelMUD.Telnet;
+using System.Collections.Generic;
+using System.Text;
+using WheelTelnet;
 
 namespace WheelMUD.Server
 {
@@ -14,6 +16,15 @@ namespace WheelMUD.Server
     /// <remarks>Checks to see if the data is an action and if so notifies the interested parties for processing.</remarks>
     public class InputParser
     {
+        /// <summary>Maintains a single input buffer for each connection.</summary>
+        /// <remarks>
+        /// These input buffers are meant to be cleared when a full command is received.
+        /// By design, since "reconnections" will have new TelnetConnection ID, this means a client that lost a connection and reconnects
+        /// will start fresh with a new input buffer. (If this were not the case, the user would likely get quite confused when their new
+        /// command gets butchered by starting with the old input before they got disconnected, which might have been a chat keyword, etc.)
+        /// </remarks>
+        private Dictionary<string, string> InputBuffers = new();
+
         /// <summary>The character sequence used to designate a new line.</summary>
         private const string newLineMarker = "\r";
 
@@ -21,16 +32,29 @@ namespace WheelMUD.Server
         /// <param name="sender">The sender of the input.</param>
         /// <param name="args">The connection arguments.</param>
         /// <param name="input">The input that was received.</param>
-        public delegate void InputReceivedEventHandler(object sender, TelnetConnection connection, string input);
+        public delegate void InputReceivedEventHandler(object sender, Connection connection, string input);
 
         /// <summary>The 'input received' event handler.</summary>
         public event InputReceivedEventHandler InputReceived;
 
         /// <summary>Checks the data passed to it to see if the connection now has a command ready.</summary>
         /// <param name="sender">The connection sending the data</param>
-        public void OnDataReceived(TelnetConnection sender)
+        public void OnDataReceived(Connection sender, byte[] data)
         {
-            string input = sender.Buffer.ToString();
+            // We can be sure that the data is text because the telnet server has dealt with any nasties.
+            string input = Encoding.ASCII.GetString(data);
+
+            // Append the data to our text buffer.
+            sender.Buffer.Append(input);
+
+            // TODO: Optimize: We should only need to do the reconversion of the input buffer back to a string and look for input lines,
+            // if the new "input" includes a terminator (or if the connection is in per-character-handling and/or echoing modes).
+
+            // Get the whole of our buffer.
+            input = sender.Buffer.ToString();
+
+            InputBuffers.TryAdd(sender.ID, string.Empty);
+            var buffer = InputBuffers[sender.ID];
 
             // TODO: We probably don't need to do this OR SetLastTerminator. We can probably just string split the input on ['\r', '\n'],
             //       ignore any blank line input. Unless there is just one, in which case we can process it to the user's input processing
@@ -109,7 +133,7 @@ namespace WheelMUD.Server
         /// <param name="sender">The connection we received the input on</param>
         /// <param name="input">The input we are checking</param>
         /// <returns>Returns the input, stripped of dodgy terminators.</returns>
-        private static string StripDodgyTerminator(TelnetConnection sender, string input)
+        private static string StripDodgyTerminator(Connection sender, string input)
         {
             if ((sender.LastInputTerminator == "\r") && input.StartsWith("\n"))
             {
@@ -126,7 +150,7 @@ namespace WheelMUD.Server
         /// <summary>Sets the last input terminator to the termination char(s) we have just received (if any).</summary>
         /// <param name="sender">The connection we received input on</param>
         /// <param name="input">The input we are checking</param>
-        private static void SetLastTerminator(TelnetConnection sender, string input)
+        private static void SetLastTerminator(Connection sender, string input)
         {
             if (input.Contains("\r") & input.Contains("\n"))
             {
@@ -145,7 +169,7 @@ namespace WheelMUD.Server
         /// <summary>Raises our input receive event safely.</summary>
         /// <param name="connectionArgs">The connection arguments</param>
         /// <param name="action">The text that was received</param>
-        private void RaiseInputReceived(TelnetConnection connection, string action)
+        private void RaiseInputReceived(Connection connection, string action)
         {
             InputReceived?.Invoke(this, connection, action);
         }

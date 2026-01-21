@@ -6,7 +6,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Text;
-using WheelMUD.Telnet;
+using WheelTelnet;
 
 namespace WheelMUD.Server.Telnet
 {

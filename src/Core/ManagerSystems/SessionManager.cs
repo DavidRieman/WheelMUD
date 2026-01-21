@@ -8,8 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WheelMUD.Server.Interfaces;
-using WheelMUD.Telnet;
+using WheelMUD.Server;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
@@ -31,14 +30,14 @@ namespace WheelMUD.Core
 
         /// <summary>Called upon session connection.</summary>
         /// <param name="connection">The connected session.</param>
-        public void OnSessionConnected(TelnetConnection connection)
+        public void OnSessionConnected(Connection connection)
         {
             CreateSession(connection);
         }
 
         /// <summary>Called upon session disconnection.</summary>
         /// <param name="connection">The disconnected session.</param>
-        public void OnSessionDisconnected(TelnetConnection connection)
+        public void OnSessionDisconnected(Connection connection)
         {
             ////if (SessionDisconnected != null)
             ////    SessionDisconnected(Sessions[connection.ID]);#
@@ -56,7 +55,7 @@ namespace WheelMUD.Core
         /// <summary>Called upon input being received.</summary>
         /// <param name="connection">The connection upon which we received input.</param>
         /// <param name="input">The input that was received.</param>
-        public void OnInputReceived(TelnetConnection connection, string input)
+        public void OnInputReceived(Connection connection, string input)
         {
             // Currently it is possible to receive input before the session is fully
             // established.  For now, ignore any such early input and avoid locking 
@@ -97,7 +96,7 @@ namespace WheelMUD.Core
         /// <summary>Creates a new session for the specified connection.</summary>
         /// <param name="connection">The connection.</param>
         /// <returns>A new Session for the connection.</returns>
-        private Session CreateSession(TelnetConnection connection)
+        private Session CreateSession(Connection connection)
         {
             // Negotiate our telnet options.
             connection.TelnetCodeHandler.BeginNegotiation();

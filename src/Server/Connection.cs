@@ -14,14 +14,19 @@ using WheelMUD.Core;
 using WheelMUD.Interfaces;
 using WheelMUD.Server.Interfaces;
 using WheelMUD.Server.Telnet;
-using WheelMUD.Telnet;
 using WheelMUD.Utilities;
 using WheelMUD.Utilities.Interfaces;
+using WheelTelnet;
 
 namespace WheelMUD.Server
 {
     /// <summary>Represents a connection to a client.</summary>
-    /// <remarks>This is the low level connection object that is assigned to a user when they connect.</remarks>
+    /// <remarks>
+    /// Connection wraps a TelnetConnection to provide a more MUD-centric connection which abstracts some Telnet protocol details.
+    /// For example, this class handles details like byte[] data conversion so the rest of the string-focued MUD code doesn't need to.
+    /// It will also handle connection-specific details like accumulation of input over time (as Telnet may stream it in across
+    /// several packets, especially in char-at-a-time mode) and buffering of output back to that client for paging purposes, etc.
+    /// </remarks>
     public class Connection : IConnection
     {
         /// <summary>The telnet command bytes to indicate the next load of data is compressed.</summary>
@@ -36,13 +41,13 @@ namespace WheelMUD.Server
         /// If true, replicate ALL output going to all connections to the console as well.
         /// Prints in a convenient debugging format to demonstrate special characters too (and assumes the console window can handle color output).
         /// </summary>
-        private static bool DebugConnectionsOutgoingData = true;
+        private static readonly bool DebugConnectionsOutgoingData = true;
 
         /// <summary>
         /// If true, replicate ALL incoming input from all connections to the console as well.
         /// Prints in a convenient debugging format to demonstrate special characters too (and assumes the console window can handle color output).
         /// </summary>
-        private static bool DebugConnectionsIncomingData = true;
+        private static readonly bool DebugConnectionsIncomingData = true;
 
         /// <summary>The threshold, in characters, beyond which MCCP should be used.</summary>
         private const int MCCPThreshold = 100;
@@ -63,11 +68,11 @@ namespace WheelMUD.Server
         {
             TerminalOptions = new TerminalOptions();
             this.telnetConnection = telnetConnection;
-            telnetConnection.ConnectionProblem += (sender, exception) =>
+            telnetConnection.ErrorEncountered += (Exception ex) =>
             {
-                // In order to isolate connection-specific issues, we're going to trap the exception, log
-                // the details, and kill that connection.  (Other connections and the game itself should
-                // be able to continue through such situations.)
+                // In order to isolate connection-specific issues, we're going to trap the exception, log the details,
+                // and TelnetConnection by default already kills that connection.  (Other connections and the game
+                // itself should be expected to continue running without problem upon connection-specific problems.)
                 string ip = CurrentIPAddress == null ? "[null]" : CurrentIPAddress.ToString();
                 string message = $"Exception encountered for connection:{Environment.NewLine}IP: {ip}, ID {ID}:{Environment.NewLine}{ex.ToDeepString()}";
                 connectionHost.InformSubscribedSystem(message);
@@ -79,8 +84,6 @@ namespace WheelMUD.Server
                 {
                     Debugger.Break();
                 }
-
-                OnConnectionDisconnect();
             };
             ID = Guid.NewGuid().ToString();
             TelnetCodeHandler = new TelnetCodeHandler(this);
@@ -88,12 +91,6 @@ namespace WheelMUD.Server
         }
 
         public bool AtNewLine { get; private set; } = true;
-
-        /// <summary>The 'client disconnected' event handler.</summary>
-        //public event EventHandler<TelnetConnection> ClientDisconnected;
-
-        /// <summary>The 'data received' event handler.</summary>
-        //public event EventHandler<TelnetConnection> DataReceived;
 
         /// <summary>Gets the Terminal Options of this connection.</summary>
         public TerminalOptions TerminalOptions { get; private set; }
@@ -156,19 +153,22 @@ namespace WheelMUD.Server
         {
             try
             {
-                if (DebugConnectionsOutgoingData)
+                if (telnetConnection.IsConnected)
                 {
-                    DebugConsoleLogOutgoing(data);
+                    if (DebugConnectionsOutgoingData)
+                    {
+                        DebugConsoleLogOutgoing(data);
+                    }
+                    telnetConnection.Send(data);
                 }
-                telnetConnection.Send(data);
             }
             catch (SocketException)
             {
-                OnConnectionDisconnect();
+                // Ignore for now.
             }
             catch (ObjectDisposedException)
             {
-                OnConnectionDisconnect();
+                // Ignore for now.
             }
         }
 

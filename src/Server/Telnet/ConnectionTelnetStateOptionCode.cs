@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
-using WheelMUD.Telnet;
+using WheelTelnet;
 
 namespace WheelMUD.Server.Telnet
 {

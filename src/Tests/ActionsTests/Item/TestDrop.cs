@@ -25,7 +25,10 @@ namespace WheelMUD.Actions.Tests
             MockCoreComposition.Basic();
 
             mockConnection = new MockConnection();
+
+            /* @@@ TODO: Use an auto-mocking framework for Connection instead of heavy interfacing?
             session = new Session(mockConnection);
+            */
             drop = new Tunnel();
             actor = new Thing();
             actor.AddTo(new Thing());
