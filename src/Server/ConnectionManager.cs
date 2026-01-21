@@ -8,17 +8,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WheelTelnet;
+using WheelMUD.Utilities;
 using WheelMUD.Utilities.Interfaces;
+using WheelTelnet;
 
 namespace WheelMUD.Server
 {
-    /// <summary>The base, lowest level of our server.</summary>
+    /// <summary>ConnectionManager houses systems which control new player connections (whether Telnet or otherwise).</summary>
     /// <remarks>
-    /// This object deals with the Telnet connection layer, in creating and tracking our Telnet connections.
-    /// @@@ TODO: Should this be called ConnectionManager or something instead?
+    /// For example, we currently only support Telnet connections, so ConnectionManager houses a TelnetServer instance, and coordinates
+    /// with it to augment and rig up new TelnetConnections into the running game server.
     /// </remarks>
-    public class BaseServer : ISubSystem
+    public class ConnectionManager : ISubSystem
     {
         /// <summary>The synchronization lock object.</summary>
         private static readonly object LockObject = new();
@@ -29,12 +30,12 @@ namespace WheelMUD.Server
         private ISubSystemHost subSystemHost;
 
         /// <summary>Initializes a new instance of the BaseServer class.</summary>
-        public BaseServer()
+        public ConnectionManager()
         {
-            Port = 4000; // TODO: Read from app.config TelnetPort instead?
+            TelnetPort = GameConfiguration.TelnetPort > 0 ? GameConfiguration.TelnetPort : 4000;
 
             // Prepare the telnet server, but do not start it until requested to.
-            telnetServer = new TelnetServer(Port);
+            telnetServer = new TelnetServer(TelnetPort);
 
             // For now we allow all connections, but we could implement block-list support here like this:
             // telnetServer.ClientBeginConnection += (IPAddress ip) => call a block-list manager to return true/false for us;
@@ -68,10 +69,12 @@ namespace WheelMUD.Server
         /// <summary>A 'data received' event raised by the server.</summary>
         public event Action<Connection> DataReceived;
 
-        /// <summary>Gets or sets which port this server listens to for incoming connections.</summary>
-        public int Port { get; set; }
+        /// <summary>Gets or sets which port this server listens to for incoming Telnet connections.</summary>
+        public int TelnetPort { get; set; }
 
-        private TelnetServer telnetServer;
+        // TODO: https://github.com/DavidRieman/WheelMUD/issues/184: Should support multiple telnet server instances by default (perhaps
+        // controlled by app config), to set start different ports with different settings (E.G. screen-reader-friendly settings).
+        private readonly TelnetServer telnetServer;
 
         /// <summary>Starts up the server.</summary>
         public void Start()
@@ -113,34 +116,6 @@ namespace WheelMUD.Server
         {
             var connection = GetConnection(connectionId);
             connection?.Disconnect();
-        }
-
-        /// <summary>The event handler for the 'client disconnected' event.</summary>
-        /// <param name="sender">The connection that originated this event.</param>
-        /// <param name="args">The connection arguments for this event.</param>
-        private void EventHandlerClientDisconnected(object _, Connection connection)
-        {
-            ClientDisconnected?.Invoke(connection);
-        }
-
-        /// <summary>The event handler for the 'data received' event.</summary>
-        /// <param name="sender">The connection that originated this event.</param>
-        /// <param name="args">The connection arguments for this event.</param>
-        private void EventHandlerDataReceived(object _, Connection connection)
-        {
-            DataReceived?.Invoke(connection);
-        }
-
-        /// <summary>Close all connected sockets.</summary>
-        private void CloseTelnetConnections()
-        {
-            var tempConnections = new List<Connection>(connections.Values);
-            foreach (var telnetConnection in tempConnections)
-            {
-                // @@@ telnetConnection.Send("Server is shutting down; your connection is being closed.");
-                telnetConnection.Disconnect();
-            }
-            telnetServer.Stop();
         }
     }
 }

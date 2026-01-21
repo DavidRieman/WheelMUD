@@ -16,7 +16,7 @@ namespace WheelMUD.Core
     public class ServerManager : ManagerSystem
     {
         /// <summary>The base server.</summary>
-        private readonly BaseServer baseServer = new();
+        private readonly ConnectionManager baseServer = new();
 
         /// <summary>The telnet server.</summary>
         private readonly TelnetServer telnetServer;
@@ -57,7 +57,7 @@ namespace WheelMUD.Core
             baseServer.SubscribeToSystem(this);
             baseServer.Start();
             telnetServer.Start();
-            SystemHost.UpdateSystemHost(this, "Started on port " + baseServer.Port);
+            SystemHost.UpdateSystemHost(this, "Started on port " + baseServer.TelnetPort);
             StartTime = DateTime.Now;
         }
 

@@ -11,7 +11,7 @@ using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Server
 {
-    /// <summary>A telnet server.</summary>
+    /// <summary>A telnet server wrapped with WheelMUD-specific details.</summary>
     /// <remarks>This class decorates the base server, providing telnet facilities to the application.</remarks>
     public class MudTelnetServer
     {
