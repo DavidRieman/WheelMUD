@@ -1,13 +1,7 @@
-//-----------------------------------------------------------------------------
-// <copyright file="TelnetServer.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
-//   subject to the Microsoft Public License.  All other rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------------
+// Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is subject to the Microsoft Public License.  All other rights reserved.
 
 using System.Collections.Generic;
 using WheelMUD.Server.Interfaces;
-using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Server
 {
