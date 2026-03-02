@@ -75,7 +75,7 @@ namespace WheelMUD.Server
                 // itself should be expected to continue running without problem upon connection-specific problems.)
                 string ip = CurrentIPAddress == null ? "[null]" : CurrentIPAddress.ToString();
                 string message = $"Exception encountered for connection:{Environment.NewLine}IP: {ip}, ID {ID}:{Environment.NewLine}{ex.ToDeepString()}";
-                connectionHost.InformSubscribedSystem(message);
+                connectionHost?.InformSubscribedSystem(message);
 
                 // If the debugger is attached, we probably want to break now in order to better debug 
                 // the issue closer to where it occurred; if your debugger broke here you may want to 
@@ -85,6 +85,20 @@ namespace WheelMUD.Server
                     Debugger.Break();
                 }
             };
+
+            // Subscribe to data received events from the underlying telnet connection.
+            telnetConnection.DataReceived += (int connectionId, byte[] data) =>
+            {
+                // Process telnet protocol codes and extract actual user input.
+                Data = TelnetCodeHandler.ProcessInput(data);
+
+                // Raise our data received event if we have actual user input.
+                if (Data != null && Data.Length > 0)
+                {
+                    DataReceived?.Invoke(this);
+                }
+            };
+
             ID = Guid.NewGuid().ToString();
             TelnetCodeHandler = new TelnetCodeHandler(this);
             this.connectionHost = connectionHost;
@@ -140,6 +154,9 @@ namespace WheelMUD.Server
 
         /// <summary>Gets or sets the buffer still waiting to be sent to the connection.</summary>
         public OutputBuffer OutputBuffer { get; private set; } = new OutputBuffer();
+
+        /// <summary>Event raised when data is received on this connection.</summary>
+        public event Action<Connection> DataReceived;
 
         /// <summary>Disconnects the connection.</summary>
         public void Disconnect()

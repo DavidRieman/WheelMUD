@@ -146,10 +146,9 @@ namespace WheelMUD.Core
         /// <param name="data">The data being sent</param>
         private void ProcessIncomingData(Connection sender, byte[] data)
         {
-            /*if (TelnetServer.OnDataReceived(sender, data))
-            {
-                inputParser.OnDataReceived(sender, data);
-            }*/
+            // The telnet data has already been processed by the connection manager's telnet code handler.
+            // Now we just need to pass it to the input parser to handle command parsing.
+            inputParser.OnDataReceived(sender, data);
         }
 
         /// <summary>This is called when we receive input on a connection.</summary>

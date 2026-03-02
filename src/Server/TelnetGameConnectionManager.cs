@@ -43,6 +43,10 @@ namespace WheelMUD.Server
             {
                 var newConnection = new Connection(telnetConnection, null);
                 connections[telnetConnection.ID] = newConnection;
+
+                // Subscribe to the Connection's DataReceived event, to forward data received to our own subscribers.
+                newConnection.DataReceived += conn => DataReceived?.Invoke(conn);
+
                 ClientConnect?.Invoke(newConnection);
             };
             telnetServer.ClientDisconnected += (TelnetConnection telnetConnection) =>
