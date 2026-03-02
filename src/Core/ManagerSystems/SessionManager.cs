@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WheelMUD.Server;
+using WheelMUD.Server.Interfaces;
 using WheelMUD.Utilities.Interfaces;
 
 namespace WheelMUD.Core
@@ -55,7 +56,7 @@ namespace WheelMUD.Core
         /// <summary>Called upon input being received.</summary>
         /// <param name="connection">The connection upon which we received input.</param>
         /// <param name="input">The input that was received.</param>
-        public void OnInputReceived(Connection connection, string input)
+        public void OnInputReceived(IConnection connection, string input)
         {
             // Currently it is possible to receive input before the session is fully
             // established.  For now, ignore any such early input and avoid locking 

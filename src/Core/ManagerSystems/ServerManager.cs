@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using WheelMUD.Server;
+using WheelMUD.Server.Interfaces;
 using WheelMUD.Utilities.Interfaces;
 using WheelTelnet;
 
@@ -155,7 +156,7 @@ namespace WheelMUD.Core
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
         /// <param name="input">The input received.</param>
-        private void CommandServer_OnInputReceived(object sender, Connection connection, string input)
+        private void CommandServer_OnInputReceived(object sender, IConnection connection, string input)
         {
             // We send the data received onto our session manager to deal with the input.
             SessionManager.Instance.OnInputReceived(connection, input);
