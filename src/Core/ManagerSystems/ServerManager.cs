@@ -145,7 +145,7 @@ namespace WheelMUD.Core
         /// <summary>Sends the incoming data up the server chain for processing.</summary>
         /// <param name="sender">The connection sending the data</param>
         /// <param name="data">The data being sent</param>
-        private void ProcessIncomingData(Connection sender, byte[] data)
+        private void ProcessIncomingData(IConnection sender, byte[] data)
         {
             // The telnet data has already been processed by the connection manager's telnet code handler.
             // Now we just need to pass it to the input parser to handle command parsing.
@@ -165,7 +165,7 @@ namespace WheelMUD.Core
         /// <summary>This is called when a client connects to the base server.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
-        private void BaseServer_OnClientConnect(Connection connection)
+        private void BaseServer_OnClientConnect(IConnection connection)
         {
             // We send the connection to our session manager to deal with.
             UpdateSubSystemHost(null, connection.ID + " - Connected");
@@ -175,7 +175,7 @@ namespace WheelMUD.Core
         /// <summary>This is called when a client disconnects from the base server.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
-        private void BaseServer_OnClientDisconnected(Connection connection)
+        private void BaseServer_OnClientDisconnected(IConnection connection)
         {
             SessionManager.Instance.OnSessionDisconnected(connection);
             UpdateSubSystemHost(null, connection.ID + " - Disconnected");
@@ -184,7 +184,7 @@ namespace WheelMUD.Core
         /// <summary>This is called when the base server receives data.</summary>
         /// <param name="sender">The sender of this event.</param>
         /// <param name="args">The event arguments.</param>
-        private void BaseServer_OnDataReceived(Connection connection)
+        private void BaseServer_OnDataReceived(IConnection connection)
         {
             // @@@ TODO Should Connection be the only place handling data received, and raise an event without exposing Data prop directly?
             ProcessIncomingData(connection, connection.Data);

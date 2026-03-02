@@ -31,14 +31,14 @@ namespace WheelMUD.Core
 
         /// <summary>Called upon session connection.</summary>
         /// <param name="connection">The connected session.</param>
-        public void OnSessionConnected(Connection connection)
+        public void OnSessionConnected(IConnection connection)
         {
             CreateSession(connection);
         }
 
         /// <summary>Called upon session disconnection.</summary>
         /// <param name="connection">The disconnected session.</param>
-        public void OnSessionDisconnected(Connection connection)
+        public void OnSessionDisconnected(IConnection connection)
         {
             ////if (SessionDisconnected != null)
             ////    SessionDisconnected(Sessions[connection.ID]);#
@@ -97,7 +97,7 @@ namespace WheelMUD.Core
         /// <summary>Creates a new session for the specified connection.</summary>
         /// <param name="connection">The connection.</param>
         /// <returns>A new Session for the connection.</returns>
-        private Session CreateSession(Connection connection)
+        private Session CreateSession(IConnection connection)
         {
             // Begin telnet negotiation as soon as possible.
             // (TODO: Ideally we should be more protocol-agnostic at this layer instead of assuming Telnet.)

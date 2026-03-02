@@ -12,6 +12,7 @@ using WheelMUD.Server;
 using WheelTelnet;
 using WheelMUD.Utilities;
 using WheelMUD.Utilities.Interfaces;
+using WheelMUD.Server.Interfaces;
 
 namespace WheelMUD.Core
 {
@@ -27,7 +28,7 @@ namespace WheelMUD.Core
 
         /// <summary>Initializes a new instance of the Session class.</summary>
         /// <param name="connection">The connection this session is based on.</param>
-        public Session(Connection connection)
+        public Session(IConnection connection)
         {
             if (connection != null)
             {
@@ -47,7 +48,7 @@ namespace WheelMUD.Core
         public Thing Thing { get; set; }
 
         /// <summary>Gets the connection for this session.</summary>
-        public Connection Connection { get; private set; }
+        public IConnection Connection { get; private set; }
 
         /// <summary>Gets a value indicating whether the output sent to the client is currently at a prompt or not.</summary>
         public bool AtPrompt =>
