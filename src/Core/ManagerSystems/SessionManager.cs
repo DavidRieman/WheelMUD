@@ -98,14 +98,12 @@ namespace WheelMUD.Core
         /// <returns>A new Session for the connection.</returns>
         private Session CreateSession(Connection connection)
         {
-            // Negotiate our telnet options.
+            // Begin telnet negotiation as soon as possible.
+            // (TODO: Ideally we should be more protocol-agnostic at this layer instead of assuming Telnet.)
             connection.TelnetCodeHandler.BeginNegotiation();
 
             // Create a new session for this connection.
             var session = new Session(connection);
-
-            // Load our splash screen.
-            session.Write(Renderer.Instance.RenderSplashScreen(session.TerminalOptions), true);
 
             session.SubscribeToSystem(this);
 
