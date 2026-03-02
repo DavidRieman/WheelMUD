@@ -25,7 +25,6 @@ namespace WheelMUD.Actions.Tests
             MockCoreComposition.Basic();
 
             mockConnection = new MockConnection();
-
             session = new Session(mockConnection);
             drop = new Tunnel();
             actor = new Thing();

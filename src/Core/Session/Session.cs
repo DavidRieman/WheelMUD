@@ -9,10 +9,10 @@ using System;
 using WheelMUD.Data;
 using WheelMUD.Interfaces;
 using WheelMUD.Server;
-using WheelTelnet;
+using WheelMUD.Server.Interfaces;
 using WheelMUD.Utilities;
 using WheelMUD.Utilities.Interfaces;
-using WheelMUD.Server.Interfaces;
+using WheelTelnet;
 
 namespace WheelMUD.Core
 {
@@ -120,13 +120,19 @@ namespace WheelMUD.Core
             {
                 if (!data.EndsWith(AnsiSequences.NewLine))
                     data += AnsiSequences.NewLine;
-                char foo = (char)(TelnetCommandByte.IAC * 256 + TelnetCommandByte.GA); // @@@ TODO: Is this char just for convenience? Better name than foo? Const?
-                data += State?.BuildPrompt()?.Parse(TerminalOptions) + foo;
+                data += State?.BuildPrompt()?.Parse(TerminalOptions);
             }
 
             // If a particular state doesn't support the paging commands (like "m" or "more") then we should force sending all
             // data instead of potentially printing paging output that isn't supported in the current state.
             Connection.Send(data, !State.SupportsPaging);
+
+            // Send IAC GA (Go Ahead) after prompts to signal to the client that we are caught up sending output; We are "ready
+            // for input" from them. (Technically we ware ready anyway, but this still helps many Telnet client implementations.)
+            if (sendPrompt)
+            {
+                Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.GA]);
+            }
         }
 
         /// <summary>Subscribe to receive system updates from this system.</summary>

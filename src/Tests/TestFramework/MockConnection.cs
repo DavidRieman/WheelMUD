@@ -72,7 +72,8 @@ namespace TestHelpers
 
         public void Send(byte[] data)
         {
-            throw new NotImplementedException();
+            // In test scenarios, we ignore raw byte arrays for now. These are often telnet protocol bytes like IAC GA signals.
+            // (Currently the tests using MockConnection all focus on text output, and not low-level protocol communication.)
         }
 
         public void Send(string data, bool sendAllData = false)
