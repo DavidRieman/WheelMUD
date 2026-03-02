@@ -6,25 +6,20 @@
 //-----------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
 using WheelMUD.Server;
-using WheelTelnet;
 using WheelMUD.Utilities.Interfaces;
+using WheelTelnet;
 
 namespace WheelMUD.Core
 {
     /// <summary>The ServerManager controls the flow of data through the various server layers.</summary>
-    public class ServerManager : ManagerSystem
+    public class ServerManager : ManagerSystem, IRecomposable
     {
-        /// <summary>The base server.</summary>
-        private readonly ConnectionManager baseServer = new();
-
-        /// <summary>The telnet server.</summary>
-        private readonly TelnetServer telnetServer;
-
-        public ServerManager(TelnetServer telnetServer)
-        {
-            this.telnetServer = telnetServer;
-        }
+        /// <summary>The active connection manager(s).</summary>
+        private List<IGameConnectionManager> connectionManagers = [];
 
         /// <summary>The input parser.</summary>
         private readonly InputParser inputParser = new();
@@ -32,11 +27,6 @@ namespace WheelMUD.Core
         /// <summary>Prevents a default instance of the <see cref="ServerManager"/> class from being created.</summary>
         private ServerManager()
         {
-            // Set up our event handlers for the base server.
-            baseServer.ClientConnect += BaseServer_OnClientConnect;
-            baseServer.DataReceived += BaseServer_OnDataReceived;
-            baseServer.ClientDisconnected += BaseServer_OnClientDisconnected;
-
             // Set up our event handlers for the command server.
             inputParser.InputReceived += CommandServer_OnInputReceived;
 
@@ -47,6 +37,11 @@ namespace WheelMUD.Core
         /// <summary>Gets the singleton instance of this ServerManager.</summary>
         public static ServerManager Instance { get; } = new ServerManager();
 
+        /// <summary>Gets or sets imported connection manager exporters.</summary>
+        /// <remarks>This list is composed via MEF.</remarks>
+        [ImportMany]
+        private Lazy<GameConnectionManagerExporter, ServerExports.GameConnectionManager>[] ImportedConnectionManagers { get; set; }
+
         /// <summary>Gets the start time.</summary>
         public DateTime StartTime { get; private set; }
 
@@ -54,11 +49,19 @@ namespace WheelMUD.Core
         public override void Start()
         {
             SystemHost.UpdateSystemHost(this, "Starting...");
-            baseServer.SubscribeToSystem(this);
-            baseServer.Start();
-            telnetServer.Start();
-            SystemHost.UpdateSystemHost(this, "Started on port " + baseServer.TelnetPort);
+
+            // Find our fresh set of connection managers via MEF composition, and set up event handlers for them.
+            Recompose();
+
+            foreach (var manager in connectionManagers)
+            {
+                manager.SubscribeToSystem(this);
+                manager.Start();
+                SystemHost.UpdateSystemHost(this, $"Started {manager.GetType().Name}");
+            }
+
             StartTime = DateTime.Now;
+            SystemHost.UpdateSystemHost(this, "Started");
         }
 
         /// <summary>Stops this system's individual components.</summary>
@@ -66,17 +69,69 @@ namespace WheelMUD.Core
         {
             SystemHost.UpdateSystemHost(this, "Stopping...");
 
-            telnetServer.Stop();
-            baseServer.Stop();
+            foreach (var manager in connectionManagers)
+            {
+                manager.Stop();
+            }
 
             SystemHost.UpdateSystemHost(this, "Stopped");
+        }
+
+        /// <summary>Recompose the connection managers from MEF exporters.</summary>
+        public void Recompose()
+        {
+            DefaultComposer.Container.ComposeParts(this);
+
+            if (ImportedConnectionManagers == null || ImportedConnectionManagers.Length == 0)
+            {
+                SystemHost.UpdateSystemHost(this, "Warning: No connection managers found via MEF: Players will have no means to connect.");
+                return;
+            }
+
+            // Get the highest priority exporters of each found type name.
+            var exportersToUse = new List<GameConnectionManagerExporter>();
+            var distinctTypeNames = ImportedConnectionManagers.Select(m => m.Value.ManagerType.Name).Distinct();
+            foreach (var typeName in distinctTypeNames)
+            {
+                var exporter = (from m in ImportedConnectionManagers
+                               where m.Value.ManagerType.Name == typeName
+                               orderby m.Metadata.Priority descending
+                               select m.Value).FirstOrDefault();
+                if (exporter != null)
+                {
+                    exportersToUse.Add(exporter);
+                }
+            }
+
+            // Unsubscribe from old connection managers
+            foreach (var manager in connectionManagers)
+            {
+                manager.ClientConnect -= BaseServer_OnClientConnect;
+                manager.DataReceived -= BaseServer_OnDataReceived;
+                manager.ClientDisconnected -= BaseServer_OnClientDisconnected;
+            }
+
+            // Set up new connection managers
+            connectionManagers = exportersToUse.Select(exporter => exporter.Instance).ToList();
+
+            foreach (var manager in connectionManagers)
+            {
+                manager.ClientConnect += BaseServer_OnClientConnect;
+                manager.DataReceived += BaseServer_OnDataReceived;
+                manager.ClientDisconnected += BaseServer_OnClientDisconnected;
+            }
+
+            SystemHost.UpdateSystemHost(this, $"Loaded {connectionManagers.Count} connection manager(s)");
         }
 
         /// <summary>Closes the specified connection.</summary>
         /// <param name="connectionId">The connection ID to be closed.</param>
         public void CloseConnection(string connectionId)
         {
-            baseServer.CloseConnection(connectionId);
+            foreach (var manager in connectionManagers)
+            {
+                manager.CloseConnection(connectionId);
+            }
         }
 
         /// <summary>Closes the specified connection.</summary>
@@ -84,14 +139,6 @@ namespace WheelMUD.Core
         public static void CloseConnection(TelnetConnection connection)
         {
             connection.Disconnect();
-        }
-
-        /// <summary>Gets the specified connection.</summary>
-        /// <param name="connectionId">The connection ID to get.</param>
-        /// <returns> The get connection.</returns>
-        public TelnetConnection GetConnection(string connectionId)
-        {
-            return baseServer.GetConnection(connectionId);
         }
 
         /// <summary>Sends the incoming data up the server chain for processing.</summary>

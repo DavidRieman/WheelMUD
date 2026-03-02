@@ -14,12 +14,8 @@ using WheelTelnet;
 
 namespace WheelMUD.Server
 {
-    /// <summary>ConnectionManager houses systems which control new player connections (whether Telnet or otherwise).</summary>
-    /// <remarks>
-    /// For example, we currently only support Telnet connections, so ConnectionManager houses a TelnetServer instance, and coordinates
-    /// with it to augment and rig up new TelnetConnections into the running game server.
-    /// </remarks>
-    public class ConnectionManager : ISubSystem
+    /// <summary>TelnetGameConnectionManager controls new player connections of the Telnet protocol.</summary>
+    public class TelnetGameConnectionManager : IGameConnectionManager
     {
         /// <summary>The synchronization lock object.</summary>
         private static readonly object LockObject = new();
@@ -30,7 +26,7 @@ namespace WheelMUD.Server
         private ISubSystemHost subSystemHost;
 
         /// <summary>Initializes a new instance of the BaseServer class.</summary>
-        public ConnectionManager()
+        public TelnetGameConnectionManager()
         {
             TelnetPort = GameConfiguration.TelnetPort > 0 ? GameConfiguration.TelnetPort : 4000;
 
@@ -80,6 +76,7 @@ namespace WheelMUD.Server
         public void Start()
         {
             telnetServer.Start();
+            subSystemHost.UpdateSubSystemHost(this, "Started at port " + this.TelnetPort);
         }
 
         /// <summary>Stops the server.</summary>
@@ -116,6 +113,21 @@ namespace WheelMUD.Server
         {
             var connection = GetConnection(connectionId);
             connection?.Disconnect();
+        }
+
+        /// <summary>MEF exporter for TelnetGameConnectionManager.</summary>
+        [ServerExports.GameConnectionManager(0)]
+        public class TelnetGameConnectionManagerExporter : GameConnectionManagerExporter
+        {
+            private static TelnetGameConnectionManager instance;
+
+            /// <summary>Gets the connection manager instance.</summary>
+            /// <returns>The connection manager instance.</returns>
+            public override IGameConnectionManager Instance => instance ??= new TelnetGameConnectionManager();
+
+            /// <summary>Gets the Type of the connection manager, without instantiating it.</summary>
+            /// <returns>The Type of the connection manager.</returns>
+            public override Type ManagerType => typeof(TelnetGameConnectionManager);
         }
     }
 }
