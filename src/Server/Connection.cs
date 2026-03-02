@@ -92,7 +92,10 @@ namespace WheelMUD.Server
                 // Process telnet protocol codes and extract actual user input.
                 Data = TelnetCodeHandler.ProcessInput(data);
 
-                // Raise our data received event if we have actual user input.
+                // Any data not handled by the basic TelnetCodeHandler might be MXP input to process next.
+                Data = MXPHandler.ParseIncomingData(this, Data);
+
+                // If we still have unhandled data, raise our data received event as it we can look for user input from it.
                 if (Data != null && Data.Length > 0)
                 {
                     DataReceived?.Invoke(this);
