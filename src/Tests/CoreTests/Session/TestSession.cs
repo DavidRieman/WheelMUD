@@ -28,17 +28,15 @@ namespace WheelMUD.Tests
         [TestMethod]
         public void TestInitialConnectionStateIsNotDefaultState()
         {
-            /* @@@ TODO: Use an auto-mocking framework for Connection instead of heavy interfacing?
             var connection = new MockConnection();
             var session = new Session(connection);
-            Assert.AreEqual(session.State.GetType(), typeof(MockSessionState));*/
+            Assert.AreEqual(session.State.GetType(), typeof(MockSessionState));
         }
 
         /// <summary>Tests that the initial connection receives appropriate login prompts.</summary>
         [TestMethod]
         public void TestInitialConnectionPromptsAfterEachWrite()
         {
-            /* @@@ TODO: Use an auto-mocking framework for Connection instead of heavy interfacing?
             var connection = new MockConnection() { AtNewLine = true };
             var session = new Session(connection);
 
@@ -66,7 +64,6 @@ namespace WheelMUD.Tests
             session.Write(new OutputBuilder().Append("test 3"), false);
             Assert.AreEqual(connection.MessagesSent.Count, 1);
             Assert.AreEqual(connection.MessagesSent[0], $"test 3");
-            */
         }
     }
 }
