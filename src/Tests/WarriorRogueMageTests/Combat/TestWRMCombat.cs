@@ -92,7 +92,7 @@ namespace WheelMUD.Tests.WRMCombat
         {
             Die combatDie = DiceService.Instance.GetDie(6);
             int roll = combatDie.Roll();
-            Assert.AreNotSame(roll, 0);
+            Assert.AreNotEqual(roll, 0);
         }
 
         /// <summary>A test for Instance.</summary>
