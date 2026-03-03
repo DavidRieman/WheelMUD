@@ -41,13 +41,13 @@ namespace WheelMUD.Server
         /// If true, replicate ALL output going to all connections to the console as well.
         /// Prints in a convenient debugging format to demonstrate special characters too (and assumes the console window can handle color output).
         /// </summary>
-        private static readonly bool DebugConnectionsOutgoingData = true;
+        private static readonly bool DebugConnectionsOutgoingData = false;
 
         /// <summary>
         /// If true, replicate ALL incoming input from all connections to the console as well.
         /// Prints in a convenient debugging format to demonstrate special characters too (and assumes the console window can handle color output).
         /// </summary>
-        private static readonly bool DebugConnectionsIncomingData = true;
+        private static readonly bool DebugConnectionsIncomingData = false;
 
         /// <summary>The threshold, in characters, beyond which MCCP should be used.</summary>
         private const int MCCPThreshold = 100;
@@ -99,6 +99,11 @@ namespace WheelMUD.Server
                 if (Data != null && Data.Length > 0)
                 {
                     DataReceived?.Invoke(this);
+
+                    if (DebugConnectionsIncomingData)
+                    {
+                        DebugConsoleLogIncoming(Data);
+                    }
                 }
             };
 
