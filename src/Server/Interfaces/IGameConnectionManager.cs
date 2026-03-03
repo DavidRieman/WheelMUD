@@ -1,9 +1,4 @@
-//-----------------------------------------------------------------------------
-// <copyright file="IGameConnectionManager.cs" company="WheelMUD Development Team">
-//   Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is
-//   subject to the Microsoft Public License.  All other rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------------
+// Copyright (c) WheelMUD Development Team.  See LICENSE.txt.  This file is subject to the Microsoft Public License.  All other rights reserved.
 
 using System;
 using WheelMUD.Utilities.Interfaces;
