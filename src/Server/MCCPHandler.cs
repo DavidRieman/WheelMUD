@@ -17,14 +17,13 @@ namespace WheelMUD.Server
         /// <summary>Compresses data using zlib.</summary>
         /// <param name="data">The data to compress</param>
         /// <returns>A byte array containing the compressed data</returns>
-        public static byte[] Compress(string data)
+        public static byte[] Compress(byte[] data)
         {
-            byte[] bytes = Connection.CurrentEncoding.GetBytes(data);
             byte[] returnBytes;
 
             using var stream = new MemoryStream();
             using var compressedStream = new DeflaterOutputStream(stream);
-            compressedStream.Write(bytes, 0, bytes.Length);
+            compressedStream.Write(data, 0, data.Length);
             compressedStream.Finish();
             stream.Position = 0;
 

@@ -41,10 +41,10 @@ namespace WheelMUD.Utilities
             { "bcyan", AnsiSequences.BackgroundCyan },
             { "bwhite", AnsiSequences.BackgroundWhite },
             { "b", AnsiSequences.TextBold },
-            { "cls", AnsiSequences.ClearScreenAndHomeCursor },
             { "u", AnsiSequences.TextUnderline },
             { "underline", AnsiSequences.TextUnderline },
-            { "hidden", AnsiSequences.TextHidden },
+            // Avoiding support for "hidden" now, intentionally. In addition to the AnsiSequences comments with further details,
+            // supporting a "hidden" entry here would potentially allow players to cause trouble for some players' clients.
         };
 
         /// <summary>Gets the ANSI sequence to move the cursor up the specified number of lines.</summary>
@@ -136,7 +136,7 @@ namespace WheelMUD.Utilities
         /// <returns>The ANSI code sequence, or null when the code is unrecognized.</returns>
         public static string ConvertCode(string code)
         {
-            return CodeSequenceMap.ContainsKey(code) ? CodeSequenceMap[code] : null;
+            return CodeSequenceMap.TryGetValue(code, out string value) ? value : null;
         }
     }
 }

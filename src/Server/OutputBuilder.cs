@@ -15,6 +15,7 @@ namespace WheelMUD.Server
     /// Custom mutable String class, optimized for speed and memory while retrieving the final result
     /// as a string. Similar use to StringBuilder, but avoid a lot of allocations done by StringBuilder.
     /// </summary>
+    /// <remarks>TODO: https://github.com/DavidRieman/WheelMUD/issues/198: Document perf wins or simplify!</remarks>
     public class OutputBuilder
     {
         /// <summary>The mutable output string we are building.</summary>
@@ -170,7 +171,7 @@ namespace WheelMUD.Server
                 return this;
             }
 
-            replacement ??= new List<char>();
+            replacement ??= [];
 
             // Create the new string into replacement.
             for (var i = 0; i < bufferPos; i++)

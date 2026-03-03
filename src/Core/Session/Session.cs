@@ -12,6 +12,7 @@ using WheelMUD.Server;
 using WheelMUD.Server.Interfaces;
 using WheelMUD.Utilities;
 using WheelMUD.Utilities.Interfaces;
+using WheelTelnet;
 
 namespace WheelMUD.Core
 {
@@ -32,6 +33,7 @@ namespace WheelMUD.Core
             if (connection != null)
             {
                 Connection = connection;
+                TerminalOptions = new TerminalOptions();
                 SetState(SessionStateManager.Instance.CreateDefaultState(this));
             }
         }
@@ -40,7 +42,7 @@ namespace WheelMUD.Core
         public string ID => Connection.ID;
 
         /// <summary>Gets the terminal this session is using.</summary>
-        public TerminalOptions TerminalOptions => Connection.TerminalOptions;
+        public TerminalOptions TerminalOptions { get; private set; }
 
         /// <summary>Gets or sets the player Thing attached to this session.</summary>
         public Thing Thing { get; set; }
@@ -80,7 +82,7 @@ namespace WheelMUD.Core
         /// <summary>Sends the prompt to the connection.</summary>
         public void WritePrompt()
         {
-            var prompt = State.BuildPrompt().Parse(Connection.TerminalOptions);
+            var prompt = State.BuildPrompt().Parse(TerminalOptions);
 
             if (!AtPrompt)
             {
@@ -88,17 +90,18 @@ namespace WheelMUD.Core
             }
 
             Connection.Send(prompt);
+            Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.GA]);
         }
 
         public void WriteLine(string singleLineOutput, bool sendPrompt = true)
         {
             var buffer = singleLineOutput.ToCharArray();
-            FinalWrite(OutputParser.Parse(buffer, buffer.Length, Connection.TerminalOptions), sendPrompt);
+            FinalWrite(OutputParser.Parse(buffer, buffer.Length, TerminalOptions), sendPrompt);
         }
 
         public void Write(OutputBuilder output, bool sendPrompt = true)
         {
-            FinalWrite(output.Parse(Connection.TerminalOptions), sendPrompt);
+            FinalWrite(output.Parse(TerminalOptions), sendPrompt);
         }
 
         /// <summary>Write data to the users screen.</summary>
@@ -117,12 +120,19 @@ namespace WheelMUD.Core
             {
                 if (!data.EndsWith(AnsiSequences.NewLine))
                     data += AnsiSequences.NewLine;
-                data += State?.BuildPrompt()?.Parse(Connection.TerminalOptions);
+                data += State?.BuildPrompt()?.Parse(TerminalOptions);
             }
 
             // If a particular state doesn't support the paging commands (like "m" or "more") then we should force sending all
             // data instead of potentially printing paging output that isn't supported in the current state.
             Connection.Send(data, !State.SupportsPaging);
+
+            // Send IAC GA (Go Ahead) after prompts to signal to the client that we are caught up sending output; We are "ready
+            // for input" from them. (Technically we ware ready anyway, but this still helps many Telnet client implementations.)
+            if (sendPrompt)
+            {
+                Connection.Send([TelnetCommandByte.IAC, TelnetCommandByte.GA]);
+            }
         }
 
         /// <summary>Subscribe to receive system updates from this system.</summary>

@@ -36,6 +36,13 @@ namespace WheelMUD.Server
         /// <summary>Gets or sets a value indicating whether the client wants to receive output text echoing what was sent to the server.</summary>
         public bool UseEcho { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether we send obscuring characters instead of typed characters, if UseEcho is also true.</summary>
+        /// <remarks>
+        /// For example, we should set this to true during sensitive input modes (like password entry or password confirmation), and be sure to set it
+        /// back when that input handler is done. (This setting is separate from UseEcho in case the client renegotiates for echo during the prompt.)
+        /// </remarks>
+        public bool UseEchoObscuring { get; set; }
+
         /// <summary>Gets or sets a value indicating whether the client wants the server to perform word-wrapping.</summary>
         public bool UseWordWrap { get; set; } = true;
 

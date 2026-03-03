@@ -14,9 +14,7 @@ namespace WheelMUD.ConnectionStates
     /// <param name="session">The session.</param>
     public class ConfirmPasswordState(Session session) : CharacterCreationSubState(session)
     {
-        // Attempt to use "hidden" mode for a while, in case the client+server negotiated a mode where the server
-        // is repeating received keystrokes back to their output.
-        private static readonly OutputBuilder prompt = new OutputBuilder().Append("Please retype your password: > <%hidden%>");
+        private static readonly OutputBuilder prompt = new OutputBuilder().Append("Please retype your password: > ");
 
         /// <summary>ProcessInput is used to receive the user input during this state.</summary>
         /// <param name="command">The command text to be processed.</param>

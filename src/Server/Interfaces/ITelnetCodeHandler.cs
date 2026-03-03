@@ -17,9 +17,9 @@ namespace WheelMUD.Interfaces
         /// <returns>The TelnetOption instance of the given type, or null if it can not be found.</returns>
         T FindOption<T>() where T : ITelnetOption;
 
-        /// <summary>Instruct the handler to process the data for telnet option codes</summary>
-        /// <param name="data">The data to process</param>
-        /// <returns>A byte array with the telnet option codes stripped out</returns>
+        /// <summary>Instruct the handler to process the data for telnet option codes.</summary>
+        /// <param name="data">The data to process.</param>
+        /// <returns>A byte array with the telnet option codes stripped out: This is partial user input (if any).</returns>
         byte[] ProcessInput(byte[] data);
 
         /// <summary>Begin Negotiation of our telnet options.</summary>

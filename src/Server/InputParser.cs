@@ -6,8 +6,10 @@
 //-----------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 using WheelMUD.Server.Interfaces;
+using WheelTelnet;
 
 namespace WheelMUD.Server
 {
@@ -15,6 +17,15 @@ namespace WheelMUD.Server
     /// <remarks>Checks to see if the data is an action and if so notifies the interested parties for processing.</remarks>
     public class InputParser
     {
+        /// <summary>Maintains a single input buffer for each connection.</summary>
+        /// <remarks>
+        /// These input buffers are meant to be cleared when a full command is received.
+        /// By design, since "reconnections" will have new TelnetConnection ID, this means a client that lost a connection and reconnects
+        /// will start fresh with a new input buffer. (If this were not the case, the user would likely get quite confused when their new
+        /// command gets butchered by starting with the old input before they got disconnected, which might have been a chat keyword, etc.)
+        /// </remarks>
+        private Dictionary<string, string> InputBuffers = new();
+
         /// <summary>The character sequence used to designate a new line.</summary>
         private const string newLineMarker = "\r";
 
@@ -29,7 +40,6 @@ namespace WheelMUD.Server
 
         /// <summary>Checks the data passed to it to see if the connection now has a command ready.</summary>
         /// <param name="sender">The connection sending the data</param>
-        /// <param name="data">The data received</param>
         public void OnDataReceived(IConnection sender, byte[] data)
         {
             // We can be sure that the data is text because the telnet server has dealt with any nasties.
@@ -43,6 +53,9 @@ namespace WheelMUD.Server
 
             // Get the whole of our buffer.
             input = sender.Buffer.ToString();
+
+            InputBuffers.TryAdd(sender.ID, string.Empty);
+            var buffer = InputBuffers[sender.ID];
 
             // TODO: We probably don't need to do this OR SetLastTerminator. We can probably just string split the input on ['\r', '\n'],
             //       ignore any blank line input. Unless there is just one, in which case we can process it to the user's input processing

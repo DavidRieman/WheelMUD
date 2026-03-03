@@ -6,14 +6,15 @@
 //-----------------------------------------------------------------------------
 
 using System.Text;
+using WheelTelnet;
 
 namespace WheelMUD.Server.Telnet
 {
-    /// <summary>Class that handles the Terminal Type telnet option code.</summary>
-    /// <remarks>Initializes a new instance of the TelnetOptionTermType class.</remarks>
+    /// <summary>Class that handles negotiation of the Terminal-Type (AKA TTYPE or TermType) telnet option code.</summary>
+    /// <remarks>See https://www.rfc-editor.org/rfc/rfc1091.</remarks>
     /// <param name="wantOption">Whether the option is wanted or not.</param>
     /// <param name="connection">The connection.</param>
-    internal class TelnetOptionTermType(bool wantOption, Connection connection) : TelnetOption("termtype", 24, wantOption, connection)
+    internal class TelnetOptionTermType(bool wantOption, Connection connection) : TelnetOption("ttype", 24, wantOption, connection)
     {
         private static readonly char[] arrayChar0 = ['\0'];
 
@@ -29,6 +30,7 @@ namespace WheelMUD.Server.Telnet
             // The RFC (1091) says that we can loop through the different terminal types
             // that the terminal supports and the last one we receive is the one the terminal
             // sets itself to. We only get the first one which is normally the primary terminal emulation.
+            // TODO: We should also keep track of the full list to be available to inform what we know the client can support.
             Connection.TerminalOptions.TerminalType = Encoding.ASCII.GetString(data).TrimStart(arrayChar0).ToLower();
         }
 

@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------------
 
+using WheelTelnet;
+
 namespace WheelMUD.Server.Telnet
 {
     /// <summary>Handles the incoming data over our connection.</summary>
