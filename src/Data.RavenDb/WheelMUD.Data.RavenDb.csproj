@@ -19,7 +19,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="RavenDB.Embedded" Version="6.0.110" />
+    <PackageReference Include="RavenDB.Embedded" Version="7.2.0" />
     <ProjectReference Include="..\Data\WheelMUD.Data.csproj" />
     <ProjectReference Include="..\Utilities\WheelMUD.Utilities.csproj" />
   </ItemGroup>
