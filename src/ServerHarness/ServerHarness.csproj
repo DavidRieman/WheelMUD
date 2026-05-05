@@ -29,7 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="RavenDB.Embedded" Version="7.2.2" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.3" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.7" />
     <PackageReference Include="Topshelf" Version="4.3.0" />
     <ProjectReference Include="..\Actions\WheelMUD.Actions.csproj" />
     <ProjectReference Include="..\Core\WheelMUD.Core.csproj" />
